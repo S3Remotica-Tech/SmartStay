@@ -299,20 +299,51 @@ function FinalSettlement() {
     setDiscount(finalSettlementList?.currentMonthRentInfo?.discountAmount);
   }, [finalSettlementList?.currentMonthRentInfo]);
 
+  // useEffect(() => {
+  //   if (!customerId) return;
+
+  //   const payload = {
+  //     customerId: customerId,
+  //   };
+
+  //   if (checkoutDate) {
+  //     payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
+  //   }
+
+  //   dispatch({ type: "GETFINALSETTLEMENT", payload });
+  //   setFormLoading(true);
+  // }, [customerId, checkoutDate]);
+
+
+
+  const previousRequestRef = useRef(null);
+
   useEffect(() => {
     if (!customerId) return;
 
     const payload = {
-      customerId: customerId,
+      customerId,
+      ...(checkoutDate && {
+        leavingDate: checkoutDate.format("DD-MM-YYYY"),
+      }),
     };
-
-    if (checkoutDate) {
-      payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
-    }
-
-    dispatch({ type: "GETFINALSETTLEMENT", payload });
+    const requestKey = JSON.stringify(payload);
+    if (previousRequestRef.current === requestKey) return;
+    previousRequestRef.current = requestKey;
     setFormLoading(true);
+
+    dispatch({
+      type: "GETFINALSETTLEMENT",
+      payload,
+    });
   }, [customerId, checkoutDate]);
+
+
+
+
+
+
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {

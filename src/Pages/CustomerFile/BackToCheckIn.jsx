@@ -44,22 +44,32 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     checkInDetails?.tenetId ||
     checkInDetails?.customerId;
 
+  const previousRequestRef = useRef(null);
+
   useEffect(() => {
-    if (!customerId) return;
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!customerId || !hostelId) return;
+
+    const requestKey = `${hostelId}_${customerId}`;
+
+    if (previousRequestRef.current === requestKey) return;
+
+    previousRequestRef.current = requestKey;
 
     dispatch({
       type: "CUSTOMERDETAILS",
-      payload: { customerId: customerId },
+      payload: { customerId },
     });
 
     dispatch({
       type: "INITIALIZECANCELCHECKOUT",
       payload: {
-        customerId: customerId,
-        hostelId: state.login.selectedHostel_Id,
+        customerId,
+        hostelId,
       },
     });
-  }, [customerId]);
+  }, [customerId, state.login.selectedHostel_Id]);
 
   const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
 

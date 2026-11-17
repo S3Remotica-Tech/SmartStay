@@ -152,7 +152,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState("");
   const [isTrigger, setIsTrigger] = useState(false);
   const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
-
+  const previousHostelIdRef = useRef(null);
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
 
   const [collectFullRent, setCollectFullRent] = useState(false);
@@ -371,23 +371,25 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   };
 
 
+  const tenantListCalledRef = useRef(false);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-      // dispatch({
-      //   type: "UNASSIGNCUSTOMER",
-      //   payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" },
-      // });
-      dispatch({
-        type: "TENANT_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          purpose: "WALK_IN",
-        },
-      });
-      setIsTrigger(true);
-    }
-  }, []);
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || tenantListCalledRef.current) return;
+
+    tenantListCalledRef.current = true;
+
+    dispatch({
+      type: "TENANT_LIST_SAGA",
+      payload: {
+        hostelId,
+        purpose: "WALK_IN",
+      },
+    });
+
+    setIsTrigger(true);
+  }, [state.login.selectedHostel_Id]);
 
   var toastStyle = {
     fontFamily: "Gilroy",
@@ -1014,13 +1016,19 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   //   0,
   // );
 
+
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "SETTINGS_GET_RECURRING",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "SETTINGS_GET_RECURRING",
+      payload: { hostelId },
+    });
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {

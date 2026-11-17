@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { Add } from "iconsax-react";
-
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -378,13 +374,20 @@ function AddVendorNew() {
       setVendorNameError("");
     }
   };
+
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "VENDOR_CATEGORY_LIST_SAGA",
-        payload: state.login.selectedHostel_Id,
-      });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "VENDOR_CATEGORY_LIST_SAGA",
+      payload: hostelId,
+    });
   }, [state.login.selectedHostel_Id]);
 
   // const focusFirstError = (() => {

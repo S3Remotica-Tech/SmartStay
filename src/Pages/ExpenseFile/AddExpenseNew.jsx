@@ -5,14 +5,12 @@ import {
   Add,
   More,
   DocumentUpload,
-  // ArrowDown2,
   Bank,
   Wallet2, Card
 } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-// import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -236,7 +234,8 @@ function AddExpenseNew() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
+  const previousHostelIdRef = useRef(null);
+  const hasShownToast = useRef(false);
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
 
@@ -253,7 +252,6 @@ function AddExpenseNew() {
   const [expenseItemErrors, setExpenseItemErrors] = useState([]);
   const [tax, setTax] = useState(0);
   const [discount, setDiscount] = useState(0);
-  // const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
   const [expenseTitle, setExpenseTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -262,7 +260,6 @@ function AddExpenseNew() {
   const [purchaseDate, setPurchaseDate] = useState(null);
   const [purchaseDateError, setPurchaseDateError] = useState("");
   const [linkVendor, setLinkVendor] = useState(true);
-  // const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
 
   const [description, setDescription] = useState("");
@@ -301,8 +298,6 @@ function AddExpenseNew() {
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
-  // const [balanceAmountError, setBalanceAmountError] = useState("");
-  // const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
 
   useEffect(() => {
     const balance = Number(amount || 0) - Number(paidAmount || 0);
@@ -312,13 +307,6 @@ function AddExpenseNew() {
   const isAvailablePaid =
     paymentStatus === "Full" || paymentStatus === "Partial";
 
-  // const vendorOptions =
-  //   state.ComplianceList?.VendorList?.map((vendor) => ({
-  //     value: vendor.id,
-  //     label: vendor.fullName,
-  //     vendor,
-  //   })) || []
-  //
 
   const vendorOptions =
     state.ExpenseList.getInitializeExpenseList?.vendor?.map((vendor) => ({
@@ -414,22 +402,7 @@ function AddExpenseNew() {
     }));
   };
 
-  // const handleBalanceAmountChange = (e) => {
-  //   dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
-  //   const value = e.target.value;
 
-  //   setBalanceAmount(value);
-
-  //   if (!value.trim()) {
-  //     setBalanceAmountError("Balance amount is required");
-  //   } else {
-  //     setBalanceAmountError("");
-  //   }
-  //   setErrors((prev) => ({
-  //     ...prev,
-  //     balanceAmount: "",
-  //   }));
-  // };
 
   const handleClose = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -838,21 +811,17 @@ function AddExpenseNew() {
     }
   }, [state.createAccount?.networkError]);
 
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "INITIALIZEEXPENSESLIST",
-        payload: state.login.selectedHostel_Id,
-      });
-      // dispatch({
-      //   type: "VENDORLIST",
-      //   payload: { hostelId: state.login.selectedHostel_Id },
-      // });
-      // dispatch({ type: "UNITS_LIST_SAGA" });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+    dispatch({
+      type: "INITIALIZEEXPENSESLIST",
+      payload: hostelId,
+    });
   }, [state.login.selectedHostel_Id]);
 
-  const hasShownToast = useRef(false);
 
   useEffect(() => {
     if (state.ExpenseList?.getInitializeExpenseStatusCode === 200) {

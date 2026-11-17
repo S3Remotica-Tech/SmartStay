@@ -397,8 +397,8 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
       setFirstname(
         tenantDetails?.firstName ||
-          tenantDetails?.name ||
-          tenantDetails?.fullName,
+        tenantDetails?.name ||
+        tenantDetails?.fullName,
       );
 
       setRooms(tenantDetails.Rooms || tenantDetails?.room);
@@ -558,7 +558,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(
       dueDateObj.getDate() +
-        (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0),
+      (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0),
     );
 
     if (Floor && Rooms && Bed && selectedDate && Number(RoomRent) > 0) {
@@ -747,13 +747,19 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [selectedDate]);
 
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "SETTINGS_GET_RECURRING",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "SETTINGS_GET_RECURRING",
+      payload: { hostelId },
+    });
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -893,22 +899,20 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
             <div className="flex gap-2 w-full">
               <button
                 onClick={() => setActiveTab("LONG")}
-                className={`flex-1 py-2 text-center rounded-md font-gilroy font-semibold ${
-                  activeTab === "LONG"
-                    ? "!bg-[#1E45E1] text-white"
-                    : "!bg-[#F7F9FF] text-black"
-                }`}
+                className={`flex-1 py-2 text-center rounded-md font-gilroy font-semibold ${activeTab === "LONG"
+                  ? "!bg-[#1E45E1] text-white"
+                  : "!bg-[#F7F9FF] text-black"
+                  }`}
               >
                 Long Stay
               </button>
 
               <button
                 onClick={() => setActiveTab("SHORT")}
-                className={`flex-1 py-2 text-center rounded font-gilroy font-semibold ${
-                  activeTab === "SHORT"
-                    ? "!bg-[#1E45E1] text-white"
-                    : "!bg-[#F7F9FF] text-black"
-                }`}
+                className={`flex-1 py-2 text-center rounded font-gilroy font-semibold ${activeTab === "SHORT"
+                  ? "!bg-[#1E45E1] text-white"
+                  : "!bg-[#F7F9FF] text-black"
+                  }`}
               >
                 Short Stay
               </button>
@@ -968,11 +972,10 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           handleBedLayoutPreview();
                         }
                       }}
-                      className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
-                        selectedDate
-                          ? "bg-[#EDF3FF] text-[#1E45E1]"
-                          : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      }`}
+                      className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${selectedDate
+                        ? "bg-[#EDF3FF] text-[#1E45E1]"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}
                     >
                       <IoBedOutline className="text-[12px]" />
                       Bed Layout View
@@ -1053,34 +1056,34 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       options={
                         availableBed
                           ? availableBed
-                              .filter(
-                                (item) =>
-                                  item &&
-                                  item?.bedName !== "0" &&
-                                  item?.bedName !== "undefined" &&
-                                  item?.bedName !== "" &&
-                                  item?.bedName !== "null",
-                              )
-                              .map((item) => ({
-                                value: item?.bedId,
-                                label: item?.bedName,
-                              }))
+                            .filter(
+                              (item) =>
+                                item &&
+                                item?.bedName !== "0" &&
+                                item?.bedName !== "undefined" &&
+                                item?.bedName !== "" &&
+                                item?.bedName !== "null",
+                            )
+                            .map((item) => ({
+                              value: item?.bedId,
+                              label: item?.bedName,
+                            }))
                           : []
                       }
                       onChange={handleBed}
                       value={
                         availableBed
                           ? (() => {
-                              const selected = availableBed?.find(
-                                (option) => option?.bedId === Bed,
-                              );
-                              return selected
-                                ? {
-                                    value: selected.bedId,
-                                    label: selected.bedName,
-                                  }
-                                : null;
-                            })()
+                            const selected = availableBed?.find(
+                              (option) => option?.bedId === Bed,
+                            );
+                            return selected
+                              ? {
+                                value: selected.bedId,
+                                label: selected.bedName,
+                              }
+                              : null;
+                          })()
                           : null
                       }
                       placeholder="Select a Bed"
@@ -1131,14 +1134,12 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
                       setAdvanceAmountError("");
                     }}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                      isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                    }`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                      }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                        isAdvanceRefused ? "translate-x-6" : "translate-x-1"
-                      }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                        }`}
                     />
                   </button>
                 </div>
@@ -1159,13 +1160,11 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         value={AdvanceAmount}
                         onChange={handleAdvanceAmount}
                         disabled={isAdvanceRefused}
-                        className={`text-[14px] text-gray-700 font-gilroy ${
-                          AdvanceAmount ? "font-semibold" : "font-medium"
-                        } shadow-none border h-12 rounded-md ${
-                          isAdvanceRefused
+                        className={`text-[14px] text-gray-700 font-gilroy ${AdvanceAmount ? "font-semibold" : "font-medium"
+                          } shadow-none border h-12 rounded-md ${isAdvanceRefused
                             ? "bg-gray-100 border-gray-200 cursor-not-allowed"
                             : "border-gray-300"
-                        }`}
+                          }`}
                       />
                     </Form.Group>
 
@@ -1422,11 +1421,10 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                 setCustomRentEnable(!customRentEnable);
                                 setCustomRent("");
                               }}
-                              className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
-                                customRentEnable
-                                  ? "bg-[#0D1B8E] text-white"
-                                  : "bg-[#EAEEFF] text-[#1E45E1]"
-                              }`}
+                              className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${customRentEnable
+                                ? "bg-[#0D1B8E] text-white"
+                                : "bg-[#EAEEFF] text-[#1E45E1]"
+                                }`}
                             >
                               {customRentEnable ? (
                                 <>
@@ -1462,9 +1460,8 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                   value={customRent}
                                   onChange={handleCustomRentChange}
                                   onWheel={(e) => e.target.blur()}
-                                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                                    customRent ? "font-semibold" : "font-medium"
-                                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${customRent ? "font-semibold" : "font-medium"
+                                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
                                 />
 
                                 <button

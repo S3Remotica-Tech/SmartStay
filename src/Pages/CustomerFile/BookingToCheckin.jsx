@@ -154,6 +154,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
+  const previousHostelIdRef = useRef(null);
 
   const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn ?? false;
 
@@ -474,24 +475,23 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     tenantDetails?.apiCall?.customerId ||
     tenantDetails?.tenetId;
 
-  useEffect(() => {
-    if (tenantId) {
-      dispatch({
-        type: "BOOKEDDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          customerId: tenantId,
-        },
-      });
+  const previousTenantIdRef = useRef(null);
 
-      // dispatch({
-      //   type: "CUSTOMERDETAILS",
-      //   payload: {
-      //     customerId: tenantId,
-      //   },
-      // });
-    }
-  }, [tenantId]);
+  useEffect(() => {
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!tenantId || !hostelId || previousTenantIdRef.current === tenantId) return;
+
+    previousTenantIdRef.current = tenantId;
+
+    dispatch({
+      type: "BOOKEDDETAILS",
+      payload: {
+        hostelId,
+        customerId: tenantId,
+      },
+    });
+  }, [tenantId, state.login.selectedHostel_Id]);
 
   const handleBookToCheckin = async () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
@@ -825,39 +825,52 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, []);
 
-  useEffect(() => {
-    if (selectedDate) {
-      const formatDate = (date) => {
-        if (!date) return "";
-        const d = new Date(date);
-        const day = String(d.getDate()).padStart(2, "0");
-        const month = String(d.getMonth() + 1).padStart(2, "0");
-        const year = d.getFullYear();
-        return `${day}-${month}-${year}`;
-      };
+  const previousRequestRef = useRef(null);
 
-      const joiningDateForFormatted = formatDate(selectedDate);
-      dispatch({
-        type: "AVAILBALEBEDDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          joiningDate: joiningDateForFormatted,
-        },
-      });
-    }
-  }, [selectedDate]);
+  useEffect(() => {
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!selectedDate || !hostelId) return;
+
+    const d = new Date(selectedDate);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+
+    const joiningDateForFormatted = `${day}-${month}-${year}`;
+
+    const requestKey = `${hostelId}_${joiningDateForFormatted}`;
+
+    if (previousRequestRef.current === requestKey) return;
+
+    previousRequestRef.current = requestKey;
+
+    dispatch({
+      type: "AVAILBALEBEDDETAILS",
+      payload: {
+        hostelId,
+        joiningDate: joiningDateForFormatted,
+      },
+    });
+  }, [selectedDate, state.login.selectedHostel_Id]);
 
   // const isPastMonth = selectedDate
   //   ? dayjs(selectedDate).isBefore(dayjs(), "month")
   //   : false;
 
+
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "SETTINGS_GET_RECURRING",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "SETTINGS_GET_RECURRING",
+      payload: { hostelId },
+    });
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
