@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Add, Bank, Card } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -74,17 +74,23 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     };
   }, []);
 
+  const previousSelfTransferRequestRef = useRef(null);
+
   useEffect(() => {
-    if (selfDetails?.bankId) {
-      dispatch({
-        type: "SELF_TRANSFER_INITIALIZE_V3_SAGA",
-        payload: {
-          hostelId: state.login?.selectedHostel_Id,
-          bankId: selfDetails?.bankId,
-        },
-      });
-    }
-  }, [selfDetails]);
+    if (!selfDetails?.bankId || !state.login?.selectedHostel_Id) return;
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+      bankId: selfDetails.bankId,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousSelfTransferRequestRef.current === requestKey) return;
+    previousSelfTransferRequestRef.current = requestKey;
+
+    dispatch({
+      type: "SELF_TRANSFER_INITIALIZE_V3_SAGA",
+      payload: payload,
+    });
+  }, [selfDetails?.bankId, state.login?.selectedHostel_Id]);
 
 
   useEffect(() => {

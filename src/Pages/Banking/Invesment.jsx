@@ -1,12 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import PropTypes from "prop-types";
 import {
-  // ArrowLeft2,
   Calendar,
-  // DocumentUpload,
-  // CloseCircle,
-  // ArrowDown2,
   Add,
   Bank,
   Wallet2,
@@ -134,7 +130,6 @@ function Invesment({ show, handleClose, bankDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [investment, setInvestment] = useState("");
-  // const [investmentError, setInvestmentError] = useState("");
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
@@ -146,13 +141,11 @@ function Invesment({ show, handleClose, bankDetails }) {
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
   const [transactionId, setTransactionId] = useState("");
-  // const [transactionIdError, setTransactionIdError] = useState("");
 
   const [description, setDescription] = useState("");
 
   const handleInvestmentChange = (e) => {
     setInvestment(e.target.value);
-    // setInvestmentError("");
   };
 
   const handleAmountChange = (e) => {
@@ -295,16 +288,26 @@ function Invesment({ show, handleClose, bankDetails }) {
     }
   }, [state.createAccount?.networkError]);
 
+  const previousBankingListRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "BANKING_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    }
-  }, []);
+    if (!state.login.selectedHostel_Id) return;
+
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousBankingListRequestRef.current === requestKey) return;
+
+    previousBankingListRequestRef.current = requestKey;
+
+    dispatch({
+      type: "BANKING_LIST_SAGA",
+      payload,
+    });
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state?.bankingDetails?.addMoneySuccess === 200) {

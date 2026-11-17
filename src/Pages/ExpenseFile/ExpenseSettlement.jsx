@@ -167,13 +167,18 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
   const transactionDate = parseDate(expenseOverView?.transactionDate);
   const initializaExpense = state.ExpenseList.getInitializeExpenseList;
 
+  const previousExpenseRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "INITIALIZEEXPENSESLIST",
-        payload: state.login.selectedHostel_Id,
-      });
-    }
+    if (!state.login.selectedHostel_Id) return;
+    const payload = state.login.selectedHostel_Id;
+    const requestKey = JSON.stringify(payload);
+    if (previousExpenseRequestRef.current === requestKey) return;
+    previousExpenseRequestRef.current = requestKey;
+    dispatch({
+      type: "INITIALIZEEXPENSESLIST",
+      payload,
+    });
   }, [state.login.selectedHostel_Id]);
 
   const finalOutstanding = expenseOverView?.balanceAmount - paidAmount;

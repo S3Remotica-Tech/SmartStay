@@ -7,9 +7,9 @@ import { TiTick } from "react-icons/ti";
 function RentInvoicePDF() {
   const state = useSelector((state) => state);
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
-  console.log("pdfDetails?.invoiceInfo?.paymentStatus", pdfDetails?.invoiceInfo?.paymentStatus)
+
   const showRentalPeriod =
-    pdfDetails?.configurations?.invoiceType === "Rent" &&
+    pdfDetails?.invoiceInfo?.invoiceType === "RENT" &&
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const paymentStatus = pdfDetails?.invoiceInfo?.paymentStatus

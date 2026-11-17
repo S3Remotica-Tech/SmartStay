@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Add, Bank, Card } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -76,28 +76,38 @@ function SelfTransferGlobal({ show, handleClose }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (selectedFromBank?.bankId) {
-      dispatch({
-        type: "SELF_TRANSFER_INITIALIZE_V3_SAGA",
-        payload: {
-          hostelId: state.login?.selectedHostel_Id,
-          bankId: selectedFromBank?.bankId,
-        },
-      });
-    }
-  }, [selectedFromBank]);
+  const previousSelfTransferRequestRef = useRef(null);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "BANKING_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    }
-  }, []);
+    if (!selectedFromBank?.bankId || !state.login?.selectedHostel_Id) return;
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+      bankId: selectedFromBank.bankId,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousSelfTransferRequestRef.current === requestKey) return;
+    previousSelfTransferRequestRef.current = requestKey;
+    dispatch({
+      type: "SELF_TRANSFER_INITIALIZE_V3_SAGA",
+      payload: payload,
+    });
+  }, [selectedFromBank?.bankId, state.login?.selectedHostel_Id]);
+
+  const previousBankingListRequestRef = useRef(null);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousBankingListRequestRef.current === requestKey) return;
+    previousBankingListRequestRef.current = requestKey;
+    dispatch({
+      type: "BANKING_LIST_SAGA",
+      payload,
+    });
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {

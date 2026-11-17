@@ -473,15 +473,37 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     }
   }, [state.UsersList.vendorSettleError]);
 
+  // useEffect(() => {
+  //   if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+
+  //   dispatch({
+  //     type: "VENDOR_SETTLE_INITIALIZE_SAGA",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       vendorId: Number(selectedVendorId),
+  //     },
+  //   });
+  // }, [state.login.selectedHostel_Id, selectedVendorId]);
+
+  const vendorSettleRequestRef = useRef(null);
+
   useEffect(() => {
-    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+      vendorId: Number(selectedVendorId),
+    };
+
+    if (!payload.hostelId || !selectedVendorId) return;
+
+    const requestKey = JSON.stringify(payload);
+
+    if (vendorSettleRequestRef.current === requestKey) return;
+
+    vendorSettleRequestRef.current = requestKey;
 
     dispatch({
       type: "VENDOR_SETTLE_INITIALIZE_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        vendorId: Number(selectedVendorId),
-      },
+      payload: payload,
     });
   }, [state.login.selectedHostel_Id, selectedVendorId]);
 

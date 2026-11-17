@@ -165,14 +165,22 @@ function VendorPayment({ show, handleClose, isBanking }) {
 
 
 
+  const previousVendorListRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "ALL_VENDOR_LIST_SAGA",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, []);
+    if (!state.login.selectedHostel_Id) return;
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousVendorListRequestRef.current === requestKey) return;
+    previousVendorListRequestRef.current = requestKey;
+    dispatch({
+      type: "ALL_VENDOR_LIST_SAGA",
+      payload,
+    });
+  }, [state.login.selectedHostel_Id]);
+
 
   useEffect(() => {
     setExpenseList(vendorInitialize?.expenses || []);
