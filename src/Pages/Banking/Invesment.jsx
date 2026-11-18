@@ -237,9 +237,9 @@ function Invesment({ show, handleClose, bankDetails }) {
       isValid = false;
     }
 
-    const amountRegex = /^(?=.*[1-9])\d+(\.\d{1,2})?$/;
+    // const amountRegex = /^(?=.*[1-9])\d+(\.\d{1,2})?$/;
 
-    if ((amount && !amountRegex.test(amount)) || Number(amount) <= 0) {
+    if (amount && Number(amount) <= 0) {
       setAmountError("Please Enter a valid Amount");
       isValid = false;
     }
