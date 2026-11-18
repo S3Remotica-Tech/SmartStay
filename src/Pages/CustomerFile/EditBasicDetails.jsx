@@ -24,15 +24,15 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
   const [loading, setLoading] = useState(false);
 
   const handleFirstNameChange = (e) => {
-    const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, "");
-    setFirstName(lettersOnly);
+    const value = e.target.value.replace(/[^A-Za-z0-9\s]/g, "");
+    setFirstName(value);
     setFirstNameError("");
     setIsChanged("");
   };
 
   const handleLastNameChange = (e) => {
-    const lettersOnly = e.target.value.replace(/[^A-Za-z]/g, "");
-    setLastName(lettersOnly);
+    const value = e.target.value.replace(/[^A-Za-z0-9\s]/g, "");
+    setLastName(value);
     setIsChanged("");
   };
 
@@ -248,9 +248,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   onChange={handleFirstNameChange}
                   type="text"
                   placeholder="Enter First name"
-                  className={`text-base text-gray-600 font-gilroy ${
-                    firstName ? "font-semibold" : "font-medium"
-                  } border border-gray-300 h-12 rounded-lg shadow-none`}
+                  className={`text-base text-gray-600 font-gilroy ${firstName ? "font-semibold" : "font-medium"
+                    } border border-gray-300 h-12 rounded-lg shadow-none`}
                 />
               </Form.Group>
 
@@ -273,9 +272,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   onChange={handleLastNameChange}
                   type="text"
                   placeholder="Enter Last Name"
-                  className={`text-base text-gray-600 font-gilroy ${
-                    lastName ? "font-semibold" : "font-medium"
-                  } border border-gray-300 h-12 rounded-lg shadow-none`}
+                  className={`text-base text-gray-600 font-gilroy ${lastName ? "font-semibold" : "font-medium"
+                    } border border-gray-300 h-12 rounded-lg shadow-none`}
                 />
               </Form.Group>
             </div>
@@ -294,9 +292,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   onChange={handleEmailChange}
                   type="text"
                   placeholder="Enter Email"
-                  className={`text-base text-gray-600 font-gilroy ${
-                    email ? "font-semibold" : "font-medium"
-                  } border border-gray-300 h-12 rounded-lg shadow-none`}
+                  className={`text-base text-gray-600 font-gilroy ${email ? "font-semibold" : "font-medium"
+                    } border border-gray-300 h-12 rounded-lg shadow-none`}
                 />
               </Form.Group>
 

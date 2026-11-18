@@ -358,9 +358,9 @@ function AddTenant({
       prev.map((job, i) =>
         i === index
           ? {
-              ...job,
-              [field]: value,
-            }
+            ...job,
+            [field]: value,
+          }
           : job,
       ),
     );
@@ -469,13 +469,16 @@ function AddTenant({
     }
   };
 
+
+
   const handleFirstName = (e) => {
-    // setNewTenant(true);
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
+
     if (!pattern.test(value)) {
       return;
     }
+
     setFirstname(value);
     setFirstnameError("");
   };
@@ -581,14 +584,14 @@ function AddTenant({
 
   const handleLastName = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
 
     if (!pattern.test(value)) {
       return;
     }
+
     setLastname(value);
   };
-
   const handlePhone = (e) => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     const input = e.target.value.replace(/\D/g, "");
@@ -995,7 +998,7 @@ function AddTenant({
       Phone !== (DraftTenantDetails?.mobileNo || "") ||
       Email !== (DraftTenantDetails?.emailId || "") ||
       (idProofType?.value || idProofType || "") !==
-        (DraftTenantDetails?.idProof?.type || "") ||
+      (DraftTenantDetails?.idProof?.type || "") ||
       idProofNo !== (DraftTenantDetails?.idProof?.number || "") ||
       house_no !== (DraftTenantDetails?.address?.house || "") ||
       street !== (DraftTenantDetails?.address?.street || "") ||
@@ -1343,11 +1346,11 @@ function AddTenant({
       setIdProofType(
         DraftTenantDetails?.idProof?.type
           ? {
-              value: DraftTenantDetails.idProof.type,
-              label:
-                DraftTenantDetails.idProof.type.charAt(0).toUpperCase() +
-                DraftTenantDetails.idProof.type.slice(1),
-            }
+            value: DraftTenantDetails.idProof.type,
+            label:
+              DraftTenantDetails.idProof.type.charAt(0).toUpperCase() +
+              DraftTenantDetails.idProof.type.slice(1),
+          }
           : null,
       );
       setIdProofNo(DraftTenantDetails?.idProof?.number || "");
@@ -1421,13 +1424,13 @@ function AddTenant({
         mappedGuardians.length
           ? mappedGuardians
           : [
-              {
-                guardianFullName: "",
-                relationshipToTenant: null,
-                guardianOccupation: null,
-                mobileNo: "",
-              },
-            ],
+            {
+              guardianFullName: "",
+              relationshipToTenant: null,
+              guardianOccupation: null,
+              mobileNo: "",
+            },
+          ],
       );
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
@@ -1654,11 +1657,10 @@ function AddTenant({
                             </p>
                             <div className="relative w-full">
                               <div
-                                className={`flex items-center border rounded-lg mb-2 ${
-                                  bookingOnly
-                                    ? "bg-gray-100 opacity-60 cursor-not-allowed"
-                                    : "bg-white"
-                                }`}
+                                className={`flex items-center border rounded-lg mb-2 ${bookingOnly
+                                  ? "bg-gray-100 opacity-60 cursor-not-allowed"
+                                  : "bg-white"
+                                  }`}
                               >
                                 <span className="text-gray-600 mr-4 px-2">
                                   +91
@@ -1682,13 +1684,12 @@ function AddTenant({
                                       ? handleSearch
                                       : undefined
                                   }
-                                  className={`px-3 py-2 rounded-r-lg flex items-center justify-center min-w-[90px] ${
-                                    bookingOnly
-                                      ? "bg-gray-400 cursor-not-allowed"
-                                      : searchLoading
-                                        ? "bg-[#1E45E1] opacity-80 cursor-not-allowed"
-                                        : "bg-[#1E45E1] cursor-pointer"
-                                  }`}
+                                  className={`px-3 py-2 rounded-r-lg flex items-center justify-center min-w-[90px] ${bookingOnly
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : searchLoading
+                                      ? "bg-[#1E45E1] opacity-80 cursor-not-allowed"
+                                      : "bg-[#1E45E1] cursor-pointer"
+                                    }`}
                                 >
                                   {searchLoading ? (
                                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -1703,7 +1704,7 @@ function AddTenant({
                                   className="absolute top-full left-0 w-full z-50 mt-1"
                                 >
                                   {state?.UsersList?.searchTenant?.length >
-                                  0 ? (
+                                    0 ? (
                                     <div className="bg-white border-1 border-[#46464640] shadow rounded-lg  max-h-[300px] overflow-y-auto show-scrolls">
                                       {state?.UsersList?.searchTenant?.map(
                                         (user, index) => (
@@ -1714,14 +1715,13 @@ function AddTenant({
                                               )
                                             }
                                             key={user.id}
-                                            className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${
-                                              index !==
+                                            className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${index !==
                                               state?.UsersList?.searchTenant
                                                 ?.length -
-                                                1
-                                                ? "border-b border-[#F1F1F1]"
-                                                : ""
-                                            }`}
+                                              1
+                                              ? "border-b border-[#F1F1F1]"
+                                              : ""
+                                              }`}
                                           >
                                             {user.profilePic ? (
                                               <img
@@ -1867,9 +1867,8 @@ function AddTenant({
                                 ref={firstnameRef}
                                 value={firstname}
                                 onChange={(e) => handleFirstName(e)}
-                                className={`text-base text-black  font-gilroy ${
-                                  firstname ? "font-extrabold" : "font-medium"
-                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                className={`text-base text-black  font-gilroy ${firstname ? "font-extrabold" : "font-medium"
+                                  } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                               />
                               {firstnameError && (
                                 <ErrorMessage
@@ -1889,9 +1888,8 @@ function AddTenant({
                                 placeholder="Enter Last Name"
                                 value={lastname}
                                 onChange={(e) => handleLastName(e)}
-                                className={`text-base text-black font-gilroy ${
-                                  lastname ? "font-extrabold" : "font-medium"
-                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                className={`text-base text-black font-gilroy ${lastname ? "font-extrabold" : "font-medium"
+                                  } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                               />
                             </Form.Group>
 
@@ -1907,11 +1905,10 @@ function AddTenant({
 
                                 <InputGroup>
                                   <div
-                                    className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${
-                                      countryCode
-                                        ? "font-semibold"
-                                        : "font-light"
-                                    }`}
+                                    className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${countryCode
+                                      ? "font-semibold"
+                                      : "font-light"
+                                      }`}
                                   >
                                     <span>+{countryCode}</span>
 
@@ -1925,9 +1922,8 @@ function AddTenant({
                                     type="text"
                                     placeholder="Enter Mobile Number"
                                     maxLength={10}
-                                    className={`text-base text-[#4B4B4B] font-gilroy ${
-                                      Phone ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
+                                    className={`text-base text-[#4B4B4B] font-gilroy ${Phone ? "font-semibold" : "font-medium"
+                                      } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
                                   />
                                 </InputGroup>
 
@@ -1963,9 +1959,8 @@ function AddTenant({
                                 value={Email}
                                 ref={emailRef}
                                 onChange={(e) => handleEmail(e)}
-                                className={`text-base text-[#4B4B4B] font-gilroy ${
-                                  Email ? "font-semibold" : "font-medium"
-                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                className={`text-base text-[#4B4B4B] font-gilroy ${Email ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                               />
                               {emailError && (
                                 <ErrorMessage
@@ -2048,9 +2043,8 @@ function AddTenant({
                                   placeholder="Enter House No"
                                   value={house_no}
                                   onChange={(e) => handleHouseNo(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    house_no ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                  className={`text-base text-gray-700 font-gilroy ${house_no ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-gray-300 h-10 rounded-md`}
                                 />
                               </Form.Group>
                               {house_noError && (
@@ -2073,9 +2067,8 @@ function AddTenant({
                                   placeholder="Enter Street"
                                   value={street}
                                   onChange={(e) => handleStreetName(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    street ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                  className={`text-base text-gray-700 font-gilroy ${street ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-gray-300 h-10 rounded-md`}
                                 />
                               </Form.Group>
                               {streetError && (
@@ -2097,9 +2090,8 @@ function AddTenant({
                                   placeholder="E.g , near appollo hospital"
                                   value={landmark}
                                   onChange={(e) => handleLandmark(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    landmark ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                  className={`text-base text-gray-700 font-gilroy ${landmark ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-gray-300 h-10 rounded-md`}
                                 />
                               </Form.Group>
                               {landmarkError && (
@@ -2124,9 +2116,8 @@ function AddTenant({
                                   inputMode="numeric"
                                   pattern="[0-9]*"
                                   placeholder="Enter Pincode"
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    pincode ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                  className={`text-base text-gray-700 font-gilroy ${pincode ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-gray-300 h-10 rounded-md`}
                                 />
 
                                 {pincodeError && (
@@ -2150,9 +2141,8 @@ function AddTenant({
                                   value={city}
                                   ref={cityRef}
                                   onChange={(e) => handleCity(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    city ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                  className={`text-base text-gray-700 font-gilroy ${city ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-gray-300 h-10 rounded-md`}
                                 />
                               </Form.Group>
                               {cityError && (
@@ -2192,9 +2182,9 @@ function AddTenant({
                                 value={
                                   state_name
                                     ? {
-                                        value: state_name,
-                                        label: state_name,
-                                      }
+                                      value: state_name,
+                                      label: state_name,
+                                    }
                                     : null
                                 }
                                 placeholder="Select State"
@@ -2211,12 +2201,11 @@ function AddTenant({
                                 formLoading || state.UsersList?.draftClickError
                               }
                               className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1]
-                                 border-1 border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
-                                   formLoading ||
-                                   state.UsersList?.draftClickError
-                                     ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
-                                     : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
-                                 }`}
+                                 border-1 border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${formLoading ||
+                                  state.UsersList?.draftClickError
+                                  ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
+                                  : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
+                                }`}
                               onClick={
                                 newTenant
                                   ? handleSaveStepOne
@@ -2837,9 +2826,8 @@ function AddTenant({
                         <button
                           onClick={handleSaveStep3}
                           disabled={saveLoading}
-                          className={`font-gilroy text-sm bg-[#038C3D] text-white font-semibold rounded-md py-2.5 px-4 mb-2 mx-2 h-11 w-36 whitespace-nowrap flex items-center justify-center gap-2 ${
-                            saveLoading ? "opacity-70 cursor-not-allowed" : ""
-                          }`}
+                          className={`font-gilroy text-sm bg-[#038C3D] text-white font-semibold rounded-md py-2.5 px-4 mb-2 mx-2 h-11 w-36 whitespace-nowrap flex items-center justify-center gap-2 ${saveLoading ? "opacity-70 cursor-not-allowed" : ""
+                            }`}
                         >
                           {saveLoading ? (
                             <>
