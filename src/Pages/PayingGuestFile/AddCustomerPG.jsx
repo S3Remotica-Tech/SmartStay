@@ -117,10 +117,12 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleFirstName = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
+
     if (!pattern.test(value)) {
       return;
     }
+
     setFirstname(value);
     setFirstnameError("");
   };
@@ -154,11 +156,12 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleLastName = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
 
     if (!pattern.test(value)) {
       return;
     }
+
     setLastname(value);
   };
 
@@ -547,10 +550,9 @@ function AddCustomer({ showMenu, handleClose }) {
   return (
     <div className="font-gilroy">
       <div
-        className={`fixed  inset-0 bg-black/40 z-50 transition-opacity duration-300 ${
-          showMenu ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        // onClick={onClose}
+        className={`fixed  inset-0 bg-black/40 z-50 transition-opacity duration-300 ${showMenu ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+      // onClick={onClose}
       />
 
       <div className="fixed top-2 right-2 bottom-2 w-[800px]   bg-white z-50 rounded-md flex flex-col p-2.5">
@@ -674,9 +676,8 @@ function AddCustomer({ showMenu, handleClose }) {
                               ref={firstnameRef}
                               value={firstname}
                               onChange={(e) => handleFirstName(e)}
-                              className={`text-base text-[#4B4B4B] font-gilroy ${
-                                firstname ? "font-semibold" : "font-medium"
-                              } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              className={`text-base text-[#4B4B4B] font-gilroy ${firstname ? "font-semibold" : "font-medium"
+                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                             />
                             {firstnameError && (
                               <ErrorMessage
@@ -696,9 +697,8 @@ function AddCustomer({ showMenu, handleClose }) {
                               placeholder="Enter Last Name"
                               value={lastname}
                               onChange={(e) => handleLastName(e)}
-                              className={`text-base text-[#4B4B4B] font-gilroy ${
-                                lastname ? "font-semibold" : "font-medium"
-                              } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              className={`text-base text-[#4B4B4B] font-gilroy ${lastname ? "font-semibold" : "font-medium"
+                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                             />
                           </Form.Group>
 
@@ -714,9 +714,8 @@ function AddCustomer({ showMenu, handleClose }) {
 
                               <InputGroup>
                                 <div
-                                  className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${
-                                    countryCode ? "font-semibold" : "font-light"
-                                  }`}
+                                  className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${countryCode ? "font-semibold" : "font-light"
+                                    }`}
                                 >
                                   <span>+{countryCode}</span>
 
@@ -730,9 +729,8 @@ function AddCustomer({ showMenu, handleClose }) {
                                   type="text"
                                   placeholder="Enter Mobile Number"
                                   maxLength={10}
-                                  className={`text-base text-[#4B4B4B] font-gilroy ${
-                                    Phone ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
+                                  className={`text-base text-[#4B4B4B] font-gilroy ${Phone ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
                                 />
                               </InputGroup>
 
@@ -768,9 +766,8 @@ function AddCustomer({ showMenu, handleClose }) {
                               value={Email}
                               ref={emailRef}
                               onChange={(e) => handleEmail(e)}
-                              className={`text-base text-[#4B4B4B] font-gilroy ${
-                                Email ? "font-semibold" : "font-medium"
-                              } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              className={`text-base text-[#4B4B4B] font-gilroy ${Email ? "font-semibold" : "font-medium"
+                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                             />
                             {emailError && (
                               <ErrorMessage message={emailError} type="error" />
@@ -825,9 +822,8 @@ function AddCustomer({ showMenu, handleClose }) {
                             placeholder="Enter House No"
                             value={house_no}
                             onChange={(e) => handleHouseNo(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              house_no ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={`text-base text-gray-700 font-gilroy ${house_no ? "font-semibold" : "font-medium"
+                              } shadow-none border border-gray-300 h-10 rounded-md`}
                           />
                         </Form.Group>
                         {house_noError && (
@@ -846,9 +842,8 @@ function AddCustomer({ showMenu, handleClose }) {
                             placeholder="Enter Street"
                             value={street}
                             onChange={(e) => handleStreetName(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              street ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={`text-base text-gray-700 font-gilroy ${street ? "font-semibold" : "font-medium"
+                              } shadow-none border border-gray-300 h-10 rounded-md`}
                           />
                         </Form.Group>
                         {streetError && (
@@ -867,9 +862,8 @@ function AddCustomer({ showMenu, handleClose }) {
                             placeholder="E.g , near appollo hospital"
                             value={landmark}
                             onChange={(e) => handleLandmark(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              landmark ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={`text-base text-gray-700 font-gilroy ${landmark ? "font-semibold" : "font-medium"
+                              } shadow-none border border-gray-300 h-10 rounded-md`}
                           />
                         </Form.Group>
                         {landmarkError && (
@@ -891,9 +885,8 @@ function AddCustomer({ showMenu, handleClose }) {
                             inputMode="numeric"
                             pattern="[0-9]*"
                             placeholder="Enter Pincode"
-                            className={`text-base text-gray-700 font-gilroy ${
-                              pincode ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={`text-base text-gray-700 font-gilroy ${pincode ? "font-semibold" : "font-medium"
+                              } shadow-none border border-gray-300 h-10 rounded-md`}
                           />
 
                           {pincodeError && (
@@ -914,9 +907,8 @@ function AddCustomer({ showMenu, handleClose }) {
                             value={city}
                             ref={cityRef}
                             onChange={(e) => handleCity(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              city ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={`text-base text-gray-700 font-gilroy ${city ? "font-semibold" : "font-medium"
+                              } shadow-none border border-gray-300 h-10 rounded-md`}
                           />
                         </Form.Group>
                         {cityError && (
