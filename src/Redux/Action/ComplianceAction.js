@@ -102,9 +102,31 @@ export async function VendorOverViewExpenseList(vendor) {
   if (vendor.size) params.size = vendor.size;
   if (vendor.search) params.search = vendor.search;
 
-  return await AxiosConfigV2.get(`/v2/vendors/expenses/${vendor.vendorId}`, {
-    params,
-  });
+  if (vendor.startDate) params.startDate = vendor.startDate;
+  if (vendor.endDate) params.endDate = vendor.endDate;
+
+  if (vendor.paymentStatus && vendor.paymentStatus !== "ALL") {
+    params.paymentStatus = vendor.paymentStatus;
+  }
+
+
+
+  if (vendor.categoryId && vendor.categoryId !== "ALL") {
+    params.categoryId = vendor.categoryId;
+  }
+
+  if (vendor.minAmount !== undefined && vendor.minAmount !== "") {
+    params.minAmount = vendor.minAmount;
+  }
+
+  if (vendor.maxAmount !== undefined && vendor.maxAmount !== "") {
+    params.maxAmount = vendor.maxAmount;
+  }
+
+  return await AxiosConfigV2.get(
+    `/v2/vendors/expenses/${vendor.vendorId}`,
+    { params }
+  );
 }
 
 export async function VendorOverViewExpensePaymentList(vendor) {
