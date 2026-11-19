@@ -109,7 +109,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
   ];
 
 
-  console.log("savedFilters", savedFilters)
+  // console.log("savedFilters", savedFilters)
 
   useEffect(() => {
     if (!show) return;
@@ -137,7 +137,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
     setMinAmount("");
     setMaxAmount("");
     setErrors({});
-    onApply({ ...EMPTY_VENDOR_EXPENSE_FILTERS });
+    // onApply({ ...EMPTY_VENDOR_EXPENSE_FILTERS });
     dispatch({
       type: "SET_VENDOR_EXPENSE_FILTERS",
       payload: { ...EMPTY_VENDOR_EXPENSE_FILTERS },
@@ -203,12 +203,18 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
     handleClose()
   };
 
+
+  const handleFilterClose = () => {
+    handleApply();
+    handleClose();
+  };
+
   return (
     <div>
       {show && (
         <div
           className="fixed inset-0 bg-black/30 z-[1040]"
-          onClick={handleClose}
+          onClick={handleFilterClose}
         />
       )}
 
@@ -382,8 +388,9 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
 VendorExpenseFilter.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  appliedFilters: PropTypes.object,
-  onApply: PropTypes.func.isRequired,
+  size: PropTypes.number,
+  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
 };
 
 export default VendorExpenseFilter;

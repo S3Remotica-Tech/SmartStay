@@ -215,10 +215,10 @@ function VendorExpenseHistory({ selectedVendorId }) {
         value: f.categoryName,
       });
 
-    if (f?.minAmount !== "" && f?.minAmount != null)
+    if (f?.minAmount !== "" && f?.minAmount !== null)
       filterData.push({ key: "minAmount", label: "Min", value: f.minAmount });
 
-    if (f?.maxAmount !== "" && f?.maxAmount != null)
+    if (f?.maxAmount !== "" && f?.maxAmount !== null)
       filterData.push({ key: "maxAmount", label: "Max", value: f.maxAmount });
 
     setChips(filterData);
@@ -325,16 +325,16 @@ function VendorExpenseHistory({ selectedVendorId }) {
             />
           </div>
 
-          <div
+          <div onClick={() => {
+            if (canReadExpense) {
+              setIsFilterOpen(true);
+            }
+          }}
             className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
           >
             <Filter
               size={16}
-              onClick={() => {
-                if (canReadExpense) {
-                  setIsFilterOpen(true);
-                }
-              }}
+
               className={`transition-opacity duration-300 ${!canReadExpense
                 ? "cursor-not-allowed opacity-100 pointer-events-auto"
                 : "cursor-pointer opacity-40 "
