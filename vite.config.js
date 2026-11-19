@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.jsx",
+    exclude: [...configDefaults.exclude, "e2e/**"],
     coverage: {
       reporter: ["text", "lcov"],
       exclude: [...configDefaults.coverage.exclude, "./src/setupTests.jsx"],
