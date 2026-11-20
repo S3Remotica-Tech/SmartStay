@@ -17,9 +17,7 @@ import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "../PayingGuestFile/PgLayoutView";
 import {
-  // Add,
-  // ArrowDown2,
-  // ArrowUp2,
+
   InfoCircle,
   ArrowRight2,
   Edit2,
@@ -131,7 +129,6 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
-  // const [lastname, setLastname] = useState("");
   const [pgLayout, setPgLatyout] = useState(false);
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");

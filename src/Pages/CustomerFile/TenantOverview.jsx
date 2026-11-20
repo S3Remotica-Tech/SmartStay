@@ -968,6 +968,23 @@ function TenantOverview(props) {
     }
   }, [state.UsersList?.bookingToCheckinSuccessCode]);
 
+  useEffect(() => {
+    if (state?.InvoiceList?.deleteBillsSuccess === 204) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+
+      dispatch({ type: "REMOVE_DELETE_BILLS_REDUCER" });
+
+    }
+  }, [state?.InvoiceList?.deleteBillsSuccess]);
+
+
+
+
+
+
   const handleShowBookingToCheckin = () => {
     setBookingAssignForm(true);
   };
@@ -1203,7 +1220,7 @@ function TenantOverview(props) {
                         title="Change photo"
                         disabled={!canUpdateTenant}
                         onClick={() => fileInputRef.current?.click()}
-                        className="w-[24px] h-[24px] rounded-full bg-white flex items-center justify-center cursor-pointer disabled:cursor-not-allowed"
+                        className="w-[24px] h-[24px] rounded-full bg-white flex items-center justify-center cursor-pointer  disabled:opacity-50"
                       >
                         <img alt="edit" src={EditImage} className="w-[14px] h-[14px]" />
                       </button>
@@ -1214,7 +1231,7 @@ function TenantOverview(props) {
                           title="Delete photo"
                           disabled={!canDeleteTenant}
                           onClick={() => setShowDeleteConfirm(true)}
-                          className="w-[24px] h-[24px] rounded-full bg-white flex items-center justify-center cursor-pointer disabled:cursor-not-allowed"
+                          className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center cursor-pointer "
                         >
                           <Trash size="14" color="#FF0000" />
                         </button>

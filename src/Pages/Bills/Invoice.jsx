@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import {
@@ -49,6 +48,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import CustomTooltip from "../../Utils/CustomTooltip";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import ReviewGenerateBillsDrawer from "../Bills/ReviewAndGenerate/ReviewGenerateBillsDrawer";
+import DeleteBill from "./DeleteBill";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -352,18 +352,18 @@ const InvoicePage = () => {
 
   const handleBillDelete = (props) => {
     setShowDeleteform(true);
-    setDeleteId(props.item.id);
+    setDeleteId(props.item.invoiceId);
   };
 
-  const handleBillDeleted = () => {
-    dispatch({
-      type: "MANUAL-INVOICE-DELETE",
-      payload: {
-        id: deleteId,
-      },
-    });
-    setShowDeleteform(false);
-  };
+  // const handleBillDeleted = () => {
+  //   dispatch({
+  //     type: "MANUAL-INVOICE-DELETE",
+  //     payload: {
+  //       id: deleteId,
+  //     },
+  //   });
+  //   setShowDeleteform(false);
+  // };
 
   const handleShowForm = (props) => {
     setShowform(true);
@@ -695,6 +695,27 @@ const InvoicePage = () => {
       dispatch({ type: "REMOVE_MANUAL_BILL_UPDATE_UNPAID_REDUCER" });
     }
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode]);
+
+
+
+  useEffect(() => {
+    if (state?.InvoiceList?.deleteBillsSuccess === 204) {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
+      });
+
+      dispatch({ type: "REMOVE_DELETE_BILLS_REDUCER" });
+
+    }
+  }, [state?.InvoiceList?.deleteBillsSuccess]);
+
 
   useEffect(() => {
     if (state.InvoiceList?.reviewGenerateRecurringSuccess === 200) {
@@ -1837,45 +1858,11 @@ const InvoicePage = () => {
       }
       {(showLoader || loading) && <LoaderComponent />}
 
-      {
-        showdeleteform && (
-          <Modal
-            show={showdeleteform}
-            onHide={handleCloseDeleteform}
-            centered
-            backdrop="static"
-          >
-            <Modal.Header className="!border-b-0 !flex !justify-center">
-              <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
-                Delete Billing?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
-              Are you sure you want to delete this Billing?
-            </Modal.Body>
-
-            <Modal.Footer className="!block !border-t-0 !p-2">
-              <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
-                <Button
-                  onClick={handleCloseDeleteform}
-                  className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
-                >
-                  Cancel
-                </Button>
-
-                <Button
-                  disabled
-                  onClick={handleBillDeleted}
-                  className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
-                >
-                  Coming Soon
-                </Button>
-              </div>
-            </Modal.Footer>
-          </Modal>
-        )
-      }
+      <DeleteBill
+        show={showdeleteform}
+        onCancel={handleCloseDeleteform}
+        billId={deleteId}
+      />
 
       {
         state.InvoiceList.unableAddInvoiceDetailsError ? (
