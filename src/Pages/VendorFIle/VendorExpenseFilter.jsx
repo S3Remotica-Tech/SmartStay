@@ -161,7 +161,9 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
     )
       next.maxAmount = "Max must be greater than min";
     setErrors(next);
+    console.log("next", next)
     return Object.keys(next).length === 0;
+
   };
 
   const handleApply = () => {
@@ -200,13 +202,14 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
       type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
       payload: payload,
     });
-    handleClose()
+    handleClose();
   };
 
 
-  const handleFilterClose = () => {
+  const handleCloseClick = (e) => {
+    e?.stopPropagation();
     handleApply();
-    handleClose();
+
   };
 
   return (
@@ -214,12 +217,12 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
       {show && (
         <div
           className="fixed inset-0 bg-black/30 z-[1040]"
-          onClick={handleFilterClose}
+          onClick={handleCloseClick}
         />
       )}
 
       <div
-        className={`fixed top-0 right-0 h-screen w-[400px] max-w-[90vw] bg-white shadow-xl z-[1050] flex flex-col transition-transform duration-300 ease-in-out ${show ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 h-screen w-[500px] max-w-[90vw] bg-white shadow-xl z-[1050] flex flex-col transition-transform duration-300 ease-in-out ${show ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="flex items-center justify-between px-[20px] pt-[20px] pb-[16px] flex-shrink-0">
@@ -228,7 +231,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
             Filter by
           </div>
           <IoCloseOutline
-            onClick={handleClose}
+            onClick={handleCloseClick}
             className="text-[#FF0000] text-[22px] cursor-pointer"
           />
         </div>
