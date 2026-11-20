@@ -129,6 +129,8 @@ export const initialState = {
   deleteReviewError: "",
   updateReviewError: "",
   addNewItemsInReviewSuccess: 0,
+  deleteBillsSuccess: 0,
+  deleteBillsError: "",
   invoiceFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -229,6 +231,35 @@ const InvoiceReducer = (state = initialState, action) => {
 
     case "REMOVE_DELETE_REVIEW_BILLS_REDUCER_ERROR":
       return { ...state, deleteReviewError: "" };
+
+
+
+
+    // 
+
+    case "DELETE_BILLS_REDUCER":
+      return { ...state, deleteBillsSuccess: action.payload.statusCode };
+    case "REMOVE_DELETE_BILLS_REDUCER":
+      return { ...state, deleteBillsSuccess: 0 };
+
+    case "DELETE_BILLS_REDUCER_ERROR":
+      return { ...state, deleteBillsError: action.payload };
+
+    case "REMOVE_DELETE_BILLS_REDUCER_ERROR":
+      return { ...state, deleteBillsError: "" };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     case "ADD_NEW_REVIEW_BILL_REDUCER":
       return {

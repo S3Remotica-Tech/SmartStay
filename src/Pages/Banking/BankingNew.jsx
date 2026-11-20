@@ -1320,7 +1320,7 @@ function BankingNew() {
                                     // disabled
                                     // disabled={!canDeleteBanking}
                                     disabled={
-                                      !canDeleteBanking || !isDev
+                                      !canDeleteBanking
                                     }
                                     onClick={(e) => {
                                       e.stopPropagation();
