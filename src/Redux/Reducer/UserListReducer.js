@@ -218,6 +218,7 @@ export const initialState = {
   RentRevisionError: "",
   deleteReadingError: "",
   deleteDraftTenantSuccessCode: 0,
+  deleteProfilePicSuccess: 0,
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -270,7 +271,24 @@ const UserListReducer = (state = initialState, action) => {
         kycRemindeSuccess: 0,
       };
 
-    
+
+    case 'DELETE_TENANT_PROFILE_PICTURE_REDUCER':
+      return {
+        ...state,
+        deleteProfilePicSuccess: action.payload.statusCode,
+      };
+
+    case 'REMOVE_DELETE_TENANT_PROFILE_PICTURE_REDUCER':
+      return {
+        ...state,
+        deleteProfilePicSuccess: 0,
+      };
+
+    case 'DELETE_TENANT_PROFILE_PICTURE_ERROR':
+      return { ...state, tenantProfileDeleteError: action.payload };
+
+    case 'REMOVE_DELETE_TENANT_PROFILE_PICTURE_ERROR':
+      return { ...state, tenantProfileDeleteError: "" };
 
     case "DELETE_DRAFT_TENANT_REDUCER":
       return {

@@ -356,6 +356,11 @@ export async function deleteFloor(floorId) {
   return await AxiosConfigV2.delete(`/v2/floor/${floorId.floor_Id}`);
 }
 
+
+export async function deleteTenantProfilePicture(profile) {
+  return await AxiosConfigV2.delete(`/v3/customers/profile-pic/${profile.hostelId}/${profile.customerId}`);
+}
+
 export async function deleteRoom(roomDetails) {
   return await AxiosConfigV2.delete(`/v2/room/${roomDetails.roomId}`);
 }
