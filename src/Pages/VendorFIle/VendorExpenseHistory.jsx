@@ -188,6 +188,16 @@ function VendorExpenseHistory({ selectedVendorId }) {
   }, []);
 
   useEffect(() => {
+    if (state.ComplianceList.vendorOverviewExpenseListStatus === 200) {
+
+      setIsFilterOpen(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_VENDOR_OVERVIEW_EXPENSE_LIST" });
+      }, 100);
+    }
+  }, [state.ComplianceList.vendorOverviewExpenseListStatus]);
+
+  useEffect(() => {
     const f = expenseFilters;
     const filterData = [];
 
