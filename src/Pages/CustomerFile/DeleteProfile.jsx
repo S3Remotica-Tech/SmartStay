@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -5,18 +6,12 @@ import PropTypes from "prop-types";
 
 function DeleteProfile({
     show,
-    tenantId,
     onCancel,
 }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const state = useSelector((state) => state);
     const CustomerOverView = state?.UsersList?.customerdetails;
-
-
-
-
-
 
     useEffect(() => {
         if (state?.UsersList?.deleteProfilePicSuccess === 200) {
@@ -98,7 +93,6 @@ function DeleteProfile({
 
 DeleteProfile.propTypes = {
     show: PropTypes.bool.isRequired,
-    tenantId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onCancel: PropTypes.func.isRequired,
 
 
