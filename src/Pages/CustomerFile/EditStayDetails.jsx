@@ -14,6 +14,12 @@ import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 
 function EditStayDetails({ show, handleClose,stayDetais }) {
@@ -133,13 +139,8 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                     <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll pt-1 ps-3  pe-3 mt-2 me-3" >
                         <div className="row mb-0">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                <Form.Label
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        paddingTop: "6px",
-                                    }}
+                                <Form.Label className={fieldLabelClass}
+                                   
                                 >
                                     Floor  {" "}
                                     <span style={{ color: "red", fontSize: "20px" }}>
@@ -150,32 +151,19 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
                             
 
-  <FormControl
+  <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={Floor}
                                       
                                         disabled
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
                             </div>
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                <Form.Label
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                    }}
+                                <Form.Label className={fieldLabelClass}
+                                   
                                 >
                                     Room {" "}
                                     <span style={{ color: "red", fontSize: "20px" }}>
@@ -185,34 +173,21 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                 </Form.Label>
 
                                
-                                 <FormControl
+                                 <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={Rooms}
                                         disabled
                                        
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
 
 
                             </div>
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                <Form.Label
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                    }}
+                                <Form.Label className={fieldLabelClass}
+                                   
                                 >
                                     Bed {" "}
                                     <span style={{ color: "red", fontSize: "20px" }}>
@@ -222,22 +197,13 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                 </Form.Label>
 
                               
-                                 <FormControl
+                                 <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={Bed}
                                         disabled
                                        
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
 
 
@@ -246,16 +212,11 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                 <Form.Group controlId="purchaseDate">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
+                                    <Form.Label className={fieldLabelClass}
+                                       
                                     >
                                         Joining Date{" "}
-                                        <span style={{ color: "red", fontSize: "20px" }}>
+                                        <span className={fieldRequiredClass}>
                                             *
                                         </span>
                                     </Form.Label>
@@ -264,13 +225,8 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                         className="datepicker-wrapper"
                                         style={{ position: "relative", width: "100%" }}
                                     >
-                                        <DatePicker
-                                            style={{
-                                                width: "100%",
-                                                height: 48,
-                                                cursor: "pointer",
-                                                fontFamily: "Gilroy"
-                                            }}
+                                        <DatePicker className={datePickerClass()}
+                                           
                                             format="DD/MM/YYYY"
                                             disabled
                                             placeholder="DD/MM/YYYY"
@@ -295,25 +251,16 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                 <Form.Group>
-                                    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    <Form.Label className={fieldLabelClass}>
                                         Advance Amount
-                                        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                        <span className={fieldRequiredClass}> *</span>
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={AdvanceAmount}
                                         onChange={handleAdvanceAmount}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
                                 </Form.Group>
 
@@ -322,25 +269,16 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                 <Form.Group>
-                                    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    <Form.Label className={fieldLabelClass}>
                                         Rental Amount
-                                        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                        <span className={fieldRequiredClass}> *</span>
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={RoomRent}
                                         onChange={handleRoomRent}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
                                 </Form.Group>
 
@@ -348,50 +286,32 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
                             {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                 <Form.Group>
-                                    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    <Form.Label className={fieldLabelClass}>
                                         Maintenance Fee (Non Refundable)
-                                        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                        <span className={fieldRequiredClass}> *</span>
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={MaintenanceFee}
                                         onChange={handleMaintenanceFee}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
                                 </Form.Group>
 
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                 <Form.Group>
-                                    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    <Form.Label className={fieldLabelClass}>
                                         Document Fee (Non Refundable)
-                                        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                        <span className={fieldRequiredClass}> *</span>
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={DocumentFee}
                                         onChange={handleDocumentFee}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
+                                       
                                     />
                                 </Form.Group>
 
@@ -402,27 +322,17 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
     className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2"
   >
     <Form.Group>
-      <Form.Label
-        style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+      <Form.Label className={fieldLabelClass}
+       
       >
         {`${item.reason.charAt(0).toUpperCase() + item.reason.slice(1)} Fee (Non Refundable)`}{" "}
-        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+        <span className={fieldRequiredClass}> *</span>
       </Form.Label>
-      <FormControl
+      <FormControl className={fieldClass()}
         type="text"
         value={item.amount}
         readOnly
-        style={{
-          fontSize: 16,
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          height: 50,
-          borderRadius: 8,
-          backgroundColor: "#F5F5F5", 
-        }}
+       
       />
     </Form.Group>
   </div>

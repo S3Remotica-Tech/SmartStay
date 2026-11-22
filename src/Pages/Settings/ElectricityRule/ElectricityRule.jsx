@@ -6,6 +6,10 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Add, MessageText } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
+import {
+  fieldClass,
+  fieldLabelClass,
+} from "../../../Utils/FieldStyles";
 
 function ElectricityRule() {
   const [selected, setSelected] = useState("room");
@@ -319,7 +323,7 @@ function ElectricityRule() {
               </p>
 
               <div className="mt-2 border-t pt-2">
-                <label className="text-[14px] font-medium text-[#1F1F1F]">
+                <label className={fieldLabelClass}>
                   Cost per Unit (₹)
                 </label>
 
@@ -332,13 +336,11 @@ function ElectricityRule() {
                       e.preventDefault();
                     }
                   }}
-                  className={`w-full h-[40px] px-3 rounded-md outline-none border ${
-                    errors.costPerUnit ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={fieldClass(!!errors.costPerUnit)}
                 />
 
                 {errors.costPerUnit && (
-                  <ErrorMessage message={errors.costPerUnit} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={errors.costPerUnit} type="error" />
                 )}
 
                 <p className="text-[11px] text-[#616161] mt-1 italic">
@@ -418,7 +420,7 @@ function ElectricityRule() {
 
               {selectedType === "fixed" && (
                 <div className="mt-4">
-                  <label className="text-[13px] font-medium text-[#222]">
+                  <label className={fieldLabelClass}>
                     Monthly Electricity Charge (₹)
                   </label>
 
@@ -433,14 +435,11 @@ function ElectricityRule() {
                     }}
                     onChange={handleAmountChange}
                     disabled={selectedType !== "fixed"}
-                    className={`mt-1 w-full h-[40px] px-3 rounded-md outline-none border border text-[14px]
-            ${errors.amount ? "border-red-500" : "border-gray-300"}
-            ${selectedType !== "fixed" ? "bg-gray-100 cursor-not-allowed" : ""}
-          `}
+                    className={fieldClass(!!errors.amount)}
                   />
 
                   {errors.amount && (
-                    <ErrorMessage message={errors.amount} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={errors.amount} type="error" />
                   )}
 
                   {selectedType === "fixed" && (
@@ -464,7 +463,7 @@ function ElectricityRule() {
         )}
 
         {state.Settings.ebRuleError && (
-          <ErrorMessage message={state.Settings.ebRuleError} type="error" />
+          <ErrorMessage className="mt-[6px]" message={state.Settings.ebRuleError} type="error" />
         )}
 
         <div className="flex justify-end gap-3 mt-6">

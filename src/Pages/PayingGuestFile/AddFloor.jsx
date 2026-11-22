@@ -8,6 +8,11 @@ import "../../Pages/AssetFile/addAsset.css";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function StaticExample({
   show,
@@ -173,10 +178,10 @@ function StaticExample({
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="font-gilroy text-black font-semibold text-base"
+                  <Form.Label className={fieldLabelClass}
                   >
                     Floor Name or No {" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control
                     ref={floorNameRef}
@@ -184,9 +189,7 @@ function StaticExample({
                     onChange={handleFloorChange}
                     type="text"
                     placeholder="Enter Floor Name or No"
-                    className={`text-base text-gray-600 font-gilroy ${floorNo ? "font-semibold" : "font-medium"} shadow-none border border-gray-300
-  h-12 rounded-lg
-`}
+                    className={fieldClass(!!floorId)}
 
 
                   />
@@ -197,17 +200,17 @@ function StaticExample({
             </div>
 
             {floorId && (
-              <ErrorMessage message={floorId} type="error" />
+              <ErrorMessage className="mt-[6px]" message={floorId} type="error" />
             )}
 
             {floorError && (
-              <ErrorMessage message={floorError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
             )}
             {state.UsersList?.alreadyFloorHere && (
-              <ErrorMessage message={state.UsersList?.alreadyFloorHere} type="error" />
+              <ErrorMessage className="mt-[6px]" message={state.UsersList?.alreadyFloorHere} type="error" />
             )}
             {state.PgList?.alreadyfloorNameHere && (
-              <ErrorMessage message={state.PgList?.alreadyfloorNameHere} type="error" />
+              <ErrorMessage className="mt-[6px]" message={state.PgList?.alreadyfloorNameHere} type="error" />
             )}
 
           </Modal.Body>
@@ -221,7 +224,7 @@ function StaticExample({
 
           {isChangedError && (
             <div className="flex items-center  justify-center">
-              <ErrorMessage message={isChangedError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
             </div>
           )}
 

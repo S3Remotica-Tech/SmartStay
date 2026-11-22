@@ -22,109 +22,14 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -533,8 +438,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
         <div className="flex-1 show-scrolls overflow-y-auto ">
           <div className="grid grid-cols-1  mt-1 px-4 py-2">
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Vendor <span className="text-red-600 text-[20px]">*</span>
+              <label className={fieldLabelClass}>
+                Vendor <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
                 <input
@@ -543,22 +448,21 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   value={selectedVendor}
                   // placeholder="Enter "
                   readOnly
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${selectedVendor ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={fieldClass(false)}
                 />
               </div>
 
               {/* {vendorError && (
-                <ErrorMessage message={vendorError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={vendorError} type="error" />
               )} */}
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 flex justify-between">
+              <label className={`${fieldLabelClass} flex justify-between`}>
                 <span>
                   {" "}
                   Paid Amount (INR){" "}
-                  <span className="text-red-500 text-[20px]">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </span>
                 <p className="mt-1 text-right text-xs text-gray-600 mb-0">
                   Due Amount{" "}
@@ -575,8 +479,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
                   onWheel={(e) => e.target.blur()}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${paidAmount ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={fieldClass(!!paidAmountError)}
                 />
                 <button
                   onClick={handleSetAmount}
@@ -587,26 +490,26 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
               </div>
 
               {paidAmountError && (
-                <ErrorMessage message={paidAmountError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paidAmountError} type="error" />
               )}
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Balance payable If (Outstanding){" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <input
                 type="text"
                 value={finalOutstanding}
                 readOnly
-                className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700"
+                className={fieldClass()}
               />
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Paid Date <span className="text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Paid Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
                 <DatePicker
@@ -618,9 +521,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   placeholderText="Select Date"
                   customInput={<input ref={paidDateRef} />}
                   maxDate={new Date()}
-                  className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
-                  ${paidDateError ? "border-red-500" : "border-[#D9D9D9]"
-                    } focus:outline-none`}
+                  className={datePickerInputClass(!!paidDateError)}
                 />
 
                 <Calendar
@@ -630,14 +531,14 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 />
               </div>
               {paidDateError && (
-                <ErrorMessage message={paidDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paidDateError} type="error" />
               )}
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Payment method{" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <Select
                 value={paymentMethod}
@@ -648,7 +549,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 }}
                 options={paymentOptionsV1}
                 placeholder="Select Payment Method"
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!paymentMethodError)}
                 isSearchable={false}
                 components={{
                   Option,
@@ -660,12 +561,12 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
               />
 
               {paymentMethodError && (
-                <ErrorMessage message={paymentMethodError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
               )}
             </div>
 
             <div className="mb-2 relative">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Transaction ID
               </label>
               <input
@@ -673,8 +574,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={fieldClass()}
               />
             </div>
             <input
@@ -688,7 +588,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
             {attachments?.length === 0 && (
               <div className="mb-2">
-                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                <label className={fieldLabelClass}>
                   Attachments/Proofs (If any)
                 </label>
 
@@ -806,7 +706,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
             )}
 
             <div className="mb-2 mt-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Description
               </label>
               <textarea
@@ -879,7 +779,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                               }
                               max={item.totalBalance}
                               onWheel={(e) => e.target.blur()}
-                              className="w-28 h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px] font-medium focus:outline-none focus:border-[#1E45E1]"
+                              className={fieldClass(!!error)}
                               placeholder="₹ 0.00"
                             />
                           </td>
@@ -903,7 +803,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
             {error && (
               <div className="my-2">
                 {" "}
-                <ErrorMessage message={error} type="error" />{" "}
+                <ErrorMessage className="mt-[6px]" message={error} type="error" />{" "}
               </div>
             )}
 

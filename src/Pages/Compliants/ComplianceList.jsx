@@ -20,6 +20,11 @@ import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
+import {
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 
 const ComplianceList = (props) => {
@@ -1136,7 +1141,7 @@ const ComplianceList = (props) => {
 
 
                       {/* {state.createAccount?.networkError ?
-                        <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={state.createAccount?.networkError} type="error" />
                         : null} */}
 
 
@@ -1144,7 +1149,7 @@ const ComplianceList = (props) => {
 
                     </Modal.Body>
                     {commentError && (
-                      <ErrorMessage message={commentError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={commentError} type="error" />
 
                     )}
                     <Modal.Footer className="p-2 border-0">
@@ -1195,8 +1200,8 @@ const ComplianceList = (props) => {
                       <div className="mt-2">
                         <div className="w-full">
                           <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-900 font-gilroy">
-                              Change Status <span className="text-red-500 text-xl">*</span>
+                            <label className={fieldLabelClass}>
+                              Change Status <span className={fieldRequiredClass}>*</span>
                             </label>
                             <Select
                               options={[
@@ -1211,69 +1216,22 @@ const ComplianceList = (props) => {
                                   : null
                               }
                               placeholder="Select a Status"
-                              classNamePrefix="custom"
                               styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  height: "46px",
-                                  border: "1px solid #D9D9D9",
-                                  borderRadius: "8px",
-                                  fontSize: "16px",
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  textTransform: "capitalize",
-                                }),
-                                menu: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
-                                  textTransform: "capitalize",
-                                }),
-                                menuList: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  maxHeight: "120px",
-                                  padding: 0,
-                                  overflowY: "auto",
-                                  fontFamily: "Gilroy",
-                                  textTransform: "capitalize",
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  textTransform: "capitalize",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  cursor: "pointer",
-                                }),
-                                option: (base, state) => ({
-                                  ...base,
-                                  cursor: "pointer",
-                                  backgroundColor: state.isFocused ? "lightblue" : "white",
-                                  color: "#000",
-                                  textTransform: "capitalize",
-                                }),
-                                indicatorSeparator: () => ({
-                                  display: "none",
-                                }),
+                                ...fieldSelectStyles(!!statusError),
+                                menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                               }}
                             />
                           </div>
 
                           {statusError.trim() !== "" && (
                             <div className="flex justify-center mb-1">
-                              <ErrorMessage message={statusError} type="error" />
+                              <ErrorMessage className="mt-[6px]" message={statusError} type="error" />
                             </div>
                           )}
 
                           {state.ComplianceList?.complianceChangeError && (
                             <div className="flex justify-center mb-1">
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={state.ComplianceList?.complianceChangeError}
                                 type="error"
                               />
@@ -1283,7 +1241,7 @@ const ComplianceList = (props) => {
                       </div>
 
                       {/* {state.createAccount?.networkError ?
-                        <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={state.createAccount?.networkError} type="error" />
                         : null} */}
                     </Modal.Body>
 
@@ -1333,8 +1291,8 @@ const ComplianceList = (props) => {
                       <div className="w-full">
                         <div className="mb-2">
 
-                          <label className="block mb-2 text-base font-medium text-gray-900 font-gilroy">
-                            Assign Complaint <span className="text-red-500 text-xl">*</span>
+                          <label className={fieldLabelClass}>
+                            Assign Complaint <span className={fieldRequiredClass}>*</span>
                           </label>
 
                           <Select
@@ -1361,57 +1319,15 @@ const ComplianceList = (props) => {
                                 : null
                             }
                             placeholder="Select a Staff"
-                            classNamePrefix="custom"
                             styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "46px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused ? "lightblue" : "white",
-                                color: "#000",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
+                              ...fieldSelectStyles(!!statusErrorType),
+                              menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                             }}
                           />
 
                           {statusErrorType.trim() !== "" && (
                             <div className="flex justify-center mt-1">
-                              <ErrorMessage message={statusErrorType} type="error" />
+                              <ErrorMessage className="mt-[6px]" message={statusErrorType} type="error" />
                             </div>
                           )}
                         </div>
@@ -1420,7 +1336,7 @@ const ComplianceList = (props) => {
 
                       {state.ComplianceList?.complianceAssignChangeError &&
 
-                        <ErrorMessage message={state.ComplianceList.complianceAssignChangeError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={state.ComplianceList.complianceAssignChangeError} type="error" />
 
                       }
                     </Modal.Body>

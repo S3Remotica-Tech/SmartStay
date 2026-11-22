@@ -15,6 +15,12 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage';
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function CustomerForm({ show, handleClose, initialData }) {
   const [name, setName] = useState('');
@@ -586,54 +592,35 @@ function CustomerForm({ show, handleClose, initialData }) {
           <div className="row mt-2">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
               <Form.Group controlId="formCustomerName" className="mb-3">
-                <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                <Form.Label className={fieldLabelClass}>
                   First Name
                   <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control className={fieldClass(!!nameError)}
                   type="text"
                   placeholder="Enter First Name"
                   value={name}
                   ref={nameRef}
                   onChange={handleNameChange}
-                  style={{
-                    height: "50px",
-                    borderRadius: "8px",
-                    fontSize: '16px',
-                    fontFamily: 'Gilroy',
-                    color: '#4B4B4B',
-                    fontWeight: 500,
-                    boxShadow: 'none',
-                    border: '1px solid #D9D9D9'
-                  }}
+                 
                 />
               </Form.Group>
               {nameError && (
-                <ErrorMessage message={nameError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={nameError} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group controlId="formCustomerName" className="mb-3">
-                <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                <Form.Label className={fieldLabelClass}>
                   Last Name
 
                 </Form.Label>
-                <Form.Control
+                <Form.Control className={fieldClass()}
                   type="text"
                   placeholder="Enter Last Name"
                   value={lastname}
                   onChange={handleLastNameChange}
-                  style={{
-                    height: "50px",
-                    borderRadius: "8px",
-                    fontSize: '16px',
-                    fontFamily: 'Gilroy',
-                    color: '#4B4B4B',
-                    fontWeight: 500,
-                    boxShadow: 'none',
-                    border: '1px solid #D9D9D9',
-                    marginTop: 6
-                  }}
+                 
                 />
               </Form.Group>
 
@@ -642,97 +629,57 @@ function CustomerForm({ show, handleClose, initialData }) {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
               <Form.Group controlId="formCustomerMobile" className="mb-3">
-                <Form.Label style={{
-                  fontSize: '14px',
-                  color: '#222222',
-                  fontFamily: 'Gilroy',
-                  fontWeight: 500
-                }}>
+                <Form.Label className={fieldLabelClass}>
                   Mobile Number
                   <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                 </Form.Label>
 
                 <InputGroup>
-                  <Form.Select
+                  <Form.Select className={fieldClass()}
                     value={countryCode}
                     ref={countryCodeRef}
                     id="vendor-select-pg"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px 0 0 8px",
-                      height: 50,
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: countryCode ? 600 : 500,
-                      boxShadow: "none",
-                      backgroundColor: "#fff",
-                      maxWidth: 90,
-                      paddingRight: 10,
-                      cursor: "pointer",
-                    }}
+                   
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>
-                  <Form.Control
+                  <Form.Control className={fieldClass(!!mobileError)}
                     value={mobile}
                     ref={mobileRef}
                     onChange={handlePhone}
                     type="text"
                     placeholder="9876543210"
                     maxLength={10}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: mobile ? 600 : 500,
-                      boxShadow: "none",
-                      borderLeft: "unset",
-                      borderRight: "1px solid #D9D9D9",
-                      borderTop: "1px solid #D9D9D9",
-                      borderBottom: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: "0 8px 8px 0",
-                    }}
+                   
                   />
                 </InputGroup>
               </Form.Group>
 
               {mobileError && (
-                <ErrorMessage message={mobileError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={mobileError} type="error" />
 
               )}
               {countryCodeError && (
-                <ErrorMessage message={countryCodeError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={countryCodeError} type="error" />
               )}
               {state.UsersList.alreadyHere && (
-                <ErrorMessage message={state.UsersList.alreadyHere} type="error" />
+                <ErrorMessage className="mt-[6px]" message={state.UsersList.alreadyHere} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group controlId="formCustomerEmail" className="mb-3">
-                <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                <Form.Label className={fieldLabelClass}>
                   Email ID
                 </Form.Label>
-                <Form.Control
+                <Form.Control className={fieldClass(!!emailError)}
                   type="email"
                   placeholder="Enter Email ID"
                   value={email}
                   onChange={handleEmailChange}
-                  style={{
-                    height: "50px",
-                    borderRadius: "8px",
-                    fontSize: '16px',
-                    fontFamily: 'Gilroy',
-                    color: '#4B4B4B',
-                    fontWeight: 500,
-                    boxShadow: 'none',
-                    border: '1px solid #D9D9D9',
-                    marginTop: 6
-                  }}
+                 
                 />
                 {emailError && (
-                  <ErrorMessage message={emailError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={emailError} type="error" />
                 )}
               </Form.Group>
 
@@ -745,109 +692,67 @@ function CustomerForm({ show, handleClose, initialData }) {
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
               <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Flat , House no , Building , Company , Apartment {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl
+                <FormControl className={fieldClass(!!house_noError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter House No"
                   value={house_no}
                   onChange={(e) => handleHouseNo(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
               </Form.Group>
               {house_noError && (
-                <ErrorMessage message={house_noError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={house_noError} type="error" />
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Area , Street , Sector , Village{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl
+                <FormControl className={fieldClass(!!streetError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter Street"
                   value={street}
                   onChange={(e) => handleStreetName(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
               </Form.Group>
               {streetError && (
-                <ErrorMessage message={streetError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={streetError} type="error" />
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Landmark{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl
+                <FormControl className={fieldClass(!!landmarkError)}
                   type="text"
                   id="form-controls"
                   placeholder="E.g , near appollo hospital"
                   value={landmark}
                   onChange={(e) => handleLandmark(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
               </Form.Group>
               {landmarkError && (
-                <ErrorMessage message={landmarkError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={landmarkError} type="error" />
               )}
             </div>
 
@@ -855,18 +760,13 @@ function CustomerForm({ show, handleClose, initialData }) {
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput1">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Pincode
                   <span style={{ color: "red", fontSize: "20px" }}></span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control className={fieldClass(!!pincodeError)}
                   value={pincode}
                   onChange={(e) => handlePinCodeChange(e)}
                   type="tel"
@@ -874,19 +774,10 @@ function CustomerForm({ show, handleClose, initialData }) {
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="Enter Pincode"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: pincode ? 600 : 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
                 {pincodeError && (
-                  <ErrorMessage message={pincodeError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={pincodeError} type="error" />
                 )}
 
 
@@ -895,51 +786,30 @@ function CustomerForm({ show, handleClose, initialData }) {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Town/City{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl
+                <FormControl className={fieldClass(!!cityError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter City"
                   value={city}
                   onChange={(e) => handleCity(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
               </Form.Group>
               {cityError && (
-                <ErrorMessage message={cityError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={cityError} type="error" />
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#222",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   State
                 </Form.Label>
@@ -964,75 +834,32 @@ function CustomerForm({ show, handleClose, initialData }) {
                     return inputValue;
                   }}
                   placeholder="Select State"
-                  classNamePrefix="custom"
                   menuPlacement="auto"
                   noOptionsMessage={() => "No state available"}
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: state_name ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
+                    ...fieldSelectStyles(),
+                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
                 />
               </Form.Group>
 
               {state_nameError && (
-                <ErrorMessage message={state_nameError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={state_nameError} type="error" />
               )}
             </div>
 
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{ marginTop: "-5px" }}>
               <Form.Group controlId="purchaseDate">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                <Form.Label className={fieldLabelClass}>
                   Walk-In Date
                   <span style={{ color: 'red', fontSize: '20px', }}>*</span>
                 </Form.Label>
 
 
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", marginTop: "-2px" }}>
-                  <DatePicker
+                  <DatePicker className={datePickerClass(!!walkInDateError)}
                     ref={walkInDateRef}
-                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                   
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={walkInDate ? dayjs(walkInDate) : null}
@@ -1050,17 +877,17 @@ function CustomerForm({ show, handleClose, initialData }) {
                 </div>
               </Form.Group>
               {walkInDateError && (
-                <ErrorMessage message={walkInDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={walkInDateError} type="error" />
               )}
               {joiningDateErrmsg.trim() !== "" && (
-                <ErrorMessage message={joiningDateErrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={joiningDateErrmsg} type="error" />
               )}
 
             </div>
 
             {isChangedError && (
               <div ref={noChangesRef} className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-               <ErrorMessage message={isChangedError} type="error" />
+               <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
               </div>
             )}
           </div>
@@ -1097,7 +924,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         }
         <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='pt-1' >
           {generalError && (
-             <ErrorMessage message={generalError} type="error" />
+             <ErrorMessage className="mt-[6px]" message={generalError} type="error" />
           )}
 
 

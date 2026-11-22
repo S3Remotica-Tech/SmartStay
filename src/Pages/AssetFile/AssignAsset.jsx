@@ -14,6 +14,12 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function StaticExample({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -290,17 +296,17 @@ function StaticExample({ show, handleClose, currentItem }) {
           </Modal.Header>
           <Modal.Body className="py-2.5 px-4 mb-3">
             {generalError && (
-              <ErrorMessage message={generalError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={generalError} type="error" />
             )}
 
             {state.AssetList.assetError ? (
-              <ErrorMessage message={state.AssetList.assetError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={state.AssetList.assetError} type="error" />
             ) : null}
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-3">
               <div className="col-span-12">
-                <Form.Label className="text-sm font-medium font-gilroy">
-                  Floor <span className="text-red-500 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Floor <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <Select
@@ -324,58 +330,21 @@ function StaticExample({ show, handleClose, currentItem }) {
                       : null
                   }
                   placeholder="Select a Floor"
-                  classNamePrefix="custom"
                   menuPlacement="auto"
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    indicatorSeparator: () => ({ display: "none" }),
-
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isSelected
-                        ? "#1E45E1"
-                        : state.isFocused
-                          ? "#E8EEFF"
-                          : "white",
-
-                      color: state.isSelected ? "#fff" : "#000",
-                    }),
+                    ...fieldSelectStyles(!!floorError),
+                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
                 />
 
                 {floorError && (
-                  <ErrorMessage message={floorError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
                 )}
               </div>
 
               <div className="col-span-12 lg:col-span-6 mt-1">
-                <Form.Label className="text-sm font-medium text-[#222] font-gilroy">
-                  Select a Room <span className="text-red-500 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Select a Room <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <Select
@@ -396,64 +365,24 @@ function StaticExample({ show, handleClose, currentItem }) {
                       : null
                   }
                   placeholder="Select a Room"
-                  classNamePrefix="custom"
                   menuPlacement="top"
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      minHeight: "50px",
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      maxHeight: "130px",
-                      overflowY: "auto",
-                      scrollBehavior: "smooth",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "16px",
-                      backgroundColor: state.isSelected
-                        ? "#1E45E1"
-                        : state.isFocused
-                          ? "#E8EEFF"
-                          : "white",
-                      cursor: "pointer",
-                      color: state.isSelected ? "#fff" : "#000",
-                    }),
-                    indicatorSeparator: () => ({ display: "none" }),
+                    ...fieldSelectStyles(!!roomError),
+                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "130px" }),
                   }}
                 />
 
-                {roomError && <ErrorMessage message={roomError} type="error" />}
+                {roomError && <ErrorMessage className="mt-[6px]" message={roomError} type="error" />}
               </div>
 
               <div className="col-span-12 lg:col-span-6 mt-1">
-                <Form.Label className="text-sm font-medium text-[#222] font-gilroy">
-                  Date <span className="text-red-500 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Date <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <div className="relative w-full cursor-pointer">
-                  <DatePicker
-                    style={{
-                      width: "100%",
-                      height: 48,
-                      fontFamily: "Gilroy",
-                    }}
+                  <DatePicker className={datePickerClass(!!dateError)}
+                   
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -484,7 +413,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                   />
                 </div>
 
-                {dateError && <ErrorMessage message={dateError} type="error" />}
+                {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />}
               </div>
             </div>
           </Modal.Body>
@@ -505,7 +434,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
           {noChangeError && (
             <div className="flex justify-center mt-1 mb-1">
-              <ErrorMessage message={noChangeError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={noChangeError} type="error" />
             </div>
           )}
           <Modal.Footer className="mt-1 pt-1 border-0">

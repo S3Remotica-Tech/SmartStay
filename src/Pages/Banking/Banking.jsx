@@ -27,6 +27,11 @@ import { Setting3, SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import SelfTransfer from "./SelfTransfer";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -989,41 +994,41 @@ function Banking() {
             <Modal.Body className="pt-2">
               <div className="w-full">
                 <Form.Group className="mb-2">
-                  <Form.Label className="!text-[14px] !text-[#222222] !font-gilroy !font-medium">
+                  <Form.Label className={fieldLabelClass}>
                     Account{" "}
-                    <span className="text-red-500 text-[20px]"> * </span>
+                    <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
                     id="form-controls"
                     placeholder="Enter Account"
                     value={AddBankName}
-                    className="text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+                    className={fieldClass()}
                   />
                 </Form.Group>
               </div>
 
               <div className="w-full">
                 <Form.Group className="mb-3">
-                  <Form.Label className="text-[0.875rem] text-[#222222] font-gilroy font-medium">
+                  <Form.Label className={fieldLabelClass}>
                     Balance {""}
-                    <span className="text-red-500 text-[20px]"> * </span>
+                    <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
                     placeholder="Enter Amount"
                     value={AddBankAmount}
                     onChange={(e) => handleAddBankAmount(e)}
-                    className="text-[1rem] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+                    className={fieldClass(!!amountError)}
                   />
                   {amountError && (
-                    <ErrorMessage message={amountError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
                   )}
                 </Form.Group>
 
                 {/* {state.createAccount?.networkError ?
                 <div className="d-flex justify-content-center mt-1 mb-1">
-                  <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={state.createAccount?.networkError} type="error" />
                   </div>
                   : null} */}
 

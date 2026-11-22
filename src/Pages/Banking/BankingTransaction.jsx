@@ -12,6 +12,13 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -254,20 +261,9 @@ function BankingEditTransaction(props) {
         <Modal.Body className="pt-2">
           <div className="row ">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
+              <Form.Label className={fieldLabelClass}>
                 Account{" "}
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "20px",
-                  }}
-                >
+                <span className={fieldRequiredClass}>
                   {" "}
                   *{" "}
                 </span>
@@ -302,87 +298,31 @@ function BankingEditTransaction(props) {
                     : null
                 }
                 placeholder="Selected Account"
-                classNamePrefix="custom"
                 menuPlacement="auto"
                 noOptionsMessage={() => "No accounts available"}
                 styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "50px",
-                    border: "1px solid #D9D9D9",
-                    borderRadius: "8px",
-                    fontSize: "16px",
-                    color: "#4B4B4B",
-                    fontWeight: "500",
-                    fontFamily: "Gilroy",
-                    boxShadow: "none",
-                    backgroundColor: "rgb(224, 236, 255)",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    border: "1px solid #ced4da",
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    maxHeight: "120px",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#555",
-                    cursor: "pointer",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "lightblue" : "white",
-                    color: "#000",
-                  }),
-                  indicatorSeparator: () => ({
-                    display: "none",
-                  }),
+                  ...fieldSelectStyles(!!accountError),
+                  menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                 }}
               />
 
               {accountError && (
-                <ErrorMessage message={accountError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={accountError} type="error" />
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Date<span style={{ color: "red", fontSize: "20px" }}>*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Date<span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <div
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker
-                    style={{
-                      width: "100%",
-                      height: 48,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                    }}
+                  <DatePicker className={datePickerClass(!!dateError)}
+                   
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -407,81 +347,42 @@ function BankingEditTransaction(props) {
                 </div>
               </Form.Group>
 
-              {dateError && <ErrorMessage message={dateError} type="error" />}
+              {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Amount{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  <span className={fieldRequiredClass}> * </span>
                 </Form.Label>
-                <FormControl
+                <FormControl className={fieldClass(!!amountError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter Amount"
                   value={amount}
                   onChange={(e) => handleAmount(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
               </Form.Group>
               {amountError && (
-                <ErrorMessage message={amountError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
               )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
+              <Form.Label className={fieldLabelClass}>
                 Transaction{" "}
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "20px",
-                  }}
-                >
+                 <span className={fieldRequiredClass}>
                   {" "}
                   *{" "}
                 </span>
               </Form.Label>
-              <Form.Select
+              <Form.Select className={fieldClass()}
                 disabled
                 aria-label="Default select example"
-                className="border"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                  cursor: "pointer",
-                  backgroundColor: "rgb(224, 236, 255)",
-                }}
+               
+               
                 value={transaction}
                 onChange={(e) => handleTransaction(e)}
               >
@@ -489,37 +390,20 @@ function BankingEditTransaction(props) {
                 <option value={1}>Credit</option>
                 <option value={2}>Debit</option>
               </Form.Select>
-              {transError && <ErrorMessage message={transError} type="error" />}
+              {transError && <ErrorMessage className="mt-[6px]" message={transError} type="error" />}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    marginTop: 5,
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Description{" "}
                 </Form.Label>
-                <FormControl
+                <FormControl className={fieldClass()}
                   type="text"
                   id="form-controls"
                   placeholder="Enter description"
                   value={describtion}
                   onChange={(e) => handleDescription(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                 
                 />
               </Form.Group>
             </div>
@@ -552,7 +436,7 @@ function BankingEditTransaction(props) {
             ></div>
           </div>
         )}
-        {error && <ErrorMessage message={error} type="error" />}
+        {error && <ErrorMessage className="mt-[6px]" message={error} type="error" />}
         <Modal.Footer
           className="d-flex justify-content-center"
           style={{ borderTop: "none" }}

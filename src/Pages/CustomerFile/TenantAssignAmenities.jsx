@@ -11,107 +11,13 @@ import { CloseCircle } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import ErrorMessage from "../../Components/ErrorMessage";
 import Image from "react-bootstrap/Image";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "50px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function TenantAmenities({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -427,8 +333,8 @@ function TenantAmenities({ show, handleClose }) {
             </div>
 
             <div className="w-full mb-3 -mt-2.5">
-              <Form.Label className="text-[14px] font-medium font-gilroy ml-1">
-                Amenities <span className="text-red-500 text-[20px]">*</span>
+              <Form.Label className={fieldLabelClass}>
+                Amenities <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
               <Select
@@ -451,23 +357,22 @@ function TenantAmenities({ show, handleClose }) {
                   handleselect(e);
                 }}
                 options={amenityOptions}
-                classNamePrefix="custom"
                 menuPlacement="auto"
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!amnityError)}
               />
               {amnityError && (
-                <ErrorMessage message={amnityError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={amnityError} type="error" />
               )}
             </div>
 
             <div className="w-full mb-3 px-2">
-              <label className="mb-1 text-[14px] font-medium font-gilroy">
+              <label className={fieldLabelClass}>
                 Amount
               </label>
               <Form.Control
                 placeholder="Amount"
                 aria-label="Recipient's username"
-                className="border rounded-[8px] h-[45px] text-gray-500 text-[16px] font-medium font-gilroy placeholder:text-gray-400 placeholder:text-[12px] opacity-100"
+                className={fieldClass()}
                 aria-describedby="basic-addon2"
                 value={createby[0]?.price}
                 disabled
@@ -476,16 +381,16 @@ function TenantAmenities({ show, handleClose }) {
 
             {statusShow && (
               <div className="mb-3 px-2">
-                <label className="mb-1 text-[14px] font-medium font-gilroy">
+                <label className={fieldLabelClass}>
                   Select Status{" "}
-                  <span className="text-red-500 text-[20px]">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </label>
 
                 <Form.Select
                   aria-label="Default select example"
                   value={statusAmni}
                   onChange={(e) => handleStatusAmnities(e)}
-                  className="border text-[16px] bg-transparent h-[45px] rounded-[8px] opacity-100 font-medium font-gilroy text-gray-500 cursor-pointer"
+                  className={fieldClass()}
                 >
                   <option className="text-[16px] font-medium font-gilroy opacity-100">
                     Select Status
@@ -505,7 +410,7 @@ function TenantAmenities({ show, handleClose }) {
                   </option>
                 </Form.Select>
                 {selectError && (
-                  <ErrorMessage message={selectError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={selectError} type="error" />
                 )}
               </div>
             )}

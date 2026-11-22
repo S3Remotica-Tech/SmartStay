@@ -17,6 +17,13 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function CreateBill() {
   const navigate = useNavigate();
@@ -244,24 +251,11 @@ function CreateBill() {
       >
         <FormControl
           type="text"
-          className="date_input"
+          className={fieldClass()}
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+         
         />
         <img
           src={Calendars}
@@ -296,24 +290,11 @@ function CreateBill() {
       >
         <FormControl
           type="text"
-          className="date_input"
+          className={fieldClass()}
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+         
         />
         <img
           src={Calendars}
@@ -349,24 +330,11 @@ function CreateBill() {
       >
         <FormControl
           type="text"
-          className="date_input"
+          className={fieldClass()}
           value={value || "DD/MM/YYYY"}
           readOnly
           ref={ref}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-          }}
+         
         />
         <img
           src={Calendars}
@@ -402,24 +370,11 @@ function CreateBill() {
         >
           <FormControl
             type="text"
-            className="date_input"
+            className={fieldClass()}
             value={value || "DD/MM/YYYY"}
             readOnly
             ref={ref}
-            style={{
-              border: "1px solid #D9D9D9",
-              borderRadius: 8,
-              padding: 9,
-              fontSize: 14,
-              fontFamily: "Gilroy",
-              fontWeight: value ? 600 : 500,
-              width: "100%",
-              height: 50,
-              boxSizing: "border-box",
-              boxShadow: "none",
-              backgroundColor: "#fff",
-              cursor: "pointer",
-            }}
+           
           />
           <img
             src={Calendars}
@@ -820,8 +775,8 @@ function CreateBill() {
       <div className="grid grid-cols-10  gap-4 mt-2 flex items-stretch">
         <div className="col-span-4">
           <div className="mb-3">
-            <label className="font-[Gilroy] text-[14px] font-medium text-[#222]">
-              Select Tenant <span className="text-red-500 text-[20px]">*</span>
+            <label className={fieldLabelClass}>
+              Select Tenant <span className={fieldRequiredClass}>*</span>
             </label>
 
             <Select
@@ -833,64 +788,23 @@ function CreateBill() {
               }
               isDisabled={billData || isDisabledOverview}
               placeholder="Select Customer"
-              classNamePrefix="custom"
               menuPlacement="auto"
               noOptionsMessage={() => "No customers available"}
               styles={{
-                control: (base) => ({
-                  ...base,
-                  padding: "3px 5px",
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "8px",
-                  fontSize: "16px",
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: customername ? 600 : 500,
-                  boxShadow: "none",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #ced4da",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  maxHeight: "120px",
-                  padding: 0,
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#555",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#555",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                  color: "#000",
-                }),
+                ...fieldSelectStyles(!!customererrmsg),
+                menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
               }}
             />
 
             {customererrmsg.trim() !== "" && (
-              <ErrorMessage message={customererrmsg} type="error" />
+              <ErrorMessage className="mt-[6px]" message={customererrmsg} type="error" />
             )}
           </div>
         </div>
 
         <div className="col-span-4">
           <div className="mb-1 mt-1">
-            <label className="font-[Gilroy] text-[14px] font-medium text-[#222]">
+            <label className={fieldLabelClass}>
               Invoice Number
             </label>
 
@@ -900,11 +814,11 @@ function CreateBill() {
               placeholder="Enter Invoice Number"
               value={invoicenumber || ""}
               onChange={handleInvoiceChange}
-              className="w-full h-[48px] px-[10px] py-[12px] text-[16px] text-[#4B4B4B] font-[Gilroy] font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0"
+              className={fieldClass(!!invoicenumbererrmsg)}
             />
 
             {invoicenumbererrmsg.trim() !== "" && (
-              <ErrorMessage message={invoicenumbererrmsg} type="error" />
+              <ErrorMessage className="mt-[6px]" message={invoicenumbererrmsg} type="error" />
             )}
           </div>
         </div>
@@ -913,13 +827,13 @@ function CreateBill() {
       <div className="grid grid-cols-1 md:grid-cols-10 gap-4 mb-2 flex items-stretch">
         <div className="col-span-1 md:col-span-4">
           <p className="mt-1 mb-1 text-[14px] text-[#222] font-[Gilroy] font-medium">
-            Invoice Date <span className="text-red-500 text-[20px]">*</span>
+            Invoice Date <span className={fieldRequiredClass}>*</span>
           </p>
 
           <div className="relative w-full datepicker-wrapper">
             <DatePicker
               disabled={billData}
-              className="w-full h-[48px] cursor-pointer font-[Gilroy]"
+              className={datePickerClass(!!invoicedateerrmsg)}
               format="DD/MM/YYYY"
               placeholder="DD/MM/YYYY"
               value={invoicedate ? dayjs(invoicedate) : null}
@@ -944,14 +858,14 @@ function CreateBill() {
           </div>
 
           {invoicedateerrmsg.trim() !== "" && (
-            <ErrorMessage message={invoicedateerrmsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={invoicedateerrmsg} type="error" />
           )}
         </div>
 
         <div className="col-span-1 md:col-span-4">
           <p className="mt-3 mb-1 text-[14px] text-[#222] font-[Gilroy] font-medium">
             Select Type{" "}
-            {/* <span className="text-red-500 text-[20px] hidden">*</span> */}
+            {/* <span className={`${fieldRequiredClass} hidden`}>*</span> */}
           </p>
           <Select
             value={
@@ -973,35 +887,7 @@ function CreateBill() {
               { value: "Other", label: "Other" },
             ]}
             isSearchable={false}
-            classNamePrefix="custom"
-            styles={{
-              control: (base) => ({
-                ...base,
-                border: "1px solid #D9D9D9",
-                borderRadius: "8px",
-                padding: "4px 6px",
-                fontSize: "16px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                color: "#4B4B4B",
-                boxShadow: "none",
-                cursor: "pointer",
-              }),
-              menu: (base) => ({
-                ...base,
-                zIndex: 9999,
-                fontFamily: "Gilroy",
-              }),
-              option: (base, state) => ({
-                ...base,
-                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                color: "#000",
-                cursor: "pointer",
-              }),
-              indicatorSeparator: () => ({
-                display: "none",
-              }),
-            }}
+            styles={fieldSelectStyles()}
           />
         </div>
       </div>
@@ -1038,7 +924,7 @@ function CreateBill() {
                           });
                         }}
                         placeholder="Enter Description"
-                        className="w-full border border-[#D9D9D9] rounded px-2 py-1 outline-none"
+                        className={fieldClass()}
                       />
                     </div>
 
@@ -1059,7 +945,7 @@ function CreateBill() {
                             return updated;
                           });
                         }}
-                        className="w-full border border-[#D9D9D9] rounded px-2 py-1 outline-none"
+                        className={fieldClass()}
                       />
                     </div>
 
@@ -1084,7 +970,7 @@ function CreateBill() {
 
                       <div className="col-span-5 text-red-600 text-xs">
                         {rowErrors[index]?.am_name && (
-                          <ErrorMessage
+                          <ErrorMessage className="mt-[6px]"
                             message={rowErrors[index].am_name}
                             type="error"
                           />
@@ -1093,7 +979,7 @@ function CreateBill() {
 
                       <div className="col-span-3 text-red-500 text-xs">
                         {rowErrors[index]?.amount && (
-                          <ErrorMessage
+                          <ErrorMessage className="mt-[6px]"
                             message={rowErrors[index].amount}
                             type="error"
                           />
@@ -1143,13 +1029,13 @@ function CreateBill() {
       </div>
       <div>
         {allfielderrmsg.trim() !== "" && (
-          <ErrorMessage message={allfielderrmsg} type="error" />
+          <ErrorMessage className="mt-[6px]" message={allfielderrmsg} type="error" />
         )}
         {tableErrmsg.trim() !== "" && (
-          <ErrorMessage message={tableErrmsg} type="error" />
+          <ErrorMessage className="mt-[6px]" message={tableErrmsg} type="error" />
         )}
         {state.InvoiceList.unableAddInvoiceDetailsError && (
-          <ErrorMessage
+          <ErrorMessage className="mt-[6px]"
             message={state.InvoiceList.unableAddInvoiceDetailsError}
             type="error"
           />
@@ -1157,7 +1043,7 @@ function CreateBill() {
 
         {state.InvoiceList.recurringEditError && (
           <div className="flex justify-center my-1">
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.InvoiceList.recurringEditError}
               type="error"
             />

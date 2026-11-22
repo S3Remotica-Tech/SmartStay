@@ -18,6 +18,13 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 const CheckOutForm = ({
   uniqueostel_Id,
@@ -351,57 +358,6 @@ const CheckOutForm = ({
     setDateDifference(null);
   };
 
-  const customStyles = {
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-      color: "#000",
-    }),
-  };
 
   const formatOptions = () => {
     return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
@@ -516,114 +472,73 @@ const CheckOutForm = ({
                 <div className="row row-gap-2">
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                     <div className="form-group">
-                      <label
-                        className="mt-2"
-                        style={{
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
+                      <label className={fieldLabelClass}
+                       
+                       
                       >
                         Customer{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
+                        <span className={fieldRequiredClass}>
                           *
                         </span>
                       </label>
                       <Select
-                        styles={customStyles}
+                        styles={fieldSelectStyles(!!customerWError)}
                         value={formatOptions().find(
                           (opt) => opt.value === selectedCustomer,
                         )}
                         onChange={handleCustomerChange}
                         options={formatOptions()}
                         placeholder="Select a customer"
-                        classNamePrefix="custom"
                         menuPlacement="auto"
                       />
 
                       {customerWError && (
-                        <ErrorMessage message={customerWError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={customerWError} type="error" />
                       )}
                     </div>
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
+                      <Form.Label className={fieldLabelClass}
+                       
                       >
                         Current Floor{" "}
                       </Form.Label>
-                      <FormControl
+                      <FormControl className={fieldClass()}
                         id="form-controls"
                         placeholder="Current Floor"
                         type="text"
                         value={floorname}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #E7F1FF",
-                          height: 50,
-                          borderRadius: 8,
-                          backgroundColor: "#E7F1FF",
-                        }}
+                       
                       />
                     </Form.Group>
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
+                      <Form.Label className={fieldLabelClass}
+                       
                       >
                         Current Bed{" "}
                       </Form.Label>
-                      <FormControl
+                      <FormControl className={fieldClass()}
                         id="form-controls"
                         placeholder="Current Bed"
                         type="text"
                         value={bedname}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #E7F1FF",
-                          height: 50,
-                          borderRadius: 8,
-                          backgroundColor: "#E7F1FF",
-                        }}
+                       
                       />
                     </Form.Group>
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
+                      <Form.Label className={fieldLabelClass}
+                       
                       >
                         Request Date{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
+                        <span className={fieldRequiredClass}>
                           *
                         </span>
                       </Form.Label>
@@ -632,13 +547,8 @@ const CheckOutForm = ({
                         className="datepicker-wrapper"
                         style={{ position: "relative", width: "100%" }}
                       >
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                            height: 48,
-                            cursor: "pointer",
-                            fontFamily: "Gilroy",
-                          }}
+                        <DatePicker className={datePickerClass(!!checkoUtrequestDateError)}
+                         
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
                           value={
@@ -659,7 +569,7 @@ const CheckOutForm = ({
                       </div>
                     </Form.Group>
                     {checkoUtrequestDateError && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={checkoUtrequestDateError}
                         type="error"
                       />
@@ -668,16 +578,11 @@ const CheckOutForm = ({
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
+                      <Form.Label className={fieldLabelClass}
+                       
                       >
                         Check-Out Date{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
+                        <span className={fieldRequiredClass}>
                           *
                         </span>
                       </Form.Label>
@@ -686,13 +591,8 @@ const CheckOutForm = ({
                         className="datepicker-wrapper"
                         style={{ position: "relative", width: "100%" }}
                       >
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                            height: 48,
-                            cursor: "pointer",
-                            fontFamily: "Gilroy",
-                          }}
+                        <DatePicker className={datePickerClass(!!checkoUtDateError)}
+                         
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
                           value={checkOutDate ? dayjs(checkOutDate) : null}
@@ -706,26 +606,21 @@ const CheckOutForm = ({
                       </div>
                     </Form.Group>
                     {checkoUtDateError && (
-                      <ErrorMessage message={checkoUtDateError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={checkoUtDateError} type="error" />
                     )}
                   </div>
                   {state.UsersList.errorMessageAddCheckOut && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.UsersList.errorMessageAddCheckOut}
                       type="error"
                     />
                   )}
 
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
-                    <label
+                    <label className={fieldLabelClass}
                       htmlFor="comments"
-                      className="mt-2"
-                      style={{
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
+                     
+                     
                     >
                       Comments
                     </label>
@@ -735,19 +630,10 @@ const CheckOutForm = ({
                       id="comments"
                       value={comments}
                       onChange={handleCommentsChange}
-                      className="form-control mt-2 mb-3"
+                      className={fieldClass()}
                       placeholder="Add Comments"
                       required
-                      style={{
-                        height: "50px",
-                        borderRadius: "8px",
-                        fontSize: 16,
-                        color: comments ? "#222" : "#4b4b4b",
-                        fontFamily: "Gilroy",
-                        fontWeight: comments ? 600 : 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                      }}
+                     
                     />
                   </div>
 
@@ -771,7 +657,7 @@ const CheckOutForm = ({
 
             {isChangedError && (
               <div className="d-flex justify-content-center align-items-center">
-                <ErrorMessage message={isChangedError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
               </div>
             )}
           </Modal.Body>

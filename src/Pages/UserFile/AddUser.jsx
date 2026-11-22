@@ -10,6 +10,13 @@ import eyeClosed from "../../Assets/Images/Show_password.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldRequiredClass,
+  fieldGroupClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function User({ show, editDetails, setAddUserForm, edit }) {
   const state = useSelector((state) => state);
@@ -374,24 +381,24 @@ function User({ show, editDetails, setAddUserForm, edit }) {
           <div className="grid grid-cols-12 gap-x-6 mt-2">
             <div className="col-span-6">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                  Name <span className="text-lg text-red-500">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Name <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   value={name}
                   onChange={(e) => handleNameChange(e)}
                   type="text"
                   placeholder="Enter Name"
-                  className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
+                  className={fieldClass(!!nameError)}
                 />
               </Form.Group>
-              {nameError && <ErrorMessage message={nameError} type="error" />}
+              {nameError && <ErrorMessage className="mt-[6px]" message={nameError} type="error" />}
             </div>
 
             <div className="col-span-6 mb-1">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                  Email ID <span className="text-lg text-red-500">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Email ID <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   value={email}
@@ -400,14 +407,14 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   autoComplete="off"
                   autoCorrect="off"
                   placeholder="Enter Email ID"
-                  className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
+                  className={fieldClass(!!emailError)}
                 />
               </Form.Group>
 
-              {emailError && <ErrorMessage message={emailError} type="error" />}
+              {emailError && <ErrorMessage className="mt-[6px]" message={emailError} type="error" />}
 
               {state.Settings.emailIdError && (
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state.Settings.emailIdError}
                   type="error"
                 />
@@ -416,11 +423,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
             <div className="col-span-6 mb-1">
               <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                  Mobile No <span className="text-lg text-red-500">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Mobile No <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-[52px]">
+                <InputGroup className={`${fieldGroupClass(!!mobileError)} !px-0 overflow-hidden`}>
                   <Form.Select
                     value={countryCode}
                     autoComplete="off"
@@ -448,15 +455,15 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               </Form.Group>
 
               {mobileError && (
-                <ErrorMessage message={mobileError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={mobileError} type="error" />
               )}
 
               {countryCodeError && (
-                <ErrorMessage message={countryCodeError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={countryCodeError} type="error" />
               )}
 
               {state.Settings.phoneNumError && (
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state.Settings.phoneNumError}
                   type="error"
                 />
@@ -465,10 +472,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
             {!edit && (
               <div className="col-span-6 mb-2">
                 <Form.Group className="">
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                    Password <span className="text-lg text-red-500"> * </span>
+                  <Form.Label className={fieldLabelClass}>
+                    Password <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-12">
+                  <InputGroup className={`${fieldGroupClass(!!passwordError)} !px-0 overflow-hidden`}>
                     <FormControl
                       id="form-controls"
                       autoComplete="new-password"
@@ -498,7 +505,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 </Form.Group>
 
                 {passwordError && (
-                  <ErrorMessage message={passwordError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={passwordError} type="error" />
                 )}
               </div>
             )}
@@ -508,8 +515,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 className="mb-1"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                  Role <span className="text-lg text-red-500">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Role <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <Select
@@ -533,66 +540,15 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       : null
                   }
                   placeholder="Select a Role"
-                  classNamePrefix="custom"
                   menuPlacement="auto"
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      display: "inline-block",
-                      fill: "currentColor",
-                      lineHeight: 1,
-                      stroke: "currentColor",
-                      strokeWidth: 0,
-                      cursor: "pointer",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isSelected
-                        ? "#1E45E1"
-                        : state.isFocused
-                          ? "#E8EEFF"
-                          : "white",
-                      color: state.isSelected ? "#fff" : "#000",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
+                    ...fieldSelectStyles(!!roleError),
+                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
                 />
               </Form.Group>
 
-              {roleError && <ErrorMessage message={roleError} type="error" />}
+              {roleError && <ErrorMessage className="mt-[6px]" message={roleError} type="error" />}
             </div>
 
             <div className="col-span-6">
@@ -600,32 +556,22 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                <Form.Label className={fieldLabelClass}>
                   Description{" "}
                 </Form.Label>
-                <Form.Control
+                <Form.Control className={fieldClass(!!error)}
                   value={description}
                   onChange={handleDescriptionChange}
                   type="text"
                   placeholder="Enter Description"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                    marginTop: "6px",
-                  }}
+                 
                 />
               </Form.Group>
             </div>
           </div>
           {error && (
             <div className="flex items-center justify-center w-full">
-              <ErrorMessage message={error} type="error" />
+              <ErrorMessage className="mt-[6px]" message={error} type="error" />
             </div>
           )}
         </div>

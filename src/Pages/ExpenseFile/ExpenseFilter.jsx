@@ -12,107 +12,13 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const selectStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "30px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 12,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 function ExpenseFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -143,9 +49,6 @@ function ExpenseFilter({ show, handleClose, size }) {
   const [selectedBillStatus, setSelectedBillStatus] = useState(null);
   const [minAmountError, setMinAmountError] = useState("");
   const [maxAmountError, setMaxAmountError] = useState("");
-  const inputClass =
-    " w-full rounded-md border border-gray-300 px-3 py-2.5 text-sm font-semibold text-gray-700 " +
-    "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
 
   const [selectedCategory, setSelectedCategory] = useState([]);
 
@@ -531,7 +434,7 @@ function ExpenseFilter({ show, handleClose, size }) {
         <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls">
           <div className="mb-3 font-gilroy">
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Vendor
               </label>
 
@@ -540,7 +443,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={vendorOptions}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Vendor"
                 value={selectedVendor}
                 onChange={(selected) => setSelectedVendor(selected)}
@@ -548,7 +451,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Payment Status
               </label>
 
@@ -557,7 +460,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={paymentStatusOptions}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Status"
                 value={selectedBillStatus}
                 onChange={(selected) => setSelectedBillStatus(selected)}
@@ -565,7 +468,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Category
               </label>
 
@@ -575,13 +478,13 @@ function ExpenseFilter({ show, handleClose, size }) {
                 options={categoryOptions}
                 value={selectedCategoryOption}
                 onChange={handleCategoryChange}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Category"
               />
             </div>
 
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Sub Category
               </label>
 
@@ -591,18 +494,18 @@ function ExpenseFilter({ show, handleClose, size }) {
                 options={subCategoryOptions}
                 value={selectedSubCategoryOptions}
                 onChange={handleSubCategoryChange}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Sub Category"
               />
             </div>
 
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Period
               </label>
 
               <Select
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 value={selectedPeriodOption}
                 onChange={handlePeriodChange}
                 options={periodOptions}
@@ -612,13 +515,13 @@ function ExpenseFilter({ show, handleClose, size }) {
               {period?.value === "CUSTOM" && (
                 <div className="flex flex-col sm:flex-row gap-3 mt-4">
                   <div className="flex-1 mb-3">
-                    <label className="block font-gilroy font-medium text-[12px] text-[#4B4B4B] mb-1.5">
+                    <label className={fieldLabelClass}>
                       Start Date
                     </label>
 
                     <div className="datepicker-wrapper relative w-full text-[12px]">
                       <DatePicker
-                        className="w-full !h-[39px] cursor-pointer font-gilroy text-[12px]"
+                        className={datePickerClass(!!startDateError)}
                         format="DD/MM/YYYY"
                         placeholder="Start Date"
                         value={startDate ? dayjs(startDate) : null}
@@ -637,18 +540,18 @@ function ExpenseFilter({ show, handleClose, size }) {
                     </div>
 
                     {startDateError && (
-                      <ErrorMessage message={startDateError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={startDateError} type="error" />
                     )}
                   </div>
 
                   <div className="flex-1 mb-3">
-                    <label className="block font-gilroy font-medium text-[12px] text-[#4B4B4B] mb-1.5">
+                    <label className={fieldLabelClass}>
                       End Date
                     </label>
 
                     <div className="datepicker-wrapper relative w-full">
                       <DatePicker
-                        className="w-full !h-[39px] cursor-pointer font-gilroy text-[12px]"
+                        className={datePickerClass(!!endDateError)}
                         format="DD/MM/YYYY"
                         placeholder="End Date"
                         value={endDate ? dayjs(endDate) : null}
@@ -670,7 +573,7 @@ function ExpenseFilter({ show, handleClose, size }) {
 
                     {endDateError && (
                       <div className="flex justify-center my-2">
-                        <ErrorMessage message={endDateError} type="warning" />
+                        <ErrorMessage className="mt-[6px]" message={endDateError} type="warning" />
                       </div>
                     )}
                   </div>
@@ -679,7 +582,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Payment Mode
               </label>
 
@@ -689,20 +592,20 @@ function ExpenseFilter({ show, handleClose, size }) {
                 options={paymentModeOptions}
                 value={selectedPaymentModeOptions}
                 onChange={handlePaymentMode}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Payment Mode"
               />
             </div>
 
             <div className="mb-2">
-              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
+              <label className={fieldLabelClass}>
                 Created By
               </label>
 
               <Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 value={selectedCreatedByOption}
                 onChange={handleCreatedByChange}
                 options={createdByOptions}
@@ -711,9 +614,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mb-2">
-              <label
-                style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}
-              >
+              <label className={fieldLabelClass}>
                 Other Filter
               </label>
             </div>
@@ -730,12 +631,12 @@ function ExpenseFilter({ show, handleClose, size }) {
                       setMinAmount(e.target.value);
                       setMinAmountError("");
                     }}
-                    className={inputClass}
+                    className={fieldClass(!!minAmountError)}
                   />
 
                   {minAmountError && (
                     <div className="mt-1">
-                      <ErrorMessage message={minAmountError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={minAmountError} type="error" />
                     </div>
                   )}
                 </div>
@@ -750,12 +651,12 @@ function ExpenseFilter({ show, handleClose, size }) {
                       setMaxAmount(e.target.value);
                       setMaxAmountError("");
                     }}
-                    className={inputClass}
+                    className={fieldClass(!!maxAmountError)}
                   />
 
                   {maxAmountError && (
                     <div className="mt-1">
-                      <ErrorMessage message={maxAmountError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={maxAmountError} type="error" />
                     </div>
                   )}
                 </div>

@@ -10,6 +10,10 @@ import { CloseCircle } from "iconsax-react";
 
 import { Tooltip } from "bootstrap";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldLabelClass,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
 function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
   const handleClosecheck = () => {
@@ -276,11 +280,11 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
           </div>
 
           <div>
-            <label className="block text-sm font-gilroy font-normal mb-2 mt-2">
+            <label className={fieldLabelClass}>
               Comments
             </label>
             <textarea
-              className="w-full h-12 text-sm font-gilroy font-normal p-2.5 border border-gray-300 rounded"
+              className={fieldTextareaClass()}
               placeholder="Please Enter Comments"
               rows={3}
               value={comments}
@@ -288,7 +292,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
             />
             {state.UsersList?.chrckoutError && (
               <div className="d-flex justify-content-center">
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state.UsersList?.chrckoutError}
                   type="error"
                 />

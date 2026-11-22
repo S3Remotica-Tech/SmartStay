@@ -8,6 +8,12 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function AddHostelReading({
   show,
@@ -169,22 +175,22 @@ function AddHostelReading({
         </div>
         <div className="flex-1 overflow-y-auto p-4 show-scrolls ">
           {state.UsersList?.roomReadingError && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.UsersList?.roomReadingError}
               type="error"
             />
           )}
 
           <Form.Group className="mt-0">
-            <Form.Label className="block text-sm font-medium font-gilroy mb-1">
-              Reading Date <span className="text-red-500 text-xl">*</span>
+            <Form.Label className={fieldLabelClass}>
+              Reading Date <span className={fieldRequiredClass}>*</span>
             </Form.Label>
 
             <div className="datepicker-wrapper relative w-full mt-1">
               <div className="datepicker-wrapper  relative w-full">
                 <DatePicker
                   ref={readingDateRef}
-                  className="w-full h-12 px-2 cursor-pointer font-gilroy"
+                  className={datePickerClass(!!dateError)}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={readingDate ? dayjs(readingDate) : null}
@@ -195,14 +201,14 @@ function AddHostelReading({
               </div>
             </div>
 
-            {dateError && <ErrorMessage message={dateError} type="error" />}
+            {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />}
           </Form.Group>
 
           <Form.Group className="mt-2">
             <div className="flex justify-between items-center w-full mb-1">
-              <Form.Label>
+              <Form.Label className={fieldLabelClass}>
                 Reading{" "}
-                <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                <span className={fieldRequiredClass}>*</span>
               </Form.Label>
               {!editHostelReading && (
                 <span className="font-gilroy font-normal text-sm leading-none text-gray-500">
@@ -218,22 +224,20 @@ function AddHostelReading({
             </div>
 
             <Form.Control
-              className={`mt-2 w-full px-3 py-3 text-sm font-gilroy ${
-                currentReading ? "font-semibold" : "font-medium"
-              }`}
+              className={fieldClass(!!readingError)}
               type="number"
               placeholder="Enter Reading"
               value={currentReading}
               onChange={handleCurrentReadingChange}
             />
             {readingError && (
-              <ErrorMessage message={readingError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={readingError} type="error" />
             )}
           </Form.Group>
 
           {changesError && (
             <div className="flex justify-center">
-              <ErrorMessage message={changesError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={changesError} type="error" />
             </div>
           )}
         </div>

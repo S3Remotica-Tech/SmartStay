@@ -101,6 +101,12 @@ export async function VendorOverViewExpenseList(vendor) {
   if (vendor.page) params.page = vendor.page;
   if (vendor.size) params.size = vendor.size;
   if (vendor.search) params.search = vendor.search;
+  if (vendor.startDate) params.startDate = vendor.startDate;
+  if (vendor.endDate) params.endDate = vendor.endDate;
+  if (vendor.categoryId) params.categoryId = vendor.categoryId;
+  if (vendor.paymentStatus) params.paymentStatus = vendor.paymentStatus;
+  if (vendor.minAmount) params.minAmount = vendor.minAmount;
+  if (vendor.maxAmount) params.maxAmount = vendor.maxAmount;
 
   return await AxiosConfigV2.get(`/v2/vendors/expenses/${vendor.vendorId}`, {
     params,

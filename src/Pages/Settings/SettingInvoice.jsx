@@ -45,6 +45,12 @@ import {
   Bank, Wallet2, ArrowDown2
 
 } from "iconsax-react";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
 
 const Option = (props) => {
@@ -139,106 +145,6 @@ GroupHeading.propTypes = {
   }).isRequired,
 };
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "40px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "300px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function SettingInvoice({ hostelid, handleFormPage }) {
   const dispatch = useDispatch();
@@ -1701,7 +1607,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                           </div>
 
                                           {paymentMobileError && (
-                                            <ErrorMessage
+                                            <ErrorMessage className="mt-[6px]"
                                               message={paymentMobileError}
                                               type="error"
                                             />
@@ -1738,7 +1644,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                             />
                                           </div>
                                           {paymentinvoiceemailError !== "" && (
-                                            <ErrorMessage
+                                            <ErrorMessage className="mt-[6px]"
                                               message={paymentinvoiceemailError}
                                               type="error"
                                             />
@@ -1860,7 +1766,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                             </div>
                                             {rentalSignatureError.trim() !==
                                               "" && (
-                                                <ErrorMessage
+                                                <ErrorMessage className="mt-[6px]"
                                                   message={rentalSignatureError}
                                                   type="error"
                                                 />
@@ -1937,7 +1843,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <div className="flex flex-wrap -mx-2">
                             <div className="w-full sm:w-11/12 md:w-1/2 px-2 mb-3">
                               <div className="mb-3">
-                                <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
+                                <label className={fieldLabelClass}>
                                   Prefix
                                 </label>
                                 <input
@@ -1945,10 +1851,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   placeholder="prefix"
                                   value={prefix}
                                   onChange={hanldePrefix}
-                                  className="w-full p-2.5 mt-2 text-base font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded"
+                                  className={fieldClass(!!prefix_errmsg)}
                                 />
                                 {prefix_errmsg.trim() !== "" && (
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={prefix_errmsg}
                                     type="error"
                                   />
@@ -1958,7 +1864,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                             <div className="w-full sm:w-11/12 md:w-1/2 px-2 mb-3">
                               <div className="mb-3">
-                                <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
+                                <label className={fieldLabelClass}>
                                   Suffix
                                 </label>
                                 <input
@@ -1966,10 +1872,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   placeholder="suffix"
                                   value={suffix}
                                   onChange={hanldeSuffix}
-                                  className="w-full p-2.5 mt-2 text-sm font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded"
+                                  className={fieldClass(!!suffix_errmsg)}
                                 />
                                 {suffix_errmsg.trim() !== "" && (
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={suffix_errmsg}
                                     type="error"
                                   />
@@ -1980,7 +1886,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                           <div className="w-full sm:w-11/12 px-2 mb-3">
                             <div className="mb-3">
-                              <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
+                              <label className={fieldLabelClass}>
                                 Preview
                               </label>
                               <input
@@ -1988,7 +1894,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 placeholder="preview"
                                 value={`${prefix}-${suffix}`}
                                 readOnly
-                                className="w-full p-2.5 mt-2 text-base font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded bg-gray-100 cursor-not-allowed"
+                                className={fieldClass()}
                               />
                             </div>
                           </div>
@@ -2005,7 +1911,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <div className="flex flex-wrap -mx-2">
                             <div className="w-full px-2 mb-3">
                               <div>
-                                <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
+                                <label className={fieldLabelClass}>
                                   Add the Tax payable GST in Percentage %
                                 </label>
                                 <input
@@ -2013,10 +1919,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   placeholder="12%"
                                   value={tax}
                                   onChange={handleTaxChange}
-                                  className="w-full p-2.5 mt-2 text-base font-gilroy font-normal text-[#4B4B4B] leading-5 border border-gray-300 rounded"
+                                  className={fieldClass(!!tax_errmsg)}
                                 />
                                 {tax_errmsg.trim() !== "" && (
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={tax_errmsg}
                                     type="error"
                                   />
@@ -2049,13 +1955,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                           <div className="  flex  flex-col gap-3 justify-center pt-2">
                             <div className="w-full">
-                              <label className="mb-2 text-sm text-black"> Select Bank</label>
+                              <label className={fieldLabelClass}> Select Bank</label>
                               <Select
                                 options={bankOptions}
                                 value={selectedBank}
                                 onChange={setSelectedBank}
 
-                                styles={CustomStyles}
+                                styles={fieldSelectStyles()}
                                 className="text-sm"
                                 isSearchable={false}
                                 components={{
@@ -2069,13 +1975,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             </div>
 
                             <div className="w-full">
-                              <label className="mb-2 text-sm text-black"> Select Payment Method</label>
+                              <label className={fieldLabelClass}> Select Payment Method</label>
                               <Select
                                 options={paymentOptions}
                                 value={selectedPayment}
                                 onChange={setSelectedPayment}
 
-                                styles={CustomStyles}
+                                styles={fieldSelectStyles(!!bankid_Error)}
                                 className="text-sm"
                                 isSearchable={false}
                                 components={{
@@ -2090,7 +1996,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           {!selectedBank && bankid_Error.trim() !== "" && (
-                            <ErrorMessage message={bankid_Error} type="error" />
+                            <ErrorMessage className="mt-[6px]" message={bankid_Error} type="error" />
                           )}
                         </div>
 
@@ -2199,13 +2105,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </h6>
                           <hr className="border-t border-gray-700" />
 
-                          <label className="font-gilroy text-[14px] font-normal text-[#222222] block mb-2">
+                          <label className={fieldLabelClass}>
                             Add Notes
                           </label>
 
                           <div className="relative">
                             <textarea
-                              className="w-full p-2.5 text-[14px] font-gilroy font-normal text-[#222222] border rounded resize-none pr-12"
+                              className={fieldTextareaClass(!!notes_errmsg)}
                               rows={4}
                               placeholder="Add any message..."
                               value={notes}
@@ -2220,7 +2126,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           {notes_errmsg.trim() !== "" && (
-                            <ErrorMessage message={notes_errmsg} type="error" />
+                            <ErrorMessage className="mt-[6px]" message={notes_errmsg} type="error" />
                           )}
                         </div>
 
@@ -2230,7 +2136,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </h6>
                           <hr className="border-t border-gray-700" />
 
-                          <label className="font-gilroy text-[14px] font-normal text-[#222222] block mb-2">
+                          <label className={fieldLabelClass}>
                             Add T&C
                           </label>
 
@@ -2240,7 +2146,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                               placeholder="Add any message..."
                               value={terms}
                               onChange={handleTermsChange}
-                              className="w-full p-2.5 text-[14px] font-gilroy font-normal text-[#222222] border rounded resize-none pr-12"
+                              className={fieldTextareaClass(!!terms_errmsg)}
                             />
                             <img
                               src={TextAreaICon}
@@ -2251,7 +2157,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           {terms_errmsg.trim() !== "" && (
-                            <ErrorMessage message={terms_errmsg} type="error" />
+                            <ErrorMessage className="mt-[6px]" message={terms_errmsg} type="error" />
                           )}
                         </div>
 
@@ -2328,7 +2234,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                         {editformErrmsg.trim() !== "" && (
                           <div className="flex justify-center">
-                            <ErrorMessage
+                            <ErrorMessage className="mt-[6px]"
                               message={editformErrmsg}
                               type="error"
                             />
@@ -2990,7 +2896,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                       {fieldError && (
                         <div className="mt-0 mb-5 flex w-full justify-center">
-                          <ErrorMessage message={fieldError} type="error" />
+                          <ErrorMessage className="mt-[6px]" message={fieldError} type="error" />
                         </div>
                       )}
 
@@ -3042,7 +2948,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           {MobileError && (
-                            <ErrorMessage message={MobileError} type="error" />
+                            <ErrorMessage className="mt-[6px]" message={MobileError} type="error" />
                           )}
                         </div>
                       </div>
@@ -3061,9 +2967,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                               onChange={handleEmaiCheckboxChange}
                               className="cursor-pointer accent-[rgba(30,69,225,1)] "
                             />
-                            <label
+                            <label className={fieldLabelClass}
                               htmlFor="customizeEmail"
-                              className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
+                             
                             >
                               Customize in Specific Templates
                             </label>
@@ -3076,14 +2982,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             placeholder="example@email.com"
                             value={email}
                             onChange={handleEmail}
-                            className={`w-full h-11 rounded-md border border-gray-200 px-3 font-gilroy text-xs focus:outline-none ${email
-                              ? "text-black font-medium"
-                              : "text-gray-600 font-normal"
-                              }`}
+                            className={fieldClass(!!emailError)}
                           />
 
                           {emailError && (
-                            <ErrorMessage message={emailError} type="error" />
+                            <ErrorMessage className="mt-[6px]" message={emailError} type="error" />
                           )}
                         </div>
                       </div>
@@ -3205,14 +3108,14 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           {noChangesDetectedMsg && (
-                            <ErrorMessage
+                            <ErrorMessage className="mt-[6px]"
                               message={noChangesDetectedMsg}
                               type="error"
                             />
                           )}
 
                           {signature_errmsg.trim() !== "" && (
-                            <ErrorMessage
+                            <ErrorMessage className="mt-[6px]"
                               message={signature_errmsg}
                               type="error"
                             />
@@ -3244,7 +3147,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                     )}
 
                     {/* {emailError && (
-             <ErrorMessage message={emailError} type="error"/>
+             <ErrorMessage className="mt-[6px]" message={emailError} type="error"/>
             )} */}
                   </div>
                 </div>

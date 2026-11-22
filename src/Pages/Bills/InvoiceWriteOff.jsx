@@ -7,6 +7,10 @@ import Profile2 from "../../Assets/Images/New_images/bank.png";
 import homearrow from "../../Assets/Images/New_images/bank.png";
 
 import PropTypes from "prop-types";
+import {
+  fieldLabelClass,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
 function WriteOffForm(props) {
 
@@ -99,9 +103,9 @@ function WriteOffForm(props) {
           </>
 
           <Form.Group >
-            <Form.Label style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400 }}>Reason/Write-off Note</Form.Label>
-            <Form.Control
-              style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, height: 52 }}
+            <Form.Label className={fieldLabelClass}>Reason/Write-off Note</Form.Label>
+            <Form.Control className={fieldTextareaClass()}
+             
               as="textarea"
               placeholder="Please Enter Comments"
               rows={3}

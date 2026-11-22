@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Edit, Trash } from "iconsax-react";
+import { ArrowDown2, Copy, Edit, EyeSlash, Trash } from "iconsax-react";
 import Form from "react-bootstrap/Form";
 import AddAmenities from "../AmenitiesFile/AddAmenities";
 import RecurringEnable from "../AmenitiesFile/RecurringEnable";
@@ -17,6 +17,13 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import {
+  buildAmenityPayload,
+  formatPlanPrice,
+  getAmenityPlans,
+  isAmenityActive,
+  toFormPlans,
+} from "../AmenitiesFile/amenityPlanUtils";
 
 function SettingAmenities() {
   const state = useSelector((state) => state);
@@ -41,6 +48,8 @@ function SettingAmenities() {
   const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
   // const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  // Plan panels are open by default (as in the design); ids listed here are collapsed.
+  const [collapsedPlans, setCollapsedPlans] = useState({});
 
   const {
     canWriteModule: canWriteAmenities,
@@ -87,11 +96,38 @@ function SettingAmenities() {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         amenityId: amenity.amenityId,
-        data: {
+        // Same body builder as the form, so toggling pro-rate never drops
+        // the description or plans of the amenity.
+        data: buildAmenityPayload({
           amenityName: amenity.amenityName,
-          amount: amenity.amenityAmount,
+          description: amenity.description,
+          plans: amenity.plans?.length ? toFormPlans(amenity) : [],
           proRate: newChecked,
-        },
+          legacyAmount: amenity.amenityAmount,
+        }),
+      },
+    });
+  };
+
+  const handleTogglePlans = (amenityId) => {
+    setCollapsedPlans((prev) => ({ ...prev, [amenityId]: !prev[amenityId] }));
+  };
+
+  // Duplicate reuses the existing add API: same details, name suffixed "Copy".
+  const handleDuplicateAmenity = (amenity) => {
+    setShowDots(false);
+    dispatch({
+      type: "ADD_AMENITIY",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        data: buildAmenityPayload({
+          amenityName: `${amenity.amenityName} Copy`,
+          description: amenity.description,
+          // Legacy amenities carry only `amenityAmount`, which is sent as `amount`.
+          plans: amenity.plans?.length ? toFormPlans(amenity) : [],
+          proRate: !!amenity.proRate,
+          legacyAmount: amenity.amenityAmount,
+        }),
       },
     });
   };
@@ -342,15 +378,36 @@ function SettingAmenities() {
                   <div className="border border-gray-300 rounded-2xl">
                     <div className="p-3">
                       <div className="flex justify-between items-center">
-                        <div className="flex items-center">
-                          <img
-                            src={directRight}
-                            alt="directRight"
-                            className="mr-1.5"
-                          />
-                          <span className="font-gilroy font-semibold text-gray-900 text-base">
-                            {amenity?.amenityName}
-                          </span>
+                        <div className="flex flex-col gap-[6px] min-w-0">
+                          <div className="flex items-center gap-[10px]">
+                            <img
+                              src={directRight}
+                              alt="directRight"
+                              className="mr-1.5"
+                            />
+                            <span className="font-gilroy font-semibold text-[#0A0A0A] text-base">
+                              {amenity?.amenityName}
+                            </span>
+                            <span
+                              className={`flex items-center gap-[4px] rounded-full px-[8px] py-[2px] font-gilroy text-[11px] font-semibold leading-[16px] ${isAmenityActive(amenity)
+                                ? "bg-[#ECFDF5] text-[#007A55]"
+                                : "bg-[#F3F4F6] text-[#6A7282]"
+                                }`}
+                            >
+                              <span
+                                className={`h-[6px] w-[6px] rounded-full ${isAmenityActive(amenity)
+                                  ? "bg-[#00BC7D]"
+                                  : "bg-[#99A1AF]"
+                                  }`}
+                              />
+                              {isAmenityActive(amenity) ? "Active" : "Disabled"}
+                            </span>
+                          </div>
+                          {amenity?.description && (
+                            <p className="m-0 font-gilroy text-[12px] leading-[19.5px] text-[#6A7282]">
+                              {amenity.description}
+                            </p>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-1">
@@ -411,6 +468,46 @@ function SettingAmenities() {
 
                                 <div
                                   onClick={() =>
+                                    canWriteAmenities &&
+                                    handleDuplicateAmenity(amenity)
+                                  }
+                                  className={`flex items-center gap-2 px-3 py-2 transition-colors ${canWriteAmenities
+                                    ? "cursor-pointer hover:bg-blue-50 opacity-100"
+                                    : "cursor-not-allowed opacity-50"
+                                    }`}
+                                >
+                                  <Copy
+                                    size={16}
+                                    color={canWriteAmenities ? "#6A7282" : "#A0A0A0"}
+                                  />
+                                  <span
+                                    className={`font-gilroy font-semibold ${canWriteAmenities
+                                      ? "text-gray-900"
+                                      : "text-gray-400"
+                                      }`}
+                                  >
+                                    Duplicate
+                                  </span>
+                                </div>
+
+                                <div className="h-px bg-gray-200" />
+
+                                {/* Needs a backend status field; shown disabled until it exists. */}
+                                <div
+                                  title="Available once the backend supports amenity status"
+                                  aria-disabled="true"
+                                  className="flex items-center gap-2 px-3 py-2 cursor-not-allowed opacity-50"
+                                >
+                                  <EyeSlash size={16} color="#A0A0A0" />
+                                  <span className="font-gilroy font-semibold text-gray-400">
+                                    Disable
+                                  </span>
+                                </div>
+
+                                <div className="h-px bg-gray-200" />
+
+                                <div
+                                  onClick={() =>
                                     canDeleteAmenities &&
                                     handleDeleteAmenities(amenity)
                                   }
@@ -443,17 +540,59 @@ function SettingAmenities() {
                       <hr className="my-2 border-gray-200" />
 
                       <div className="flex flex-col gap-2">
-                        <div className="flex justify-between items-center">
-                          <p className="font-gilroy text-gray-700 text-xs font-normal">
-                            Price
-                          </p>
-                          <p className="font-gilroy text-gray-900 font-semibold text-base pr-2">
-                            ₹{amenity?.amenityAmount}
-                            <span className="font-normal text-base">
-                              /Month
-                            </span>
-                          </p>
-                        </div>
+                        {(() => {
+                          const plans = getAmenityPlans(amenity);
+                          if (plans.length === 0) {
+                            return (
+                              <p className="m-0 font-gilroy text-[12px] text-[#6A7282]">
+                                No pricing plans
+                              </p>
+                            );
+                          }
+                          const isOpen = !collapsedPlans[amenity.amenityId];
+                          return (
+                            <>
+                              <div className="flex items-center justify-between h-[32px]">
+                                <span className="rounded-full bg-[#EEF1FD] px-[10px] py-[4px] font-gilroy text-[12px] font-medium leading-[16px] text-[#1E45E1]">
+                                  {plans.length} {plans.length === 1 ? "Plan" : "Plans"}
+                                </span>
+                                <button
+                                  type="button"
+                                  aria-expanded={isOpen}
+                                  onClick={() => handleTogglePlans(amenity.amenityId)}
+                                  className="flex items-center gap-[4px] font-gilroy text-[12px] font-medium leading-[16px] text-[#1E45E1]"
+                                >
+                                  {isOpen ? "Hide Details" : "View Details"}
+                                  <ArrowDown2
+                                    size={14}
+                                    color="#1E45E1"
+                                    className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                                  />
+                                </button>
+                              </div>
+
+                              {isOpen && (
+                                <div className="rounded-[7px] bg-[#F9FAFB] p-[8px]">
+                                  <div className="flex max-h-[139px] flex-col gap-[6px] overflow-y-auto show-scrolls">
+                                    {plans.map((plan, planIndex) => (
+                                      <div
+                                        key={plan.planId ?? planIndex}
+                                        className="flex h-[40px] shrink-0 items-center justify-between rounded-[6px] border-[1px] border-[#E5E7EB] bg-white px-[8px]"
+                                      >
+                                        <span className="font-gilroy text-[13px] font-medium text-[#222222] truncate pr-[10px]">
+                                          {plan.planName}
+                                        </span>
+                                        <span className="font-gilroy text-[12px] font-medium text-[#222222] whitespace-nowrap">
+                                          {formatPlanPrice(plan)}
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          );
+                        })()}
 
                         <div className="flex justify-between items-center">
                           <p className="font-gilroy text-gray-700 text-xs font-normal">

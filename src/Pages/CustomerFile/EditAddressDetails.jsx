@@ -6,6 +6,11 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function EditAddressDetails({ show, handleClose, addressDetails }) {
   const state = useSelector((state) => state);
@@ -290,7 +295,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
           <div className="grid grid-cols-1 mb-0">
             <div className="col-span-1 mb-1">
               <Form.Group>
-                <Form.Label className="text-sm text-[#222222] font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   Flat , House no , Building , Company , Apartment{" "}
                 </Form.Label>
                 <FormControl
@@ -299,14 +304,14 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                   placeholder="Enter House No"
                   value={houseNo}
                   onChange={handleHouseNoChange}
-                  className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
 
             <div className="w-full mb-1">
               <Form.Group>
-                <Form.Label className="text-sm text-[#222222] font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   Area , Street , Sector , Village{" "}
                 </Form.Label>
                 <FormControl
@@ -315,24 +320,15 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                   placeholder="Enter Street"
                   value={street}
                   onChange={handleStreetChange}
-                  // style={{
-                  //     fontSize: 16,
-                  //     color: "#4B4B4B",
-                  //     fontFamily: "Gilroy",
-                  //     fontWeight: 500,
-                  //     boxShadow: "none",
-                  //     border: "1px solid #D9D9D9",
-                  //     height: 50,
-                  //     borderRadius: 8,
-                  // }}
-                  className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                  //
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
 
             <div className="w-full mb-1">
               <Form.Group>
-                <Form.Label className="text-sm text-[#222222] font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   Landmark{" "}
                 </Form.Label>
                 <FormControl
@@ -341,17 +337,8 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                   placeholder="E.g , near appollo hospital"
                   value={landmark}
                   onChange={handleLandmarkChange}
-                  // style={{
-                  //     fontSize: 16,
-                  //     color: "#4B4B4B",
-                  //     fontFamily: "Gilroy",
-                  //     fontWeight: 500,
-                  //     boxShadow: "none",
-                  //     border: "1px solid #D9D9D9",
-                  //     height: 50,
-                  //     borderRadius: 8,
-                  // }}
-                  className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                  //
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
@@ -361,7 +348,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm text-[#222222] font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   Pincode{" "}
                 </Form.Label>
                 <Form.Control
@@ -373,17 +360,17 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="Enter Pincode"
-                  className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                  className={fieldClass(!!pincodeError)}
                 />
               </Form.Group>
               {pincodeError && (
-                <ErrorMessage message={pincodeError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={pincodeError} type="error" />
               )}
             </div>
 
             <div className="w-full mb-1">
               <Form.Group>
-                <Form.Label className="text-sm text-[#222222] font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   Town/City{" "}
                 </Form.Label>
                 <FormControl
@@ -392,7 +379,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                   placeholder="Enter City"
                   value={city}
                   onChange={handleCityChange}
-                  className="h-12 text-base text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
@@ -402,7 +389,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 className="mb-3"
                 controlId="exampleForm.ControlInput5"
               >
-                <Form.Label className="text-sm text-[#222222] font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   State
                 </Form.Label>
 
@@ -423,54 +410,11 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                     stateName ? { label: stateName, value: stateName } : null
                   }
                   placeholder="Select State"
-                  classNamePrefix="custom"
                   menuPlacement="auto"
                   noOptionsMessage={() => "No state available"}
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: stateName ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
+                    ...fieldSelectStyles(),
+                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
                 />
               </Form.Group>
@@ -479,7 +423,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
         </div>
         {formError && (
           <div className="flex justify-center">
-            <ErrorMessage message={formError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={formError} type="error" />
           </div>
         )}
 

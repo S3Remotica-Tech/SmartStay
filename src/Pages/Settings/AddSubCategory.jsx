@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 
 function AddSubCategory({
@@ -127,8 +132,8 @@ function AddSubCategory({
 
         <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] relative">
           <div className="w-full">
-            <label className="block font-gilroy text-[14px] font-medium text-[#222] leading-normal mb-1">
-              Sub Category <span className="text-red-500 text-[20px]">*</span>
+            <label className={fieldLabelClass}>
+              Sub Category <span className={fieldRequiredClass}>*</span>
             </label>
 
             <input
@@ -137,11 +142,11 @@ function AddSubCategory({
               placeholder="Enter Sub Category"
               value={subCategory}
               onChange={handleSubCategoryChange}
-              className="w-full !p-[12px] text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-gray-300 rounded-md focus:outline-none "
+              className={fieldClass(!!subCategoryError)}
             />
             {subCategoryError && (
               <div className="flex justify-start mt-2">
-                <ErrorMessage message={subCategoryError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={subCategoryError} type="error" />
               </div>
             )}
           </div>
@@ -149,7 +154,7 @@ function AddSubCategory({
 
         {formError && (
           <div className="flex justify-center mt-2">
-            <ErrorMessage message={formError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={formError} type="error" />
           </div>
         )}
         {formLoading && (

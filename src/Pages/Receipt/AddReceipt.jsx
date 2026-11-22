@@ -11,6 +11,13 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import ErrorMessage from '../../Components/ErrorMessage'
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 const AddReceiptForm = (props) => {
 
@@ -503,14 +510,13 @@ const AddReceiptForm = (props) => {
         <div className="row">
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
-                Customer {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              <Form.Label className={fieldLabelClass}>
+                Customer {" "} <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
 
               <Select
                 className="show-scroll"
-                classNamePrefix="custom"
                 menuPlacement="auto"
                 options={[...new Map(state?.InvoiceList?.ManualInvoices?.map(u => [u.hos_user_id, {
                   value: u.hos_user_id,
@@ -523,49 +529,15 @@ const AddReceiptForm = (props) => {
                 }
                 isDisabled={edit}
                 styles={{
-                  menu: (base) => ({
-                    ...base,
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                    scrollbarWidth: "thin",
-                    msOverflowStyle: "none",
-                    fontFamily: "Gilroy",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#555",
-                    cursor: "pointer"
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "lightblue" : "white",
-                    color: "#000",
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    padding: "3px 5px ",
-                    border: "1px solid #D9D9D9",
-                    borderRadius: "8px",
-                    fontSize: "16px",
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: customername ? 600 : 500,
-                    boxShadow: "none",
-                  }),
+                  ...fieldSelectStyles(!!customererrmsg),
+                  menuList: (base) => ({ ...base, padding: 0, maxHeight: "200px" }),
                 }}
               />
 
 
 
               {customererrmsg && (
-                <ErrorMessage message={customererrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={customererrmsg} type="error" />
               )}
 
 
@@ -578,9 +550,8 @@ const AddReceiptForm = (props) => {
         <div className="row mb-1 gap-1">
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Reference ID</Form.Label>
-              <Form.Control
-                style={{ padding: '12px 10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor: "#E7F1FF", }}
+              <Form.Label className={fieldLabelClass} >Reference ID</Form.Label>
+              <Form.Control className={fieldClass()}
                 type="text"
                 placeholder="Enter Invoice Number"
                 value={reference_id || ''}
@@ -594,17 +565,8 @@ const AddReceiptForm = (props) => {
           {!(edit && (!invoicenumber || invoicenumber === "0" || invoicenumber === 0)) && (
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#222",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
-                >
-                  Invoice Number {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Invoice Number {" "}  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 {edit ? (
@@ -612,19 +574,7 @@ const AddReceiptForm = (props) => {
                     type="text"
                     value={invoicenumber}
                     readOnly
-                    className="border"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      lineHeight: "18.83px",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      padding: '12px 10px',
-                      borderRadius: 8,
-                      backgroundColor: "#E7F1FF",
-                    }}
+                    className={fieldClass()}
                   />
                 ) : (
                   <Select
@@ -643,45 +593,14 @@ const AddReceiptForm = (props) => {
                     }
                     isDisabled={edit}
                     styles={{
-                      menu: (base) => ({
-                        ...base,
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        scrollbarWidth: "thin",
-                        msOverflowStyle: "none",
-                        fontFamily: "Gilroy",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
-                      }),
-                      control: (base) => ({
-                        ...base,
-                        fontSize: 16,
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        fontFamily: "Gilroy",
-                        padding: "3px 5px"
-                      }),
+                      ...fieldSelectStyles(!!invoicenumbererrmsg),
+                      menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
                     }}
                   />
                 )}
 
                 {invoicenumbererrmsg && (
-                  <ErrorMessage message={invoicenumbererrmsg} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={invoicenumbererrmsg} type="error" />
                 )}
               </Form.Group>
             </div>
@@ -700,28 +619,10 @@ const AddReceiptForm = (props) => {
           {!(edit && (!invoicenumber || invoicenumber === "0" || invoicenumber === 0)) && (
             <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                <Form.Label
-                  style={{
-                    fontFamily: 'Gilroy',
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#222",
-                    fontStyle: 'normal',
-                    lineHeight: 'normal',
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Due Amount {" "}
                 </Form.Label>
-                <Form.Control
-                  style={{
-                    padding: '12px 10px',
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: '18.83px',
-                    fontWeight: 500,
-                    backgroundColor: "#E7F1FF",
-                  }}
+                <Form.Control className={fieldClass()}
                   type="text"
                   placeholder="Enter Due Amount"
                   value={due_amount}
@@ -734,9 +635,9 @@ const AddReceiptForm = (props) => {
 
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received {" "}     <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
-              <Form.Control
-                style={{ padding: '12px 10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+              <Form.Label className={fieldLabelClass} >Amount Received {" "}     <span className={fieldRequiredClass}>*</span></Form.Label>
+              <Form.Control className={fieldClass(!!receivedamounterrmsg)}
+               
                 type="text"
                 placeholder="Enter Received Amount"
                 value={received_amount}
@@ -752,7 +653,7 @@ const AddReceiptForm = (props) => {
                 }}
               />
               {receivedamounterrmsg && (
-                <ErrorMessage message={receivedamounterrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={receivedamounterrmsg} type="error" />
               )}
 
             </Form.Group>
@@ -764,15 +665,16 @@ const AddReceiptForm = (props) => {
         <div className="row mb-1 gap-1 ">
           <div className="col-lg-3 col-md-5 col-sm-12 ">
             <Form.Group controlId="invoiceDate" className="mb-1">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                Payment Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              <Form.Label className={fieldLabelClass}>
+                Payment Date {" "}  <span className={fieldRequiredClass}>*</span>
               </Form.Label>
               <div style={{ position: 'relative', width: "100%", height: 48, }}>
 
 
 
                 <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                  className={datePickerClass(!!payment_dateerrmsg)}
+                 
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={payment_date ? dayjs(payment_date) : null}
@@ -784,7 +686,7 @@ const AddReceiptForm = (props) => {
               </div>
             </Form.Group>
             {payment_dateerrmsg && (
-              <ErrorMessage message={payment_dateerrmsg} type="error" />
+              <ErrorMessage className="mt-[6px]" message={payment_dateerrmsg} type="error" />
             )}
           </div>
 
@@ -793,16 +695,9 @@ const AddReceiptForm = (props) => {
               className="mb-1"
               controlId="exampleForm.ControlInput1"
             >
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
+              <Form.Label className={fieldLabelClass}>
                 Mode of Transaction{" "}
-                <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                <span className={fieldRequiredClass}>*</span>
               </Form.Label>
               <Select
                 options={paymentOptions}
@@ -818,52 +713,8 @@ const AddReceiptForm = (props) => {
                 isDisabled={props.receiptedit}
 
                 styles={{
-                  control: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                    fontFamily: "Gilroy",
-                    fontWeight: modeOfPayment ? 600 : 500,
-                    border: "1px solid #D9D9D9",
-                    borderRadius: "8px",
-                    boxShadow: "none",
-                    height: 48,
-                    cursor: "pointer",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    border: "1px solid #ced4da",
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    maxHeight: "80px",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#555",
-                    cursor: "pointer",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "lightblue" : "white",
-                    color: "#000",
-                    fontFamily: "Gilroy",
-                  }),
-                  indicatorSeparator: () => ({
-                    display: "none",
-                  }),
+                  ...fieldSelectStyles(!!paymentError),
+                  menuList: (base) => ({ ...base, padding: 0, maxHeight: "80px" }),
                 }}
               />
 
@@ -872,7 +723,7 @@ const AddReceiptForm = (props) => {
 
             </Form.Group>
             {paymentError && (
-              <ErrorMessage message={paymentError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
             )}
           </div>
 
@@ -888,16 +739,16 @@ const AddReceiptForm = (props) => {
 
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Notes</Form.Label>
-              <Form.Control
-                style={{ padding: 'px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, height: 80 }}
+              <Form.Label className={fieldLabelClass} >Notes</Form.Label>
+              <Form.Control className={fieldClass(!!notes_errmsg)}
+               
                 type="text"
                 placeholder="Enter Notes"
                 value={notes || ''}
                 onChange={handleNotes}
               />
               {notes_errmsg.trim() !== "" && (
-                <ErrorMessage message={notes_errmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={notes_errmsg} type="error" />
               )}
 
             </Form.Group>
@@ -922,7 +773,7 @@ const AddReceiptForm = (props) => {
 
 
         {/* {state.createAccount?.networkError ?
-            <ErrorMessage message={state.createAccount?.networkError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={state.createAccount?.networkError} type="error" />
             : null} */}
 
 
@@ -966,7 +817,7 @@ const AddReceiptForm = (props) => {
         <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
 
           {allfielderrmsg.trim() !== "" && (
-            <ErrorMessage message={allfielderrmsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={allfielderrmsg} type="error" />
           )}
 
 

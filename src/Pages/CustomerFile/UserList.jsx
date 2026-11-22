@@ -71,6 +71,9 @@ function UserList(props) {
   const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
   const [deleteDraftTenant, setDeleteDraftTenant] = useState(false);
   const [bookingOnly, setBookingOnly] = useState(false);
+  // Customer id of a tenant just created from Add Tenant; its row is highlighted
+  // for a few seconds. Matched by id because names can repeat.
+  const [newTenantId, setNewTenantId] = useState(null);
   const [EditObj, setEditObj] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -1167,6 +1170,24 @@ function UserList(props) {
     setShowMenuNewTenant(false);
   };
 
+  const handleTenantCreated = (customerId) => {
+    if (customerId) setNewTenantId(String(customerId));
+  };
+
+  useEffect(() => {
+    if (!newTenantId) return undefined;
+    const scrollTimer = setTimeout(() => {
+      document
+        .querySelector(`[data-customer-id="${newTenantId}"]`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+    const clearTimer = setTimeout(() => setNewTenantId(null), 5000);
+    return () => {
+      clearTimeout(scrollTimer);
+      clearTimeout(clearTimer);
+    };
+  }, [newTenantId]);
+
   const handleCloseBackToCheckIn = () => {
     dispatch({ type: "REMOVE_CANCEL_CHECKOUT_ERROR" });
     setBacktoCheckInForm(false);
@@ -1846,8 +1867,9 @@ function UserList(props) {
                                       handleRoomDetailsPage(user?.apiCall)
                                     }
                                     key={user?.apiCall?.customerId || index}
-                                    className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
-                                    cursor-pointer group  hover:!bg-gray-50"
+                                    data-customer-id={user?.apiCall?.customerId}
+                                    className={`text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                                    cursor-pointer group  hover:!bg-gray-50 transition-shadow duration-500 ${String(user?.apiCall?.customerId) === newTenantId ? "relative z-[1] shadow-[0_0_0_1px_rgba(30,69,225,0.35),0_6px_18px_rgba(30,69,225,0.22)]" : ""}`}
                                   >
                                     {selectedColumns?.map((col, index) => {
                                       const baseClass = `
@@ -2583,6 +2605,7 @@ function UserList(props) {
           handleClose={handleCloseAddTenant}
           alreadySaveDraftTenantDetails={DraftTenantDetails}
           bookingOnly={bookingOnly}
+          onTenantCreated={handleTenantCreated}
         />
       )}
 

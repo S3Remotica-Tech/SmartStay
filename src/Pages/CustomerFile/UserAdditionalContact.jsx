@@ -10,6 +10,12 @@ import PropTypes from "prop-types";
 import { CloseCircle, Trash } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function UserAdditionalContact({ show, handleClose, customerId }) {
   const state = useSelector((state) => state);
@@ -226,9 +232,9 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
           <div className="flex flex-wrap mt-1">
             <div className="w-full">
               <Form.Group className="mb-2">
-                <Form.Label className="text-[14px] font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Guardian Full Name{" "}
-                  <span className="text-red-500 text-[20px]"> *</span>
+                  <span className={fieldRequiredClass}> *</span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -237,18 +243,18 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                   onChange={(e) => handleUserName(e)}
                   value={userName}
                   ref={usernameRef}
-                  className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
+                  className={fieldClass(!!userNameError)}
                 />
               </Form.Group>
 
               {userNameError && (
-                <ErrorMessage message={userNameError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={userNameError} type="error" />
               )}
             </div>
 
             <div className="w-full">
               <Form.Group className="mb-2">
-                <Form.Label className="text-[14px] font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Relationship{" "}
                 </Form.Label>
                 {isOthers ? (
@@ -258,7 +264,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                       placeholder="Enter Relationship"
                       value={guardian}
                       onChange={(e) => setGuardian(e.target.value)}
-                      className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
+                      className={fieldClass()}
                     />
                     <Trash
                       size="18"
@@ -281,57 +287,25 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                     onChange={handleGuardian}
                     options={reasonOptions}
                     placeholder="Select Relationship"
-                    classNamePrefix="custom"
                     menuPlacement="bottom"
                     menuPosition="fixed"
                     noOptionsMessage={() => "No Relationship available"}
                     styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "50px",
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        fontSize: "16px",
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        boxShadow: "none",
-                      }),
-                      menuPortal: (base) => ({
-                        ...base,
-                        zIndex: 9999,
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                        color:
-                          state.data.value === "Others" ? "#1E45E1" : "#000",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      indicatorSeparator: () => ({ display: "none" }),
-                      menuList: (base) => ({
-                        ...base,
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        scrollbarWidth: "thin",
-                        msOverflowStyle: "auto",
-                      }),
+                      ...fieldSelectStyles(!!guardianError),
+                      menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                     }}
                   />
                 )}
               </Form.Group>
 
               {guardianError && (
-                <ErrorMessage message={guardianError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={guardianError} type="error" />
               )}
             </div>
             <div className="w-full">
               <Form.Group className="mb-2">
-                <Form.Label className="text-[14px] font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Guardian Occupation{" "}
                 </Form.Label>
 
@@ -342,7 +316,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                       placeholder="Enter Occupation"
                       value={guardianOccupation}
                       onChange={(e) => setGuardianOccupation(e.target.value)}
-                      className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px] mt-0 w-full px-3"
+                      className={fieldClass()}
                     />
 
                     <Trash
@@ -364,70 +338,36 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                     onChange={handleOccupation}
                     options={occupationOptions}
                     placeholder="Select Occupation"
-                    classNamePrefix="custom"
                     menuPlacement="bottom"
                     menuPortalTarget={document.body}
                     menuPosition="fixed"
                     menuShouldScrollIntoView={false}
                     styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "50px",
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        fontSize: "16px",
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        boxShadow: "none",
-                      }),
-                      menuPortal: (base) => ({
-                        ...base,
-                        zIndex: 9999,
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                        color:
-                          state.data.value === "Others" ? "#1E45E1" : "#000",
-                      }),
-                      indicatorSeparator: () => ({ display: "none" }),
-                      menuList: (base) => ({
-                        ...base,
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        scrollbarWidth: "thin",
-                        msOverflowStyle: "auto",
-                      }),
+                      ...fieldSelectStyles(!!occupationError),
+                      menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                     }}
                   />
                 )}
 
                 {occupationError && (
-                  <ErrorMessage message={occupationError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={occupationError} type="error" />
                 )}
               </Form.Group>
             </div>
 
             <div className="w-full">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-[14px] font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Mobile Number{" "}
-                  <span className="text-red-500 text-[20px]"> * </span>
+                  <span className={fieldRequiredClass}> * </span>
                 </Form.Label>
 
                 <InputGroup className="!flex">
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    className={`border border-[#D9D9D9] h-[50px] text-[16px] text-[#4B4B4B] font-gilroy 
-    ${countryCode ? "font-semibold" : "font-medium"} 
-    shadow-none bg-white max-w-[80px] pr-[10px]
-
-    !rounded-l-[8px] !rounded-r-none   
-    !border-r-0                      
-    `}
+                    className={`${fieldClass()} !w-[88px] !flex-none !rounded-r-none`}
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>
@@ -439,11 +379,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                     type="text"
                     placeholder="9876543210"
                     maxLength={10}
-                    className="text-[16px] text-[#4B4B4B] font-medium font-gilroy shadow-none 
-    border border-[#D9D9D9] h-[50px] mt-0 w-full px-3
-
-    !rounded-r-[8px] !rounded-l-none   
-    "
+                    className={`${fieldClass(!!phoneError)} !rounded-l-none`}
                   />
                 </InputGroup>
                 <p
@@ -452,21 +388,21 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                 ></p>
 
                 {phoneError && (
-                  <ErrorMessage message={phoneError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={phoneError} type="error" />
                 )}
               </Form.Group>
             </div>
 
             {formError && (
               <div ref={nochangeRef} className="text-red-500 text-center">
-                <ErrorMessage message={formError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={formError} type="error" />
               </div>
             )}
           </div>
         </div>
 
         {state.UsersList.contactError && (
-          <ErrorMessage message={state.UsersList.contactError} type="error" />
+          <ErrorMessage className="mt-[6px]" message={state.UsersList.contactError} type="error" />
         )}
 
         <div className="flex justify-end gap-3 p-4">

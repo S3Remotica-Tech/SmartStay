@@ -7,6 +7,11 @@ import Button from "react-bootstrap/Button";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const state = useSelector((state) => state);
@@ -163,31 +168,31 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             <div className="mt-1 m-0">
               <div className="w-full">
                 <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Label className="font-gilroy text-black font-semibold text-base"
+                  <Form.Label className={fieldLabelClass}
                   >
                     Room{" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control ref={roomRef}
                     value={room}
                     onChange={handleRoomChange}
                     type="text"
                     placeholder="Enter Room Name or No"
-                    className={`text-base text-gray-600 font-gilroy shadow-none border border-gray-300 rounded-lg h-12 focus:outline-none ${room ? "font-semibold" : "font-medium"}`}
+                    className={fieldClass(!!roomError)}
 
                   />
                 </Form.Group>
               </div>
             </div>
             {roomError && (
-              <ErrorMessage message={roomError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
             )}
             {floorError && (
-              <ErrorMessage message={floorError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
             )}
 
             {state.PgList && state.PgList?.alreadyRoomHere && (
-              <ErrorMessage message={state.PgList?.alreadyRoomHere} type="error" />
+              <ErrorMessage className="mt-[6px]" message={state.PgList?.alreadyRoomHere} type="error" />
             )}
           </Modal.Body>
 
@@ -201,7 +206,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
           {isChangedError && (
             <div className="flex justify-center">
-              <ErrorMessage message={isChangedError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
             </div>
           )}
 

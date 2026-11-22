@@ -6,6 +6,11 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
 import Cookies from "universal-cookie";
 import CryptoJS from "crypto-js";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function AdminChangePassword({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -127,8 +132,8 @@ function AdminChangePassword({ show, handleClose }) {
         </div>
         <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] relative">
           <div className="mt-6">
-            <label className="text-[14px] text-gray-700">
-              Current Password <span className="text-red-500">*</span>
+            <label className={fieldLabelClass}>
+              Current Password <span className={fieldRequiredClass}>*</span>
             </label>
 
             <div className="relative mt-2">
@@ -143,9 +148,7 @@ function AdminChangePassword({ show, handleClose }) {
                   setErrors({ ...errors, currentPassword: "" });
                   dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
                 }}
-                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
-                  errors.currentPassword ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+                className={fieldClass(!!errors.currentPassword)}
               />
 
               {showCurrent ? (
@@ -166,13 +169,13 @@ function AdminChangePassword({ show, handleClose }) {
             </div>
 
             {errors.currentPassword && (
-              <ErrorMessage message={errors.currentPassword} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.currentPassword} type="error" />
             )}
           </div>
 
           <div className="mt-2">
-            <label className="text-[14px] text-gray-700">
-              New Password <span className="text-red-500">*</span>
+            <label className={fieldLabelClass}>
+              New Password <span className={fieldRequiredClass}>*</span>
             </label>
 
             <div className="relative mt-2">
@@ -187,9 +190,7 @@ function AdminChangePassword({ show, handleClose }) {
                   setErrors({ ...errors, newPassword: "" });
                   dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
                 }}
-                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
-                  errors.newPassword ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+                className={fieldClass(!!errors.newPassword)}
               />
 
               {showNew ? (
@@ -210,13 +211,13 @@ function AdminChangePassword({ show, handleClose }) {
             </div>
 
             {errors.newPassword && (
-              <ErrorMessage message={errors.newPassword} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.newPassword} type="error" />
             )}
           </div>
 
           <div className="mt-2">
-            <label className="text-[14px] text-gray-700">
-              Confirm Password <span className="text-red-500">*</span>
+            <label className={fieldLabelClass}>
+              Confirm Password <span className={fieldRequiredClass}>*</span>
             </label>
 
             <div className="relative mt-2">
@@ -231,9 +232,7 @@ function AdminChangePassword({ show, handleClose }) {
                   setErrors({ ...errors, confirmPassword: "" });
                   dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
                 }}
-                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+                className={fieldClass(!!errors.confirmPassword)}
               />
 
               {showConfirm ? (
@@ -254,7 +253,7 @@ function AdminChangePassword({ show, handleClose }) {
             </div>
 
             {errors.confirmPassword && (
-              <ErrorMessage message={errors.confirmPassword} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.confirmPassword} type="error" />
             )}
           </div>
           {formLoading && (
@@ -264,7 +263,7 @@ function AdminChangePassword({ show, handleClose }) {
           )}
         </div>
         {state.createAccount.passwordUpdateError && (
-          <ErrorMessage
+          <ErrorMessage className="mt-[6px]"
             message={state.createAccount.passwordUpdateError}
             type="error"
           />

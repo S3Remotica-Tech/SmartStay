@@ -222,9 +222,9 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
               className="w-full h-full px-3 outline-none shadow-none font-gilroy text-sm"
             />
           </div>
-          {error && <ErrorMessage message={error} type="error" />}
+          {error && <ErrorMessage className="mt-[6px]" message={error} type="error" />}
           {state?.bankingDetails?.selfError && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state?.bankingDetails?.selfError}
               type="error"
             />

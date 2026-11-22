@@ -11,91 +11,13 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base) => ({
-    ...base,
-    height: "auto",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    color: "#4B4B4B",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    outline: "none",
-    "&:hover": {
-      border: "1px solid #D9D9D9",
-    },
-  }),
-  valueContainer: (base) => ({
-    ...base,
-    maxHeight: "60px",
-    overflowY: "auto",
-    flexWrap: "wrap",
-  }),
-  multiValue: (base) => ({
-    ...base,
-    backgroundColor: "#FFF",
-    borderRadius: "6px",
-  }),
-
-  multiValueLabel: (base) => ({
-    ...base,
-    fontSize: "12px",
-    fontWeight: 600,
-    color: "#000000",
-  }),
-
-  multiValueRemove: (base) => ({
-    ...base,
-    cursor: "pointer",
-    borderRadius: 10,
-    color: "#FF0000",
-    ":hover": {
-      color: "#FF0000",
-    },
-  }),
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#f8f9fa",
-    border: "1px solid #ced4da",
-    fontFamily: "Gilroy, sans-serif",
-    fontSize: "14px",
-  }),
-  menuList: (base) => ({
-    ...base,
-    backgroundColor: "#f8f9fa",
-    maxHeight: "120px",
-    padding: 0,
-    scrollbarWidth: "thin",
-    overflowY: "auto",
-    fontFamily: "Gilroy, sans-serif",
-    fontSize: "14px",
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: "#555",
-  }),
-  option: (base, state) => ({
-    ...base,
-    cursor: "pointer",
-    backgroundColor: state.isFocused ? "" : "white",
-    color: "#000",
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    color: "#555",
-    cursor: "pointer",
-  }),
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-  clearIndicator: () => ({
-    display: "none",
-  }),
-};
 function BillsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -456,32 +378,12 @@ function BillsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Tenant
                 </Form.Label>
               </div>
 
-              <Form.Control
-                style={{
-                  marginTop: 10,
-                  fontSize: 14,
-                  fontWeight: 600,
-                  padding: "8px 14px",
-                  fontFamily: "Gilroy",
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                }}
+              <Form.Control className={fieldClass()}
                 type="text"
                 placeholder="Enter Tenant Name"
                 value={tenantName}
@@ -507,18 +409,7 @@ function BillsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Bill Status
                 </Form.Label>
               </div>
@@ -530,7 +421,7 @@ function BillsFilter({ show, handleClose, size }) {
                 options={billStatusOptions}
                 value={selectedBillStatusOptions}
                 onChange={handleBillStatusChange}
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
                 isOptionSelected={(option) => {
@@ -553,24 +444,13 @@ function BillsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Type
                 </Form.Label>
               </div>
 
               <Select
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 options={typeOptions}
                 value={selectedTypeOptions}
                 onChange={handleInvoiceTypeChange}
@@ -592,24 +472,13 @@ function BillsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Mode
                 </Form.Label>
               </div>
 
               <Select
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 options={modeOptions}
                 value={selectedModeOptions}
                 onChange={handleInvoiceModeChange}
@@ -631,24 +500,13 @@ function BillsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Created By
                 </Form.Label>
               </div>
 
               <Select
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 options={createdByOptions}
                 value={selectedCreatedByOptions}
                 onChange={handleCreatedByChange}
@@ -670,18 +528,7 @@ function BillsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
-                >
+                <Form.Label className={fieldLabelClass}>
                   Period
                 </Form.Label>
               </div>
@@ -689,7 +536,7 @@ function BillsFilter({ show, handleClose, size }) {
               <Select
                 isSearchable={false}
                 options={periodOptions}
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select"
                 value={period}
                 onChange={(selected) => {
@@ -705,14 +552,7 @@ function BillsFilter({ show, handleClose, size }) {
             {period?.value === "CUSTOM" && (
               <div style={{ display: "flex", gap: 12 }}>
                 <Form.Group style={{ flex: 1 }} className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "12px",
-                      color: "#4B4B4B",
-                    }}
-                  >
+                  <Form.Label className={fieldLabelClass}>
                     Start Date
                   </Form.Label>
 
@@ -725,14 +565,9 @@ function BillsFilter({ show, handleClose, size }) {
                     }}
                   >
                     <DatePicker
+                      className={datePickerClass(!!dateError)}
                       wrapperClassName="w-full"
-                      style={{
-                        width: "100%",
-                        height: 39,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        fontSize: 12,
-                      }}
+                     
                       format="DD/MM/YYYY"
                       placeholder="Start Date"
                       value={startDate ? dayjs(startDate) : null}
@@ -751,19 +586,12 @@ function BillsFilter({ show, handleClose, size }) {
                   </div>
 
                   {dateError && (
-                    <ErrorMessage message={dateError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={dateError} type="error" />
                   )}
                 </Form.Group>
 
                 <Form.Group style={{ flex: 1 }}>
-                  <Form.Label
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: "12px",
-                      color: "#4B4B4B",
-                    }}
-                  >
+                  <Form.Label className={fieldLabelClass}>
                     End Date
                   </Form.Label>
 
@@ -772,13 +600,8 @@ function BillsFilter({ show, handleClose, size }) {
                     style={{ position: "relative", width: "100%" }}
                   >
                     <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 39,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        fontSize: 12,
-                      }}
+                      className={datePickerClass()}
+                     
                       format="DD/MM/YYYY"
                       placeholder="End Date"
                       value={endDate ? dayjs(endDate) : null}

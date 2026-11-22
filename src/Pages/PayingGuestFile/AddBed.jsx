@@ -7,6 +7,11 @@ import Button from "react-bootstrap/Button";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
   const state = useSelector((state) => state);
@@ -208,9 +213,9 @@ const bedRef = useRef(null);
                   className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                  <Form.Label className={fieldLabelClass}>
                     Bed Name or No{" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={bedNo}
@@ -218,13 +223,13 @@ const bedRef = useRef(null);
                     onChange={handleBedNoChange}
                     type="text"
                     placeholder="Enter Bed Name or No"
-                    className={`text-base text-gray-600 font-gilroy shadow-none border border-gray-300 rounded-lg h-12 focus:outline-none ${bedNo ? "font-semibold" : "font-medium"}`}
+                    className={fieldClass(!!bedError)}
 
                   />
                 </Form.Group>
                 {bedError && (
 
-                  <ErrorMessage message={bedError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={bedError} type="error" />
                 )}
               </div>
               <div className="md:col-span-1">
@@ -232,21 +237,21 @@ const bedRef = useRef(null);
                   className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium" >
+                  <Form.Label className={fieldLabelClass} >
                     Amount{" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={amount}
                     onChange={handleAmountChange}
                     type="text"
                     placeholder="Enter Amount"
-                    className={`text-base text-gray-600 font-gilroy shadow-none border border-gray-300 rounded-lg h-12 focus:outline-none ${amount ? "font-semibold" : "font-medium"}`}
+                    className={fieldClass(!!amountError)}
                   />
                 </Form.Group>
 
                 {amountError && (
-                  <ErrorMessage message={amountError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
                 )}
               </div>
             </div>
@@ -254,12 +259,12 @@ const bedRef = useRef(null);
 
             {generalError && (
               <div className="flex justify-center">
-                <ErrorMessage message={generalError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={generalError} type="error" />
               </div>
             )}
 
             {state.PgList?.alreadyBedAvailable && (
-              <ErrorMessage message={state.PgList?.alreadyBedAvailable} type="error" />
+              <ErrorMessage className="mt-[6px]" message={state.PgList?.alreadyBedAvailable} type="error" />
             )}
           </Modal.Body>
 
