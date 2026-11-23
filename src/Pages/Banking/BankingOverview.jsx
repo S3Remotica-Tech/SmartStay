@@ -24,7 +24,7 @@ import Invesment from "./Invesment";
 import VendorPayment from "./VendorPayment";
 import PropTypes from "prop-types";
 
-function BankingOverview({ show, onClose }) {
+function BankingOverview({ show, onClose, bankingOverviewDetails }) {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -317,6 +317,8 @@ function BankingOverview({ show, onClose }) {
     }
   }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
 
+  console.log("bankingOverviewDetails", bankingOverviewDetails)
+
   if (!show) return null;
   return (
     <div className="font-gilroy">
@@ -374,9 +376,9 @@ function BankingOverview({ show, onClose }) {
 
           <div className="flex items-center gap-3">
             <div className="relative ">
-              <button
+              <button disabled={bankingOverviewDetails?.isDeleted}
                 onClick={() => setShowTransactionMenu((prev) => !prev)}
-                className="flex items-center justify-between gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF] 
+                className=" disabled:opacity-50 disabled:cursor-not-allowed   flex items-center justify-between gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF] 
                                text-[#1E45E1] !font-semibold rounded-[8px] px-3 py-2  w-[170px] whitespace-nowrap"
               >
                 Add Transaction
@@ -448,7 +450,7 @@ function BankingOverview({ show, onClose }) {
             </div>
             {/* || OverviewDetails?.accountType === "CARD" */}
             <button
-              disabled={!canWriteBanking}
+              disabled={!canWriteBanking || bankingOverviewDetails?.isDeleted}
               onClick={(e) => {
                 e.stopPropagation();
                 handleOpenSelfTransfer(OverviewDetails);
@@ -542,7 +544,7 @@ function BankingOverview({ show, onClose }) {
           {activeTab === "overview" && <BankingChart />}
 
           {activeTab === "linkedMethods" && isBankAccount && (
-            <BankingLinkMethod />
+            <BankingLinkMethod isDeleted={bankingOverviewDetails?.isDeleted} />
           )}
 
           {activeTab === "ledger" && <BankingLedger />}
@@ -587,5 +589,8 @@ function BankingOverview({ show, onClose }) {
 BankingOverview.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  bankingOverviewDetails: PropTypes.shape({
+    isDeleted: PropTypes.bool,
+  }),
 };
 export default BankingOverview;

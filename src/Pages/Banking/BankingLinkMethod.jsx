@@ -5,10 +5,12 @@ import { Wallet3, Card, Add } from "iconsax-react";
 import AddMethod from "../Banking/AddMethod/AddMethod";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { useHasPermission } from "../../Utils/Permission";
+import PropTypes from "prop-types";
 
-function BankingLinkMethod() {
+function BankingLinkMethod({ isDeleted }) {
   const state = useSelector((state) => state);
   // const dispatch = useDispatch();
+  console.log("isDeleted", isDeleted)
 
   const {
     canWriteModule: canWriteBanking,
@@ -38,10 +40,11 @@ function BankingLinkMethod() {
 
         <button
           onClick={handleAddMethod}
-          disabled={!canWriteBanking}
-          className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-[12px] font-medium transition-colors ${canWriteBanking
-            ? "bg-[#1E45E1] text-white hover:bg-[#1839BC]"
-            : "bg-[#D1D5DB] text-[#9CA3AF] cursor-not-allowed"
+          disabled={!canWriteBanking || isDeleted}
+          className={` disabled:opacity-50 flex items-center gap-1 rounded-md px-3 py-1.5 text-[12px] 
+            font-medium transition-colors ${canWriteBanking
+              ? "bg-[#1E45E1] text-white hover:bg-[#1839BC]"
+              : "bg-[#D1D5DB] text-[#9CA3AF] cursor-not-allowed"
             }`}
         >
           <Add size="14" color={canWriteBanking ? "#fff" : "#9CA3AF"} />
@@ -152,5 +155,7 @@ function BankingLinkMethod() {
     </div>
   );
 }
-
+BankingLinkMethod.propTypes = {
+  isDeleted: PropTypes.bool,
+};
 export default BankingLinkMethod;

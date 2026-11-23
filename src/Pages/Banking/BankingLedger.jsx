@@ -406,7 +406,13 @@ function BankingLedger() {
     }
   }, [state.bankingDetails.getBankingLedgerListSuccessStatus, state.bankingDetails?.getBankingLedgerList.transactions]);
 
+  useEffect(() => {
+    if (state.bankingDetails.allTransactionError) {
+      setLoader(false);
+      dispatch({ type: "REMOVE_ALL_TRANSACTION_ERROR" })
+    }
 
+  }, [state.bankingDetails.allTransactionError])
 
   const currentPageTransaction =
     state.bankingDetails?.getBankingLedgerList?.currentPage ?? 1;
