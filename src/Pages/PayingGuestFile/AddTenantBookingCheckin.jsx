@@ -199,7 +199,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   const [amenityProRate, setAmenityProRate] = useState(true);
   const hostelAmenities = useHostelAmenities();
 
-
+  const isDev = import.meta.env.MODE === "development";
   const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
   const {
     canWriteModule: canWriteCustomers,
@@ -294,10 +294,10 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
     setCheckInAdvanceAmountError(
       value
         ? validateAmount(value, {
-            requiredMessage: "",
-            label: "Advance amount",
-            max: MAX_DEPOSIT_AMOUNT,
-          })
+          requiredMessage: "",
+          label: "Advance amount",
+          max: MAX_DEPOSIT_AMOUNT,
+        })
         : "",
     );
   };
@@ -362,10 +362,10 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
     const advanceError = isAdvanceRefused
       ? ""
       : validateAmount(advanceAmount, {
-          requiredMessage: "Please Enter Advance Amount",
-          label: "Advance amount",
-          max: MAX_DEPOSIT_AMOUNT,
-        });
+        requiredMessage: "Please Enter Advance Amount",
+        label: "Advance amount",
+        max: MAX_DEPOSIT_AMOUNT,
+      });
     if (advanceError) {
       setCheckInAdvanceAmountError(advanceError);
       firstInvalidRef ??= advanceAmountRef;
@@ -528,20 +528,20 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
       ? incrementDateAndFormat(joiningDate)
       : "";
     return {
-        hostelId: state.login.selectedHostel_Id,
-        floorId: Number(checkinFloor),
-        bedId: Number(checkinBed),
-        roomId: Number(checkinRoom),
-        joiningDate: formattedDate,
-        refundableAmount: Number(!isAdvanceRefused ? advanceAmount : 0),
-        rentalAmount: Number(rentAmount),
-        stayType: stayType,
-        deductions: !isAdvanceRefused ? formattedReasons : null,
-        shouldCollectFullRent: collectFullRent,
-        customRent: Number(customRent),
-        oneTimeDeduction: isAdvanceRefused
-          ? formattedReasonsOneTimePayments
-          : null,
+      hostelId: state.login.selectedHostel_Id,
+      floorId: Number(checkinFloor),
+      bedId: Number(checkinBed),
+      roomId: Number(checkinRoom),
+      joiningDate: formattedDate,
+      refundableAmount: Number(!isAdvanceRefused ? advanceAmount : 0),
+      rentalAmount: Number(rentAmount),
+      stayType: stayType,
+      deductions: !isAdvanceRefused ? formattedReasons : null,
+      shouldCollectFullRent: collectFullRent,
+      customRent: Number(customRent),
+      oneTimeDeduction: isAdvanceRefused
+        ? formattedReasonsOneTimePayments
+        : null,
     };
   };
 
@@ -597,9 +597,9 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
     setBookingAmountError(
       value
         ? validateAmount(value, {
-            requiredMessage: "",
-            label: "Booking Amount",
-          })
+          requiredMessage: "",
+          label: "Booking Amount",
+        })
         : "",
     );
   };
@@ -736,22 +736,11 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
 
   // Restore a saved draft into the form once, when the wizard was opened on an
   // existing draft. Later draft refreshes never overwrite what the user typed.
-  const restoredForRef = useRef(null);
-  const initialisedRef = useRef(false);
 
   useEffect(() => {
-    const shouldRestore =
-      DraftTenantDetails &&
-      !newTenant &&
-      restoredDraftId &&
-      String(DraftTenantDetails?.customerId) === String(restoredDraftId) &&
-      restoredForRef.current !== String(restoredDraftId);
 
-    if (!shouldRestore && initialisedRef.current) return;
-    initialisedRef.current = true;
-    if (shouldRestore) restoredForRef.current = String(restoredDraftId);
+    if (DraftTenantDetails && !newTenant) {
 
-    if (shouldRestore) {
       setBookingDate(
         DraftTenantDetails?.bookingInfo?.bookingDate
           ? dayjs(DraftTenantDetails.bookingInfo.bookingDate, "DD/MM/YYYY")
@@ -842,7 +831,17 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
         },
       ]);
     }
-  }, [DraftTenantDetails, newTenant, restoredDraftId]);
+  }, [DraftTenantDetails, newTenant]);
+
+
+
+
+
+
+
+
+
+
 
   const formatApiDate = (date) => {
     if (!date) return "";
@@ -1029,10 +1028,10 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
       if (!updatedErrors[index]) updatedErrors[index] = { reason: "", amount: "" };
       updatedErrors[index].amount = numericValue
         ? validateAmount(numericValue, {
-            requiredMessage: "",
-            label: "Amount",
-            max: MAX_DEPOSIT_AMOUNT,
-          })
+          requiredMessage: "",
+          label: "Amount",
+          max: MAX_DEPOSIT_AMOUNT,
+        })
         : "";
 
       updatedFields[index].amount = numericValue;
@@ -1473,9 +1472,9 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   const amenityApiFields = () =>
     DRAFT_EXTRA_FIELDS_ENABLED
       ? {
-          amenities: toAmenityPayload(selectedAmenities, hostelAmenities),
-          amenityProRate,
-        }
+        amenities: toAmenityPayload(selectedAmenities, hostelAmenities),
+        amenityProRate,
+      }
       : {};
 
   const validateCheckinStep = () =>
@@ -1551,39 +1550,39 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
           : collectFullRent || isjoiningBased
             ? Number(rentAmount) || 0
             : estimateFirstCharge(
-                { billingUnit: "MONTHLY", amount: rentAmount },
-                joiningDate,
-                true,
-                false,
-              ),
+              { billingUnit: "MONTHLY", amount: rentAmount },
+              joiningDate,
+              true,
+              false,
+            ),
       amenityProRate,
       amenities: isBookingTab
         ? []
         : Object.entries(selectedAmenities)
-            .map(([amenityId, planKey]) => {
-              const amenity = hostelAmenities.find(
-                (a) => String(a.amenityId) === String(amenityId),
-              );
-              const plan = amenity?.plans.find((p) => p.key === planKey);
-              if (!amenity || !plan) return null;
-              return {
-                key: `${amenityId}-${planKey}`,
-                name: amenity.name,
-                planName: plan.planName,
-                frequency: unitLabel(plan.billingUnit),
-                price: formatPlanPrice(plan),
-                oneTime: plan.billingUnit === "ONE_TIME",
-                prorated:
-                  plan.billingUnit === "MONTHLY" && amenityProRate && !isjoiningBased,
-                estimate: estimateFirstCharge(
-                  plan,
-                  joiningDate,
-                  amenityProRate,
-                  isjoiningBased,
-                ),
-              };
-            })
-            .filter(Boolean),
+          .map(([amenityId, planKey]) => {
+            const amenity = hostelAmenities.find(
+              (a) => String(a.amenityId) === String(amenityId),
+            );
+            const plan = amenity?.plans.find((p) => p.key === planKey);
+            if (!amenity || !plan) return null;
+            return {
+              key: `${amenityId}-${planKey}`,
+              name: amenity.name,
+              planName: plan.planName,
+              frequency: unitLabel(plan.billingUnit),
+              price: formatPlanPrice(plan),
+              oneTime: plan.billingUnit === "ONE_TIME",
+              prorated:
+                plan.billingUnit === "MONTHLY" && amenityProRate && !isjoiningBased,
+              estimate: estimateFirstCharge(
+                plan,
+                joiningDate,
+                amenityProRate,
+                isjoiningBased,
+              ),
+            };
+          })
+          .filter(Boolean),
     };
   };
 
@@ -1850,22 +1849,24 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                   onChange={handleBookingBedChange}
                   styles={fieldSelectStyles(!!state.Booking?.bookingBedError)}
                 />
+
+                <div className="flex justify-end">
+                  {state.Booking?.bookingBedError ? (
+                    <ErrorMessage
+                      message={state.Booking?.bookingBedError}
+                      type="error"
+                    />
+                  ) : null}
+                  {bedError && <ErrorMessage message={bedError} type="error" />}
+                  {bedWarning ? (
+                    <div className="">
+                      <ErrorMessage message={bedWarning} type="error" />
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
-            <div className="flex justify-end">
-              {state.Booking?.bookingBedError ? (
-                <ErrorMessage
-                  message={state.Booking?.bookingBedError}
-                  type="error"
-                />
-              ) : null}
-              {bedError && <ErrorMessage message={bedError} type="error" />}
-              {bedWarning ? (
-                <div className="">
-                  <ErrorMessage message={bedWarning} type="error" />
-                </div>
-              ) : null}
-            </div>
+
           </div>
 
           {/* <div className="mb-2">
@@ -1981,11 +1982,10 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 key={option.value}
                 type="button"
                 onClick={() => setStayType(option.value)}
-                className={`flex h-[46px] items-center justify-center rounded-[5px] font-gilroy text-[15px] transition-colors ${
-                  stayType === option.value
-                    ? "border-[1px] border-solid border-[#1E45E1] bg-[#1E45E1] font-semibold text-white"
-                    : "bg-[#F5F5F5] font-medium text-[#222222] hover:bg-[#EBEBEC]"
-                }`}
+                className={`flex h-[46px] items-center justify-center rounded-[5px] font-gilroy text-[15px] transition-colors ${stayType === option.value
+                  ? "border-[1px] border-solid border-[#1E45E1] bg-[#1E45E1] font-semibold text-white"
+                  : "bg-[#F5F5F5] font-medium text-[#222222] hover:bg-[#EBEBEC]"
+                  }`}
               >
                 {option.label}
               </button>
@@ -2023,332 +2023,332 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
               </div>
 
               <StepCard title="Stay details">
-              <div>
-                <div className="flex justify-between mb-2 ">
-                  <div>
-                    <label className="text-sm font-medium text-[#222222] mb-2 block">
-                      Select Stay Details <span className="text-red-500">*</span>
-                    </label>
+                <div>
+                  <div className="flex justify-between mb-2 ">
+                    <div>
+                      <label className="text-sm font-medium text-[#222222] mb-2 block">
+                        Select Stay Details <span className="text-red-500">*</span>
+                      </label>
+                    </div>
+
+                    <div className="relative inline-block group">
+                      <button
+                        onClick={() => {
+                          if (joiningDate) {
+                            handleBedLayoutPreview("checkin-way");
+                          }
+                        }}
+                        className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${joiningDate
+                          ? "bg-[#EDF3FF] text-[#1E45E1]"
+                          : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          }`}
+                      >
+                        <IoBedOutline className="text-[12px]" />
+                        Bed Layout View
+                      </button>
+
+                      {!joiningDate && (
+                        <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
+                          Please select the joining date first.
+                          <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="relative inline-block group">
-                    <button
-                      onClick={() => {
-                        if (joiningDate) {
-                          handleBedLayoutPreview("checkin-way");
+                  <div className="grid grid-cols-3 gap-3">
+                    <div ref={checkinFloorRef}>
+                      <label className="text-sm font-medium text-[#222222] mb-2 block">
+                        Floor <span className="text-red-500 text-xl">*</span>
+                      </label>
+                      <Select
+                        disabled={!joiningDate}
+                        options={floorOptions}
+                        value={
+                          floorOptions.find(
+                            (option) => option.value === checkinFloor,
+                          ) || null
                         }
-                      }}
-                      className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${joiningDate
-                        ? "bg-[#EDF3FF] text-[#1E45E1]"
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        }`}
-                    >
-                      <IoBedOutline className="text-[12px]" />
-                      Bed Layout View
-                    </button>
-
-                    {!joiningDate && (
-                      <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
-                        Please select the joining date first.
-                        <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
-                      </div>
-                    )}
+                        onChange={handleCheckinFloorChange}
+                        styles={fieldSelectStyles(!!checkInFloorError)}
+                      />
+                      {checkInFloorError && (
+                        <ErrorMessage message={checkInFloorError} type="error" />
+                      )}
+                    </div>
+                    <div ref={checkinRoomRef}>
+                      <label className="text-sm font-medium text-[#222222] mb-2 block">
+                        Room <span className="text-red-500 text-xl">*</span>
+                      </label>
+                      <Select
+                        isDisabled={!joiningDate || !checkinFloor}
+                        options={checkinRoomOptions}
+                        value={
+                          checkinRoomOptions.find(
+                            (option) =>
+                              String(option.value) === String(checkinRoom),
+                          ) || null
+                        }
+                        onChange={handleCheckinRoomChange}
+                        styles={fieldSelectStyles(!!checkInRoomError)}
+                      />
+                      {checkInRoomError && (
+                        <ErrorMessage message={checkInRoomError} type="error" />
+                      )}
+                    </div>
+                    <div ref={checkinBedRef}>
+                      <label className="text-sm font-medium text-[#222222] mb-2 block">
+                        Bed <span className="text-red-500 text-xl">*</span>
+                      </label>
+                      <Select
+                        disabled={!joiningDate}
+                        options={
+                          availableCheckinBed
+                            ? availableCheckinBed
+                              .filter(
+                                (item) =>
+                                  item &&
+                                  item?.bedName !== "0" &&
+                                  item?.bedName !== "undefined" &&
+                                  item?.bedName !== "" &&
+                                  item?.bedName !== "null",
+                              )
+                              .map((item) => ({
+                                value: item?.bedId,
+                                label: item?.bedName,
+                              }))
+                            : []
+                        }
+                        value={
+                          availableCheckinBed
+                            ? (() => {
+                              const selected = availableCheckinBed?.find(
+                                (option) => option?.bedId === checkinBed,
+                              );
+                              return selected
+                                ? {
+                                  value: selected.bedId,
+                                  label: selected.bedName,
+                                }
+                                : null;
+                            })()
+                            : null
+                        }
+                        onChange={handleCheckinBedChange}
+                        styles={fieldSelectStyles(!!checkInBedError)}
+                      />
+                      {checkInBedError && (
+                        <ErrorMessage message={checkInBedError} type="error" />
+                      )}
+                    </div>
                   </div>
+                  {bedWarning ? (
+                    <div className="flex justify-end me-2">
+                      <ErrorMessage message={bedWarning} type="error" />
+                    </div>
+                  ) : null}
                 </div>
-
-                <div className="grid grid-cols-3 gap-3">
-                  <div ref={checkinFloorRef}>
-                    <label className="text-sm font-medium text-[#222222] mb-2 block">
-                      Floor <span className="text-red-500 text-xl">*</span>
-                    </label>
-                    <Select
-                      disabled={!joiningDate}
-                      options={floorOptions}
-                      value={
-                        floorOptions.find(
-                          (option) => option.value === checkinFloor,
-                        ) || null
-                      }
-                      onChange={handleCheckinFloorChange}
-                      styles={fieldSelectStyles(!!checkInFloorError)}
-                    />
-                    {checkInFloorError && (
-                      <ErrorMessage message={checkInFloorError} type="error" />
-                    )}
-                  </div>
-                  <div ref={checkinRoomRef}>
-                    <label className="text-sm font-medium text-[#222222] mb-2 block">
-                      Room <span className="text-red-500 text-xl">*</span>
-                    </label>
-                    <Select
-                      isDisabled={!joiningDate || !checkinFloor}
-                      options={checkinRoomOptions}
-                      value={
-                        checkinRoomOptions.find(
-                          (option) =>
-                            String(option.value) === String(checkinRoom),
-                        ) || null
-                      }
-                      onChange={handleCheckinRoomChange}
-                      styles={fieldSelectStyles(!!checkInRoomError)}
-                    />
-                    {checkInRoomError && (
-                      <ErrorMessage message={checkInRoomError} type="error" />
-                    )}
-                  </div>
-                  <div ref={checkinBedRef}>
-                    <label className="text-sm font-medium text-[#222222] mb-2 block">
-                      Bed <span className="text-red-500 text-xl">*</span>
-                    </label>
-                    <Select
-                      disabled={!joiningDate}
-                      options={
-                        availableCheckinBed
-                          ? availableCheckinBed
-                            .filter(
-                              (item) =>
-                                item &&
-                                item?.bedName !== "0" &&
-                                item?.bedName !== "undefined" &&
-                                item?.bedName !== "" &&
-                                item?.bedName !== "null",
-                            )
-                            .map((item) => ({
-                              value: item?.bedId,
-                              label: item?.bedName,
-                            }))
-                          : []
-                      }
-                      value={
-                        availableCheckinBed
-                          ? (() => {
-                            const selected = availableCheckinBed?.find(
-                              (option) => option?.bedId === checkinBed,
-                            );
-                            return selected
-                              ? {
-                                value: selected.bedId,
-                                label: selected.bedName,
-                              }
-                              : null;
-                          })()
-                          : null
-                      }
-                      onChange={handleCheckinBedChange}
-                      styles={fieldSelectStyles(!!checkInBedError)}
-                    />
-                    {checkInBedError && (
-                      <ErrorMessage message={checkInBedError} type="error" />
-                    )}
-                  </div>
-                </div>
-                {bedWarning ? (
-                  <div className="flex justify-end me-2">
-                    <ErrorMessage message={bedWarning} type="error" />
-                  </div>
-                ) : null}
-              </div>
 
               </StepCard>
 
               <StepCard title="Advance/ Deposit details">
-              <div className="flex items-center justify-between">
-                <label className="m-0 text-sm text-[#222222] font-gilroy font-medium">
-                  Total advance/security deposit amount ₹(INR)
-                  {!isAdvanceRefused && (
-                    <span className="text-red-500 text-xl">*</span>
-                  )}
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="m-0 text-sm text-[#222222] font-gilroy font-medium">
+                    Total advance/security deposit amount ₹(INR)
+                    {!isAdvanceRefused && (
+                      <span className="text-red-500 text-xl">*</span>
+                    )}
+                  </label>
 
-                <div className="flex items-center justify-between mt-1 gap-2 ">
-                  <span className="font-gilroy text-[12px] text-[#222222]">
-                    Refuse this amount
-                  </span>
+                  <div className="flex items-center justify-between mt-1 gap-2 ">
+                    <span className="font-gilroy text-[12px] text-[#222222]">
+                      Refuse this amount
+                    </span>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsAdvanceRefused(!isAdvanceRefused);
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsAdvanceRefused(!isAdvanceRefused);
 
-                      if (!isAdvanceRefused) {
-                        setAdvanceAmount("");
-                        setFields([]);
-                      }
+                        if (!isAdvanceRefused) {
+                          setAdvanceAmount("");
+                          setFields([]);
+                        }
 
-                      // setAdvanceAmountError("");
-                    }}
-                    role="switch"
-                    aria-checked={isAdvanceRefused}
-                    aria-label="Refuse this amount"
-                    className={`relative inline-flex h-[17px] w-[31px] items-center rounded-full p-[2px] transition-colors duration-300 ${isAdvanceRefused ? "bg-[#1E45E1]" : "bg-[#C0C4CA]"
-                      }`}
-                  >
-                    <span
-                      className={`inline-block h-[13.6px] w-[13.6px] transform rounded-full bg-[#FCFCFD] shadow-[0px_1px_3px_rgba(16,24,40,0.1),0px_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ${isAdvanceRefused ? "translate-x-[14px]" : "translate-x-0"
+                        // setAdvanceAmountError("");
+                      }}
+                      role="switch"
+                      aria-checked={isAdvanceRefused}
+                      aria-label="Refuse this amount"
+                      className={`relative inline-flex h-[17px] w-[31px] items-center rounded-full p-[2px] transition-colors duration-300 ${isAdvanceRefused ? "bg-[#1E45E1]" : "bg-[#C0C4CA]"
                         }`}
-                    />
-                  </button>
-                </div>
-              </div>
-              {!isAdvanceRefused && (
-                <>
-                  <div className="grid grid-cols-12 gap-x-4 rounded-[8px] border-[1px] border-solid border-[#F2F4F6] bg-[#FBFCFF] px-[14px] py-[16px]">
-                    <div className="col-span-12">
-                      <div className="">
-                        <label className="text-sm font-gilroy font-medium mb-2 text-[#222222]">
-                          Refundable Amount
-                        </label>
-                      </div>
-                      <AmountInput
-                        inputRef={advanceAmountRef}
-                        value={advanceAmount}
-                        onChange={handleAdvanceAmount}
-                        placeholder="0.00"
-                        disabled={isAdvanceRefused}
-                        hasError={!!checkInAdvanceAmountError}
-                        className="mt-[8px]"
+                    >
+                      <span
+                        className={`inline-block h-[13.6px] w-[13.6px] transform rounded-full bg-[#FCFCFD] shadow-[0px_1px_3px_rgba(16,24,40,0.1),0px_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 ${isAdvanceRefused ? "translate-x-[14px]" : "translate-x-0"
+                          }`}
                       />
-
-                      {!isAdvanceRefused && checkInAdvanceAmountError && (
-                        <ErrorMessage
-                          message={checkInAdvanceAmountError}
-                          type="error"
-                        />
-                      )}
-
-                      <div className="">
-                        <label className="mb-[12px] mt-[16px] block font-gilroy text-sm font-medium text-[#222222]">
-                          Non Refundable Amount
-                        </label>
-                        {fields?.length > 0 && (
-                          <div className="mb-[12px] flex flex-col gap-[12px]">
-                          {fields.map((item, index) => {
-                            const isMaintenanceSelected = fields.some(
-                              (field) => field.reason === "maintenance",
-                            );
-
-                            const filteredOptions = reasonOptions.map((opt) => {
-                              if (opt.value === "maintenance") {
-                                return {
-                                  ...opt,
-                                  isDisabled:
-                                    isMaintenanceSelected &&
-                                    item.reason !== "maintenance",
-                                };
-                              }
-                              return opt;
-                            });
-
-                            // Figma 7145:163214: reason | ₹ amount side by side,
-                            // round remove button on the row's top-right corner.
-                            return (
-                              <div className="relative" key={index}>
-                                <div className="flex items-start gap-[14px]">
-                                <div className="min-w-0 flex-1">
-                                  {!item.showInput ? (
-                                    <Select
-                                      menuPlacement="top"
-                                      // menuPosition="fixed"
-                                      options={filteredOptions}
-                                      value={
-                                        filteredOptions.find(
-                                          (opt) =>
-                                            opt.value === item.reason_name,
-                                        ) || null
-                                      }
-                                      onChange={(selectedOption) => {
-                                        const selectedValue =
-                                          selectedOption.value;
-
-                                        if (selectedValue === "others") {
-                                          handleInputChange(
-                                            index,
-                                            "reason",
-                                            "others",
-                                          );
-                                        } else {
-                                          handleInputChange(
-                                            index,
-                                            "reason",
-                                            selectedValue,
-                                          );
-                                        }
-                                      }}
-                                      isDisabled={item.reason === "maintenance"}
-                                      styles={fieldSelectStyles()}
-                                    />
-                                  ) : (
-                                    <>
-                                      <input
-                                        type="text"
-                                        className={fieldClass(!!errors[index]?.reason)}
-                                        placeholder="Enter custom reason"
-                                        value={item.customReason}
-                                        onChange={(e) =>
-                                          handleInputChange(
-                                            index,
-                                            "customReason",
-                                            e.target.value,
-                                          )
-                                        }
-                                       
-                                      />
-                                    </>
-                                  )}
-                                  {errors[index]?.reason && (
-                                    <ErrorMessage
-                                      message={errors[index]?.reason}
-                                      type="error"
-                                    />
-                                  )}
-                                </div>
-
-                                <div className="min-w-0 flex-1">
-                                  <AmountInput
-                                    value={item.amount}
-                                    placeholder="Enter amount"
-                                    ariaLabel={`Non refundable amount ${index + 1}`}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        index,
-                                        "amount",
-                                        e.target.value,
-                                      )
-                                    }
-                                    hasError={!!errors[index]?.amount}
-                                  />
-                                  {errors[index]?.amount && (
-                                    <ErrorMessage
-                                      message={errors[index]?.amount}
-                                      type="error"
-                                    />
-                                  )}
-                                </div>
-                                </div>
-                                <button
-                                  type="button"
-                                  aria-label={`Remove charge ${index + 1}`}
-                                  onClick={() => handleRemoveField(index)}
-                                  className="absolute -right-[8px] -top-[8px] z-[2] flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DCDCDC] hover:bg-[#C8C8C8]"
-                                >
-                                  <img src={removeIcon} alt="" />
-                                </button>
-                              </div>
-                            );
-                          })}
-                          </div>
-                        )}
-                        <button
-                          type="button"
+                    </button>
+                  </div>
+                </div>
+                {!isAdvanceRefused && (
+                  <>
+                    <div className="grid grid-cols-12 gap-x-4 rounded-[8px] border-[1px] border-solid border-[#F2F4F6] bg-[#FBFCFF] px-[14px] py-[16px]">
+                      <div className="col-span-12">
+                        <div className="">
+                          <label className="text-sm font-gilroy font-medium mb-2 text-[#222222]">
+                            Refundable Amount
+                          </label>
+                        </div>
+                        <AmountInput
+                          inputRef={advanceAmountRef}
+                          value={advanceAmount}
+                          onChange={handleAdvanceAmount}
+                          placeholder="0.00"
                           disabled={isAdvanceRefused}
-                          onClick={handleAddField}
-                          className="flex h-[36px] w-full items-center justify-center gap-[10px] rounded-[5px] bg-[#EAEEFF] font-gilroy text-[13.5px] font-semibold text-[#1E45E1] hover:bg-[#DFE5FF] disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500"
-                        >
-                          <AddCircle color="#1E45E1" size="17" />
-                          Add
-                        </button>
+                          hasError={!!checkInAdvanceAmountError}
+                          className="mt-[8px]"
+                        />
 
-                        {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
+                        {!isAdvanceRefused && checkInAdvanceAmountError && (
+                          <ErrorMessage
+                            message={checkInAdvanceAmountError}
+                            type="error"
+                          />
+                        )}
+
+                        <div className="">
+                          <label className="mb-[12px] mt-[16px] block font-gilroy text-sm font-medium text-[#222222]">
+                            Non Refundable Amount
+                          </label>
+                          {fields?.length > 0 && (
+                            <div className="mb-[12px] flex flex-col gap-[12px]">
+                              {fields.map((item, index) => {
+                                const isMaintenanceSelected = fields.some(
+                                  (field) => field.reason === "maintenance",
+                                );
+
+                                const filteredOptions = reasonOptions.map((opt) => {
+                                  if (opt.value === "maintenance") {
+                                    return {
+                                      ...opt,
+                                      isDisabled:
+                                        isMaintenanceSelected &&
+                                        item.reason !== "maintenance",
+                                    };
+                                  }
+                                  return opt;
+                                });
+
+                                // Figma 7145:163214: reason | ₹ amount side by side,
+                                // round remove button on the row's top-right corner.
+                                return (
+                                  <div className="relative" key={index}>
+                                    <div className="flex items-start gap-[14px]">
+                                      <div className="min-w-0 flex-1">
+                                        {!item.showInput ? (
+                                          <Select
+                                            menuPlacement="top"
+                                            // menuPosition="fixed"
+                                            options={filteredOptions}
+                                            value={
+                                              filteredOptions.find(
+                                                (opt) =>
+                                                  opt.value === item.reason_name,
+                                              ) || null
+                                            }
+                                            onChange={(selectedOption) => {
+                                              const selectedValue =
+                                                selectedOption.value;
+
+                                              if (selectedValue === "others") {
+                                                handleInputChange(
+                                                  index,
+                                                  "reason",
+                                                  "others",
+                                                );
+                                              } else {
+                                                handleInputChange(
+                                                  index,
+                                                  "reason",
+                                                  selectedValue,
+                                                );
+                                              }
+                                            }}
+                                            isDisabled={item.reason === "maintenance"}
+                                            styles={fieldSelectStyles()}
+                                          />
+                                        ) : (
+                                          <>
+                                            <input
+                                              type="text"
+                                              className={fieldClass(!!errors[index]?.reason)}
+                                              placeholder="Enter custom reason"
+                                              value={item.customReason}
+                                              onChange={(e) =>
+                                                handleInputChange(
+                                                  index,
+                                                  "customReason",
+                                                  e.target.value,
+                                                )
+                                              }
+
+                                            />
+                                          </>
+                                        )}
+                                        {errors[index]?.reason && (
+                                          <ErrorMessage
+                                            message={errors[index]?.reason}
+                                            type="error"
+                                          />
+                                        )}
+                                      </div>
+
+                                      <div className="min-w-0 flex-1">
+                                        <AmountInput
+                                          value={item.amount}
+                                          placeholder="Enter amount"
+                                          ariaLabel={`Non refundable amount ${index + 1}`}
+                                          onChange={(e) =>
+                                            handleInputChange(
+                                              index,
+                                              "amount",
+                                              e.target.value,
+                                            )
+                                          }
+                                          hasError={!!errors[index]?.amount}
+                                        />
+                                        {errors[index]?.amount && (
+                                          <ErrorMessage
+                                            message={errors[index]?.amount}
+                                            type="error"
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      aria-label={`Remove charge ${index + 1}`}
+                                      onClick={() => handleRemoveField(index)}
+                                      className="absolute -right-[8px] -top-[8px] z-[2] flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DCDCDC] hover:bg-[#C8C8C8]"
+                                    >
+                                      <img src={removeIcon} alt="" />
+                                    </button>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            disabled={isAdvanceRefused}
+                            onClick={handleAddField}
+                            className="flex h-[36px] w-full items-center justify-center gap-[10px] rounded-[5px] bg-[#EAEEFF] font-gilroy text-[13.5px] font-semibold text-[#1E45E1] hover:bg-[#DFE5FF] disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500"
+                          >
+                            <AddCircle color="#1E45E1" size="17" />
+                            Add
+                          </button>
+
+                          {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
               <span className="text-[#505F76] text-xs ">
                 TOTAL FIXED CHARGES
               </span>
@@ -2356,141 +2356,141 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 ₹ {total.toLocaleString()}
               </span>
             </div> */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </>
-              )}
-              {!isAdvanceRefused && (
-                <p className="m-0 px-[4px] font-gilroy text-[12px] leading-[18px] text-[#505F76]">
-                  Note: The total check-in advance / security deposit collected
-                  upfront under this single invoice only.
-                </p>
-              )}
+                  </>
+                )}
+                {!isAdvanceRefused && (
+                  <p className="m-0 px-[4px] font-gilroy text-[12px] leading-[18px] text-[#505F76]">
+                    Note: The total check-in advance / security deposit collected
+                    upfront under this single invoice only.
+                  </p>
+                )}
               </StepCard>
 
               <StepCard title="Rent details">
-              <div className="grid grid-cols-1 gap-4">
-                <div className="mb-2">
-                  <label className="text-sm font-medium text-[#222222] mb-2 block">
-                    Rental amount-Base ₹(INR){" "}
-                    <span className="text-red-500 text-xl">*</span>
-                  </label>
-                  <AmountInput
-                    inputRef={rentAmountRef}
-                    value={rentAmount}
-                    onChange={handleRentAmountChange}
-                    placeholder={
-                      placeHolderRoomRent
-                        ? `Selected Bed Rent is ${placeHolderRoomRent}`
-                        : "Enter Amount"
-                    }
-                    hasError={!!checkInRentAmountError}
-                  />
-                  {checkInRentAmountError && (
-                    <ErrorMessage
-                      message={checkInRentAmountError}
-                      type="error"
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="mb-2">
+                    <label className="text-sm font-medium text-[#222222] mb-2 block">
+                      Rental amount-Base ₹(INR){" "}
+                      <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <AmountInput
+                      inputRef={rentAmountRef}
+                      value={rentAmount}
+                      onChange={handleRentAmountChange}
+                      placeholder={
+                        placeHolderRoomRent
+                          ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                          : "Enter Amount"
+                      }
+                      hasError={!!checkInRentAmountError}
                     />
-                  )}
+                    {checkInRentAmountError && (
+                      <ErrorMessage
+                        message={checkInRentAmountError}
+                        type="error"
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-              {!isjoiningBased && (
-                <div className="w-full max-w-[680px] bg-white">
-                  {!hideByPostPaidHostel && (
-                    <div>
-                      <div className="flex items-center  justify-between px-1 py-3">
-                        <div className="flex items-center gap-2 ">
-                          <input
-                            type="checkbox"
-                            checked={collectFullRent}
-                            onChange={handleCheckboxChange}
-                            className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
-                          />
-
-                          <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2">
-                            Do you want to collect Full Rent for current month?
-                            <InfoCircle
-                              size="16"
-                              color="#9CA3AF"
-                              variant="Linear"
-                              className="cursor-pointer"
+                {!isjoiningBased && (
+                  <div className="w-full max-w-[680px] bg-white">
+                    {!hideByPostPaidHostel && (
+                      <div>
+                        <div className="flex items-center  justify-between px-1 py-3">
+                          <div className="flex items-center gap-2 ">
+                            <input
+                              type="checkbox"
+                              checked={collectFullRent}
+                              onChange={handleCheckboxChange}
+                              className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
                             />
-                          </label>
+
+                            <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2">
+                              Do you want to collect Full Rent for current month?
+                              <InfoCircle
+                                size="16"
+                                color="#9CA3AF"
+                                variant="Linear"
+                                className="cursor-pointer"
+                              />
+                            </label>
+                          </div>
+                          {collectFullRent && (
+                            <div>
+                              <button
+                                onClick={() => {
+                                  handleAddCustomRent();
+                                }}
+                                className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${customRentEnable
+                                  ? "bg-[#0D1B8E] text-white"
+                                  : "bg-[#EAEEFF] text-[#1E45E1]"
+                                  }`}
+                              >
+                                {customRentEnable ? (
+                                  <>
+                                    Remove Custom Rent
+                                    <CloseCircle size="18" variant="Bold" />
+                                  </>
+                                ) : (
+                                  <>
+                                    Add Custom Rent
+                                    <ArrowRight2 size="16" />
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          )}
                         </div>
-                        {collectFullRent && (
-                          <div>
-                            <button
-                              onClick={() => {
-                                handleAddCustomRent();
-                              }}
-                              className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${customRentEnable
-                                ? "bg-[#0D1B8E] text-white"
-                                : "bg-[#EAEEFF] text-[#1E45E1]"
-                                }`}
-                            >
-                              {customRentEnable ? (
+
+                        {customRentEnable && (
+                          <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
+                            <div>
+                              <div className="text-sm font-medium text-[#222222] mb-1">
+                                Custom Rent Amount
+                              </div>
+                              <div className="text-[#64748B] text-[12px] font-medium">
+                                This amount is reflects to First month Rent only.
+                              </div>
+                            </div>
+                            <div className="relative min-w-[220px]">
+                              {customRentEditMode ? (
                                 <>
-                                  Remove Custom Rent
-                                  <CloseCircle size="18" variant="Bold" />
+                                  <AmountInput
+                                    value={customRent}
+                                    onChange={handleCustomRentChange}
+                                    className="!pr-[64px]"
+                                  />
+
+                                  <button
+                                    onClick={() => setCustomRentEditMode(false)}
+                                    className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                                  >
+                                    Set
+                                  </button>
                                 </>
                               ) : (
-                                <>
-                                  Add Custom Rent
-                                  <ArrowRight2 size="16" />
-                                </>
+                                <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
+                                  <span className="font-semibold text-[#222222] text-base">
+                                    ₹ {customRent || 0}
+                                  </span>
+
+                                  <button
+                                    onClick={() => setCustomRentEditMode(true)}
+                                    className="text-[#1E45E1]"
+                                  >
+                                    <Edit2 size="18" color="#64748B" />
+                                  </button>
+                                </div>
                               )}
-                            </button>
+                            </div>
                           </div>
                         )}
                       </div>
-
-                      {customRentEnable && (
-                        <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
-                          <div>
-                            <div className="text-sm font-medium text-[#222222] mb-1">
-                              Custom Rent Amount
-                            </div>
-                            <div className="text-[#64748B] text-[12px] font-medium">
-                              This amount is reflects to First month Rent only.
-                            </div>
-                          </div>
-                          <div className="relative min-w-[220px]">
-                            {customRentEditMode ? (
-                              <>
-                                <AmountInput
-                                  value={customRent}
-                                  onChange={handleCustomRentChange}
-                                  className="!pr-[64px]"
-                                />
-
-                                <button
-                                  onClick={() => setCustomRentEditMode(false)}
-                                  className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
-                                >
-                                  Set
-                                </button>
-                              </>
-                            ) : (
-                              <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
-                                <span className="font-semibold text-[#222222] text-base">
-                                  ₹ {customRent || 0}
-                                </span>
-
-                                <button
-                                  onClick={() => setCustomRentEditMode(true)}
-                                  className="text-[#1E45E1]"
-                                >
-                                  <Edit2 size="18" color="#64748B" />
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {/* {isAdvanceRefused && (
+                    )}
+                    {/* {isAdvanceRefused && (
                     <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
                       <div
                         onClick={handleAccordionToggle}
@@ -2645,10 +2645,10 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       )}
                     </div>
                   )} */}
-                </div>
-              )}
+                  </div>
+                )}
 
-              {/* <div className="">
+                {/* <div className="">
                 <div
                   className="rounded-xl p-4 text-white shadow-md
        bg-[#132197]"
@@ -2729,13 +2729,16 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
               </div> */}
 
               </StepCard>
+              {
+                isDev &&
 
-              <TenantAmenitiesSection
-                selected={selectedAmenities}
-                onChange={setSelectedAmenities}
-                proRate={amenityProRate}
-                onProRateChange={setAmenityProRate}
-              />
+                <TenantAmenitiesSection
+                  selected={selectedAmenities}
+                  onChange={setSelectedAmenities}
+                  proRate={amenityProRate}
+                  onProRateChange={setAmenityProRate}
+                />
+              }
 
               {footer}
             </div>

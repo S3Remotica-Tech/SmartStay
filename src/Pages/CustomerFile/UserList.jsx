@@ -73,6 +73,8 @@ function UserList(props) {
   const [bookingOnly, setBookingOnly] = useState(false);
   // Customer id of a tenant just created from Add Tenant; its row is highlighted
   // for a few seconds. Matched by id because names can repeat.
+
+  // console.log("showMenuNewTenant", showMenuNewTenant)
   const [newTenantId, setNewTenantId] = useState(null);
   const [EditObj, setEditObj] = useState("");
   const [activeRow, setActiveRow] = useState(null);
@@ -1028,6 +1030,7 @@ function UserList(props) {
   };
 
   const handleShowAddTenant = (isWhat) => {
+    console.log("callllleddddddd", isWhat)
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails("");
