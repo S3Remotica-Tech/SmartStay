@@ -589,5 +589,8 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
 BankingOverview.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  bankingOverviewDetails: PropTypes.shape({
+    isDeleted: PropTypes.bool,
+  }),
 };
 export default BankingOverview;
