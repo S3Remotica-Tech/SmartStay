@@ -22,109 +22,14 @@ import {
   ArrowRight2,
   Edit2,
 } from "iconsax-react";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    width: "100%",
-    minWidth: "100%",
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "100%",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
@@ -1065,13 +970,13 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
             <div className="grid grid-cols-12 gap-x-4 mb-2">
               <div className="col-span-12 mb-2">
                 <Form.Group controlId="purchaseDate">
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                    Joining Date <span className="text-red-500 text-xl">*</span>
+                  <Form.Label className={fieldLabelClass}>
+                    Joining Date <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <div className="datepicker-wrapper relative w-full">
                     <DatePicker
-                      className="w-full h-12 cursor-pointer font-gilroy"
+                      className={datePickerClass(!!dateError)}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -1091,10 +996,10 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                   </div>
                 </Form.Group>
 
-                {dateError && <ErrorMessage message={dateError} type="error" />}
+                {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />}
 
                 {joiningDateErrmsg.trim() !== "" && (
-                  <ErrorMessage message={joiningDateErrmsg} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={joiningDateErrmsg} type="error" />
                 )}
               </div>
             </div>
@@ -1135,8 +1040,8 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
 
               <div className="grid grid-cols-3 gap-3">
                 <div className="mb-2 w-full ">
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                    Floor <span className="text-red-500 text-xl">*</span>
+                  <Form.Label className={fieldLabelClass}>
+                    Floor <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <Select
@@ -1154,18 +1059,17 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                       null
                     }
                     placeholder="Select a Floor"
-                    classNamePrefix="custom"
                     menuPlacement="auto"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles(!!floorError)}
                   />
 
                   {floorError && (
-                    <ErrorMessage message={floorError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
                   )}
                 </div>
                 <div className="mb-2  w-full ">
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                    Room <span className="text-red-500 text-xl">*</span>
+                  <Form.Label className={fieldLabelClass}>
+                    Room <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <Select
@@ -1179,18 +1083,17 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                       null
                     }
                     placeholder="Select a Room"
-                    classNamePrefix="custom"
                     menuPlacement="auto"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles(!!roomError)}
                   />
 
                   {roomError && (
-                    <ErrorMessage message={roomError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
                   )}
                 </div>
                 <div className="mb-2  w-full ">
-                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                    Bed <span className="text-red-500 text-xl">*</span>
+                  <Form.Label className={fieldLabelClass}>
+                    Bed <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <Select
@@ -1229,22 +1132,21 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                         : null
                     }
                     placeholder="Select a Bed"
-                    classNamePrefix="custom"
                     menuPlacement="auto"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles()}
                   />
 
                   {state.UsersList?.bedAvailableError ? (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.UsersList?.bedAvailableError}
                       type="error"
                     />
                   ) : null}
                   {bedWarning ? (
-                    <ErrorMessage message={bedWarning} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={bedWarning} type="error" />
                   ) : null}
 
-                  {bedError && <ErrorMessage message={bedError} type="error" />}
+                  {bedError && <ErrorMessage className="mt-[6px]" message={bedError} type="error" />}
                 </div>
               </div>
             </div>
@@ -1252,7 +1154,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
               <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                 Total Advance/ Security deposit amount ₹ (INR)
                 {!isAdvanceRefused && (
-                  <span className="text-red-500 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 )}
               </Form.Label>
 
@@ -1288,7 +1190,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                 <div className="grid grid-cols-12 gap-x-4 bg-[#F7F9FF]  border-1 border-[#F2F4F6]  px-3 py-2 rounded">
                   <div className="col-span-12">
                     <div>
-                      <label className="text-sm font-medium font-gilroy mb-2">
+                      <label className={fieldLabelClass}>
                         Refundable Amount
                       </label>
                     </div>
@@ -1299,16 +1201,12 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                         value={AdvanceAmount}
                         onChange={handleAdvanceAmount}
                         disabled={isAdvanceRefused}
-                        className={`text-[14px] text-gray-700 font-gilroy ${AdvanceAmount ? "font-semibold" : "font-medium"
-                          } shadow-none border h-12 rounded-md ${isAdvanceRefused
-                            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                            : "border-gray-300"
-                          }`}
+                        className={fieldClass(!!advanceAmountError)}
                       />
                     </Form.Group>
 
                     {!isAdvanceRefused && advanceAmountError && (
-                      <ErrorMessage message={advanceAmountError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={advanceAmountError} type="error" />
                     )}
 
                     <div className="mt-3 mb-3">
@@ -1382,61 +1280,8 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                   isDisabled={item.reason === "maintenance"}
                                   menuPlacement="auto"
                                   styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      display: "inline-block",
-                                      fill: "currentColor",
-                                      lineHeight: 1,
-                                      stroke: "currentColor",
-                                      strokeWidth: 0,
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: state.isDisabled
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      backgroundColor: state.isFocused
-                                        ? "#E7F1FF"
-                                        : state.isDisabled
-                                          ? "#f0f0f0"
-                                          : "#fff",
-                                      color: state.isDisabled ? "#aaa" : "#000",
-                                    }),
+                                    ...fieldSelectStyles(),
+                                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                                   }}
                                 />
                               ) : (
@@ -1452,12 +1297,12 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                         e.target.value,
                                       )
                                     }
-                                    className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
+                                    className={fieldClass(!!errors[index]?.reason)}
                                   />
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={errors[index]?.reason}
                                   type="error"
                                 />
@@ -1476,10 +1321,10 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                     e.target.value,
                                   )
                                 }
-                                className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+                                className={fieldClass(!!errors[index]?.amount)}
                               />
                               {errors[index]?.amount && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={errors[index]?.amount}
                                   type="error"
                                 />
@@ -1505,9 +1350,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
             )}
             <div className="mb-2">
               <Form.Group>
-                <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                <Form.Label className={fieldLabelClass}>
                   Rental amount-Base ₹(INR){" "}
-                  <span className="text-red-500 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1518,11 +1363,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                       : "Enter Amount"
                   }
                   onChange={handleRoomRent}
-                  className={`text-base text-gray-700 font-gilroy ${RoomRent ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
+                  className={fieldClass(!!roomrentError)}
                 />
               </Form.Group>
               {roomrentError && (
-                <ErrorMessage message={roomrentError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={roomrentError} type="error" />
               )}
             </div>
             {!isjoiningBased && (
@@ -1594,8 +1439,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                 value={customRent}
                                 onChange={handleCustomRentChange}
                                 onWheel={(e) => e.target.blur()}
-                                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${customRent ? "font-semibold" : "font-medium"
-                                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                                className={fieldClass()}
                               />
 
                               <button
@@ -1700,13 +1544,13 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                         }
                                       }}
                                       isDisabled={item.reason === "maintenance"}
-                                      styles={CustomStyles}
+                                      styles={fieldSelectStyles()}
                                     />
                                   ) : (
                                     <>
                                       <input
                                         type="text"
-                                        className="form-control"
+                                        className={fieldClass(!!oneTimePaymentErrors[index]?.reason)}
                                         placeholder="Enter custom reason"
                                         value={item.customReason}
                                         onChange={(e) =>
@@ -1716,21 +1560,12 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                             e.target.value,
                                           )
                                         }
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 45,
-                                          borderRadius: 8,
-                                        }}
+                                       
                                       />
                                     </>
                                   )}
                                   {oneTimePaymentErrors[index]?.reason && (
-                                    <ErrorMessage
+                                    <ErrorMessage className="mt-[6px]"
                                       message={
                                         oneTimePaymentErrors[index]?.reason
                                       }
@@ -1756,20 +1591,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                                         e.target.value,
                                       )
                                     }
-                                    className="form-control"
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 45,
-                                      borderRadius: 8,
-                                    }}
+                                    className={fieldClass(!!oneTimePaymentErrors[index]?.amount)}
+                                   
                                   />
                                   {oneTimePaymentErrors[index]?.amount && (
-                                    <ErrorMessage
+                                    <ErrorMessage className="mt-[6px]"
                                       message={
                                         oneTimePaymentErrors[index]?.amount
                                       }
@@ -1889,7 +1715,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
             </div>
 
             {state.UsersList?.bookToCheckinError && (
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.UsersList?.bookToCheckinError}
                 type="error"
               />

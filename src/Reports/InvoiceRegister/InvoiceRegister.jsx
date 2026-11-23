@@ -19,6 +19,24 @@ import InvoiceRegisterFilter from "./InvoiceRegisterFilter";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import CustomTooltip from "../../Utils/CustomTooltip";
+import InvoiceViewDropdown, { INVOICE_VIEW_MODES } from "./InvoiceViewDropdown";
+import ConsolidatedInvoiceTable from "./ConsolidatedInvoiceTable";
+import ConsolidatedFilterDrawer from "./ConsolidatedFilterDrawer";
+import ConsolidatedExportSettings from "./ConsolidatedExportSettings";
+import ConsolidatedExportPreview from "./ConsolidatedExportPreview";
+import { DEFAULT_VISIBLE_COLUMN_KEYS } from "./consolidatedColumns";
+import { consolidatedMockBeds } from "./consolidatedMockData";
+import {
+  DEFAULT_CONSOLIDATED_FILTERS,
+  applyConsolidatedFilters,
+  formatAmount,
+  getCollectionSummary,
+  getConsolidatedFilterChips,
+  getFloorOptions,
+} from "./consolidatedHelpers";
+
+const NOT_IN_COLLECTION_SHEET = "Not part of collection sheet.";
 
 function InvoiceRegister() {
   const navigate = useNavigate();
@@ -40,6 +58,20 @@ function InvoiceRegister() {
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const isSearching = chips.length > 0;
+  const [viewMode, setViewMode] = useState(INVOICE_VIEW_MODES.LIST);
+  const isConsolidated = viewMode === INVOICE_VIEW_MODES.CONSOLIDATED;
+  const [consolidatedFilters, setConsolidatedFilters] = useState(
+    DEFAULT_CONSOLIDATED_FILTERS,
+  );
+  const [showConsolidatedFilter, setShowConsolidatedFilter] = useState(false);
+  // Held here so the export settings can start from the current view.
+  const [includeAllTenants, setIncludeAllTenants] = useState(false);
+  const [visibleColumnKeys, setVisibleColumnKeys] = useState(
+    DEFAULT_VISIBLE_COLUMN_KEYS,
+  );
+  const [showExportSettings, setShowExportSettings] = useState(false);
+  const [exportPrefs, setExportPrefs] = useState(null);
+  const [exportPreviewData, setExportPreviewData] = useState(null);
 
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
@@ -154,6 +186,108 @@ function InvoiceRegister() {
       isCurrency: true,
     },
   ];
+
+  // Consolidated View stat cards come from the filtered mock collection sheet.
+  // Vacant beds are excluded inside getCollectionSummary.
+  const consolidatedSummary = useMemo(
+    () =>
+      getCollectionSummary(
+        applyConsolidatedFilters(
+          consolidatedMockBeds,
+          consolidatedFilters,
+          selectedRange,
+        ),
+      ),
+    [consolidatedFilters, selectedRange],
+  );
+
+  const consolidatedFloorOptions = useMemo(
+    () => getFloorOptions(consolidatedMockBeds),
+    [],
+  );
+
+  // Set by the Sidebar when a property is selected.
+  let selectedHostelName = "";
+  try {
+    selectedHostelName = localStorage.getItem("selectedHostelName") || "";
+  } catch {
+    selectedHostelName = "";
+  }
+
+  const consolidatedChips = getConsolidatedFilterChips(consolidatedFilters);
+  const displayedChips = isConsolidated ? consolidatedChips : chips;
+
+  const handleResetConsolidatedFilters = () => {
+    setConsolidatedFilters(DEFAULT_CONSOLIDATED_FILTERS);
+  };
+
+  // Period edits in the drawer go through the existing date range handler,
+  // so the top RangePicker and List View data stay in sync.
+  const handleApplyConsolidatedFilters = ({ filters, range }) => {
+    setConsolidatedFilters(filters);
+    setShowConsolidatedFilter(false);
+
+    const [from, to] = range || [];
+    const currentFrom = selectedRange?.from ? dayjs(selectedRange.from) : null;
+    const currentTo = selectedRange?.to ? dayjs(selectedRange.to) : null;
+    const periodChanged =
+      from &&
+      to &&
+      (!currentFrom ||
+        !currentTo ||
+        !from.isSame(currentFrom, "day") ||
+        !to.isSame(currentTo, "day"));
+
+    if (periodChanged) {
+      handleDateChange([from, to]);
+    }
+  };
+
+  const consolidatedStats = [
+    {
+      title: "Total Invoices",
+      value: consolidatedSummary.totalInvoices,
+    },
+    {
+      title: "Total Amount",
+      value: formatAmount(consolidatedSummary.totalAmount),
+      isCurrency: true,
+    },
+    {
+      title: "Paid Amount",
+      value: formatAmount(consolidatedSummary.paidAmount),
+      isCurrency: true,
+    },
+    {
+      title: "Outstanding",
+      value: formatAmount(consolidatedSummary.outstandingAmount),
+      isCurrency: true,
+    },
+    {
+      title: "Booking Amount",
+      value: 0,
+      isCurrency: true,
+      tooltip: NOT_IN_COLLECTION_SHEET,
+    },
+    {
+      title: "Refunded Booking Amount",
+      value: 0,
+      isCurrency: true,
+      tooltip: NOT_IN_COLLECTION_SHEET,
+    },
+    {
+      title: "Cancelled Amount",
+      value: 0,
+      isCurrency: true,
+      tooltip: NOT_IN_COLLECTION_SHEET,
+    },
+  ];
+
+  const displayedStats = isConsolidated ? consolidatedStats : stats;
+
+  const viewSwitcher = (
+    <InvoiceViewDropdown value={viewMode} onChange={setViewMode} />
+  );
 
   const handleNavigateReports = () => {
     navigate(`/reports/${state.login.selectedHostel_Id}`);
@@ -859,13 +993,17 @@ function InvoiceRegister() {
           </div>
 
           <button
-            onClick={handleClickFilter}
+            onClick={
+              isConsolidated
+                ? () => setShowConsolidatedFilter(true)
+                : handleClickFilter
+            }
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
             <Filter size="16" />
             Filter
           </button>
-          {invoiceRegister?.invoiceList?.length > 0 && (
+          {!isConsolidated && invoiceRegister?.invoiceList?.length > 0 && (
             <ApiPagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -877,7 +1015,12 @@ function InvoiceRegister() {
             />
           )}
           <button
-            onClick={() => isExportAllow && handleDownload()}
+            onClick={() => {
+              if (!isExportAllow) return;
+              // List View keeps its direct export; Consolidated opens settings.
+              if (isConsolidated) setShowExportSettings(true);
+              else handleDownload();
+            }}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
     ${!isExportAllow
@@ -892,10 +1035,10 @@ function InvoiceRegister() {
       </div>
 
       <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
-        {chips?.length > 0 && (
+        {displayedChips?.length > 0 && (
           <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
             <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
-              {chips?.map((chip) => (
+              {displayedChips?.map((chip) => (
                 <div key={chip.key}>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
                     {chip.label} :
@@ -908,7 +1051,9 @@ function InvoiceRegister() {
             </div>
 
             <span
-              onClick={handleReset}
+              onClick={
+                isConsolidated ? handleResetConsolidatedFilters : handleReset
+              }
               className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
             >
               Reset
@@ -918,15 +1063,27 @@ function InvoiceRegister() {
 
         <div className="mt-3 ms-1 me-1 overflow-x-auto ">
           <div className="flex gap-4 flex-nowrap">
-            {stats.map((item, i) => (
+            {displayedStats.map((item, i) => (
               <div
                 key={i}
                 className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[120px] min-w-[250px] flex-shrink-0"
               >
                 <div className="flex justify-between ">
-                  <label className="text-sm font-semibold text-[#4A5565]">
-                    {item.title}
-                  </label>
+                  {item.tooltip ? (
+                    <CustomTooltip
+                      text={item.tooltip}
+                      direction="top-full"
+                      usePortal={true}
+                    >
+                      <label className="text-sm font-semibold text-[#4A5565] cursor-help">
+                        {item.title}
+                      </label>
+                    </CustomTooltip>
+                  ) : (
+                    <label className="text-sm font-semibold text-[#4A5565]">
+                      {item.title}
+                    </label>
+                  )}
                   {item.up && (
                     <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
                       ↑ {item.up}
@@ -958,7 +1115,21 @@ function InvoiceRegister() {
             ))}
           </div>
         </div>
-        {invoiceRegister?.invoiceList?.length > 0 ? (
+        {isConsolidated && (
+          <ConsolidatedInvoiceTable
+            viewSwitcher={viewSwitcher}
+            filters={consolidatedFilters}
+            period={selectedRange}
+            includeAllTenants={includeAllTenants}
+            onIncludeAllTenantsChange={setIncludeAllTenants}
+            visibleColumnKeys={visibleColumnKeys}
+            onVisibleColumnKeysChange={setVisibleColumnKeys}
+          />
+        )}
+
+        {!isConsolidated && <div className="mx-1 mt-3">{viewSwitcher}</div>}
+
+        {isConsolidated ? null : invoiceRegister?.invoiceList?.length > 0 ? (
           <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
             <div
               ref={tableRef}
@@ -1208,6 +1379,46 @@ function InvoiceRegister() {
             page={page}
             startDate={startDate}
             endDate={endDate}
+          />
+        )}
+        {isConsolidated && (
+          <ConsolidatedFilterDrawer
+            show={showConsolidatedFilter}
+            onClose={() => setShowConsolidatedFilter(false)}
+            filters={consolidatedFilters}
+            period={selectedRange}
+            floorOptions={consolidatedFloorOptions}
+            onApply={handleApplyConsolidatedFilters}
+          />
+        )}
+        {isConsolidated && (
+          <ConsolidatedExportSettings
+            show={showExportSettings}
+            onClose={() => setShowExportSettings(false)}
+            beds={consolidatedMockBeds}
+            scope={{
+              filters: consolidatedFilters,
+              period: selectedRange,
+              includeAllTenants,
+            }}
+            visibleTableKeys={visibleColumnKeys}
+            savedPrefs={exportPrefs}
+            onSavePrefs={setExportPrefs}
+            floorOptions={consolidatedFloorOptions}
+            propertyName={selectedHostelName}
+            onPrepared={setExportPreviewData}
+            isBehindPreview={Boolean(exportPreviewData)}
+          />
+        )}
+        {isConsolidated && (
+          <ConsolidatedExportPreview
+            show={Boolean(exportPreviewData)}
+            exportData={exportPreviewData}
+            onBack={() => setExportPreviewData(null)}
+            onClose={() => {
+              setExportPreviewData(null);
+              setShowExportSettings(false);
+            }}
           />
         )}
       </div>

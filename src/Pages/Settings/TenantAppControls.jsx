@@ -2,107 +2,14 @@ import React, { useState } from "react";
 import { InfoCircle } from "iconsax-react";
 import Select from "react-select";
 import FormComingSoon from "../../Utils/FormComingSoon";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "50px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function TenantAppControls() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -172,14 +79,14 @@ function TenantAppControls() {
 
             {isEnabled && (
               <div className="w-[60%] my-3">
-                <label className="mb-2 block text-[13px] text-[#222222]">
-                  Helper text <span className="text-red-500">*</span>
+                <label className={fieldLabelClass}>
+                  Helper text <span className={fieldRequiredClass}>*</span>
                 </label>
 
                 <input
                   type="text"
                   defaultValue="Tenants must request bed change at least 3 days in advance"
-                  className="w-full rounded border border-[#D9D9D9] px-3 py-2 text-[13px] outline-none focus:border-[#1E45E1]"
+                  className={fieldClass()}
                 />
 
                 <div className="mt-2 flex items-center gap-1 text-[11px] text-[#795216] bg-[#FFF6E6] w-fit px-2 py-1 rounded">
@@ -222,8 +129,8 @@ function TenantAppControls() {
 
             {noticeEnabled && (
               <div className="w-[60%]">
-                <label className="mb-2 block text-[13px] text-[#222222]">
-                  Notice period Days <span className="text-red-500">*</span>
+                <label className={fieldLabelClass}>
+                  Notice period Days <span className={fieldRequiredClass}>*</span>
                 </label>
 
                 <Select
@@ -236,17 +143,17 @@ function TenantAppControls() {
                   }
                   placeholder="Select Days"
                   className="w-full"
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles()}
                 />
 
-                <label className="mb-2 mt-4 block text-[13px] text-[#222222]">
-                  Description <span className="text-red-500">*</span>
+                <label className={fieldLabelClass}>
+                  Description <span className={fieldRequiredClass}>*</span>
                 </label>
 
                 <textarea
                   rows={3}
                   defaultValue="Tenants must submit a move-out request as per the mentioned days before leaving."
-                  className="w-full resize-none rounded border border-[#D9D9D9] px-3 py-2 text-[13px] outline-none focus:border-[#1E45E1]"
+                  className={fieldTextareaClass()}
                 />
               </div>
             )}

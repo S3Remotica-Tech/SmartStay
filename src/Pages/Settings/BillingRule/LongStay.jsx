@@ -15,6 +15,11 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { TiTickOutline } from "react-icons/ti";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../../Utils/FieldStyles";
 
 function LongStayRecurringModal() {
   const navigate = useNavigate();
@@ -127,56 +132,6 @@ function LongStayRecurringModal() {
     setPayments(updatedPayments);
   };
 
-  const selectStyle = {
-    control: (base) => ({
-      ...base,
-      height: 45,
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-      cursor: "pointer",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "#1E45E1" : "white",
-      color: state.isFocused ? "white" : "#222",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  };
 
   const handleDailyFeeAmountChange = (e) => {
     setDailyFeeAmount(e.target.value);
@@ -676,7 +631,7 @@ function LongStayRecurringModal() {
               )}
 
               {errors.billingDate && (
-                <ErrorMessage message={errors.billingDate} type="error" />
+                <ErrorMessage className="mt-[6px]" message={errors.billingDate} type="error" />
               )}
             </div>
 
@@ -794,7 +749,7 @@ function LongStayRecurringModal() {
           </div>
           {state.Settings.billingRuleError && (
             <div className="mt-4">
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.Settings.billingRuleError}
                 type="error"
               />
@@ -803,7 +758,7 @@ function LongStayRecurringModal() {
 
           {errors.noChange && (
             <div className="mt-4">
-              <ErrorMessage message={errors.noChange} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.noChange} type="error" />
             </div>
           )}
 
@@ -1013,7 +968,7 @@ function LongStayRecurringModal() {
                 )}
 
                 {errors.dueDate && (
-                  <ErrorMessage message={errors.dueDate} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={errors.dueDate} type="error" />
                 )}
 
                 {dueDays && billingDate && (
@@ -1187,7 +1142,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                 )}
 
                 {errors.noticeDate && (
-                  <ErrorMessage message={errors.noticeDate} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={errors.noticeDate} type="error" />
                 )}
 
                 {noticeDays && (
@@ -1348,12 +1303,12 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
 
                     {lateFeeType === "flat" && (
                       <div className="mt-4">
-                        <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                        <label className={fieldLabelClass}>
                           Flat Fee Amount (₹)
                         </label>
 
                         <div className="relative w-[220px]">
-                          <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                          <span className="absolute left-3 top-[12px] text-gray-500 text-sm">
                             ₹
                           </span>
 
@@ -1361,7 +1316,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                             type="number"
                             value={flatFeeAmount}
                             onChange={handleFlatFeeAmountChange}
-                            className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                            className={`${fieldClass()} !pl-[32px]`}
                           />
                         </div>
                       </div>
@@ -1370,12 +1325,12 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                     {lateFeeType === "daily" && (
                       <div className="grid grid-cols-2 gap-6 mt-4">
                         <div>
-                          <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+                          <label className={fieldLabelClass}>
                             Daily Fee Amount (₹)
                           </label>
 
                           <div className="relative">
-                            <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
+                            <span className="absolute left-3 top-[12px] text-gray-500 text-sm">
                               ₹
                             </span>
 
@@ -1383,18 +1338,18 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                               type="number"
                               value={dailyFeeAmount}
                               onChange={handleDailyFeeAmountChange}
-                              className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                              className={`${fieldClass()} !pl-[32px]`}
                             />
                           </div>
                         </div>
 
                         <div>
-                          <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                          <label className={fieldLabelClass}>
                             Maximum Late Fee Cap (₹)
                           </label>
 
                           <div className="relative">
-                            <span className="absolute left-3 top-2.5 text-gray-500 text-sm">
+                            <span className="absolute left-3 top-[12px] text-gray-500 text-sm">
                               ₹
                             </span>
 
@@ -1402,7 +1357,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                               type="number"
                               value={maxLateFeeCap}
                               onChange={handleMaxLateFeeCapChange}
-                              className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                              className={`${fieldClass()} !pl-[32px]`}
                             />
                           </div>
 
@@ -1445,7 +1400,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                                         (option) =>
                                           option.value === payment.fromDay,
                                       )}
-                                      styles={selectStyle}
+                                      styles={fieldSelectStyles()}
                                       placeholder="Select"
                                       menuPlacement="bottom"
                                       onChange={(selected) =>
@@ -1466,7 +1421,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                                         (option) =>
                                           option.value === payment.toDay,
                                       )}
-                                      styles={selectStyle}
+                                      styles={fieldSelectStyles()}
                                       menuPlacement="bottom"
                                       placeholder="Select"
                                       onChange={(selected) =>
@@ -1488,7 +1443,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                                       onChange={(e) =>
                                         handleInputChange(index, e)
                                       }
-                                      className="w-full p-2 border-1 rounded border-gray-200 hover:border-gray-200"
+                                      className={fieldClass()}
                                     />
                                   </td>
 
@@ -1526,18 +1481,18 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                         </div>
 
                         <div className="mt-4">
-                          <label className="text-sm font-medium text-[#1F1F1F] mb-2 block">
+                          <label className={fieldLabelClass}>
                             Maximum Late Fee Amount (₹)
                           </label>
 
                           <div className="relative w-[220px]">
-                            <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                            <span className="absolute left-3 top-[12px] text-gray-500 text-sm">
                               ₹
                             </span>
 
                             <input
                               type="number"
-                              className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#1E45E1] outline-none"
+                              className={fieldClass()}
                             />
 
                             <label className="text-xs text-gray-500 whitespace-nowrap">
@@ -1556,7 +1511,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
 
           {errors.noChangeBottom && (
             <div ref={noChangeRef} className="mt-4">
-              <ErrorMessage message={errors.noChangeBottom} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.noChangeBottom} type="error" />
             </div>
           )}
           <div className="flex justify-end gap-3 mt-6">

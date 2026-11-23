@@ -10,6 +10,11 @@ import { IoCloseOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function TenantListFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
@@ -45,90 +50,6 @@ function TenantListFilter({ show, handleClose, size }) {
     }
   }, [show]);
 
-  const selectStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "12px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 600,
-      boxShadow: "none",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
-
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
-
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: "#000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    clearIndicator: () => ({
-      display: "none",
-    }),
-  };
 
   const filterOptionsData = useSelector(
     (state) => state.UsersList?.Users?.filterOptions,
@@ -334,32 +255,15 @@ function TenantListFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Tenant
                 </Form.Label>
               </div>
 
-              <Form.Control
-                style={{
-                  marginTop: 10,
-                  fontSize: 14,
-                  fontWeight: 600,
-                  padding: "8px 14px",
-                  fontFamily: "Gilroy",
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                }}
+              <Form.Control className={fieldClass()}
+               
                 type="text"
                 placeholder="Enter Tenant Name"
                 value={tenantName}
@@ -375,7 +279,7 @@ function TenantListFilter({ show, handleClose, size }) {
               </label>
             </div>
             <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+              <Form.Label className={fieldLabelClass}>
                 Tenant Status
               </Form.Label>
               <Select
@@ -385,17 +289,17 @@ function TenantListFilter({ show, handleClose, size }) {
                 options={tenantStatusOptions}
                 value={selectedTenantStatusOptions}
                 onChange={handleTenantStatusChange}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+              <Form.Label className={fieldLabelClass}>
                 Period
               </Form.Label>
               <Select
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select"
                 value={period}
                 onChange={setPeriod}
@@ -404,12 +308,12 @@ function TenantListFilter({ show, handleClose, size }) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+              <Form.Label className={fieldLabelClass}>
                 Sharing Type
               </Form.Label>
               <Select
                 // isDisabled
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Share Type..."
                 value={selectedSharingOptions}
                 onChange={handleChangeSharingType}
@@ -418,13 +322,13 @@ function TenantListFilter({ show, handleClose, size }) {
             </Form.Group>
 
             {/* <Form.Group className="mb-3">
-              <Form.Label className="text-muted text-[12px]">Floor</Form.Label>
+              <Form.Label className={fieldLabelClass}>Floor</Form.Label>
 
               <Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select floor(s)"
                 value={floor}
                 onChange={setFloor}
@@ -433,13 +337,13 @@ function TenantListFilter({ show, handleClose, size }) {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label className="text-muted text-[12px]">Room</Form.Label>
+              <Form.Label className={fieldLabelClass}>Room</Form.Label>
 
               <Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select room(s)"
                 value={room}
                 onChange={setRoom}

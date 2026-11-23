@@ -21,109 +21,14 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -678,8 +583,8 @@ function StaticExample({ setShow, currentItem }) {
                 className=""
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                  Asset Name <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Asset Name <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   value={assetName}
@@ -687,13 +592,12 @@ function StaticExample({ setShow, currentItem }) {
                   onChange={handleAssetNameChange}
                   type="text"
                   placeholder="Enter Asset Name"
-                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                  className={fieldClass(!!assetError)}
                 />
               </Form.Group>
 
               {assetError && (
-                <ErrorMessage message={assetError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={assetError} type="error" />
               )}
             </div>
 
@@ -702,9 +606,9 @@ function StaticExample({ setShow, currentItem }) {
                 className="mb-1"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Product Type{" "}
-                  <span className="text-red-600 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   value={productName}
@@ -712,13 +616,12 @@ function StaticExample({ setShow, currentItem }) {
                   onChange={handleProductNameChange}
                   type="text"
                   placeholder="Enter Product Type"
-                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                  className={fieldClass(!!productNameError)}
                 />
               </Form.Group>
 
               {productNameError && (
-                <ErrorMessage message={productNameError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={productNameError} type="error" />
               )}
             </div>
 
@@ -727,7 +630,7 @@ function StaticExample({ setShow, currentItem }) {
                 className="mb-1"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Vendor Name
                 </Form.Label>
 
@@ -754,10 +657,9 @@ function StaticExample({ setShow, currentItem }) {
                       : null
                   }
                   placeholder="Select a Vendor"
-                  classNamePrefix="custom"
                   menuPlacement="bottom"
                   noOptionsMessage={() => "No vendors available"}
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles()}
                 />
               </Form.Group>
             </div>
@@ -767,7 +669,7 @@ function StaticExample({ setShow, currentItem }) {
                 className="mb-"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Brand Name{" "}
                 </Form.Label>
                 <Form.Control
@@ -775,19 +677,18 @@ function StaticExample({ setShow, currentItem }) {
                   onChange={handleBrandNameChange}
                   type="text"
                   placeholder="Enter Brand Name"
-                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
 
             <div className="col-span-12 lg:col-span-6">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Serial Number{" "}
                 </Form.Label>
                 <Form.Control
-                  //  className="mb-1 mt-1.5"
+                  //  className={fieldClass(!!serialNumberError)}
                   value={serialNumber}
                   ref={serialNumberRef}
                   onChange={handleSerialNumberChange}
@@ -799,11 +700,11 @@ function StaticExample({ setShow, currentItem }) {
               </Form.Group>
 
               {serialNumberError && (
-                <ErrorMessage message={serialNumberError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={serialNumberError} type="error" />
               )}
 
               {serial_number_duplicate_Error && (
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={serial_number_duplicate_Error}
                   type="error"
                 />
@@ -812,23 +713,18 @@ function StaticExample({ setShow, currentItem }) {
 
             <div className="col-span-12 lg:col-span-6">
               <Form.Group controlId="purchaseDate">
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Purchase Date{" "}
-                  <span className="text-red-600 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <div
                   className="datepicker-wrapper -mt-1"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker
+                  <DatePicker className={datePickerClass(!!selectedDateError)}
                     ref={dateRef}
-                    style={{
-                      width: "100%",
-                      height: 48,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                    }}
+                   
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -848,11 +744,11 @@ function StaticExample({ setShow, currentItem }) {
                 </div>
               </Form.Group>
               {selectedDateError && (
-                <ErrorMessage message={selectedDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={selectedDateError} type="error" />
               )}
 
               {joiningDateErrmsg.trim() !== "" && (
-                <ErrorMessage message={joiningDateErrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={joiningDateErrmsg} type="error" />
               )}
             </div>
 
@@ -861,8 +757,8 @@ function StaticExample({ setShow, currentItem }) {
                 className="mb-1"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                  Price <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Price <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   value={price}
@@ -875,18 +771,17 @@ function StaticExample({ setShow, currentItem }) {
                   // }}
                   type="text"
                   placeholder="Enter Amount"
-                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                  className={fieldClass(!!priceError)}
                 />
               </Form.Group>
               {priceError && (
-                <ErrorMessage message={priceError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={priceError} type="error" />
               )}
             </div>
             {!currentItem && (
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  <Form.Label className={fieldLabelClass}>
                     Mode Of Payment{" "}
                     <span
                       className={`text-red-500 text-xl ${modeOfPayment ? "hidden" : "inline-block"
@@ -911,7 +806,7 @@ function StaticExample({ setShow, currentItem }) {
                     placeholder="Select Payment"
                     isDisabled={currentItem}
                     menuPlacement="top"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles(!!paymentError)}
                     isSearchable={false}
                     components={{
                       Option,
@@ -923,11 +818,11 @@ function StaticExample({ setShow, currentItem }) {
                   />
                 </Form.Group>
                 {paymentError && (
-                  <ErrorMessage message={paymentError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
                 )}
 
                 {bankingError && (
-                  <ErrorMessage message={bankingError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={bankingError} type="error" />
                 )}
               </div>
             )}
@@ -938,7 +833,7 @@ function StaticExample({ setShow, currentItem }) {
             ref={nochangeRef}
             className="flex items-center justify-center mt-1 mb-1"
           >
-            <ErrorMessage message={isChangedError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
           </div>
         )}
 
@@ -947,7 +842,7 @@ function StaticExample({ setShow, currentItem }) {
             ref={assetNameRef}
             className="flex items-center justify-center mt-1 mb-1"
           >
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.AssetList?.alreadyAssetNameHere}
               type="error"
             />

@@ -29,109 +29,14 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -1128,8 +1033,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         className="mb-1"
                         controlId="exampleForm.ControlInput5"
                       >
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                          Tenant <span className="text-red-600 text-xl">*</span>
+                        <Form.Label className={fieldLabelClass}>
+                          Tenant <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
                         <Select
                           options={tenantOptions}
@@ -1142,13 +1047,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                             ) || null
                           }
                           placeholder="Select Tenant"
-                          classNamePrefix="custom"
                           menuPlacement="auto"
                           noOptionsMessage={() => "No Tenants available"}
-                          styles={CustomStyles}
+                          styles={fieldSelectStyles(!!booking_customererrmsg)}
                         />
                         {booking_customererrmsg.trim() !== "" && (
-                          <ErrorMessage
+                          <ErrorMessage className="mt-[6px]"
                             message={booking_customererrmsg}
                             type="error"
                           />
@@ -1158,14 +1062,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                     <div className="col-span-12 md:col-span-6">
                       <Form.Group controlId="">
-                        <Form.Label className="text-sm font-gilroy font-medium text-[#222222]">
+                        <Form.Label className={fieldLabelClass}>
                           Booking Date{" "}
-                          <span className="text-red-600 text-xl">*</span>
+                          <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
                         <div className="datepicker-wrapper relative w-full">
                           <DatePicker
                             ref={bookingDateRef}
-                            className={`w-full h-12 cursor-pointer font-gilroy ${bookingDate ? "font-semibold" : "font-medium"}`}
+                            className={datePickerClass(!!dateError)}
                             format="DD/MM/YYYY"
                             placeholder="DD/MM/YYYY"
                             value={bookingDate ? dayjs(bookingDate) : null}
@@ -1183,10 +1087,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           />
                         </div>
                         {dateError && (
-                          <ErrorMessage message={dateError} type="error" />
+                          <ErrorMessage className="mt-[6px]" message={dateError} type="error" />
                         )}
                         {bookingDateErrmsg.trim() !== "" && (
-                          <ErrorMessage
+                          <ErrorMessage className="mt-[6px]"
                             message={bookingDateErrmsg}
                             type="error"
                           />
@@ -1196,9 +1100,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                     <div className="col-span-12 md:col-span-6">
                       <Form.Group className="">
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                        <Form.Label className={fieldLabelClass}>
                           Booking Amount{" "}
-                          <span className="text-red-600 text-xl"> * </span>
+                          <span className={fieldRequiredClass}> * </span>
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -1207,23 +1111,23 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           placeholder="Enter Booking Amount"
                           value={amount}
                           onChange={(e) => handleAmount(e)}
-                          className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${amount ? "font-semibold" : "font-medium"}`}
+                          className={fieldClass(!!amountError)}
                         />
                       </Form.Group>
                       {amountError && (
-                        <ErrorMessage message={amountError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
                       )}
                     </div>
                     <div className="col-span-6">
                       <Form.Group controlId="joiningDate">
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                        <Form.Label className={fieldLabelClass}>
                           Joining Date (Tentative){" "}
-                          <span className="text-red-600 text-xl">*</span>
+                          <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
 
                         <div className="datepicker-wrapper relative w-full mt-0">
                           <DatePicker
-                            className="w-full h-12 cursor-pointer font-gilroy"
+                            className={datePickerClass(!!dateError)}
                             format="DD/MM/YYYY"
                             placeholder="DD/MM/YYYY"
                             value={joiningDate ? dayjs(joiningDate) : null}
@@ -1249,11 +1153,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         </div>
                       </Form.Group>
                       {dateError && (
-                        <ErrorMessage message={dateError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={dateError} type="error" />
                       )}
 
                       {joiningDateErrmsg.trim() !== "" && (
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={joiningDateErrmsg}
                           type="error"
                         />
@@ -1262,9 +1166,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                     <div className="col-span-12 md:col-span-6">
                       <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                        <Form.Label className={fieldLabelClass}>
                           Mode Of Transaction{" "}
-                          <span className="text-red-600 text-xl">*</span>
+                          <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
                         <Select
                           options={paymentOptionsV1}
@@ -1283,7 +1187,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           menuPosition="fixed"
                           isDisabled={!joiningDate}
                           noOptionsMessage={() => "No mode available"}
-                          styles={CustomStyles}
+                          styles={fieldSelectStyles(!!paymentError)}
                           components={{
                             Option,
                             SingleValue,
@@ -1294,13 +1198,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         />
                       </Form.Group>
                       {paymentError && (
-                        <ErrorMessage message={paymentError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
                       )}
                     </div>
 
                     <div className="col-span-12 md:col-span-12">
                       <Form.Group>
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                        <Form.Label className={fieldLabelClass}>
                           Transaction ID{" "}
                           <span className="text-red-600 text-xl"></span>
                         </Form.Label>
@@ -1310,14 +1214,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           placeholder="Enter Transaction ID"
                           value={transactionId}
                           onChange={(e) => handleTransactionId(e)}
-                          className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${transactionId ? "font-semibold" : "font-medium"}`}
+                          className={fieldClass()}
                         />
                       </Form.Group>
                     </div>
 
                     {state.Booking?.bookingBedError ? (
                       <div className="d-flex justify-content-center">
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={state.Booking?.bookingBedError}
                           type="error"
                         />
@@ -1361,8 +1265,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 <div className="grid grid-cols-12 gap-x-4 gap-y-2 items-stretch">
                   <div className="col-span-12">
                     <Form.Group controlId="exampleForm.ControlInput5">
-                      <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                        Tenant <span className="text-red-600 text-xl">*</span>
+                      <Form.Label className={fieldLabelClass}>
+                        Tenant <span className={fieldRequiredClass}>*</span>
                       </Form.Label>
                       <Select
                         options={tenantOptions}
@@ -1389,13 +1293,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                             : null
                         }
                         placeholder="Select Tenant"
-                        classNamePrefix="custom"
                         menuPlacement="auto"
                         noOptionsMessage={() => "No Tenants available"}
-                        styles={CustomStyles}
+                        styles={fieldSelectStyles(!!checkin_customererrmsg)}
                       />
                       {checkin_customererrmsg.trim() !== "" && (
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={checkin_customererrmsg}
                           type="error"
                         />
@@ -1404,22 +1307,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   </div>
 
                   <div className="col-span-12">
-                    <label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal mb-1">
-                      Stay Type <span className="text-red-600 text-xl">*</span>
+                    <label className={fieldLabelClass}>
+                      Stay Type <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <Select
                       options={longStayOnly}
                       onChange={handleStayTypeChange}
                       placeholder="Select a type"
-                      classNamePrefix="custom"
                       menuPlacement="auto"
                       noOptionsMessage={() => "No stay types available"}
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!stay_typenameErrmsg)}
                     />
 
                     {stay_typenameErrmsg.trim() !== "" && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={stay_typenameErrmsg}
                         type="error"
                       />
@@ -1427,16 +1329,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   </div>
                   <div className="col-span-12 md:col-span-12">
                     <Form.Group controlId="joiningDate">
-                      <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                      <Form.Label className={fieldLabelClass}>
                         Joining Date{" "}
-                        <span className="text-red-600 text-xl">*</span>
+                        <span className={fieldRequiredClass}>*</span>
                       </Form.Label>
 
                       <div className="datepicker-wrapper relative w-full mt-2">
                         <DatePicker
-                          className={`w-full h-12 cursor-pointer font-gilroy 
-  ${checkin_joiningDate ? "font-semibold text-gray-700" : "font-medium text-gray-400"}
-`}
+                          className={datePickerClass(!!Checkin_joiningDateErrmsg)}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
                           value={
@@ -1459,7 +1359,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       </div>
                     </Form.Group>
                     {Checkin_joiningDateErrmsg && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={Checkin_joiningDateErrmsg}
                         type="error"
                       />
@@ -1470,7 +1370,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                     Total Advance/ Security deposit amount ₹ (INR)
                     {!isAdvanceRefused && (
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     )}
                   </Form.Label>
 
@@ -1507,7 +1407,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                     <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
                       <Form.Group>
                         <div>
-                          <label className="text-sm font-gilroy font-medium mb-2 text-[#222222]">
+                          <label className={fieldLabelClass}>
                             Refundable Amount
                           </label>
                         </div>
@@ -1517,15 +1417,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           value={AdvanceAmount}
                           disabled={isAdvanceRefused}
                           onChange={handleAdvanceAmount}
-                          className={`text-[14px] text-gray-700 font-gilroy ${AdvanceAmount ? "font-semibold" : "font-medium"
-                            } shadow-none border h-12 rounded-md ${isAdvanceRefused
-                              ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                              : "border-gray-300"
-                            }`}
+                          className={fieldClass(!!advanceAmountError)}
                         />
                       </Form.Group>
                       {advanceAmountError && (
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={advanceAmountError}
                           type="error"
                         />
@@ -1603,70 +1499,15 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                       }}
                                       isDisabled={item.reason === "maintenance"}
                                       styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "50px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          display: "inline-block",
-                                          fill: "currentColor",
-                                          lineHeight: 1,
-                                          stroke: "currentColor",
-                                          strokeWidth: 0,
-                                          cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: state.isDisabled
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          backgroundColor: state.isFocused
-                                            ? "#E7F1FF"
-                                            : state.isDisabled
-                                              ? "#f0f0f0"
-                                              : "#fff",
-                                          color: state.isDisabled
-                                            ? "#aaa"
-                                            : "#000",
-                                        }),
+                                        ...fieldSelectStyles(),
+                                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                                       }}
                                     />
                                   ) : (
                                     <>
                                       <input
                                         type="text"
-                                        className="form-control"
+                                        className={fieldClass(!!errors[index]?.reason)}
                                         placeholder="Enter custom reason"
                                         value={item.customReason}
                                         onChange={(e) =>
@@ -1676,21 +1517,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                             e.target.value,
                                           )
                                         }
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 50,
-                                          borderRadius: 8,
-                                        }}
+                                       
                                       />
                                     </>
                                   )}
                                   {errors[index]?.reason && (
-                                    <ErrorMessage
+                                    <ErrorMessage className="mt-[6px]"
                                       message={errors[index]?.reason}
                                       type="error"
                                     />
@@ -1709,20 +1541,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                         e.target.value,
                                       )
                                     }
-                                    className="form-control"
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
+                                    className={fieldClass(!!errors[index]?.amount)}
+                                   
                                   />
                                   {errors[index]?.amount && (
-                                    <ErrorMessage
+                                    <ErrorMessage className="mt-[6px]"
                                       message={errors[index]?.amount}
                                       type="error"
                                     />
@@ -1752,9 +1575,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 )}
                 <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
                   <Form.Group>
-                    <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                    <Form.Label className={fieldLabelClass}>
                       Rental Amount{" "}
-                      <span className="text-red-600 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <FormControl
                       type="text"
@@ -1765,13 +1588,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       }
                       value={RoomRent}
                       onChange={handleRoomRent}
-                      className={`w-full h-[50px] text-base text-[#4B4B4B] font-gilroy 
-  ${RoomRent ? "font-semibold" : "font-medium"} 
-  shadow-none border border-[#D9D9D9] rounded-lg`}
+                      className={fieldClass(!!roomrentError)}
                     />
                   </Form.Group>
                   {roomrentError && (
-                    <ErrorMessage message={roomrentError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={roomrentError} type="error" />
                   )}
                 </div>
                 {!isjoiningBased && (
@@ -1845,10 +1666,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                     value={customRent}
                                     onChange={handleCustomRentChange}
                                     onWheel={(e) => e.target.blur()}
-                                    className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${customRent
-                                      ? "font-semibold"
-                                      : "font-medium"
-                                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                                    className={fieldClass()}
                                   />
 
                                   <button
@@ -1959,13 +1777,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                           isDisabled={
                                             item.reason === "maintenance"
                                           }
-                                          styles={CustomStyles}
+                                          styles={fieldSelectStyles()}
                                         />
                                       ) : (
                                         <>
                                           <input
                                             type="text"
-                                            className="form-control"
+                                            className={fieldClass(!!oneTimePaymentErrors[index]?.reason)}
                                             placeholder="Enter custom reason"
                                             value={item.customReason}
                                             onChange={(e) =>
@@ -1975,21 +1793,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                                 e.target.value,
                                               )
                                             }
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 45,
-                                              borderRadius: 8,
-                                            }}
+                                           
                                           />
                                         </>
                                       )}
                                       {oneTimePaymentErrors[index]?.reason && (
-                                        <ErrorMessage
+                                        <ErrorMessage className="mt-[6px]"
                                           message={
                                             oneTimePaymentErrors[index]?.reason
                                           }
@@ -2015,20 +1824,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                             e.target.value,
                                           )
                                         }
-                                        className="form-control"
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 45,
-                                          borderRadius: 8,
-                                        }}
+                                        className={fieldClass(!!oneTimePaymentErrors[index]?.amount)}
+                                       
                                       />
                                       {oneTimePaymentErrors[index]?.amount && (
-                                        <ErrorMessage
+                                        <ErrorMessage className="mt-[6px]"
                                           message={
                                             oneTimePaymentErrors[index]?.amount
                                           }
@@ -2152,7 +1952,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
               {state.UsersList?.bedAvailableError ? (
                 <div className="flex justify-center">
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={state.UsersList?.bedAvailableError}
                     type="error"
                   />

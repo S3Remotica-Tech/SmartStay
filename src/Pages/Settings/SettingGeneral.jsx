@@ -39,6 +39,12 @@ import VerifyOtp from "./ResetPin/VerifyOtp";
 import ResetMpin from "./ResetPin/ResetMpin";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -1593,7 +1599,7 @@ function SettingGeneral() {
 
         {generalDeleteError && (
           <div className="flex justify-center items-center">
-            <ErrorMessage message={generalDeleteError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={generalDeleteError} type="error" />
           </div>
         )}
 
@@ -1659,8 +1665,8 @@ function SettingGeneral() {
 
             <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px] relative">
               <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900 mt-0 pt-0">
-                  New Password <span className="text-red-500 text-xl"> *</span>
+                <Form.Label className={fieldLabelClass}>
+                  New Password <span className={fieldRequiredClass}> *</span>
                 </Form.Label>
 
                 <InputGroup>
@@ -1670,7 +1676,7 @@ function SettingGeneral() {
                     type={showPassword ? "text" : "password"}
                     value={checkPassword}
                     onChange={(e) => handleCheckPassword(e)}
-                    className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg pr-12"
+                    className={fieldClass(!!passError)}
                   />
 
                   <InputGroup.Text
@@ -1699,7 +1705,7 @@ function SettingGeneral() {
                 </InputGroup>
               </Form.Group>
 
-              {passError && <ErrorMessage message={passError} type="error" />}
+              {passError && <ErrorMessage className="mt-[6px]" message={passError} type="error" />}
 
               {verifyLoading && (
                 <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -1750,16 +1756,11 @@ function SettingGeneral() {
            col-md-12 col-sm-12 col-xs-12"
           >
             <Form.Group className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
+              <Form.Label className={fieldLabelClass}
+               
               >
                 New Password{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                <span className={fieldRequiredClass}> * </span>
               </Form.Label>
               <InputGroup>
                 <FormControl
@@ -1768,18 +1769,8 @@ function SettingGeneral() {
                   type={showPassword ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => handleNewPassword(e)}
-                  className="custom-input"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    borderRight: "none",
-                    height: "50px",
-                    borderRadius: "8px 0 0 8px",
-                  }}
+                  className={fieldClass(!!newPassError)}
+                 
                 />
                 <InputGroup.Text
                   className="border-start-0"
@@ -1806,7 +1797,7 @@ function SettingGeneral() {
                 </InputGroup.Text>
               </InputGroup>
               {newPassError && (
-                <ErrorMessage message={newPassError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={newPassError} type="error" />
               )}
             </Form.Group>
           </div>
@@ -1815,35 +1806,20 @@ function SettingGeneral() {
            col-md-12 col-sm-12 col-xs-12"
           >
             <Form.Group className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
+              <Form.Label className={fieldLabelClass}
+               
               >
                 Confirm Password{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                <span className={fieldRequiredClass}> * </span>
               </Form.Label>
               <InputGroup>
-                <FormControl
+                <FormControl className={fieldClass(!!conformPasswordError)}
                   id="form-controls"
                   placeholder="Enter password"
                   type={conformShowPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => handleConfirmPassword(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    borderRight: "none",
-                    height: "50px",
-                    borderRadius: "8px 0 0 8px",
-                  }}
+                 
                 />
                 <InputGroup.Text
                   className="border-start-0"
@@ -1872,7 +1848,7 @@ function SettingGeneral() {
                 </InputGroup.Text>
               </InputGroup>
               {conformPasswordError && (
-                <ErrorMessage message={conformPasswordError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={conformPasswordError} type="error" />
               )}
             </Form.Group>
           </div>
@@ -1992,9 +1968,9 @@ function SettingGeneral() {
               <div className="grid grid-cols-12 gap-x-4">
                 <div className="col-span-12 md:col-span-6">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       First Name{" "}
-                      <span className="text-red-500 text-xl"> *</span>
+                      <span className={fieldRequiredClass}> *</span>
                     </Form.Label>
                     <FormControl
                       type="text"
@@ -2002,17 +1978,17 @@ function SettingGeneral() {
                       placeholder="Enter First Name"
                       value={firstName}
                       onChange={(e) => handleFirstName(e)}
-                      className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
+                      className={`${fieldClass(!!firstNameError)} !pr-[40px]`}
                     />
                   </Form.Group>
                   {firstNameError && (
-                    <ErrorMessage message={firstNameError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={firstNameError} type="error" />
                   )}
                 </div>
 
                 <div className="col-span-12 md:col-span-6">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       Last Name <span className="invisible text-xl"> *</span>
                     </Form.Label>
                     <FormControl
@@ -2021,23 +1997,23 @@ function SettingGeneral() {
                       placeholder="Enter Last Name"
                       value={lastName}
                       onChange={(e) => handlelastName(e)}
-                      className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
+                      className={fieldClass()}
                     />
                   </Form.Group>
                 </div>
 
                 <div className="col-span-12 md:col-span-6 mb-0">
                   <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       Mobile Number{" "}
-                      <span className="text-red-500 text-xl"> *</span>
+                      <span className={fieldRequiredClass}> *</span>
                     </Form.Label>
 
                     <InputGroup className="flex">
                       <Form.Select
                         value={countryCode}
                         id="vendor-select-pg"
-                        className="max-w-[5.5rem] !h-12 border border-gray-300 rounded-l-lg !rounded-tr-none !rounded-br-none"
+                        className={`${fieldClass()} !w-[88px] !flex-none !rounded-r-none`}
                       >
                         <option>+{countryCode}</option>
                       </Form.Select>
@@ -2050,19 +2026,19 @@ function SettingGeneral() {
                         autoCorrect="off"
                         placeholder="9876543210"
                         maxLength={10}
-                        className="!h-12 text-sm font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 border-l-0 rounded-r-lg"
+                        className={`${fieldClass(!!phoneError)} !rounded-l-none`}
                       />
                     </InputGroup>
                   </Form.Group>
 
                   {phoneError && (
-                    <ErrorMessage message={phoneError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={phoneError} type="error" />
                   )}
                   {phoneErrorMessage && (
-                    <ErrorMessage message={phoneErrorMessage} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={phoneErrorMessage} type="error" />
                   )}
                   {state.Settings?.generalMobileError && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.Settings?.generalMobileError}
                       type="error"
                     />
@@ -2071,8 +2047,8 @@ function SettingGeneral() {
 
                 <div className="col-span-12 md:col-span-6 mb-0">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                      Email ID <span className="text-red-500 text-xl"> *</span>
+                    <Form.Label className={fieldLabelClass}>
+                      Email ID <span className={fieldRequiredClass}> *</span>
                     </Form.Label>
 
                     <FormControl
@@ -2083,21 +2059,21 @@ function SettingGeneral() {
                       placeholder="Enter Email ID"
                       value={emilId}
                       onChange={(e) => handleEmailId(e)}
-                      className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
+                      className={fieldClass(!!emailError)}
                     />
                   </Form.Group>
 
                   {emailError && (
-                    <ErrorMessage message={emailError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={emailError} type="error" />
                   )}
                   {state.Settings?.generalEmailError && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.Settings?.generalEmailError}
                       type="error"
                     />
                   )}
                   {emailErrorMessage && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.Settings?.generalEmailError}
                       type="error"
                     />
@@ -2107,8 +2083,8 @@ function SettingGeneral() {
                 {!edit && (
                   <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-1 mt-1">
                     <Form.Group className="">
-                      <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                        Password <span className="text-red-500 text-xl">*</span>
+                      <Form.Label className={fieldLabelClass}>
+                        Password <span className={fieldRequiredClass}>*</span>
                       </Form.Label>
                       <InputGroup>
                         <FormControl
@@ -2119,7 +2095,7 @@ function SettingGeneral() {
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => handlePassword(e)}
-                          className="h-12 w-full rounded-lg border border-gray-300 pl-3 pr-10 text-base text-gray-600 font-gilroy font-medium shadow-none focus:outline-none focus:ring-0"
+                          className={fieldClass(!!passwordError)}
                         />
                         <InputGroup.Text
                           onClick={() => setShowPassword(!showPassword)}
@@ -2147,14 +2123,14 @@ function SettingGeneral() {
                       </InputGroup>
                     </Form.Group>
                     {!edit && passwordError && (
-                      <ErrorMessage message={passwordError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={passwordError} type="error" />
                     )}
                   </div>
                 )}
 
                 <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-2 mt-2">
                   <Form.Group className="">
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       Flat , House no , Building , Company , Apartment
                     </Form.Label>
                     <FormControl
@@ -2163,17 +2139,17 @@ function SettingGeneral() {
                       placeholder="Enter House No"
                       value={house_no}
                       onChange={(e) => handleHouseNo(e)}
-                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                      className={fieldClass(!!house_noError)}
                     />
                   </Form.Group>
                   {house_noError && (
-                    <ErrorMessage message={house_noError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={house_noError} type="error" />
                   )}
                 </div>
 
                 <div className="col-span-12 md:col-span-6 mb-1">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       Area , Street , Sector , Village
                     </Form.Label>
 
@@ -2183,17 +2159,17 @@ function SettingGeneral() {
                       placeholder="Enter Street"
                       value={street}
                       onChange={handleStreetName}
-                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                      className={fieldClass(!!streetError)}
                     />
                   </Form.Group>
                   {streetError && (
-                    <ErrorMessage message={streetError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={streetError} type="error" />
                   )}
                 </div>
 
                 <div className="col-span-12 md:col-span-6 mb-1">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       Landmark
                     </Form.Label>
 
@@ -2203,19 +2179,19 @@ function SettingGeneral() {
                       placeholder="E.g , near appollo hospital"
                       value={landmark}
                       onChange={handleLandmark}
-                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                      className={fieldClass(!!landmarkError)}
                     />
                   </Form.Group>
 
                   {landmarkError && (
-                    <ErrorMessage message={landmarkError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={landmarkError} type="error" />
                   )}
                 </div>
 
                 <div className="col-span-12 md:col-span-6">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                      Pincode <span className="text-red-500 text-xl">*</span>
+                    <Form.Label className={fieldLabelClass}>
+                      Pincode <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <Form.Control
@@ -2226,20 +2202,20 @@ function SettingGeneral() {
                       inputMode="numeric"
                       pattern="[0-9]*"
                       placeholder="Enter Pincode"
-                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                      className={fieldClass(!!pincodeError)}
                     />
 
                     {pincodeError && (
-                      <ErrorMessage message={pincodeError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={pincodeError} type="error" />
                     )}
                   </Form.Group>
                 </div>
 
                 <div className="col-span-12 md:col-span-6 mb-1">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                    <Form.Label className={fieldLabelClass}>
                       Town / City{" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <FormControl
@@ -2248,19 +2224,19 @@ function SettingGeneral() {
                       placeholder="Enter City"
                       value={city}
                       onChange={handleCity}
-                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                      className={fieldClass(!!cityError)}
                     />
                   </Form.Group>
 
                   {cityError && (
-                    <ErrorMessage message={cityError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={cityError} type="error" />
                   )}
                 </div>
 
                 <div className="col-span-12">
                   <Form.Group controlId="exampleForm.ControlInput5">
-                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                      State <span className="text-red-500 text-xl">*</span>
+                    <Form.Label className={fieldLabelClass}>
+                      State <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <Select
@@ -2281,65 +2257,23 @@ function SettingGeneral() {
                         return inputValue;
                       }}
                       placeholder="Select State"
-                      classNamePrefix="custom"
                       menuPlacement="auto"
                       noOptionsMessage={() => "No state available"}
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: state_name ? 600 : 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
-                          color: "#000",
-                        }),
+                        ...fieldSelectStyles(),
+                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
                     />
                   </Form.Group>
 
                   {!state_name && state_nameError && (
-                    <ErrorMessage message={state_nameError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={state_nameError} type="error" />
                   )}
                 </div>
               </div>
               {formError && (
                 <div ref={errorRef} className="flex justify-center mt-1">
-                  <ErrorMessage message={formError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={formError} type="error" />
                 </div>
               )}
             </div>

@@ -8,107 +8,14 @@ import { Add, InfoCircle, Verify, Bank, Wallet } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import CreditCardGlobal from "./AddMethod/CreditCardGlobal";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "40px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function AddNewAccount({ show, handleClose, editBankDetails }) {
   const state = useSelector((state) => state);
@@ -668,7 +575,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
         <div className="flex-1 overflow-y-auto px-6 py-2 show-scrolls">
           <label className="text-[13px] font-medium text-[#222]">
             Select Type
-            <span className="text-red-500 ml-1">*</span>
+            <span className={fieldRequiredClass}>*</span>
           </label>
 
           <div className="flex gap-14 mt-2">
@@ -710,9 +617,9 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
               <div className="mt-4 space-y-4">
                 <div className="grid grid-cols-1 gap-5">
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Account Name / Display Name{" "}
-                      <span className="text-red-500">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <div className="relative">
@@ -723,7 +630,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                         onChange={handleBankDisplayName}
                         placeholder="Enter Account Name"
                         maxLength={30}
-                        className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 pr-32 text-[14px] focus:border-blue-500 outline-none"
+                        className={fieldClass(!!bankDisplayNameError)}
                       />
 
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-gray-400 pointer-events-none">
@@ -731,7 +638,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       </span>
                     </div>
                     {bankDisplayNameError && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={bankDisplayNameError}
                         type="error"
                       />
@@ -744,8 +651,8 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Bank Name <span className="text-red-500">*</span>
+                    <label className={fieldLabelClass}>
+                      Bank Name <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <input
@@ -754,16 +661,16 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       value={bankName}
                       onChange={handleBankName}
                       placeholder="Enter Bank Name"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] focus:border-blue-500 outline-none"
+                      className={fieldClass(!!bankNameError)}
                     />
 
                     {bankNameError && (
-                      <ErrorMessage message={bankNameError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={bankNameError} type="error" />
                     )}
                   </div>
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Acc Holder Name <span className="text-red-500">*</span>
+                    <label className={fieldLabelClass}>
+                      Acc Holder Name <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <input
@@ -772,10 +679,10 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       value={holderName}
                       onChange={handleHolderName}
                       placeholder="Enter Holder Name"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] focus:border-blue-500 outline-none"
+                      className={fieldClass(!!holderNameError)}
                     />
                     {holderNameError && (
-                      <ErrorMessage message={holderNameError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={holderNameError} type="error" />
                     )}
                   </div>
                 </div>
@@ -784,7 +691,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
               <div className="">
                 <div className="grid grid-cols-2 gap-5 my-2">
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Account Number
                     </label>
 
@@ -795,14 +702,14 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       onChange={handleAccountNumber}
                       onWheel={(e) => e.target.blur()}
                       placeholder="Enter Account Number"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] focus:border-blue-500 outline-none"
+                      className={fieldClass(!!accountNumberError)}
                     />
                     {accountNumberError && (
-                      <ErrorMessage message={accountNumberError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={accountNumberError} type="error" />
                     )}
                   </div>
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Bank Branch Name
                     </label>
 
@@ -812,10 +719,10 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       value={branchName}
                       onChange={handleBranchName}
                       placeholder="Enter Branch Name"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] focus:border-blue-500 outline-none"
+                      className={fieldClass(!!branchNameError)}
                     />
                     {branchNameError && (
-                      <ErrorMessage message={branchNameError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={branchNameError} type="error" />
                     )}
                   </div>
                 </div>
@@ -823,7 +730,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                 <div className={`grid  gap-5 grid-cols-2 my-2 `}>
 
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       IFSC Code
                     </label>
 
@@ -833,16 +740,16 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       value={ifscCode}
                       onChange={handleIfscCode}
                       placeholder="Enter IFSC Code"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 uppercase text-[14px] focus:border-blue-500 outline-none"
+                      className={fieldClass(!!ifscCodeError)}
                     />
                     {ifscCodeError && (
-                      <ErrorMessage message={ifscCodeError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={ifscCodeError} type="error" />
                     )}
                   </div>
 
 
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Account Type
                     </label>
 
@@ -852,10 +759,10 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       onChange={handleAccountType}
                       options={accountTypeOptions}
                       placeholder="Select Account Type"
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!accountTypeError)}
                     />
                     {accountTypeError && (
-                      <ErrorMessage message={accountTypeError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={accountTypeError} type="error" />
                     )}
                   </div>
                 </div>
@@ -880,7 +787,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                   </div>
                 </div>
                 <div className="my-2">
-                  <label className="block text-[14px] font-medium text-[#222] mb-2">
+                  <label className={fieldLabelClass}>
                     Current Opening Balance{" "}
                   </label>
 
@@ -896,11 +803,11 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       onChange={handleBankOpeningBalance}
                       onWheel={(e) => e.target.blur()}
                       placeholder="0.00"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] pl-9 pr-4 text-[14px] focus:border-blue-500 outline-none"
+                      className={`${fieldClass(!!bankOpeningBalanceError)} !pl-[36px]`}
                     />
                   </div>
                   {bankOpeningBalanceError && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={bankOpeningBalanceError}
                       type="error"
                     />
@@ -913,7 +820,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                 </div>
 
                 <div className="my-2">
-                  <label className="block text-[14px] font-medium text-[#222] mb-2">
+                  <label className={fieldLabelClass}>
                     Description / Remarks
                   </label>
 
@@ -922,7 +829,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                     value={bankDescription}
                     onChange={handleBankDescription}
                     placeholder="Write here..."
-                    className="w-full rounded-lg border border-[#D9D9D9] p-4 resize-none text-[14px] focus:border-blue-500 outline-none"
+                    className={fieldTextareaClass()}
                   />
                 </div>
 
@@ -990,7 +897,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
               </div>
               {state.bankingDetails.bankingCreateError && (
                 <div className="flex content-center mt-1 mb-1">
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />
@@ -1032,9 +939,9 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
               <div className="mt-4 space-y-4">
                 <div className="grid grid-cols-1 gap-2">
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Account Name / Display Name{" "}
-                      <span className="text-red-500">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -1044,7 +951,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                         ref={cashDisplayNameRef}
                         placeholder="Enter Account Name"
                         maxLength={30}
-                        className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] outline-none focus:border-[#2F54EB]"
+                        className={fieldClass(!!cashDisplayNameError)}
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-gray-400 pointer-events-none">
                         Max 30 Characters
@@ -1052,7 +959,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                     </div>
 
                     {cashDisplayNameError && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={cashDisplayNameError}
                         type="error"
                       />
@@ -1064,8 +971,8 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                   </div>
 
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Cash Account Type <span className="text-red-500">*</span>
+                    <label className={fieldLabelClass}>
+                      Cash Account Type <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <Select
@@ -1073,18 +980,18 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       onChange={handleCashType}
                       options={cashOptions}
                       placeholder="Select Cash Type"
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!cashTypeError)}
                       ref={cashTypeRef}
                     />
                     {cashTypeError && (
-                      <ErrorMessage message={cashTypeError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={cashTypeError} type="error" />
                     )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3">
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Responsible Person
                     </label>
 
@@ -1093,11 +1000,11 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       onChange={handleResponsiblePerson}
                       options={userOptions}
                       placeholder="Select Responsible Person"
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!responsiblePersonError)}
                       ref={responsiblePersonRef}
                     />
                     {responsiblePersonError && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={responsiblePersonError}
                         type="error"
                       />
@@ -1105,7 +1012,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                   </div>
 
                   <div>
-                    <label className="block text-[14px] font-medium text-[#222] mb-2">
+                    <label className={fieldLabelClass}>
                       Current Opening Balance (Cash){" "}
                     </label>
 
@@ -1121,11 +1028,11 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                         onChange={handleCashOpeningBalance}
                         onWheel={(e) => e.target.blur()}
                         placeholder="0.00"
-                        className="w-full h-11 rounded-lg border border-[#D9D9D9] pl-9 pr-4 text-[14px] outline-none focus:border-[#2F54EB]"
+                        className={`${fieldClass(!!cashOpeningBalanceError)} !pl-[36px]`}
                       />
                     </div>
                     {cashOpeningBalanceError && (
-                      <ErrorMessage
+                      <ErrorMessage className="mt-[6px]"
                         message={cashOpeningBalanceError}
                         type="error"
                       />
@@ -1139,7 +1046,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                 </div>
 
                 <div className="my-2">
-                  <label className="block text-[14px] font-medium text-[#222] mb-2">
+                  <label className={fieldLabelClass}>
                     Description
                   </label>
 
@@ -1148,7 +1055,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                     value={cashDescription}
                     onChange={handleCashDescription}
                     placeholder="Write here..."
-                    className="w-full rounded-lg border border-[#D9D9D9] p-4 text-[14px] resize-none outline-none focus:border-[#2F54EB]"
+                    className={fieldTextareaClass()}
                   />
                 </div>
                 <div className="rounded-lg bg-[#39358F] p-3">
@@ -1213,7 +1120,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
               </div>
               {state.bankingDetails.bankingCreateError && (
                 <div className="flex content-center mt-1 mb-1">
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />

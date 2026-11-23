@@ -11,95 +11,13 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "40px",
-    height: "40px",
-    width: "100%",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "12px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: "pointer",
-    backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
-  }),
-
-  singleValue: (base) => ({
-    ...base,
-    color: "#333",
-    fontWeight: 500,
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      // margin: "2px 10px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "32px",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: "4px",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function ReceiptFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
@@ -152,9 +70,6 @@ function ReceiptFilter({ show, handleClose, size }) {
       value: item.userId,
     })) || [];
 
-  const inputClass =
-    "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
-    "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
 
   const handleInvoiceTypeChange = (selected) => {
     setSelectedInvoiceType(selected || "");
@@ -377,12 +292,12 @@ function ReceiptFilter({ show, handleClose, size }) {
         <div className="flex-1 overflow-y-auto px-4 py-4">
           <div className="">
             <div className="mb-2">
-              <label className="mb-2 block text-xs font-medium text-gray-500">
+              <label className={fieldLabelClass}>
                 Invoice Type
               </label>
 
               <Select
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Type"
                 value={selectedTypeOption}
                 onChange={handleInvoiceTypeChange}
@@ -391,12 +306,12 @@ function ReceiptFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-xs font-medium text-gray-500">
+              <label className={fieldLabelClass}>
                 Period
               </label>
               <Select
                 // isDisabled={selectedPeriod?.value === "CUSTOM"}
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select Period"
                 value={selectedPeriod}
                 onChange={handlePeriodChange}
@@ -406,18 +321,13 @@ function ReceiptFilter({ show, handleClose, size }) {
               {selectedPeriod?.value === "CUSTOM" && (
                 <div className="grid grid-cols-2 gap-2 my-3">
                   <div className="">
-                    <label className="mb-2 block text-xs font-medium text-gray-500">
+                    <label className={fieldLabelClass}>
                       Start Date
                     </label>
 
                     <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 39,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        fontSize: 11,
-                      }}
+                      className={datePickerClass()}
+                     
                       format="DD/MM/YYYY"
                       placeholder="Start Date"
                       value={startDate ? dayjs(startDate) : null}
@@ -436,18 +346,13 @@ function ReceiptFilter({ show, handleClose, size }) {
                   </div>
 
                   <div className="">
-                    <label className="mb-2 block text-xs font-medium text-gray-500">
+                    <label className={fieldLabelClass}>
                       End Date
                     </label>
 
                     <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 39,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        fontSize: 12,
-                      }}
+                      className={datePickerClass(!!dateError)}
+                     
                       format="DD/MM/YYYY"
                       placeholder="End Date"
                       value={endDate ? dayjs(endDate) : null}
@@ -464,14 +369,14 @@ function ReceiptFilter({ show, handleClose, size }) {
                     />
                   </div>
                   {dateError && (
-                    <ErrorMessage message={dateError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={dateError} type="error" />
                   )}
                 </div>
               )}
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-xs font-medium text-gray-500">
+              <label className={fieldLabelClass}>
                 Payment Mode
               </label>
               <Select
@@ -481,14 +386,14 @@ function ReceiptFilter({ show, handleClose, size }) {
                 options={paymentModeOptions}
                 value={selectedPaymentModeOptions}
                 onChange={handlePaymentModeChange}
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Payment Mode"
               />
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-xs font-medium text-gray-500">
+              <label className={fieldLabelClass}>
                 Collected By
               </label>
               <Select
@@ -498,7 +403,7 @@ function ReceiptFilter({ show, handleClose, size }) {
                 options={collectedByOptions}
                 value={selectedCollectedByOptions}
                 onChange={handleCollectedByChange}
-                styles={CustomStyles}
+                styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Collected By"
               />
@@ -513,7 +418,7 @@ function ReceiptFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mt-2 mb-3">
-              <label className="text-xs font-medium text-gray-600">
+              <label className={fieldLabelClass}>
                 Paid Amount Range
               </label>
 
@@ -521,7 +426,7 @@ function ReceiptFilter({ show, handleClose, size }) {
                 <input
                   type="number"
                   placeholder="₹Min"
-                  className={inputClass}
+                  className={fieldClass()}
                   value={minAmount}
                   onChange={(e) => setMinAmount(e.target.value)}
                 />
@@ -530,13 +435,13 @@ function ReceiptFilter({ show, handleClose, size }) {
                   placeholder="₹Max"
                   value={maxAmount}
                   onChange={(e) => setMaxAmount(e.target.value)}
-                  className={inputClass}
+                  className={fieldClass()}
                 />
               </div>
               {/* {paidAmountMin &&
                                             paidAmountMax &&
                                             paidMin > paidMax && (
-                                                <ErrorMessage
+                                                <ErrorMessage className="mt-[6px]"
                                                     message="Max amount should be greater than Min"
                                                     type="error"
                                                 />

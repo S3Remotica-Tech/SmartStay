@@ -27,111 +27,17 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
 dayjs.extend(customParseFormat);
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -800,8 +706,8 @@ function AddRetainerInvoice() {
         <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 md:col-span-10">
-              <label className="block mb-2 text-[13px] font-medium text-[#222222]">
-                Tenant Name <span className="text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Tenant Name <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative">
@@ -814,8 +720,7 @@ function AddRetainerInvoice() {
                       isDisabled={customerId}
                       ref={customerRef}
                       placeholder="Select/Search Tenant"
-                      classNamePrefix="custom"
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!customerErrmsg)}
                       options={customerOptions}
                       onChange={handleCustomerName}
                       value={
@@ -837,7 +742,7 @@ function AddRetainerInvoice() {
                   </button>
                 </div>
                 {customerErrmsg && (
-                  <ErrorMessage message={customerErrmsg} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={customerErrmsg} type="error" />
                 )}
                 {/* <p className="mt-2 mb-0 text-xs text-[#6B7280] leading-5">
                   Search existing tenants in the Property Flow ecosystem to
@@ -933,7 +838,7 @@ function AddRetainerInvoice() {
             <div className="col-span-1 xl:col-span-5">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Received from{" "}
-                <span className="text-red-600 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <CreatableSelect
@@ -972,13 +877,13 @@ function AddRetainerInvoice() {
               />
 
               {guardianErrmsg && (
-                <ErrorMessage message={guardianErrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={guardianErrmsg} type="error" />
               )}
             </div>
             <div className="col-span-1 xl:col-span-5">
-              <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+              <label className={fieldLabelClass}>
                 Invoice Date
-                <span className="text-red-600 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative" ref={invoiceDateRef}>
@@ -990,7 +895,7 @@ function AddRetainerInvoice() {
                   minDate={joiningDate}
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
-                  className="w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px] border-[#D9D9D9] focus:outline-none"
+                  className={datePickerInputClass(!!invoiceDateErrmsg)}
                 />
                 <Calendar
                   size="20"
@@ -999,14 +904,14 @@ function AddRetainerInvoice() {
                 />
               </div>
               {invoiceDateErrmsg && (
-                <ErrorMessage message={invoiceDateErrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={invoiceDateErrmsg} type="error" />
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
             <div className="col-span-1 md:col-span-10">
-              <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium my-2 mx-2">
+              <label className={fieldLabelClass}>
                 Description{" "}
               </label>
               <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
@@ -1096,21 +1001,21 @@ function AddRetainerInvoice() {
                         expenseItemError.amount) && (
                           <tr>
                             <td className="pb-2">
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={expenseItemError.itemName}
                                 type="error"
                               />
                             </td>
 
                             <td className="pb-2">
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={expenseItemError.retainertype}
                                 type="error"
                               />
                             </td>
 
                             <td className="pb-2">
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={expenseItemError.amount}
                                 type="error"
                               />
@@ -1125,7 +1030,7 @@ function AddRetainerInvoice() {
               </div>
 
               {/* {errors.totalAmount && (
-                <ErrorMessage message={errors.totalAmount} type="error" />
+                <ErrorMessage className="mt-[6px]" message={errors.totalAmount} type="error" />
               )} */}
               <div className="flex justify-between">
                 <div className="w-full">
@@ -1148,15 +1053,14 @@ function AddRetainerInvoice() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
             <div className="col-span-1 md:col-span-5">
-              <label className="block mb-2 text-[13px] font-medium text-[#222222]">
-                Payment Method <span className="text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Payment Method <span className={fieldRequiredClass}>*</span>
               </label>
 
               <Select
                 ref={paymentMethodRef}
                 placeholder="Select Payment Method"
-                classNamePrefix="custom"
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!paymentMethodErrmsg)}
                 components={{
                   Option,
                   SingleValue,
@@ -1169,12 +1073,12 @@ function AddRetainerInvoice() {
                 onChange={handlePaymentMethod}
               />
               {paymentMethodErrmsg && (
-                <ErrorMessage message={paymentMethodErrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paymentMethodErrmsg} type="error" />
               )}
             </div>
 
             <div className="col-span-1 md:col-span-5">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Transaction ID
               </label>
               <input
@@ -1182,22 +1086,21 @@ function AddRetainerInvoice() {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={fieldClass()}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
             <div className="col-span-1 md:col-span-10">
-              <label className="block mb-2 text-[13px] font-medium text-[#222222]">
+              <label className={fieldLabelClass}>
                 Description / Notes
               </label>
 
               <textarea
                 rows={4}
                 placeholder="Enter Description"
-                className="w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] font-medium text-[#4B4B4B] outline-none resize-none focus:ring-0 focus:border-[#1E45E1]"
+                className={fieldTextareaClass()}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />

@@ -7,6 +7,13 @@ import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
 function SelfTransferNew({ show, handleClose, selfDetails }) {
   const state = useSelector((state) => state);
@@ -305,8 +312,8 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-gilroy">
             <div>
-              <label className="block text-sm font-medium text-[#222222] mb-2">
-                Enter Amount to transfer <span className="text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Enter Amount to transfer <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative">
@@ -320,15 +327,15 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   value={amount}
                   onChange={handleChange}
                   onWheel={(e) => e.target.blur()}
-                  className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white pl-8 pr-4 text-sm font-gilroy text-[#222222] placeholder:text-[#B8B8B8] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
+                  className={`${fieldClass(!!error)} !pl-[36px]`}
                 />
               </div>
-              {error && <ErrorMessage message={error} type="error" />}
+              {error && <ErrorMessage className="mt-[6px]" message={error} type="error" />}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#222222] mb-2">
-                Date <span className="text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Date <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative">
@@ -337,7 +344,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
                   dateFormat="dd/MM/yyyy"
-                  className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white px-4 pr-10 text-sm font-gilroy text-[#222222] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
+                  className={datePickerInputClass()}
                   placeholderText="Select date"
                   maxDate={new Date()}
                 />
@@ -352,7 +359,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
           </div>
 
           <div className="my-3">
-            <label className="block text-sm font-medium text-[#222222] mb-2">
+            <label className={fieldLabelClass}>
               Notes
             </label>
 
@@ -361,12 +368,12 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
               placeholder="Describe the notes..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full rounded-lg border border-[#D9D9D9] bg-white px-4 py-3 text-sm font-gilroy text-[#222222] placeholder:text-[#B8B8B8] resize-none outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
+              className={fieldTextareaClass()}
             />
           </div>
 
           {state?.bankingDetails?.selfError && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state?.bankingDetails?.selfError}
               type="error"
             />

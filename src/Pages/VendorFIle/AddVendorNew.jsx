@@ -4,218 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { Add } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+import AmountInput from "../../Utils/AmountInput";
+import ButtonSpinner from "../../Utils/ButtonSpinner";
+import Checkbox from "../../Utils/Checkbox";
+import FormSection from "../../Utils/FormSection";
+import { BTN_PRIMARY, BTN_TERTIARY } from "../../Utils/ButtonStyles";
+import {
+  fieldClass,
+  fieldEmbeddedSelectStyles,
+  fieldGroupClass,
+  fieldHelperClass,
+  fieldInnerInputClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "50px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
-
-const CustomStylesCode = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "50px",
-    height: "50px",
-    border: "1px solid #D9D9D9",
-    borderRight: "none",
-
-    borderTopLeftRadius: "8px",
-    borderBottomLeftRadius: "8px",
-    borderTopRightRadius: "0",
-    borderBottomRightRadius: "0",
-
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: "#FFF",
-
-    "&:hover": {
-      border: "1px solid #D9D9D9",
-      borderRight: "none",
-    },
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 const indianStates = [
   { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -1082,330 +890,301 @@ function AddVendorNew() {
     }
   }, [state.createAccount?.networkError]);
 
+  const isEdit = checkMode === "EDIT";
+  const vendorMobileError =
+    businessMobileError ||
+    businessCountryCodeError ||
+    state.ComplianceList?.vendorMobileError;
+  const contactMobileError = mobileError || countryCodeError;
+  const vendorEmailError = emailError || state.ComplianceList?.vendorEmailError;
+
+  const requiredMark = <span className={fieldRequiredClass}>*</span>;
+
   return (
-    <div className="block relative font-gilroy ">
-      <div className="relative w-full  bg-white  ">
-        <div className="flex items-center justify-between  p-2 sticky top-0  bg-white">
-          <h2 className="text-[18px] text-[#222222] font-gilroy font-semibold">
-            {checkMode === "EDIT" ? "Edit Vendor" : " Add new Vendor"}
+    <div className="relative flex min-h-full flex-col bg-white font-gilroy">
+      {/* Header */}
+      <div className="sticky top-0 z-20 flex items-start justify-between gap-[16px] border-b-[1px] border-solid border-[#F2F4F7] bg-white px-[24px] py-[16px]">
+        <div className="flex flex-col gap-[4px]">
+          <h2 className="m-0 font-gilroy text-h5 font-semibold text-ink">
+            {isEdit ? "Edit Vendor" : "Add New Vendor"}
           </h2>
-
-          <button
-            onClick={handleClose}
-            className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 
-            items-center px-2 py-1 font-gilroy "
-          >
-            <Add
-              size="24"
-              color="#FF0000"
-              className="cursor-pointer rotate-45"
-            />{" "}
-            Close
-          </button>
+          <p className="m-0 font-gilroy text-b3 text-ink-muted">
+            {isEdit
+              ? "Update the vendor's contact, address and business details"
+              : "Add a vendor you purchase goods or services from"}
+          </p>
         </div>
-        <div className="max-h-[570px] overflow-y-scroll pt-2 mt-2 mr-3 show-scrolls">
-          <h5 className="flex items-center text-[18px] font-semibold text-[#222222]">
-            <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
-            Vendor Information
-          </h5>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-            <div className="col-span-1 xl:col-span-8">
+        <button
+          type="button"
+          onClick={handleClose}
+          aria-label="Close"
+          className="flex h-[36px] items-center gap-[4px] rounded-[8px] bg-[#F2F4F7] px-[10px] font-gilroy text-[14px] font-medium text-[#222222] hover:bg-[#E4E7EC]"
+        >
+          <Add size="20" color="#FF383C" className="rotate-45" />
+          Close
+        </button>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 px-[24px] py-[20px]">
+        <div className="flex w-full max-w-[920px] flex-col gap-[16px]">
+          <FormSection title="Vendor Information">
+            <div className="grid grid-cols-1 gap-x-[16px] gap-y-[16px] md:grid-cols-2">
               <div>
-                <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-                  Vendor Name{" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+                <label htmlFor="vendor-name" className={fieldLabelClass}>
+                  Vendor Name {requiredMark}
                 </label>
-
                 <input
+                  id="vendor-name"
                   value={vendorName}
                   onChange={handleVendorNameChange}
                   ref={vendorNameRef}
                   type="text"
-                  placeholder="Enter First Name"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${vendorName ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  placeholder="Enter vendor name"
+                  className={fieldClass(!!vendorNameError)}
                 />
+                {vendorNameError && (
+                  <ErrorMessage message={vendorNameError} type="error" className="mt-[6px]" />
+                )}
               </div>
 
-              {vendorNameError && (
-                <ErrorMessage message={vendorNameError} type="error" />
-              )}
-            </div>
-            <div className=" col-span-1 xl:col-span-8">
               <div>
-                <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-                  Business Name{" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+                <label htmlFor="vendor-business-name" className={fieldLabelClass}>
+                  Business Name {requiredMark}
                 </label>
-
                 <input
+                  id="vendor-business-name"
                   onChange={handleBusinessChange}
                   value={businessName}
                   ref={businessNameRef}
                   type="text"
-                  placeholder="Enter Business Name"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${businessName ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  placeholder="Enter business name"
+                  className={fieldClass(!!businessNameError)}
                 />
-                <span className="text-xs py-2 text-[#64748B]">
-                  Note : Max 50 Characters
-                </span>
+                {businessNameError ? (
+                  <ErrorMessage message={businessNameError} type="error" className="mt-[6px]" />
+                ) : (
+                  <span className={fieldHelperClass}>Max 50 characters</span>
+                )}
               </div>
 
-              {businessNameError && (
-                <ErrorMessage message={businessNameError} type="error" />
-              )}
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-4">
-              <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                Vendor Category{" "}
-                <span className="text-red-600 text-[20px]">*</span>
-              </label>
-
-              <Select
-                ref={vendorCategoryRef}
-                options={vendorCategoryOptions}
-                value={vendorCategoryOptions.find(
-                  (option) => option.value === vendorCategory,
-                )}
-                onChange={handleVendorCategoryChange}
-                placeholder="Select Category"
-                classNamePrefix="custom"
-                styles={CustomStyles}
-              />
-              {vendorCategoryError && (
-                <ErrorMessage message={vendorCategoryError} type="error" />
-              )}
-            </div>
-            <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Business Mobile No
-                  <span className="text-red-600 text-[20px]">*</span>
+                <label className={fieldLabelClass}>
+                  Vendor Category {requiredMark}
                 </label>
+                <Select
+                  ref={vendorCategoryRef}
+                  options={vendorCategoryOptions}
+                  value={
+                    vendorCategoryOptions.find(
+                      (option) => option.value === vendorCategory,
+                    ) || null
+                  }
+                  onChange={handleVendorCategoryChange}
+                  placeholder="Select category"
+                  styles={fieldSelectStyles(!!vendorCategoryError)}
+                />
+                {vendorCategoryError && (
+                  <ErrorMessage message={vendorCategoryError} type="error" className="mt-[6px]" />
+                )}
+              </div>
 
-                <div className="flex mt-1">
-                  <Select
-                    ref={businessCountryCodeRef}
-                    options={countryCodeOptions}
-                    value={businessCountryCode}
-                    onChange={(selectedOption) => {
-                      setBusinessCountryCode(selectedOption);
-                      setBusinessCountryCodeError("");
-                    }}
-                    isSearchable={false}
-                    styles={CustomStylesCode}
-                    placeholder="Select"
-                  />
-
+              <div>
+                <label className={fieldLabelClass}>
+                  Business Mobile No {requiredMark}
+                </label>
+                <div className={`${fieldGroupClass(!!vendorMobileError)} !pl-[8px]`}>
+                  <div className="w-[76px] shrink-0">
+                    <Select
+                      ref={businessCountryCodeRef}
+                      options={countryCodeOptions}
+                      value={businessCountryCode}
+                      onChange={(selectedOption) => {
+                        setBusinessCountryCode(selectedOption);
+                        setBusinessCountryCodeError("");
+                      }}
+                      isSearchable={false}
+                      styles={fieldEmbeddedSelectStyles()}
+                      placeholder="Code"
+                      aria-label="Business country code"
+                    />
+                  </div>
+                  <span className="h-[20px] w-[1px] shrink-0 bg-[#E4E4E7]" aria-hidden />
                   <input
                     value={businessMobile}
                     onChange={handleBusinessMobileChange}
                     type="text"
+                    inputMode="numeric"
                     ref={businessMobileRef}
-                    placeholder="Enter Mobile Number"
+                    placeholder="Enter mobile number"
                     maxLength={10}
-                    className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${businessMobile ? "font-semibold" : "font-medium"
-                      } focus:outline-none focus:ring-0`}
+                    aria-label="Business mobile number"
+                    className={fieldInnerInputClass}
                   />
                 </div>
-
                 {businessMobileError && (
-                  <ErrorMessage message={businessMobileError} type="error" />
+                  <ErrorMessage message={businessMobileError} type="error" className="mt-[6px]" />
                 )}
-
                 {businessCountryCodeError && (
-                  <ErrorMessage
-                    message={businessCountryCodeError}
-                    type="error"
-                  />
+                  <ErrorMessage message={businessCountryCodeError} type="error" className="mt-[6px]" />
                 )}
                 {state.ComplianceList?.vendorMobileError && (
                   <ErrorMessage
                     message={state.ComplianceList.vendorMobileError}
-                    type="error"
+                    type="error" className="mt-[6px]"
                   />
                 )}
               </div>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                <label htmlFor="vendor-contact-name" className={fieldLabelClass}>
                   Contact Person Name
-                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
-
                 <input
+                  id="vendor-contact-name"
                   value={contactPersonName}
                   onChange={handleContactPersonNameChange}
                   type="text"
                   ref={contactPersonNameRef}
-                  placeholder="Enter Proprietor / Contact Person Name"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${contactPersonName ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  placeholder="Proprietor / contact person name"
+                  className={fieldClass()}
                 />
-
-                {/* {contactPersonNameError && (
-                  <ErrorMessage message={contactPersonNameError} type="error" />
-                )} */}
               </div>
-            </div>
-            <div className="col-span-1 xl:col-span-4">
+
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Contact Person Mobile Number{" "}
-                  {/* <span className="text-red-600 text-[20px]">*</span> */}
+                <label className={fieldLabelClass}>
+                  Contact Person Mobile Number
                 </label>
-
-                <div className="flex mt-1">
-                  <Select
-                    ref={countryCodeRef}
-                    options={countryCodeOptions}
-                    value={countryCode}
-                    onChange={(selectedOption) => {
-                      setCountryCode(selectedOption);
-                      setCountryCodeError("");
-                    }}
-                    isSearchable={false}
-                    styles={CustomStylesCode}
-                    placeholder="Select"
-                  />
-
+                <div className={`${fieldGroupClass(!!contactMobileError)} !pl-[8px]`}>
+                  <div className="w-[76px] shrink-0">
+                    <Select
+                      ref={countryCodeRef}
+                      options={countryCodeOptions}
+                      value={countryCode}
+                      onChange={(selectedOption) => {
+                        setCountryCode(selectedOption);
+                        setCountryCodeError("");
+                      }}
+                      isSearchable={false}
+                      styles={fieldEmbeddedSelectStyles()}
+                      placeholder="Code"
+                      aria-label="Contact person country code"
+                    />
+                  </div>
+                  <span className="h-[20px] w-[1px] shrink-0 bg-[#E4E4E7]" aria-hidden />
                   <input
                     value={vendor_Mobile}
                     ref={mobileRef}
                     onChange={handleMobileChange}
                     type="text"
-                    placeholder="Enter Mobile Number"
+                    inputMode="numeric"
+                    placeholder="Enter mobile number"
                     maxLength={10}
-                    className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
-                      } focus:outline-none focus:ring-0`}
+                    aria-label="Contact person mobile number"
+                    className={fieldInnerInputClass}
                   />
                 </div>
-
-                {mobileError && (
-                  <ErrorMessage message={mobileError} type="error" />
-                )}
-
+                {mobileError && <ErrorMessage message={mobileError} type="error" className="mt-[6px]" />}
                 {countryCodeError && (
-                  <ErrorMessage message={countryCodeError} type="error" />
+                  <ErrorMessage message={countryCodeError} type="error" className="mt-[6px]" />
                 )}
               </div>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-8">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Email Address{" "}
-                  {/* <span className="text-red-600 text-[20px]">*</span> */}
+                <label htmlFor="vendor-email" className={fieldLabelClass}>
+                  Email Address
                 </label>
-
                 <input
+                  id="vendor-email"
                   ref={emailRef}
                   value={email_Id}
                   onChange={handleEmailChange}
                   type="email"
-                  placeholder="Enter Email ID"
-                  className={`w-full h-[50px] px-3 border border-[#D9D9D9] rounded-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${email_Id ? "font-semibold" : "font-medium"
-                    } focus:outline-none focus:ring-0`}
+                  placeholder="name@company.com"
+                  className={fieldClass(!!vendorEmailError)}
                 />
-
-                {emailError && (
-                  <ErrorMessage message={emailError} type="error" />
-                )}
-
+                {emailError && <ErrorMessage message={emailError} type="error" className="mt-[6px]" />}
                 {state.ComplianceList?.vendorEmailError && (
                   <ErrorMessage
                     message={state.ComplianceList.vendorEmailError}
-                    type="error"
+                    type="error" className="mt-[6px]"
                   />
                 )}
               </div>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-8">
-              <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Commercial Address (No, Area/Street, Sector){" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+              <div className="md:col-span-2">
+                <label htmlFor="vendor-description" className={fieldLabelClass}>
+                  Description
                 </label>
-
                 <textarea
+                  id="vendor-description"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  placeholder="E.g. Wi-Fi bill paid for May"
+                  rows={3}
+                  className={fieldTextareaClass(!!descriptionError)}
+                />
+                {descriptionError && (
+                  <ErrorMessage message={descriptionError} type="error" className="mt-[6px]" />
+                )}
+              </div>
+            </div>
+          </FormSection>
+
+          <FormSection title="Commercial Address">
+            <div className="grid grid-cols-1 gap-x-[16px] gap-y-[16px] md:grid-cols-2">
+              <div className="md:col-span-2">
+                <label htmlFor="vendor-address" className={fieldLabelClass}>
+                  Address (No, Area / Street, Sector) {requiredMark}
+                </label>
+                <textarea
+                  id="vendor-address"
                   ref={houseNoRef}
                   value={house_no}
                   onChange={handleHouseNo}
-                  placeholder="Enter Commercial Address"
-                  rows={4}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${house_no ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] rounded-[8px] px-3 py-3 resize-none focus:outline-none focus:ring-0`}
+                  placeholder="Enter commercial address"
+                  rows={3}
+                  className={fieldTextareaClass(!!houseNoError)}
                 />
+                {houseNoError && (
+                  <ErrorMessage message={houseNoError} type="error" className="mt-[6px]" />
+                )}
               </div>
 
-              {houseNoError && (
-                <ErrorMessage message={houseNoError} type="error" />
-              )}
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Landmark{" "}
-                  <span className="text-transparent text-[20px] select-none ">
-                    *
-                  </span>
+                <label htmlFor="vendor-landmark" className={fieldLabelClass}>
+                  Landmark
                 </label>
-
                 <input
+                  id="vendor-landmark"
                   ref={landmarkRef}
                   type="text"
-                  placeholder="E.g, near Apollo Hospital"
+                  placeholder="E.g. near Apollo Hospital"
                   value={landmark}
                   onChange={handleLandmark}
-                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[15px] text-[#4B4B4B] font-gilroy ${landmark ? "font-semibold" : "font-medium"
-                    } focus:outline-none focus:ring-0`}
+                  className={fieldClass()}
                 />
               </div>
-            </div>
 
-            <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Town/City <span className="text-red-600 text-[20px]">*</span>
+                <label htmlFor="vendor-city" className={fieldLabelClass}>
+                  Town / City {requiredMark}
                 </label>
-
                 <input
+                  id="vendor-city"
                   type="text"
-                  placeholder="Enter City"
+                  placeholder="Enter city"
                   value={city}
                   ref={cityRef}
                   onChange={handleCity}
-                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[16px] text-[#4B4B4B] font-gilroy ${city ? "font-semibold" : "font-medium"
-                    } focus:outline-none focus:ring-0`}
+                  className={fieldClass(!!cityError)}
                 />
+                {cityError && <ErrorMessage message={cityError} type="error" className="mt-[6px]" />}
               </div>
 
-              {cityError && <ErrorMessage message={cityError} type="error" />}
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  State
-                  <span className="text-red-600 text-[20px]">*</span>
-                </label>
-
+                <label className={fieldLabelClass}>State {requiredMark}</label>
                 <Select
                   options={indianStates}
                   ref={stateRef}
@@ -1415,24 +1194,20 @@ function AddVendorNew() {
                   onChange={(selectedOption) =>
                     setStateName(selectedOption?.value)
                   }
-                  placeholder="Select State"
-                  classNamePrefix="custom"
-                  styles={CustomStyles}
+                  placeholder="Select state"
+                  styles={fieldSelectStyles(!state_name && !!state_nameError)}
                 />
+                {!state_name && state_nameError && (
+                  <ErrorMessage message={state_nameError} type="error" className="mt-[6px]" />
+                )}
               </div>
 
-              {!state_name && state_nameError && (
-                <ErrorMessage message={state_nameError} type="error" />
-              )}
-            </div>
-            <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Pincode
-                  <span className="text-red-600 text-[20px]">*</span>
+                <label htmlFor="vendor-pincode" className={fieldLabelClass}>
+                  Pincode {requiredMark}
                 </label>
-
                 <input
+                  id="vendor-pincode"
                   value={pinCode}
                   ref={pinCodeRef}
                   onChange={handlePinCodeChange}
@@ -1440,186 +1215,126 @@ function AddVendorNew() {
                   maxLength={6}
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  placeholder="Enter Pincode"
-                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[15px] text-[#4B4B4B] font-gilroy ${pinCode ? "font-semibold" : "font-medium"
-                    } focus:outline-none focus:ring-0`}
+                  placeholder="Enter 6-digit pincode"
+                  className={fieldClass(!!pinCodeError)}
                 />
-
                 {pinCodeError && (
-                  <ErrorMessage message={pinCodeError} type="error" />
+                  <ErrorMessage message={pinCodeError} type="error" className="mt-[6px]" />
                 )}
               </div>
             </div>
-          </div>
+          </FormSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-8">
-              <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                Description
-              </label>
-
-              <textarea
-                value={description}
-                onChange={handleDescriptionChange}
-                placeholder="Ex : Wifi Bill Paid for May"
-                rows={3}
-                className={`w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
-                  } resize-none focus:outline-none focus:ring-0`}
-              />
-
-              {descriptionError && (
-                <ErrorMessage message={descriptionError} type="error" />
-              )}
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <h5 className="flex items-center text-[18px] font-semibold text-[#222222]">
-              <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
-              Business Details
-            </h5>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-              <div className="col-span-1 xl:col-span-4">
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  GST Number (Optional)
+          <FormSection
+            title="Business Details"
+            description="Optional tax details and credit terms"
+          >
+            <div className="grid grid-cols-1 gap-x-[16px] gap-y-[16px] md:grid-cols-2">
+              <div>
+                <label htmlFor="vendor-gst" className={fieldLabelClass}>
+                  GST Number
                 </label>
-
                 <input
+                  id="vendor-gst"
                   type="text"
                   value={gstNumber}
                   maxLength={15}
                   onChange={handleGstNumberChange}
-                  placeholder="Enter GST Number"
-                  className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
+                  placeholder="E.g. 22AAAAA0000A1Z5"
+                  className={fieldClass(!!gstError)}
                 />
-                {gstError && <ErrorMessage message={gstError} type="error" />}
+                {gstError && <ErrorMessage message={gstError} type="error" className="mt-[6px]" />}
               </div>
 
-              <div className="lg:col-span-4">
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  PAN Number (Optional)
+              <div>
+                <label htmlFor="vendor-pan" className={fieldLabelClass}>
+                  PAN Number
                 </label>
-
                 <input
+                  id="vendor-pan"
                   type="text"
                   value={panNumber}
                   maxLength={10}
                   onChange={handlePanNumberChange}
-                  placeholder="Enter PAN Number"
-                  className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
+                  placeholder="E.g. ABCDE1234F"
+                  className={fieldClass(!!panError)}
                 />
-                {panError && <ErrorMessage message={panError} type="error" />}
+                {panError && <ErrorMessage message={panError} type="error" className="mt-[6px]" />}
               </div>
             </div>
 
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-              <div className="col-span-1 xl:col-span-8">
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Vendor Code
-                </label>
-
-                <input
-                  value={vendorCode}
-                  readOnly
-                  className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3 bg-[#F8F8F8]  text-[15px]"
-                />
-              </div>
-            </div> */}
-
-            <div className="my-3">
-              <label className="flex items-start gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={allowCreditPurchase}
-                  onChange={handleCreditPurchaseToggle}
-                  className="mt-1 accent-[#1E45E1]"
-                />
-                <div>
-                  <div>
-                    <label className="text-[13px] font-medium text-[#222222]">
-                      Allow Credit Purchases
-                    </label>
-                  </div>
-                  <div>
-                    <label className="text-[11px] text-[#8A8A8A]">
-                      Its like similar to debt purchase and will pay later
-                    </label>
-                  </div>
-                </div>
-              </label>
+            <div className="rounded-small bg-ink-50 px-[14px] py-[12px]">
+              <Checkbox
+                id="vendor-allow-credit"
+                checked={allowCreditPurchase}
+                onChange={handleCreditPurchaseToggle}
+                label="Allow credit purchases"
+                description="Buy now and pay this vendor later"
+              />
             </div>
 
             {allowCreditPurchase && (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-                  <div className="col-span-1 xl:col-span-4">
-                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                      Credit Limit ₹ INR (Optional)
-                    </label>
-
-                    <input
-                      type="number"
+              <div className="flex flex-col gap-[8px]">
+                <div className="grid grid-cols-1 gap-x-[16px] gap-y-[16px] md:grid-cols-2">
+                  <div>
+                    <label className={fieldLabelClass}>Credit Limit</label>
+                    <AmountInput
                       value={creditLimit}
                       onChange={handleCreditLimitChange}
-                      placeholder="Enter the amount limit"
-                      className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
+                      placeholder="Enter credit limit"
+                      ariaLabel="Credit limit"
                     />
                   </div>
 
-                  <div className="col-span-1 xl:col-span-4">
-                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                      Credit Period (Optional)
+                  <div>
+                    <label htmlFor="vendor-credit-period" className={fieldLabelClass}>
+                      Credit Period
                     </label>
-
-                    <input
-                      type="number"
-                      value={creditPeriod}
-                      onChange={handleCreditPeriodChange}
-                      placeholder="Enter the days"
-                      className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
-                    />
+                    <div className={fieldGroupClass(false)}>
+                      <input
+                        id="vendor-credit-period"
+                        type="text"
+                        inputMode="numeric"
+                        value={creditPeriod}
+                        onChange={handleCreditPeriodChange}
+                        placeholder="E.g. 30"
+                        className={fieldInnerInputClass}
+                      />
+                      <span className="shrink-0 font-gilroy text-[14px] font-medium text-[#71717A]">
+                        days
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-                <p className="mt-2 text-[11px] text-[#7B7B7B]">
-                  Note: Create the Credit Limit for the Vendor which avoids the
-                  exemption of the Credit Balance.
+                <p className={fieldHelperClass}>
+                  A credit limit keeps the vendor&apos;s credit balance within
+                  the amount you set.
                 </p>
-              </>
+              </div>
             )}
-          </div>
+          </FormSection>
         </div>
+      </div>
 
-        {noChanges && <ErrorMessage message={noChanges} type="error" />}
-
-        <div className="flex justify-end gap-4 my-2 mr-4">
-          <button
-            onClick={handleClose}
-            type="button"
-            className="text-[#4B4B4B] text-sm font-medium"
-          >
+      {/* Footer */}
+      <div className="sticky bottom-0 z-20 flex flex-col gap-[8px] border-t-[1px] border-solid border-[#F2F4F7] bg-white px-[24px] py-[16px]">
+        {noChanges && <ErrorMessage message={noChanges} type="error" className="mt-[6px]" />}
+        <div className="flex w-full max-w-[920px] items-center justify-end gap-[12px]">
+          <button type="button" onClick={handleClose} className={BTN_TERTIARY}>
             Cancel
           </button>
-
           <button
             type="submit"
             disabled={formLoading}
             onClick={handleAddVendor}
-            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
+            className={BTN_PRIMARY}
           >
             {formLoading ? (
-              <>
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Saving...
-                </div>
-              </>
+              <ButtonSpinner />
+            ) : isEdit ? (
+              "Save Changes"
             ) : (
-              <span>
-                {checkMode === "EDIT" ? "Save Changes" : "Save Vendor"}
-              </span>
+              "Save Vendor"
             )}
           </button>
         </div>

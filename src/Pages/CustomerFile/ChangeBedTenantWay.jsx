@@ -13,6 +13,13 @@ import { CloseCircle } from "iconsax-react";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 dayjs.extend(customParseFormat);
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function ChangeBedTenantWay(props) {
   const state = useSelector((state) => state);
@@ -536,18 +543,12 @@ function ChangeBedTenantWay(props) {
               <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
                 <div className="mb-2">
                   <Form.Group controlId="purchaseDate">
-                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
-                      Date <span className="text-red-500 text-[20px]">*</span>
+                    <Form.Label className={fieldLabelClass}>
+                      Date <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <div className="relative w-full datepicker-wrapper">
-                      <DatePicker
-                        style={{
-                          width: "100%",
-                          height: 48,
-                          border: "1px solid lightgrey",
-                          cursor: "pointer",
-                          fontFamily: "Gilroy",
-                        }}
+                      <DatePicker className={datePickerClass(!!dateError)}
+                       
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={selectedDate ? dayjs(selectedDate) : null}
@@ -626,16 +627,16 @@ function ChangeBedTenantWay(props) {
                       />
                     </div>
                     {dateError && (
-                      <ErrorMessage message={dateError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={dateError} type="error" />
                     )}
                   </Form.Group>
                 </div>
 
                 <div className="mb-2">
                   <Form.Group>
-                    <Form.Label className="text-[14px] font-medium font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       New Floor{" "}
-                      <span className="text-red-500 text-[20px]">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <Select
                       isDisabled={!selectedDate}
@@ -660,63 +661,24 @@ function ChangeBedTenantWay(props) {
                           : null
                       }
                       placeholder="Selected Floor"
-                      classNamePrefix="custom"
                       menuPlacement="auto"
                       noOptionsMessage={() => "No floors available"}
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          borderRadius: "0.5rem",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: newFloor ? 600 : 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          overflowY: "auto",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({ display: "none" }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-                          color: "#000",
-                          fontFamily: "Gilroy",
-                        }),
+                        ...fieldSelectStyles(!!floorError),
+                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
                     />
                     {floorError && (
-                      <ErrorMessage message={floorError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
                     )}
                   </Form.Group>
                 </div>
 
                 <div className="mb-3">
                   <Form.Group>
-                    <Form.Label className="text-[14px] font-medium font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       New Room{" "}
-                      <span className="text-red-500 text-[20px]">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <Select
                       options={roomOptions}
@@ -738,63 +700,24 @@ function ChangeBedTenantWay(props) {
                           : null
                       }
                       placeholder="Selected Room"
-                      classNamePrefix="custom"
                       menuPlacement="auto"
                       noOptionsMessage={() => "No rooms available"}
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          borderRadius: "0.5rem",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: newRoom ? 600 : 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          overflowY: "auto",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({ display: "none" }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-                          color: "#000",
-                          fontFamily: "Gilroy",
-                        }),
+                        ...fieldSelectStyles(!!roomError),
+                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
                     />
                     {roomError && (
-                      <ErrorMessage message={roomError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
                     )}
                   </Form.Group>
                 </div>
 
                 <div className="mb-3">
                   <Form.Group>
-                    <Form.Label className="text-[14px] font-medium font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       New Bed{" "}
-                      <span className="text-red-500 text-[20px]">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <Select
                       options={
@@ -833,56 +756,17 @@ function ChangeBedTenantWay(props) {
                       }
                       placeholder="Select Bed"
                       isDisabled={!newRoom}
-                      classNamePrefix="custom"
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          borderRadius: "0.5rem",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: newBed ? 600 : 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          overflowY: "auto",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({ display: "none" }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-                          color: "#000",
-                          fontFamily: "Gilroy",
-                        }),
+                        ...fieldSelectStyles(!!bedError),
+                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
                     />
                     {bedError && (
-                      <ErrorMessage message={bedError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={bedError} type="error" />
                     )}
                     {bedWarning ? (
                       <div className="flex justify-center">
-                        <ErrorMessage message={bedWarning} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={bedWarning} type="error" />
                       </div>
                     ) : null}
                   </Form.Group>
@@ -891,7 +775,7 @@ function ChangeBedTenantWay(props) {
                 <div>
                   <Form.Group>
                     <div className="flex items-center">
-                      <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
+                      <Form.Label className={`${fieldLabelClass} flex items-center`}>
                         New Rent Amount
                         <span className="text-red-500 text-[20px] ml-1">*</span>
                       </Form.Label>
@@ -922,11 +806,11 @@ function ChangeBedTenantWay(props) {
                       value={newRoomRent}
                       type="text"
                       placeholder="Enter Amount"
-                      className="mt-2 h-[48px] rounded-lg border border-[#D9D9D9] text-[15px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
+                      className={fieldClass(!!rentError)}
                     />
 
                     {rentError && (
-                      <ErrorMessage message={rentError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={rentError} type="error" />
                     )}
                   </Form.Group>
                 </div>
@@ -941,7 +825,7 @@ function ChangeBedTenantWay(props) {
 
           {state.UsersList?.changeBedError && (
             <div className="flex justify-center mb-3">
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.UsersList?.changeBedError}
                 type="error"
               />

@@ -22,107 +22,15 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "50px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "300px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 function CreditCardPayment({ show, handleClose, bankId, isBank }) {
@@ -446,9 +354,9 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
         <div className="flex-1 show-scrolls overflow-y-auto">
           <div className="grid grid-cols-1 mx-3">
             <div className="mb-1">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Credit Card Account{" "}
-                <span className="text-red-600 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
                 <Select isDisabled={!isBank && !!bankId}
@@ -458,20 +366,20 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   options={creditCardOptions}
                   placeholder="Select Credit Card"
                   className="text-sm"
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles(!!creditCardAccountError)}
                 />
               </div>
 
               {creditCardAccountError && (
-                <ErrorMessage message={creditCardAccountError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={creditCardAccountError} type="error" />
               )}
             </div>
           </div>
           <div className="grid grid-cols-2 mx-3 gap-2">
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Payment method{" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <Select
                 isDisabled={!creditCardAccount?.value}
@@ -480,7 +388,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 onChange={handlePaymentMethodChange}
                 options={paymentOptions}
                 placeholder="Select Payment Method"
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!paymentMethodError)}
                 isSearchable={false}
                 components={{
                   Option,
@@ -492,11 +400,11 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
               />
 
               {paymentMethodError && (
-                <ErrorMessage message={paymentMethodError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
               )}
             </div>
             <div className="mb-2 relative">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Transaction ID{" "}
                 <span className="text-transparent select-none text-[20px]">
                   *
@@ -507,16 +415,15 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={fieldClass()}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 mx-3 ">
             <div className="mb-1">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 ">
-                Amount (INR) <span className="text-red-500 text-[20px]">*</span>
+              <label className={fieldLabelClass}>
+                Amount (INR) <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
                 <input
@@ -526,18 +433,17 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   ref={amountRef}
                   onChange={handleAmountChange}
                   placeholder="Enter Amount"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${amount ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={fieldClass(!!amountError)}
                 />
                 {amountError && (
-                  <ErrorMessage message={amountError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
                 )}
               </div>
             </div>
             <div className="mb-1">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Settlement Date{" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative" ref={paymentDateRef}>
                 <DatePicker
@@ -547,7 +453,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   maxDate={new Date()}
-                  className="w-full h-[50px] text-sm rounded-[8px] border border-[#D9D9D9] px-3 pr-10 focus:outline-none"
+                  className={datePickerInputClass(!!paymentDateError)}
                 />
 
                 <Calendar
@@ -557,13 +463,13 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 />
               </div>
               {paymentDateError && (
-                <ErrorMessage message={paymentDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paymentDateError} type="error" />
               )}
             </div>
           </div>
           <div className="grid grid-cols-1 mx-3">
             <div className="mb-1">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Notes
               </label>
               <textarea
@@ -571,8 +477,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Describe the notes... "
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+                className={fieldTextareaClass()}
               />
             </div>
           </div>

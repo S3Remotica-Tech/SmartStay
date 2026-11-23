@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function EditAdvanceAmount({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -146,9 +151,9 @@ function EditAdvanceAmount({ show, handleClose }) {
             <div className="row mb-0">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
+                  <Form.Label className={fieldLabelClass}>
                     New Advance Amount{" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <FormControl
@@ -157,18 +162,18 @@ function EditAdvanceAmount({ show, handleClose }) {
                     value={monthlyRent}
                     onChange={handleMonthlyRentChange}
                     placeholder="Enter New Advance Amount"
-                    className="h-12 text-base font-medium text-gray-600 font-gilroy border border-gray-300 rounded-lg shadow-none"
+                    className={fieldClass(!!monthlyRentError)}
                   />
 
                   {monthlyRentError && (
-                    <ErrorMessage message={monthlyRentError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={monthlyRentError} type="error" />
                   )}
                 </Form.Group>
               </div>
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                 <Form.Group controlId="exampleForm.ControlInput5">
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
+                  <Form.Label className={fieldLabelClass}>
                     Reason
                   </Form.Label>
 
@@ -177,11 +182,11 @@ function EditAdvanceAmount({ show, handleClose }) {
                     placeholder="Enter your reason"
                     value={reason}
                     onChange={handleReasonChange}
-                    className="h-12 text-base font-medium text-gray-600 font-gilroy border border-gray-300 rounded-lg shadow-none"
+                    className={fieldClass()}
                   />
 
                   {state.UsersList.advanceError && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.UsersList.advanceError}
                       type="error"
                     />
@@ -193,7 +198,7 @@ function EditAdvanceAmount({ show, handleClose }) {
 
           {IsChangedError && (
             <div className="flex justify-center">
-              <ErrorMessage message={IsChangedError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={IsChangedError} type="error" />
             </div>
           )}
 

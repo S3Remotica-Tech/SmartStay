@@ -6,6 +6,11 @@ import PropTypes from "prop-types";
 
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function EditBasicDetails({ show, handleClose, basicDetails }) {
   const state = useSelector((state) => state);
@@ -238,9 +243,9 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                 className="mb-2"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   First name
-                  <span className="text-red-600 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <Form.Control
@@ -248,13 +253,12 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   onChange={handleFirstNameChange}
                   type="text"
                   placeholder="Enter First name"
-                  className={`text-base text-gray-600 font-gilroy ${firstName ? "font-semibold" : "font-medium"
-                    } border border-gray-300 h-12 rounded-lg shadow-none`}
+                  className={fieldClass(!!firstNameError)}
                 />
               </Form.Group>
 
               {firstNameError && (
-                <ErrorMessage message={firstNameError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={firstNameError} type="error" />
               )}
             </div>
 
@@ -263,7 +267,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                 className="mb-2"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Last name
                 </Form.Label>
 
@@ -272,8 +276,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   onChange={handleLastNameChange}
                   type="text"
                   placeholder="Enter Last Name"
-                  className={`text-base text-gray-600 font-gilroy ${lastName ? "font-semibold" : "font-medium"
-                    } border border-gray-300 h-12 rounded-lg shadow-none`}
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
@@ -283,7 +286,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                 className="mb-2"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Email
                 </Form.Label>
 
@@ -292,33 +295,24 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   onChange={handleEmailChange}
                   type="text"
                   placeholder="Enter Email"
-                  className={`text-base text-gray-600 font-gilroy ${email ? "font-semibold" : "font-medium"
-                    } border border-gray-300 h-12 rounded-lg shadow-none`}
+                  className={fieldClass(!!emailError)}
                 />
               </Form.Group>
 
-              {emailError && <ErrorMessage message={emailError} type="error" />}
+              {emailError && <ErrorMessage className="mt-[6px]" message={emailError} type="error" />}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Mobile Number
-                  <span className="text-red-600 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <InputGroup className="w-full">
                   <Form.Select
                     value={countryCode}
                     // id="vendor-select-pg"
-                    className={`
-      h-12 max-w-24
-      border border-gray-300 border-r-0
-      rounded-l-lg rounded-r-none
-      cursor-pointer bg-white
-      text-base text-gray-600 font-gilroy
-      ${countryCode ? "font-semibold" : "font-medium"}
-      focus:shadow-none focus:border-gray-300
-    `}
+                    className={`${fieldClass()} !w-[88px] !flex-none !rounded-r-none`}
                   >
                     <option value="91">+91</option>
                   </Form.Select>
@@ -329,22 +323,15 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                     type="text"
                     placeholder="Enter Mobile Number"
                     maxLength={10}
-                    className={`
-      h-12 shadow-none
-      border border-gray-300 border-l-0
-      rounded-r-lg rounded-l-none
-      text-base text-gray-600 font-gilroy
-      ${phone ? "font-semibold" : "font-medium"}
-      focus:shadow-none focus:border-gray-300
-    `}
+                    className={`${fieldClass(!!phoneError)} !rounded-l-none`}
                   />
                 </InputGroup>
               </Form.Group>
 
-              {phoneError && <ErrorMessage message={phoneError} type="error" />}
+              {phoneError && <ErrorMessage className="mt-[6px]" message={phoneError} type="error" />}
 
               {state.UsersList?.alreadyMobileBasicError && (
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state.UsersList?.alreadyMobileBasicError}
                   type="error"
                 />
@@ -360,7 +347,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
         {isChanged ? (
           <div className="flex items-center justify-center mt-2 mb-2">
-            <ErrorMessage message={isChanged} type="error" />
+            <ErrorMessage className="mt-[6px]" message={isChanged} type="error" />
           </div>
         ) : null}
 

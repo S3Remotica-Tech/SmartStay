@@ -4,7 +4,8 @@ import { IoIosCheckmark } from "react-icons/io";
 import { MdWarningAmber } from "react-icons/md";
 import PropTypes from "prop-types";
 
-const Message = ({ message, type = "error" }) => {
+// `className` overrides the top spacing (default mt-1 keeps existing screens unchanged).
+const Message = ({ message, type = "error", className = "mt-1" }) => {
   if (!message || (Array.isArray(message) && message.length === 0)) return null;
 
   const messages = Array.isArray(message) ? message : [message];
@@ -21,8 +22,8 @@ const Message = ({ message, type = "error" }) => {
       bg: "bg-[rgba(255,140,0,0.15)]",
     },
     error: {
-      icon: <PiWarningCircle className="text-[#FF0000] text-[16px]" />,
-      text: "text-[#FF0000]",
+      icon: <PiWarningCircle className="text-field-error text-[16px]" />,
+      text: "text-field-error",
       bg: "bg-[rgba(255,243,243,0.64)]",
     },
   };
@@ -31,7 +32,7 @@ const Message = ({ message, type = "error" }) => {
 
   return (
     <div
-      className={`${bg} mt-1 px-[10px] py-[6px] rounded w-fit flex flex-col gap-1 whitespace-nowrap`}
+      className={`${bg} ${className} px-[10px] py-[6px] rounded w-fit flex flex-col gap-1 whitespace-nowrap`}
     >
       {messages.map((msg, index) => (
         <div key={index} className="flex items-center gap-[6px]">
@@ -54,6 +55,7 @@ Message.propTypes = {
     PropTypes.node,
   ]),
   type: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default Message;

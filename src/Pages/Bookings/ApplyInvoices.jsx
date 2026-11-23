@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+} from "../../Utils/FieldStyles";
 
 function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
   const state = useSelector((state) => state);
@@ -263,11 +266,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
                                 handleApplyAmountChange(index, e.target.value)
                               }
                               placeholder="₹ 0.00"
-                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                                item.applyAmount
-                                  ? "font-semibold"
-                                  : "font-medium"
-                              }`}
+                              className={fieldClass(!!error)}
                             />
                           </td>
                         </tr>
@@ -288,12 +287,12 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
             </div>
             {error && (
               <div className="mb-3">
-                <ErrorMessage message={error} type="error" />
+                <ErrorMessage className="mt-[6px]" message={error} type="error" />
               </div>
             )}
             {state?.Booking?.applyRedeemError && (
               <div className="mb-3">
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state?.Booking?.applyRedeemError}
                   type="error"
                 />

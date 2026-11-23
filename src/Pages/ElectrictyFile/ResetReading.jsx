@@ -9,6 +9,11 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+} from "../../Utils/FieldStyles";
 
 const reasonOptions = [
   { value: "meter_replaced", label: "Meter Replaced" },
@@ -295,11 +300,11 @@ function ResetReading({ show, handleClose, resetDetails }) {
               />
             </div>
 
-            {reasonError && <ErrorMessage message={reasonError} type="error" />}
+            {reasonError && <ErrorMessage className="mt-[6px]" message={reasonError} type="error" />}
           </div>
 
           <div>
-            <label className="text-sm font-medium text-[#344054]">
+            <label className={fieldLabelClass}>
               Starting Date
             </label>
 
@@ -316,9 +321,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 placeholderText="Select Date"
                 wrapperClassName="w-full"
                 maxDate={new Date()}
-                className={`w-full h-[50px] rounded-lg px-3 pr-10 text-sm outline-none border ${
-                  dateError ? "border-red-500" : "border-[#D9D9D9]"
-                }`}
+                className={datePickerInputClass(!!dateError)}
               />
 
               <Calendar
@@ -327,7 +330,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 color="#1E45E1"
               />
             </div>
-            {dateError && <ErrorMessage message={dateError} type="error" />}
+            {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />}
           </div>
 
           <div>
@@ -361,9 +364,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 placeholder="00000"
                 type="number"
                 onWheel={(e) => e.target.blur()}
-                className={`w-full h-12 rounded-lg focus:outline-none px-3 border ${
-                  readingError ? "border-red-500" : "border-[#D9D9D9]"
-                }`}
+                className={fieldClass(!!readingError)}
               />
 
               <span className="absolute right-3 top-3 text-sm text-[#666]">
@@ -371,13 +372,13 @@ function ResetReading({ show, handleClose, resetDetails }) {
               </span>
             </div>
             {readingError && (
-              <ErrorMessage message={readingError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={readingError} type="error" />
             )}
           </div>
         </div>
         {state.UsersList.resetEbError && (
           <div className="m-2 text-center flex justify-center">
-            <ErrorMessage message={state.UsersList.resetEbError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={state.UsersList.resetEbError} type="error" />
           </div>
         )}
         <div className="border-t px-5 py-4 flex justify-end gap-3">

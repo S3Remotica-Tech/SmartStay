@@ -25,109 +25,14 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddRoomReading from "../ElectrictyFile/AddRoomReading";
 import { TiTick } from "react-icons/ti";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 dayjs.extend(customParseFormat);
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function FinalSettlement() {
   const location = useLocation();
@@ -997,7 +902,7 @@ function FinalSettlement() {
               <DatePicker
                 value={checkoutDate}
                 allowClear={false}
-                className="w-full h-12 cursor-pointer font-gilroy"
+                className={datePickerClass()}
                 format="DD/MM/YYYY"
                 placeholder="DD/MM/YYYY"
                 disabledDate={(current) =>
@@ -2210,7 +2115,7 @@ function FinalSettlement() {
                                 }
                                 menuPlacement="bottom"
                                 menuPosition="fixed"
-                                styles={CustomStyles}
+                                styles={fieldSelectStyles()}
                               />
                             ) : (
                               <input
@@ -2225,12 +2130,12 @@ function FinalSettlement() {
                                     e.target.value,
                                   )
                                 }
-                                className="w-full h-[50px] px-3 text-base text-gray-700 border border-gray-300 rounded-lg font-medium outline-none"
+                                className={fieldClass(!!errors[index]?.reason)}
                               />
                             )}
 
                             {errors[index]?.reason && (
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={errors[index]?.reason}
                                 type="error"
                               />
@@ -2256,11 +2161,11 @@ function FinalSettlement() {
                                   e.target.value,
                                 )
                               }
-                              className="w-full h-[50px] px-3 text-base text-gray-700 border border-gray-300 rounded-lg font-medium outline-none"
+                              className={fieldClass(!!errors[index]?.amount)}
                             />
 
                             {errors[index]?.amount && (
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={errors[index]?.amount}
                                 type="error"
                               />
@@ -2465,23 +2370,14 @@ function FinalSettlement() {
                       value={Math.round(ReturnAmount).toLocaleString("en-IN")}
                       placeholder="Amount"
                       readOnly
-                      className={`mt-1 h-[50px] w-full rounded-[8px] border border-[#D9D9D9]
-    px-3 text-[16px] font-semibold font-gilroy shadow-none outline-none
-    focus:border-[#1E45E1] focus:ring-0
-    ${ReturnAmount > 0
-                          ? "text-green-600"
-                          : ReturnAmount < 0
-                            ? "text-red-600"
-                            : "text-gray-700"
-                        }
-  `}
+                      className={fieldClass()}
                     />
                   </div>
                 </>
               )}
 
               {state.UsersList?.finalError && (
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state.UsersList?.finalError}
                   type="error"
                 />
