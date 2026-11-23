@@ -1,0 +1,60 @@
+<svg width="632" height="260" viewBox="0 0 632 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- A street of PGs / hostels / co-living blocks with a laptop dashboard in front: "an A-Z PG software". Line art matching the other auth illustrations. -->
+  <g stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 252H624"/>
+    <!-- clouds + sun -->
+    <circle cx="560" cy="40" r="16"/>
+    <path d="M92 52C88 42 98 34 108 38C112 28 128 28 132 40C142 40 146 50 140 56H96C92 56 90 54 92 52Z"/>
+    <path d="M440 34C437 27 444 21 451 24C454 17 465 17 468 26C475 26 478 33 474 37H443C440 37 439 36 440 34Z"/>
+    <!-- tall co-living tower -->
+    <path d="M300 252V60H382V252"/>
+    <path d="M294 60H388"/>
+    <path d="M330 60V44H352V60"/>
+    <rect x="312" y="76" width="16" height="18" rx="2"/>
+    <rect x="354" y="76" width="16" height="18" rx="2"/>
+    <rect x="312" y="108" width="16" height="18" rx="2"/>
+    <rect x="354" y="108" width="16" height="18" rx="2"/>
+    <rect x="312" y="140" width="16" height="18" rx="2"/>
+    <rect x="354" y="140" width="16" height="18" rx="2"/>
+    <rect x="312" y="172" width="16" height="18" rx="2"/>
+    <rect x="354" y="172" width="16" height="18" rx="2"/>
+    <path d="M326 252V214H356V252M341 214V252"/>
+    <!-- PG building with sign board -->
+    <path d="M396 252V118H486V252"/>
+    <path d="M388 118H494"/>
+    <rect x="414" y="96" width="54" height="22" rx="3"/>
+    <path d="M430 103V111M430 103H436C440 103 440 108 436 108H430M450 104C448 102 444 102 443 106C442 110 446 112 449 111V108H446"/>
+    <rect x="410" y="136" width="26" height="22" rx="2"/>
+    <path d="M423 136V158"/>
+    <rect x="446" y="136" width="26" height="22" rx="2"/>
+    <path d="M459 136V158"/>
+    <rect x="410" y="172" width="26" height="22" rx="2"/>
+    <path d="M423 172V194"/>
+    <rect x="446" y="172" width="26" height="22" rx="2"/>
+    <path d="M459 172V194"/>
+    <path d="M428 252V212H454V252"/>
+    <path d="M422 212H460"/>
+    <!-- small hostel with pitched roof -->
+    <path d="M500 252V170H586V252"/>
+    <path d="M492 170L543 132L594 170"/>
+    <circle cx="543" cy="154" r="7"/>
+    <rect x="512" y="184" width="22" height="20" rx="2"/>
+    <rect x="552" y="184" width="22" height="20" rx="2"/>
+    <path d="M532 252V218H554V252"/>
+    <!-- laptop with dashboard -->
+    <path d="M118 236V146C118 142 121 140 124 140H250C253 140 256 142 256 146V236"/>
+    <path d="M100 236H274L266 248H108Z"/>
+    <path d="M132 156H176M132 166H162"/>
+    <path d="M136 220V200M152 220V188M168 220V194M184 220V176"/>
+    <path d="M130 222H196"/>
+    <circle cx="224" cy="194" r="20"/>
+    <path d="M224 174V194L240 206"/>
+    <path d="M206 160H242"/>
+    <!-- tree -->
+    <path d="M60 252V208"/>
+    <path d="M60 208C44 204 38 186 46 174C42 160 52 146 64 150C72 140 88 148 84 162C94 172 88 192 74 196C70 204 66 208 60 208Z"/>
+    <path d="M60 228L50 218M60 220L70 212"/>
+    <!-- bush -->
+    <path d="M594 252C590 242 598 234 608 236C612 226 624 228 624 240"/>
+  </g>
+</svg>

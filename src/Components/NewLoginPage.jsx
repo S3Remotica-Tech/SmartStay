@@ -1,0 +1,303 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+// New login screen — Figma "Smartstay Ver-3" Login frame 5352:152029
+// (section 5352:153217). Auth screens follow the "New design System" file
+// (iYflViMrr1kQSivg9hlBsy) and use the TASA Orbiter font.
+//
+// Login behaviour mirrors the current LoginPage.jsx exactly (same LOGINVERSION2
+// saga -> loginV2 API, same v2-token cookie / "login" localStorage writes, same
+// OTP modal, same error + loading handling). LoginPage.jsx is left untouched.
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "universal-cookie";
+import CryptoJS from "crypto-js";
+import OtpVerificationModal from "../Pages/OthersComponent/OtpVerificationModal";
+import ErrorMessage from "./ErrorMessage";
+import Checkbox from "../Utils/Checkbox";
+import {
+  AuthField,
+  AuthLayout,
+  AuthLogo,
+  AuthSubmitButton,
+  GoogleAuthButton,
+  PasswordToggle,
+  StoreBadges,
+} from "./NewAuth/AuthParts";
+import { LoginPromoCard } from "./NewAuth/AuthPromoCards";
+import { authFieldInput, authInlineLink } from "./NewAuth/authStyles";
+import WaveEmoji from "../Assets/Images/NewLogin/wave.svg";
+
+function NewLoginPage() {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const navigate = useNavigate();
+
+  const [email_Id, setemail_Id] = useState("");
+  const [password, setpassword] = useState("");
+  const [showPassword, setShowpassword] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [showOtpVerification, setShowOtpVerification] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleEmailChange = (e) => {
+    dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setemail_Id(e.target.value.toLowerCase());
+    setEmailError("");
+  };
+
+  const handlePasswordChange = (e) => {
+    dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+    setpassword(e.target.value);
+    setPasswordError("");
+  };
+
+  const handleCloseModal = () => {
+    dispatch({ type: "CLEAR_ERROR_OTP_CODE" });
+    setShowOtpVerification(false);
+  };
+
+  const handleLogin = (e) => {
+    if (e) e.preventDefault();
+    if (loading) return;
+    dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+    dispatch({ type: "RESET_ALL" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+    setEmailError("");
+    setPasswordError("");
+
+    if (!email_Id && !password) {
+      setEmailError("Please Enter Email ID");
+      setPasswordError("Please Enter Password");
+      return;
+    } else if (!email_Id) {
+      setEmailError("Please Enter Email ID");
+      return;
+    } else if (!password) {
+      setPasswordError("Please Enter Password");
+      return;
+    }
+    // TODO(auth): enable when mobile-number login API is ready — the field
+    // accepts "Email/ Mob no" per design, but the API only takes emailId today.
+    dispatch({
+      type: "LOGINVERSION2",
+      payload: { emailId: email_Id, password: password },
+    });
+    setLoading(true);
+  };
+
+  // Same success / OTP handling as LoginPage.jsx.
+  useEffect(() => {
+    if (state.login.statusCodeForV2Login) {
+      if (state.login?.isOtpRequired === true) {
+        setShowOtpVerification(true);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        dispatch({ type: "LOGIN-SUCCESS" });
+        const token = state.login?.JWTtokenV2;
+
+        const cookies = new Cookies();
+        cookies.set("v2-token", token, { path: "/" });
+
+        if (checked) {
+          const encryptData = CryptoJS.AES.encrypt(
+            JSON.stringify(true),
+            "abcd",
+          );
+          localStorage.setItem("login", encryptData.toString());
+        }
+
+        if (token) {
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUSCODE_VERSION_2" });
+          }, 100);
+        }
+      }
+    }
+  }, [state.login.statusCodeForV2Login]);
+
+  useEffect(() => {
+    if (
+      state.login.errorEmail ||
+      state.login.errorPassword ||
+      state.login.invalidCredential
+    ) {
+      setLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_INVALID_CREDENTIALS" });
+      }, 2000);
+    }
+  }, [
+    state.login.errorEmail,
+    state.login.errorPassword,
+    state.login.invalidCredential,
+  ]);
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
+    }
+  }, [state.createAccount?.networkError]);
+
+  const emailHasError = Boolean(emailError || state.login.errorEmail);
+  const passwordHasError = Boolean(passwordError || state.login.errorPassword);
+  const isFilled = Boolean(email_Id && password);
+
+  return (
+    <AuthLayout
+      card={<LoginPromoCard />}
+      header={
+        <div className="flex flex-col gap-[20px] pb-[21px]">
+          <AuthLogo />
+          <div className="flex items-center gap-[10px]">
+            <h1 className="mb-0 font-tasa text-[26px] font-semibold leading-[25px] tracking-[0.15px] text-[#49475A] sm:text-[30px]">
+              Welcome Back
+            </h1>
+            <img src={WaveEmoji} alt="" width="25" height="25" />
+          </div>
+        </div>
+      }
+    >
+
+      <form
+        noValidate
+        onSubmit={handleLogin}
+        className="flex w-full flex-col gap-[23px]"
+      >
+        <p className="mb-0 font-tasa text-[18px] font-normal leading-[25px] tracking-[0.1px] text-[#49475A] sm:text-[20px]">
+          Sign in to your SmartStay account
+        </p>
+
+        {state.login.invalidCredential ? (
+          <ErrorMessage
+            message={state.login.invalidCredential}
+            type="error"
+            className="mt-0"
+          />
+        ) : null}
+
+        <div className="flex w-full flex-col gap-[20px]">
+          <AuthField
+            id="new-login-email"
+            label="Email Address/ Mobile Number"
+            hasError={emailHasError}
+            errors={[emailError, state.login.errorEmail]}
+          >
+            <input
+              id="new-login-email"
+              type="text"
+              autoComplete="username"
+              placeholder="Enter your Email/ Mob no"
+              autoFocus
+              disabled={showOtpVerification}
+              value={email_Id}
+              onChange={handleEmailChange}
+              aria-invalid={emailHasError || undefined}
+              className={authFieldInput}
+            />
+          </AuthField>
+
+          <div className="flex w-full flex-col gap-[12px]">
+            <AuthField
+              id="new-login-password"
+              label="Password"
+              hasError={passwordHasError}
+              errors={[passwordError, state.login.errorPassword]}
+              action={
+                <button
+                  type="button"
+                  onClick={() => navigate("/forget-password")}
+                  className="border-0 bg-transparent p-0 font-tasa text-[14px] font-medium leading-[24px] text-primary-500 hover:underline"
+                >
+                  Forgot Password?
+                </button>
+              }
+            >
+              <input
+                id="new-login-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                placeholder="Enter password"
+                disabled={showOtpVerification}
+                value={password}
+                onChange={handlePasswordChange}
+                aria-invalid={passwordHasError || undefined}
+                className={authFieldInput}
+              />
+              {password && (
+                <PasswordToggle
+                  shown={showPassword}
+                  onToggle={() => setShowpassword(!showPassword)}
+                />
+              )}
+            </AuthField>
+
+            <Checkbox
+              id="new-login-remember"
+              checked={checked}
+              onChange={(e) => setChecked(e.target.checked)}
+              className="!items-center !gap-[6px]"
+              label={
+                <span className="font-tasa text-[16px] font-normal leading-[25px] tracking-[0.08px] text-[#49475A]">
+                  Remember me
+                </span>
+              }
+            />
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col items-center gap-[16px]">
+          <AuthSubmitButton
+            loading={loading}
+            dimmed={!isFilled}
+            loadingText="Signing in..."
+          >
+            Sign in
+          </AuthSubmitButton>
+
+          <span className="font-tasa text-[16px] font-medium leading-[26px] text-[#686677]">
+            OR
+          </span>
+
+          <GoogleAuthButton label="Continue with Google" />
+        </div>
+      </form>
+
+      <div className="flex w-full flex-col items-center gap-[10px] text-center">
+        <p className="mb-0 font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A]">
+          Don&apos;t Have an Account?{"  "}
+          <button
+            type="button"
+            onClick={() => navigate("/hostel-management-signup")}
+            className={authInlineLink}
+          >
+            Create Account
+          </button>
+        </p>
+        <p className="mb-0 font-tasa text-[12px] leading-[20px] tracking-[-0.02px] text-[#222222]">
+          By continuing, you agree to SmartStay&apos;s Terms and Privacy Policy.
+        </p>
+      </div>
+
+      <StoreBadges />
+
+      <OtpVerificationModal
+        show={showOtpVerification}
+        handleClose={handleCloseModal}
+        Email_Id={email_Id}
+        checked={checked}
+      />
+    </AuthLayout>
+  );
+}
+
+export default NewLoginPage;

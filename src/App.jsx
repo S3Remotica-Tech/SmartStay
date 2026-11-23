@@ -8,8 +8,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import MainLandingPage from "./NewV2LandingPage/MainLandingPage";
-import LoginPage from "./Components/LoginPage";
-import CreateAccount from "./Components/CreateAccount";
+// New auth screens (Figma "Smartstay Ver-3" section 5352-153217), wired to the
+// existing login / create-account APIs. Google sign-in/up is disabled until the
+// auth API is ready. To roll back: swap these imports and the two routes below
+// back to LoginPage / CreateAccount.
+import NewLoginPage from "./Components/NewLoginPage";
+import NewSignupPage from "./Components/NewSignupPage";
+// import LoginPage from "./Components/LoginPage";
+// import CreateAccount from "./Components/CreateAccount";
 import ForgetPassword from "./Components/Forgetpass";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -183,11 +189,13 @@ function App() {
               {/* <Route path="/" element={<FrontPage />} /> */}
               <Route path="/" element={<MainLandingPage />} />
               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
-              <Route path="/hostel-management-login" element={<LoginPage />} />
+              <Route path="/hostel-management-login" element={<NewLoginPage />} />
+              {/* Old login (rollback): <Route path="/hostel-management-login" element={<LoginPage />} /> */}
               <Route
                 path="/hostel-management-signup"
-                element={<CreateAccount />}
+                element={<NewSignupPage />}
               />
+              {/* Old signup (rollback): <Route path="/hostel-management-signup" element={<CreateAccount />} /> */}
               <Route path="/forget-password" element={<ForgetPassword />} />
               <Route
                 path="/hostel-management-features"
