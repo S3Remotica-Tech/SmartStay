@@ -445,7 +445,7 @@ function NewSignupPage() {
                   height="21"
                   className="pointer-events-none absolute left-[16px] top-1/2 z-[1] -translate-y-1/2"
                 />
-                <Select
+                <Select isDisabled
                   inputId="signup-state"
                   options={indianStates}
                   value={stateName ? { value: stateName, label: stateName } : null}

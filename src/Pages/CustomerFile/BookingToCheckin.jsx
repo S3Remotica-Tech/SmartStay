@@ -16,6 +16,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "../PayingGuestFile/PgLayoutView";
+import TenantAmenitiesSection from "../PayingGuestFile/TenantAmenitiesSection";
 import {
 
   InfoCircle,
@@ -74,6 +75,10 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  // Amenities (Optional) — same card as Add Tenant Step 2, dev mode only.
+  const [selectedAmenities, setSelectedAmenities] = useState({});
+  const [amenityProRate, setAmenityProRate] = useState(true);
+  const isDev = import.meta.env.MODE === "development";
   // const [proRateRent, setProRateRent] = useState(0);
 
   // const hasGracePeriod =
@@ -1712,6 +1717,15 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                       for Advance & Base Rent
                     </p>
                   </div> */}
+
+              {isDev && (
+                <TenantAmenitiesSection
+                  selected={selectedAmenities}
+                  onChange={setSelectedAmenities}
+                  proRate={amenityProRate}
+                  onProRateChange={setAmenityProRate}
+                />
+              )}
             </div>
 
             {state.UsersList?.bookToCheckinError && (

@@ -16,6 +16,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "../PayingGuestFile/PgLayoutView";
+import TenantAmenitiesSection from "../PayingGuestFile/TenantAmenitiesSection";
 import { InfoCircle, ArrowRight2, Edit2 } from "iconsax-react";
 import {
   datePickerClass,
@@ -67,6 +68,10 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  // Amenities (Optional) — same card as Add Tenant Step 2, dev mode only.
+  const [selectedAmenities, setSelectedAmenities] = useState({});
+  const [amenityProRate, setAmenityProRate] = useState(true);
+  const isDev = import.meta.env.MODE === "development";
   // const [proRateRent, setProRateRent] = useState(0);
 
   // const hasGracePeriod =
@@ -1578,6 +1583,15 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     </p>
                   </div> */}
               </div>
+
+              {isDev && (
+                <TenantAmenitiesSection
+                  selected={selectedAmenities}
+                  onChange={setSelectedAmenities}
+                  proRate={amenityProRate}
+                  onProRateChange={setAmenityProRate}
+                />
+              )}
             </div>
             <div className="flex items-center gap-2 my-1 px-4">
               <input
