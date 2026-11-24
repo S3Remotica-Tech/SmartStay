@@ -51,6 +51,7 @@ function SettingAmenities() {
   // Plan panels are open by default (as in the design); ids listed here are collapsed.
   const [collapsedPlans, setCollapsedPlans] = useState({});
 
+  const isDev = import.meta.env.MODE === "development";
   const {
     canWriteModule: canWriteAmenities,
     canReadModule: canReadAmenities,
@@ -466,29 +467,31 @@ function SettingAmenities() {
 
                                 <div className="h-px bg-gray-200" />
 
-                                <div
-                                  onClick={() =>
-                                    canWriteAmenities &&
-                                    handleDuplicateAmenity(amenity)
-                                  }
-                                  className={`flex items-center gap-2 px-3 py-2 transition-colors ${canWriteAmenities
-                                    ? "cursor-pointer hover:bg-blue-50 opacity-100"
-                                    : "cursor-not-allowed opacity-50"
-                                    }`}
-                                >
-                                  <Copy
-                                    size={16}
-                                    color={canWriteAmenities ? "#6A7282" : "#A0A0A0"}
-                                  />
-                                  <span
-                                    className={`font-gilroy font-semibold ${canWriteAmenities
-                                      ? "text-gray-900"
-                                      : "text-gray-400"
+                                {isDev &&
+                                  <div
+                                    onClick={() =>
+                                      canWriteAmenities &&
+                                      handleDuplicateAmenity(amenity)
+                                    }
+                                    className={`flex items-center gap-2 px-3 py-2 transition-colors ${canWriteAmenities
+                                      ? "cursor-pointer hover:bg-blue-50 opacity-100"
+                                      : "cursor-not-allowed opacity-50"
                                       }`}
                                   >
-                                    Duplicate
-                                  </span>
-                                </div>
+                                    <Copy
+                                      size={16}
+                                      color={canWriteAmenities ? "#6A7282" : "#A0A0A0"}
+                                    />
+                                    <span
+                                      className={`font-gilroy font-semibold ${canWriteAmenities
+                                        ? "text-gray-900"
+                                        : "text-gray-400"
+                                        }`}
+                                    >
+                                      Duplicate
+                                    </span>
+                                  </div>
+                                }
 
                                 <div className="h-px bg-gray-200" />
 

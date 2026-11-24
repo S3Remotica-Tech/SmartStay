@@ -1850,7 +1850,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                   styles={fieldSelectStyles(!!state.Booking?.bookingBedError)}
                 />
 
-                <div className="flex justify-end">
+                <div className="">
                   {state.Booking?.bookingBedError ? (
                     <ErrorMessage
                       message={state.Booking?.bookingBedError}
