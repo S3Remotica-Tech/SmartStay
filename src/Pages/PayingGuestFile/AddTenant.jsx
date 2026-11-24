@@ -129,6 +129,8 @@ function AddTenant({
   // After an Edit from Preview Details, Next returns straight to the preview.
   const [returnToPreview, setReturnToPreview] = useState(false);
   const [step2Summary, setStep2Summary] = useState(null);
+
+
   const [successInfo, setSuccessInfo] = useState(null);
   const [showUnsaved, setShowUnsaved] = useState(false);
   const [restoredDraftId, setRestoredDraftId] = useState("");
@@ -149,7 +151,8 @@ function AddTenant({
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [newTenant, setNewTenant] = useState(true);
-
+  const DraftTenantDetails =
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
@@ -223,19 +226,47 @@ function AddTenant({
   //   },
   // ];
 
-  useEffect(() => {
-    const customerId =
-      state?.UsersList?.draftTenantDetails?.customerId ||
-      state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
-      state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId ||
-      "";
+  // DraftTenantDetails
 
-    setDraftTenantId(customerId);
-  }, [
-    state?.UsersList?.draftTenantDetails?.customerId,
-    state?.UsersList?.UpdateDraftTenantDetails?.customerId,
-    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId,
-  ]);
+  // useEffect(() => {
+  //   if (!newTenant) {
+  //     const customerId =
+  //       state?.UsersList?.customerdetails?.customerId ||
+  //       DraftTenantDetails?.customerId ||
+  //       state?.UsersList?.draftTenantDetails?.customerId ||
+  //       state?.UsersList?.UpdateDraftTenantDetails?.customerId;
+
+
+  //     const fromCustomerDetails = state?.UsersList?.customerdetails?.customerId;
+  //     const fromDraftGet = DraftTenantDetails?.customerId;
+  //     const fromSaveDraft = state?.UsersList?.draftTenantDetails?.customerId;
+  //     const fromUpdateDraft = state?.UsersList?.UpdateDraftTenantDetails?.customerId;
+
+  //     console.log("1. customerdetails      :", fromCustomerDetails);
+  //     console.log("2. DraftTenantDetails   :", fromDraftGet);
+  //     console.log("3. draftTenantDetails   :", fromSaveDraft);
+  //     console.log("4. UpdateDraftTenantDetails:", fromUpdateDraft);
+
+  //     setDraftTenantId(customerId || "");
+  //   } else {
+  //     setDraftTenantId("");
+  //   }
+  // }, [
+  //   newTenant,
+  //   state?.UsersList?.draftTenantDetails?.customerId,
+  //   state?.UsersList?.UpdateDraftTenantDetails?.customerId,
+  //   DraftTenantDetails?.customerId,
+  //   state?.UsersList?.customerdetails?.customerId,
+  // ]);
+
+  useEffect(() => {
+    if (!newTenant && DraftTenantDetails?.customerId) {
+      setDraftTenantId(DraftTenantDetails.customerId);
+    }
+  }, [newTenant, DraftTenantDetails?.customerId]);
+
+
+
 
   const getFilePreview = (file) => {
     if (!file) return null;
@@ -854,7 +885,7 @@ function AddTenant({
   const existingStep2Fields = (customerId) => {
     const saved =
       DraftTenantDetails &&
-      String(DraftTenantDetails.customerId) === String(customerId)
+        String(DraftTenantDetails.customerId) === String(customerId)
         ? DraftTenantDetails
         : null;
     return {
@@ -941,6 +972,9 @@ function AddTenant({
     pendingStep2Ref.current = step2Fields;
     dispatchDraftSave(draftTenantId, step2Fields, action);
   };
+
+
+
 
   // ---- Step navigation --------------------------------------------------------
 
@@ -1203,9 +1237,11 @@ function AddTenant({
     });
   };
 
+
   useEffect(() => {
-    if (state.UsersList?.phoneError === 202) {
+    if (state.UsersList?.phoneError) {
       setFormLoading(false);
+      dispatch({ type: 'CLEAR_PHONE_ERROR' })
     }
   }, [state.UsersList?.phoneError]);
 
@@ -1231,11 +1267,13 @@ function AddTenant({
     }
   };
 
+  // console.log("state.UsersList?.saveDreaftTenantSuccessCode", state.UsersList?.saveDreaftTenantSuccessCode)
+
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
       const newId = state?.UsersList?.draftTenantDetails?.customerId;
-
+      if (newId) setDraftTenantId(newId);
       // A brand new draft only holds the personal details; store Step 2 next.
       if (pendingStep2Ref.current && newId) {
         const step2Fields = pendingStep2Ref.current;
@@ -1250,9 +1288,13 @@ function AddTenant({
   useEffect(() => {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
+      const updatedId =
+        state?.UsersList?.UpdateDraftTenantDetails?.customerId || draftTenantId;
+
+      if (updatedId) setDraftTenantId(updatedId);
       afterDraftPersisted(
         draftTenantId ||
-          state?.UsersList?.UpdateDraftTenantDetails?.customerId,
+        state?.UsersList?.UpdateDraftTenantDetails?.customerId,
       );
     }
   }, [state.UsersList?.updateSaveDreaftTenantStatus]);
@@ -1321,8 +1363,8 @@ function AddTenant({
   const handleSubmitFailed = () => {
     failSubmit(
       apiErrorText(state.UsersList?.bedError) ||
-        apiErrorText(state.Booking?.bookingBedError) ||
-        "Could not complete the request. Please try again.",
+      apiErrorText(state.Booking?.bookingBedError) ||
+      "Could not complete the request. Please try again.",
     );
   };
 
@@ -1374,8 +1416,7 @@ function AddTenant({
     }
   }, [state.UsersList?.draftTenantGetStatusCode]);
 
-  const DraftTenantDetails =
-    state?.UsersList?.alreadyAvailableDraftTenantGetList;
+
 
   useEffect(() => {
     if (DraftTenantDetails && !newTenant && !state.UsersList?.draftClickError) {
@@ -1388,7 +1429,7 @@ function AddTenant({
       if (DRAFT_EXTRA_FIELDS_ENABLED) {
         setAddressLater(!!DraftTenantDetails?.addressLater);
       }
-      // setDraftTenantId(DraftTenantDetails?.customerId || "");
+      setDraftTenantId(DraftTenantDetails?.customerId || "");
 
       // Reopen a saved draft on the right step (once, not on every refresh).
       const resumeCustomerId =
@@ -1610,7 +1651,8 @@ function AddTenant({
 
   return (
     <>
-      <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 ${successInfo ? "invisible" : ""}`}>
+      {/* <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 ${successInfo ? "invisible" : ""}`}> */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
         <div className="w-full h-full flex items-center justify-end p-[9px] font-gilroy">
           <div className="w-full max-w-[1008px] h-full bg-white rounded-[20px] flex gap-[30px] p-[16px] pr-[26px] overflow-hidden shadow-lg">
             <div className="relative flex w-[271px] min-w-[271px] flex-col gap-[51px] overflow-hidden rounded-[10px] bg-[#f4f8ff] px-[24px] py-[40px]">
@@ -2027,165 +2069,165 @@ function AddTenant({
 
                           {!addressLater && (
                             <>
-                          <div className="grid grid-cols-1 gap-2 mt-2">
-                            <div className="col-span-1 mb-1">
-                              <Form.Group>
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Flat , House no , Building , Company ,
-                                  Apartment{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter House No"
-                                  value={house_no}
-                                  onChange={(e) => handleHouseNo(e)}
-                                  className={fieldClass(!!house_noError)}
-                                />
-                              </Form.Group>
-                              {house_noError && (
-                                <ErrorMessage
-                                  message={house_noError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-2 mt-2">
-                            <div className=" mb-1">
-                              <Form.Group>
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Area , Street , Sector , Village{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Street"
-                                  value={street}
-                                  onChange={(e) => handleStreetName(e)}
-                                  className={fieldClass(!!streetError)}
-                                />
-                              </Form.Group>
-                              {streetError && (
-                                <ErrorMessage
-                                  message={streetError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
+                              <div className="grid grid-cols-1 gap-2 mt-2">
+                                <div className="col-span-1 mb-1">
+                                  <Form.Group>
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Flat , House no , Building , Company ,
+                                      Apartment{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="Enter House No"
+                                      value={house_no}
+                                      onChange={(e) => handleHouseNo(e)}
+                                      className={fieldClass(!!house_noError)}
+                                    />
+                                  </Form.Group>
+                                  {house_noError && (
+                                    <ErrorMessage
+                                      message={house_noError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2 mt-2">
+                                <div className=" mb-1">
+                                  <Form.Group>
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Area , Street , Sector , Village{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="Enter Street"
+                                      value={street}
+                                      onChange={(e) => handleStreetName(e)}
+                                      className={fieldClass(!!streetError)}
+                                    />
+                                  </Form.Group>
+                                  {streetError && (
+                                    <ErrorMessage
+                                      message={streetError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
 
-                            <div className=" mb-1">
-                              <Form.Group className="">
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Landmark{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="E.g , near appollo hospital"
-                                  value={landmark}
-                                  onChange={(e) => handleLandmark(e)}
-                                  className={fieldClass(!!landmarkError)}
-                                />
-                              </Form.Group>
-                              {landmarkError && (
-                                <ErrorMessage
-                                  message={landmarkError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
+                                <div className=" mb-1">
+                                  <Form.Group className="">
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Landmark{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="E.g , near appollo hospital"
+                                      value={landmark}
+                                      onChange={(e) => handleLandmark(e)}
+                                      className={fieldClass(!!landmarkError)}
+                                    />
+                                  </Form.Group>
+                                  {landmarkError && (
+                                    <ErrorMessage
+                                      message={landmarkError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
 
-                            <div className="mb-1">
-                              <Form.Group controlId="exampleForm.ControlInput1">
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Pincode
-                                </Form.Label>
-                                <Form.Control
-                                  value={pincode}
-                                  ref={pincodeRef}
-                                  onChange={(e) => handlePinCodeChange(e)}
-                                  type="tel"
-                                  maxLength={6}
-                                  inputMode="numeric"
-                                  pattern="[0-9]*"
-                                  placeholder="Enter Pincode"
-                                  className={fieldClass(!!pincodeError)}
-                                />
+                                <div className="mb-1">
+                                  <Form.Group controlId="exampleForm.ControlInput1">
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Pincode
+                                    </Form.Label>
+                                    <Form.Control
+                                      value={pincode}
+                                      ref={pincodeRef}
+                                      onChange={(e) => handlePinCodeChange(e)}
+                                      type="tel"
+                                      maxLength={6}
+                                      inputMode="numeric"
+                                      pattern="[0-9]*"
+                                      placeholder="Enter Pincode"
+                                      className={fieldClass(!!pincodeError)}
+                                    />
 
-                                {pincodeError && (
-                                  <ErrorMessage
-                                    message={pincodeError}
-                                    type="error"
-                                  />
-                                )}
-                              </Form.Group>
-                            </div>
+                                    {pincodeError && (
+                                      <ErrorMessage
+                                        message={pincodeError}
+                                        type="error"
+                                      />
+                                    )}
+                                  </Form.Group>
+                                </div>
 
-                            <div className=" mb-1">
-                              <Form.Group>
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Town/City{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter City"
-                                  value={city}
-                                  ref={cityRef}
-                                  onChange={(e) => handleCity(e)}
-                                  className={fieldClass(!!cityError)}
-                                />
-                              </Form.Group>
-                              {cityError && (
-                                <ErrorMessage
-                                  message={cityError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-                          </div>
+                                <div className=" mb-1">
+                                  <Form.Group>
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Town/City{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="Enter City"
+                                      value={city}
+                                      ref={cityRef}
+                                      onChange={(e) => handleCity(e)}
+                                      className={fieldClass(!!cityError)}
+                                    />
+                                  </Form.Group>
+                                  {cityError && (
+                                    <ErrorMessage
+                                      message={cityError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+                              </div>
 
-                          <div className="mb-1">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlInput5"
-                            >
-                              <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
-                                State{" "}
-                              </Form.Label>
+                              <div className="mb-1">
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput5"
+                                >
+                                  <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
+                                    State{" "}
+                                  </Form.Label>
 
-                              <Select
-                                options={indianStates}
-                                ref={stateRef}
-                                onChange={(selectedOption) => {
-                                  setStateName(selectedOption?.value);
-                                }}
-                                onInputChange={(inputValue, { action }) => {
-                                  if (action === "input-change") {
-                                    const lettersOnly = inputValue.replace(
-                                      /[^a-zA-Z\s]/g,
-                                      "",
-                                    );
-                                    return lettersOnly;
-                                  }
-                                  return inputValue;
-                                }}
-                                value={
-                                  state_name
-                                    ? {
-                                      value: state_name,
-                                      label: state_name,
+                                  <Select
+                                    options={indianStates}
+                                    ref={stateRef}
+                                    onChange={(selectedOption) => {
+                                      setStateName(selectedOption?.value);
+                                    }}
+                                    onInputChange={(inputValue, { action }) => {
+                                      if (action === "input-change") {
+                                        const lettersOnly = inputValue.replace(
+                                          /[^a-zA-Z\s]/g,
+                                          "",
+                                        );
+                                        return lettersOnly;
+                                      }
+                                      return inputValue;
+                                    }}
+                                    value={
+                                      state_name
+                                        ? {
+                                          value: state_name,
+                                          label: state_name,
+                                        }
+                                        : null
                                     }
-                                    : null
-                                }
-                                placeholder="Select State"
-                                menuPlacement="auto"
-                                noOptionsMessage={() => "No state available"}
-                                styles={fieldSelectStyles()}
-                              />
-                            </Form.Group>
-                          </div>
+                                    placeholder="Select State"
+                                    menuPlacement="auto"
+                                    noOptionsMessage={() => "No state available"}
+                                    styles={fieldSelectStyles()}
+                                  />
+                                </Form.Group>
+                              </div>
                             </>
                           )}
                           <div className={TENANT_FOOTER_CLASS}>
@@ -2930,7 +2972,6 @@ AddTenant.propTypes = {
   onclickdata: PropTypes.func.isRequired,
   alreadySaveDraftTenantDetails: PropTypes?.object,
   bookingOnly: PropTypes?.bool,
-  // Called with the new customer id after the success popup is closed.
   onTenantCreated: PropTypes?.func,
 };
 export default AddTenant;

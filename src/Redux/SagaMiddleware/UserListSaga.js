@@ -473,37 +473,41 @@ function* handleSaveDraft(draft) {
         payload: { response: response.data, statusCode: response?.status },
       });
 
-      var toastStyle = {
-        backgroundColor: "#E6F6E6",
-        color: "black",
-        width: "100%",
-        borderRadius: "60px",
-        height: "20px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        fontSize: 14,
-        textAlign: "start",
-        display: "flex",
-        alignItems: "center",
-        padding: "10px",
-      };
+      // var toastStyle = {
+      //   backgroundColor: "#E6F6E6",
+      //   color: "black",
+      //   width: "100%",
+      //   borderRadius: "60px",
+      //   height: "20px",
+      //   fontFamily: "Gilroy",
+      //   fontWeight: 600,
+      //   fontSize: 14,
+      //   textAlign: "start",
+      //   display: "flex",
+      //   alignItems: "center",
+      //   padding: "10px",
+      // };
 
-      toast.success("Created Successfully!", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+      // toast.success("Created Successfully!", {
+      //   position: "bottom-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeButton: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   style: toastStyle,
+      // });
     }
   } catch (error) {
     yield* handleApiError(error);
 
     if (error) {
+      // yield put({
+      //   type: "PHONE_ERROR",
+      //   payload: error?.response?.data,
+      // });
       if (error.code === "ERR_BAD_REQUEST") {
         if (error?.response?.data?.emailStatus !== "") {
           yield put({
@@ -531,32 +535,32 @@ function* handleUpdateSaveDraft(draft) {
         payload: { response: response.data, statusCode: response?.status },
       });
 
-      var toastStyle = {
-        backgroundColor: "#E6F6E6",
-        color: "black",
-        width: "100%",
-        borderRadius: "60px",
-        height: "20px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        fontSize: 14,
-        textAlign: "start",
-        display: "flex",
-        alignItems: "center",
-        padding: "10px",
-      };
+      // var toastStyle = {
+      //   backgroundColor: "#E6F6E6",
+      //   color: "black",
+      //   width: "100%",
+      //   borderRadius: "60px",
+      //   height: "20px",
+      //   fontFamily: "Gilroy",
+      //   fontWeight: 600,
+      //   fontSize: 14,
+      //   textAlign: "start",
+      //   display: "flex",
+      //   alignItems: "center",
+      //   padding: "10px",
+      // };
 
-      toast.success("Updated Successfully!", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+      // toast.success("Updated Successfully!", {
+      //   position: "bottom-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeButton: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   style: toastStyle,
+      // });
     }
   } catch (error) {
     yield* handleApiError(error);
@@ -1592,32 +1596,32 @@ function* handleDirectCheckIn(datum) {
         payload: { response: response.message, statusCode: response?.status },
       });
 
-      var toastStyle = {
-        backgroundColor: "#E6F6E6",
-        color: "black",
-        width: "100%",
-        borderRadius: "60px",
-        height: "20px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        fontSize: 14,
-        textAlign: "start",
-        display: "flex",
-        alignItems: "center",
-        padding: "10px",
-      };
+      // var toastStyle = {
+      //   backgroundColor: "#E6F6E6",
+      //   color: "black",
+      //   width: "100%",
+      //   borderRadius: "60px",
+      //   height: "20px",
+      //   fontFamily: "Gilroy",
+      //   fontWeight: 600,
+      //   fontSize: 14,
+      //   textAlign: "start",
+      //   display: "flex",
+      //   alignItems: "center",
+      //   padding: "10px",
+      // };
 
-      toast.success(response.data, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+      // toast.success(response.data, {
+      //   position: "bottom-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeButton: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   style: toastStyle,
+      // });
     }
 
     if (response) {
