@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import FormComingSoon from "../../Utils/FormComingSoon";
+import TenantAmenitiesSection from "./TenantAmenitiesSection";
 import {
   Option,
   SingleValue,
@@ -65,6 +66,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  // Amenities (Optional) — same card as Add Tenant Step 2, dev mode only.
+  const [selectedAmenities, setSelectedAmenities] = useState({});
+  const [amenityProRate, setAmenityProRate] = useState(true);
+  const isDev = import.meta.env.MODE === "development";
 
   const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
 
@@ -1948,6 +1953,15 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         for Advance & Base Rent
                       </p>
                     </div> */}
+
+                {isDev && (
+                  <TenantAmenitiesSection
+                    selected={selectedAmenities}
+                    onChange={setSelectedAmenities}
+                    proRate={amenityProRate}
+                    onProRateChange={setAmenityProRate}
+                  />
+                )}
               </div>
 
               {state.UsersList?.bedAvailableError ? (
