@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { authCardBase } from "./authStyles";
 import SkylineArt from "../../Assets/Images/NewLogin/illustration-skyline.svg";
 import RentArt from "../../Assets/Images/NewLogin/illustration-rent.svg";
+import PasswordArt from "../../Assets/Images/NewLogin/illustration-password.svg";
 import BuildingArt from "../../Assets/Images/NewLogin/signup-card-building.png";
 import BedsArt from "../../Assets/Images/NewLogin/illustration-beds.svg";
 import CheckinArt from "../../Assets/Images/NewLogin/illustration-checkin.svg";
@@ -146,16 +147,19 @@ const textBlockClass =
   "relative mx-[10.5%] mt-[clamp(32px,9vh,96px)] flex max-w-[440px] flex-col gap-[clamp(14px,2.4vh,24px)]";
 
 // Bottom-anchored art, sized from the card width so it scales with the card.
-const LineArt = ({ src }) => (
+const LineArt = ({ src, opacityClass = "opacity-50" }) => (
   <img
     src={src}
     alt=""
     width="632"
     height="260"
-    className="pointer-events-none absolute bottom-[clamp(40px,6vh,56px)] left-1/2 h-auto w-[92%] -translate-x-1/2 opacity-50"
+    className={`pointer-events-none absolute bottom-[clamp(40px,6vh,56px)] left-1/2 h-auto w-[92%] -translate-x-1/2 ${opacityClass}`}
   />
 );
-LineArt.propTypes = { src: PropTypes.string.isRequired };
+LineArt.propTypes = {
+  src: PropTypes.string.isRequired,
+  opacityClass: PropTypes.string,
+};
 
 const LOGIN_SLIDES = [
   {
@@ -222,6 +226,54 @@ export function LoginPromoCard() {
     </aside>
   );
 }
+
+// Forgot-password card: one message per step over the mesh, which drifts to a
+// new palette as the user moves on. The animated SVG (dots typing in, padlock
+// opening, shield tick) plays throughout.
+const FORGOT_STEPS = [
+  {
+    mesh: MESH.aqua,
+    title: "Locked out? We’ve got the key..!",
+    text: "Enter your registered email and we’ll send you a 6-digit code to get back in.",
+  },
+  {
+    mesh: MESH.sunset,
+    title: "Check your inbox, it’s on the way..!",
+    text: "Type the 6-digit code we just sent. It works for a short time only, so use it soon.",
+  },
+  {
+    mesh: MESH.mint,
+    title: "Make it strong, make it yours..!",
+    text: "Mix upper and lower case letters, a number and a symbol. Skip names and birthdays.",
+  },
+];
+
+export function ForgotPromoCard({ step = 0 }) {
+  const current = Math.min(step, FORGOT_STEPS.length - 1);
+  return (
+    <aside className={authCardBase} aria-label="Reset your password">
+      <MeshBackground palette={FORGOT_STEPS[current].mesh} />
+      <LineArt src={PasswordArt} opacityClass="opacity-70" />
+      {/* All messages share one grid cell so the block keeps its height. */}
+      <div className="relative mx-[10.5%] mt-[clamp(32px,9vh,96px)] grid max-w-[440px]">
+        {FORGOT_STEPS.map((item, i) => (
+          <div
+            key={item.title}
+            aria-hidden={i !== current}
+            className={`flex flex-col gap-[clamp(14px,2.4vh,24px)] transition-[opacity,transform] ease-out [grid-area:1/1] motion-reduce:transition-none ${
+              i === current ? slideActive : slideInactive
+            }`}
+          >
+            <h2 className={headingClass}>{item.title}</h2>
+            <p className={introClass}>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+ForgotPromoCard.propTypes = { step: PropTypes.number };
 
 // Plain-English owner reviews for the signup testimonial carousel.
 const REVIEWS = [

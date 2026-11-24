@@ -22,6 +22,13 @@ import {
   PasswordToggle,
 } from "./NewAuth/AuthParts";
 import { SignupPromoCard } from "./NewAuth/AuthPromoCards";
+// passwordRuleErrors: same rules and wording as CreateAccount.jsx, shared
+// with the reset-password screen.
+import {
+  OtpVerifyPanel,
+  SentToText,
+  passwordRuleErrors,
+} from "./NewAuth/OtpParts";
 import Select from "react-select";
 import {
   authFieldInput,
@@ -39,23 +46,17 @@ const FIELD_H = "h-[50px]";
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 const PHONE_REGEX = /^(?!0{10})[1-9][0-9]{9}$/;
 
-// Same rules and wording as CreateAccount.jsx.
-const passwordRuleErrors = (value) => {
-  const messages = [];
-  if (/\s/.test(value)) messages.push("Password cannot contain spaces.");
-  if (value.length < 8) messages.push("8 characters minimum");
-  if (!/[a-z]/.test(value) || !/[A-Z]/.test(value))
-    messages.push("One uppercase and lowercase");
-  if (!/\d/.test(value) || !/[@$!%*?&]/.test(value))
-    messages.push("Numeric and Special symbols");
-  return messages;
-};
 
 // "Full Name" maps onto the API's firstName / lastName (first word / rest).
 const splitFullName = (fullName) => {
   const [firstName = "", ...rest] = fullName.trim().split(/\s+/);
   return { firstName, lastName: rest.join(" ") };
 };
+
+// TODO(auth): replace the demo code with the signup email-OTP API when it
+// exists. Until then a random code is generated here and shown on screen.
+const OTP_ATTEMPTS = 3;
+const makeDemoCode = () => String(Math.floor(100000 + Math.random() * 900000));
 
 const chevron = (
   <img
@@ -87,6 +88,22 @@ function NewSignupPage() {
   const [emailError, setEmailError] = useState("");
   const [passwordEmptyError, setPasswordEmptyError] = useState("");
   const [passwordRules, setPasswordRules] = useState([]);
+
+  // Email OTP step (Figma Verify OTP 7225:255121) — demo data, see makeDemoCode.
+  const [step, setStep] = useState("form");
+  const [demoCode, setDemoCode] = useState("");
+  const [attemptsLeft, setAttemptsLeft] = useState(OTP_ATTEMPTS);
+  const [otpResetKey, setOtpResetKey] = useState(0);
+  const [otpStatus, setOtpStatus] = useState("default");
+  const [otpMessage, setOtpMessage] = useState("");
+
+  const sendDemoCode = () => {
+    setDemoCode(makeDemoCode());
+    setAttemptsLeft(OTP_ATTEMPTS);
+    setOtpStatus("default");
+    setOtpMessage("");
+    setOtpResetKey((k) => k + 1);
+  };
 
   const handleFullName = (e) => {
     const value = e.target.value;
@@ -162,6 +179,13 @@ function NewSignupPage() {
     }
     if (hasError) return;
 
+    // Valid form -> verify the email first; the account is created only
+    // after the code is confirmed.
+    sendDemoCode();
+    setStep("otp");
+  };
+
+  const submitAccount = () => {
     const { firstName, lastName } = splitFullName(fullName);
     dispatch({
       type: "CREATE_ACCOUNT_PAGE",
@@ -180,9 +204,63 @@ function NewSignupPage() {
     setLoading(true);
   };
 
+  const handleVerifyOtp = (code) => {
+    if (code === demoCode) {
+      setOtpStatus("success");
+      setOtpMessage("Email verified");
+      submitAccount();
+      return;
+    }
+    const left = attemptsLeft - 1;
+    setAttemptsLeft(left);
+    setOtpStatus("error");
+    if (left > 0) {
+      setOtpMessage(
+        `Incorrect code. ${left} ${left === 1 ? "attempt" : "attempts"} left.`,
+      );
+    } else {
+      setDemoCode("");
+      setOtpMessage("Too many attempts. Use Resend OTP to get a new code.");
+    }
+  };
+
+  const handleOtpEdit = () => {
+    if (otpStatus === "error" && attemptsLeft > 0) {
+      setOtpStatus("default");
+      setOtpMessage("");
+    }
+  };
+
+  const backToForm = () => {
+    setStep("form");
+    setOtpStatus("default");
+    setOtpMessage("");
+  };
+
+  // A server error (e.g. email already used) after the OTP step: go back to
+  // the form, where the error shows under its field.
+  useEffect(() => {
+    if (
+      step === "otp" &&
+      (state.createAccount?.emailError ||
+        state.createAccount?.mobileError ||
+        state.createAccount?.passwordDoesnotMatchError ||
+        state.createAccount?.email_mobile_Error)
+    ) {
+      backToForm();
+    }
+  }, [
+    state.createAccount?.emailError,
+    state.createAccount?.mobileError,
+    state.createAccount?.passwordDoesnotMatchError,
+    state.createAccount?.email_mobile_Error,
+  ]);
+
   // Same success handling as CreateAccount.jsx (toast comes from the saga).
   useEffect(() => {
     if (state.createAccount.statusCodeCreateAccount === 201) {
+      // Sign in opens with the new email filled in (password only).
+      const createdEmail = emailID;
       setFullName("");
       setPhoneNo("");
       setEmailID("");
@@ -190,7 +268,7 @@ function NewSignupPage() {
       setStateName("");
       setTimeout(() => {
         setLoading(false);
-        navigate("/hostel-management-login");
+        navigate("/hostel-management-login", { state: { email: createdEmail } });
       }, 1000);
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODE_CREATE_ACCOUNT" });
@@ -227,6 +305,67 @@ function NewSignupPage() {
   const serverEmailError = state.createAccount?.emailError;
   const serverMobileError = state.createAccount?.mobileError;
   const passwordHasError = Boolean(passwordEmptyError || passwordRules.length);
+
+  if (step === "otp") {
+    return (
+      <AuthLayout
+        card={<SignupPromoCard />}
+        header={
+          <div className="flex flex-col gap-[20px]">
+            <AuthLogo />
+            <div className="flex flex-col gap-[4px]">
+              <h1 className="mb-0 font-tasa text-[24px] font-medium leading-[25px] tracking-[0.12px] text-[#222222]">
+                Verify OTP
+              </h1>
+              <p className="mb-0 font-tasa text-[14px] leading-[25px] tracking-[0.07px] text-[#49475A]">
+                <SentToText contact={emailID} />
+              </p>
+            </div>
+          </div>
+        }
+      >
+        {state.createAccount?.networkError ? (
+          <ErrorMessage
+            message={state.createAccount.networkError}
+            type="error"
+            className="mt-0"
+          />
+        ) : null}
+        <OtpVerifyPanel
+          id="signup-otp"
+          label="Enter OTP"
+          size="lg"
+          submitText="Verify & Continue"
+          loadingText="Creating account..."
+          loading={loading}
+          status={otpStatus}
+          message={otpMessage}
+          onSubmit={handleVerifyOtp}
+          onEdit={handleOtpEdit}
+          onResend={sendDemoCode}
+          onChangeContact={backToForm}
+          resetKey={otpResetKey}
+          hint={
+            demoCode ? (
+              // TODO(auth): remove this demo banner with the signup OTP API.
+              <div
+                role="note"
+                className="flex flex-col gap-[2px] rounded-[8px] border-[1px] border-solid border-[#C7D2FE] bg-[#EBEFFF] px-[14px] py-[10px] font-tasa"
+              >
+                <span className="text-[14px] leading-[20px] text-[#1E3A8A]">
+                  Demo code:{" "}
+                  <strong className="font-semibold tracking-[3px]">{demoCode}</strong>
+                </span>
+                <span className="text-[12px] leading-[18px] text-[#49475A]">
+                  Email verification is not live yet, so use this code to continue.
+                </span>
+              </div>
+            ) : null
+          }
+        />
+      </AuthLayout>
+    );
+  }
 
   return (
     <AuthLayout

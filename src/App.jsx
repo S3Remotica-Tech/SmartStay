@@ -16,7 +16,10 @@ import NewLoginPage from "./Components/NewLoginPage";
 import NewSignupPage from "./Components/NewSignupPage";
 // import LoginPage from "./Components/LoginPage";
 // import CreateAccount from "./Components/CreateAccount";
-import ForgetPassword from "./Components/Forgetpass";
+// New forgot-password screen (same OTP / reset APIs). Rollback: swap back to
+// Forgetpass below and on the /forget-password route.
+import NewForgotPasswordPage from "./Components/NewForgotPasswordPage";
+// import ForgetPassword from "./Components/Forgetpass";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import CryptoJS from "crypto-js";
@@ -196,7 +199,8 @@ function App() {
                 element={<NewSignupPage />}
               />
               {/* Old signup (rollback): <Route path="/hostel-management-signup" element={<CreateAccount />} /> */}
-              <Route path="/forget-password" element={<ForgetPassword />} />
+              <Route path="/forget-password" element={<NewForgotPasswordPage />} />
+              {/* Old forgot password (rollback): <Route path="/forget-password" element={<ForgetPassword />} /> */}
               <Route
                 path="/hostel-management-features"
                 element={<MainLandingPage />}
