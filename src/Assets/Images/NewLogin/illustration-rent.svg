@@ -1,0 +1,52 @@
+<svg width="632" height="260" viewBox="0 0 632 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- "Rent collection from your pocket": hand holding a phone with a rupee payment, a paid notification, coins, a receipt and a small PG. Clean line art matching the other auth illustrations. -->
+    <g stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <!-- ground -->
+      <path d="M8 252C120 250 230 254 340 251C430 249 530 253 624 251"/>
+      <!-- plant -->
+      <path d="M100 252L94 222H130L124 252"/>
+      <path d="M90 222H134"/>
+      <path d="M112 222C110 200 104 186 92 176M112 222C114 198 122 184 136 176M112 222C112 196 112 180 112 164"/>
+      <path d="M92 176C96 186 104 190 108 196M136 176C130 186 122 190 118 196M112 164C106 172 106 180 110 186"/>
+      <!-- sparkles -->
+      <path d="M200 56V70M193 63H207"/>
+      <path d="M452 58V68M447 63H457"/>
+      <!-- phone -->
+      <rect x="250" y="40" width="80" height="192" rx="14"/>
+      <path d="M280 52H300"/>
+      <circle cx="290" cy="104" r="22"/>
+      <path d="M281 95H299M281 101H299M285 95C296 95 296 109 285 109H283L297 119"/>
+      <path d="M268 144H312M274 157H306"/>
+      <rect x="268" y="176" width="44" height="16" rx="8"/>
+      <!-- hand holding the phone -->
+      <path d="M250 150C238 155 235 171 250 177"/>
+      <path d="M250 196C237 201 231 216 233 232L236 252"/>
+      <path d="M330 150C343 150 345 163 331 167M330 170C345 170 347 185 331 189M330 192C343 192 345 205 331 209"/>
+      <path d="M332 209C337 226 335 240 331 252"/>
+      <!-- paid notification -->
+      <rect x="352" y="94" width="94" height="36" rx="10"/>
+      <path d="M352 116L338 124L356 126"/>
+      <circle cx="369" cy="112" r="8"/>
+      <path d="M365 112L368 115L373 109"/>
+      <path d="M384 106H432M384 118H416"/>
+      <!-- flying coin -->
+      <circle cx="372" cy="62" r="13"/>
+      <path d="M367 57H377M367 61H377M369 57C375 57 375 65 369 65L376 70"/>
+      <path d="M344 58H352M342 67H350"/>
+      <!-- coin stack -->
+      <ellipse cx="400" cy="202" rx="26" ry="7"/>
+      <path d="M374 202V244M426 202V244"/>
+      <path d="M374 214C374 220 426 220 426 214M374 226C374 232 426 232 426 226M374 238C374 244 426 244 426 238"/>
+      <path d="M374 244C374 251 426 251 426 244"/>
+      <!-- receipt -->
+      <path d="M470 118H540V228L532 236L524 228L516 236L508 228L500 236L492 228L484 236L476 228L470 234Z"/>
+      <path d="M482 136H528M482 150H516M482 164H524"/>
+      <path d="M482 192H500M510 192H528M482 202H528"/>
+      <!-- small PG -->
+      <path d="M560 252V152H614V252"/>
+      <path d="M552 152L587 124L622 152"/>
+      <rect x="570" y="166" width="14" height="14" rx="2"/>
+      <rect x="592" y="166" width="14" height="14" rx="2"/>
+      <path d="M578 252V222H596V252"/>
+    </g>
+</svg>
