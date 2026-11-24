@@ -7,7 +7,7 @@
 // saga -> loginV2 API, same v2-token cookie / "login" localStorage writes, same
 // OTP modal, same error + loading handling). LoginPage.jsx is left untouched.
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "universal-cookie";
 import CryptoJS from "crypto-js";
@@ -27,12 +27,18 @@ import { LoginPromoCard } from "./NewAuth/AuthPromoCards";
 import { authFieldInput, authInlineLink } from "./NewAuth/authStyles";
 import WaveEmoji from "../Assets/Images/NewLogin/wave.svg";
 
+const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
 function NewLoginPage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigate = useNavigate();
+  const location = useLocation();
+  // Set by NewSignupPage after an account is created: prefill the email so
+  // the user only types the password.
+  const prefilledEmail = location.state?.email || "";
 
-  const [email_Id, setemail_Id] = useState("");
+  const [email_Id, setemail_Id] = useState(prefilledEmail);
   const [password, setpassword] = useState("");
   const [showPassword, setShowpassword] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -77,12 +83,14 @@ function NewLoginPage() {
     } else if (!email_Id) {
       setEmailError("Please Enter Email ID");
       return;
+    } else if (!EMAIL_REGEX.test(email_Id)) {
+      setEmailError("Please Enter Valid Email ID");
+      return;
     } else if (!password) {
       setPasswordError("Please Enter Password");
       return;
     }
-    // TODO(auth): enable when mobile-number login API is ready — the field
-    // accepts "Email/ Mob no" per design, but the API only takes emailId today.
+    // Email only: the login API takes emailId (no mobile-number login).
     dispatch({
       type: "LOGINVERSION2",
       payload: { emailId: email_Id, password: password },
@@ -188,16 +196,17 @@ function NewLoginPage() {
         <div className="flex w-full flex-col gap-[20px]">
           <AuthField
             id="new-login-email"
-            label="Email Address/ Mobile Number"
+            label="Email Address"
             hasError={emailHasError}
             errors={[emailError, state.login.errorEmail]}
           >
             <input
               id="new-login-email"
-              type="text"
+              type="email"
+              inputMode="email"
               autoComplete="username"
-              placeholder="Enter your Email/ Mob no"
-              autoFocus
+              placeholder="Enter your email"
+              autoFocus={!prefilledEmail}
               disabled={showOtpVerification}
               value={email_Id}
               onChange={handleEmailChange}
@@ -227,6 +236,7 @@ function NewLoginPage() {
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 placeholder="Enter password"
+                autoFocus={Boolean(prefilledEmail)}
                 disabled={showOtpVerification}
                 value={password}
                 onChange={handlePasswordChange}
