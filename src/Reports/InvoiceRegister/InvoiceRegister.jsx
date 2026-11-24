@@ -38,6 +38,13 @@ import {
 
 const NOT_IN_COLLECTION_SHEET = "Not part of collection sheet.";
 
+// List View table cells — same look as ConsolidatedInvoiceTable's header/body cells.
+const LIST_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const LIST_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function InvoiceRegister() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -333,16 +340,17 @@ function InvoiceRegister() {
     });
   };
 
+  // Status badge colours (soft bg + dot), same style as the Consolidated table.
   const statusColor = {
-    Paid: "bg-[#D9FFD9] text-[#065F46]",
+    Paid: { bg: "bg-[rgba(179,229,187,0.3)]", dot: "bg-[#22C55E]" },
 
-    Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
-    "Partial Payment": "bg-[#FFD9D9] text-[#7A1C1C]",
+    Pending: { bg: "bg-[rgba(255,189,189,0.4)]", dot: "bg-[#EF4444]" },
+    "Partial Payment": { bg: "bg-[rgba(255,237,202,0.6)]", dot: "bg-[#F59E0B]" },
 
-    Refunded: "bg-[#FFF3CD] text-[#8B8000]",
-    "Partial Refund": "bg-[#FFF3CD] text-[#8B8000]",
-    "Pending Refund": "bg-[#FFE6B3] text-[#b45309]",
-    Cancelled: "bg-[#E5E7EB] text-[#374151]",
+    Refunded: { bg: "bg-[#E7F1FF]", dot: "bg-[#3B82F6]" },
+    "Partial Refund": { bg: "bg-[#E7F1FF]", dot: "bg-[#3B82F6]" },
+    "Pending Refund": { bg: "bg-[rgba(255,237,202,0.6)]", dot: "bg-[#F59E0B]" },
+    Cancelled: { bg: "bg-[#E5E7EB]", dot: "bg-[#6B7280]" },
   };
 
   const options = [
@@ -1130,62 +1138,64 @@ function InvoiceRegister() {
         {!isConsolidated && <div className="mx-1 mt-3">{viewSwitcher}</div>}
 
         {isConsolidated ? null : invoiceRegister?.invoiceList?.length > 0 ? (
-          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+          // UI matches ConsolidatedInvoiceTable (card, 50px header, 58px rows,
+          // dot status badge). Data, handlers and sticky columns are unchanged.
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
             <div
               ref={tableRef}
-              className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
+              className="overflow-y-auto relative h-[calc(100vh-200px)] show-scrolls"
             >
-              <table className="w-full  text-[12px] font-gilroy ">
-                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                  <tr className="border-b border-[#E8E8E8]">
-                    <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[30px]  rounded-tl-xl">
+              <table className="w-full min-w-max border-separate border-spacing-0">
+                <thead className="sticky top-0 z-30">
+                  <tr>
+                    <th className={`${LIST_HEADER_CELL} sticky left-0 z-40 w-[48px] min-w-[48px] max-w-[48px] !px-[15px] text-left`}>
                       <Setting3
                         //   onClick={() => setOpen(!open)}
                         className="cursor-pointer"
                         size="18"
-                        color="#4B4B4B"
+                        color="#6B7280"
                       />
                     </th>
 
-                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] whitespace-nowrap ">
-                      INVOICE NO
+                    <th className={`${LIST_HEADER_CELL} sticky left-[48px] z-40 w-[140px] min-w-[140px] max-w-[140px] text-left`}>
+                      Invoice No
                     </th>
 
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px] ">
-                      NAME
+                    <th className={`${LIST_HEADER_CELL} sticky left-[188px] z-40 w-[220px] min-w-[220px] max-w-[220px] text-left`}>
+                      Name
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold ">
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
                       <div className="flex justify-center items-center gap-1">
-                        TYPE
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                        Type
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] whitespace-nowrap">
-                      INVOICE DATE
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
+                      Invoice Date
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold whitespace-nowrap">
-                      DUE DATE
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
+                      Due Date
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold ">
-                      <div className="flex justify-center items-center gap-1">
-                        AMOUNT
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    <th className={`${LIST_HEADER_CELL} text-right`}>
+                      <div className="flex justify-end items-center gap-1">
+                        Amount
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold ">
-                      <div className="flex justify-center items-center gap-1">
-                        DUE
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    <th className={`${LIST_HEADER_CELL} text-right`}>
+                      <div className="flex justify-end items-center gap-1">
+                        Due
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold rounded-tr-xl">
-                      STATUS
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
+                      Status
                     </th>
                   </tr>
                 </thead>
@@ -1193,30 +1203,26 @@ function InvoiceRegister() {
                 <tbody>
                   {invoiceRegister?.invoiceList?.length > 0 ? (
                     invoiceRegister?.invoiceList?.map((row, i) => (
-                      <tr
-                        key={i}
-                        className="border-b last:border-none  transition"
-                      >
-                        <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[30px]"></td>
+                      <tr key={i}>
+                        <td className={`${LIST_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}></td>
                         <td
                           onClick={() => handleNavigateBillsPdf(row)}
-                          className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
-                                                     sticky left-[42px] z-20 bg-white w-[140px]"
+                          className={`${LIST_BODY_CELL} cursor-pointer text-[#1E45E1] font-semibold truncate sticky left-[48px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
                           title={row.invoiceNumber}
                         >
                           {row.invoiceNumber}
                         </td>
 
-                        <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white max-w-[200px]">
-                          <div className="flex items-center gap-2 max-w-[200px] relative">
+                        <td className={`${LIST_BODY_CELL} sticky left-[188px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
+                          <div className="flex items-center gap-[13px] max-w-[188px] relative">
                             {row.profilePic ? (
                               <img
                                 src={row.profilePic}
                                 alt={row.fullName}
-                                className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                                className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
                               />
                             ) : (
-                              <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                              <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
                                 {row.initials}
                               </div>
                             )}
@@ -1251,43 +1257,45 @@ function InvoiceRegister() {
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center font-medium text-[#111928] truncate ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                           title={row.invoiceType}
                         >
                           {row.invoiceType}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center text-[#314158] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.invoiceDate}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center text-[#314158] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.dueDate}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}
+                          className={`${LIST_BODY_CELL} text-right font-medium text-[#111928] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          ₹ {row.invoiceAmount}
+                          ₹{row.invoiceAmount}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-right font-bold text-[#111928] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          ₹ {row.dueAmount}
+                          ₹{row.dueAmount}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           <span
-                            className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
-      ${statusColor[row.paymentStatus]}`}
+                            className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${(statusColor[row.paymentStatus] || statusColor.Pending).bg}`}
                           >
+                            <span
+                              className={`w-[6px] h-[6px] rounded-full ${(statusColor[row.paymentStatus] || statusColor.Pending).dot}`}
+                            />
                             {row.paymentStatus.replace(/_/g, " ")}
                           </span>
                         </td>
