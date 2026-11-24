@@ -17,6 +17,10 @@ import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
 function Asset() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -60,7 +64,6 @@ function Asset() {
       setExcelDownload(state.UsersList?.exportAssetsDetail?.response?.fileUrl);
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
-
 
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
@@ -317,24 +320,24 @@ function Asset() {
           ) : (
             <div className="relative">
               {getData && getData?.length > 0 ? (
-                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                   <div
                     id="tableContainer"
                     ref={tableContainerRef}
-                    className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                    className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                   >
-                    <table className=" w-full font-gilroy">
-                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                        <tr className="h-9">
-                          <th className="w-[230px] px-2">Product Name</th>
-                          <th className="w-[230px] px-2">Serial Number</th>
-                          <th className="w-[230px] px-2">Brand</th>
-                          <th className="w-[230px] px-2">Asset</th>
-                          <th className="w-[230px] px-2">Payment Mode</th>
-                          <th className="w-[230px] px-2">Price</th>
-                          <th className="w-[230px] px-2">Purchase Date</th>
-                          <th className="w-[230px] px-2">Assigned</th>
-                          <th className="w-[230px] px-2">Action</th>
+                    <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                      <thead className="sticky top-0 z-40">
+                        <tr>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Product Name</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Serial Number</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Brand</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Asset</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Payment Mode</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Price</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Purchase Date</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Assigned</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
                         </tr>
                       </thead>
 

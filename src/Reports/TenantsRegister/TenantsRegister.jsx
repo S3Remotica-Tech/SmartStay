@@ -20,6 +20,13 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function TenantsRegister() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -784,15 +791,15 @@ function TenantsRegister() {
           </div>
         </div>
         {tenantRegister?.tenants?.length > 0 ? (
-          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
             <div
               ref={tableRef}
-              className=" overflow-y-auto relative  h-[calc(100vh-200px)] rounded-xl show-scrolls "
+              className=" overflow-y-auto relative  h-[calc(100vh-200px)] show-scrolls "
             >
-              <table className="w-full  text-[12px] font-gilroy">
-                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                  <tr className="border-b border-[#E8E8E8]">
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-30 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead className="sticky top-0 z-30">
+                  <tr>
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-0 z-30 w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}>
                       <Setting3
                         // onClick={() => setOpen(!open)}
                         className="cursor-pointer"
@@ -801,39 +808,39 @@ function TenantsRegister() {
                       />
                     </th>
 
-                    {/* <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                    {/* <th className={`${TABLE_HEADER_CELL} text-left sticky left-[42px] z-30 w-[140px]`}>
                                         Tenant ID
                                     </th> */}
 
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[40px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-[48px] z-30 w-[220px] min-w-[220px] max-w-[220px]`}>
                       NAME
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase  bg-[#F9FAFB] whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Mobile No
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       <div className="flex justify-center items-center gap-1">
                         Sharing
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center w-[200px]`}>
                       <div className="flex justify-center items-center gap-1">
                         Checkin date
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase w-[250px] whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center w-[250px]`}>
                       <div className="flex justify-center items-center gap-1">
                         Checkout date
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] rounded-tr-xl whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center w-[200px]`}>
                       Stay Duration
                     </th>
                   </tr>
@@ -844,20 +851,19 @@ function TenantsRegister() {
                     tenantRegister?.tenants?.map((row, i) => (
                       <tr
                         key={row.tenantId}
-                        className="border-b last:border-none  transition"
                       >
-                        <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
+                        <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}></td>
 
-                        <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px] ">
-                          <div className="flex items-center gap-2 max-w-[200px]">
+                        <td className={`${TABLE_BODY_CELL} sticky left-[48px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
+                          <div className="flex items-center gap-[13px] max-w-[188px]">
                             {row.profilePic ? (
                               <img
                                 src={row.profilePic}
                                 alt={row.fullName}
-                                className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                                className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
                               />
                             ) : (
-                              <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                              <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
                                 {row.initials}
                               </div>
                             )}
@@ -890,40 +896,31 @@ function TenantsRegister() {
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
-    ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.mobileNo}
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.sharing || "-"}
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.checkInDate || "-"}
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.checkOutDate || "-"}
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.stayDuration || "-"}
                         </td>

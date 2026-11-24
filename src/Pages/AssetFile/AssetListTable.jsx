@@ -11,6 +11,10 @@ import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import { useHasPermission } from "../../Utils/Permission";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function AssetListTable(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -124,42 +128,41 @@ function AssetListTable(props) {
     <>
       <tr
         key={props.item.id}
-        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
       >
         <td
           title={props.item.product_name || "-"}
-          className="w-[230px] py-1 whitespace-nowrap truncate px-2"
+          className={`${TABLE_BODY_CELL} w-[230px] truncate`}
         >
           {props.item.productName || "-"}
         </td>
 
         <td
           title={props.item.serial_number || "-"}
-          className="w-[230px] py-1 px-2 whitespace-nowrap px-2"
+          className={`${TABLE_BODY_CELL} w-[230px]`}
         >
           {props.item.serialNumber || "-"}
         </td>
 
         <td
           title={props.item.brandName || "-"}
-          className="w-[230px] py-1 whitespace-nowrap truncate"
+          className={`${TABLE_BODY_CELL} w-[230px] truncate`}
         >
           {props.item.brandName || "-"}
         </td>
 
-        <td className="w-[230px] py-1 px-2">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           <div className="truncate" title={props.item.assetName || "-"}>
             {props.item.assetName || "-"}
           </div>
         </td>
-        <td className="w-[230px] py-1 px-2">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           <div className="truncate" title={props.item.paymentMode || "-"}>
             {props.item.paymentMode || "-"}
           </div>
         </td>
         <td
           title={props.item.price}
-          className="w-[230px] py-1 whitespace-nowrap px-1.5"
+          className={`${TABLE_BODY_CELL} w-[230px]`}
         >
           ₹{props.item.price ? props.item.price.toLocaleString("en-IN") : "0"}
         </td>
@@ -168,14 +171,14 @@ function AssetListTable(props) {
           title={moment(props.item.purchaseDate)
             .format("DD MMM YYYY")
             .toUpperCase()}
-          className="w-[230px] py-1 whitespace-nowrap px-2"
+          className={`${TABLE_BODY_CELL} w-[230px]`}
         >
           {props.item.purchaseDate}
         </td>
 
         <td
           title={props.item.hostelName || "-"}
-          className="w-[230px] py-1 px-2"
+          className={`${TABLE_BODY_CELL} w-[230px]`}
         >
           <div className="truncate">
             {props.item.assignmentStatus === "Unassigned"
@@ -184,7 +187,7 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td className="py-1 px-2">
+        <td className={TABLE_BODY_CELL}>
           <div className="w-full flex justify-start">
             <div
               onClick={(e) => handleShowDots(props.item.id, e)}

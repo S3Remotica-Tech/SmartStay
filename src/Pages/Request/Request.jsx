@@ -123,6 +123,13 @@ const CustomStyles = {
   }),
 };
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function Request() {
   const state = useSelector((state) => state);
   // const dispatch = useDispatch();
@@ -672,34 +679,34 @@ function Request() {
               {activeTab === "current" && (
                 <div>
                   {formattedData?.length > 0 ? (
-                    <div className="bg-white rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className="w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                            <tr className="h-9">
-                              <th className="sticky left-0 z-40 bg-[#F9FAFB] px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-30">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} sticky left-0 z-40 text-start`}>
                                 Request Type
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Description
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised By
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Status
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised On
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Stay Area
                               </th>
-                              <th className="sticky right-0 z-20 bg-[#F9FAFB] px-4 py-2.5 text-center uppercase">
+                              <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                                 Action
                               </th>
                             </tr>
@@ -718,7 +725,7 @@ function Request() {
                                 className="text-sm border-b border-[#E8E8E8] h-10 cursor-pointer group hover:bg-gray-50 "
                               >
                                 <td
-                                  className={`sticky left-0 px-4   hover:!bg-gray-50 group-hover:!bg-gray-50  ${
+                                  className={`${TABLE_BODY_CELL} sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 ${
                                     isScrolling ? "!bg-white" : "!bg-white"
                                   }`}
                                 >
@@ -733,11 +740,11 @@ function Request() {
                                   </div>
                                 </td>
 
-                                <td className="px-4 whitespace-nowrap">
+                                <td className={TABLE_BODY_CELL}>
                                   {user.description}
                                 </td>
 
-                                <td className="px-4">
+                                <td className={TABLE_BODY_CELL}>
                                   <div className="flex items-center gap-3">
                                     {user.profilePic ? (
                                       <img
@@ -760,7 +767,7 @@ function Request() {
                                     </span>
                                   </div>
                                 </td>
-                                <td className="px-4">
+                                <td className={TABLE_BODY_CELL}>
                                   <span
                                     className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
                                     style={{
@@ -780,9 +787,9 @@ function Request() {
                                   </span>
                                 </td>
 
-                                <td className="px-4">{user.raisedOn}</td>
+                                <td className={TABLE_BODY_CELL}>{user.raisedOn}</td>
 
-                                <td className="px-4">
+                                <td className={TABLE_BODY_CELL}>
                                   <div className="text-[#111928] text-sm whitespace-nowrap">
                                     {user.floor}
                                   </div>
@@ -793,7 +800,7 @@ function Request() {
                                 </td>
 
                                 <td
-                                  className={`sticky  left-0 z-20  hover:!bg-gray-50 group-hover:!bg-gray-50  right-0 px-4 text-center ${
+                                  className={`${TABLE_BODY_CELL} sticky right-0 z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] ${
                                     isScrolling ? "!bg-white" : "bg-white"
                                   }`}
                                 >
@@ -893,34 +900,34 @@ function Request() {
               {activeTab === "completed" && (
                 <div>
                   {formattedData?.length > 0 ? (
-                    <div className="bg-white rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className="w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                            <tr className="h-9">
-                              <th className="sticky left-0 z-40 bg-[#F9FAFB] px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-30">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} sticky left-0 z-40 text-start`}>
                                 Request Type
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Description
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised By
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Status
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised On
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Stay Area
                               </th>
-                              <th className="sticky right-0 z-20 bg-[#F9FAFB] px-4 py-2.5 text-center uppercase">
+                              <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                                 Action
                               </th>
                             </tr>
@@ -939,7 +946,7 @@ function Request() {
                                 className="text-sm border-b border-[#E8E8E8] h-10 cursor-pointer group hover:bg-gray-50 "
                               >
                                 <td
-                                  className={`sticky left-0 px-4   hover:!bg-gray-50 group-hover:!bg-gray-50  ${
+                                  className={`${TABLE_BODY_CELL} sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 ${
                                     isScrolling ? "!bg-white" : "!bg-white"
                                   }`}
                                 >
@@ -954,11 +961,11 @@ function Request() {
                                   </div>
                                 </td>
 
-                                <td className="px-4 whitespace-nowrap">
+                                <td className={TABLE_BODY_CELL}>
                                   {user.description}
                                 </td>
 
-                                <td className="px-4">
+                                <td className={TABLE_BODY_CELL}>
                                   <div className="flex items-center gap-3">
                                     {user.profilePic ? (
                                       <img
@@ -981,7 +988,7 @@ function Request() {
                                     </span>
                                   </div>
                                 </td>
-                                <td className="px-4">
+                                <td className={TABLE_BODY_CELL}>
                                   <span
                                     className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
                                     style={{
@@ -1001,9 +1008,9 @@ function Request() {
                                   </span>
                                 </td>
 
-                                <td className="px-4">{user.raisedOn}</td>
+                                <td className={TABLE_BODY_CELL}>{user.raisedOn}</td>
 
-                                <td className="px-4">
+                                <td className={TABLE_BODY_CELL}>
                                   <div className="text-[#111928] text-sm whitespace-nowrap">
                                     {user.floor}
                                   </div>
@@ -1014,7 +1021,7 @@ function Request() {
                                 </td>
 
                                 <td
-                                  className={`sticky  left-0 z-20  hover:!bg-gray-50 group-hover:!bg-gray-50  right-0 px-4 text-center ${
+                                  className={`${TABLE_BODY_CELL} sticky right-0 z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] ${
                                     isScrolling ? "!bg-white" : "bg-white"
                                   }`}
                                 >

@@ -13,6 +13,14 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
+
 const EBRoomOverview = ({ onBack, room }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -251,55 +259,54 @@ const EBRoomOverview = ({ onBack, room }) => {
             <NoDataMessage label="Room reading" />
           ) : (
             <>
-              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   // ref={tableContainerRef}
-                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                      <tr className="h-9">
-                        <th className="w-[230px] px-2 whitespace-nowrap">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-40">
+                      <tr>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           Billing month
                         </th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           Reading date
                         </th>
-                        <th className="w-[230px] px-2">From</th>
-                        <th className="w-[230px] px-2">To</th>
-                        <th className="w-[230px] px-2">Reading</th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>From</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>To</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Reading</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           Total units
                         </th>
-                        <th className="w-[230px] px-2">Amount</th>
-                        <th className="w-[230px] px-2">Action</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {paginatedData?.map((row, i) => (
                         <tr
                           key={i}
-                          className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                         >
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.billingMonth}
                           </td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.readingDate}
                           </td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.from}
                           </td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.to}
                           </td>
-                          <td className="w-[230px] py-1 px-2">{row.reading}</td>
-                          <td className="w-[230px] py-1 px-2">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>{row.reading}</td>
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.totalUnits}
                           </td>
-                          <td className="w-[230px] py-1 px-2">₹{row.amount}</td>
-                          <td className="w-[230px] py-1 px-2">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>₹{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             <BiDotsVerticalRounded className="text-2xl text-gray-600 cursor-pointer rotate-[90deg]" />
                           </td>
                         </tr>
@@ -334,41 +341,41 @@ const EBRoomOverview = ({ onBack, room }) => {
             <NoDataMessage label={"Tenant reading"} />
           ) : (
             <>
-              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   // ref={tableContainerRef}
-                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                      <tr className="h-9">
-                        <th className="w-[230px] px-2">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-40">
+                      <tr>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           <div className="pl-1"> Name</div>
                         </th>
-                        <th className="w-[230px] px-2">Billing Month</th>
-                        <th className="w-[230px] px-2">From</th>
-                        <th className="w-[230px] px-2">To</th>
-                        <th className="w-[230px] px-2">Bed</th>
-                        <th className="w-[230px] px-2">Total Units</th>
-                        <th className="w-[230px] px-2">Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Billing Month</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>From</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>To</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Bed</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Total Units</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
                       {paginatedTenantData?.map((row, i) => (
                         <tr
                           key={i}
-                          className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                         >
-                          <td className="p-1 px-1 flex items-center gap-2 max-w-[100px]">
+                          <td className={TABLE_BODY_CELL}>
+                            <div className="flex items-center gap-[13px] max-w-[200px]">
                             {row.profilePic ? (
                               <img
                                 src={row.profilePic}
                                 alt=""
-                                className="w-8 h-8 rounded-full flex-shrink-0"
+                                className="w-[30px] h-[30px] rounded-full flex-shrink-0"
                               />
                             ) : (
-                              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                              <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold flex-shrink-0">
                                 {row?.initials || "-"}
                               </div>
                             )}
@@ -382,20 +389,21 @@ const EBRoomOverview = ({ onBack, room }) => {
                                 {row.fullName}
                               </div>
                             </div>
+                            </div>
                           </td>
 
-                          <td className="w-[230px] px-2 py-1">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.billingMonth}
                           </td>
-                          <td className="w-[230px] px-2 py-1">{row.from}</td>
-                          <td className="w-[230px] px-2 py-1">{row.to}</td>
-                          <td className="whitespace-nowrap overflow-hidden text-ellipsis">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>{row.from}</td>
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>{row.to}</td>
+                          <td className={`${TABLE_BODY_CELL} overflow-hidden text-ellipsis`}>
                             {row.bed}
                           </td>
-                          <td className="w-[230px] px-2 py-1">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {row.totalUnits}
                           </td>
-                          <td className="w-[230px] px-2 py-1">₹{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>₹{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>

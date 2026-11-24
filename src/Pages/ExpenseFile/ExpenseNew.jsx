@@ -42,6 +42,13 @@ import dayjs from "dayjs";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import CustomTooltip from "../../Utils/CustomTooltip";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function Expenses() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -895,17 +902,6 @@ function Expenses() {
     setInitialCustomizeItems(formatted);
   }, [getData?.columnList]);
 
-  const columnStyles = {
-    "Vendor ID": "px-4 whitespace-nowrap",
-    "Vendor Name": "px-4 whitespace-nowrap",
-    Category: "px-4 whitespace-nowrap",
-    "Mobile No": "px-4 whitespace-nowrap",
-    Address: "px-4 whitespace-nowrap",
-    Status: "px-4 whitespace-nowrap",
-    Outstanding: "px-4 whitespace-nowrap",
-    "Last Transaction": "px-4 whitespace-nowrap",
-    "Payment Mode": "px-4 whitespace-nowrap",
-  };
 
 
 
@@ -1190,34 +1186,34 @@ function Expenses() {
             )}
 
             {formattedData?.length > 0 ? (
-              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                  className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy ">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                      <tr className="h-9">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-30">
+                      <tr>
                         {selectedColumns?.map((col, index) => {
                           let stickyClass = "";
 
                           if (index === 0) {
                             stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                              "sticky left-[0px] z-40 w-[80px]";
                           }
 
                           return (
                             <th
                               key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                              className={`${TABLE_HEADER_CELL} text-start ${stickyClass}`}
                             >
                               {col.fieldName}
                             </th>
                           );
                         })}
 
-                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                        <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                           Action
                         </th>
                       </tr>
@@ -1234,14 +1230,10 @@ function Expenses() {
                                 setSelectedExpenseId(user.apiCall.expenseId);
                               }}
                               key={index}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
-                                    cursor-pointer group  hover:!bg-gray-50"
+                              className="cursor-pointer group hover:!bg-gray-50"
                             >
                               {selectedColumns?.map((col, index) => {
-                                const baseClass = `
-  ${columnStyles[col.fieldName] || "px-4"}
-  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-`;
+                                const baseClass = `${TABLE_BODY_CELL} hover:!bg-gray-50 group-hover:!bg-gray-50`;
 
                                 let stickyClass = "";
 
@@ -1401,7 +1393,7 @@ function Expenses() {
 
                               <td
                                 className={`${isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
                                 <div

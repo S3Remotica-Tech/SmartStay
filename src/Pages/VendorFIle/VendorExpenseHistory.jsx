@@ -31,6 +31,13 @@ export const EMPTY_VENDOR_EXPENSE_FILTERS = {
 };
 
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function VendorExpenseHistory({ selectedVendorId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -421,38 +428,38 @@ function VendorExpenseHistory({ selectedVendorId }) {
       )}
 
       {vendorExpenseList?.length > 0 ? (
-        <div className="bg-white    rounded-xl  mx-1 my-3 ">
+        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
           <div
             id="tableContainer"
             ref={tableContainerRef}
             className="overflow-auto relative h-[300px]   show-scrolls"
           >
-            <table className=" w-full font-gilroy ">
-              <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
+            <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+              <thead className="sticky top-0 z-30">
                 <tr>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     EXpense ID
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     DATE
                   </th>
 
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     Expense Title
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     Category
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     Amount
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]  whitespace-nowrap">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     Balance (if)
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     STATUS
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     Action
                   </th>
                 </tr>
@@ -461,32 +468,34 @@ function VendorExpenseHistory({ selectedVendorId }) {
               <tbody>
                 {vendorExpenseList?.map((expense) => (
                   <React.Fragment key={expense.expenseId}>
-                    <tr className="border-t whitespace-nowrap">
-                      <td className="px-4 py-2.5 text-sm text-[#1E45E1] flex items-center gap-2">
-                        {expense.referenceNumber}
-                        <ExportSquare size="14" />
+                    <tr>
+                      <td className={`${TABLE_BODY_CELL} text-[#1E45E1]`}>
+                        <div className="flex items-center gap-2">
+                          {expense.referenceNumber}
+                          <ExportSquare size="14" />
+                        </div>
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm">
+                      <td className={TABLE_BODY_CELL}>
                         {expense.transactionDate}
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm">
+                      <td className={TABLE_BODY_CELL}>
                         {expense.title || "-"}
                       </td>
-                      <td className="px-4 py-2.5 text-sm">
+                      <td className={TABLE_BODY_CELL}>
                         {expense.categoryName || "-"}
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm">
+                      <td className={TABLE_BODY_CELL}>
                         ₹ {expense.totalAmount}
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm">
+                      <td className={TABLE_BODY_CELL}>
                         ₹ {expense.balanceAmount}
                       </td>
 
-                      <td className="px-4 py-2.5">
+                      <td className={TABLE_BODY_CELL}>
                         {(() => {
                           const st = getStatusStyle(expense.paymentStatus);
                           return (
@@ -500,7 +509,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                         })()}
                       </td>
 
-                      <td className="px-4 py-2.5">
+                      <td className={TABLE_BODY_CELL}>
                         <button
                           onClick={() => handleToggleExpense(expense?.expenseId)}
                           className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"
@@ -516,29 +525,29 @@ function VendorExpenseHistory({ selectedVendorId }) {
 
                     {openExpense === expense?.expenseId && (
                       <tr >
-                        <td colSpan={8} className="p-0 bg-[#FAFAFA]">
+                        <td colSpan={8} className={`${TABLE_BODY_CELL} p-0 bg-[#FAFAFA]`}>
                           {expense?.expenseItems?.length > 0 ? (
                             <table className="w-full">
                               <thead className="bg-[#F5F5F5]">
                                 <tr>
-                                  <th className="px-4 py-2 text-left text-[11px]">ITEM DETAILS</th>
-                                  <th className="px-4 py-2 text-left text-[11px]">QUANTITY</th>
-                                  <th className="px-4 py-2 text-left text-[11px]">UNIT</th>
-                                  <th className="px-4 py-2 text-left text-[11px]">PER UNIT PRICE</th>
-                                  <th className="px-4 py-2 text-right text-[11px]">AMOUNT</th>
+                                  <th className={`${TABLE_HEADER_CELL} !h-[40px] !bg-[#F1F5F9] text-left`}>ITEM DETAILS</th>
+                                  <th className={`${TABLE_HEADER_CELL} !h-[40px] !bg-[#F1F5F9] text-left`}>QUANTITY</th>
+                                  <th className={`${TABLE_HEADER_CELL} !h-[40px] !bg-[#F1F5F9] text-left`}>UNIT</th>
+                                  <th className={`${TABLE_HEADER_CELL} !h-[40px] !bg-[#F1F5F9] text-left`}>PER UNIT PRICE</th>
+                                  <th className={`${TABLE_HEADER_CELL} !h-[40px] !bg-[#F1F5F9] text-right`}>AMOUNT</th>
                                 </tr>
                               </thead>
 
                               <tbody>
                                 {expense.expenseItems.map((item) => (
-                                  <tr key={item.id} className="border-t">
-                                    <td className="px-4 py-2 text-[11px]">{item.item || "-"}</td>
-                                    <td className="px-4 py-2 text-[11px]">{item.quantity}</td>
-                                    <td className="px-4 py-2 text-[11px]">{item.unit || "-"}</td>
-                                    <td className="px-4 py-2 text-[11px]">
+                                  <tr key={item.id}>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>{item.item || "-"}</td>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>{item.quantity}</td>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>{item.unit || "-"}</td>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>
                                       ₹ {Number(item.unitPrice || 0).toFixed(2)}
                                     </td>
-                                    <td className="px-4 py-2 text-[11px] text-right">
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-right`}>
                                       ₹ {Number(item.totalAmount || 0).toFixed(2)}
                                     </td>
                                   </tr>

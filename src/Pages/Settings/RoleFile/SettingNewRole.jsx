@@ -16,6 +16,13 @@ import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../../Utils/NoDataMessage";
 
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function SettingNewRole() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -304,27 +311,27 @@ function SettingNewRole() {
             <PermissionDeniedMessage />
           </>
         ) : paginatedData.length > 0 ? (
-          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] w-full">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden ">
             <div
               id="tableContainer"
               // ref={tableContainerRef}
-              className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+              className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
             >
-              <table className="w-full font-gilroy">
-                <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead className="sticky top-0 z-40">
                   <tr>
-                    <th className="px-4 py-2.5">Role Name</th>
-                    <th className="px-4 py-2.5">Description</th>
-                    <th className="px-4 py-2.5">Users</th>
-                    <th className="px-4 py-2.5">Created</th>
-                    <th className="px-4 py-2.5 text-right">Action</th>
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>Role Name</th>
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>Description</th>
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>Users</th>
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>Created</th>
+                    <th className={`${TABLE_HEADER_CELL} text-right`}>Action</th>
                   </tr>
                 </thead>
 
                 <tbody className="text-sm text-gray-700">
                   {paginatedData.map((view, index) => (
-                    <tr key={index} className="border-t max-h-fit ">
-                      <td className="px-4 py-1 whitespace-nowrap">
+                    <tr key={index} className="max-h-fit">
+                      <td className={TABLE_BODY_CELL}>
                         <div className="flex items-center gap-2">
                           <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
                             <Shield size={14} color="#FF9900" />
@@ -336,22 +343,22 @@ function SettingNewRole() {
                         </div>
                       </td>
 
-                      <td className="px-4 py-1 text-[#4B4B4B] font-medium text-[14px]">
+                      <td className={`${TABLE_BODY_CELL} text-[#4B4B4B] font-medium`}>
                         {view.description || "-"}
                       </td>
 
-                      <td className="px-4 py-1 text-[13px] text-[#6F767E]">
+                      <td className={`${TABLE_BODY_CELL} text-[#6F767E]`}>
                         <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
                           <Profile2User size={12} />
                           {view.userCount || 0}
                         </div>
                       </td>
 
-                      <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
+                      <td className={`${TABLE_BODY_CELL} text-[#111928] font-medium`}>
                         {view.createdAt || "-"}
                       </td>
 
-                      <td className="px-4 py-1 text-right relative">
+                      <td className={`${TABLE_BODY_CELL} text-right relative`}>
                         <div
                           className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
                           onClick={(e) => handleShowDots(e, index)}

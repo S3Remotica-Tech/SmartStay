@@ -11,6 +11,10 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useHasPermission } from "../../Utils/Permission";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 const Receipt = (props) => {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -170,14 +174,14 @@ const Receipt = (props) => {
 
   return (
     <>
-      <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer hover:underline">
+      <tr>
+        <td className={`${TABLE_BODY_CELL} w-[250px] text-[#1E45E1] font-semibold cursor-pointer hover:underline`}>
           <div onClick={() => handleDownload(props.item)}>
             {props.item.transactionNumber ? props.item?.transactionNumber : "-"}
           </div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold">
+        <td className={`${TABLE_BODY_CELL} w-[250px] text-[#1E45E1] font-semibold`}>
           <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => handleNavigateTenantProfile(props.item)}
@@ -187,10 +191,10 @@ const Receipt = (props) => {
               <img
                 src={props.item.profilePic}
                 alt="profile"
-                className="w-9 h-9 rounded-full"
+                className="w-[30px] h-[30px] rounded-full"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold text-[#44536A]">
+              <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold text-[#44536A]">
                 {props.item?.initials || "-"}
               </div>
             )}
@@ -200,13 +204,13 @@ const Receipt = (props) => {
           </div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[250px]`}>
           <div>
             {props.item?.referenceNumber ? props.item?.referenceNumber : "-"}
           </div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
           <div className="ml-[6px]">
             {!props.item?.invoiceNumber || props.item?.invoiceNumber === "0"
               ? "-"
@@ -214,26 +218,26 @@ const Receipt = (props) => {
           </div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
           <div className="ml-[6px]">{props.item.invoiceType}</div>
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
           {props.item?.paidAt}
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
           ₹
           {props.item?.paidAmount !== null
             ? props.item.paidAmount.toLocaleString("en-IN")
             : "0"}
         </td>
 
-        <td className="w-[250px] py-1 px-2 whitespace-nowrap border-b border-[#E8E8E8] text-start align-middle text-[13px] font-medium text-black font-gilroy">
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
           {props.item?.bankName ? props.item?.bankName : "-"}
         </td>
 
-        <td className="px-2">
+        <td className={TABLE_BODY_CELL}>
           <div className="w-full flex justify-start">
             <div
               className="cursor-pointer flex justify-center items-center relative"

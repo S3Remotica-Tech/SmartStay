@@ -104,6 +104,13 @@ const CustomStyles = {
   }),
 };
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function BankingLedger() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -513,32 +520,32 @@ function BankingLedger() {
 
       <div className="relative ">
         {transactionFilterddata?.transactions?.length > 0 ? (
-          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
             <div
               id="tableContainer"
-              className="overflow-x-auto overflow-y-auto h-[calc(100vh-140px)] rounded-xl show-scrolls"
+              className="overflow-x-auto overflow-y-auto h-[calc(100vh-140px)] show-scrolls"
             >
-              <table className="min-w-[1100px] font-gilroy">
-                <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
-                  <tr className="h-9">
-                    <th className="sticky left-0 z-40 bg-[#F9FAFB] w-[230px] px-2 whitespace-nowrap">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead className="sticky top-0 z-30">
+                  <tr>
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-0 z-40 w-[180px] min-w-[180px] max-w-[180px]`}>
                       date & Time
                     </th>
-                    <th className="sticky left-[140px] z-40 bg-[#F9FAFB] w-[230px] px-2">
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-[180px] z-40 w-[200px] min-w-[200px] max-w-[200px]`}>
                       Type
                     </th>
-                    <th className="w-[230px] px-2 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                       Account / Method
                     </th>
-                    <th className="w-[230px] px-2">Description</th>
-                    <th className="w-[230px] px-2 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Description</th>
+                    <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                       Source / Beneficiary
                     </th>
-                    <th className="w-[230px] px-2">Amount</th>
-                    {/* <th className="w-[230px] px-2 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
+                    {/* <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                       Running Balance
                     </th> */}
-                    <th className="sticky right-0 z-40 bg-[#F9FAFB] w-[80px] px-2">
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky right-0 z-40 w-[80px] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                       Action
                     </th>
                   </tr>
@@ -548,12 +555,11 @@ function BankingLedger() {
                   {transactionFilterddata?.transactions?.map((user, index) => (
                     <tr
                       key={index}
-                      className="text-xs font-gilroy border-b border-[#E8E8E8] h-10"
                     >
-                      <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">
+                      <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[180px] min-w-[180px] max-w-[180px] text-[#6B7280]`}>
                         {user.createdAt}
                       </td>
-                      <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
+                      <td className={`${TABLE_BODY_CELL} sticky left-[180px] z-20 bg-white text-[#000000] w-[200px] min-w-[200px] max-w-[200px]`}>
                         <div className="flex items-center gap-2 capitalize">
                           {user.source === "SELF_TRANSFER" ? (
                             <>
@@ -581,7 +587,7 @@ function BankingLedger() {
                           )}
                         </div>
                       </td>
-                      <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
+                      <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                         {`${user?.accountType === 'CASH'
                           ? `${user?.accountType} / ${user?.displayName}`
                           : `${[user?.accountType, user?.paymentMethod, user?.displayName].filter(Boolean).join(' / ')}`
@@ -590,19 +596,19 @@ function BankingLedger() {
                         {/* <span className="text-xs">{user.displayName}</span> */}
                         {/* {user?.source} */}
                       </td>
-                      <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                      <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                         {user.description || "-"}
                       </td>
-                      <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                      <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                         {user.displayName}
                       </td>
-                      <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                      <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                         {user.transactionAmount}
                       </td>
-                      {/* <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                      {/* <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                         {user.accountBalance}
                       </td> */}
-                      <td className="sticky right-0 z-20 bg-white w-[80px] px-2 py-1 whitespace-nowrap">
+                      <td className={`${TABLE_BODY_CELL} sticky right-0 z-20 bg-white w-[80px] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                         <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                       </td>
                     </tr>

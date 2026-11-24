@@ -8,6 +8,10 @@ import PropTypes from "prop-types";
 
 import { useHasPermission } from "../../Utils/Permission";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 const RecurringBillList = (props) => {
  
   const [deleteShow, setDeleteShow] = useState(false);
@@ -62,24 +66,23 @@ const RecurringBillList = (props) => {
     <>
       <tr
         key={props.item.customerId}
-        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
       >
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           <div className="flex items-center">{props.item?.fullName}</div>
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           {props?.item?.lastInvoiceNumber || "-"}
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           {props.item?.lastInvoiceDate || "-"}
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           {props.item?.nextInvoiceDate || "-"}
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
         </td>
-        {/* <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        {/* <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           <Form.Check
             type="switch"
             id="recurring-switch"
@@ -88,7 +91,7 @@ const RecurringBillList = (props) => {
             onChange={canUpdateRecurring ? props.onToggle : undefined}
           />
         </td> */}
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           <div className="w-full flex justify-start">
             <div
               className="flex items-center relative rounded-full cursor-pointer"

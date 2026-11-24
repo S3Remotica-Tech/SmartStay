@@ -23,6 +23,13 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DeleteBill from "../Bills/DeleteBill"
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function UserListInvoice() {
   const state = useSelector((state) => state);
 
@@ -345,40 +352,40 @@ function UserListInvoice() {
           </>
         ) : invoiceFilterddata?.length > 0 ? (
           <>
-            <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-4 ">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-4">
               <div
                 id="tableContainer"
                 // ref={tableContainerRef}
-                className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
               >
-                <table className=" w-full font-gilroy">
-                  <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                    <tr className="h-9">
-                      <th className="w-[230px] px-2 whitespace-nowrap">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                  <thead className="sticky top-0 z-40">
+                    <tr>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Invoice number
                       </th>
 
-                      <th className="w-[230px] px-2 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Invoice type
                       </th>
 
-                      <th className="w-[230px] px-2 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Invoice date
                       </th>
 
-                      <th className="w-[230px] px-2 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Due date
                       </th>
 
-                      <th className="w-[230px] px-2">Amount</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
 
-                      <th className="w-[230px] px-2">Due</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Due</th>
 
-                      <th className="w-[230px] px-2">Status</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Status</th>
 
                       {state.UsersList.customerdetails
                         ?.customerCurrentStatus !== "VACATED" && (
-                          <th className="w-[230px] px-2">Action</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
                         )}
                     </tr>
                   </thead>
@@ -388,16 +395,16 @@ function UserListInvoice() {
                       return (
                         <tr
                           key={view.invoiceId}
-                          className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 hover:bg-gray-100"
+                          className="hover:bg-gray-100"
                         >
                           <td
-                            className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] hover:underline cursor-pointer"
+                            className={`${TABLE_BODY_CELL} w-[230px] text-[#1E45E1] hover:underline cursor-pointer`}
                             onClick={() => handleNavigatePDF(view)}
                           >
                             {view.invoiceNumber}
                           </td>
 
-                          <td className="w-[230px] py-4 px-2 relative">
+                          <td className={`${TABLE_BODY_CELL} w-[230px] relative`}>
                             <div className="flex items-center gap-2 group w-fit">
                               <span className="truncate max-w-[150px]">
                                 {view.invoiceType}
@@ -421,15 +428,15 @@ function UserListInvoice() {
                             </div>
                           </td>
 
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {view?.invoiceDate}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {view?.dueDate}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2 relative align-middle">
+                          <td className={`${TABLE_BODY_CELL} w-[230px] relative align-middle`}>
                             <div className="relative inline-block">
                               <span className="leading-5">
                                 ₹ {view?.totalAmount}
@@ -465,11 +472,11 @@ function UserListInvoice() {
                             </div>
                           </td>
 
-                          <td className="w-[230px] py-1 px-2">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             ₹{view.dueAmount}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                             {(view?.paymentStatus === "Pending" ||
                               view.paymentStatus === "Partial Payment") && (
                                 <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
@@ -505,7 +512,7 @@ function UserListInvoice() {
 
                           {state.UsersList.customerdetails
                             ?.customerCurrentStatus !== "VACATED" && (
-                              <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
+                              <td className={`${TABLE_BODY_CELL} text-left align-middle`}>
                                 <div className="flex flex-wrap gap-2 py-2">
                                   <div
                                     className={`flex justify-center items-center relative cursor-pointer  
@@ -677,7 +684,7 @@ function UserListInvoice() {
                       <tr>
                         <td
                           colSpan="7"
-                          className="text-center text-red-500 py-4"
+                          className={`${TABLE_BODY_CELL} text-center text-red-500`}
                         >
                           No data found
                         </td>

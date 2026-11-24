@@ -11,6 +11,13 @@ import { useHasPermission } from "../../Utils/Permission";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function TransactionHistory() {
   const state = useSelector((state) => state);
   // const dispatch = useDispatch();
@@ -69,32 +76,32 @@ function TransactionHistory() {
           {CustomerOverView?.length === 0 ? (
             <NoDataMessage label="Transaction" isHeightChanged={true} />
           ) : (
-            <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-4 ">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-4">
               <div
                 id="tableContainer"
                 // ref={tableContainerRef}
-                className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
               >
-                <table className=" w-full font-gilroy">
-                  <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                    <tr className="h-9">
-                      <th className="w-[230px] px-2 py-1">Date</th>
-                      <th className="w-[230px] px-2 py-1 whitespace-nowrap">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                  <thead className="sticky top-0 z-40">
+                    <tr>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Date</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Bill name
                       </th>
-                      <th className="w-[230px] px-2 py-1 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Amount paid
                       </th>
-                      <th className="w-[230px] px-2 py-1 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Receipt / ref.no
                       </th>
-                      <th className="w-[230px] px-2 py-1 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Received by
                       </th>
-                      <th className="w-[230px] px-2 py-1 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Payment mode
                       </th>
-                      <th className="w-[230px] px-2 py-1">Status</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Status</th>
                     </tr>
                   </thead>
 
@@ -102,29 +109,28 @@ function TransactionHistory() {
                     {paginatedData?.map((row, i) => (
                       <tr
                         key={i}
-                        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                       >
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           {formatDate(row.transactionDate)}
                         </td>
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           {row.billName}
                         </td>
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           {row.amountPaid}
                         </td>
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           {row?.transactionReferenceNumber || ""}
                           {row?.transactionReferenceNumber && row?.referenceNumber ? " / " : ""}
                           {row?.referenceNumber || ""}
                         </td>
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           {row.paidTo}
                         </td>
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           {row.bankName} - {row.paymentMode}
                         </td>
-                        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
                           <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1">
                             {row.status}
                           </span>

@@ -4,6 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import PropTypes from "prop-types";
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function VendorPaymentHistory({ selectedVendorId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -92,22 +99,22 @@ function VendorPaymentHistory({ selectedVendorId }) {
             id="tableContainer"
             className="overflow-auto relative h-[300px] show-scrolls"
           >
-            <table className=" w-full font-gilroy ">
-              <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
+            <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+              <thead className="sticky top-0 z-30">
                 <tr>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     DATE
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     REF NO
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     PAYMENT MODE
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     STATUS
                   </th>
-                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                  <th className={`${TABLE_HEADER_CELL} text-left`}>
                     AMOUNT
                   </th>
                 </tr>
@@ -116,28 +123,28 @@ function VendorPaymentHistory({ selectedVendorId }) {
               <tbody>
                 {vendorPaymentMadeHistory.length > 0 ? (
                   vendorPaymentMadeHistory.map((payment) => (
-                    <tr key={payment.id} className="border-t">
-                      <td className="px-4 py-2.5 text-sm">
+                    <tr key={payment.id}>
+                      <td className={TABLE_BODY_CELL}>
                         {payment.paymentDate}
                       </td>
 
-                      <td className="px-4 py-2.5 text-[#1E45E1] text-sm">
+                      <td className={`${TABLE_BODY_CELL} text-[#1E45E1]`}>
                         {payment.transactionId || "-"}
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm">
+                      <td className={TABLE_BODY_CELL}>
                         {payment.bankName || payment.paymentMethod || "-"}
                         {/* {`${payment.paymentMethod}${payment.bankName ? ` - ${payment.bankName}` : ""}`} */}
                       </td>
 
-                      <td className="px-4 py-2.5">
+                      <td className={TABLE_BODY_CELL}>
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8F8EC] px-2.5 py-1 text-[12px] font-medium text-[#00A32E]">
                           <span className="h-2 w-2 rounded-full bg-[#00A32E]" />
                           Paid
                         </span>
                       </td>
 
-                      <td className="px-4 py-2.5 font-medium">
+                      <td className={`${TABLE_BODY_CELL} font-medium`}>
                         ₹ {payment.paidAmount}
                       </td>
                     </tr>

@@ -21,6 +21,13 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function ExpenseRegister() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -825,15 +832,15 @@ function ExpenseRegister() {
           ))}
         </div>
         {expenseRegister?.expenseLists?.length > 0 ? (
-          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
             <div
               ref={tableRef}
-              className=" overflow-y-auto relative  h-[calc(100vh-200px)] rounded-xl show-scrolls "
+              className=" overflow-y-auto relative  h-[calc(100vh-200px)] show-scrolls "
             >
-              <table className="w-full  text-[12px] font-gilroy">
-                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                  <tr className="border-b border-[#E8E8E8]">
-                    <th className="px-4 py-2.5 text-left font-semibold  uppercase whitespace-nowrap sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead className="sticky top-0 z-30">
+                  <tr>
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-0 z-40 w-[140px] min-w-[140px] max-w-[140px]`}>
                       {/* <Setting3
                         // onClick={() => setOpen(!open)}
                         className="cursor-pointer"
@@ -843,58 +850,58 @@ function ExpenseRegister() {
                       Expense No
                     </th>
 
-                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-[140px] z-30 w-[140px] min-w-[140px] max-w-[140px]`}>
                       date
                     </th>
 
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[150px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
+                    <th className={`${TABLE_HEADER_CELL} text-left sticky left-[280px] z-30 w-[180px] min-w-[180px] max-w-[180px]`}>
                       Category
                     </th>
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[150px] z-30 bg-[#F9FAFB] w-[200px]  uppercase whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Sub Category
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Expense Title
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Status
                     </th>
-                    {/* <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    {/* <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Payment mode
                     </th> */}
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Total Amount
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Paid Amount
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Balance Amount
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>
                       Description
                     </th>
-                    {/* <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] whitespace-nowrap">
+                    {/* <th className={`${TABLE_HEADER_CELL} text-center w-[230px]`}>
                       <div className="flex justify-center items-center gap-1">
                         unit count
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th> */}
 
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center w-[250px]`}>
                       <div className="flex justify-center items-center gap-1">
                         Assigned Asset
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase w-[200px]">
+                    <th className={`${TABLE_HEADER_CELL} text-center w-[200px]`}>
                       <div className="flex justify-center items-center gap-1">
                         Vendor
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] rounded-tr-xl whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-center w-[250px]`}>
                       Debited from
                     </th>
                   </tr>
@@ -905,20 +912,18 @@ function ExpenseRegister() {
                     expenseRegister?.expenseLists?.map((row, i) => (
                       <tr
                         key={i}
-                        className="border-b last:border-none  transition"
                       >
-                        <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px] text-[#1E45E1] font-semibold truncate whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[140px] min-w-[140px] max-w-[140px] text-[#1E45E1] font-semibold truncate`}>
                           {row.expenseNumber}
                         </td>
                         <td
-                          className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky
-                       left-[42px] z-20 bg-white w-[140px]"
+                          className={`${TABLE_BODY_CELL} text-[#1E45E1] font-semibold truncate sticky left-[140px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
                           title={row.date}
                         >
                           {row.date}
                         </td>
 
-                        <td className="px-4 py-2.5 sticky left-[150px] z-20 bg-white min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} sticky left-[280px] z-20 bg-white w-[180px] min-w-[180px] max-w-[180px] overflow-hidden text-ellipsis`}>
                           <div className="flex items-center gap-2">
                             <span
                               onMouseEnter={(e) => {
@@ -950,7 +955,7 @@ function ExpenseRegister() {
                           </div>
                         </td>
 
-                        <td className="px-4 py-2.5 text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis`}>
                           <div className="flex items-center gap-2">
                             <span
                               onMouseEnter={(e) => {
@@ -984,15 +989,13 @@ function ExpenseRegister() {
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.expenseTitle || "-"}
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center font-medium transition-colors whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"
+                          className={`${TABLE_BODY_CELL} text-center font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"
                             }`}
                         >
                           <span
@@ -1008,30 +1011,22 @@ function ExpenseRegister() {
                           </span>
                         </td>
                         {/* <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.paymentMode || "-"}
                         </td> */}
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹{row.amount || 0}
                         </td>
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹ {row.paidAmount || 0}
                         </td>
                         <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹{row.balanceAmount || 0}
                         </td>
@@ -1071,24 +1066,18 @@ function ExpenseRegister() {
                         </td>
 
                         {/* <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹{row.amount || 0}
                         </td> */}
                         <td
-                          className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.assetsName || "-"}
                         </td>
 
                         <td
-                          className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
+                          className={`${TABLE_BODY_CELL} text-center font-semibold text-[#222222] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.vendorName || "-"}
                         </td>

@@ -3,6 +3,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function ExpenseItems() {
   const state = useSelector((state) => state);
   // const dispatch = useDispatch();
@@ -21,23 +28,23 @@ function ExpenseItems() {
               //   ref={tableContainerRef}
               className="overflow-auto relative h-[250px]  show-scrolls"
             >
-              <table className=" w-full font-gilroy ">
-                <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead className="sticky top-0 z-30">
                   <tr>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Item details
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Quantity
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Unit
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Per Unit price
                     </th>
 
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       AMOUNT
                     </th>
                   </tr>
@@ -46,24 +53,24 @@ function ExpenseItems() {
                 <tbody>
                   {expenseItems.length > 0 ? (
                     expenseItems.map((item, index) => (
-                      <tr key={index} className="border-b last:border-b-0">
-                        <td className="px-4 py-2 text-sm">
+                      <tr key={index} className="last:border-b-0">
+                        <td className={TABLE_BODY_CELL}>
                           {item.item || "-"}
                         </td>
 
-                        <td className="px-4 py-2 text-[#1E45E1] text-sm">
+                        <td className={`${TABLE_BODY_CELL} text-[#1E45E1]`}>
                           {item.quantity}
                         </td>
 
-                        <td className="px-4 py-2 text-sm">
+                        <td className={TABLE_BODY_CELL}>
                           {item.unit || "-"}
                         </td>
 
-                        <td className="px-4 py-2 text-[#1E45E1] text-sm">
+                        <td className={`${TABLE_BODY_CELL} text-[#1E45E1]`}>
                           ₹ {item.unitPrice || 0}
                         </td>
 
-                        <td className="px-4 py-2 font-medium">
+                        <td className={`${TABLE_BODY_CELL} font-medium`}>
                           ₹ {item.totalAmount}
                         </td>
                       </tr>

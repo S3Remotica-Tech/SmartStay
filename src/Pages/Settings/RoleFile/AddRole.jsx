@@ -13,6 +13,13 @@ import {
   fieldTextareaClass,
 } from "../../../Utils/FieldStyles";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -194,9 +201,9 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
   const renderRow = (rowName, label) => (
     <tr key={rowName}>
-      <td className="px-4 py-1">{label}</td>
+      <td className={TABLE_BODY_CELL}>{label}</td>
       {checkboxValues[rowName]?.map((checked, index) => (
-        <td className="text-center" key={index}>
+        <td className={`${TABLE_BODY_CELL} text-center`} key={index}>
           <input
             type="checkbox"
             checked={checked}
@@ -394,28 +401,28 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
           </div>
 
           <div className="border border-gray-300 rounded-2xl">
-            <table className="min-w-full border-collapse mb-0">
-              <thead className="bg-[#E7F1FF] sticky top-0 z-10">
+            <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+              <thead className="sticky top-0 z-10">
                 <tr>
-                  <th className="text-[#4B4B4B] font-gilroy font-medium text-sm pl-4 py-2 rounded-tl-2xl">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#4B4B4B] font-gilroy pl-4 rounded-tl-2xl`}>
                     Permission
                   </th>
-                  <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#4B4B4B] font-gilroy`}>
                     Add
                   </th>
-                  <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#4B4B4B] font-gilroy`}>
                     Read
                   </th>
-                  <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#4B4B4B] font-gilroy`}>
                     Edit
                   </th>
-                  <th className="text-[#4B4B4B] font-gilroy font-medium text-sm py-2 rounded-tr-2xl">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#4B4B4B] font-gilroy rounded-tr-2xl`}>
                     Delete
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="text-[#4B4B4B] font-gilroy font-semibold text-base">
+              <tbody className="text-[#4B4B4B] font-semibold">
                 {modules.map((module) => {
                   const formattedName = module.moduleName.replace(/\s+/g, "");
                   return renderRow(formattedName, module.moduleName);

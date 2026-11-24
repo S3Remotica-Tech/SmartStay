@@ -12,6 +12,13 @@ import AddUser from "../../Pages/UserFile/AddUser";
 import DeleteStaff from "./DeleteStaff";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function ManagedUsers() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -120,31 +127,31 @@ function ManagedUsers() {
   return (
     <div className="w-full  ">
       {state.Settings?.addSettingStaffList?.length > 0 && (
-        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
           <div
             id="tableContainer"
             // ref={tableContainerRef}
-            className="overflow-auto relative  h-[400px]  rounded-xl show-scrolls"
+            className="overflow-auto relative  h-[400px] show-scrolls"
           >
-            <table className="w-full font-gilroy">
-              <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                <tr className="">
-                  <th className="px-3 py-2.5 text-[#6B7280] text-[12px] font-semibold whitespace-nowrap">
+            <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+              <thead className="sticky top-0 z-40">
+                <tr>
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     USER NAME
                   </th>
-                  <th className="px-3 py-2.5 text-[#6B7280] text-[12px] font-semibold whitespace-nowrap">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     ROLE ASSIGN
                   </th>
-                  <th className="px-3 py-2.5 text-[#6B7280] text-[12px] font-semibold">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     MAIL ID
                   </th>
-                  <th className="px-3 py-2.5 text-[#6B7280] text-[12px] font-semibold">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     MOBILE NO
                   </th>
-                  <th className="px-3 py-2.5 text-[#6B7280] text-[12px] font-semibold">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     DESCRIPTION
                   </th>
-                  <th className="px-3 py-2.5 text-[#6B7280] text-[12px] font-semibold">
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     ACTION
                   </th>
                 </tr>
@@ -155,13 +162,13 @@ function ManagedUsers() {
                   state.Settings?.addSettingStaffList?.map((user, index) => (
                     <tr key={index}>
                       <td
-                        className="px-3 py-2.5 truncate text-[#111928] font-semibold capitalize text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px]"
+                        className={`${TABLE_BODY_CELL} truncate text-[#111928] font-semibold capitalize md:text-[14px] lg:text-[16px] 2xl:text-[18px]`}
                         title={`${user?.firstName} ${user?.lastName}`}
                       >
                         {user?.firstName} {user?.lastName}
                       </td>
 
-                      <td className="px-3 py-2.5 flex items-center whitespace-nowrap">
+                      <td className={TABLE_BODY_CELL}>
                         <span className="inline-flex items-center  bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
                           <Shield size={14} color="#FF9900" />
                         </span>
@@ -173,27 +180,27 @@ function ManagedUsers() {
                         </span>
                       </td>
                       <td
-                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate  text-[#111928] font-semibold"
+                        className={`${TABLE_BODY_CELL} md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#111928] font-semibold`}
                         title={user.mailId}
                       >
                         {user.mailId}
                       </td>
 
                       <td
-                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate  text-[#111928] font-semibold "
+                        className={`${TABLE_BODY_CELL} md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#111928] font-semibold`}
                         title={user.mobileNo}
                       >
                         + {user?.countryCode} {user?.mobileNo}
                       </td>
 
                       <td
-                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#4B4B4B] font-semibold "
+                        className={`${TABLE_BODY_CELL} md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#4B4B4B] font-semibold`}
                         title={user.description}
                       >
                         {user.description || "-"}
                       </td>
 
-                      <td className="text-center flex justify-center">
+                      <td className={`${TABLE_BODY_CELL} text-center`}>
                         <PiDotsThreeOutlineVerticalFill
                           className="cursor-pointer"
                           size={20}

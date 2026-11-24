@@ -37,6 +37,13 @@ import RetainerApplyInvoice from "./RetainerApplyInvoice";
 import PropTypes from "prop-types";
 import { CustomStyles } from "../../Utils/SelectStyles";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function Booking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -300,22 +307,6 @@ function Booking() {
   });
 
 
-
-  const columnStyles = {
-    "Profile Pic": "px-4 whitespace-nowrap",
-    "Inv No": "px-4 whitespace-nowrap",
-    "Booking Date": "px-4 whitespace-nowrap",
-    "Tenant Name": "px-4 whitespace-nowrap",
-    "Joining Date": "px-4 whitespace-nowrap",
-    "Mobile No": "px-4 whitespace-nowrap",
-    "Floor Name": "px-4",
-    "Room Name": "px-4",
-    "Bed Name": "px-4",
-    Amount: "px-4",
-    status: "px-4",
-    "Available Amount": "px-4 whitespace-nowrap",
-    "Invoice Date": "px-4 whitespace-nowrap",
-  };
 
   // const handleStatusFilter = (selectedOption) => {
   //   setStatusfilter(selectedOption);
@@ -1171,15 +1162,15 @@ function Booking() {
                   </div>
                 )}
                 {formattedData?.length > 0 ? (
-                  <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
+                  <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden">
                     <div
                       id="tableContainer"
                       ref={tableContainerRef}
-                      className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                      className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                     >
-                      <table className="w-full  font-gilroy">
-                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                          <tr className="h-9">
+                      <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                        <thead className="sticky top-0 z-40">
+                          <tr>
                             {/* <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
                           <input
                             disabled
@@ -1197,20 +1188,20 @@ function Booking() {
 
                               if (index === 0) {
                                 stickyClass =
-                                  "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                                  "sticky left-[0px] z-40 w-[80px]";
                               }
 
                               return (
                                 <th
                                   key={col.key}
-                                  className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                                  className={`${TABLE_HEADER_CELL} text-start ${stickyClass}`}
                                 >
                                   {col.fieldName}
                                 </th>
                               );
                             })}
 
-                            <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                            <th className={`${TABLE_HEADER_CELL} sticky right-0 z-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                               Action
                             </th>
                           </tr>
@@ -1225,8 +1216,7 @@ function Booking() {
                                   handleNavigatePdf(item?.apiCall?.invoiceId);
                                 }}
                                 key={item?.apiCall?.invoiceId}
-                                className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
-                                    cursor-pointer group  hover:!bg-gray-50"
+                                className="cursor-pointer group hover:!bg-gray-50"
                               >
                                 {/* <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
                               <input
@@ -1238,10 +1228,7 @@ function Booking() {
                             </td> */}
 
                                 {selectedColumns?.map((col, index) => {
-                                  const baseClass = `
-  ${columnStyles[col.fieldName] || "px-4"}
-  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-`;
+                                  const baseClass = `${TABLE_BODY_CELL} hover:!bg-gray-50 group-hover:!bg-gray-50`;
 
                                   let stickyClass = "";
 
@@ -1257,18 +1244,18 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.fieldName}
-                                          className={`px-4 ${finalClass}`}
+                                          className={finalClass}
                                         >
                                           {typeof item?.profilePic ===
                                             "string" &&
                                             item.profilePic.startsWith("http") ? (
                                             <img
                                               src={item.profilePic}
-                                              className="w-8 h-8 rounded-full"
+                                              className="w-[30px] h-[30px] rounded-full"
                                               alt="profile"
                                             />
                                           ) : (
-                                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                            <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center text-xs">
                                               {typeof item?.profilePic ===
                                                 "string"
                                                 ? item.profilePic
@@ -1471,7 +1458,7 @@ function Booking() {
 
                                 <td
                                   className={`${isScrolling ? "!bg-white" : "bg-white"
-                                    } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                    } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
                                     <PiDotsThreeOutlineVerticalFill
