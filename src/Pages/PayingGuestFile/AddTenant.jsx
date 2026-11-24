@@ -2972,7 +2972,6 @@ AddTenant.propTypes = {
   onclickdata: PropTypes.func.isRequired,
   alreadySaveDraftTenantDetails: PropTypes?.object,
   bookingOnly: PropTypes?.bool,
-  // Called with the new customer id after the success popup is closed.
   onTenantCreated: PropTypes?.func,
 };
 export default AddTenant;
