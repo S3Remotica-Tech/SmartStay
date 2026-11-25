@@ -20,23 +20,33 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import CustomTooltip from "../../Utils/CustomTooltip";
-import InvoiceViewDropdown, { INVOICE_VIEW_MODES } from "./InvoiceViewDropdown";
-import ConsolidatedInvoiceTable from "./ConsolidatedInvoiceTable";
-import ConsolidatedFilterDrawer from "./ConsolidatedFilterDrawer";
-import ConsolidatedExportSettings from "./ConsolidatedExportSettings";
-import ConsolidatedExportPreview from "./ConsolidatedExportPreview";
-import { DEFAULT_VISIBLE_COLUMN_KEYS } from "./consolidatedColumns";
-import { consolidatedMockBeds } from "./consolidatedMockData";
-import {
+// Consolidated View = these two components. The shared Consolidated logic
+// (API mapping, filters, columns, totals) is exported from the table file.
+import ConsolidatedInvoiceTable, {
   DEFAULT_CONSOLIDATED_FILTERS,
   applyConsolidatedFilters,
   formatAmount,
   getCollectionSummary,
   getConsolidatedFilterChips,
+  getConsolidatedHeader,
   getFloorOptions,
-} from "./consolidatedHelpers";
+  normaliseConsolidatedBeds,
+  buildConsolidatedColumns,
+} from "./ConsolidatedInvoiceTable";
+import ConsolidatedExportSettings from "./ConsolidatedExportSettings";
 
 const NOT_IN_COLLECTION_SHEET = "Not part of collection sheet.";
+
+// List / Consolidated view switch (dropdown rendered in viewSwitcher below).
+const INVOICE_VIEW_MODES = {
+  LIST: "list",
+  CONSOLIDATED: "consolidated",
+};
+
+const VIEW_OPTIONS = [
+  { value: INVOICE_VIEW_MODES.LIST, label: "List View" },
+  { value: INVOICE_VIEW_MODES.CONSOLIDATED, label: "Consolidated View" },
+];
 
 // List View table cells — same look as ConsolidatedInvoiceTable's header/body cells.
 const LIST_HEADER_CELL =
@@ -67,18 +77,33 @@ function InvoiceRegister() {
   const isSearching = chips.length > 0;
   const [viewMode, setViewMode] = useState(INVOICE_VIEW_MODES.LIST);
   const isConsolidated = viewMode === INVOICE_VIEW_MODES.CONSOLIDATED;
+  const [viewMenuOpen, setViewMenuOpen] = useState(false);
+  const viewMenuRef = useRef(null);
   const [consolidatedFilters, setConsolidatedFilters] = useState(
     DEFAULT_CONSOLIDATED_FILTERS,
   );
   const [showConsolidatedFilter, setShowConsolidatedFilter] = useState(false);
   // Held here so the export settings can start from the current view.
   const [includeAllTenants, setIncludeAllTenants] = useState(false);
-  const [visibleColumnKeys, setVisibleColumnKeys] = useState(
-    DEFAULT_VISIBLE_COLUMN_KEYS,
-  );
   const [showExportSettings, setShowExportSettings] = useState(false);
-  const [exportPrefs, setExportPrefs] = useState(null);
-  const [exportPreviewData, setExportPreviewData] = useState(null);
+  // Consolidated View API data (state.reports.getConsolidatedInvoice).
+  const [consolidatedRegister, setConsolidatedRegister] = useState(null);
+  const [consolidatedLoading, setConsolidatedLoading] = useState(false);
+  // Single bed list used by the table, stat cards, floor filter and export.
+  const consolidatedBeds = useMemo(
+    () => normaliseConsolidatedBeds(consolidatedRegister),
+    [consolidatedRegister],
+  );
+  // Columns come from the API (tableColumns). The table saves Customize Tabs
+  // itself and hands back the saved list (shown until the next fetch); the
+  // export uses the same list.
+  const [savedColumns, setSavedColumns] = useState(null);
+  const consolidatedColumns = useMemo(
+    () =>
+      savedColumns ||
+      buildConsolidatedColumns(consolidatedRegister?.tableColumns),
+    [savedColumns, consolidatedRegister],
+  );
 
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
@@ -102,6 +127,24 @@ function InvoiceRegister() {
       }, 100);
     }
   }, [state.reports.getInvoiceRegisterSuccess]);
+
+  useEffect(() => {
+    if (state.reports.getConsolidatedInvoiceSuccess === 200) {
+      setConsolidatedLoading(false);
+      setConsolidatedRegister(state?.reports?.getConsolidatedInvoice);
+      setSavedColumns(null);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_REDUCER" });
+      }, 100);
+    }
+  }, [state.reports.getConsolidatedInvoiceSuccess]);
+
+  useEffect(() => {
+    if (state.reports.getConsolidatedInvoiceError) {
+      setConsolidatedLoading(false);
+      dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_ERROR" });
+    }
+  }, [state.reports.getConsolidatedInvoiceError]);
 
   useEffect(() => {
     let timeout;
@@ -194,23 +237,28 @@ function InvoiceRegister() {
     },
   ];
 
-  // Consolidated View stat cards come from the filtered mock collection sheet.
-  // Vacant beds are excluded inside getCollectionSummary.
+  // Consolidated View stat cards use the API's invoiceHeader totals; if the
+  // header is missing they are computed from the filtered rows instead.
+  const consolidatedHeader = useMemo(
+    () => getConsolidatedHeader(consolidatedRegister),
+    [consolidatedRegister],
+  );
   const consolidatedSummary = useMemo(
     () =>
+      consolidatedHeader ||
       getCollectionSummary(
         applyConsolidatedFilters(
-          consolidatedMockBeds,
+          consolidatedBeds,
           consolidatedFilters,
           selectedRange,
         ),
       ),
-    [consolidatedFilters, selectedRange],
+    [consolidatedHeader, consolidatedBeds, consolidatedFilters, selectedRange],
   );
 
   const consolidatedFloorOptions = useMemo(
-    () => getFloorOptions(consolidatedMockBeds),
-    [],
+    () => getFloorOptions(consolidatedBeds),
+    [consolidatedBeds],
   );
 
   // Set by the Sidebar when a property is selected.
@@ -272,19 +320,19 @@ function InvoiceRegister() {
     },
     {
       title: "Booking Amount",
-      value: 0,
+      value: formatAmount(consolidatedSummary.bookingAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
     {
       title: "Refunded Booking Amount",
-      value: 0,
+      value: formatAmount(consolidatedSummary.refundedBookingAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
     {
       title: "Cancelled Amount",
-      value: 0,
+      value: formatAmount(consolidatedSummary.cancelledAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
@@ -292,8 +340,72 @@ function InvoiceRegister() {
 
   const displayedStats = isConsolidated ? consolidatedStats : stats;
 
+  // View switch dropdown: close on outside click.
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (viewMenuRef.current && !viewMenuRef.current.contains(event.target)) {
+        setViewMenuOpen(false);
+      }
+    };
+    if (viewMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [viewMenuOpen]);
+
+  const handleSelectView = (option) => {
+    setViewMenuOpen(false);
+    if (option.value !== viewMode) setViewMode(option.value);
+  };
+
+  const selectedViewOption =
+    VIEW_OPTIONS.find((option) => option.value === viewMode) || VIEW_OPTIONS[0];
+
   const viewSwitcher = (
-    <InvoiceViewDropdown value={viewMode} onChange={setViewMode} />
+    <div ref={viewMenuRef} className="relative w-fit font-gilroy">
+      <button
+        type="button"
+        onClick={() => setViewMenuOpen((prev) => !prev)}
+        aria-haspopup="listbox"
+        aria-expanded={viewMenuOpen}
+        className="w-fit h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-medium text-[#1D293D]"
+      >
+        <span className="whitespace-nowrap">{selectedViewOption.label}</span>
+        <ArrowDown2
+          size="16"
+          color="#1D293D"
+          className={`transition-transform duration-200 ${viewMenuOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {viewMenuOpen && (
+        <ul
+          role="listbox"
+          className="absolute left-0 z-40 mt-1 w-max min-w-full bg-white rounded-2xl shadow-lg overflow-hidden border-[1px] border-[#E5E7EB] p-0 m-0 list-none"
+        >
+          {VIEW_OPTIONS.map((option, index) => (
+            <li
+              key={option.value}
+              role="option"
+              aria-selected={option.value === viewMode}
+              onClick={() => handleSelectView(option)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") handleSelectView(option);
+              }}
+              tabIndex={0}
+              className={`px-[16px] py-2 text-sm whitespace-nowrap cursor-pointer hover:bg-[#F1F5FF] ${option.value === viewMode
+                ? "text-[#1E45E1] font-semibold"
+                : "text-[#222]"
+                } ${index < VIEW_OPTIONS.length - 1 ? "border-b border-[#E5E7EB]" : ""}`}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 
   const handleNavigateReports = () => {
@@ -799,6 +911,46 @@ function InvoiceRegister() {
     }
   }, [state.login?.selectedHostel_Id, size, page, startDate, endDate]);
 
+  // Consolidated View: same trigger as the List call above, only while that view is open.
+  useEffect(() => {
+    if (!isConsolidated) return;
+    if (!state.login?.selectedHostel_Id) return;
+
+    const filters = {
+      startDate: startDate,
+      endDate: endDate,
+      search: consolidatedFilters?.search || undefined,
+      statuses: consolidatedFilters?.statuses?.length
+        ? consolidatedFilters.statuses
+        : undefined,
+      floors: consolidatedFilters?.floors?.length
+        ? consolidatedFilters.floors
+        : undefined,
+      overdueOnly: consolidatedFilters?.overdueOnly || undefined,
+      // Echoed back by the API; the toggle needs paid tenants and empty beds.
+      includePaidInvoice: includeAllTenants,
+      includeEmptyBeds: includeAllTenants,
+    };
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REPORTS_CONSOLIDATED_INVOICE_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters,
+        },
+      });
+
+      setConsolidatedLoading(true);
+    }
+  }, [
+    isConsolidated,
+    state.login?.selectedHostel_Id,
+    startDate,
+    endDate,
+    consolidatedFilters,
+    includeAllTenants,
+  ]);
+
   useEffect(() => {
     setPage(1);
   }, [
@@ -1126,12 +1278,18 @@ function InvoiceRegister() {
         {isConsolidated && (
           <ConsolidatedInvoiceTable
             viewSwitcher={viewSwitcher}
+            beds={consolidatedBeds}
+            tableColumns={consolidatedColumns}
+            onColumnsSaved={setSavedColumns}
+            isLoading={consolidatedLoading}
             filters={consolidatedFilters}
             period={selectedRange}
             includeAllTenants={includeAllTenants}
             onIncludeAllTenantsChange={setIncludeAllTenants}
-            visibleColumnKeys={visibleColumnKeys}
-            onVisibleColumnKeysChange={setVisibleColumnKeys}
+            showFilter={showConsolidatedFilter}
+            onCloseFilter={() => setShowConsolidatedFilter(false)}
+            onApplyFilters={handleApplyConsolidatedFilters}
+            floorOptions={consolidatedFloorOptions}
           />
         )}
 
@@ -1390,43 +1548,21 @@ function InvoiceRegister() {
           />
         )}
         {isConsolidated && (
-          <ConsolidatedFilterDrawer
-            show={showConsolidatedFilter}
-            onClose={() => setShowConsolidatedFilter(false)}
-            filters={consolidatedFilters}
-            period={selectedRange}
-            floorOptions={consolidatedFloorOptions}
-            onApply={handleApplyConsolidatedFilters}
-          />
-        )}
-        {isConsolidated && (
           <ConsolidatedExportSettings
             show={showExportSettings}
             onClose={() => setShowExportSettings(false)}
-            beds={consolidatedMockBeds}
+            beds={consolidatedBeds}
             scope={{
               filters: consolidatedFilters,
               period: selectedRange,
               includeAllTenants,
             }}
-            visibleTableKeys={visibleColumnKeys}
-            savedPrefs={exportPrefs}
-            onSavePrefs={setExportPrefs}
+            columns={consolidatedColumns}
             floorOptions={consolidatedFloorOptions}
-            propertyName={selectedHostelName}
-            onPrepared={setExportPreviewData}
-            isBehindPreview={Boolean(exportPreviewData)}
-          />
-        )}
-        {isConsolidated && (
-          <ConsolidatedExportPreview
-            show={Boolean(exportPreviewData)}
-            exportData={exportPreviewData}
-            onBack={() => setExportPreviewData(null)}
-            onClose={() => {
-              setExportPreviewData(null);
-              setShowExportSettings(false);
-            }}
+            propertyName={
+              consolidatedRegister?.hostelInformation?.hostelName ||
+              selectedHostelName
+            }
           />
         )}
       </div>

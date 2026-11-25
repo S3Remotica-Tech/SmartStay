@@ -35,8 +35,32 @@ export async function getInvoiceRegister(hostelId, filters = {}) {
   });
 }
 
+// Invoice Register - Consolidated view (filters go in the POST body)
+export async function getConsolidatedInvoiceRegister(hostelId, filters = {}) {
+  return await AxiosConfigV2.post(
+    `/v2/reports/invoice/consolidated/${hostelId}`,
+    filters,
+  );
+}
+
+// Invoice Register - Consolidated view table customization (columns config)
+export async function consolidatedInvoiceCustomizeData(invoice) {
+  return await AxiosConfigV2.put(
+    `/v2/table-config/invoice/consolidated/${invoice.hostelId}`,
+    invoice.customize,
+  );
+}
+
+// Invoice Register - Consolidated view download (filters go in the POST body)
+export async function ReportsConsolidatedInvoicePDF(invoice) {
+  return await AxiosConfigV2.post(
+    `/v2/reports/download/invoice/consolidated/${invoice.hostelId}`,
+    invoice.filters || {},
+  );
+}
+
 export async function getExpenseRegister(hostelId, filters = {}) {
- 
+
   return AxiosConfigV2.get(`/v2/reports/expense/${hostelId}`, {
     params: {
       startDate: filters.startDate,
@@ -158,6 +182,8 @@ export async function ReportsInvoicePDF(invoice) {
     },
   );
 }
+
+
 
 export async function ReportsExpensePDF(invoice) {
   return await AxiosConfigV2.get(
