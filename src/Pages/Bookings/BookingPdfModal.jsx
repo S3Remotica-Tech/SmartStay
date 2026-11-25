@@ -1066,7 +1066,7 @@ const InvoiceCard = ({ rowData }) => {
                         <tbody>
                           {pdfDetails.paymentHistory.map((item, index) => (
                             <tr key={index}>
-                              <td className={`${TABLE_BODY_CELL} text-[#6B7280] font-semibold`}>
+                              <td className={`${TABLE_BODY_CELL} text-[#314158] font-semibold`}>
                                 {item.date || item.paidDate || "-"}
                               </td>
 
@@ -1084,7 +1084,7 @@ const InvoiceCard = ({ rowData }) => {
                                 ₹{item.amount}
                               </td>
 
-                              <td className={TABLE_BODY_CELL}>
+                              <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                 <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
                                   ● Paid
                                 </span>
@@ -1127,7 +1127,7 @@ const InvoiceCard = ({ rowData }) => {
                       {mappingTableData?.length > 0 ? (
                         mappingTableData?.map((item, index) => (
                           <tr key={index}>
-                            <td className={`${TABLE_BODY_CELL} text-[#6B7280] font-semibold`}>
+                            <td className={`${TABLE_BODY_CELL} text-[#314158] font-semibold`}>
                               {item.redeemedOn || "-"}
                             </td>
 

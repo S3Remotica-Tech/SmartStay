@@ -758,25 +758,25 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                         <tr
                           key={item.expenseId}
                         >
-                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] font-medium text-[#222222]`}>
+                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] font-medium text-[#111928]`}>
                             {item.expenseNo}
                           </td>
 
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <span className="text-[#1E45E1] text-[11px] font-medium whitespace-nowrap">
                               {item.referenceNo || "-"}
                             </span>
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#6B7280]`}>
+                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#314158]`}>
                             ₹ {item.totalAmount}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] font-semibold text-[#222222]`}>
+                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] font-semibold text-[#111928]`}>
                             ₹ {item.totalBalance}
                           </td>
 
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <input
                               type="number"
                               value={item.amountToApply || ""}

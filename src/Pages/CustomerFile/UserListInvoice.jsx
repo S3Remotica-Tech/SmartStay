@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -385,7 +386,7 @@ function UserListInvoice() {
 
                       {state.UsersList.customerdetails
                         ?.customerCurrentStatus !== "VACATED" && (
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                         )}
                     </tr>
                   </thead>
@@ -404,7 +405,7 @@ function UserListInvoice() {
                             {view.invoiceNumber}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px] relative`}>
+                          <td className={`${TABLE_BODY_CELL} w-[230px] relative text-[#111928]`}>
                             <div className="flex items-center gap-2 group w-fit">
                               <span className="truncate max-w-[150px]">
                                 {view.invoiceType}
@@ -414,7 +415,7 @@ function UserListInvoice() {
                                 view.invoiceType === "Rent" && (
                                   <ReceiptEdit
                                     size="14"
-                                    className="text-gray-500"
+                                    className="text-[#314158]"
                                   />
                                 )}
 
@@ -428,15 +429,15 @@ function UserListInvoice() {
                             </div>
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                             {view?.invoiceDate}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                             {view?.dueDate}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px] relative align-middle`}>
+                          <td className={`${TABLE_BODY_CELL} w-[230px] relative align-middle text-[#111928]`}>
                             <div className="relative inline-block">
                               <span className="leading-5">
                                 ₹ {view?.totalAmount}
@@ -444,7 +445,7 @@ function UserListInvoice() {
 
                               {(view.isDiscounted ||
                                 view.isInvoicesApplied) && (
-                                  <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
+                                  <div className=" flex flex-col text-[10px] text-[#314158] leading-3 min-w-max h-4">
                                     {view.isDiscounted && (
                                       <span>
                                         Discount Applied : ₹
@@ -472,47 +473,52 @@ function UserListInvoice() {
                             </div>
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                             ₹{view.dueAmount}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                             {(view?.paymentStatus === "Pending" ||
                               view.paymentStatus === "Partial Payment") && (
-                                <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap ${view?.paymentStatus === "Partial Payment" ? "bg-[rgba(255,237,202,0.6)]" : "bg-[rgba(255,189,189,0.4)]"}`}>
+                                  <span className={`w-[6px] h-[6px] rounded-full ${view?.paymentStatus === "Partial Payment" ? "bg-[#F59E0B]" : "bg-[#EF4444]"}`} />
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
                             {view?.paymentStatus === "Paid" && (
-                              <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                {view?.paymentStatus}
-                              </span>
+                              <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(179,229,187,0.3)] cursor-pointer">
+                                  <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
+                                  {view?.paymentStatus}
+                                </span>
                             )}
 
                             {(view?.paymentStatus === "Refunded" ||
                               view?.paymentStatus === "Partially Refunded") && (
-                                <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[#E7F1FF]">
+                                  <span className="w-[6px] h-[6px] rounded-full bg-[#3B82F6]" />
                                   {view?.paymentStatus}
                                 </span>
                               )}
 
                             {view?.paymentStatus === "Pending Refund" && (
-                              <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                {view?.paymentStatus}
-                              </span>
+                              <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(255,237,202,0.6)]">
+                                  <span className="w-[6px] h-[6px] rounded-full bg-[#F59E0B]" />
+                                  {view?.paymentStatus}
+                                </span>
                             )}
 
                             {view?.paymentStatus === "Cancelled" && (
-                              <span className="bg-[#FFE6B3] whitespace-nowrap text-[#7C2D12] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                Cancelled
-                              </span>
+                              <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[#E5E7EB]">
+                                  <span className="w-[6px] h-[6px] rounded-full bg-[#6B7280]" />
+                                  Cancelled
+                                </span>
                             )}
                           </td>
 
                           {state.UsersList.customerdetails
                             ?.customerCurrentStatus !== "VACATED" && (
-                              <td className={`${TABLE_BODY_CELL} text-left align-middle`}>
+                              <td className={`${TABLE_BODY_CELL} text-left align-middle sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                                 <div className="flex flex-wrap gap-2 py-2">
                                   <div
                                     className={`flex justify-center items-center relative cursor-pointer  
@@ -522,12 +528,13 @@ function UserListInvoice() {
                                       handleShowDots(view, e);
                                     }}
                                   >
-                                    <IoMdMore className="text-xl text-[#222222]" />
+                                    <IoMdMore className="text-xl text-[#111928]" />
 
                                     {activeId === view.invoiceId && (
+                                      createPortal(
                                       <div
                                         ref={popupRef}
-                                        className="fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
+                                        className="font-gilroy fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
                                         style={{
                                           top: popupPosition.top,
                                           left: popupPosition.left - 50,
@@ -670,7 +677,9 @@ function UserListInvoice() {
                                               </button>
                                             )}
                                         </div>
-                                      </div>
+                                      </div>,
+                                      document.body,
+                                    )
                                     )}
                                   </div>
                                 </div>

@@ -325,21 +325,21 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
                     {initializeDetails?.listInvoices?.length > 0 ? (
                       initializeDetails.listInvoices.map((item, index) => (
                         <tr key={index}>
-                          <td className={`${TABLE_BODY_CELL} text-blue-600 cursor-pointer font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#1E45E1] cursor-pointer font-semibold`}>
                             {item.invoiceNumber}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             {item.invoiceType}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} text-gray-500`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {item.dueDate}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             ₹{item.pendingAmount}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             <input
                               onWheel={(e) => e.target.blur()}
                               type="number"

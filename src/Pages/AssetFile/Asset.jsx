@@ -329,15 +329,15 @@ function Asset() {
                     <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                       <thead className="sticky top-0 z-40">
                         <tr>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Product Name</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Serial Number</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Brand</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Asset</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Payment Mode</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Price</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Purchase Date</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Assigned</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Product Name</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Serial Number</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Brand</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Asset</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Payment Mode</th>
+                          <th className={`${TABLE_HEADER_CELL} text-right`}>Price</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Purchase Date</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Assigned</th>
+                          <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                         </tr>
                       </thead>
 

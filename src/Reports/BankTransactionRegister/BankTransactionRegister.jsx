@@ -160,8 +160,8 @@ function BankTransactionRegister() {
   ];
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+    <div className="h-screen flex flex-col font-gilroy">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
           <ArrowLeft
             onClick={handleNavigateReports}
@@ -313,7 +313,7 @@ function BankTransactionRegister() {
           ))}
         </div>
 
-        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mt-[16px] ms-1 me-1 flex-1">
+        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px] flex-1">
           <div className="overflow-x-auto relative show-scrolls">
             <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
               <thead className="sticky top-0 z-30">
@@ -370,7 +370,7 @@ function BankTransactionRegister() {
               <tbody>
                 {invoices.map((row, i) => (
                   <tr key={i}>
-                    <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}></td>
+                    <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px] text-[#111928]`}></td>
                     <td
                       className={`${TABLE_BODY_CELL} text-[#1E45E1] font-semibold truncate sticky left-[48px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
                       title={row.no}
@@ -378,7 +378,7 @@ function BankTransactionRegister() {
                       {row.no}
                     </td>
 
-                    <td className={`${TABLE_BODY_CELL} sticky left-[188px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
+                    <td className={`${TABLE_BODY_CELL} sticky left-[188px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px] text-[#111928]`}>
                       <div className="flex items-center gap-2">
                         {/* <img
                                                     src={row.avatar}
@@ -395,29 +395,29 @@ function BankTransactionRegister() {
                     </td>
 
                     <td
-                      className={`${TABLE_BODY_CELL} text-center font-semibold truncate`}
+                      className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#111928]`}
                       title={row.type}
                     >
                       {row.type}
                     </td>
 
-                    <td className={`${TABLE_BODY_CELL} text-center text-[#6B7280] truncate`}>
+                    <td className={`${TABLE_BODY_CELL} text-center text-[#314158] truncate`}>
                       {row.date}
                     </td>
 
-                    <td className={`${TABLE_BODY_CELL} text-center text-[#6B7280] truncate font-medium`}>
+                    <td className={`${TABLE_BODY_CELL} text-center text-[#314158] truncate font-medium`}>
                       {row.dueDate}
                     </td>
 
-                    <td className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#222222]`}>
+                    <td className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#111928]`}>
                       ₹ {row.amount}
                     </td>
 
-                    <td className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#222222]`}>
+                    <td className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#111928]`}>
                       ₹ {row.due}
                     </td>
 
-                    <td className={`${TABLE_BODY_CELL} text-center`}></td>
+                    <td className={`${TABLE_BODY_CELL} text-center text-[#111928]`}></td>
                   </tr>
                 ))}
               </tbody>

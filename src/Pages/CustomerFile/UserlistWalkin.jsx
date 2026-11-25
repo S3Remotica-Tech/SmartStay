@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
@@ -384,10 +385,10 @@ function UserlistWalkin() {
                     <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                       <thead className="sticky top-0 z-40">
                         <tr>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Name</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Email ID </th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Mobile No</th>
-                          <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Name</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Email ID </th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Mobile No</th>
+                          <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                         </tr>
                       </thead>
 
@@ -396,51 +397,64 @@ function UserlistWalkin() {
                           <tr
                             key={v.customerId}
                           >
-                            <td className={`${TABLE_BODY_CELL} w-[230px]`}>
-                              <div className="relative group w-[200px]">
-                                <span className="block truncate">
+                            <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                              <div className="relative group flex items-center gap-[13px] max-w-[240px]">
+                                <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                  {(v.fullName || "")
+                                    .trim()
+                                    .split(/\s+/)
+                                    .slice(0, 2)
+                                    .map((w) => w[0])
+                                    .join("")
+                                    .toUpperCase() || "-"}
+                                </div>
+                                <span className="block truncate font-semibold">
                                   {v.fullName}
                                 </span>
 
-                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-blue-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
+                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
                                   {v.fullName}
                                 </div>
                               </div>
                             </td>
 
-                            <td className={`${TABLE_BODY_CELL} w-[230px]`}>
-                              <div className="relative group w-[200px]">
+                            <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                              <div className="relative group max-w-[240px]">
                                 <span className="block truncate">
                                   {v.emailId || "N/A"}
                                 </span>
 
-                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-blue-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
+                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
                                   {v.emailId || "N/A"}
                                 </div>
                               </div>
                             </td>
-                            <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                            <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                               {v && v.mobile}
                             </td>
 
-                            <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                            <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
                               <div
-                                className="relative flex justify-start items-center cursor-pointer"
+                                className={`relative inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${dotsButton === v.customerId
+                                  ? "border-[#1E45E1] bg-[#EFF6FF]"
+                                  : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
+                                  }`}
                                 onClick={(e) =>
                                   handleDotsClick(v.customerId, e)
                                 }
                               >
                                 <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId
-                                    ? "text-blue-700"
-                                    : "text-gray-500"
+                                  className={`h-4 w-4 rotate-90 ${dotsButton === v.customerId
+                                    ? "text-[#1E45E1]"
+                                    : "text-[#4A5565]"
                                     }`}
                                 />
 
                                 {dotsButton === v.customerId && (
+                                  createPortal(
                                   <div
                                     ref={popupRef}
-                                    className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
+                                    className="font-gilroy fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-[1000]"
                                     style={{
                                       top: popupPosition.top - 15,
                                       left: popupPosition.left - 10,
@@ -546,7 +560,9 @@ function UserlistWalkin() {
                                         Delete
                                       </label>
                                     </div>
-                                  </div>
+                                  </div>,
+                                  document.body,
+                                )
                                 )}
                               </div>
                             </td>

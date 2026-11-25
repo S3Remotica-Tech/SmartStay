@@ -451,7 +451,7 @@ function RecurringBills() {
                       >
                        Recurring
                       </th> */}
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                       </tr>
                     </thead>
 

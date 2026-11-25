@@ -246,28 +246,28 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
                       <tr
                         key={initializeDetails?.currentInvoiceInfo?.invoiceId}
                       >
-                        <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           {initializeDetails?.currentInvoiceInfo?.invoiceType}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} text-blue-600 cursor-pointer font-semibold`}>
+                        <td className={`${TABLE_BODY_CELL} text-[#1E45E1] cursor-pointer font-semibold`}>
                           {initializeDetails?.currentInvoiceInfo?.invoiceNumber}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} text-gray-500`}>
+                        <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                           {initializeDetails?.currentInvoiceInfo?.dueDate}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           ₹{initializeDetails?.currentInvoiceInfo?.totalAmount}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           ₹
                           {initializeDetails?.currentInvoiceInfo?.pendingAmount}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           <input
                             type="number"
                             value={

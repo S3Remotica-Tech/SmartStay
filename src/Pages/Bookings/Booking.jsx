@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
@@ -1162,7 +1163,7 @@ function Booking() {
                   </div>
                 )}
                 {formattedData?.length > 0 ? (
-                  <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden">
+                  <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                     <div
                       id="tableContainer"
                       ref={tableContainerRef}
@@ -1244,7 +1245,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.fieldName}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {typeof item?.profilePic ===
                                             "string" &&
@@ -1269,7 +1270,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div
                                             className="relative group w-[100px] "
@@ -1300,7 +1301,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
                                             <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
@@ -1314,10 +1315,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                            <span className="block w-full truncate text-sm text-[#314158] font-medium ">
                                               {item.bookingDate}
                                             </span>
                                           </div>
@@ -1328,10 +1329,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                            <span className="block w-full truncate text-sm text-[#314158] font-medium ">
                                               {item.joiningDate}
                                             </span>
                                           </div>
@@ -1342,10 +1343,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                            <span className="block w-full truncate text-sm text-[#314158] font-medium ">
                                               {item.invoiceDate}
                                             </span>
                                           </div>
@@ -1356,7 +1357,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {item.mobile}
                                         </td>
@@ -1366,7 +1367,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {item.floorName}
                                         </td>
@@ -1395,7 +1396,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.fieldName}
-                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#222222] font-semibold`}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928] font-semibold`}
                                         >
                                           {item.amount}
                                         </td>
@@ -1404,10 +1405,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <span
-                                            className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                            className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                             style={{
                                               backgroundColor:
                                                 statusStyles[item.status]?.bg ||
@@ -1415,7 +1416,7 @@ function Booking() {
                                             }}
                                           >
                                             <span
-                                              className="h-2 w-2 rounded-full"
+                                              className="w-[6px] h-[6px] rounded-full"
                                               style={{
                                                 backgroundColor:
                                                   statusStyles[item.status]
@@ -1442,7 +1443,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {typeof item[
                                             headerKeyMap[col.fieldName]
@@ -1462,16 +1463,17 @@ function Booking() {
                                 >
                                   <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
                                     <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
+                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-[#314158]"}`}
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         handleShowDots(e, index);
                                       }}
                                     />
                                     {showDots === index && (
+                                      createPortal(
                                       <div
                                         ref={popupRef}
-                                        className="  rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        className="font-gilroy   rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
@@ -1564,7 +1566,9 @@ function Booking() {
                                             </span>
                                           </button>
                                         )}
-                                      </div>
+                                      </div>,
+                                      document.body,
+                                    )
                                     )}
                                   </div>
                                 </td>

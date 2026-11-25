@@ -268,10 +268,10 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                         <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           BED
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
+                        <th className={`${TABLE_HEADER_CELL} text-right font-gilroy text-black font-bold`}>
                           TOTAL UNITS
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
+                        <th className={`${TABLE_HEADER_CELL} text-right font-gilroy text-black font-bold`}>
                           AMOUNT
                         </th>
                       </tr>
@@ -282,14 +282,14 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                         <tr
                           key={i} className="text-left"
                         >
-                          <td className={TABLE_BODY_CELL}>{row.billingMonth}</td>
-                          <td className={TABLE_BODY_CELL}>{row.from}</td>
-                          <td className={TABLE_BODY_CELL}>{row.to}</td>
-                          <td className={TABLE_BODY_CELL}>{row.floor}</td>
-                          <td className={TABLE_BODY_CELL}>{row.room}</td>
-                          <td className={TABLE_BODY_CELL}>{row.bed}</td>
-                          <td className={TABLE_BODY_CELL}>{row.units}</td>
-                          <td className={TABLE_BODY_CELL}>{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.billingMonth}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.from}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.to}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.floor}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.room}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.bed}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.units}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -338,38 +338,38 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                         <th className={`${TABLE_HEADER_CELL} text-left`}>Floor</th>
                         <th className={`${TABLE_HEADER_CELL} text-left`}>Room</th>
                         <th className={`${TABLE_HEADER_CELL} text-left`}>Bed</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left`}>Total units</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left`}>Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Total units</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Amount</th>
                       </tr>
                     </thead>
 
                     <tbody>
                       {paginatedCustomerData?.map((row, i) => (
                         <tr key={i}>
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.billingMonth}
                           </td>
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.from}
                           </td>
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.to}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} align-middle`}>
+                          <td className={`${TABLE_BODY_CELL} align-middle text-[#111928]`}>
                             <div className="truncate whitespace-nowrap overflow-hidden w-[120px]">
                               {row.floor}
                             </div>
                           </td>
 
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             {row.room}
                           </td>
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             {row.bed}
                           </td>
-                          <td className={TABLE_BODY_CELL}>{row.totalUnits}</td>
-                          <td className={TABLE_BODY_CELL}>{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.totalUnits}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>

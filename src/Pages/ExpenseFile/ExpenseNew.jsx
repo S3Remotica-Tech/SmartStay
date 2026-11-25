@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -1247,7 +1248,7 @@ function Expenses() {
                                 switch (col.fieldName) {
                                   case "Expense No":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <div className="relative group w-[100px] ">
                                           <span className="block w-full truncate text-sm text-[#111928] ">
                                             {user.referenceNumber}
@@ -1267,9 +1268,9 @@ function Expenses() {
 
                                   case "Status":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <span
-                                          className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs"
+                                          className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                           style={{
                                             backgroundColor:
                                               statusStyles[user.paymentStatus]
@@ -1277,7 +1278,7 @@ function Expenses() {
                                           }}
                                         >
                                           <span
-                                            className="h-2 w-2 rounded-full"
+                                            className="w-[6px] h-[6px] rounded-full"
                                             style={{
                                               backgroundColor:
                                                 statusStyles[user.paymentStatus]
@@ -1293,7 +1294,7 @@ function Expenses() {
                                     return (
                                       <td
                                         key={col.key}
-                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                        className={`${finalClass} truncate text-[#314158] font-medium`}
                                       >
                                         {user.transactionDate}
                                       </td>
@@ -1301,20 +1302,20 @@ function Expenses() {
 
                                   case "Title":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.title}
                                       </td>
                                     );
 
                                   case "Category":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.categoryName}
                                       </td>
                                     );
                                   case "Sub Category":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.subCategoryName}
                                       </td>
                                     );
@@ -1378,7 +1379,7 @@ function Expenses() {
 
                                   default:
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {typeof user[
                                           headerKeyMap[col.fieldName]
                                         ] === "object"
@@ -1404,15 +1405,16 @@ function Expenses() {
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90
-                                         ${String(showDots) === String(user.apiCall?.expenseId) ? "text-blue-600" : "text-gray-500"}`}
+                                         ${String(showDots) === String(user.apiCall?.expenseId) ? "text-[#1E45E1]" : "text-[#314158]"}`}
                                   />
 
                                   {String(showDots) ===
                                     String(user.apiCall?.expenseId) && (
                                       <>
+                                        {createPortal(
                                         <div
                                           ref={popupRef}
-                                          className={`fixed flex flex-col items-start cursor-pointer
+                                          className={`font-gilroy fixed flex flex-col items-start cursor-pointer
                                    bg-gray-50 w-40 border border-gray-200 rounded-lg translate-x-10
                                    
                                  `}
@@ -1498,7 +1500,9 @@ function Expenses() {
                                               Delete
                                             </label>
                                           </div>
-                                        </div>
+                                        </div>,
+                                        document.body,
+                                      )}
                                       </>
                                     )}
                                 </div>

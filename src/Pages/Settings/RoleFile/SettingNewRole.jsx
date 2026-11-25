@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -271,7 +272,7 @@ function SettingNewRole() {
           <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[60px] whitespace-nowrap">
         <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
           <label className="font-gilroy text-[18px] text-[#222] font-semibold">
             Roles
@@ -305,33 +306,33 @@ function SettingNewRole() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center m-3">
+      <div className="flex flex-col">
         {!canReadRole ? (
           <>
             <PermissionDeniedMessage />
           </>
         ) : paginatedData.length > 0 ? (
-          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden ">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
             <div
               id="tableContainer"
               // ref={tableContainerRef}
-              className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
+              className="overflow-auto relative max-h-[calc(100vh-140px)] show-scrolls"
             >
               <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                 <thead className="sticky top-0 z-40">
                   <tr>
                     <th className={`${TABLE_HEADER_CELL} text-left`}>Role Name</th>
                     <th className={`${TABLE_HEADER_CELL} text-left`}>Description</th>
-                    <th className={`${TABLE_HEADER_CELL} text-left`}>Users</th>
+                    <th className={`${TABLE_HEADER_CELL} text-center`}>Users</th>
                     <th className={`${TABLE_HEADER_CELL} text-left`}>Created</th>
-                    <th className={`${TABLE_HEADER_CELL} text-right`}>Action</th>
+                    <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                   </tr>
                 </thead>
 
-                <tbody className="text-sm text-gray-700">
+                <tbody>
                   {paginatedData.map((view, index) => (
-                    <tr key={index} className="max-h-fit">
-                      <td className={TABLE_BODY_CELL}>
+                    <tr key={index}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <div className="flex items-center gap-2">
                           <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
                             <Shield size={14} color="#FF9900" />
@@ -343,33 +344,37 @@ function SettingNewRole() {
                         </div>
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-[#4B4B4B] font-medium`}>
+                      <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                         {view.description || "-"}
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-[#6F767E]`}>
-                        <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
-                          <Profile2User size={12} />
+                      <td className={`${TABLE_BODY_CELL} text-center`}>
+                        <span className="inline-flex items-center gap-1 font-semibold text-[#111928]">
+                          <Profile2User size={14} color="#62748E" />
                           {view.userCount || 0}
-                        </div>
+                        </span>
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-[#111928] font-medium`}>
+                      <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                         {view.createdAt || "-"}
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-right relative`}>
+                      <td className={`${TABLE_BODY_CELL} text-center sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                         <div
-                          className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
+                          className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${showDots === index
+                            ? "border-[#1E45E1] bg-[#EFF6FF]"
+                            : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
+                            }`}
                           onClick={(e) => handleShowDots(e, index)}
                         >
-                          <IoMdMore className="text-black text-xl" />
+                          <IoMdMore className={`text-lg pointer-events-none ${showDots === index ? "text-[#1E45E1]" : "text-[#4A5565]"}`} />
                         </div>
 
                         {showDots === index && view.editable && (
+                          createPortal(
                           <div
                             ref={popupRef}
-                            className="fixed bg-white border border-gray-200 rounded-lg shadow-md px-2 py-2 w-[140px] z-[1000]"
+                            className="font-gilroy fixed bg-white border border-gray-200 rounded-lg shadow-md px-2 py-2 w-[140px] z-[1000]"
                             style={{
                               top: popupPosition.top,
                               left: popupPosition.left,
@@ -407,7 +412,9 @@ function SettingNewRole() {
                                 Delete
                               </span>
                             </div>
-                          </div>
+                          </div>,
+                          document.body,
+                        )
                         )}
                       </td>
                     </tr>

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -709,7 +710,7 @@ function ReceiptNew() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap font-gilroy min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Receipt
@@ -970,10 +971,10 @@ function ReceiptNew() {
                                             <img
                                               src={user.profilePic}
                                               alt="profile"
-                                              className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                                              className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
                                             />
                                           ) : (
-                                            <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] flex-shrink-0">
+                                            <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xs font-semibold flex-shrink-0">
                                               {user?.initials || "-"}
                                             </div>
                                           )}
@@ -1015,7 +1016,7 @@ function ReceiptNew() {
                                   return (
                                     <td
                                       key={col.key}
-                                      className={`${TABLE_BODY_CELL} ${finalClass} align-middle`}
+                                      className={`${finalClass} align-middle text-[#111928]`}
                                     >
                                       {value}
                                     </td>
@@ -1037,14 +1038,15 @@ function ReceiptNew() {
                                     <PiDotsThreeOutlineVerticalFill
                                       className={`h-5 w-5 rotate-90 ${activeRow === user.transactionId
                                         ? "text-[#1E45E1]"
-                                        : "text-gray-500"
+                                        : "text-[#314158]"
                                         }`}
                                     />
 
                                     {activeRow === user.transactionId && (
+                                      createPortal(
                                       <div
                                         ref={popupRef}
-                                        className="fixed z-[9999] w-fit rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 shadow-md"
+                                        className="font-gilroy fixed z-[9999] w-fit rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 shadow-md"
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
@@ -1098,7 +1100,9 @@ function ReceiptNew() {
                                             </span>
                                           </button>
                                         </div>
-                                      </div>
+                                      </div>,
+                                      document.body,
+                                    )
                                     )}
                                   </div>
                                 </td>

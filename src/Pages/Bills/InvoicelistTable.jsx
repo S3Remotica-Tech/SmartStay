@@ -344,7 +344,7 @@ const InvoiceTable = (props) => {
           </div>
         </td>
 
-        <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left`}>
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left text-[#111928]`}>
           <div
             className="flex items-center gap-[13px] cursor-pointer w-fit group/name"
             onClick={(e) => {
@@ -377,14 +377,14 @@ const InvoiceTable = (props) => {
           </div>
         </td>
 
-        <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left`}>
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left text-[#111928]`}>
           <div className="flex items-center gap-2 group/type w-fit">
             <span className="truncate max-w-[150px] font-medium text-[#111928]">
               {props.item.invoiceType}
             </span>
 
             {props.item.invoiceMode === "Manual" && (
-              <ReceiptEdit size="14" className="text-gray-700" />
+              <ReceiptEdit size="14" className="text-[#314158]" />
             )}
 
             <span
@@ -405,7 +405,7 @@ const InvoiceTable = (props) => {
           {props.item?.dueDate}
         </td>
 
-        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-right`}>
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-right text-[#111928]`}>
           <div className="flex flex-col items-end">
             <span className="font-medium text-[#111928]">
               ₹{Number(props.item?.invoiceAmount || 0).toLocaleString("en-IN")}
@@ -433,7 +433,7 @@ const InvoiceTable = (props) => {
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
         </td>
 
-        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-left`}>
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-left text-[#111928]`}>
           <div className="flex items-center gap-2">
             {STATUS_BADGE[props.item?.paymentStatus] && (
               <StatusBadge status={props.item.paymentStatus} />
@@ -443,7 +443,7 @@ const InvoiceTable = (props) => {
         </td>
 
         <td
-          className={`${TABLE_BODY_CELL} ${ROW_BG} sticky right-0 z-[1] text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}
+          className={`${TABLE_BODY_CELL} ${ROW_BG} sticky right-0 z-[1] text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] text-[#111928]`}
         >
           <div className="w-full flex justify-center">
             <div className={`cursor-pointer flex justify-center items-center relative w-[34px] h-[34px] rounded-[12px] border-[1px] ${showDots ? "border-[#1E45E1] bg-[#EFF6FF]" : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"}`}>

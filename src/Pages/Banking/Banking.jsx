@@ -896,7 +896,7 @@ function Banking() {
                               <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Date</th>
                               <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
                               <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Description</th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Transaction</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Transaction</th>
                             </tr>
                           </thead>
 
@@ -905,19 +905,19 @@ function Banking() {
                               <tr
                                 key={user.id}
                               >
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.accountHolder}
                                 </td>
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.createdAt}
                                 </td>
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.amount}
                                 </td>
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.source}
                                 </td>
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} w-[230px] sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                                   {user.type}
                                 </td>
                               </tr>

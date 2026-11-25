@@ -293,17 +293,17 @@ function CheckOut() {
                         <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                           <thead className="sticky top-0 z-40">
                             <tr>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Name</th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
-                                <div className="-ml-1">Mobile No</div>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Name</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
+                                Mobile No
                               </th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
-                                <div className="-ml-2">Floor</div>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
+                                Floor
                               </th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Room</th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Bed</th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Check-Out Date</th>
-                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Status</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Room</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Bed</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Check-Out Date</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Status</th>
                             </tr>
                           </thead>
 
@@ -316,37 +316,48 @@ function CheckOut() {
                                   onClick={() =>
                                     handleCustomerProfilePage(checkout)
                                   }
-                                  className="w-[230px] px-2 py-1 whitespace-nowrap"
+                                  className={`${TABLE_BODY_CELL} text-left cursor-pointer`}
                                 >
-                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold text-blue-700 cursor-pointer underline">
-                                    {checkout.fullName}
-                                  </span>
+                                  <div className="flex items-center gap-[13px]">
+                                    <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                      {(checkout.fullName || "")
+                                        .trim()
+                                        .split(" ")
+                                        .filter(Boolean)
+                                        .slice(0, 2)
+                                        .map((w) => w[0])
+                                        .join("")
+                                        .toUpperCase() || "-"}
+                                    </div>
+                                    <span className="block max-w-[180px] truncate font-semibold text-[#111928] hover:underline">
+                                      {checkout.fullName}
+                                    </span>
+                                  </div>
                                 </td>
 
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                                   +{checkout?.countryCode} {checkout.mobile}
                                 </td>
 
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {checkout.floorName || "_"}
                                 </td>
 
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {checkout.roomName || "_"}
                                 </td>
 
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {checkout.bedName || "_"}
                                 </td>
 
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
-                                  <span className="inline-block  rounded-full  overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
-                                    {checkout.checkoutDate || "N/A"}
-                                  </span>
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                                  {checkout.checkoutDate || "N/A"}
                                 </td>
 
-                                <td className={`${TABLE_BODY_CELL} w-[230px]`}>
-                                  <span className="inline-block px-2 py-1 rounded-md bg-red-100 text-red-600">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                                  <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(255,189,189,0.4)]">
+                                    <span className="w-[6px] h-[6px] rounded-full bg-[#EF4444]" />
                                     {checkout.currentStatus || "-"}
                                   </span>
                                 </td>

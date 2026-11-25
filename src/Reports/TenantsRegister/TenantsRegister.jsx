@@ -598,13 +598,13 @@ function TenantsRegister() {
   }, [state.createAccount?.networkError]);
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
+    <div className="h-screen flex flex-col font-gilroy">
       {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white ">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
           <ArrowLeft
             onClick={handleNavigateReports}
@@ -852,9 +852,9 @@ function TenantsRegister() {
                       <tr
                         key={row.tenantId}
                       >
-                        <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}></td>
+                        <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px] text-[#111928]`}></td>
 
-                        <td className={`${TABLE_BODY_CELL} sticky left-[48px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
+                        <td className={`${TABLE_BODY_CELL} sticky left-[48px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px] text-[#111928]`}>
                           <div className="flex items-center gap-[13px] max-w-[188px]">
                             {row.profilePic ? (
                               <img
@@ -896,31 +896,31 @@ function TenantsRegister() {
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.mobileNo}
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.sharing || "-"}
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.checkInDate || "-"}
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.checkOutDate || "-"}
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.stayDuration || "-"}
                         </td>

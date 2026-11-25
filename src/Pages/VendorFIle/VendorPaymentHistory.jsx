@@ -124,7 +124,7 @@ function VendorPaymentHistory({ selectedVendorId }) {
                 {vendorPaymentMadeHistory.length > 0 ? (
                   vendorPaymentMadeHistory.map((payment) => (
                     <tr key={payment.id}>
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {payment.paymentDate}
                       </td>
 
@@ -132,19 +132,19 @@ function VendorPaymentHistory({ selectedVendorId }) {
                         {payment.transactionId || "-"}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {payment.bankName || payment.paymentMethod || "-"}
                         {/* {`${payment.paymentMethod}${payment.bankName ? ` - ${payment.bankName}` : ""}`} */}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8F8EC] px-2.5 py-1 text-[12px] font-medium text-[#00A32E]">
-                          <span className="h-2 w-2 rounded-full bg-[#00A32E]" />
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                        <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(179,229,187,0.3)]">
+                          <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
                           Paid
                         </span>
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} font-medium`}>
+                      <td className={`${TABLE_BODY_CELL} font-medium text-[#111928]`}>
                         ₹ {payment.paidAmount}
                       </td>
                     </tr>

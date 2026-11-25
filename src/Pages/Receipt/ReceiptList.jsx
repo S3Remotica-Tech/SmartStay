@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from "../../Assets/Images/Edit-blue.png";
@@ -204,13 +205,13 @@ const Receipt = (props) => {
           </div>
         </td>
 
-        <td className={`${TABLE_BODY_CELL} w-[250px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[250px] text-[#111928]`}>
           <div>
             {props.item?.referenceNumber ? props.item?.referenceNumber : "-"}
           </div>
         </td>
 
-        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-[#111928]`}>
           <div className="ml-[6px]">
             {!props.item?.invoiceNumber || props.item?.invoiceNumber === "0"
               ? "-"
@@ -218,26 +219,26 @@ const Receipt = (props) => {
           </div>
         </td>
 
-        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-[#111928]`}>
           <div className="ml-[6px]">{props.item.invoiceType}</div>
         </td>
 
-        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-[#111928]`}>
           {props.item?.paidAt}
         </td>
 
-        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-[#111928]`}>
           ₹
           {props.item?.paidAmount !== null
             ? props.item.paidAmount.toLocaleString("en-IN")
             : "0"}
         </td>
 
-        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-black`}>
+        <td className={`${TABLE_BODY_CELL} w-[250px] align-middle font-medium text-[#111928]`}>
           {props.item?.bankName ? props.item?.bankName : "-"}
         </td>
 
-        <td className={TABLE_BODY_CELL}>
+        <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
           <div className="w-full flex justify-start">
             <div
               className="cursor-pointer flex justify-center items-center relative"
@@ -245,15 +246,16 @@ const Receipt = (props) => {
             >
               <PiDotsThreeOutlineVerticalFill
                 className={`h-[20px] w-[20px] rotate-90 ${
-                  showDots ? "text-[#1E45E1]" : "text-[#6B7280]"
+                  showDots ? "text-[#1E45E1]" : "text-[#314158]"
                 }`}
               />
 
               {showDots && (
                 <>
+                  {createPortal(
                   <div
                     ref={popupRef}
-                    className={`cursor-pointer bg-[#F9F9F9] fixed w-[130px] border border-[#EBEBEB] rounded-[10px] flex flex-col items-start ${
+                    className={`font-gilroy cursor-pointer bg-[#F9F9F9] fixed w-[130px] border border-[#EBEBEB] rounded-[10px] flex flex-col items-start ${
                       showDots ? "z-[1000]" : ""
                     }`}
                     style={{
@@ -343,7 +345,9 @@ const Receipt = (props) => {
                         Download
                       </label>
                     </div>
-                  </div>
+                  </div>,
+                  document.body,
+                )}
                 </>
               )}
             </div>

@@ -903,13 +903,13 @@ function InvoiceRegister() {
   }, [state?.reports?.reportsPdfExportError]);
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
+    <div className="h-screen flex flex-col font-gilroy">
       {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white no-wrap">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white no-wrap min-h-[60px]">
         <div className="flex items-center gap-2">
           <ArrowLeft
             onClick={handleNavigateReports}

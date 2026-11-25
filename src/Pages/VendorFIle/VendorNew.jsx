@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
@@ -795,7 +796,7 @@ function Vendor() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap font-gilroy min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Vendor
@@ -1065,7 +1066,7 @@ function Vendor() {
                                     return (
                                       <td
                                         key={col.fieldName}
-                                        className={finalClass}
+                                        className={`${finalClass} text-[#111928]`}
                                       >
                                         {typeof user?.profilePic === "string" &&
                                           user.profilePic.startsWith("http") ? (
@@ -1087,7 +1088,7 @@ function Vendor() {
 
                                   case "Full Name":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <div className="relative group w-[100px] ">
                                           <span className="block w-full truncate text-sm text-[#111928] ">
                                             {user.fullName}
@@ -1107,9 +1108,9 @@ function Vendor() {
 
                                   case "Payment Status":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <span
-                                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                          className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                           style={{
                                             backgroundColor:
                                               statusStyles[user.paymentStatus]
@@ -1117,7 +1118,7 @@ function Vendor() {
                                           }}
                                         >
                                           <span
-                                            className="h-2 w-2 rounded-full"
+                                            className="w-[6px] h-[6px] rounded-full"
                                             style={{
                                               backgroundColor:
                                                 statusStyles[user.paymentStatus]
@@ -1134,7 +1135,7 @@ function Vendor() {
                                     return (
                                       <td
                                         key={col.key}
-                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                        className={`${finalClass} truncate text-[#314158] font-medium`}
                                       >
                                         {user.joiningDate}
                                       </td>
@@ -1142,14 +1143,14 @@ function Vendor() {
 
                                   case "Mobile No":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.mobile}
                                       </td>
                                     );
 
                                   case "Email ID":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.email}
                                       </td>
                                     );
@@ -1211,13 +1212,13 @@ function Vendor() {
                                     );
                                   case "Address":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {getAddress(user)}
                                       </td>
                                     );
                                   default:
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {typeof user[
                                           headerKeyMap[col.fieldName]
                                         ] === "object"
@@ -1245,14 +1246,15 @@ function Vendor() {
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90 ${activeRow === user.apiCall.vendorId
                                       ? "text-[#1E45E1]"
-                                      : "text-gray-500"
+                                      : "text-[#314158]"
                                       }`}
                                   />
 
                                   {activeRow === user.apiCall.vendorId && (
+                                    createPortal(
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
+                                      className="font-gilroy rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -1315,7 +1317,9 @@ function Vendor() {
                                         />
                                         Delete
                                       </button>
-                                    </div>
+                                    </div>,
+                                    document.body,
+                                  )
                                   )}
                                 </div>
                               </td>

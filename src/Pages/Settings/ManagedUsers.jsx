@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -151,7 +152,7 @@ function ManagedUsers() {
                   <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
                     DESCRIPTION
                   </th>
-                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280]`}>
+                  <th className={`${TABLE_HEADER_CELL} text-left text-[#6B7280] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                     ACTION
                   </th>
                 </tr>
@@ -168,7 +169,7 @@ function ManagedUsers() {
                         {user?.firstName} {user?.lastName}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <span className="inline-flex items-center  bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
                           <Shield size={14} color="#FF9900" />
                         </span>
@@ -194,13 +195,13 @@ function ManagedUsers() {
                       </td>
 
                       <td
-                        className={`${TABLE_BODY_CELL} md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#4B4B4B] font-semibold`}
+                        className={`${TABLE_BODY_CELL} md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#111928] font-semibold`}
                         title={user.description}
                       >
                         {user.description || "-"}
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-center`}>
+                      <td className={`${TABLE_BODY_CELL} text-center sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                         <PiDotsThreeOutlineVerticalFill
                           className="cursor-pointer"
                           size={20}
@@ -208,9 +209,10 @@ function ManagedUsers() {
                         />
 
                         {showDots === index && (
+                          createPortal(
                           <div
                             ref={popupRef}
-                            className="bg-white border border-gray-300 rounded-[10px] shadow-md w-[140px] z-[1000] fixed"
+                            className="font-gilroy bg-white border border-gray-300 rounded-[10px] shadow-md w-[140px] z-[1000] fixed"
                             style={{
                               top: showAbove
                                 ? popupPosition.top -
@@ -286,7 +288,9 @@ function ManagedUsers() {
                                 </span>
                               </div>
                             </div>
-                          </div>
+                          </div>,
+                          document.body,
+                        )
                         )}
                       </td>
                     </tr>

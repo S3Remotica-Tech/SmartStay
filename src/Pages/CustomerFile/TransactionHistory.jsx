@@ -110,28 +110,29 @@ function TransactionHistory() {
                       <tr
                         key={i}
                       >
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                           {formatDate(row.transactionDate)}
                         </td>
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                           {row.billName}
                         </td>
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                           {row.amountPaid}
                         </td>
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                           {row?.transactionReferenceNumber || ""}
                           {row?.transactionReferenceNumber && row?.referenceNumber ? " / " : ""}
                           {row?.referenceNumber || ""}
                         </td>
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                           {row.paidTo}
                         </td>
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                           {row.bankName} - {row.paymentMode}
                         </td>
-                        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
-                          <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1">
+                        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
+                          <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(179,229,187,0.3)]">
+                            <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
                             {row.status}
                           </span>
                         </td>

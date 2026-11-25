@@ -136,7 +136,7 @@ function UserEb(props) {
                         key={i}
                         className="align-middle"
                       >
-                        <td className={TABLE_BODY_CELL}>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[150px] truncate"
                             title={row.billingMonth}
@@ -145,11 +145,11 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className={TABLE_BODY_CELL}>{row.from}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.from}</td>
 
-                        <td className={TABLE_BODY_CELL}>{row.to}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.to}</td>
 
-                        <td className={TABLE_BODY_CELL}>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[120px] truncate"
                             title={row.floor}
@@ -158,7 +158,7 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className={TABLE_BODY_CELL}>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[120px] truncate"
                             title={row.room}
@@ -167,7 +167,7 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className={TABLE_BODY_CELL}>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[120px] truncate"
                             title={row.bed}
@@ -176,9 +176,9 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className={TABLE_BODY_CELL}>{row.totalUnits}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.totalUnits}</td>
 
-                        <td className={TABLE_BODY_CELL}>{row.amount}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.amount}</td>
                       </tr>
                     ))}
                   </tbody>

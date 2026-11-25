@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -226,7 +227,7 @@ function SettingNewUser() {
 
   return (
     <div>
-      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[60px] whitespace-nowrap">
         <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
           <label className="font-gilroy text-[18px] text-[#222] font-semibold">
             Staff
@@ -286,7 +287,7 @@ function SettingNewUser() {
                       <th className={TABLE_HEADER_CELL}>Email</th>
                       <th className={TABLE_HEADER_CELL}>Mobile No</th>
                       <th className={TABLE_HEADER_CELL}>Roles</th>
-                      <th className={TABLE_HEADER_CELL}>Action</th>
+                      <th className={`${TABLE_HEADER_CELL} sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                     </tr>
                   </thead>
                   <tbody className="text-[13px] text-black font-gilroy">
@@ -295,27 +296,27 @@ function SettingNewUser() {
                         <tr key={index} className="border-gray-200">
                           <td
                             title={`${item?.fullName}`}
-                            className={`${TABLE_BODY_CELL} font-medium text-gray-800 max-w-[120px] truncate overflow-hidden`}
+                            className={`${TABLE_BODY_CELL} font-medium text-[#111928] max-w-[120px] truncate overflow-hidden`}
                           >
                             {item?.fullName}
                           </td>
 
                           <td
                             title={item?.mailId}
-                            className={`${TABLE_BODY_CELL} text-gray-700 max-w-[220px] truncate overflow-hidden`}
+                            className={`${TABLE_BODY_CELL} text-[#314158] max-w-[220px] truncate overflow-hidden`}
                           >
                             {item?.mailId}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} text-gray-700 truncate`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158] truncate`}>
                             +{item?.countryCode} {item?.mobileNo}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} text-gray-700 truncate`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158] truncate`}>
                             {item?.roleName}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} border-b border-gray-200 p-0 text-left align-middle`}>
+                          <td className={`${TABLE_BODY_CELL} border-b border-gray-200 p-0 text-left align-middle sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                             <div
                               className="relative flex items-center cursor-pointer pl-2"
                               onClick={(e) => handleDotsClick(index, e)}
@@ -324,14 +325,15 @@ function SettingNewUser() {
                                 className={`h-[20px] w-[20px] rotate-90 cursor-pointer ${
                                   showDots === index
                                     ? "text-[#1E45E1]"
-                                    : "text-gray-500"
+                                    : "text-[#314158]"
                                 }`}
                               />
 
                               {showDots === index && (
+                                createPortal(
                                 <div
                                   ref={popupRef}
-                                  className="fixed z-[1000] w-[140px] rounded-lg border border-gray-200 bg-white "
+                                  className="font-gilroy fixed z-[1000] w-[140px] rounded-lg border border-gray-200 bg-white "
                                   style={{
                                     top: showAbove
                                       ? popupPosition.top -
@@ -405,7 +407,9 @@ function SettingNewUser() {
                                       </span>
                                     </div>
                                   </div>
-                                </div>
+                                </div>,
+                                document.body,
+                              )
                               )}
                             </div>
                           </td>

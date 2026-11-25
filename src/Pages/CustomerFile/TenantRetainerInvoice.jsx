@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React from "react";
 
 import { useState, useEffect, useRef } from "react";
@@ -75,7 +76,7 @@ function TenantRetainerInvoice() {
   const handleShowDots = (event, index) => {
     setOpenMenu((prev) => (prev === index ? null : index));
 
-    const { top, left, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.currentTarget.getBoundingClientRect();
     const popupTop = top + height / 2;
     const popupLeft = left - 200;
 
@@ -287,24 +288,24 @@ function TenantRetainerInvoice() {
                   <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                     <thead className="sticky top-0 z-40">
                       <tr>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Date</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Date</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           Inv No
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           Bill Type
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>
                           Amount
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>
                           Available balance
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           Payment mode
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Status</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Status</th>
+                        <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                       </tr>
                     </thead>
 
@@ -313,25 +314,25 @@ function TenantRetainerInvoice() {
                         <tr
                           key={i}
                         >
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.date}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] font-semibold`}>
                             {row.invoiceNo}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             {row?.invoiceType}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
                             {row?.amount}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
                             {row?.availableBalance}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.bankName} {row.paymentMode ? `- ${row.paymentMode}` : ""}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             {(() => {
                               const style =
                                 statusStyles[row?.status] ||
@@ -339,14 +340,13 @@ function TenantRetainerInvoice() {
 
                               return (
                                 <span
-                                  className="inline-flex items-center gap-2 rounded-[14px] px-2 py-1"
+                                  className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                   style={{
                                     backgroundColor: style.bg,
-                                    color: style.text,
                                   }}
                                 >
                                   <span
-                                    className="w-2 h-2 rounded-full"
+                                    className="w-[6px] h-[6px] rounded-full"
                                     style={{ backgroundColor: style.text }}
                                   />
                                   {row?.status || "N/A"}
@@ -354,22 +354,32 @@ function TenantRetainerInvoice() {
                               );
                             })()}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px] relative`}>
-                            <More
-                              color="#28303F"
-                              size="16"
-                              variant="Outline"
-                              className="cursor-pointer rotate-90"
+                          <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
+                            <button
+                              type="button"
+                              aria-label="More options"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleShowDots(e, row.invoiceId);
                               }}
-                            />
+                              className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${openMenu === row.invoiceId
+                                ? "border-[#1E45E1] bg-[#EFF6FF]"
+                                : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
+                                }`}
+                            >
+                              <More
+                                color={openMenu === row.invoiceId ? "#1E45E1" : "#4A5565"}
+                                size="16"
+                                variant="Outline"
+                                className="rotate-90 pointer-events-none"
+                              />
+                            </button>
 
                             {openMenu === row.invoiceId && (
+                              createPortal(
                               <div
                                 ref={popupRef}
-                                className="  rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  py-2 max-w-[200px] shadow-md z-[9999]"
+                                className="font-gilroy   rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  py-2 max-w-[200px] shadow-md z-[9999]"
                                 style={{
                                   top: showAbove
                                     ? popupPosition.top -
@@ -410,7 +420,9 @@ function TenantRetainerInvoice() {
                                     Apply to Invoice
                                   </button>
                                 )}
-                              </div>
+                              </div>,
+                              document.body,
+                            )
                             )}
                           </td>
                         </tr>

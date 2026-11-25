@@ -77,15 +77,15 @@ function WalletHistory({ show, handleClose }) {
                             CustomerOverView.walletInfo.transactions.map(
                               (txn, index) => (
                                 <tr key={index}>
-                                  <td className={`${TABLE_BODY_CELL} text-gray-800`}>
+                                  <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                     {txn.transactionDate}
                                   </td>
 
-                                  <td className={`${TABLE_BODY_CELL} text-gray-600`}>
+                                  <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                                     {txn.source.replaceAll("_", " ")}
                                   </td>
 
-                                  <td className={TABLE_BODY_CELL}>
+                                  <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                     <span
                                       className={`px-2 py-1 rounded-full text-xs font-medium ${
                                         txn.isInvoiced
@@ -102,7 +102,7 @@ function WalletHistory({ show, handleClose }) {
                                       txn.amount < 0
                                         ? "text-red-600"
                                         : "text-green-600"
-                                    }`}
+                                    } text-[#111928]`}
                                   >
                                     ₹ {txn.amount}
                                   </td>
@@ -165,15 +165,15 @@ function WalletHistory({ show, handleClose }) {
                 {CustomerOverView?.walletInfo?.transactions?.length ? (
                   CustomerOverView.walletInfo.transactions.map((txn, index) => (
                     <tr key={index}>
-                      <td className={`${TABLE_BODY_CELL} text-gray-800`}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {txn.transactionDate}
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-gray-600`}>
+                      <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                         {txn.source.replaceAll("_", " ")}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
                             txn.isInvoiced
@@ -188,7 +188,7 @@ function WalletHistory({ show, handleClose }) {
                       <td
                         className={`${TABLE_BODY_CELL} text-right font-semibold ${
                           txn.amount < 0 ? "text-red-600" : "text-green-600"
-                        }`}
+                        } text-[#111928]`}
                       >
                         ₹ {Math.abs(txn.amount)}
                       </td>

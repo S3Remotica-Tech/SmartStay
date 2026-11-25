@@ -268,20 +268,20 @@ const EBRoomOverview = ({ onBack, room }) => {
                   <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                     <thead className="sticky top-0 z-40">
                       <tr>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           Billing month
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           Reading date
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>From</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>To</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Reading</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>From</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>To</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Reading</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>
                           Total units
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Action</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -289,25 +289,27 @@ const EBRoomOverview = ({ onBack, room }) => {
                         <tr
                           key={i}
                         >
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.billingMonth}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.readingDate}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.from}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.to}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>{row.reading}</td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.reading}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
                             {row.totalUnits}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>₹{row.amount}</td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
-                            <BiDotsVerticalRounded className="text-2xl text-gray-600 cursor-pointer rotate-[90deg]" />
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>₹{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
+                            <span className="inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] border-[#E2E8F0] bg-white">
+                              <BiDotsVerticalRounded className="text-base text-[#4A5565] rotate-[90deg]" />
+                            </span>
                           </td>
                         </tr>
                       ))}
@@ -350,15 +352,15 @@ const EBRoomOverview = ({ onBack, room }) => {
                   <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                     <thead className="sticky top-0 z-40">
                       <tr>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           <div className="pl-1"> Name</div>
                         </th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Billing Month</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>From</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>To</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Bed</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Total Units</th>
-                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Billing Month</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>From</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>To</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Bed</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Total Units</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -366,7 +368,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                         <tr
                           key={i}
                         >
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <div className="flex items-center gap-[13px] max-w-[200px]">
                             {row.profilePic ? (
                               <img
@@ -392,18 +394,18 @@ const EBRoomOverview = ({ onBack, room }) => {
                             </div>
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.billingMonth}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>{row.from}</td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>{row.to}</td>
-                          <td className={`${TABLE_BODY_CELL} overflow-hidden text-ellipsis`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.from}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.to}</td>
+                          <td className={`${TABLE_BODY_CELL} overflow-hidden text-ellipsis text-[#111928]`}>
                             {row.bed}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
                             {row.totalUnits}
                           </td>
-                          <td className={`${TABLE_BODY_CELL} w-[230px]`}>₹{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>₹{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>

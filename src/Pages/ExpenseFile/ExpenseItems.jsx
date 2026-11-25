@@ -54,7 +54,7 @@ function ExpenseItems() {
                   {expenseItems.length > 0 ? (
                     expenseItems.map((item, index) => (
                       <tr key={index} className="last:border-b-0">
-                        <td className={TABLE_BODY_CELL}>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           {item.item || "-"}
                         </td>
 
@@ -62,7 +62,7 @@ function ExpenseItems() {
                           {item.quantity}
                         </td>
 
-                        <td className={TABLE_BODY_CELL}>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           {item.unit || "-"}
                         </td>
 
@@ -70,7 +70,7 @@ function ExpenseItems() {
                           ₹ {item.unitPrice || 0}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} font-medium`}>
+                        <td className={`${TABLE_BODY_CELL} font-medium text-[#111928]`}>
                           ₹ {item.totalAmount}
                         </td>
                       </tr>

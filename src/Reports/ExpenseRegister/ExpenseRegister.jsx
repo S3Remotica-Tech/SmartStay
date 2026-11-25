@@ -644,13 +644,13 @@ function ExpenseRegister() {
   }, [state?.reports?.reportsPdfExportError]);
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
+    <div className="h-screen flex flex-col font-gilroy">
       {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
           <ArrowLeft
             onClick={handleNavigateReports}
@@ -923,7 +923,7 @@ function ExpenseRegister() {
                           {row.date}
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} sticky left-[280px] z-20 bg-white w-[180px] min-w-[180px] max-w-[180px] overflow-hidden text-ellipsis`}>
+                        <td className={`${TABLE_BODY_CELL} sticky left-[280px] z-20 bg-white w-[180px] min-w-[180px] max-w-[180px] overflow-hidden text-ellipsis text-[#111928]`}>
                           <div className="flex items-center gap-2">
                             <span
                               onMouseEnter={(e) => {
@@ -955,7 +955,7 @@ function ExpenseRegister() {
                           </div>
                         </td>
 
-                        <td className={`${TABLE_BODY_CELL} text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis`}>
+                        <td className={`${TABLE_BODY_CELL} text-[#314158] min-w-0 max-w-[100px] overflow-hidden text-ellipsis`}>
                           <div className="flex items-center gap-2">
                             <span
                               onMouseEnter={(e) => {
@@ -989,24 +989,29 @@ function ExpenseRegister() {
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.expenseTitle || "-"}
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"
-                            }`}
+                          className={`${TABLE_BODY_CELL} text-left font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"
+                            } text-[#111928]`}
                         >
                           <span
-                            className="inline-flex items-center justify-center rounded-full px-3 py-1  font-medium"
+                            className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                             style={{
                               backgroundColor:
                                 statusStyles[row.status]?.bg || "#F3F4F6",
-                              color:
-                                statusStyles[row.status]?.text || "#6B7280",
                             }}
                           >
+                            <span
+                              className="w-[6px] h-[6px] rounded-full"
+                              style={{
+                                backgroundColor:
+                                  statusStyles[row.status]?.text || "#6B7280",
+                              }}
+                            />
                             {row.status || "-"}
                           </span>
                         </td>
@@ -1016,17 +1021,17 @@ function ExpenseRegister() {
                           {row.paymentMode || "-"}
                         </td> */}
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹{row.amount || 0}
                         </td>
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹ {row.paidAmount || 0}
                         </td>
                         <td
-                          className={`${TABLE_BODY_CELL} text-center text-[#6B7280] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center text-[#314158] font-medium transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           ₹{row.balanceAmount || 0}
                         </td>
@@ -1071,13 +1076,13 @@ function ExpenseRegister() {
                           ₹{row.amount || 0}
                         </td> */}
                         <td
-                          className={`${TABLE_BODY_CELL} text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center font-semibold text-[#111928] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.assetsName || "-"}
                         </td>
 
                         <td
-                          className={`${TABLE_BODY_CELL} text-center font-semibold text-[#222222] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${TABLE_BODY_CELL} text-center font-semibold text-[#111928] transition-colors ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           {row.vendorName || "-"}
                         </td>

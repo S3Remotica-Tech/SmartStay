@@ -293,7 +293,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                               : "opacity-100"
                           }`}
                         >
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             <input
                               className="rounded-md accent-blue-800 cursor-pointer"
                               type="checkbox"
@@ -305,27 +305,27 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                               }
                             />
                           </td>
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             {item.invoiceType}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} text-blue-700 cursor-pointer font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#1E45E1] cursor-pointer font-semibold`}>
                             {item.invoiceNumber}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} text-gray-500`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {item.dueDate}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             ₹{item.invoiceAmount}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             ₹{item.availableBalance}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} font-semibold`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             <input
                               onWheel={(e) => e.target.blur()}
                               type="number"

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 
 import { Calendar, Crown } from "iconsax-react";
@@ -9,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DocumentDownload } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { TiTick } from "react-icons/ti";
 import NoDataMessage from "../../Utils/NoDataMessage";
 // Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
 const TABLE_HEADER_CELL =
@@ -197,7 +197,7 @@ function SubscriptionCard() {
         Billing History
       </h5>
       {currentPlan?.billingHistory?.length > 0 ? (
-        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden my-4">
+        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
           <div className="max-h-[400px] overflow-y-auto border-[#E8E8E8] show-scrolls">
             <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
               <thead className="sticky top-0 z-40">
@@ -211,7 +211,7 @@ function SubscriptionCard() {
                   <th className={`${TABLE_HEADER_CELL} text-left`}>PLAN</th>
                   <th className={`${TABLE_HEADER_CELL} text-left`}>AMOUNT</th>
                   <th className={`${TABLE_HEADER_CELL} text-left`}>STATUS</th>
-                  <th className={`${TABLE_HEADER_CELL} text-left`}>ACTION</th>
+                  <th className={`${TABLE_HEADER_CELL} text-left sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>ACTION</th>
                 </tr>
               </thead>
 
@@ -219,35 +219,35 @@ function SubscriptionCard() {
                 {currentPlan?.billingHistory?.length > 0 ? (
                   currentPlan.billingHistory.map((item) => (
                     <tr key={item.historyId}>
-                      <td className={`${TABLE_BODY_CELL} px-5`}>
+                      <td className={`${TABLE_BODY_CELL} px-5 text-[#111928]`}>
                         {item.subscriptionNumber || "-"}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {item.createdAt}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <div className="flex items-center gap-1">
                           <Crown color="#FF9900" size="14" />
                           <span>{item.planName}</span>
                         </div>
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         ₹{item.totalAmount}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <div className="flex items-center gap-2">
-                          <span className="text-black text-[11px] font-medium rounded-xl bg-green-50 flex items-center gap-1 px-2 py-1">
-                            <TiTick className="text-green-600 text-[14px] font-medium" />{" "}
+                          <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(179,229,187,0.3)]">
+                            <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
                             {item.orderStatus}
                           </span>
                         </div>
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-center`}>
+                      <td className={`${TABLE_BODY_CELL} text-center sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                         <div
                           className="relative mt-1 flex cursor-pointer items-center justify-center"
                           onClick={(e) => {
@@ -262,6 +262,7 @@ function SubscriptionCard() {
 
                           {openMenu === item.historyId && (
                             <>
+                              {createPortal(
                               <div
                                 ref={popupRef}
                                 style={{
@@ -274,7 +275,7 @@ function SubscriptionCard() {
                                   position: "fixed",
                                   zIndex: 1000,
                                 }}
-                                className="min-w-[140px]
+                                className="font-gilroy min-w-[140px]
                               bg-white border border-gray-200 rounded-lg shadow-lg"
                               >
                                 <button
@@ -288,7 +289,9 @@ function SubscriptionCard() {
                                   <DocumentDownload size="16" color="#1E45E1" />
                                   Download
                                 </button>
-                              </div>
+                              </div>,
+                              document.body,
+                            )}
                             </>
                           )}
                         </div>

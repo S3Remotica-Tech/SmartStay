@@ -650,25 +650,25 @@ function TenantPayment({ show, handleClose }) {
                 <tbody>
                   {invoiceDetails.map((item, index) => (
                     <tr key={item.id}>
-                      <td className={`${TABLE_BODY_CELL} font-medium text-[#222222]`}>
+                      <td className={`${TABLE_BODY_CELL} font-medium text-[#111928]`}>
                         {item.type}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <span className="text-[#1E45E1] text-sm font-medium">
                           {item.invoiceNo}
                         </span>
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} text-[#6B7280]`}>
+                      <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                         {item.dueDate}
                       </td>
 
-                      <td className={`${TABLE_BODY_CELL} font-semibold text-[#222222]`}>
+                      <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                         ₹ {item.invoiceDue.toLocaleString()}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <input
                           type="number"
                           onWheel={(e) => e.target.blur()}

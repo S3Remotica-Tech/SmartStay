@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
@@ -461,7 +462,7 @@ function Request() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-50 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap font-gilroy min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Request
@@ -727,7 +728,7 @@ function Request() {
                                 <td
                                   className={`${TABLE_BODY_CELL} sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 ${
                                     isScrolling ? "!bg-white" : "!bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
                                   <div className="relative group w-[120px]">
                                     <span className="block truncate whitespace-nowrap ">
@@ -740,11 +741,11 @@ function Request() {
                                   </div>
                                 </td>
 
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {user.description}
                                 </td>
 
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="flex items-center gap-3">
                                     {user.profilePic ? (
                                       <img
@@ -767,16 +768,16 @@ function Request() {
                                     </span>
                                   </div>
                                 </td>
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <span
-                                    className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
+                                    className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                     style={{
                                       backgroundColor:
                                         statusStyles[user.status]?.bg || "#EEE",
                                     }}
                                   >
                                     <span
-                                      className="h-2 w-2 rounded-full whitespace-nowrap"
+                                      className="w-[6px] h-[6px] rounded-full"
                                       style={{
                                         backgroundColor:
                                           statusStyles[user.status]?.text ||
@@ -787,14 +788,14 @@ function Request() {
                                   </span>
                                 </td>
 
-                                <td className={TABLE_BODY_CELL}>{user.raisedOn}</td>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{user.raisedOn}</td>
 
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="text-[#111928] text-sm whitespace-nowrap">
                                     {user.floor}
                                   </div>
 
-                                  <span className="text-[#64748B] text-xs whitespace-nowrap">
+                                  <span className="text-[#314158] text-xs whitespace-nowrap">
                                     {user.room} - {user.bed}
                                   </span>
                                 </td>
@@ -802,7 +803,7 @@ function Request() {
                                 <td
                                   className={`${TABLE_BODY_CELL} sticky right-0 z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] ${
                                     isScrolling ? "!bg-white" : "bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
@@ -813,9 +814,10 @@ function Request() {
                                   />
 
                                   {activeRow === index && (
+                                    createPortal(
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
+                                      className="font-gilroy rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -875,7 +877,9 @@ function Request() {
                                           Check Availability
                                         </button>
                                       )}
-                                    </div>
+                                    </div>,
+                                    document.body,
+                                  )
                                   )}
                                 </td>
                               </tr>
@@ -948,7 +952,7 @@ function Request() {
                                 <td
                                   className={`${TABLE_BODY_CELL} sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 ${
                                     isScrolling ? "!bg-white" : "!bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
                                   <div className="relative group w-[120px]">
                                     <span className="block truncate whitespace-nowrap ">
@@ -961,11 +965,11 @@ function Request() {
                                   </div>
                                 </td>
 
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {user.description}
                                 </td>
 
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="flex items-center gap-3">
                                     {user.profilePic ? (
                                       <img
@@ -988,16 +992,16 @@ function Request() {
                                     </span>
                                   </div>
                                 </td>
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <span
-                                    className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
+                                    className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                     style={{
                                       backgroundColor:
                                         statusStyles[user.status]?.bg || "#EEE",
                                     }}
                                   >
                                     <span
-                                      className="h-2 w-2 rounded-full whitespace-nowrap"
+                                      className="w-[6px] h-[6px] rounded-full"
                                       style={{
                                         backgroundColor:
                                           statusStyles[user.status]?.text ||
@@ -1008,14 +1012,14 @@ function Request() {
                                   </span>
                                 </td>
 
-                                <td className={TABLE_BODY_CELL}>{user.raisedOn}</td>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{user.raisedOn}</td>
 
-                                <td className={TABLE_BODY_CELL}>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="text-[#111928] text-sm whitespace-nowrap">
                                     {user.floor}
                                   </div>
 
-                                  <span className="text-[#64748B] text-xs whitespace-nowrap">
+                                  <span className="text-[#314158] text-xs whitespace-nowrap">
                                     {user.room} - {user.bed}
                                   </span>
                                 </td>
@@ -1023,7 +1027,7 @@ function Request() {
                                 <td
                                   className={`${TABLE_BODY_CELL} sticky right-0 z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] ${
                                     isScrolling ? "!bg-white" : "bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
@@ -1034,9 +1038,10 @@ function Request() {
                                   />
 
                                   {activeRow === index && (
+                                    createPortal(
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
+                                      className="font-gilroy rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -1058,7 +1063,9 @@ function Request() {
                                         <Trash size="18" color="#FF0000" />
                                         Delete
                                       </button>
-                                    </div>
+                                    </div>,
+                                    document.body,
+                                  )
                                   )}
                                 </td>
                               </tr>

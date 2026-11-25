@@ -459,7 +459,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                   <th className={`${TABLE_HEADER_CELL} text-left`}>
                     STATUS
                   </th>
-                  <th className={`${TABLE_HEADER_CELL} text-left`}>
+                  <th className={`${TABLE_HEADER_CELL} text-left sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                     Action
                   </th>
                 </tr>
@@ -476,40 +476,40 @@ function VendorExpenseHistory({ selectedVendorId }) {
                         </div>
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {expense.transactionDate}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {expense.title || "-"}
                       </td>
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {expense.categoryName || "-"}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         ₹ {expense.totalAmount}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         ₹ {expense.balanceAmount}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         {(() => {
                           const st = getStatusStyle(expense.paymentStatus);
                           return (
                             <span
-                              className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] whitespace-nowrap ${st.badge}`}
+                              className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap ${st.badge}`}
                             >
-                              <span className={`h-2 w-2 rounded-full ${st.dot}`} />
+                              <span className={`w-[6px] h-[6px] rounded-full ${st.dot}`} />
                               {st.label}
                             </span>
                           );
                         })()}
                       </td>
 
-                      <td className={TABLE_BODY_CELL}>
+                      <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                         <button
                           onClick={() => handleToggleExpense(expense?.expenseId)}
                           className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"
@@ -541,13 +541,13 @@ function VendorExpenseHistory({ selectedVendorId }) {
                               <tbody>
                                 {expense.expenseItems.map((item) => (
                                   <tr key={item.id}>
-                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>{item.item || "-"}</td>
-                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>{item.quantity}</td>
-                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>{item.unit || "-"}</td>
-                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC]`}>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#111928]`}>{item.item || "-"}</td>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#111928]`}>{item.quantity}</td>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#111928]`}>{item.unit || "-"}</td>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#111928]`}>
                                       ₹ {Number(item.unitPrice || 0).toFixed(2)}
                                     </td>
-                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-right`}>
+                                    <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-right text-[#111928]`}>
                                       ₹ {Number(item.totalAmount || 0).toFixed(2)}
                                     </td>
                                   </tr>

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from "../../Assets/Images/Delete_red.png";
@@ -67,19 +68,19 @@ const RecurringBillList = (props) => {
       <tr
         key={props.item.customerId}
       >
-        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           <div className="flex items-center">{props.item?.fullName}</div>
         </td>
-        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           {props?.item?.lastInvoiceNumber || "-"}
         </td>
-        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           {props.item?.lastInvoiceDate || "-"}
         </td>
-        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           {props.item?.nextInvoiceDate || "-"}
         </td>
-        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
         </td>
         {/* <td className={`${TABLE_BODY_CELL} w-[230px]`}>
@@ -91,19 +92,20 @@ const RecurringBillList = (props) => {
             onChange={canUpdateRecurring ? props.onToggle : undefined}
           />
         </td> */}
-        <td className={`${TABLE_BODY_CELL} w-[230px]`}>
+        <td className={`${TABLE_BODY_CELL} w-[230px] sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
           <div className="w-full flex justify-start">
             <div
               className="flex items-center relative rounded-full cursor-pointer"
               onClick={(e) => handleShowDots(e)}
             >
               <PiDotsThreeOutlineVerticalFill
-                className={`h-5 w-5 rotate-90 ${showDots ? "text-blue-600" : "text-gray-500"}`}
+                className={`h-5 w-5 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-[#314158]"}`}
               />
               {showDots && (
+                createPortal(
                 <div
                   ref={popupRef}
-                  className="fixed w-32 bg-gray-50 border border-gray-200 rounded-lg flex flex-col z-50"
+                  className="font-gilroy fixed w-32 bg-gray-50 border border-gray-200 rounded-lg flex flex-col z-[1000]"
                   style={{
                     top: popupPosition.top,
                     left: popupPosition.left,
@@ -128,7 +130,9 @@ const RecurringBillList = (props) => {
                       </label>
                     </div>
                   </div>
-                </div>
+                </div>,
+                document.body,
+              )
               )}
             </div>
           </div>

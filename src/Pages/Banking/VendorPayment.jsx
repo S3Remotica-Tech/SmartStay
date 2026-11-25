@@ -745,25 +745,25 @@ function VendorPayment({ show, handleClose, isBanking }) {
                         <tr
                           key={item.expenseId}
                         >
-                          <td className={`${TABLE_BODY_CELL} font-medium text-[#222222]`}>
+                          <td className={`${TABLE_BODY_CELL} font-medium text-[#111928]`}>
                             {item.expenseNo}
                           </td>
 
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <span className="text-[#1E45E1] text-[11px] font-medium whitespace-nowrap">
                               {item.referenceNo || "-"}
                             </span>
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} text-[#6B7280]`}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             ₹ {item.totalAmount}
                           </td>
 
-                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#222222]`}>
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             ₹ {item.totalBalance}
                           </td>
 
-                          <td className={TABLE_BODY_CELL}>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <input
                               type="number"
                               value={item.amountToApply || ""}

@@ -201,9 +201,9 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
   const renderRow = (rowName, label) => (
     <tr key={rowName}>
-      <td className={TABLE_BODY_CELL}>{label}</td>
+      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{label}</td>
       {checkboxValues[rowName]?.map((checked, index) => (
-        <td className={`${TABLE_BODY_CELL} text-center`} key={index}>
+        <td className={`${TABLE_BODY_CELL} text-center text-[#111928]`} key={index}>
           <input
             type="checkbox"
             checked={checked}

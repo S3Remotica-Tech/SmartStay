@@ -439,8 +439,8 @@ function BankingLedger() {
   };
 
   return (
-    <div className="px-4 py-4 h-full flex flex-col">
-      <div className="flex justify-between items-center gap-2 ">
+    <div className="h-full flex flex-col">
+      <div className="flex justify-between items-center gap-2 min-h-[60px]">
         <div className="flex flex-wrap items-center gap-3">
           <div className={`border border-gray-300 rounded-lg w-36 `}>
             <Select
@@ -556,10 +556,10 @@ function BankingLedger() {
                     <tr
                       key={index}
                     >
-                      <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[180px] min-w-[180px] max-w-[180px] text-[#6B7280]`}>
+                      <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[180px] min-w-[180px] max-w-[180px] text-[#314158]`}>
                         {user.createdAt}
                       </td>
-                      <td className={`${TABLE_BODY_CELL} sticky left-[180px] z-20 bg-white text-[#000000] w-[200px] min-w-[200px] max-w-[200px]`}>
+                      <td className={`${TABLE_BODY_CELL} sticky left-[180px] z-20 bg-white text-[#111928] w-[200px] min-w-[200px] max-w-[200px]`}>
                         <div className="flex items-center gap-2 capitalize">
                           {user.source === "SELF_TRANSFER" ? (
                             <>
@@ -608,7 +608,7 @@ function BankingLedger() {
                       {/* <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                         {user.accountBalance}
                       </td> */}
-                      <td className={`${TABLE_BODY_CELL} sticky right-0 z-20 bg-white w-[80px] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
+                      <td className={`${TABLE_BODY_CELL} sticky right-0 z-20 bg-white w-[80px] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] text-[#111928]`}>
                         <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                       </td>
                     </tr>
