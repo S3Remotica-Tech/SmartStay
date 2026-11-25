@@ -26,25 +26,33 @@ import AppStoreBadge from "../../Assets/Images/NewLogin/app-store.svg";
  *   clip exactly at the card's top / bottom line. Short content (login) is
  *   centred as one block.
  * - below lg: no card, normal page scroll.
- * "New to Smartstay? Book Demo" is pinned to the top-right on every size
+ * "New to Smartstay? Book Demo": below lg it is pinned to the top-right
  * (fixed, because global CSS gives <body> overflow-x:hidden, which breaks
- * position:sticky).
+ * position:sticky); on lg it sits in the header row, right of the logo, so
+ * the column can use almost the full screen height (no scroll on login).
+ * Vertical gaps shrink with the viewport height (clamp + vh) so the login
+ * fits a laptop screen; on tall screens they stay at the design values.
  */
 export function AuthLayout({ card, header, footer, children }) {
   const navigate = useNavigate();
+  const bookDemo = (
+    <>
+      New to Smartstay?{"  "}
+      <button
+        type="button"
+        onClick={() => navigate("/demo")}
+        className={authInlineLink}
+      >
+        Book Demo
+      </button>
+    </>
+  );
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-white font-tasa [--auth-h:min(880px,calc(100vh-112px))] lg:h-screen lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(40px,6vw,117px)] lg:overflow-hidden lg:px-[clamp(24px,4.3vw,66px)]">
+    <div className="relative flex min-h-screen w-full flex-col bg-white font-tasa [--auth-h:min(880px,calc(100vh-56px))] lg:h-screen lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(40px,6vw,117px)] lg:overflow-hidden lg:px-[clamp(24px,4.3vw,66px)]">
       {/* top-[0px], not top-0: Bootstrap's .top-0 is !important and would
           beat the lg:top value. */}
-      <p className="fixed inset-x-0 top-[0px] z-20 mb-0 bg-white/95 px-[16px] py-[12px] text-right font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A] sm:px-[32px] lg:absolute lg:left-auto lg:right-[clamp(24px,6.5vw,99px)] lg:top-[clamp(12px,3.5vh,46px)] lg:bg-transparent lg:p-0">
-        New to Smartstay?{"  "}
-        <button
-          type="button"
-          onClick={() => navigate("/demo")}
-          className={authInlineLink}
-        >
-          Book Demo
-        </button>
+      <p className="fixed inset-x-0 top-[0px] z-20 mb-0 bg-white/95 px-[16px] py-[12px] text-right font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A] sm:px-[32px] lg:hidden">
+        {bookDemo}
       </p>
 
       {card}
@@ -53,18 +61,27 @@ export function AuthLayout({ card, header, footer, children }) {
           is !important and would keep auto margins on lg, pushing the column
           off-centre. */}
       <main className="mx-[auto] flex w-full max-w-[580px] flex-col px-[16px] pb-[32px] pt-[64px] lg:mx-[0px] lg:h-[var(--auth-h)] lg:min-w-0 lg:max-w-[548px] lg:flex-[0_1_548px] lg:justify-center lg:p-0">
-        {header && <div className="shrink-0 pb-[20px]">{header}</div>}
+        {header && (
+          <div className="relative shrink-0 pb-[clamp(8px,2vh,20px)]">
+            {header}
+            <p className="absolute right-[0px] top-[15px] mb-0 hidden font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A] lg:block">
+              {bookDemo}
+            </p>
+          </div>
+        )}
         {/* 4px inset so focus rings are not clipped by the scroll box. The
             scrollbar is hidden (it narrowed the fields vs. the footer button);
             12px fade edges show there is more to scroll. */}
-        <div className="-mx-[4px] flex min-h-0 flex-col gap-[20px] p-[4px] lg:overflow-y-auto lg:py-[12px] lg:[mask-image:linear-gradient(to_bottom,transparent,#000_12px,#000_calc(100%-12px),transparent)] lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
+        <div className="-mx-[4px] flex min-h-0 flex-col gap-[clamp(10px,2vh,20px)] p-[4px] lg:overflow-y-auto lg:py-[6px] lg:[mask-image:linear-gradient(to_bottom,transparent,#000_6px,#000_calc(100%-6px),transparent)] lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
           {children}
         </div>
-        {footer && <div className="shrink-0 pt-[20px]">{footer}</div>}
+        {footer && (
+          <div className="shrink-0 pt-[clamp(10px,2vh,20px)]">{footer}</div>
+        )}
       </main>
 
       {/* lg: pinned in the bottom gutter under the card + form; below lg: end of page. */}
-      <p className="mb-0 px-[16px] pb-[16px] text-center font-tasa text-[12px] leading-[18px] text-[#686677] lg:absolute lg:inset-x-0 lg:bottom-[clamp(10px,2.2vh,20px)] lg:p-0">
+      <p className="mb-0 px-[16px] pb-[16px] text-center font-tasa text-[12px] leading-[18px] text-[#686677] lg:absolute lg:inset-x-0 lg:bottom-[clamp(6px,1.4vh,20px)] lg:p-0">
         © 2026, S3 Remotica Technologies Pvt. Ltd. All Rights Reserved.
       </p>
     </div>
@@ -122,7 +139,7 @@ export function AuthField({
 }) {
   const shown = errors.filter(Boolean);
   return (
-    <div className="flex w-full flex-col gap-[12px]">
+    <div className="flex w-full flex-col gap-[clamp(6px,1.2vh,12px)]">
       <div className="flex items-center justify-between">
         <label htmlFor={id} className={`flex items-center gap-[10px] ${authLabelText}`}>
           {label}
