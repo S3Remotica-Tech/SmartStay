@@ -30,6 +30,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { StoreSelectedHostelAction } from "./Redux/Action/LoginAction";
 import ThankYou from "./NewV2LandingPage/ThankYou";
 import Sidebar from "./Components/Sidebar";
+// Property Setup onboarding. Behind VITE_ENABLE_ONBOARDING (default off):
+// when off, OnboardingGate renders <Sidebar /> exactly as before.
+import OnboardingGate from "./Pages/OnboardingFile/OnboardingGate";
+import { isDev, isOnboardingEnabled } from "./Pages/OnboardingFile/onboardingConfig";
 import { messaging, onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
 import WebNotification from "./Utils/WebNotification";
@@ -184,7 +188,14 @@ function App() {
       <Router future={{ v7_startTransition: true }}>
         {data || state.login?.isLoggedIn ? (
           <>
-            <Sidebar />
+            {/* Onboarding is development only for now; production renders Sidebar as before. */}
+            {isDev ? (
+              <OnboardingGate>
+                <Sidebar />
+              </OnboardingGate>
+            ) : (
+              <Sidebar />
+            )}
           </>
         ) : (
           <>
@@ -216,6 +227,12 @@ function App() {
               <Route path="/privacy-policy" element={<MainLandingPage />} />
               <Route path="/refund_policy" element={<MainLandingPage />} />
               <Route path="/demo" element={<MainLandingPage />} />
+              {isDev && isOnboardingEnabled() && (
+                <Route
+                  path="/onboarding/*"
+                  element={<Navigate to="/hostel-management-login" replace />}
+                />
+              )}
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
             </Routes>
