@@ -7,13 +7,15 @@ import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
 import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup, FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import {
   fieldClass,
+  fieldGroupClass,
+  fieldInnerInputClass,
   fieldLabelClass,
   fieldRequiredClass,
   fieldSelectStyles,
@@ -788,25 +790,29 @@ function AddPg({ show, handleClose, currentItem }) {
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <InputGroup>
-                  <Form.Select className={fieldClass()}
+                <div className={`${fieldGroupClass(!!countryCodeError || !!mobileError)} !pl-[8px]`}>
+                  <select
                     value={countryCode}
                     ref={countryCodeRef}
-                    id="vendor-select-pg"
-                   
+                    aria-label="Country code"
+                    className="h-full w-[64px] shrink-0 cursor-pointer border-0 bg-transparent px-[4px] font-gilroy text-[14px] font-medium text-field-text outline-none"
+                    onChange={() => {}}
                   >
-                    <option>+{countryCode}</option>
-                  </Form.Select>
-                  <Form.Control className={fieldClass(!!countryCodeError)}
+                    <option value={countryCode}>+{countryCode}</option>
+                  </select>
+                  <span className="h-[20px] w-[1px] shrink-0 bg-[#E4E4E7]" aria-hidden />
+                  <input
+                    className={fieldInnerInputClass}
                     value={mobile}
                     ref={mobileRef}
                     onChange={handleMobileChange}
                     type="text"
+                    inputMode="numeric"
                     placeholder="9876543210"
                     maxLength={10}
-                   
+                    aria-label="Mobile number"
                   />
-                </InputGroup>
+                </div>
               </Form.Group>
 
               {countryCodeError && (

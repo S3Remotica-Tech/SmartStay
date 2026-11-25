@@ -136,7 +136,7 @@ ChargeRow.propTypes = {
 const isImage = (file) =>
   file instanceof File
     ? file.type.startsWith("image/")
-    : typeof file === "string" && /\.(png|jpe?g|webp|gif)(\?|$)/i.test(file);
+    : typeof file === "string" && /\.(jpe?g|jfif|pjpeg|pjp|png|webp|gif|bmp|svg|avif)([?#]|$)/i.test(file);
 
 const fileName = (file, fallback) => {
   if (!file) return "";
