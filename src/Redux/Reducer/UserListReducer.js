@@ -140,6 +140,7 @@ export const initialState = {
   availableBedList: [],
   bookedDetails: [],
   bedError: "",
+  draftSaveError: "",
   minimumFourDigitError: "",
   addRoomReadingStatusCode: 0,
   getRoomReadingList: [],
@@ -248,6 +249,10 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
       return { ...state, accessRestrictionError: "" };
+    case "TENANT_DRAFT_ERROR":
+      return { ...state, draftSaveError: action.payload };
+    case "REMOVE_TENANT_DRAFT_ERROR":
+      return { ...state, draftSaveError: "" };
 
     case "DELETE_READING_ERROR":
       return { ...state, deleteReadingError: action.payload };

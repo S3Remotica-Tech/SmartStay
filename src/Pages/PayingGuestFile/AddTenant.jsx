@@ -56,6 +56,17 @@ import { indianStates } from "../../Utils/indianStates";
 
 // State options moved to Utils/indianStates.js (shared with the new signup).
 
+// Default (empty) row of the Job Details section.
+const EMPTY_JOB = {
+  employmentStatus: null,
+  organizationName: "",
+  role: null,
+  workLocation: "",
+  shiftType: null,
+  fromTime: "",
+  toTime: "",
+};
+
 function AddTenant({
   showMenu,
   handleClose,
@@ -120,6 +131,7 @@ function AddTenant({
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false);
+  const [nextSaving, setNextSaving] = useState(false);
   // const [hasVehicle, setHasVehicle] = useState(true);
   const [guardians, setGuardians] = useState([
     {
@@ -130,17 +142,7 @@ function AddTenant({
     },
   ]);
 
-  const [jobDetails, setJobDetails] = useState([
-    {
-      employmentStatus: null,
-      organizationName: "",
-      role: null,
-      workLocation: "",
-      shiftType: null,
-      fromTime: "",
-      toTime: "",
-    },
-  ]);
+  const [jobDetails, setJobDetails] = useState([{ ...EMPTY_JOB }]);
   // const [relationship, setRelationship] = useState(null);
   // const [occupation, setOccupation] = useState(null);
   // const [mobile, setMobile] = useState("");
@@ -184,38 +186,7 @@ function AddTenant({
   //   },
   // ];
 
-  // DraftTenantDetails
 
-  // useEffect(() => {
-  //   if (!newTenant) {
-  //     const customerId =
-  //       state?.UsersList?.customerdetails?.customerId ||
-  //       DraftTenantDetails?.customerId ||
-  //       state?.UsersList?.draftTenantDetails?.customerId ||
-  //       state?.UsersList?.UpdateDraftTenantDetails?.customerId;
-
-
-  //     const fromCustomerDetails = state?.UsersList?.customerdetails?.customerId;
-  //     const fromDraftGet = DraftTenantDetails?.customerId;
-  //     const fromSaveDraft = state?.UsersList?.draftTenantDetails?.customerId;
-  //     const fromUpdateDraft = state?.UsersList?.UpdateDraftTenantDetails?.customerId;
-
-  //     console.log("1. customerdetails      :", fromCustomerDetails);
-  //     console.log("2. DraftTenantDetails   :", fromDraftGet);
-  //     console.log("3. draftTenantDetails   :", fromSaveDraft);
-  //     console.log("4. UpdateDraftTenantDetails:", fromUpdateDraft);
-
-  //     setDraftTenantId(customerId || "");
-  //   } else {
-  //     setDraftTenantId("");
-  //   }
-  // }, [
-  //   newTenant,
-  //   state?.UsersList?.draftTenantDetails?.customerId,
-  //   state?.UsersList?.UpdateDraftTenantDetails?.customerId,
-  //   DraftTenantDetails?.customerId,
-  //   state?.UsersList?.customerdetails?.customerId,
-  // ]);
 
   useEffect(() => {
     if (!newTenant && DraftTenantDetails?.customerId) {
@@ -240,7 +211,12 @@ function AddTenant({
     if (!file) return defaultName;
 
     if (typeof file === "string") {
-      return file.split("/").pop();
+      const name = file.split("/").pop().split(/[?#]/)[0];
+      try {
+        return decodeURIComponent(name) || defaultName;
+      } catch {
+        return name || defaultName;
+      }
     }
 
     return file.name;
@@ -249,8 +225,11 @@ function AddTenant({
   const isImageFile = (file) => {
     if (!file) return false;
 
+    // Saved drafts return S3 URLs (e.g. ".jfif"); allow a trailing ?query/#hash.
     if (typeof file === "string") {
-      return /\.(jpg|jpeg|png|webp)$/i.test(file);
+      return /\.(jpe?g|jfif|pjpeg|pjp|png|webp|gif|bmp|svg|avif)([?#]|$)/i.test(
+        file,
+      );
     }
 
     return file.type.startsWith("image/");
@@ -836,7 +815,28 @@ function AddTenant({
           g.guardianOccupation?.value || g.guardianOccupation || "",
         mobileNo: g.mobileNo || "",
       })),
+    jobDetails: buildDraftJobDetails(),
   });
+
+  // The draft stores a single job object; send the first Job Details row in
+  // the backend's field names (restored again in the draft-load effect).
+  const buildDraftJobDetails = () => {
+    const job = jobDetails?.[0] || EMPTY_JOB;
+    const employmentStatus =
+      job.employmentStatus?.value || job.employmentStatus || "";
+    const organizationName = job.organizationName?.trim() || "";
+    const isStudent = employmentStatus === "Student";
+    return {
+      employmentStatus,
+      companyName: isStudent ? "" : organizationName,
+      collegeName: isStudent ? organizationName : "",
+      jobRole: job.role?.value || job.role || "",
+      workLocation: job.workLocation?.trim() || "",
+      shiftType: job.shiftType?.value || job.shiftType || "",
+      shiftFrom: job.fromTime || "",
+      shiftTo: job.toTime || "",
+    };
+  };
 
   // Step 2 columns of the draft request. Step 2's own values (when its form is
   // open) win; anything else falls back to what the saved draft already holds.
@@ -863,16 +863,6 @@ function AddTenant({
       booking: {
         joiningDateTentative: saved?.booking?.joiningDateTentative || "",
         refuseAdvanceAmount: saved?.booking?.refuseAdvanceAmount ?? true,
-      },
-      jobDetails: {
-        employmentStatus: saved?.jobDetails?.employmentStatus || "",
-        companyName: saved?.jobDetails?.companyName || "",
-        collegeName: saved?.jobDetails?.collegeName || "",
-        jobRole: saved?.jobDetails?.jobRole || "",
-        workLocation: saved?.jobDetails?.workLocation || "",
-        shiftType: saved?.jobDetails?.shiftType || "",
-        shiftFrom: saved?.jobDetails?.shiftFrom || "",
-        shiftTo: saved?.jobDetails?.shiftTo || "",
       },
       shouldCollectFullRent: saved?.shouldCollectFullRent,
       customRent: saved?.customRent,
@@ -961,8 +951,17 @@ function AddTenant({
     if (validateStepOne()) goNext();
   };
 
+  // Step 3 Next saves the draft first; goNext() runs once the save succeeds
+  // (see afterDraftPersisted, action "next").
   const handleNextFromStepThree = () => {
-    if (validateStepThree()) goNext();
+    if (nextSaving || formLoading) return;
+    if (!validateStepThree()) return;
+    if (!validateStepOne()) {
+      setStep(STEP_BASIC);
+      return;
+    }
+    setNextSaving(true);
+    persistDraft("next");
   };
 
   // "Skip for now": documents and job details are optional, nothing is validated here.
@@ -1020,6 +1019,7 @@ function AddTenant({
     submittingRef.current = false;
     setSubmitting(false);
     setFormLoading(false);
+    setNextSaving(false);
     if (message) setSubmitError(message);
   };
 
@@ -1217,6 +1217,12 @@ function AddTenant({
       return;
     }
 
+    if (action === "next") {
+      setNextSaving(false);
+      goNext();
+      return;
+    }
+
     if (action === "submit") {
       const ok = isBookingFlow
         ? step2Api.current?.submitBooking?.(customerId)
@@ -1225,7 +1231,6 @@ function AddTenant({
     }
   };
 
-  // console.log("state.UsersList?.saveDreaftTenantSuccessCode", state.UsersList?.saveDreaftTenantSuccessCode)
 
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
@@ -1316,14 +1321,22 @@ function AddTenant({
 
   // ---- Failures --------------------------------------------------------------------
 
-  const apiErrorText = (value) => (typeof value === "string" ? value : "");
+  // API errors arrive as a string or as `{ message }`.
+  const apiErrorText = (value) =>
+    typeof value === "string"
+      ? value
+      : typeof value?.message === "string"
+        ? value.message
+        : "";
 
   const handleSubmitFailed = () => {
     failSubmit(
+      apiErrorText(state.UsersList?.bedAvailableError) ||
       apiErrorText(state.UsersList?.bedError) ||
       apiErrorText(state.Booking?.bookingBedError) ||
       "Could not complete the request. Please try again.",
     );
+    // setSubmitting(false)
   };
 
   useEffect(() => {
@@ -1338,6 +1351,26 @@ function AddTenant({
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
+
+  // Draft save (Save Draft / Next / Confirm) failed with a non-field error.
+  useEffect(() => {
+    if (state.UsersList?.draftSaveError) {
+      failSubmit(apiErrorText(state.UsersList.draftSaveError));
+      dispatch({ type: "REMOVE_TENANT_DRAFT_ERROR" });
+    }
+  }, [state.UsersList?.draftSaveError]);
+
+  // 403 from any call in this flow. Only clear it when this drawer was waiting,
+  // so other screens still see their own restriction errors.
+  useEffect(() => {
+    if (
+      state.UsersList?.accessRestrictionError &&
+      (submittingRef.current || pendingActionRef.current)
+    ) {
+      failSubmit("You don't have permission to do this.");
+      dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+    }
+  }, [state.UsersList?.accessRestrictionError]);
 
   const handleDraftTenant = (customerId) => {
     if (customerId) {
@@ -1427,38 +1460,42 @@ function AddTenant({
       setAadhaarFile(DraftTenantDetails?.aadharPic || "");
       setPanFile(DraftTenantDetails?.panPic || "");
 
-      // setEmploymentStatus(
-      //   DraftTenantDetails?.jobDetails?.employmentStatus
-      //     ? jobOptions.find(
-      //         (item) =>
-      //           item.value === DraftTenantDetails.jobDetails.employmentStatus,
-      //       ) || null
-      //     : null,
-      // );
+      // Draft may hold one job object (`jobDetails`) or a list (`customerJobs`).
+      const draftJobs = Array.isArray(DraftTenantDetails?.jobDetails)
+        ? DraftTenantDetails.jobDetails
+        : Array.isArray(DraftTenantDetails?.jobDetails)
+          ? DraftTenantDetails.jobDetails
+          : DraftTenantDetails?.jobDetails
+            ? [DraftTenantDetails.jobDetails]
+            : [];
 
-      // setCompanyName(DraftTenantDetails?.jobDetails?.companyName || "");
-      // setCollegeName(DraftTenantDetails?.jobDetails?.collegeName || "");
+      const findOption = (options, value) =>
+        value ? options.find((item) => item.value === value) || null : null;
 
-      // setJobRole(
-      //   DraftTenantDetails?.jobDetails?.jobRole
-      //     ? jobRoleOptions.find(
-      //         (item) => item.value === DraftTenantDetails.jobDetails.jobRole,
-      //       ) || null
-      //     : null,
-      // );
+      const mappedJobs = draftJobs
+        .map((job) => ({
+          employmentStatus: findOption(jobOptions, job?.employmentStatus),
+          organizationName:
+            job?.organizationName || job?.companyName || job?.collegeName || "",
+          role: findOption(jobRoleOptions, job?.role || job?.jobRole),
+          workLocation: job?.workLocation || "",
+          shiftType: findOption(shiftTypeOptions, job?.shiftType),
+          fromTime:
+            job?.fromTime || job?.shiftFrom || job?.shiftStartsFrom || "",
+          toTime: job?.toTime || job?.shiftTo || job?.shiftEndsAt || "",
+        }))
+        .filter(
+          (job) =>
+            job.employmentStatus ||
+            job.organizationName ||
+            job.role ||
+            job.workLocation ||
+            job.shiftType ||
+            job.fromTime ||
+            job.toTime,
+        );
 
-      // setWorkLocation(DraftTenantDetails?.jobDetails?.workLocation || "");
-
-      // setShiftType(
-      //   DraftTenantDetails?.jobDetails?.shiftType
-      //     ? shiftTypeOptions.find(
-      //         (item) => item.value === DraftTenantDetails.jobDetails.shiftType,
-      //       ) || null
-      //     : null,
-      // );
-
-      // setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
-      // setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
+      setJobDetails(mappedJobs.length ? mappedJobs : [{ ...EMPTY_JOB }]);
 
       const mappedGuardians = (DraftTenantDetails?.guardians || [])
         .filter((g) => {
@@ -1530,6 +1567,7 @@ function AddTenant({
         mobileNo: "",
       },
     ]);
+    setJobDetails([{ ...EMPTY_JOB }]);
   };
 
   useEffect(() => {
@@ -2694,15 +2732,7 @@ function AddTenant({
                               onClick={() =>
                                 setJobDetails((prev) => [
                                   ...prev,
-                                  {
-                                    employmentStatus: null,
-                                    organizationName: "",
-                                    role: null,
-                                    workLocation: "",
-                                    shiftType: null,
-                                    fromTime: "",
-                                    toTime: "",
-                                  },
+                                  { ...EMPTY_JOB },
                                 ])
                               }
                               className="font-gilroy text-sm bg-[#1E45E1] text-white font-semibold rounded-md px-2 py-2 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center gap-2 disabled:opacity-50"
@@ -2809,7 +2839,7 @@ function AddTenant({
                       <div className={TENANT_FOOTER_CLASS}>
                         <button
                           type="button"
-                          disabled={formLoading}
+                          disabled={formLoading || nextSaving}
                           onClick={handleSaveDraft}
                           className={TENANT_BTN_SECONDARY}
                         >
@@ -2825,6 +2855,7 @@ function AddTenant({
                         <div className="flex items-center gap-[12px]">
                           <button
                             type="button"
+                            disabled={nextSaving}
                             onClick={handleSkipStepThree}
                             className={TENANT_BTN_TERTIARY}
                           >
@@ -2832,10 +2863,20 @@ function AddTenant({
                           </button>
                           <button
                             type="button"
+                            disabled={nextSaving || formLoading}
                             onClick={handleNextFromStepThree}
                             className={TENANT_BTN_PRIMARY}
                           >
-                            Next <ArrowRight color="#FFFFFF" size="16" />
+                            {nextSaving ? (
+                              <>
+                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                Saving...
+                              </>
+                            ) : (
+                              <>
+                                Next <ArrowRight color="#FFFFFF" size="16" />
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>

@@ -737,6 +737,8 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   // Restore a saved draft into the form once, when the wizard was opened on an
   // existing draft. Later draft refreshes never overwrite what the user typed.
 
+  // console.log("DraftTenantDetails", DraftTenantDetails)
+
   useEffect(() => {
 
     if (DraftTenantDetails && !newTenant) {
@@ -760,6 +762,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
 
       // setTotalRent(DraftTenantDetails?.hostelInfo?.monthlyRent || "");
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount || "");
+      setIsAdvanceRefused(DraftTenantDetails?.refuseAdvanceAmount)
 
       setModeOfPayment(DraftTenantDetails?.bankId || "");
       setTransactionId(DraftTenantDetails?.referenceNumber || "");
@@ -834,6 +837,12 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   }, [DraftTenantDetails, newTenant]);
 
 
+  useEffect(() => {
+    if (isAdvanceRefused) {
+      setAdvanceAmount("");
+    }
+  }, [isAdvanceRefused]);
+
 
 
 
@@ -876,6 +885,8 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   const submitCheckin = (customerId) => {
     const payload = prepareCheckin();
     if (!payload) return false;
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     dispatch({
       type: "DIRECT_CHECK_IN_SAGA",
       payload: { ...payload, customerId, ...amenityApiFields() },
@@ -907,11 +918,17 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
     }
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
 
+  // Check-in failures land in `bedAvailableError` (BED_AVAILABLE_ERROR), the
+  // booked-bed check in `bedError`. Either one stops the loading; then clear it
+  // so the same error can fire again on the next attempt.
   useEffect(() => {
-    if (state.UsersList?.bedError) {
+    if (state.UsersList?.bedError || state.UsersList?.bedAvailableError) {
+      // Parent's failSubmit stops the loading (setSubmitting(false) etc.).
       onSubmitError?.();
+      dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+      dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     }
-  }, [state.UsersList?.bedError]);
+  }, [state.UsersList?.bedError, state.UsersList?.bedAvailableError]);
 
   // const resetBookingForm = () => {
   //   setBookingDate(null);
