@@ -1,0 +1,45 @@
+<svg width="632" height="260" viewBox="0 0 632 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PG room cut-away: two bunk beds, window, study table, plant + tree. Line art to match the Figma city/building sketches. -->
+  <g stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 252H624"/>
+    <!-- room shell in light perspective -->
+    <path d="M110 252V44H522V252"/>
+    <path d="M110 44L140 22H552L522 44"/>
+    <path d="M552 22V230L522 252"/>
+    <!-- window -->
+    <rect x="262" y="72" width="108" height="72" rx="2"/>
+    <path d="M316 72V144M262 108H370"/>
+    <path d="M254 144H378"/>
+    <!-- ceiling lamp -->
+    <path d="M316 44V56"/>
+    <path d="M304 66L310 56H322L328 66Z"/>
+    <!-- bunk bed left -->
+    <path d="M132 252V112M232 252V112M132 128H232"/>
+    <rect x="132" y="146" width="100" height="14" rx="3"/>
+    <rect x="132" y="214" width="100" height="14" rx="3"/>
+    <rect x="140" y="136" width="26" height="10" rx="4"/>
+    <rect x="140" y="204" width="26" height="10" rx="4"/>
+    <path d="M178 146C192 141 210 141 226 146M178 214C192 209 210 209 226 214"/>
+    <path d="M238 146V252M252 146V252M238 170H252M238 194H252M238 218H252M238 242H252"/>
+    <!-- study table -->
+    <path d="M282 222H350M290 222V252M342 222V252"/>
+    <path d="M304 222V204H328V222M308 210H324"/>
+    <!-- bunk bed right -->
+    <path d="M400 252V112M500 252V112M400 128H500"/>
+    <rect x="400" y="146" width="100" height="14" rx="3"/>
+    <rect x="400" y="214" width="100" height="14" rx="3"/>
+    <rect x="466" y="136" width="26" height="10" rx="4"/>
+    <rect x="466" y="204" width="26" height="10" rx="4"/>
+    <path d="M406 146C422 141 440 141 454 146M406 214C422 209 440 209 454 214"/>
+    <path d="M380 146V252M394 146V252M380 170H394M380 194H394M380 218H394M380 242H394"/>
+    <!-- plant -->
+    <path d="M46 252L50 232H66L70 252"/>
+    <path d="M58 232V214"/>
+    <path d="M58 226C48 216 44 204 46 192C54 200 58 212 58 226Z"/>
+    <path d="M58 220C66 208 74 202 82 200C80 212 70 220 58 220Z"/>
+    <!-- tree -->
+    <path d="M590 252V200"/>
+    <path d="M590 200C572 196 566 176 574 162C568 146 580 130 594 134C604 122 620 132 616 148C626 160 620 182 606 186C602 196 596 200 590 200Z"/>
+    <path d="M590 222L580 210M590 214L600 204"/>
+  </g>
+</svg>

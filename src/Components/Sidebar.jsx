@@ -66,6 +66,7 @@ import {
   Messages1,
   Chart1,
   SearchNormal1,
+  HambergerMenu,
 } from "iconsax-react";
 import NotificationForm from "../Utils/Notification";
 import SidebarProfile from "./SidebarProfile";
@@ -133,7 +134,8 @@ function Sidebar() {
   const [billingOpen, setBillingOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [serviceDesk, setServiceDesk] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Mobile (<md) drawer visibility. Closed by default so the page is visible on load.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMdSidebarExpanded, setIsMdSidebarExpanded] = useState(false);
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
@@ -688,6 +690,66 @@ function Sidebar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Close the mobile drawer with Escape.
+  useEffect(() => {
+    if (!isSidebarOpen) return undefined;
+    const handleKey = (e) => {
+      if (e.key === "Escape") setIsSidebarOpen(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [isSidebarOpen]);
+
+  // ---- Responsive UI classes ----
+  // Mobile drawer + desktop (lg): full width with labels.
+  // Tablet (md): icon-only rail, widens like desktop while isMdSidebarExpanded.
+  const isRailCollapsed = !isMdSidebarExpanded;
+  const labelClass = isRailCollapsed
+    ? "inline-block md:hidden lg:inline-block"
+    : "inline-block";
+  const railItemLayout = isRailCollapsed
+    ? "gap-[15px] px-[16px] md:justify-center md:gap-0 md:px-0 lg:justify-start lg:gap-[15px] lg:px-[16px]"
+    : "gap-[15px] px-[16px]";
+  const navItemClass = (active) =>
+    `flex w-full items-center py-[10px] rounded-[6px] no-underline outline-none focus:outline-none focus:ring-0 transition-colors duration-200 font-gilroy font-semibold text-sm ${railItemLayout} ${active
+      ? "bg-[#1E45E1] text-white hover:bg-[#1E45E1] hover:text-white"
+      : "text-[#64748B] hover:bg-[#F6F8FF] hover:text-[#1E45E1]"
+    }`;
+  const groupHeaderClass = (open) =>
+    `flex w-full items-center py-[10px] rounded-[6px] cursor-pointer select-none border-0 transition-colors duration-200 font-gilroy font-semibold text-sm ${isRailCollapsed
+      ? "gap-[15px] px-[16px] md:flex-col md:justify-center md:gap-[4px] md:px-0 lg:flex-row lg:justify-start lg:gap-[15px] lg:px-[16px]"
+      : "gap-[15px] px-[16px]"
+    } ${open
+      ? "bg-[#F6F8FF] text-[#1E45E1]"
+      : "bg-white text-[#64748B] hover:bg-[#F6F8FF] hover:text-[#1E45E1]"
+    }`;
+  const groupArrowClass = isRailCollapsed
+    ? "inline-flex ml-auto md:ml-0 lg:ml-auto"
+    : "inline-flex ml-auto";
+  const submenuClass = isRailCollapsed
+    ? "flex flex-col gap-[4px] list-none mb-0 mt-[4px] ml-[20px] pl-[8px] border-l border-[#E2E8F0] md:ml-0 md:pl-0 md:border-l-0 lg:ml-[20px] lg:pl-[8px] lg:border-l"
+    : "flex flex-col gap-[4px] list-none mb-0 mt-[4px] ml-[20px] pl-[8px] border-l border-[#E2E8F0]";
+  const sidebarWidthClass = isRailCollapsed ? "md:w-20" : "md:w-64";
+  const logoClass = isRailCollapsed ? "block md:hidden lg:block" : "block";
+  const hostelCardLayout = isRailCollapsed
+    ? "gap-[10px] px-[8px] md:justify-center md:px-0 lg:justify-start lg:px-[8px]"
+    : "gap-[10px] px-[8px]";
+  const hostelDropdownPosition = isRailCollapsed
+    ? "top-full left-0 w-full mt-[4px] md:top-0 md:left-full md:ml-[8px] md:mt-0 md:w-64 lg:top-full lg:left-0 lg:ml-0 lg:mt-[4px] lg:w-full"
+    : "top-full left-0 w-full mt-[4px]";
+
+  const hasProfileImage = !(
+    profiles === "null" ||
+    profiles === null ||
+    profiles === undefined ||
+    profiles === "undefined" ||
+    profiles === "" ||
+    profiles === 0 ||
+    profiles === "0"
+  );
+  const unreadNotificationCount =
+    state?.UsersList?.hotelDetailsinPg?.unreadNotificationCount;
+
   return (
     <>
       {currentPage === "settingNewDesign" ? (
@@ -753,27 +815,104 @@ function Sidebar() {
         </>
       ) : (
         <div className="w-full p-0">
-          <div className="flex w-full h-screen overflow-y-hidden flex-row">
-            <div
-              className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`}
+          <div className="flex flex-col md:flex-row w-full h-screen overflow-hidden">
+            {/* Mobile top bar (<md): menu, logo, quick add, notifications, profile */}
+            <header className="md:hidden flex items-center justify-between h-14 shrink-0 px-[12px] bg-white border-b border-[#E2E8F0] shadow-sm z-[1020]">
+              <div className="flex items-center gap-[10px] min-w-0">
+                <button
+                  type="button"
+                  aria-label="Open menu"
+                  aria-expanded={isSidebarOpen}
+                  onClick={() => setIsSidebarOpen(true)}
+                  className="flex items-center justify-center h-10 w-10 rounded-[8px] bg-transparent border-0 text-[#222222] hover:bg-[#F6F8FF] cursor-pointer"
+                >
+                  <HambergerMenu size="24" color="#222222" />
+                </button>
+                <img
+                  src={Smartstay}
+                  alt="smartstay"
+                  className="h-6 w-auto max-w-[130px] cursor-pointer"
+                  onClick={() => handlePageClick("dashboard")}
+                />
+              </div>
+
+              <div className="flex items-center gap-[12px]">
+                <button
+                  type="button"
+                  aria-label="Quick actions"
+                  onClick={() => setShowMenuModal(true)}
+                  className="w-8 h-8 rounded-[8px] bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center leading-none pb-0.5"
+                >
+                  +
+                </button>
+
+                <button
+                  type="button"
+                  aria-label="Notifications"
+                  onClick={handleShowNotification}
+                  className="relative flex items-center justify-center bg-transparent border-0 p-0 cursor-pointer"
+                >
+                  <Notification size="24" color="#64748B" />
+                  {unreadNotificationCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] rounded-full border-2 border-white font-semibold leading-none">
+                      {unreadNotificationCount}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  aria-label="Profile"
+                  onClick={() => setShowProfileCard((s) => !s)}
+                  className="flex items-center justify-center bg-transparent border-0 p-0 cursor-pointer"
+                >
+                  {hasProfileImage ? (
+                    <Image
+                      src={profiles}
+                      alt="profile-image"
+                      roundedCircle
+                      className="h-9 w-9 object-cover"
+                    />
+                  ) : (
+                    <span className="h-9 w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-sm uppercase">
+                      {stateData?.accountList?.initial || ""}
+                    </span>
+                  )}
+                </button>
+              </div>
+            </header>
+
+            {/* Mobile drawer backdrop */}
+            {isSidebarOpen && (
+              <div
+                className="md:hidden fixed inset-0 bg-black/40 z-[1030]"
+                onClick={() => setIsSidebarOpen(false)}
+                aria-hidden="true"
+              />
+            )}
+
+            {/* Left sidebar: drawer (<md), icon rail (md), full (lg+) */}
+            <aside
+              className={`fixed inset-y-0 left-0 z-[1040] w-64 max-w-[85vw] flex flex-col h-screen bg-white border-r border-[#E2E8F0] shadow-md transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:static md:z-auto md:max-w-none md:translate-x-0 md:shadow-sm md:shrink-0 md:transition-[width] ${sidebarWidthClass} lg:w-64`}
             >
-              <div>
-                <div className="p-3 flex-shrink-0 mt-1.5">
+              <div className="shrink-0 px-[12px] pt-[14px] pb-[8px]">
+                <div className="flex items-center justify-between min-h-[24px]">
                   <img
                     src={Smartstay}
                     alt="smartstay"
-                    className="sidebar-logo Title mb-1 w-36 h-6 hidden lg:block"
+                    className={`${logoClass} w-36 h-6 cursor-pointer`}
                     onClick={() => handlePageClick("dashboard")}
                   />
 
                   <button
+                    type="button"
+                    aria-label="Close menu"
                     onClick={closeSidebar}
-                    className={`bg-transparent border-none textbase cursor-pointer md:hidden ${isSidebarOpen ? "block" : "hidden"
-                      }`}
+                    className="md:hidden flex items-center justify-center h-8 w-8 rounded-[8px] bg-transparent border-0 cursor-pointer hover:bg-[#F6F8FF]"
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="22"
+                      height="22"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -787,237 +926,211 @@ function Sidebar() {
                       />
                     </svg>
                   </button>
-
-                  {hostelListDetail && hostelListDetail?.length > 0 && (
-                    <li
-                      ref={dropdownRef}
-                      onClick={toggleDropdown}
-                      className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""
-                        }`}
-                    >
-                      {selectedProfileImage &&
-                        selectedProfileImage !== null &&
-                        selectedProfileImage !== "" ? (
-                        <OverlayTrigger
-                          trigger={tooltipTrigger}
-                          placement="right"
-                          container={document.body}
-                          overlay={
-                            <Tooltip className="custom-tooltip">
-                              {payingGuestName} {locationName}
-                            </Tooltip>
-                          }
-                        >
-                          <img
-                            src={selectedProfileImage}
-                            className="h-9 w-9 rounded-full mr-2"
-                            alt="Selected Profile"
-                          />
-                        </OverlayTrigger>
-                      ) : (
-                        <OverlayTrigger
-                          trigger={tooltipTrigger}
-                          placement="right"
-                          container={document.body}
-                          overlay={
-                            <Tooltip className="custom-tooltip">
-                              {payingGuestName} {locationName}
-                            </Tooltip>
-                          }
-                        >
-                          <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 md:-ml-0.5 uppercase leading-none">
-                            {initials}
-                          </div>
-                        </OverlayTrigger>
-                      )}
-
-                      <span className="sidebar-label hidden lg:inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer">
-                        {payingGuestName}
-
-                        <div>
-                          <OverlayTrigger
-                            trigger={tooltipTrigger}
-                            placement="right"
-                            container={document.body}
-                            overlay={
-                              <Tooltip className="custom-tooltip">
-                                {payingGuestName} {locationName}
-                              </Tooltip>
-                            }
-                          >
-                            <span className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px] cursor-pointer">
-                              <Location
-                                className="mr-1 shrink-0"
-                                size="16"
-                                color="#FF8A65"
-                                variant="Bold"
-                              />
-
-                              <span className="truncate min-w-0">
-                                {locationName}
-                              </span>
-                            </span>
-                          </OverlayTrigger>
-                        </div>
-                      </span>
-
-                      <span className="ms-auto hidden lg:inline-flex">
-                        {isDropdownOpen ? (
-                          <ArrowUp2 size="16" color="#4B4B4B" />
-                        ) : (
-                          <ArrowDown2 size="16" color="#4B4B4B" />
-                        )}
-                      </span>
-
-                      {isDropdownOpen && (
-                        <div
-                          className="absolute top-full mt-1 left-0 bg-white shadow-md border rounded
-      w-full md:w-[50px] lg:w-full z-50"
-                        >
-                          <div className="px-2 py-2 border-b bg-gray-100">
-                            <div className="relative">
-                              <SearchNormal1
-                                size="16"
-                                color="#9C9C9C"
-                                variant="Linear"
-                                className="absolute left-2 top-1/2 -translate-y-1/2"
-                              />
-
-                              <input
-                                type="text"
-                                value={hostelSearch}
-                                onChange={handleSearchChange}
-                                placeholder="Search hostel"
-                                className="w-full h-9 pl-8 pr-2 text-xs
-            border border-gray-200 rounded-md
-            outline-none focus:border-[#1E45E1] text-[#222222]"
-                                onClick={(e) => e.stopPropagation()}
-                              />
-                            </div>
-                          </div>
-                          <div className="max-h-48 overflow-y-auto overflow-x-hidden show-scrolls">
-                            <ul className="m-0 p-0">
-                              {filteredHostels?.length > 0 ? (
-                                filteredHostels?.map((item) => (
-                                  <li
-                                    key={item.id}
-                                    className="relative group flex items-center
-              hover:bg-gray-100
-              py-2 mx-2 px-2 rounded cursor-pointer
-              text-blue-600"
-                                    onClick={() =>
-                                      handleHostelId(
-                                        item.hostelId,
-                                        item.name,
-                                        item.mainImage,
-                                        item.initials,
-                                        item.city,
-                                      )
-                                    }
-                                  >
-                                    <div className="shrink-0">
-                                      {item.mainImage &&
-                                        item.mainImage !== "0" &&
-                                        item.mainImage !== "" ? (
-                                        <img
-                                          src={item.mainImage}
-                                          className="w-6 h-6 md:w-7 md:h-7 rounded-full mr-2"
-                                          alt={
-                                            item.initials || "Default Profile"
-                                          }
-                                        />
-                                      ) : (
-                                        <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
-                                          {item.initials}
-                                        </div>
-                                      )}
-                                    </div>
-
-                                    <div className="min-w-0">
-                                      <span className="hidden lg:inline-block truncate mb-0 max-w-[150px]">
-                                        {item.name}
-                                      </span>
-
-                                      <div
-                                        className="absolute left-1/2 top-full mt-1
-                  -translate-x-1/2
-                  hidden group-hover:block
-                  bg-[#1E45E1] text-white text-xs
-                  rounded px-2 py-1 whitespace-nowrap
-                  z-[9999] pointer-events-none"
-                                      >
-                                        {item.name}
-                                      </div>
-
-                                      <div className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px]">
-                                        <Location
-                                          className="mr-1 shrink-0"
-                                          size="16"
-                                          color="#FF8A65"
-                                          variant="Bold"
-                                        />
-
-                                        <span className="truncate min-w-0">
-                                          {item.city}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </li>
-                                ))
-                              ) : (
-                                <li className="px-3 py-3 text-center text-xs text-gray-400">
-                                  No hostel found
-                                </li>
-                              )}
-                            </ul>
-                          </div>
-                        </div>
-                      )}
-                    </li>
-                  )}
-
-                  {!(hostelListDetail ?? []).length && (
-                    <NavLink
-                      to={RoleAccess ? settingsPath : "#"}
-                      className={`flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg no-underline ${RoleAccess
-                        ? "cursor-pointer"
-                        : "cursor-not-allowed opacity-50 pointer-events-none"
-                        }`}
-                      onClick={(e) => {
-                        if (!RoleAccess) {
-                          e.preventDefault();
-                          return;
-                        }
-
-                        handledisplaySettingsPG("manage-pg", "Manage PG");
-                        dispatch({ type: "MANAGE_PG" });
-                        setIsSidebarOpen(false);
-                      }}
-                    >
-                      + Add PG
-                    </NavLink>
-                  )}
                 </div>
-                <div className="show-scrolls-sidebar overflow-y-auto overflow-x-hidden h-[calc(100vh-130px)] p-1">
-                  <ul className="flex-1 min-h-0 overflow-y-auto list-none p-0.5 mb-0 w-full">
-                    <li className="list-none flex items-center">
-                      <NavLink
-                        to={withHostel("/dashboard")}
-                        className={({ isActive }) =>
-                          `flex items-center list-Item focus:outline-none focus:ring-0  ${isActive ? "active" : ""}`
-                        }
-                        onClick={() => handlePageClick("dashboard")}
-                      >
-                        <Chart2 size="20" variant="Bold" />
-                        <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1">
-                          Home
-                        </span>
-                      </NavLink>
-                    </li>
 
-                    <li
-                      className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded collapsible-header
-    ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                {hostelListDetail && hostelListDetail?.length > 0 && (
+                  <div
+                    ref={dropdownRef}
+                    onClick={toggleDropdown}
+                    role="button"
+                    tabIndex={0}
+                    className={`relative flex items-center w-full mt-[12px] py-[10px] rounded-[8px] cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] transition-colors duration-200 ${hostelCardLayout} ${currentPage === "settingNewDesign"
+                      ? "bg-[#1E45E1] text-white"
+                      : "bg-white text-[#64748B] hover:bg-[#F6F8FF] hover:text-[#1E45E1]"
+                      }`}
+                  >
+                    {selectedProfileImage &&
+                      selectedProfileImage !== null &&
+                      selectedProfileImage !== "" ? (
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        overlay={
+                          <Tooltip className="custom-tooltip">
+                            {payingGuestName} {locationName}
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          src={selectedProfileImage}
+                          className="shrink-0 h-9 w-9 rounded-full object-cover"
+                          alt="Selected Profile"
+                        />
+                      </OverlayTrigger>
+                    ) : (
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        overlay={
+                          <Tooltip className="custom-tooltip">
+                            {payingGuestName} {locationName}
+                          </Tooltip>
+                        }
+                      >
+                        <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs uppercase leading-none">
+                          {initials}
+                        </div>
+                      </OverlayTrigger>
+                    )}
+
+                    <span className={`${labelClass} min-w-0 flex-1`}>
+                      <span className="block truncate text-sm font-semibold font-gilroy text-[#222222]">
+                        {payingGuestName}
+                      </span>
+                      <span className="flex items-center gap-1 text-[12px] text-[#9C9C9C] min-w-0">
+                        <Location
+                          className="shrink-0"
+                          size="16"
+                          color="#FF8A65"
+                          variant="Bold"
+                        />
+                        <span className="truncate min-w-0">{locationName}</span>
+                      </span>
+                    </span>
+
+                    <span
+                      className={
+                        isRailCollapsed
+                          ? "inline-flex shrink-0 ml-auto md:hidden lg:inline-flex"
+                          : "inline-flex shrink-0 ml-auto"
+                      }
+                    >
+                      {isDropdownOpen ? (
+                        <ArrowUp2 size="16" color="#4B4B4B" />
+                      ) : (
+                        <ArrowDown2 size="16" color="#4B4B4B" />
+                      )}
+                    </span>
+
+                    {isDropdownOpen && (
+                      <div
+                        className={`absolute z-50 bg-white shadow-md border-[1px] border-[#E2E8F0] rounded-[8px] overflow-hidden ${hostelDropdownPosition}`}
+                      >
+                        <div className="px-2 py-2 border-b border-[#E2E8F0] bg-gray-100">
+                          <div className="relative">
+                            <SearchNormal1
+                              size="16"
+                              color="#9C9C9C"
+                              variant="Linear"
+                              className="absolute left-2 top-1/2 -translate-y-1/2"
+                            />
+                            <input
+                              type="text"
+                              value={hostelSearch}
+                              onChange={handleSearchChange}
+                              placeholder="Search hostel"
+                              className="w-full h-9 pl-8 pr-2 text-xs border-[1px] border-gray-200 rounded-md outline-none focus:border-[#1E45E1] text-[#222222]"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+                        </div>
+                        <div className="max-h-48 overflow-y-auto overflow-x-hidden show-scrolls">
+                          <ul className="m-0 p-0 py-1 list-none">
+                            {filteredHostels?.length > 0 ? (
+                              filteredHostels?.map((item) => (
+                                <li
+                                  key={item.id}
+                                  className="flex items-center gap-2 py-2 mx-1 px-2 rounded-[6px] cursor-pointer text-[#1E45E1] hover:bg-gray-100"
+                                  onClick={() =>
+                                    handleHostelId(
+                                      item.hostelId,
+                                      item.name,
+                                      item.mainImage,
+                                      item.initials,
+                                      item.city,
+                                    )
+                                  }
+                                >
+                                  {item.mainImage &&
+                                    item.mainImage !== "0" &&
+                                    item.mainImage !== "" ? (
+                                    <img
+                                      src={item.mainImage}
+                                      className="shrink-0 w-7 h-7 rounded-full object-cover"
+                                      alt={item.initials || "Default Profile"}
+                                    />
+                                  ) : (
+                                    <div className="shrink-0 w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs uppercase">
+                                      {item.initials}
+                                    </div>
+                                  )}
+
+                                  <div className="min-w-0 flex-1">
+                                    <span
+                                      className="block truncate text-sm font-gilroy"
+                                      title={item.name}
+                                    >
+                                      {item.name}
+                                    </span>
+                                    <div className="flex items-center gap-1 text-[12px] text-[#9C9C9C] min-w-0">
+                                      <Location
+                                        className="shrink-0"
+                                        size="14"
+                                        color="#FF8A65"
+                                        variant="Bold"
+                                      />
+                                      <span className="truncate min-w-0">
+                                        {item.city}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))
+                            ) : (
+                              <li className="px-2 py-2 text-center text-xs text-gray-400">
+                                No hostel found
+                              </li>
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {!(hostelListDetail ?? []).length && (
+                  <NavLink
+                    to={RoleAccess ? settingsPath : "#"}
+                    className={`flex items-center justify-center mt-[12px] font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm py-2 px-2 rounded-[8px] no-underline whitespace-nowrap ${RoleAccess
+                      ? "cursor-pointer"
+                      : "cursor-not-allowed opacity-50 pointer-events-none"
+                      }`}
+                    onClick={(e) => {
+                      if (!RoleAccess) {
+                        e.preventDefault();
+                        return;
+                      }
+
+                      handledisplaySettingsPG("manage-pg", "Manage PG");
+                      dispatch({ type: "MANAGE_PG" });
+                      setIsSidebarOpen(false);
+                    }}
+                  >
+                    +<span className={`${labelClass} ml-1`}>Add PG</span>
+                  </NavLink>
+                )}
+              </div>
+
+              <nav className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-[8px] pb-[12px] [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-[#CBD5E1] [&::-webkit-scrollbar-thumb]:rounded-[8px]">
+                <ul className="flex flex-col gap-[4px] list-none p-0 mb-0 mt-[4px] w-full">
+                  <li>
+                    <NavLink
+                      to={withHostel("/dashboard")}
+                      className={({ isActive }) => navItemClass(isActive)}
+                      onClick={() => handlePageClick("dashboard")}
+                    >
+                      <Chart2 size="20" variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Home</span>
+                    </NavLink>
+                  </li>
+
+                  <li>
+                    <button
+                      type="button"
+                      aria-expanded={manageOpen}
+                      className={groupHeaderClass(manageOpen)}
                       onClick={() => {
                         const next = !manageOpen;
                         setManageOpen(next);
@@ -1026,146 +1139,92 @@ function Sidebar() {
                         localStorage.setItem("manageOpen", !manageOpen);
                       }}
                     >
-                      <Setting2 size={20} variant="Bold" className="mt-1" />
-                      <span className="sidebar-label hidden lg:inline-block mt-1.5 font-gilroy font-semibold text-sm">
-                        Manage
-                      </span>
-                      <span className="ml-auto mt-1.5 inline-flex">
+                      <Setting2 size={20} variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Manage</span>
+                      <span className={groupArrowClass}>
                         {manageOpen ? (
                           <ArrowUp2 size={16} color="#4B4B4B" />
                         ) : (
                           <ArrowDown2 size={16} color="#4B4B4B" />
                         )}
                       </span>
-                    </li>
+                    </button>
 
                     {manageOpen && (
-                      <div
-                        className={`mx-4 submenu ${manageOpen ? "open" : ""}`}
-                      >
-                        <ul className="pl-2 relative p-1.5">
-                          <li className="list-none flex">
-                            <NavLink
-                              to={withHostel("/paying-guest")}
-                              className={({ isActive }) =>
-                                `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                              }
-                              onClick={() => handlePageClick("pg-list")}
-                            >
-                              <Buildings size="20" variant="Bold" />
+                      <ul className={submenuClass}>
+                        <li>
+                          <NavLink
+                            to={withHostel("/paying-guest")}
+                            className={({ isActive }) => navItemClass(isActive)}
+                            onClick={() => handlePageClick("pg-list")}
+                          >
+                            <Buildings size="20" variant="Bold" className="shrink-0" />
+                            <span className={labelClass}>Paying Guest</span>
+                          </NavLink>
+                        </li>
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Paying Guest
-                              </span>
-                            </NavLink>
-                          </li>
+                        <li>
+                          <NavLink
+                            to={withHostel("/tenant")}
+                            className={({ isActive }) =>
+                              navItemClass(
+                                isActive || currentPage === "tenant-details",
+                              )
+                            }
+                            onClick={() => handlePageClick("user-list")}
+                          >
+                            <Profile2User size="20" variant="Bold" className="shrink-0" />
+                            <span className={labelClass}>Tenant</span>
+                          </NavLink>
+                        </li>
 
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/tenant")}
-                              className={({ isActive }) =>
-                                `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "tenant-details"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("user-list")}
-                            >
-                              <Profile2User size="20" variant="Bold" />
+                        <li>
+                          <NavLink
+                            to={withHostel("/asset")}
+                            className={({ isActive }) =>
+                              navItemClass(isActive || currentPage === "asset")
+                            }
+                            onClick={() => handlePageClick("asset")}
+                          >
+                            <Box size="20" variant="Bold" className="shrink-0" />
+                            <span className={labelClass}>Assets</span>
+                          </NavLink>
+                        </li>
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Tenant
-                              </span>
-                            </NavLink>
-                          </li>
-
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/asset")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("asset")}
-                            >
-                              <Box size="20" variant="Bold" />
-
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Assets
-                              </span>
-                            </NavLink>
-                          </li>
-
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/vendor")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("vendor")}
-                            >
-                              <Shop size="20" variant="Bold" />
-
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Vendor
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
+                        <li>
+                          <NavLink
+                            to={withHostel("/vendor")}
+                            className={({ isActive }) =>
+                              navItemClass(isActive || currentPage === "vendor")
+                            }
+                            onClick={() => handlePageClick("vendor")}
+                          >
+                            <Shop size="20" variant="Bold" className="shrink-0" />
+                            <span className={labelClass}>Vendor</span>
+                          </NavLink>
+                        </li>
+                      </ul>
                     )}
-                    {/* {isDevelopment && (
-                      <li
-                        className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
-                      >
-                        <NavLink
-                          to={withHostel("/banking")}
-                          className={({ isActive }) =>
-                            `align-items-center list-Item  d-flex ${
-                              isActive || currentPage === "banking"
-                                ? "active"
-                                : ""
-                            }`
-                          }
-                          onClick={() => handlePageClick("banking")}
-                        >
-                          <Bank size="20" variant="Bold" className="-mt-1" />
+                  </li>
 
-                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Banking
-                          </span>
-                        </NavLink>
-                      </li>
-                    )} */}
-                    <li
-                      className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
+                  <li>
+                    <NavLink
+                      to={withHostel("/banking")}
+                      className={({ isActive }) =>
+                        navItemClass(isActive || currentPage === "banking-new")
+                      }
+                      onClick={() => handlePageClick("banking")}
                     >
-                      <NavLink
-                        to={withHostel("/banking")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item  d-flex ${isActive || currentPage === "banking-new"
-                            ? "active"
-                            : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("banking")}
-                      >
-                        <Bank size="20" variant="Bold" className="-mt-1" />
+                      <Bank size="20" variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Banking</span>
+                    </NavLink>
+                  </li>
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Banking
-                        </span>
-                      </NavLink>
-                    </li>
-
-                    <li
-                      className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
-    ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                  <li>
+                    <button
+                      type="button"
+                      aria-expanded={billingOpen}
+                      className={groupHeaderClass(billingOpen)}
                       onClick={() => {
                         const next = !billingOpen;
                         setBillingOpen(next);
@@ -1173,153 +1232,94 @@ function Sidebar() {
                         setIsMdSidebarExpanded(next);
                       }}
                     >
-                      <DocumentText
-                        size={21}
-                        variant="Bold"
-                        className="-mt-1"
-                      />
-
-                      <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
+                      <DocumentText size={20} variant="Bold" className="shrink-0" />
+                      <span className={`${labelClass} whitespace-nowrap`}>
                         Billing & Payments
                       </span>
-
-                      <span className="ml-auto inline-flex">
+                      <span className={groupArrowClass}>
                         {billingOpen ? (
                           <ArrowUp2 size={16} />
                         ) : (
                           <ArrowDown2 size={16} />
                         )}
                       </span>
-                    </li>
+                    </button>
 
                     {billingOpen && (
-                      <div
-                        className={`mx-4 submenu ${billingOpen ? "open" : ""}`}
-                        style={{}}
-                      >
-                        <ul className="p-1 relative">
-                          <li
-                            className={`list-none ${billingOpen ? "mt-0.5" : "mt-2.5"}`}
+                      <ul className={submenuClass}>
+                        <li>
+                          <NavLink
+                            to={withHostel("/invoice")}
+                            className={({ isActive }) =>
+                              navItemClass(isActive || currentPage === "invoice")
+                            }
+                            onClick={() => handlePageClick("invoice")}
                           >
-                            <NavLink
-                              to={withHostel("/invoice")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item d-flex ${isActive || currentPage === "invoice"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("invoice")}
-                              style={{ textDecoration: "none" }}
-                            >
-                              <Receipt
-                                size="22"
-                                variant="Bold"
-                                className="ml-1 -mt-1"
-                              />
+                            <Receipt size="20" variant="Bold" className="shrink-0" />
+                            <span className={labelClass}>Bills</span>
+                          </NavLink>
+                        </li>
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Bills
-                              </span>
-                            </NavLink>
-                          </li>
+                        <li>
+                          <NavLink
+                            to={withHostel("/retainer-invoice")}
+                            className={({ isActive }) =>
+                              navItemClass(isActive || currentPage === "booking")
+                            }
+                            onClick={() => handlePageClick("retainer-invoice")}
+                          >
+                            <CalendarAdd variant="Bold" size="20" className="shrink-0" />
+                            <span className={labelClass}>Retainer Invoice</span>
+                          </NavLink>
+                        </li>
 
-                          <li className="list-none rounded-md">
-                            <NavLink
-                              to={withHostel("/retainer-invoice")}
-                              className={({ isActive }) =>
-                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "booking"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() =>
-                                handlePageClick("retainer-invoice")
-                              }
-                            >
-                              <CalendarAdd
-                                variant="Bold"
-                                size="22"
-                                className="-mt-1"
-                              />
+                        <li>
+                          <NavLink
+                            to={withHostel("/recurring")}
+                            className={({ isActive }) =>
+                              navItemClass(isActive || currentPage === "recurring")
+                            }
+                            onClick={() => handlePageClick("recurring")}
+                          >
+                            <RulerPen variant="Bold" size="20" className="shrink-0" />
+                            <span className={labelClass}>Recurring bills</span>
+                          </NavLink>
+                        </li>
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Retainer Invoice
-                              </span>
-                            </NavLink>
-                          </li>
-
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/recurring")}
-                              className={({ isActive }) =>
-                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "recurring"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("recurring")}
-                            >
-                              <RulerPen
-                                variant="Bold"
-                                size="22"
-                                className="-mt-1"
-                              />
-
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Recurring bills
-                              </span>
-                            </NavLink>
-                          </li>
-
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/receipts")}
-                              className={({ isActive }) =>
-                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "receipts"
-                                  ? "active"
-                                  : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("receipts")}
-                            >
-                              <DocumentText
-                                variant="Bold"
-                                size="22"
-                                className="-mt-1"
-                              />
-
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Receipts
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
+                        <li>
+                          <NavLink
+                            to={withHostel("/receipts")}
+                            className={({ isActive }) =>
+                              navItemClass(isActive || currentPage === "receipts")
+                            }
+                            onClick={() => handlePageClick("receipts")}
+                          >
+                            <DocumentText variant="Bold" size="20" className="shrink-0" />
+                            <span className={labelClass}>Receipts</span>
+                          </NavLink>
+                        </li>
+                      </ul>
                     )}
+                  </li>
 
-                    <li
-                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                  <li>
+                    <NavLink
+                      to={withHostel("/electricity")}
+                      className={({ isActive }) =>
+                        navItemClass(isActive || currentPage === "eb")
+                      }
+                      onClick={() => handlePageClick("eb")}
                     >
-                      <NavLink
-                        to={withHostel("/electricity")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "eb" ? "active" : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("eb")}
-                      >
-                        <Flash size="22" variant="Bold" />
+                      <Flash size="20" variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Electricity</span>
+                    </NavLink>
+                  </li>
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Electricity
-                        </span>
-                      </NavLink>
-                    </li>
-
-                    <li
-                      className={`flex relative list-none mt-[${serviceDesk ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
-    ${serviceDesk ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                  <li>
+                    <button
+                      type="button"
+                      aria-expanded={serviceDesk}
+                      className={groupHeaderClass(serviceDesk)}
                       onClick={() => {
                         const next = !serviceDesk;
                         setServiceDesk(next);
@@ -1327,115 +1327,94 @@ function Sidebar() {
                         // setIsMdSidebarExpanded(next);
                       }}
                     >
-                      <Messages1 size="20" variant="Bold" className="-mt-1" />
-
-                      <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
-                        Service Desk
-                      </span>
-
-                      <span className="ml-auto inline-flex">
+                      <Messages1 size="20" variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Service Desk</span>
+                      <span className={groupArrowClass}>
                         {serviceDesk ? (
                           <ArrowUp2 size={16} />
                         ) : (
                           <ArrowDown2 size={16} />
                         )}
                       </span>
-                    </li>
+                    </button>
 
                     {serviceDesk && (
-                      <>
-                        <li
-                          className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
-                        >
+                      <ul className={submenuClass}>
+                        <li>
                           <NavLink
                             to={withHostel("/compliance")}
                             className={({ isActive }) =>
-                              `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "compliance"
-                                ? "active"
-                                : ""
-                              }`
+                              navItemClass(isActive || currentPage === "compliance")
                             }
                             onClick={() => handlePageClick("compliance")}
                           >
-                            <MessageQuestion size="22" variant="Bold" />
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Compliants
-                            </span>
+                            <MessageQuestion size="20" variant="Bold" className="shrink-0" />
+                            <span className={labelClass}>Compliants</span>
                           </NavLink>
                         </li>
                         {isDevelopment && (
-                          <li
-                            className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
-                          >
+                          <li>
                             <NavLink
                               to={withHostel("/requests")}
                               className={({ isActive }) =>
-                                `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "requests"
-                                  ? "active"
-                                  : ""
-                                }`
+                                navItemClass(isActive || currentPage === "requests")
                               }
                               onClick={() => handlePageClick("requests")}
                             >
-                              <Chart1 size="22" variant="Bold" />
-
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Requests
-                              </span>
+                              <Chart1 size="20" variant="Bold" className="shrink-0" />
+                              <span className={labelClass}>Requests</span>
                             </NavLink>
                           </li>
                         )}
-                      </>
+                      </ul>
                     )}
+                  </li>
 
-                    <li
-                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                  <li>
+                    <NavLink
+                      to={withHostel("/expense")}
+                      className={({ isActive }) =>
+                        navItemClass(isActive || currentPage === "expenses")
+                      }
+                      onClick={() => handlePageClick("expenses")}
                     >
-                      <NavLink
-                        to={withHostel("/expense")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "expenses"
-                            ? "active"
-                            : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("expenses")}
-                      >
-                        <MoneySend size="20" variant="Bold" />
+                      <MoneySend size="20" variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Expenses</span>
+                    </NavLink>
+                  </li>
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Expenses
-                        </span>
-                      </NavLink>
-                    </li>
-
-                    <li
-                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                  <li>
+                    <NavLink
+                      to={withHostel("/reports")}
+                      className={({ isActive }) =>
+                        navItemClass(isActive || currentPage === "reports")
+                      }
+                      onClick={() => handlePageClick("reports")}
                     >
-                      <NavLink
-                        to={withHostel("/reports")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "reports"
-                            ? "active"
-                            : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("reports")}
-                      >
-                        <Chart size="20" variant="Bold" />
+                      <Chart size="20" variant="Bold" className="shrink-0" />
+                      <span className={labelClass}>Reports</span>
+                    </NavLink>
+                  </li>
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Reports
-                        </span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+                  {/* Settings + Help live in the right panel on md+; show them in the mobile drawer */}
+                  <li className="md:hidden mt-[8px] pt-[8px] border-t border-[#E2E8F0]">
+                    <NavLink
+                      to={settingsPath}
+                      className={({ isActive }) => navItemClass(isActive)}
+                      onClick={() => {
+                        handlePageClick("settingNewDesign");
+                        setSettingsPGShow(false);
+                      }}
+                    >
+                      <img src={SettingIcon} alt="" className="w-5 h-5 shrink-0" />
+                      <span className={labelClass}>Settings</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </nav>
+            </aside>
 
-            <div className="flex-1 overflow-y-auto h-screen min-w-0">
+            <main className="flex-1 min-w-0 min-h-0 overflow-y-auto md:h-screen">
               <Routes>
                 <Route path="/payment-preview" element={<PaymentPreview />} />
                 <Route path="/graph" element={<GraphQL />} />
@@ -1868,56 +1847,46 @@ function Sidebar() {
                   }
                 />
               </Routes>
-            </div>
+            </main>
 
-            <div className="right-panel w-14 flex flex-col h-screen bg-slate-50 border-l border-slate-200 shadow-sm overflow-y-auto items-center flex-shrink-0">
-
+            {/* Right utility panel (md+). On mobile these actions live in the top bar / drawer. */}
+            <aside className="hidden md:flex w-14 shrink-0 flex-col items-center h-screen overflow-y-auto bg-slate-50 border-l border-slate-200 shadow-sm">
               <CustomTooltip text="profile" direction="right-full" usePortal={true}>
                 <div
                   ref={profileAreaRef}
                   onClick={() => setShowProfileCard((s) => !s)}
                   role="button"
                   tabIndex={0}
-                  className=" flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
+                  className="flex flex-col items-center justify-center text-center pt-[10px] cursor-pointer"
                 >
-                  {profiles === "null" ||
-                    profiles === null ||
-                    profiles === undefined ||
-                    profiles === "undefined" ||
-                    profiles === "" ||
-                    profiles === 0 ||
-                    profiles === "0" ? (
-                    <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
-                      {stateData?.accountList?.initial || ""}
-                    </div>
-                  ) : (
+                  {hasProfileImage ? (
                     <Image
                       src={profiles}
                       alt="profile-image"
                       roundedCircle
-                      className="h-12 w-12 object-cover flex-shrink-0"
+                      className="h-10 w-10 object-cover shrink-0"
                     />
+                  ) : (
+                    <div className="h-10 w-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase shrink-0">
+                      {stateData?.accountList?.initial || ""}
+                    </div>
                   )}
-
                 </div>
               </CustomTooltip>
+
               <CustomTooltip text="Quick" direction="right-full" usePortal={true}>
                 <button
+                  type="button"
                   onClick={() => setShowMenuModal(true)}
-
-                  className=" w-8 h-8 rounded-lg bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-4 transition-colors leading-none pb-0.5"
+                  className="w-8 h-8 rounded-[8px] bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-[16px] transition-colors leading-none pb-0.5"
                 >
                   +
-
                 </button>
               </CustomTooltip>
 
-              <div className="flex flex-col items-center justify-start gap-4 mt-7">
+              <div className="flex flex-col items-center justify-start gap-[16px] mt-[28px]">
                 <CustomTooltip text="Search" direction="right-full" usePortal={true}>
-                  <div
-                    className="relative flex flex-col items-center gap-1 cursor-pointer"
-
-                  >
+                  <div className="relative flex flex-col items-center cursor-pointer">
                     <img src={SearchVector} alt="Search" className="w-6 h-6" />
                   </div>
                 </CustomTooltip>
@@ -1927,8 +1896,7 @@ function Sidebar() {
                     onClick={handleShowNotification}
                     onMouseEnter={() => handleMouseEnter("notification")}
                     onMouseLeave={handleMouseLeave}
-                    className="relative flex flex-col items-center gap-1 cursor-pointer"
-
+                    className="relative flex flex-col items-center cursor-pointer"
                   >
                     <div className="relative">
                       <Notification
@@ -1936,21 +1904,16 @@ function Sidebar() {
                         color={
                           hoveredIcon === "notification" ? "#1E45E1" : "#64748B"
                         }
-                        onClick={handleShowNotification}
                       />
-
-                      {state?.UsersList?.hotelDetailsinPg?.unreadNotificationCount >
-                        0 && (
-                          <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
-                            {
-                              state.UsersList?.hotelDetailsinPg
-                                ?.unreadNotificationCount
-                            }
-                          </span>
-                        )}
+                      {unreadNotificationCount > 0 && (
+                        <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
+                          {unreadNotificationCount}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </CustomTooltip>
+
                 <CustomTooltip text="Settings" direction="right-full" usePortal={true}>
                   <NavLink
                     to={settingsPath}
@@ -1961,33 +1924,24 @@ function Sidebar() {
                       setSettingsPGShow(false);
                     }}
                     className={({ isActive }) =>
-                      `settings-link ${isActive ? "active" : ""} cursor-pointer relative flex flex-col items-center gap-1 no-underline transition-transform`
+                      `relative flex flex-col items-center no-underline cursor-pointer transition-transform hover:scale-110 ${isActive ? "opacity-100" : ""}`
                     }
-
                   >
-                    <img
-                      src={SettingIcon}
-                      alt="Settings Icon"
-                      className="w-6 h-6"
-                    />
+                    <img src={SettingIcon} alt="Settings Icon" className="w-6 h-6" />
                   </NavLink>
                 </CustomTooltip>
+
                 <CustomTooltip text="Help" direction="right-full" usePortal={true}>
                   <div
                     onMouseEnter={() => handleMouseEnter("helpVideo")}
                     onMouseLeave={handleMouseLeave}
-                    className="relative flex flex-col items-center gap-1 cursor-pointer"
-
+                    className="relative flex flex-col items-center cursor-pointer"
                   >
-                    <img
-                      src={HelpVideoIcon}
-                      alt="Help Video Icon"
-                      className="w-6 h-6"
-                    />
+                    <img src={HelpVideoIcon} alt="Help Video Icon" className="w-6 h-6" />
                   </div>
                 </CustomTooltip>
               </div>
-            </div>
+            </aside>
           </div>
 
           <SidebarProfile

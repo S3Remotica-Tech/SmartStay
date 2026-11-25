@@ -5,106 +5,11 @@ import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -403,7 +308,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     Employment Status
                   </label>
 
@@ -425,12 +330,12 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                       )
                     }
                     placeholder="Employment Status"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles()}
                   />
                 </div>
 
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     Company / College
                   </label>
 
@@ -439,13 +344,13 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     onChange={(e) =>
                       handleJobChange(index, "organizationName", e.target.value)
                     }
-                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                    className={fieldClass()}
                     placeholder="Company / College"
                   />
                 </div>
 
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     Job Role
                   </label>
 
@@ -463,12 +368,12 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                       handleJobChange(index, "role", selected?.value || "")
                     }
                     placeholder="Job Role"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles()}
                   />
                 </div>
 
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     Work Location
                   </label>
 
@@ -477,13 +382,13 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     onChange={(e) =>
                       handleJobChange(index, "workLocation", e.target.value)
                     }
-                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                    className={fieldClass()}
                     placeholder="Work Location"
                   />
                 </div>
 
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     Shift Type
                   </label>
 
@@ -501,12 +406,12 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                       handleJobChange(index, "shiftType", selected?.value || "")
                     }
                     placeholder="Shift Type"
-                    styles={CustomStyles}
+                    styles={fieldSelectStyles()}
                   />
                 </div>
 
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     From Time
                   </label>
 
@@ -516,12 +421,12 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     onChange={(e) =>
                       handleJobChange(index, "shiftStartsFrom", e.target.value)
                     }
-                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                    className={fieldClass()}
                   />
                 </div>
 
                 <div>
-                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                  <label className={fieldLabelClass}>
                     To Time
                   </label>
 
@@ -531,7 +436,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     onChange={(e) =>
                       handleJobChange(index, "shiftEndsAt", e.target.value)
                     }
-                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                    className={fieldClass()}
                   />
                 </div>
               </div>
@@ -547,7 +452,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
             </button>
           </div>
         </div>
-        {noChanges && <ErrorMessage message={noChanges} type="error" />}
+        {noChanges && <ErrorMessage className="mt-[6px]" message={noChanges} type="error" />}
         <div className="flex justify-end gap-3 border-t px-6 py-4">
           <button onClick={handleClose} className="px-5 py-2 border rounded-lg">
             Cancel

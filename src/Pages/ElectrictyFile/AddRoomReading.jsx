@@ -10,6 +10,12 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function AddRoomReading({
   show,
@@ -229,15 +235,15 @@ function AddRoomReading({
           </div>
 
           <Form.Group className="mt-3">
-            <Form.Label className="font-gilroy font-medium text-sm leading-none tracking-normal m-0 p-0">
-              Reading Date <span className="text-red-500 text-xl">*</span>
+            <Form.Label className={fieldLabelClass}>
+              Reading Date <span className={fieldRequiredClass}>*</span>
             </Form.Label>
 
             <div className="datepicker-wrapper relarive w-full mt-1">
               <div className="datepicker-wrapper relative w-full">
                 <DatePicker
                   ref={readingDateRef}
-                  className="w-full h-12 cursor-pointer font-gilroy"
+                  className={datePickerClass(!!dateError)}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={readingDate ? dayjs(readingDate) : null}
@@ -248,13 +254,13 @@ function AddRoomReading({
               </div>
             </div>
 
-            {dateError && <ErrorMessage message={dateError} type="error" />}
+            {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />}
           </Form.Group>
 
           <Form.Group className="mt-3">
             <div className="flex items-center justify-between w-full mb-1">
-              <Form.Label className="font-gilroy font-medium text-sm leading-none tracking-normal mb-0 p-0">
-                Reading <span className="text-red-500 text-xl">*</span>
+              <Form.Label className={fieldLabelClass}>
+                Reading <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
               {selectedRowDetails?.currentReading ||
@@ -272,26 +278,26 @@ function AddRoomReading({
             </div>
 
             <Form.Control
-              className={`mt-2 text-sm ${currentReading ? "font-semibold" : "font-medium"} px-3 py-3 font-gilroy`}
+              className={fieldClass(!!readingError)}
               type="number"
               placeholder="Enter Reading"
               value={currentReading}
               onChange={handleCurrentReadingChange}
             />
             {readingError && (
-              <ErrorMessage message={readingError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={readingError} type="error" />
             )}
           </Form.Group>
 
           {changesError && (
             <div className="flex justify-center">
-              <ErrorMessage message={changesError} type="error" />
+              <ErrorMessage className="mt-[6px]" message={changesError} type="error" />
             </div>
           )}
 
           {state.UsersList?.roomReadingError && (
             <div className="flex justify-center">
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.UsersList?.roomReadingError}
                 type="error"
               />

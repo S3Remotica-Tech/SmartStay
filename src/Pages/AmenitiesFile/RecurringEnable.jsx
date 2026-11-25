@@ -8,6 +8,11 @@ import Form from 'react-bootstrap/Form';
 import Select from "react-select";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 
 function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
@@ -42,62 +47,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
 
 
-    const customStyles = {
 
-        control: (base) => ({
-            ...base,
-            height: "40px",
-            fontFamily:"Gilroy",
-            border: "1px solid #ced4da",
-        }),
-        option: (provided, state) => ({
-            ...provided,
-            padding: "6px 10px",
-            backgroundColor: state.isFocused
-                ? "lightblue"
-                : "white",
-            color: "#222",
-            cursor: "pointer",
-             fontFamily:"Gilroy",
-        }),
-        menu: (base) => ({
-            ...base,
-            maxHeight: "120px",
-            overflowY: "auto",
-            scrollbarWidth: "thin",
-             fontFamily:"Gilroy",
-        }),
-        menuList: (base) => ({
-            ...base,
-            maxHeight: "120px",
-            padding: 0,
-            scrollbarWidth: "thin",
-             fontFamily:"Gilroy",
-        }),
-        valueContainer: (base) => ({
-            ...base,
-            maxHeight: "40px",
-            overflow: "hidden",
-        }),
-        placeholder: (base) => ({
-            ...base,
-            color: "#555",
-        }),
-        dropdownIndicator: (base) => ({
-            ...base,
-            color: "#555",
-            display: "inline-block",
-            fill: "currentColor",
-            lineHeight: 1,
-            stroke: "currentColor",
-            strokeWidth: 0,
-            cursor: "pointer",
-        }),
-        indicatorSeparator: () => ({
-            display: "none",
-        }),
-
-    }
 
     const handleStartDateChange = (selectedOption) => {
         setStartDate(selectedOption ? selectedOption.value : null);
@@ -187,11 +137,11 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                         <div className='row mt-2 row-gap-2'>
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation Start Date Will Be
+                                    <Form.Label className={fieldLabelClass}>Amenities Calculation Start Date Will Be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                                     {errorStartDate && (
-                                       <ErrorMessage message={errorStartDate} type="error" />
+                                       <ErrorMessage className="mt-[6px]" message={errorStartDate} type="error" />
                                     )}
                                 </Form.Group>
 
@@ -202,7 +152,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                                     value={dayOptions.find((option) => option.value === startDate) || null}
                                     onChange={handleStartDateChange}
                                     placeholder="Start Day"
-                                    styles={customStyles}
+                                    styles={fieldSelectStyles(!!errorEndDate)}
 
                                 />
                             </div>
@@ -213,11 +163,11 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation End Date Will Be
+                                    <Form.Label className={fieldLabelClass}>Amenities Calculation End Date Will Be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                                     {errorEndDate && (
-                                         <ErrorMessage message={errorEndDate} type="error" />
+                                         <ErrorMessage className="mt-[6px]" message={errorEndDate} type="error" />
                                     )}
                                 </Form.Group>
 
@@ -228,7 +178,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                                     value={dayOptionsEnd.find((option) => option.value === endDate) || null}
                                     onChange={handleEndDateChange}
                                     placeholder="End Day"
-                                    styles={customStyles}
+                                    styles={fieldSelectStyles()}
 
                                 />
                             </div>
@@ -242,9 +192,9 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Form.Select
+                                <Form.Select className={fieldClass()}
                                     id="vendor-select"
-                                   style={{ fontFamily: "Gilroy" ,color: "#4B4B4B",fontWeight:500}}
+                                  
                                     value={recurringDay}
                                     onChange={handleRecurringDayChange}
                                 >

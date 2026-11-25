@@ -11,6 +11,12 @@ import { CloseCircle } from "iconsax-react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function MoveToNoticePGAndTenant(props) {
   const state = useSelector((state) => state);
@@ -245,12 +251,12 @@ function MoveToNoticePGAndTenant(props) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-900 font-gilroy">
-                  Request Date <span className="text-red-500 text-xl">*</span>
+                <label className={fieldLabelClass}>
+                  Request Date <span className={fieldRequiredClass}>*</span>
                 </label>
                 <div className="relative w-full mt-1">
                   <DatePicker
-                    className="w-full h-12 border border-gray-300 rounded px-3 cursor-pointer font-gilroy"
+                    className={datePickerClass(!!checkoUtrequestDateError)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={requestDate ? dayjs(requestDate) : null}
@@ -280,7 +286,7 @@ function MoveToNoticePGAndTenant(props) {
                   />
                 </div>
                 {checkoUtrequestDateError && (
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={checkoUtrequestDateError}
                     type="error"
                   />
@@ -288,12 +294,12 @@ function MoveToNoticePGAndTenant(props) {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-900 font-gilroy">
-                  Check-Out Date <span className="text-red-500 text-xl">*</span>
+                <label className={fieldLabelClass}>
+                  Check-Out Date <span className={fieldRequiredClass}>*</span>
                 </label>
                 <div className="relative w-full mt-1">
                   <DatePicker
-                    className="w-full h-12 border border-gray-300 rounded px-3 cursor-pointer font-gilroy"
+                    className={datePickerClass(!!checkoUtDateError)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -320,18 +326,18 @@ function MoveToNoticePGAndTenant(props) {
                   />
                 </div>
                 {checkoUtDateError && (
-                  <ErrorMessage message={checkoUtDateError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={checkoUtDateError} type="error" />
                 )}
                 {joiningError && (
-                  <ErrorMessage message={joiningError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={joiningError} type="error" />
                 )}
               </div>
             </div>
 
             <div className="md:col-span-2">
-              <label
+              <label className={fieldLabelClass}
                 htmlFor="comments"
-                className="mt-2 text-sm font-medium text-gray-700 font-gilroy"
+               
               >
                 Reason (Comments)
               </label>
@@ -343,15 +349,12 @@ function MoveToNoticePGAndTenant(props) {
                 onChange={handleCommentsChange}
                 placeholder="Enter Comments"
                 required
-                className={`mt-2 w-full h-12 px-3 rounded-md text-base font-medium font-gilroy border ${comments
-                  ? "border-gray-700 text-gray-900"
-                  : "border-gray-300 text-gray-500"
-                  } focus:outline-none`}
+                className={fieldClass()}
               />
             </div>
 
             {state.UsersList.errorMessageAddCheckOut && (
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.UsersList.errorMessageAddCheckOut}
                 type="error"
               />

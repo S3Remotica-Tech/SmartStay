@@ -132,6 +132,19 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     }
   }, [state.UsersList.cancelCheckoutStatusCode]);
 
+  useEffect(() => {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
+      dispatch({
+        type: "GETALLBEDSLIST",
+        payload: { roomId: room.id },
+      });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+      }, 100);
+    }
+  }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
+
   const handleCloseReassignForm = () => {
     setShowReAssignBedForm(false);
   };

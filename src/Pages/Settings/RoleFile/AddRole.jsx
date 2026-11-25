@@ -6,6 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from "../../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldTextareaClass,
+} from "../../../Utils/FieldStyles";
 
 function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
   const state = useSelector((state) => state);
@@ -353,8 +359,8 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[600px] ">
           <div className="w-full">
             <div className="mb-2">
-              <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
-                Role Name <span className="text-red-500 text-[20px]">*</span>
+              <label className={fieldLabelClass}>
+                Role Name <span className={fieldRequiredClass}>*</span>
               </label>
               <input
                 id="form-controls"
@@ -362,27 +368,27 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                 placeholder="Enter Role"
                 value={roleName}
                 onChange={(e) => handleRoleName(e)}
-                className="w-full h-[45px] px-3 text-[14px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                className={fieldClass(!!errorForm)}
               />
-              {errorForm && <ErrorMessage message={errorForm} type="error" />}
+              {errorForm && <ErrorMessage className="mt-[6px]" message={errorForm} type="error" />}
 
-              {roleError && <ErrorMessage message={roleError} type="error" />}
+              {roleError && <ErrorMessage className="mt-[6px]" message={roleError} type="error" />}
               {editRoleError && (
-                <ErrorMessage message={editRoleError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={editRoleError} type="error" />
               )}
             </div>
           </div>
 
           <div className="w-full">
             <div className="mb-2">
-              <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
+              <label className={fieldLabelClass}>
                 Role Description{" "}
               </label>
               <textarea
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Enter description"
-                className="w-full border rounded px-3 py-2 text-sm font-gilroy font-medium border border-[#D9D9D9] rounded-lg shadow-none focus:outline-none"
+                className={fieldTextareaClass()}
               />
             </div>
           </div>
@@ -421,13 +427,13 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
         {errorIsChanged && (
           <div className="flex justify-center" style={{ textAlign: "center" }}>
-            <ErrorMessage message={errorIsChanged} type="error" />
+            <ErrorMessage className="mt-[6px]" message={errorIsChanged} type="error" />
           </div>
         )}
 
         {errorPermission && (
           <div className="flex justify-start ms-3">
-            <ErrorMessage message={errorPermission} type="error" />
+            <ErrorMessage className="mt-[6px]" message={errorPermission} type="error" />
           </div>
         )}
 

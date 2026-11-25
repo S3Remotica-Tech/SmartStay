@@ -10,91 +10,12 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const selectStyles = {
-  control: (base) => ({
-    ...base,
-    height: "auto",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    color: "#4B4B4B",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    outline: "none",
-    "&:hover": {
-      border: "1px solid #D9D9D9",
-    },
-  }),
-  valueContainer: (base) => ({
-    ...base,
-    maxHeight: "60px",
-    overflowY: "auto",
-    flexWrap: "wrap",
-  }),
-  multiValue: (base) => ({
-    ...base,
-    backgroundColor: "#FFF",
-    borderRadius: "6px",
-  }),
-
-  multiValueLabel: (base) => ({
-    ...base,
-    fontSize: "12px",
-    fontWeight: 600,
-    color: "#000000",
-  }),
-
-  multiValueRemove: (base) => ({
-    ...base,
-    cursor: "pointer",
-    borderRadius: 10,
-    color: "#FF0000",
-    ":hover": {
-      color: "#FF0000",
-    },
-  }),
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#f8f9fa",
-    border: "1px solid #ced4da",
-    fontFamily: "Gilroy, sans-serif",
-    fontSize: "14px",
-  }),
-  menuList: (base) => ({
-    ...base,
-    backgroundColor: "#f8f9fa",
-    maxHeight: "120px",
-    padding: 0,
-    scrollbarWidth: "thin",
-    overflowY: "auto",
-    fontFamily: "Gilroy, sans-serif",
-    fontSize: "14px",
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: "#555",
-  }),
-  option: (base, state) => ({
-    ...base,
-    cursor: "pointer",
-    backgroundColor: state.isFocused ? "" : "white",
-    color: "#000",
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    color: "#555",
-    cursor: "pointer",
-  }),
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-  clearIndicator: () => ({
-    display: "none",
-  }),
-};
 function BookingsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -119,9 +40,6 @@ function BookingsFilter({ show, handleClose, size }) {
   //   setSelectedPaymentMode(selected.map((opt) => opt.value));
   // };
 
-  const inputClass =
-    "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
-    "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
 
   const filterOptionsData = useSelector(
     (state) => state?.Booking?.tenantBookingList?.filterOptions,
@@ -393,32 +311,15 @@ function BookingsFilter({ show, handleClose, size }) {
                   marginBottom: 5,
                 }}
               >
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontStyle: "normal",
-                    fontSize: "12px",
-                    letterSpacing: "0",
-                    marginBottom: 0,
-                    padding: 0,
-                    color: "#4B4B4B",
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   Tenant
                 </Form.Label>
               </div>
 
-              <Form.Control
-                style={{
-                  marginTop: 10,
-                  fontSize: 14,
-                  fontWeight: 600,
-                  padding: "8px 14px",
-                  fontFamily: "Gilroy",
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                }}
+              <Form.Control className={fieldClass()}
+               
                 type="text"
                 placeholder="Enter Tenant Name"
                 value={tenantName}
@@ -434,17 +335,16 @@ function BookingsFilter({ show, handleClose, size }) {
               </label>
             </div>
             <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+              <Form.Label className={fieldLabelClass}>
                 Status
               </Form.Label>
               <Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={paymentStatusOptions}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select "
                 menuPlacement="auto"
-                classNamePrefix="custom"
                 value={
                   paymentStatusOptions.find(
                     (option) => option.value === selectedBillStatus?.value,
@@ -461,11 +361,11 @@ function BookingsFilter({ show, handleClose, size }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+              <Form.Label className={fieldLabelClass}>
                 Period
               </Form.Label>
               <Select
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select"
                 value={period}
                 onChange={setPeriod}
@@ -474,7 +374,7 @@ function BookingsFilter({ show, handleClose, size }) {
             </Form.Group>
 
             {/* <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+              <Form.Label className={fieldLabelClass}>
                 Payment Mode
               </Form.Label>
               <Select
@@ -485,20 +385,20 @@ function BookingsFilter({ show, handleClose, size }) {
                 options={paymentModeOptions}
                 value={selectedPaymentModeOptions}
                 onChange={handlePaymentModeChange}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Payment Mode"
               />{" "}
             </Form.Group> */}
 
             <Form.Group className="mb-3">
-              <Form.Label className="text-muted text-[12px]">Floor</Form.Label>
+              <Form.Label className={fieldLabelClass}>Floor</Form.Label>
 
               <Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select floor(s)"
                 value={floor}
                 onChange={setFloor}
@@ -507,13 +407,13 @@ function BookingsFilter({ show, handleClose, size }) {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label className="text-muted text-[12px]">Room</Form.Label>
+              <Form.Label className={fieldLabelClass}>Room</Form.Label>
 
               <Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-                styles={selectStyles}
+                styles={fieldSelectStyles()}
                 placeholder="Select room(s)"
                 value={room}
                 onChange={setRoom}
@@ -529,7 +429,7 @@ function BookingsFilter({ show, handleClose, size }) {
             </div>
 
             <div className="mt-2 mb-3">
-              <label className="text-xs font-medium text-gray-600">
+              <label className={fieldLabelClass}>
                 Paid Amount Range
               </label>
 
@@ -539,20 +439,20 @@ function BookingsFilter({ show, handleClose, size }) {
                   placeholder="₹Min"
                   value={paidAmountMin}
                   onChange={handlePaidMinChange}
-                  className={inputClass}
+                  className={fieldClass()}
                 />
                 <input
                   type="number"
                   placeholder="₹Max"
                   value={paidAmountMax}
                   onChange={handlePaidMaxChange}
-                  className={inputClass}
+                  className={fieldClass()}
                 />
               </div>
               {paidAmountMin &&
                 paidAmountMax &&
                 paidAmountMin > paidAmountMax && (
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message="Max amount should be greater than Min"
                     type="error"
                   />

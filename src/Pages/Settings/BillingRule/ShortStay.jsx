@@ -4,6 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+} from "../../../Utils/FieldStyles";
 
 function ShortStayRecurringModal({ handleClose, show }) {
 
@@ -24,29 +29,6 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
   const ampmOptions = ["AM", "PM"].map((p) => ({ value: p, label: p }));
 
-  const selectStyle = {
-    control: (base) => ({
-      ...base,
-      height: 45,
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      fontFamily: "Gilroy",
-    }),
-    option: (base, state) => ({
-      ...base,
-      backgroundColor: state.isFocused ? "#1E45E1" : "#fff",
-      color: state.isFocused ? "#fff" : "#222",
-      fontSize: 14,
-      cursor: "pointer",
-    }),
-    menuList: (base) => ({
-      ...base,
-      maxHeight: 150,
-      padding: 0,
-    }),
-    indicatorSeparator: () => ({ display: "none" }),
-  };
 
 
 
@@ -111,24 +93,10 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
 
               <Form.Group controlId="" style={{ marginBottom: 16 }}>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}>From</Form.Label>
-                <Form.Control type="text"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 40,
-                    borderRadius: 8,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 >From</Form.Label>
+                <Form.Control className={fieldClass()} type="text"
+                 
                   onFocus={() => {
                     setFromEditing(true);
                     setCheckInFromHour("");
@@ -147,24 +115,10 @@ function ShortStayRecurringModal({ handleClose, show }) {
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 ">
               <Form.Group controlId="" style={{ marginBottom: 16 }}>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}>To</Form.Label>
-                <Form.Control type="text"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 40,
-                    borderRadius: 8,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 >To</Form.Label>
+                <Form.Control className={fieldClass()} type="text"
+                 
 
                   value={
                     checkInToHour || checkInToMinute || checkInToAmPm
@@ -235,27 +189,13 @@ function ShortStayRecurringModal({ handleClose, show }) {
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 ">
               <Form.Group controlId="" style={{ marginBottom: 16 }}>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   From
                 </Form.Label>
-                <Form.Control type="text"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 40,
-                    borderRadius: 8,
-                  }}
+                <Form.Control className={fieldClass()} type="text"
+                 
 
                   value={
                     checkOutFromHour || checkOutFromMinute || checkOutFromAmPm
@@ -277,27 +217,13 @@ function ShortStayRecurringModal({ handleClose, show }) {
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 ">
               <Form.Group controlId="" style={{ marginBottom: 16 }}>
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                <Form.Label className={fieldLabelClass}
+                 
                 >
                   To
                 </Form.Label>
-                <Form.Control type="text"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 40,
-                    borderRadius: 8,
-                  }}
+                <Form.Control className={fieldClass()} type="text"
+                 
                   placeholder="HH:MM AM/PM"
                   value={
                     checkOutToHour || checkOutToMinute || checkOutToAmPm
@@ -319,19 +245,19 @@ function ShortStayRecurringModal({ handleClose, show }) {
                 <>
                   <Select
                     options={hourOptions}
-                    styles={selectStyle}
+                    styles={fieldSelectStyles()}
                     placeholder="HH"
                     onChange={(e) => setCheckOutFromHour(e.value)}
                   />
                   <Select
                     options={minuteOptions}
-                    styles={selectStyle}
+                    styles={fieldSelectStyles()}
                     placeholder="MM"
                     onChange={(e) => setCheckOutFromMinute(e.value)}
                   />
                   <Select
                     options={ampmOptions}
-                    styles={selectStyle}
+                    styles={fieldSelectStyles()}
                     placeholder="AM/PM"
                     onChange={(e) => setCheckOutFromAmPm(e.value)}
                   />
@@ -340,19 +266,19 @@ function ShortStayRecurringModal({ handleClose, show }) {
                 <>
                   <Select
                     options={hourOptions}
-                    styles={selectStyle}
+                    styles={fieldSelectStyles()}
                     placeholder="HH"
                     onChange={(e) => setCheckOutToHour(e.value)}
                   />
                   <Select
                     options={minuteOptions}
-                    styles={selectStyle}
+                    styles={fieldSelectStyles()}
                     placeholder="MM"
                     onChange={(e) => setCheckOutToMinute(e.value)}
                   />
                   <Select
                     options={ampmOptions}
-                    styles={selectStyle}
+                    styles={fieldSelectStyles()}
                     placeholder="AM/PM"
                     onChange={(e) => setCheckOutToAmPm(e.value)}
                   />
@@ -364,21 +290,11 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
 
           <Form.Group style={{ marginBottom: 24 }}>
-            <Form.Label style={{ fontWeight: 600 }}>Late Fee</Form.Label>
+            <Form.Label className={fieldLabelClass}>Late Fee</Form.Label>
             <InputGroup>
-              <Form.Control
+              <Form.Control className={fieldClass()}
                 placeholder="₹ 0.00"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  borderRight: "none", 
-                  height: 40,
-                  borderRadius: "8px 0 0 8px",
-                }}
+               
               />
               <InputGroup.Text
                 style={{

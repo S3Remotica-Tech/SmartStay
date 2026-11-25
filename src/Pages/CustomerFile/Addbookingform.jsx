@@ -20,109 +20,14 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -706,7 +611,7 @@ function BookingModal(props) {
         </div>
 
         {state.Booking?.ErrorAssignBookingMobile && (
-          <ErrorMessage
+          <ErrorMessage className="mt-[6px]"
             message={state.Booking?.ErrorAssignBookingMobile}
             type="error"
           />
@@ -757,14 +662,14 @@ function BookingModal(props) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
                 <div>
                   <Form.Group controlId="bookingDate">
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       Booking Date{" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <div className="datepicker-wrapper relative w-full mt-px">
                       <DatePicker
-                        className="w-full h-12 cursor-pointer font-gilroy"
+                        className={datePickerClass(!!dateError)}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={bookingDate ? dayjs(bookingDate) : null}
@@ -781,11 +686,11 @@ function BookingModal(props) {
                     </div>
                   </Form.Group>
                   {dateError && (
-                    <ErrorMessage message={dateError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={dateError} type="error" />
                   )}
 
                   {state.Booking?.ErrorAssignBookingDate && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.Booking?.ErrorAssignBookingDate}
                       type="error"
                     />
@@ -794,9 +699,9 @@ function BookingModal(props) {
 
                 <div>
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       Booking Amount{" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <FormControl
@@ -810,26 +715,26 @@ function BookingModal(props) {
                           e.preventDefault();
                         }
                       }}
-                      className="text-base font-medium text-[#4B4B4B] font-gilroy border border-gray-300 h-[50px] rounded-lg focus:outline-none focus:ring-0"
+                      className={fieldClass(!!amountError)}
                     />
                   </Form.Group>
 
                   {amountError && (
-                    <ErrorMessage message={amountError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
                   )}
                 </div>
 
                 <div>
                   <Form.Group controlId="joiningDate">
-                    <Form.Label className="text-sm font-medium font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       Joining Date (Tentative){" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <div className="datepicker-wrapper relative w-full mt-1">
                       <div className="datepicker-wrapper relative w-full">
                         <DatePicker
-                          className="w-full h-12 cursor-pointer font-gilroy"
+                          className={datePickerClass(!!joiningDateError)}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
                           value={joiningDate ? dayjs(joiningDate) : null}
@@ -854,11 +759,11 @@ function BookingModal(props) {
                   </Form.Group>
 
                   {joiningDateError && (
-                    <ErrorMessage message={joiningDateError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={joiningDateError} type="error" />
                   )}
 
                   {state.Booking?.ErrorAssignBookingDate && (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.Booking?.ErrorAssignBookingDate}
                       type="error"
                     />
@@ -867,9 +772,9 @@ function BookingModal(props) {
 
                 <div>
                   <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy mt-1">
+                    <Form.Label className={fieldLabelClass}>
                       Mode Of Transaction{" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <Select isDisabled={!joiningDate}
@@ -889,7 +794,7 @@ function BookingModal(props) {
                       placeholder="Select Payment"
                       // isDisabled={currentItem}
                       noOptionsMessage={() => "No mode available"}
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!paymentError)}
                       components={{
                         Option,
                         SingleValue,
@@ -900,13 +805,13 @@ function BookingModal(props) {
                     />
                   </Form.Group>
                   {paymentError && (
-                    <ErrorMessage message={paymentError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
                   )}
                 </div>
 
                 <div className="mt-1">
                   <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy">
+                    <Form.Label className={fieldLabelClass}>
                       Transaction ID{" "}
                     </Form.Label>
                     <FormControl
@@ -915,15 +820,15 @@ function BookingModal(props) {
                       placeholder="Enter Transaction ID"
                       value={transactionId}
                       onChange={(e) => handleTransactionId(e)}
-                      className="w-full h-12 rounded-lg border border-gray-300 text-base font-medium text-[#4B4B4B] font-gilroy focus:outline-none focus:ring-0"
+                      className={fieldClass()}
                     />
                   </Form.Group>
                 </div>
 
                 <div>
                   <Form.Group controlId="formFloor">
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Floor <span className="text-red-500 text-xl">*</span>
+                    <Form.Label className={fieldLabelClass}>
+                      Floor <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <Select
@@ -948,73 +853,23 @@ function BookingModal(props) {
                           : null
                       }
                       placeholder="Select a Floor"
-                      classNamePrefix="custom"
                       menuPlacement="auto"
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "48px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          display: "inline-block",
-                          fill: "currentColor",
-                          lineHeight: 1,
-                          stroke: "currentColor",
-                          strokeWidth: 0,
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-                          color: "#000",
-                        }),
+                        ...fieldSelectStyles(!!floorError),
+                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
                     />
                   </Form.Group>
 
                   {floorError && (
-                    <ErrorMessage message={floorError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
                   )}
                 </div>
 
                 <div>
                   <Form.Group controlId="formRoom">
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Room <span className="text-red-500 text-xl">*</span>
+                    <Form.Label className={fieldLabelClass}>
+                      Room <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
                     <Select
@@ -1036,71 +891,21 @@ function BookingModal(props) {
                           : null
                       }
                       placeholder="Select a Room"
-                      classNamePrefix="custom"
                       menuPlacement="top"
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          display: "inline-block",
-                          fill: "currentColor",
-                          lineHeight: 1,
-                          stroke: "currentColor",
-                          strokeWidth: 0,
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-                          color: "#000",
-                        }),
+                        ...fieldSelectStyles(!!roomError),
+                        menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
                     />
                   </Form.Group>
                   {roomError && (
-                    <ErrorMessage message={roomError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
                   )}
                 </div>
 
                 <div>
-                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                    Bed <span className="text-red-500 text-xl">*</span>
+                  <Form.Label className={fieldLabelClass}>
+                    Bed <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <Select
@@ -1139,63 +944,15 @@ function BookingModal(props) {
                         : null
                     }
                     placeholder="Select a Bed"
-                    classNamePrefix="custom"
                     menuPlacement="top"
                     styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "50px",
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        fontSize: "16px",
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        display: "inline-block",
-                        fill: "currentColor",
-                        lineHeight: 1,
-                        stroke: "currentColor",
-                        strokeWidth: 0,
-                        cursor: "pointer",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                        color: "#000",
-                      }),
+                      ...fieldSelectStyles(),
+                      menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                     }}
                   />
 
                   {state.Booking?.bookingBedError ? (
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.Booking?.bookingBedError}
                       type="error"
                     />
@@ -1203,10 +960,10 @@ function BookingModal(props) {
 
                   {bedWarning ? (
                     <div ref={errorRef} tabIndex={-1} className="">
-                      <ErrorMessage message={bedWarning} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={bedWarning} type="error" />
                     </div>
                   ) : null}
-                  {bedError && <ErrorMessage message={bedError} type="error" />}
+                  {bedError && <ErrorMessage className="mt-[6px]" message={bedError} type="error" />}
                 </div>
               </div>
             </div>

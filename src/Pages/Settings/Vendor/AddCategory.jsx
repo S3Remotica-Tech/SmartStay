@@ -4,6 +4,11 @@ import { Add } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../../Utils/FieldStyles";
 
 function AddCategory({ show, onClose, updateDetails }) {
   const state = useSelector((state) => state);
@@ -123,8 +128,8 @@ function AddCategory({ show, onClose, updateDetails }) {
 
         <hr className="m-0  border-1 border-gray-400" />
         <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls max-h-[500px] relative">
-          <label className="font-gilroy text-[14px] font-medium text-[#222] leading-normal">
-            Category Name <span className="text-red-500">*</span>
+          <label className={fieldLabelClass}>
+            Category Name <span className={fieldRequiredClass}>*</span>
           </label>
 
           <input
@@ -133,14 +138,14 @@ function AddCategory({ show, onClose, updateDetails }) {
             value={categoryName}
             onChange={handleChange}
             placeholder="Enter category name"
-            className="w-full mt-1 border border-gray-300 rounded-lg h-[45px] px-3 focus:outline-none "
+            className={fieldClass(!!categoryError)}
           />
 
           {categoryError && (
-            <ErrorMessage message={categoryError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={categoryError} type="error" />
           )}
           {state.Settings?.vendorCategoryError && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={["Category Name Already Exist"]}
               type="error"
             />

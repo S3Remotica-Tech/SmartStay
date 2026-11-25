@@ -15,109 +15,14 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -447,9 +352,9 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-2 my-2">
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+              <label className={fieldLabelClass}>
                 Refund Amount{" "}
-                <span className="text-[20px] text-red-500">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <input
@@ -462,17 +367,17 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 onKeyDown={(e) => {
                   if (e.key === "-") e.preventDefault();
                 }}
-                className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
+                className={`${fieldClass(!!refundAmountError)} no-spinner`}
               />
 
               {refundAmountError.trim() !== "" && (
-                <ErrorMessage message={refundAmountError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={refundAmountError} type="error" />
               )}
             </div>
 
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
-                Balance Due <span className="text-[20px] text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Balance Due <span className={fieldRequiredClass}>*</span>
               </label>
 
               <input
@@ -487,20 +392,20 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                     0,
                   ) - (Number(refundAmount) || 0)
                 }
-                className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] bg-gray-100 px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0 disabled:cursor-not-allowed disabled:bg-gray-100"
+                className={`${fieldClass()} no-spinner`}
               />
             </div>
 
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
-                Refund Date <span className="text-[20px] text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Refund Date <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative w-full">
                 <div className="datepicker-wrapper relative w-full">
                   <DatePicker
                     wrapperClassName="w-full"
-                    className="w-full font-gilroy"
+                    className={datePickerClass(!!refundDateError)}
                     style={{ height: 48 }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -536,13 +441,13 @@ function RefundAmount({ show, handleClose, refundDetails }) {
               </div>
 
               {refundDateError.trim() !== "" && (
-                <ErrorMessage message={refundDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={refundDateError} type="error" />
               )}
             </div>
 
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
-                Refund From <span className="text-[20px] text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Refund From <span className={fieldRequiredClass}>*</span>
               </label>
 
               <Select
@@ -551,10 +456,9 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 value={refundFrom}
                 placeholder="Please Select"
                 className="w-full"
-                classNamePrefix="custom"
                 menuPlacement="auto"
                 noOptionsMessage={() => "No options available"}
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!refundFromError)}
                 components={{
                   Option,
                   SingleValue,
@@ -565,12 +469,12 @@ function RefundAmount({ show, handleClose, refundDetails }) {
               />
 
               {refundFromError.trim() !== "" && (
-                <ErrorMessage message={refundFromError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={refundFromError} type="error" />
               )}
             </div>
 
             <div className="md:col-span-2">
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+              <label className={fieldLabelClass}>
                 Transaction ID
               </label>
 
@@ -579,14 +483,14 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionId}
-                className="h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
+                className={fieldClass()}
               />
             </div>
           </div>
         </div>
         {state.InvoiceList.refundableError ? (
           <div className="d-flex justify-content-center mt-1 mb-1">
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.InvoiceList.refundableError}
               type="error"
             />

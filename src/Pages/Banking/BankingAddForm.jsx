@@ -10,6 +10,12 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -736,9 +742,9 @@ function BankingAddForm(props) {
             <div className="grid grid-cols-12 gap-x-4 gap-y-3">
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
+                  <Form.Label className={fieldLabelClass}>
                     Benificiary Name{" "}
-                    <span className="text-red-500 text-xl"> * </span>
+                    <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -747,17 +753,17 @@ function BankingAddForm(props) {
                     placeholder="Enter Benificiary Name"
                     value={accountName}
                     onChange={(e) => handleAccountName(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass(!!accountNameError)}
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <ErrorMessage message={accountNameError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={accountNameError} type="error" />
                 )}
-                {error && <ErrorMessage message={error} type="error" />}
+                {error && <ErrorMessage className="mt-[6px]" message={error} type="error" />}
               </div>
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-2">
+                  <Form.Label className={fieldLabelClass}>
                     Bank Name{" "}
                   </Form.Label>
                   <FormControl
@@ -766,18 +772,18 @@ function BankingAddForm(props) {
                     placeholder="Enter Bank Name"
                     value={bankName}
                     onChange={(e) => handleBankName(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass(!!bankNameError)}
                   />
                 </Form.Group>
                 {bankNameError && (
-                  <ErrorMessage message={bankNameError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={bankNameError} type="error" />
                 )}
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-2">
-                    Account No <span className="text-red-500 text-xl"> * </span>
+                  <Form.Label className={fieldLabelClass}>
+                    Account No <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -786,17 +792,17 @@ function BankingAddForm(props) {
                     value={accountNo}
                     onChange={(e) => handleAccountNo(e)}
                     maxLength={18}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass(!!accountNumberError)}
                   />
                 </Form.Group>
                 {accountNumberError && (
-                  <ErrorMessage message={accountNumberError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={accountNumberError} type="error" />
                 )}
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     IFSC Code{" "}
                   </Form.Label>
                   <FormControl
@@ -805,16 +811,16 @@ function BankingAddForm(props) {
                     placeholder="Enter IFSC Code"
                     value={ifscCode}
                     onChange={(e) => handleIfscCode(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass(!!ifcsCodeError)}
                   />
                 </Form.Group>
                 {ifcsCodeError && (
-                  <ErrorMessage message={ifcsCodeError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={ifcsCodeError} type="error" />
                 )}
               </div>
               <div className="col-span-12">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
                   <FormControl
@@ -823,7 +829,7 @@ function BankingAddForm(props) {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass()}
                   />
                 </Form.Group>
               </div>
@@ -831,13 +837,13 @@ function BankingAddForm(props) {
               {isChangedError && (
                 <div className="col-span-12 mt-1">
                   <div className="mx-auto w-fit text-center">
-                    <ErrorMessage message={isChangedError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
                   </div>
                 </div>
               )}
               {state.bankingDetails.bankingCreateError && (
                 <div className="flex content-center mt-1 mb-1">
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />
@@ -846,7 +852,7 @@ function BankingAddForm(props) {
 
               {/* {state.createAccount?.networkError ?
                 <div className="d-flex justify-content-center mt-1 mb-1">
-                  <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={state.createAccount?.networkError} type="error" />
                 </div>
                 : null} */}
 
@@ -869,8 +875,8 @@ function BankingAddForm(props) {
                   className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
-                    Bank <span className="text-red-500 text-xl">*</span>
+                  <Form.Label className={fieldLabelClass}>
+                    Bank <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <Select
@@ -890,66 +896,20 @@ function BankingAddForm(props) {
                     components={{ MenuList: CustomMenuList }}
                     onAddBank={() => setActiveTab("BANK")}
                     styles={{
-                      control: (base) => ({
-                        ...base,
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: bankaccount ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        boxShadow: "none",
-                        height: 48,
-                        cursor: "pointer",
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused
-                          ? "lightblue"
-                          : "white",
-                        color: "#000",
-                        fontFamily: "Gilroy",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
+                      ...fieldSelectStyles(!!bankaccountError),
+                      menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                     }}
                   />
                 </Form.Group>
                 {bankaccountError && (
-                  <ErrorMessage message={bankaccountError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={bankaccountError} type="error" />
                 )}
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
-                    UPI ID <span className="text-red-500 text-xl"> * </span>
+                  <Form.Label className={fieldLabelClass}>
+                    UPI ID <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -957,17 +917,17 @@ function BankingAddForm(props) {
                     placeholder="Enter Upi Id"
                     value={upiId}
                     onChange={(e) => handleUpiId(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass(!!upiIdError)}
                   />
                 </Form.Group>
                 {upiIdError && (
-                  <ErrorMessage message={upiIdError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={upiIdError} type="error" />
                 )}
               </div>
 
               <div className="col-span-12">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
                   <FormControl
@@ -976,18 +936,18 @@ function BankingAddForm(props) {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass()}
                   />
                 </Form.Group>
                 {isChangedError && (
                   <div className="flex justify-center">
-                    <ErrorMessage message={isChangedError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
                   </div>
                 )}
 
                 {state.bankingDetails.bankingCreateError && (
                   <div className="flex justify-center">
-                    <ErrorMessage
+                    <ErrorMessage className="mt-[6px]"
                       message={state.bankingDetails.bankingCreateError}
                       type="error"
                     />
@@ -1016,8 +976,8 @@ function BankingAddForm(props) {
                   className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
-                    Bank <span className="text-red-500 text-xl"> * </span>
+                  <Form.Label className={fieldLabelClass}>
+                    Bank <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
 
                   <Select
@@ -1037,59 +997,13 @@ function BankingAddForm(props) {
                     components={{ MenuList: CustomMenuList }}
                     onAddBank={() => setActiveTab("BANK")}
                     styles={{
-                      control: (base) => ({
-                        ...base,
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: bankaccount ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        boxShadow: "none",
-                        height: 48,
-                        cursor: "pointer",
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused
-                          ? "lightblue"
-                          : "white",
-                        color: "#000",
-                        fontFamily: "Gilroy",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
+                      ...fieldSelectStyles(!!bankaccountError),
+                      menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                     }}
                   />
                 </Form.Group>
                 {bankaccountError && (
-                  <ErrorMessage message={bankaccountError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={bankaccountError} type="error" />
                 )}
               </div>
 
@@ -1098,9 +1012,9 @@ function BankingAddForm(props) {
                   className="mb-1"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     Card Type
-                    <span className="text-red-500 text-xl"> * </span>
+                    <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <Select
                     options={[
@@ -1118,51 +1032,18 @@ function BankingAddForm(props) {
                       setIsChangedError("");
                     }}
                     placeholder="Select a Card Type"
-                    styles={{
-                      control: (base, state) => ({
-                        ...base,
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "rgba(75, 75, 75, 1)",
-                        cursor: "pointer",
-                        height: 50,
-                        borderRadius: 8,
-                        borderColor: state.isFocused ? "#E8E8E8" : "#E8E8E8",
-                        boxShadow: "none",
-                        "&:hover": {
-                          borderColor: "#C0C0C0",
-                        },
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        display: "inline-block",
-                        fill: "currentColor",
-                        lineHeight: 1,
-                        stroke: "currentColor",
-                        strokeWidth: 0,
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                        color: "#000",
-                        fontFamily: "Gilroy",
-                      }),
-                    }}
+                    styles={fieldSelectStyles(!!cardTypeError)}
                   />
 
                   {cardTypeError && (
-                    <ErrorMessage message={cardTypeError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={cardTypeError} type="error" />
                   )}
                 </Form.Group>
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     Card Number
                   </Form.Label>
                   <FormControl
@@ -1171,14 +1052,14 @@ function BankingAddForm(props) {
                     placeholder="Enter Card No"
                     value={cardNo}
                     onChange={(e) => handleCardNo(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass()}
                   />
                 </Form.Group>
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
                   <FormControl
@@ -1187,14 +1068,14 @@ function BankingAddForm(props) {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass()}
                   />
                 </Form.Group>
               </div>
 
               {state.bankingDetails.bankingCreateError && (
                 <div className="flex justify-center mt-1 mb-1">
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />
@@ -1203,7 +1084,7 @@ function BankingAddForm(props) {
               {isChangedError && (
                 <div className="col-span-12 mt-1">
                   <div className="mx-auto w-fit text-center">
-                    <ErrorMessage message={isChangedError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
                   </div>
                 </div>
               )}
@@ -1223,9 +1104,9 @@ function BankingAddForm(props) {
             <div className="grid grid-cols-12 gap-x-4 gap-y-3">
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-3">
+                  <Form.Label className={fieldLabelClass}>
                     Benificiary Name{" "}
-                    <span className="text-red-500 text-xl"> * </span>
+                    <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <FormControl
                     ref={benificiaryNameRef}
@@ -1234,18 +1115,18 @@ function BankingAddForm(props) {
                     placeholder="Enter Benificiary Name"
                     value={accountName}
                     onChange={(e) => handleAccountName(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass(!!accountNameError)}
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <ErrorMessage message={accountNameError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={accountNameError} type="error" />
                 )}
-                {error && <ErrorMessage message={error} type="error" />}
+                {error && <ErrorMessage className="mt-[6px]" message={error} type="error" />}
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium text-gray-900 font-gilroy mt-4">
+                  <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
                   <FormControl
@@ -1254,21 +1135,21 @@ function BankingAddForm(props) {
                     placeholder="Enter Description"
                     value={description}
                     onChange={(e) => handleDescription(e)}
-                    className="text-base font-medium text-gray-600 font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                    className={fieldClass()}
                   />
                 </Form.Group>
               </div>
               {isChangedError && (
                 <div className="col-span-12 mt-1">
                   <div className="mx-auto w-fit text-center">
-                    <ErrorMessage message={isChangedError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
                   </div>
                 </div>
               )}
 
               {state.bankingDetails.bankingCreateError && (
                 <div className="col-span-12 -mt-3 mb-1 flex justify-start">
-                  <ErrorMessage
+                  <ErrorMessage className="mt-[6px]"
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />

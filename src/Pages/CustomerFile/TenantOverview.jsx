@@ -83,6 +83,7 @@ import TenantRetainerInvoice from "./TenantRetainerInvoice";
 import AddTenant from "../PayingGuestFile/AddTenant";
 import DeleteDraftTenant from "../CustomerFile/DeleteDraftTenant";
 import CustomTooltip from "../../Utils/CustomTooltip";
+import DeleteProfile from "./DeleteProfile";
 
 
 function TenantOverview(props) {
@@ -169,7 +170,12 @@ function TenantOverview(props) {
     canWriteModule: canWriteTenant,
     canDeleteModule: canDeleteTenant,
     canUpdateModule: canUpdateTenant,
+
   } = useHasPermission("Customers");
+
+
+  const fileInputRef = useRef(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const {
     canWriteModule: canWriteCheckout,
@@ -207,6 +213,19 @@ function TenantOverview(props) {
 
     }
   }, [customerId, tenantId])
+
+
+  useEffect(() => {
+    if (state?.UsersList?.deleteProfilePicSuccess === 200) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      dispatch({ type: "REMOVE_DELETE_TENANT_PROFILE_PICTURE_REDUCER" });
+    }
+  }, [state?.UsersList?.deleteProfilePicSuccess]);
+
+
 
   const CustomerOverView = state?.UsersList?.customerdetails;
   const handleNavigateTenant = () => {
@@ -949,6 +968,23 @@ function TenantOverview(props) {
     }
   }, [state.UsersList?.bookingToCheckinSuccessCode]);
 
+  useEffect(() => {
+    if (state?.InvoiceList?.deleteBillsSuccess === 204) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+
+      dispatch({ type: "REMOVE_DELETE_BILLS_REDUCER" });
+
+    }
+  }, [state?.InvoiceList?.deleteBillsSuccess]);
+
+
+
+
+
+
   const handleShowBookingToCheckin = () => {
     setBookingAssignForm(true);
   };
@@ -1176,30 +1212,45 @@ function TenantOverview(props) {
 
                   {canShowEdit && isHovered && (
                     <div
-                      className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
-              ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
-                      onClick={() => {
-                        if (canUpdateTenant)
-                          document.getElementById("fileInput").click();
-                      }}
+                      className={`absolute inset-0 rounded-full flex items-center justify-center gap-[8px] bg-black/30 z-20 ${!canUpdateTenant ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                     >
-                      <img
-                        alt="image"
-                        src={EditImage}
-                        className="w-5 h-5 bg-white p-1 rounded-full"
-                      />
+                      <button
+                        type="button"
+                        title="Change photo"
+                        disabled={!canUpdateTenant}
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-[24px] h-[24px] rounded-full bg-white flex items-center justify-center cursor-pointer  disabled:opacity-50"
+                      >
+                        <img alt="edit" src={EditImage} className="w-[14px] h-[14px]" />
+                      </button>
+
+                      {imageUrl && (
+                        <button
+                          type="button"
+                          title="Delete photo"
+                          disabled={!canDeleteTenant}
+                          onClick={() => setShowDeleteConfirm(true)}
+                          className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center cursor-pointer "
+                        >
+                          <Trash size="14" color="#FF0000" />
+                        </button>
+                      )}
                     </div>
                   )}
 
                   <input
-                    id="fileInput"
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     className="hidden"
                     onChange={(e) => {
                       if (canUpdateTenant) handleImageUpload(e);
+                      e.target.value = "";
                     }}
                   />
+
+
                 </div>
 
                 <div className="min-w-0 font-gilroy">
@@ -2777,6 +2828,14 @@ function TenantOverview(props) {
                     editAdditional={editAdditional}
                   />
                 )
+              }
+
+              {showDeleteConfirm &&
+                <DeleteProfile show={showDeleteConfirm}
+
+                  onCancel={() => setShowDeleteConfirm(false)} />
+
+
               }
             </>
           </TabPanel >

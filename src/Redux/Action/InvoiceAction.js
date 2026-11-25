@@ -106,6 +106,12 @@ export async function deleteReviewBills(bill) {
   );
 }
 
+export async function deleteBills(bill) {
+  return await AxiosConfigV2.delete(
+    `/v2/bills/${bill.hostelId}/${bill.invoiceId}`,
+  );
+}
+
 // ////////////////////////////
 
 export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {

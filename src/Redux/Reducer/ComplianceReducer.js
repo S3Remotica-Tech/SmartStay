@@ -67,7 +67,20 @@ export const initialState = {
     startDate: "",
     endDate: "",
   },
+  vendorExpenseFilters: {
+    search: "",
+    startDate: "",
+    endDate: "",
+    paymentStatus: "",
+    paymentStatusLabel: "",
+    categoryId: "",
+    categoryName: "",
+    minAmount: "",
+    maxAmount: "",
+  },
 };
+
+
 
 const ComplianceReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -85,6 +98,17 @@ const ComplianceReducer = (state = initialState, action) => {
           ...action.payload,
         },
       };
+
+
+    case "SET_VENDOR_EXPENSE_FILTERS":
+      return {
+        ...state,
+        vendorExpenseFilters: {
+          ...state.vendorExpenseFilters,
+          ...action.payload,
+        },
+      };
+
 
     case "SET_COMPLIANCE_FILTERS":
       return {

@@ -9,107 +9,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  datePickerInputClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "40px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function LedgerFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
@@ -320,12 +226,12 @@ function LedgerFilter({ show, handleClose, size }) {
 
         <div className="flex-1 overflow-y-auto m-4">
           <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
+            <label className={fieldLabelClass}>
               Period
             </label>
 
             <Select
-              styles={CustomStyles}
+              styles={fieldSelectStyles()}
               placeholder="Select Period"
               options={periodOptions}
               value={period}
@@ -335,8 +241,8 @@ function LedgerFilter({ show, handleClose, size }) {
 
           {period?.value === "CUSTOM" && (<>
             <div className="mb-3">
-              <label className="block text-xs font-medium text-[#6B7280] mb-2">
-                From Date {toDate && <span className="text-red-600 text-[20px]">*</span>}
+              <label className={fieldLabelClass}>
+                From Date {toDate && <span className={fieldRequiredClass}>*</span>}
               </label>
 
               <div className="relative">
@@ -347,7 +253,7 @@ function LedgerFilter({ show, handleClose, size }) {
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
                   maxDate={new Date()}
-                  className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
+                  className={datePickerInputClass(!!fromDateError)}
                 />
 
                 <Calendar
@@ -357,13 +263,13 @@ function LedgerFilter({ show, handleClose, size }) {
                 />
               </div>
               {fromDateError && (
-                <ErrorMessage message={fromDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={fromDateError} type="error" />
               )}
             </div>
 
             <div className="mb-3">
-              <label className="block text-xs font-medium text-[#6B7280] mb-2">
-                To Date {fromDate && <span className="text-red-600 text-[20px]">*</span>}
+              <label className={fieldLabelClass}>
+                To Date {fromDate && <span className={fieldRequiredClass}>*</span>}
               </label>
 
               <div className="relative">
@@ -375,7 +281,7 @@ function LedgerFilter({ show, handleClose, size }) {
                   wrapperClassName="w-full"
                   minDate={fromDate}
                   maxDate={new Date()}
-                  className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
+                  className={datePickerInputClass(!!toDateError)}
                 />
 
                 <Calendar
@@ -385,18 +291,18 @@ function LedgerFilter({ show, handleClose, size }) {
                 />
               </div>
               {toDateError && (
-                <ErrorMessage message={toDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={toDateError} type="error" />
               )}
             </div>
           </>)}
 
           <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
+            <label className={fieldLabelClass}>
               Source
             </label>
 
             <Select
-              styles={CustomStyles}
+              styles={fieldSelectStyles()}
               placeholder="Select Source"
               options={sourceOptions}
               value={source}

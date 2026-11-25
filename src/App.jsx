@@ -8,9 +8,18 @@ import {
   Navigate,
 } from "react-router-dom";
 import MainLandingPage from "./NewV2LandingPage/MainLandingPage";
-import LoginPage from "./Components/LoginPage";
-import CreateAccount from "./Components/CreateAccount";
-import ForgetPassword from "./Components/Forgetpass";
+// New auth screens (Figma "Smartstay Ver-3" section 5352-153217), wired to the
+// existing login / create-account APIs. Google sign-in/up is disabled until the
+// auth API is ready. To roll back: swap these imports and the two routes below
+// back to LoginPage / CreateAccount.
+import NewLoginPage from "./Components/NewLoginPage";
+import NewSignupPage from "./Components/NewSignupPage";
+// import LoginPage from "./Components/LoginPage";
+// import CreateAccount from "./Components/CreateAccount";
+// New forgot-password screen (same OTP / reset APIs). Rollback: swap back to
+// Forgetpass below and on the /forget-password route.
+import NewForgotPasswordPage from "./Components/NewForgotPasswordPage";
+// import ForgetPassword from "./Components/Forgetpass";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import CryptoJS from "crypto-js";
@@ -183,12 +192,15 @@ function App() {
               {/* <Route path="/" element={<FrontPage />} /> */}
               <Route path="/" element={<MainLandingPage />} />
               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
-              <Route path="/hostel-management-login" element={<LoginPage />} />
+              <Route path="/hostel-management-login" element={<NewLoginPage />} />
+              {/* Old login (rollback): <Route path="/hostel-management-login" element={<LoginPage />} /> */}
               <Route
                 path="/hostel-management-signup"
-                element={<CreateAccount />}
+                element={<NewSignupPage />}
               />
-              <Route path="/forget-password" element={<ForgetPassword />} />
+              {/* Old signup (rollback): <Route path="/hostel-management-signup" element={<CreateAccount />} /> */}
+              <Route path="/forget-password" element={<NewForgotPasswordPage />} />
+              {/* Old forgot password (rollback): <Route path="/forget-password" element={<ForgetPassword />} /> */}
               <Route
                 path="/hostel-management-features"
                 element={<MainLandingPage />}

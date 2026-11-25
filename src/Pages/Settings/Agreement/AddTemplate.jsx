@@ -24,107 +24,13 @@ import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Preview from "./Preview";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "35px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function AddTemplate() {
   const popupRef = useRef(null);
@@ -266,29 +172,29 @@ function AddTemplate() {
               </label>
               <div className="mt-4 flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#1E293B]">
+                  <label className={fieldLabelClass}>
                     Template Title
                   </label>
                   <input
                     value={title}
                     placeholder="Enter Title"
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border text-[12px] outline-none focus:border-indigo-500"
+                    className={fieldClass()}
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#1E293B]">
+                  <label className={fieldLabelClass}>
                     Template Code
                   </label>
                   <input
                     value={code}
                     placeholder="Enter Code"
                     onChange={(e) => setCode(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border bg-[#f6f6ff] text-[12px] outline-none"
+                    className={fieldClass()}
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#1E293B]">
+                  <label className={fieldLabelClass}>
                     Meta description
                   </label>
                   <div className="relative">
@@ -298,7 +204,7 @@ function AddTemplate() {
                       onChange={(e) => setDescription(e.target.value)}
                       maxLength={500}
                       rows={4}
-                      className="w-full px-3 py-2 pb-6 rounded-lg border text-[12px] outline-none resize-none focus:border-indigo-500"
+                      className={fieldTextareaClass()}
                     />
 
                     <span className="absolute bottom-2 right-3 text-[10px] text-gray-400">
@@ -419,7 +325,7 @@ function AddTemplate() {
                   }}
                   className="w-[130px] text-[12px]"
                   classNamePrefix="heading-select"
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles()}
                 />
 
                 <div className="flex items-center gap-1 px-2 border-x border-gray-200">

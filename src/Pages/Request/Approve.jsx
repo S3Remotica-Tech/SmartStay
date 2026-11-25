@@ -7,6 +7,11 @@ import { IoBedOutline } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
+import {
+  datePickerInputClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 function Approve({ show, handleClose }) {
   if (!show) return null;
@@ -85,8 +90,8 @@ function Approve({ show, handleClose }) {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-[#344054]">
-              Activate from <span className="text-red-600 text-[20px]">*</span>
+            <label className={fieldLabelClass}>
+              Activate from <span className={fieldRequiredClass}>*</span>
             </label>
 
             <div
@@ -103,7 +108,7 @@ function Approve({ show, handleClose }) {
                 placeholder="DD/MM/YYYY"
                 minDate={new Date()}
                 placeholderText="Select Date"
-                className={`w-full h-[50px] rounded-lg px-3 pr-10 text-sm outline-none border `}
+                className={datePickerInputClass()}
               />
 
               <Calendar
@@ -112,7 +117,7 @@ function Approve({ show, handleClose }) {
                 color="#1E45E1"
               />
             </div>
-            {/* {dateError && <ErrorMessage message={dateError} type="error" />} */}
+            {/* {dateError && <ErrorMessage className="mt-[6px]" message={dateError} type="error" />} */}
           </div>
         </div>
 

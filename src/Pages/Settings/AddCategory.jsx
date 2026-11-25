@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 
 
 function AddCategory({ show, handleCloseForm, editCategory }) {
@@ -121,8 +126,8 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
           <div>
             <div className="w-full">
               <div>
-                <label className="block font-gilroy text-[14px] font-medium text-[#222] leading-normal">
-                  Category <span className="text-red-500 text-[20px]">*</span>
+                <label className={fieldLabelClass}>
+                  Category <span className={fieldRequiredClass}>*</span>
                 </label>
 
                 <input
@@ -131,19 +136,19 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                   placeholder="Enter Category"
                   value={category}
                   onChange={handleCategoryAdd}
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-base font-gilroy font-medium text-[#4B4B4B] outline-none focus:border-[#1E45E1] "
+                  className={fieldClass(!!categoryError)}
                 />
 
                 {categoryError && (
                   <div className="mt-2 flex justify-start">
-                    <ErrorMessage message={categoryError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={categoryError} type="error" />
                   </div>
                 )}
               </div>
             </div>
             {formError && (
               <div className="flex justify-center mt-2">
-                <ErrorMessage message={formError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={formError} type="error" />
               </div>
             )}
           </div>

@@ -14,110 +14,15 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -457,8 +362,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-2 my-2">
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
-                Paid Amount <span className="text-[20px] text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Paid Amount <span className={fieldRequiredClass}>*</span>
               </label>
 
               <input
@@ -466,7 +371,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 min="0"
                 step="1"
                 placeholder="Enter Amount"
-                className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
+                className={`${fieldClass(!!amounterrormsg)} no-spinner`}
                 value={payableAmount}
                 onChange={handleAmount}
               // onKeyDown={(e) => {
@@ -477,14 +382,14 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
               />
 
               {amounterrormsg && (
-                <ErrorMessage message={amounterrormsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={amounterrormsg} type="error" />
               )}
             </div>
 
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+              <label className={fieldLabelClass}>
                 Balance Amount{" "}
-                <span className="text-[20px] text-red-500">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <input
@@ -494,20 +399,20 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 step="1"
                 placeholder="Enter Amount"
                 value={balance}
-                className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] bg-gray-100 px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0 disabled:cursor-not-allowed disabled:bg-gray-100"
+                className={`${fieldClass()} no-spinner`}
               />
             </div>
 
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
-                Paid Date <span className="text-[20px] text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Paid Date <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative w-full">
                 <div className="datepicker-wrapper relative w-full">
                   <DatePicker
                     wrapperClassName="w-full"
-                    className="h-12 w-full font-gilroy"
+                    className={datePickerClass(!!dateerrmsg)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -536,14 +441,14 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
               </div>
 
               {dateerrmsg.trim() !== "" && (
-                <ErrorMessage message={dateerrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={dateerrmsg} type="error" />
               )}
             </div>
 
             <div>
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+              <label className={fieldLabelClass}>
                 Mode of Transaction{" "}
-                <span className="text-[20px] text-red-500">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <Select
@@ -560,10 +465,9 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 }
                 placeholder="Please Select"
                 className="w-full min-w-0"
-                classNamePrefix="custom"
                 menuPlacement="auto"
                 noOptionsMessage={() => "No options available"}
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!paymodeerrormsg)}
                 components={{
                   Option,
                   SingleValue,
@@ -574,12 +478,12 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
               />
 
               {paymodeerrormsg.trim() !== "" && (
-                <ErrorMessage message={paymodeerrormsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paymodeerrormsg} type="error" />
               )}
             </div>
 
             <div className="col-span-1 md:col-span-2">
-              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+              <label className={fieldLabelClass}>
                 Transaction ID
               </label>
 
@@ -588,19 +492,19 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleChange}
-                className="h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
+                className={fieldClass(!!totalErrormsg)}
               />
             </div>
           </div>
 
           {totalErrormsg.trim() !== "" && (
-            <ErrorMessage message={totalErrormsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={totalErrormsg} type="error" />
           )}
         </div>
 
         {state.InvoiceList.payapleAmountError ? (
           <div className="d-flex justify-content-center">
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.InvoiceList.payapleAmountError}
               type="error"
             />

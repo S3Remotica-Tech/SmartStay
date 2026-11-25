@@ -16,6 +16,12 @@ import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
 import Store_Icon from "../../Assets/Images/store_icon.png";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function AddCustomer({ showMenu, handleClose }) {
   const [file, setFile] = useState(null);
@@ -117,10 +123,12 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleFirstName = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
+
     if (!pattern.test(value)) {
       return;
     }
+
     setFirstname(value);
     setFirstnameError("");
   };
@@ -154,11 +162,12 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleLastName = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
 
     if (!pattern.test(value)) {
       return;
     }
+
     setLastname(value);
   };
 
@@ -547,10 +556,9 @@ function AddCustomer({ showMenu, handleClose }) {
   return (
     <div className="font-gilroy">
       <div
-        className={`fixed  inset-0 bg-black/40 z-50 transition-opacity duration-300 ${
-          showMenu ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        // onClick={onClose}
+        className={`fixed  inset-0 bg-black/40 z-50 transition-opacity duration-300 ${showMenu ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+      // onClick={onClose}
       />
 
       <div className="fixed top-2 right-2 bottom-2 w-[800px]   bg-white z-50 rounded-md flex flex-col p-2.5">
@@ -661,9 +669,9 @@ function AddCustomer({ showMenu, handleClose }) {
 
                         <div className="mt-4 col-span-12">
                           <Form.Group className="mb-1">
-                            <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                            <Form.Label className={fieldLabelClass}>
                               First Name{" "}
-                              <span className="text-red-500 text-[20px]">
+                              <span className={fieldRequiredClass}>
                                 *
                               </span>
                             </Form.Label>
@@ -674,12 +682,10 @@ function AddCustomer({ showMenu, handleClose }) {
                               ref={firstnameRef}
                               value={firstname}
                               onChange={(e) => handleFirstName(e)}
-                              className={`text-base text-[#4B4B4B] font-gilroy ${
-                                firstname ? "font-semibold" : "font-medium"
-                              } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              className={fieldClass(!!firstnameError)}
                             />
                             {firstnameError && (
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={firstnameError}
                                 type="error"
                               />
@@ -687,7 +693,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           </Form.Group>
 
                           <Form.Group className="mb-1">
-                            <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                            <Form.Label className={fieldLabelClass}>
                               Last Name
                             </Form.Label>
                             <FormControl
@@ -696,17 +702,15 @@ function AddCustomer({ showMenu, handleClose }) {
                               placeholder="Enter Last Name"
                               value={lastname}
                               onChange={(e) => handleLastName(e)}
-                              className={`text-base text-[#4B4B4B] font-gilroy ${
-                                lastname ? "font-semibold" : "font-medium"
-                              } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              className={fieldClass()}
                             />
                           </Form.Group>
 
                           <div className="col-span-12">
                             <Form.Group className="mb-1">
-                              <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                              <Form.Label className={fieldLabelClass}>
                                 Mobile Number{" "}
-                                <span className="text-red-500 text-[20px]">
+                                <span className={fieldRequiredClass}>
                                   {" "}
                                   *{" "}
                                 </span>
@@ -714,9 +718,7 @@ function AddCustomer({ showMenu, handleClose }) {
 
                               <InputGroup>
                                 <div
-                                  className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${
-                                    countryCode ? "font-semibold" : "font-light"
-                                  }`}
+                          className={`${fieldClass()} !flex !w-[88px] !flex-none items-center justify-between gap-[6px] !rounded-r-none cursor-default select-none`}
                                 >
                                   <span>+{countryCode}</span>
 
@@ -730,26 +732,24 @@ function AddCustomer({ showMenu, handleClose }) {
                                   type="text"
                                   placeholder="Enter Mobile Number"
                                   maxLength={10}
-                                  className={`text-base text-[#4B4B4B] font-gilroy ${
-                                    Phone ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
+                                  className={`${fieldClass(!!phoneError)} !rounded-l-none`}
                                 />
                               </InputGroup>
 
                               {phoneError && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={phoneError}
                                   type="error"
                                 />
                               )}
                               {state.UsersList.phoneError && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={state.UsersList.phoneError}
                                   type="error"
                                 />
                               )}
                               {phoneErrorMessage && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={phoneErrorMessage}
                                   type="error"
                                 />
@@ -758,7 +758,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           </div>
 
                           <Form.Group className="mb-1">
-                            <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                            <Form.Label className={fieldLabelClass}>
                               Email ID
                             </Form.Label>
                             <FormControl
@@ -768,21 +768,19 @@ function AddCustomer({ showMenu, handleClose }) {
                               value={Email}
                               ref={emailRef}
                               onChange={(e) => handleEmail(e)}
-                              className={`text-base text-[#4B4B4B] font-gilroy ${
-                                Email ? "font-semibold" : "font-medium"
-                              } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              className={fieldClass(!!emailError)}
                             />
                             {emailError && (
-                              <ErrorMessage message={emailError} type="error" />
+                              <ErrorMessage className="mt-[6px]" message={emailError} type="error" />
                             )}
                             {state.UsersList.emailError && (
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={state.UsersList.emailError}
                                 type="error"
                               />
                             )}
                             {emailErrorMessage && (
-                              <ErrorMessage
+                              <ErrorMessage className="mt-[6px]"
                                 message={emailErrorMessage}
                                 type="error"
                               />
@@ -815,7 +813,7 @@ function AddCustomer({ showMenu, handleClose }) {
                     <div className="grid grid-cols-1 gap-2 mt-2">
                       <div className="col-span-1 mb-1">
                         <Form.Group>
-                          <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                          <Form.Label className={fieldLabelClass}>
                             Flat , House no , Building , Company ,
                             Apartment{" "}
                           </Form.Label>
@@ -825,19 +823,17 @@ function AddCustomer({ showMenu, handleClose }) {
                             placeholder="Enter House No"
                             value={house_no}
                             onChange={(e) => handleHouseNo(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              house_no ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={fieldClass(!!house_noError)}
                           />
                         </Form.Group>
                         {house_noError && (
-                          <ErrorMessage message={house_noError} type="error" />
+                          <ErrorMessage className="mt-[6px]" message={house_noError} type="error" />
                         )}
                       </div>
 
                       <div className="col-span-1 mb-1">
                         <Form.Group>
-                          <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                          <Form.Label className={fieldLabelClass}>
                             Area , Street , Sector , Village{" "}
                           </Form.Label>
                           <FormControl
@@ -846,19 +842,17 @@ function AddCustomer({ showMenu, handleClose }) {
                             placeholder="Enter Street"
                             value={street}
                             onChange={(e) => handleStreetName(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              street ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={fieldClass(!!streetError)}
                           />
                         </Form.Group>
                         {streetError && (
-                          <ErrorMessage message={streetError} type="error" />
+                          <ErrorMessage className="mt-[6px]" message={streetError} type="error" />
                         )}
                       </div>
 
                       <div className="col-span-1 mb-1">
                         <Form.Group className="">
-                          <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                          <Form.Label className={fieldLabelClass}>
                             Landmark{" "}
                           </Form.Label>
                           <FormControl
@@ -867,19 +861,17 @@ function AddCustomer({ showMenu, handleClose }) {
                             placeholder="E.g , near appollo hospital"
                             value={landmark}
                             onChange={(e) => handleLandmark(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              landmark ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={fieldClass(!!landmarkError)}
                           />
                         </Form.Group>
                         {landmarkError && (
-                          <ErrorMessage message={landmarkError} type="error" />
+                          <ErrorMessage className="mt-[6px]" message={landmarkError} type="error" />
                         )}
                       </div>
 
                       <div className="col-span-1">
                         <Form.Group controlId="exampleForm.ControlInput1">
-                          <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                          <Form.Label className={fieldLabelClass}>
                             Pincode
                           </Form.Label>
                           <Form.Control
@@ -891,20 +883,18 @@ function AddCustomer({ showMenu, handleClose }) {
                             inputMode="numeric"
                             pattern="[0-9]*"
                             placeholder="Enter Pincode"
-                            className={`text-base text-gray-700 font-gilroy ${
-                              pincode ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={fieldClass(!!pincodeError)}
                           />
 
                           {pincodeError && (
-                            <ErrorMessage message={pincodeError} type="error" />
+                            <ErrorMessage className="mt-[6px]" message={pincodeError} type="error" />
                           )}
                         </Form.Group>
                       </div>
 
                       <div className="col-span-1 mb-1">
                         <Form.Group>
-                          <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                          <Form.Label className={fieldLabelClass}>
                             Town/City{" "}
                           </Form.Label>
                           <FormControl
@@ -914,13 +904,11 @@ function AddCustomer({ showMenu, handleClose }) {
                             value={city}
                             ref={cityRef}
                             onChange={(e) => handleCity(e)}
-                            className={`text-base text-gray-700 font-gilroy ${
-                              city ? "font-semibold" : "font-medium"
-                            } shadow-none border border-gray-300 h-10 rounded-md`}
+                            className={fieldClass(!!cityError)}
                           />
                         </Form.Group>
                         {cityError && (
-                          <ErrorMessage message={cityError} type="error" />
+                          <ErrorMessage className="mt-[6px]" message={cityError} type="error" />
                         )}
                       </div>
 
@@ -929,7 +917,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           className="mb-3"
                           controlId="exampleForm.ControlInput5"
                         >
-                          <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
+                          <Form.Label className={fieldLabelClass}>
                             State{" "}
                           </Form.Label>
 
@@ -955,56 +943,11 @@ function AddCustomer({ showMenu, handleClose }) {
                                 : null
                             }
                             placeholder="Select State"
-                            classNamePrefix="custom"
                             menuPlacement="auto"
                             noOptionsMessage={() => "No state available"}
                             styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "40px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: state_name ? 600 : 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#9AA0A6",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                              }),
+                              ...fieldSelectStyles(),
+                              menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                             }}
                           />
                         </Form.Group>

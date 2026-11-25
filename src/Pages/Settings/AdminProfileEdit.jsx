@@ -5,6 +5,10 @@ import { Edit2, Camera, User, CloseCircle } from "iconsax-react";
 
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  fieldClass,
+  fieldLabelClass,
+} from "../../Utils/FieldStyles";
 
 function AdminProfileEdit({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -265,7 +269,7 @@ function AdminProfileEdit({ show, handleClose }) {
           </div>
 
           <div className="mb-2">
-            <label className="text-[14px] text-gray-700">
+            <label className={fieldLabelClass}>
               First Name <span className="text-red-500 text-base">*</span>
             </label>
             <input
@@ -273,28 +277,26 @@ function AdminProfileEdit({ show, handleClose }) {
               value={firstName}
               onChange={handleFirstNameChange}
               placeholder="Please Enter First Name"
-              className={`w-full h-[44px] mt-2 px-3  shadow-none rounded-lg border ${
-                errors.firstName ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+              className={fieldClass(!!errors.firstName)}
             />
             {errors.firstName && (
-              <ErrorMessage message={errors.firstName} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.firstName} type="error" />
             )}
           </div>
 
           <div className="mb-2">
-            <label className="text-[14px] text-gray-700">Last Name</label>
+            <label className={fieldLabelClass}>Last Name</label>
             <input
               type="text"
               value={lastName}
               placeholder="Please Enter Last Name"
               onChange={handleLastNameChange}
-              className="w-full h-[44px] mt-2 px-3 shadow-none rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]"
+              className={fieldClass()}
             />
           </div>
 
           <div className="mb-2">
-            <label className="text-[14px] text-gray-700">
+            <label className={fieldLabelClass}>
               Mobile No <span className="text-red-500 text-base">*</span>
             </label>
             <div className="flex mt-2">
@@ -306,16 +308,14 @@ function AdminProfileEdit({ show, handleClose }) {
                 value={mobile}
                 placeholder="Please Enter Mobile Number"
                 onChange={handleMobileChange}
-                className={`w-full h-[44px] px-3 shadow-none rounded-r-lg border ${
-                  errors.mobile ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+                className={fieldClass(!!errors.mobile)}
               />
             </div>
             {errors.mobile && (
-              <ErrorMessage message={errors.mobile} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.mobile} type="error" />
             )}
             {state.createAccount?.profileUpdateMobileError && (
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.createAccount?.profileUpdateMobileError}
                 type="error"
               />
@@ -323,7 +323,7 @@ function AdminProfileEdit({ show, handleClose }) {
           </div>
 
           <div className="mb-2">
-            <label className="text-[14px] text-gray-700">
+            <label className={fieldLabelClass}>
               Email ID <span className="text-red-500 text-base">*</span>
             </label>
             <input
@@ -331,20 +331,18 @@ function AdminProfileEdit({ show, handleClose }) {
               value={email}
               onChange={handleEmailChange}
               placeholder="Please Enter Email Id"
-              className={`w-full h-[44px] mt-2 px-3 shadow-none rounded-lg border ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
+              className={fieldClass(!!errors.email)}
             />
             {errors.email && (
-              <ErrorMessage message={errors.email} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.email} type="error" />
             )}
             {errors.noChange && (
               <div className="flex justify-center">
-                <ErrorMessage message={errors.noChange} type="error" />
+                <ErrorMessage className="mt-[6px]" message={errors.noChange} type="error" />
               </div>
             )}
             {state.createAccount?.profileUpdateEmailError && (
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.createAccount?.profileUpdateEmailError}
                 type="error"
               />

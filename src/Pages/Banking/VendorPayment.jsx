@@ -16,106 +16,6 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "40px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "300px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 import {
   Option,
   SingleValue,
@@ -123,6 +23,14 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
 
 function VendorPayment({ show, handleClose, isBanking }) {
@@ -506,8 +414,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
         <div className="flex-1 show-scrolls overflow-y-auto ">
           <div className="grid grid-cols-1  mt-1 px-4 py-2">
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Vendor <span className="text-red-600 text-[20px]">*</span>
+              <label className={fieldLabelClass}>
+                Vendor <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
                 {/* <input
@@ -516,9 +424,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   value={selectedVendor}
                   // placeholder="Enter "
                   readOnly
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${
-                    selectedVendor ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={fieldClass()}
                 /> */}
 
                 <Select
@@ -528,22 +434,22 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   onChange={handleVendorChange}
                   options={vendorOptions}
                   placeholder="Select Vendor"
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles(!!vendorError)}
                   isSearchable={true}
                 />
               </div>
 
               {vendorError && (
-                <ErrorMessage message={vendorError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={vendorError} type="error" />
               )}
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 flex justify-between">
+              <label className={`${fieldLabelClass} flex justify-between`}>
                 <span>
                   {" "}
                   Paid Amount (INR){" "}
-                  <span className="text-red-500 text-[20px]">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </span>
                 <p className="mt-1 text-right text-xs text-gray-600 mb-0">
                   Due Amount{" "}
@@ -560,8 +466,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
                   onWheel={(e) => e.target.blur()}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${paidAmount ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={fieldClass(!!paidAmountError)}
                 />
                 <button
                   onClick={handleSetAmount}
@@ -572,26 +477,26 @@ function VendorPayment({ show, handleClose, isBanking }) {
               </div>
 
               {paidAmountError && (
-                <ErrorMessage message={paidAmountError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paidAmountError} type="error" />
               )}
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Balance payable If (Outstanding){" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <input
                 type="text"
                 value={finalOutstanding || 0}
                 readOnly
-                className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700"
+                className={fieldClass()}
               />
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Paid Date <span className="text-red-500">*</span>
+              <label className={fieldLabelClass}>
+                Paid Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
                 <DatePicker
@@ -603,9 +508,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   placeholderText="Select Date"
                   customInput={<input ref={paidDateRef} />}
                   maxDate={new Date()}
-                  className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[14px]
-                  ${paidDateError ? "border-red-500" : "border-[#D9D9D9]"
-                    } focus:outline-none`}
+                  className={datePickerInputClass(!!paidDateError)}
                 />
 
                 <Calendar
@@ -615,14 +518,14 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 />
               </div>
               {paidDateError && (
-                <ErrorMessage message={paidDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paidDateError} type="error" />
               )}
             </div>
 
             <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Payment method{" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
               <Select
 
@@ -634,7 +537,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 }}
                 options={paymentOptionsV1}
                 placeholder="Select Payment Method"
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!paymentMethodError)}
                 isSearchable={false}
                 components={{
                   Option,
@@ -646,12 +549,12 @@ function VendorPayment({ show, handleClose, isBanking }) {
               />
 
               {paymentMethodError && (
-                <ErrorMessage message={paymentMethodError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
               )}
             </div>
 
             <div className="mb-2 relative">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Transaction ID
               </label>
               <input
@@ -659,8 +562,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={fieldClass()}
               />
             </div>
             <input
@@ -674,7 +576,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
 
             {attachments?.length === 0 && (
               <div className="mb-2">
-                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                <label className={fieldLabelClass}>
                   Attachments/Proofs (If any)
                 </label>
 
@@ -792,7 +694,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
             )}
 
             <div className="mb-2 mt-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+              <label className={fieldLabelClass}>
                 Description
               </label>
               <textarea
@@ -800,8 +702,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Enter the Notes/Description for this invoice "
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+                className={fieldTextareaClass()}
               />
             </div>
 
@@ -865,7 +766,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                               }
                               max={item.totalBalance}
                               onWheel={(e) => e.target.blur()}
-                              className="w-28 h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px] font-medium focus:outline-none focus:border-[#1E45E1]"
+                              className={`${fieldClass(!!error)} !w-28`}
                               placeholder="₹ 0.00"
                             />
                           </td>
@@ -889,7 +790,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
             {error && (
               <div className="my-2">
                 {" "}
-                <ErrorMessage message={error} type="error" />{" "}
+                <ErrorMessage className="mt-[6px]" message={error} type="error" />{" "}
               </div>
             )}
 

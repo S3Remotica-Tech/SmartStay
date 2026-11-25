@@ -17,6 +17,11 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { Messages3 } from "iconsax-react";
+import {
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 function SettingCompliance() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -568,9 +573,9 @@ function SettingCompliance() {
               <div className="flex flex-col w-full">
                 <div className="w-full">
                   <div className="mb-2 flex flex-col">
-                    <label className="text-base text-gray-900 font-gilroy font-medium mb-2">
+                    <label className={fieldLabelClass}>
                       Complaint Type{" "}
-                      <span className="text-red-500 text-xl">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </label>
                     <input
                       type="text"
@@ -578,12 +583,12 @@ function SettingCompliance() {
                       placeholder="Enter Complaint Type"
                       value={complaintTypeName}
                       onChange={(e) => handleComplaintType(e)}
-                      className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className={fieldClass()}
                     />
 
                     {state.Settings.alreadytypeerror && (
                       <div className="mt-1">
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={state.Settings.alreadytypeerror}
                           type="error"
                         />
@@ -592,12 +597,12 @@ function SettingCompliance() {
 
                     {complaintError && (
                       <div className="mt-1">
-                        <ErrorMessage message={complaintError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={complaintError} type="error" />
                       </div>
                     )}
                     {isChangedError && (
                       <div className="flex items-center  mt-2">
-                        <ErrorMessage message={isChangedError} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={isChangedError} type="error" />
                       </div>
                     )}
                   </div>
@@ -606,7 +611,7 @@ function SettingCompliance() {
             </div>
 
             {planExpiredCompliance && (
-              <ErrorMessage message={planExpiredCompliance} type="error" />
+              <ErrorMessage className="mt-[6px]" message={planExpiredCompliance} type="error" />
             )}
 
             <div className="!flex !justify-end m-4">
@@ -655,7 +660,7 @@ function SettingCompliance() {
 
         {Boolean(errorMsg) && errorMsg !== "undefined" && (
           <div className="flex items-center justify-center mt-2 mb-2">
-            <ErrorMessage message={errorMsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={errorMsg} type="error" />
           </div>
         )}
 

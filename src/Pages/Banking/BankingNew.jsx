@@ -45,6 +45,7 @@ import VendorPayment from "./VendorPayment";
 import TransactionFilter from "./TransactionFilter";
 import SelfTransferGlobal from "./SelfTransferGlobal";
 import DeleteBanking from "./DeleteBanking";
+import { createPortal } from "react-dom";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -143,6 +144,7 @@ function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
@@ -1320,7 +1322,7 @@ function BankingNew() {
                                     // disabled
                                     // disabled={!canDeleteBanking}
                                     disabled={
-                                      !canDeleteBanking || !isDev
+                                      !canDeleteBanking
                                     }
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1375,73 +1377,50 @@ function BankingNew() {
                                     }}
                                   />
                                 </CustomTooltip>
-                                {showBankInfo === item.bankId && (
-                                  <div
-                                    onClick={(e) => e.stopPropagation()}
-                                    ref={popupRef2}
-                                    className="fixed z-[9999] w-72 rounded-xl bg-white border border-gray-200 shadow-xl p-3"
-                                    style={{
-                                      top: popupPos.top,
-                                      left: popupPos.left,
-                                    }}
-                                  >
-                                    <div className="space-y-3 text-sm">
-                                      {item.accountType !== "CASH" && <>
-                                        <div className="flex">
-                                          <span className="w-28 text-gray-500">
-                                            Bank Name
-                                          </span>
-                                          <span className="mr-2">:</span>
-                                          <span className="font-semibold text-[#222]">
-                                            {item.bankName || "-"}
-                                          </span>
-                                        </div>
-
-                                        <div className="flex">
-                                          <span className="w-28 text-gray-500">
-                                            Beneficiary
-                                          </span>
-                                          <span className="mr-2">:</span>
-                                          <span className="font-semibold text-[#222]">
-                                            {item.accountHolder || "-"}
-                                          </span>
-                                        </div>
-
-                                        <div className="flex">
-                                          <span className="w-28 text-gray-500">
-                                            Account No
-                                          </span>
-                                          <span className="mr-2">:</span>
-                                          <span className="font-semibold text-[#222] whitespace-wrap">
-                                            {item.accountNumber || "-"}
-                                          </span>
-                                        </div>
-
-                                        <div className="flex">
-                                          <span className="w-28 text-gray-500">
-                                            IFSC Code
-                                          </span>
-                                          <span className="mr-2">:</span>
-                                          <span className="font-semibold text-[#222]">
-                                            {item.ifscCode || "-"}
+                                {showBankInfo === item.bankId &&
+                                  createPortal(
+                                    <div
+                                      onClick={(e) => e.stopPropagation()}
+                                      ref={popupRef2}
+                                      className="fixed z-[9999] w-72 rounded-xl bg-white border border-gray-200 shadow-xl p-3"
+                                      style={{ top: popupPos.top, left: popupPos.left }}
+                                    >
+                                      <div className="space-y-3 text-sm font-gilroy">
+                                        {item.accountType !== "CASH" && (
+                                          <>
+                                            <div className="flex">
+                                              <span className="w-28 text-gray-500">Bank Name</span>
+                                              <span className="mr-2">:</span>
+                                              <span className="font-semibold text-[#222]">{item.bankName || "-"}</span>
+                                            </div>
+                                            <div className="flex">
+                                              <span className="w-28 text-gray-500">Beneficiary</span>
+                                              <span className="mr-2">:</span>
+                                              <span className="font-semibold text-[#222]">{item.accountHolder || "-"}</span>
+                                            </div>
+                                            <div className="flex">
+                                              <span className="w-28 text-gray-500">Account No</span>
+                                              <span className="mr-2">:</span>
+                                              <span className="font-semibold text-[#222] break-all">{item.accountNumber || "-"}</span>
+                                            </div>
+                                            <div className="flex">
+                                              <span className="w-28 text-gray-500">IFSC Code</span>
+                                              <span className="mr-2">:</span>
+                                              <span className="font-semibold text-[#222]">{item.ifscCode || "-"}</span>
+                                            </div>
+                                          </>
+                                        )}
+                                        <div className="flex items-start">
+                                          <span className="w-28 shrink-0 text-gray-500">Description</span>
+                                          <span className="shrink-0 mr-2">:</span>
+                                          <span className="flex-1 font-semibold text-[#222] break-words whitespace-pre-wrap">
+                                            {item.description || "-"}
                                           </span>
                                         </div>
-                                      </>
-                                      }
-                                      <div className="flex items-start">
-                                        <span className="w-28 shrink-0 text-gray-500">
-                                          Description
-                                        </span>
-
-                                        <span className=" shrink-0">:</span>
-
-                                        <span className="flex-1 font-semibold text-[#222] break-words whitespace-pre-wrap">
-                                          {item.description || "-"}
-                                        </span>
                                       </div>
-                                    </div>
-                                  </div>
-                                )}
+                                    </div>,
+                                    document.body
+                                  )}
                               </div>
                             </div>
 

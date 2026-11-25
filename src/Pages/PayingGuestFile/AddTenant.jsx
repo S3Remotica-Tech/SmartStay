@@ -2,7 +2,6 @@
 import { Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup } from "react-bootstrap";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,166 +15,53 @@ import {
   Mobile,
   Sms,
   AddCircle,
+  ArrowRight,
   DocumentUpload,
   Trash,
-  DocumentText,
-  TableDocument,
   SearchNormal,
 } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+  fieldGroupClass,
+  fieldInnerInputClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
+
 import AddTenantBookingCheckin from "./AddTenantBookingCheckin";
+import TenantStepper from "./TenantStepper";
+import stepperIllustration from "../../Assets/Images/New_images/tenant-stepper/stepper-illustration.png";
+import TenantPreview from "./TenantPreview";
+import TenantAddedSuccess from "./TenantAddedSuccess";
+import UnsavedChangesDialog from "./UnsavedChangesDialog";
+import { toast } from "react-toastify";
+import {
+  DRAFT_EXTRA_FIELDS_ENABLED,
+  STEP_BASIC,
+  STEP_DOCUMENTS,
+  STEP_ONBOARD,
+  STEP_PREVIEW,
+  TENANT_BTN_PRIMARY,
+  TENANT_BTN_SECONDARY,
+  TENANT_BTN_TERTIARY,
+  TENANT_FOOTER_CLASS,
+  getNextStep,
+  getPreviousStep,
+  getResumeStep,
+  getTenantSteps,
+  withDraftExtras,
+} from "./tenantDraftUtils";
+import { indianStates } from "../../Utils/indianStates";
 
-const indianStates = [
-  { value: "Tamil Nadu", label: "Tamil Nadu" },
-  { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-  { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-  { value: "Assam", label: "Assam" },
-  { value: "Bihar", label: "Bihar" },
-  { value: "Chhattisgarh", label: "Chhattisgarh" },
-  { value: "Goa", label: "Goa" },
-  { value: "Gujarat", label: "Gujarat" },
-  { value: "Haryana", label: "Haryana" },
-  { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-  { value: "Jharkhand", label: "Jharkhand" },
-  { value: "Karnataka", label: "Karnataka" },
-  { value: "Kerala", label: "Kerala" },
-  { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-  { value: "Maharashtra", label: "Maharashtra" },
-  { value: "Manipur", label: "Manipur" },
-  { value: "Meghalaya", label: "Meghalaya" },
-  { value: "Mizoram", label: "Mizoram" },
-  { value: "Nagaland", label: "Nagaland" },
-  { value: "Odisha", label: "Odisha" },
-  { value: "Punjab", label: "Punjab" },
-  { value: "Rajasthan", label: "Rajasthan" },
-  { value: "Sikkim", label: "Sikkim" },
-  { value: "Telangana", label: "Telangana" },
-  { value: "Tripura", label: "Tripura" },
-  { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-  { value: "Uttarakhand", label: "Uttarakhand" },
-  { value: "West Bengal", label: "West Bengal" },
-  {
-    value: "Andaman and Nicobar Islands",
-    label: "Andaman and Nicobar Islands",
-  },
-  { value: "Chandigarh", label: "Chandigarh" },
-  {
-    value: "Dadra and Nagar Haveli and Daman and Diu",
-    label: "Dadra and Nagar Haveli and Daman and Diu",
-  },
-  { value: "Delhi", label: "Delhi" },
-  { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-  { value: "Ladakh", label: "Ladakh" },
-  { value: "Lakshadweep", label: "Lakshadweep" },
-  { value: "Puducherry", label: "Puducherry" },
-];
+// State options moved to Utils/indianStates.js (shared with the new signup).
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 function AddTenant({
   showMenu,
   handleClose,
   alreadySaveDraftTenantDetails,
   bookingOnly,
+  onTenantCreated,
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -184,6 +70,32 @@ function AddTenant({
   const [lastname, setLastname] = useState("");
   const [Phone, setPhone] = useState("");
   const [step, setStep] = useState(1);
+  // "checkin" | "booking": follows the tab chosen on Step 2 and drives the stepper.
+  const [flow, setFlow] = useState(bookingOnly ? "booking" : "checkin");
+  const [addressLater, setAddressLater] = useState(false);
+  // Step 2 form (imperative API: validate, getDraftFields, getSummary, submit...).
+  const step2Api = useRef(null);
+  // What the draft save in flight is for: "exit" (Save Draft) or "submit" (final
+  // confirmation, which saves the draft first because the booking / check-in
+  // endpoints work on the draft customer). null when idle.
+  const pendingActionRef = useRef(null);
+  const pendingStep2Ref = useRef(null);
+  const submittingRef = useRef(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+  // After an Edit from Preview Details, Next returns straight to the preview.
+  const [returnToPreview, setReturnToPreview] = useState(false);
+  const [step2Summary, setStep2Summary] = useState(null);
+
+
+  const [successInfo, setSuccessInfo] = useState(null);
+  const [showUnsaved, setShowUnsaved] = useState(false);
+  const [restoredDraftId, setRestoredDraftId] = useState("");
+  const awaitingAdditionalRef = useRef(false);
+  const resumeAppliedRef = useRef(false);
+  // Step 2 stays mounted once opened, so going back and forth keeps unsaved edits.
+  const [step2Opened, setStep2Opened] = useState(false);
   // const [isDisabled, setIsDisabled] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [Email, setEmail] = useState("");
@@ -196,9 +108,9 @@ function AddTenant({
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [saveLoading, setSaveLoading] = useState(false);
   const [newTenant, setNewTenant] = useState(true);
-
+  const DraftTenantDetails =
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
@@ -272,19 +184,47 @@ function AddTenant({
   //   },
   // ];
 
-  useEffect(() => {
-    const customerId =
-      state?.UsersList?.draftTenantDetails?.customerId ||
-      state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
-      state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId ||
-      "";
+  // DraftTenantDetails
 
-    setDraftTenantId(customerId);
-  }, [
-    state?.UsersList?.draftTenantDetails?.customerId,
-    state?.UsersList?.UpdateDraftTenantDetails?.customerId,
-    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId,
-  ]);
+  // useEffect(() => {
+  //   if (!newTenant) {
+  //     const customerId =
+  //       state?.UsersList?.customerdetails?.customerId ||
+  //       DraftTenantDetails?.customerId ||
+  //       state?.UsersList?.draftTenantDetails?.customerId ||
+  //       state?.UsersList?.UpdateDraftTenantDetails?.customerId;
+
+
+  //     const fromCustomerDetails = state?.UsersList?.customerdetails?.customerId;
+  //     const fromDraftGet = DraftTenantDetails?.customerId;
+  //     const fromSaveDraft = state?.UsersList?.draftTenantDetails?.customerId;
+  //     const fromUpdateDraft = state?.UsersList?.UpdateDraftTenantDetails?.customerId;
+
+  //     console.log("1. customerdetails      :", fromCustomerDetails);
+  //     console.log("2. DraftTenantDetails   :", fromDraftGet);
+  //     console.log("3. draftTenantDetails   :", fromSaveDraft);
+  //     console.log("4. UpdateDraftTenantDetails:", fromUpdateDraft);
+
+  //     setDraftTenantId(customerId || "");
+  //   } else {
+  //     setDraftTenantId("");
+  //   }
+  // }, [
+  //   newTenant,
+  //   state?.UsersList?.draftTenantDetails?.customerId,
+  //   state?.UsersList?.UpdateDraftTenantDetails?.customerId,
+  //   DraftTenantDetails?.customerId,
+  //   state?.UsersList?.customerdetails?.customerId,
+  // ]);
+
+  useEffect(() => {
+    if (!newTenant && DraftTenantDetails?.customerId) {
+      setDraftTenantId(DraftTenantDetails.customerId);
+    }
+  }, [newTenant, DraftTenantDetails?.customerId]);
+
+
+
 
   const getFilePreview = (file) => {
     if (!file) return null;
@@ -358,9 +298,9 @@ function AddTenant({
       prev.map((job, i) =>
         i === index
           ? {
-              ...job,
-              [field]: value,
-            }
+            ...job,
+            [field]: value,
+          }
           : job,
       ),
     );
@@ -469,13 +409,16 @@ function AddTenant({
     }
   };
 
+
+
   const handleFirstName = (e) => {
-    // setNewTenant(true);
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
+
     if (!pattern.test(value)) {
       return;
     }
+
     setFirstname(value);
     setFirstnameError("");
   };
@@ -560,6 +503,7 @@ function AddTenant({
 
   useEffect(() => {
     if (state.UsersList.phoneError) {
+      failSubmit();
       setStep(1);
       phoneRef.current?.focus();
       setFormLoading(false);
@@ -568,6 +512,7 @@ function AddTenant({
 
   useEffect(() => {
     if (state.UsersList.emailError) {
+      failSubmit();
       setStep(1);
       setFormLoading(false);
     }
@@ -581,14 +526,14 @@ function AddTenant({
 
   const handleLastName = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z0-9\s]*$/;
 
     if (!pattern.test(value)) {
       return;
     }
+
     setLastname(value);
   };
-
   const handlePhone = (e) => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     const input = e.target.value.replace(/\D/g, "");
@@ -746,7 +691,10 @@ function AddTenant({
   const capitalizedFirstname = capitalizeFirstLetter(firstname);
   const capitalizedLastname = capitalizeFirstLetter(lastname);
 
-  const handleSaveStepOne = () => {
+  // ---- Step 1 ---------------------------------------------------------------
+
+  // Name, mobile, email and (unless "Do it Later") pincode validation.
+  const validateStepOne = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
 
@@ -794,7 +742,8 @@ function AddTenant({
       setPhoneErrorMessage("");
     }
 
-    if (pincode) {
+    // "Do it Later" skips address validation entirely.
+    if (pincode && !addressLater) {
       if (pincode.length !== 6) {
         setPincodeError("Pin Code must be exactly 6 digits");
         if (!focusedRef.current && pincodeRef?.current) {
@@ -844,261 +793,256 @@ function AddTenant({
       setEmailError("");
     }
 
-    if (hasError) return;
-
-    dispatch({
-      type: "SAVE_DRAFT_SAGA",
-      payload: {
-        hostelId: state?.login?.selectedHostel_Id,
-        profilePic: file || "",
-        aadharPic: aadhaarFile || "",
-        panPic: panFile || "",
-
-        request: {
-          firstName: capitalizedFirstname || "",
-          lastName: capitalizedLastname || "",
-          mobile: Phone || "",
-          emailId: Email || "",
-
-          proRate: true,
-
-          idProof: {
-            type: idProofType?.value || idProofType || "",
-            number: idProofNo || "",
-          },
-
-          address: {
-            flat: "",
-            house: house_no || "",
-            building: "",
-            company: "",
-            apartment: "",
-            area: "",
-            street: street || "",
-            sector: "",
-            village: "",
-            landmark: landmark || "",
-            pincode: pincode || "",
-            city: city || "",
-            state: state_name || "",
-          },
-        },
-      },
-    });
-
-    setFormLoading(true);
+    return !hasError;
   };
 
-  const handleSaveUpdateStepOne = () => {
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-
-    let hasError = false;
-    const focusedRef = { current: false };
-
-    if (
-      !validateField(
-        firstname,
-        "First Name",
-        firstnameRef,
-        setFirstnameError,
-        focusedRef,
+  const buildPersonalRequest = () => ({
+    firstName: capitalizedFirstname || "",
+    lastName: capitalizedLastname || "",
+    mobile: Phone || "",
+    emailId: Email || "",
+    idProof: {
+      type: idProofType?.value || idProofType || "",
+      number: idProofNo || "",
+    },
+    address: {
+      flat: "",
+      house: house_no || "",
+      building: "",
+      company: "",
+      apartment: "",
+      area: "",
+      street: street || "",
+      sector: "",
+      village: "",
+      landmark: landmark || "",
+      pincode: pincode || "",
+      city: city || "",
+      state: state_name || "",
+    },
+    guardians: (guardians || [])
+      .filter(
+        (g) =>
+          g.guardianFullName?.trim() ||
+          g.relationshipToTenant ||
+          g.guardianOccupation ||
+          g.mobileNo?.trim(),
       )
-    )
-      hasError = true;
-    if (
-      !validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)
-    )
-      hasError = true;
+      .map((g) => ({
+        guardianFullName: g.guardianFullName || "",
+        relationshipToTenant:
+          g.relationshipToTenant?.value || g.relationshipToTenant || "",
+        guardianOccupation:
+          g.guardianOccupation?.value || g.guardianOccupation || "",
+        mobileNo: g.mobileNo || "",
+      })),
+  });
 
-    if (!Phone || Phone.length !== 10) {
-      setPhoneError("Please enter a valid mobile number");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone === "0000000000") {
-      setPhoneError("All digits cannot be zero");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone[0] === "0") {
-      setPhoneError("Mobile number cannot start with 0");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
+  // Step 2 columns of the draft request. Step 2's own values (when its form is
+  // open) win; anything else falls back to what the saved draft already holds.
+  const existingStep2Fields = (customerId) => {
+    const saved =
+      DraftTenantDetails &&
+        String(DraftTenantDetails.customerId) === String(customerId)
+        ? DraftTenantDetails
+        : null;
+    return {
+      joiningDate: saved?.hostelInfo?.joiningDate || "",
+      bookingDate: saved?.bookingInfo?.bookingDate || "",
+      bookingAmount: saved?.bookingAmount ?? "",
+      bedId: saved?.bedDetails?.bedId ?? "",
+      roomId: saved?.bedDetails?.roomId ?? "",
+      floorId: saved?.bedDetails?.floorId ?? "",
+      bankId: saved?.bankId || "",
+      referenceNumber: saved?.referenceNumber || "",
+      advanceAmount: saved?.hostelInfo?.advanceAmount ?? "",
+      rentalAmount: saved?.hostelInfo?.monthlyRent ?? "",
+      stayType: saved?.stayType || "",
+      deductions: saved?.deductions || [],
+      proRate: saved?.proRate ?? true,
+      booking: {
+        joiningDateTentative: saved?.booking?.joiningDateTentative || "",
+        refuseAdvanceAmount: saved?.booking?.refuseAdvanceAmount ?? true,
+      },
+      jobDetails: {
+        employmentStatus: saved?.jobDetails?.employmentStatus || "",
+        companyName: saved?.jobDetails?.companyName || "",
+        collegeName: saved?.jobDetails?.collegeName || "",
+        jobRole: saved?.jobDetails?.jobRole || "",
+        workLocation: saved?.jobDetails?.workLocation || "",
+        shiftType: saved?.jobDetails?.shiftType || "",
+        shiftFrom: saved?.jobDetails?.shiftFrom || "",
+        shiftTo: saved?.jobDetails?.shiftTo || "",
+      },
+      shouldCollectFullRent: saved?.shouldCollectFullRent,
+      customRent: saved?.customRent,
+      oneTimeDeduction: saved?.oneTimeDeduction || [],
+    };
+  };
 
-    if (pincode) {
-      if (pincode.length !== 6) {
-        setPincodeError("Pin Code must be exactly 6 digits");
-        if (!focusedRef.current && pincodeRef?.current) {
-          pincodeRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else if (pincode === "000000") {
-        setPincodeError("Pin Code cannot be all zeros");
-        if (!focusedRef.current && pincodeRef?.current) {
-          pincodeRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else if (pincode[0] === "0") {
-        setPincodeError("Pin Code cannot start with 0");
-        if (!focusedRef.current && pincodeRef?.current) {
-          pincodeRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else if (pincode.slice(-3) === "000") {
-        setPincodeError("Last 3 digits cannot be 000");
-        if (!focusedRef.current && pincodeRef?.current) {
-          pincodeRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else {
-        setPincodeError("");
-      }
-    }
+  // Creates the draft customer (SAVE_DRAFT) or updates it (UPDATE_SAVE_DRAFT).
+  // A draft is never a tenant, booking or check-in.
+  const dispatchDraftSave = (customerId, step2Fields, action) => {
+    const base = {
+      hostelId: state?.login?.selectedHostel_Id,
+      profilePic: file || "",
+      // Proof images travel with a Save Draft; on final confirmation they are
+      // uploaded with the additional details instead (see dispatchAdditionalDetails).
+      aadharPic: action === "submit" ? "" : aadhaarFile || "",
+      panPic: action === "submit" ? "" : panFile || "",
+    };
+    const meta = { addressLater, currentStep: step };
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-
-    if (hasError) return;
-
-    const isChanged =
-      capitalizedFirstname !== (DraftTenantDetails?.firstName || "") ||
-      capitalizedLastname !== (DraftTenantDetails?.lastName || "") ||
-      Phone !== (DraftTenantDetails?.mobileNo || "") ||
-      Email !== (DraftTenantDetails?.emailId || "") ||
-      (idProofType?.value || idProofType || "") !==
-        (DraftTenantDetails?.idProof?.type || "") ||
-      idProofNo !== (DraftTenantDetails?.idProof?.number || "") ||
-      house_no !== (DraftTenantDetails?.address?.house || "") ||
-      street !== (DraftTenantDetails?.address?.street || "") ||
-      landmark !== (DraftTenantDetails?.address?.landmark || "") ||
-      pincode !== (DraftTenantDetails?.address?.pincode || "") ||
-      city !== (DraftTenantDetails?.address?.city || "") ||
-      state_name !== (DraftTenantDetails?.address?.state || "") ||
-      !!file ||
-      !!aadhaarFile ||
-      !!panFile;
-
-    if (!isChanged) {
-      setStep(2);
-      return;
-    } else {
+    if (!customerId) {
       dispatch({
-        type: "UPDATE_SAVE_DRAFT_SAGA",
+        type: "SAVE_DRAFT_SAGA",
         payload: {
-          hostelId: state?.login?.selectedHostel_Id,
-          customerId: draftTenantId,
-          profilePic: file || "",
-          aadharPic: aadhaarFile || "",
-          panPic: panFile || "",
-
-          request: {
-            firstName: capitalizedFirstname || "",
-            lastName: capitalizedLastname || "",
-            mobile: Phone || "",
-            emailId: Email || "",
-            joiningDate: DraftTenantDetails?.hostelInfo?.joiningDate || "",
-            bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate || "",
-            bookingAmount: DraftTenantDetails?.bookingAmount ?? "",
-            bedId: DraftTenantDetails?.bedDetails?.bedId ?? "",
-            roomId: DraftTenantDetails?.bedDetails?.roomId ?? "",
-            floorId: DraftTenantDetails?.bedDetails?.floorId ?? "",
-            bankId: DraftTenantDetails?.bankId || "",
-            referenceNumber: DraftTenantDetails?.referenceNumber || "",
-
-            advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount ?? "",
-            rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent ?? "",
-            stayType: DraftTenantDetails?.stayType || "",
-            deductions: DraftTenantDetails?.deductions || [],
-            proRate: DraftTenantDetails?.proRate ?? true,
-
-            idProof: {
-              type:
-                idProofType?.value ||
-                idProofType ||
-                DraftTenantDetails?.idProof?.type ||
-                "",
-              number: idProofNo || DraftTenantDetails?.idProof?.number || "",
-            },
-
-            address: {
-              flat: DraftTenantDetails?.address?.flat || "",
-              house: house_no || DraftTenantDetails?.address?.house || "",
-              building: DraftTenantDetails?.address?.building || "",
-              company: DraftTenantDetails?.address?.company || "",
-              apartment: DraftTenantDetails?.address?.apartment || "",
-              area: DraftTenantDetails?.address?.area || "",
-              street: street || DraftTenantDetails?.address?.street || "",
-              sector: DraftTenantDetails?.address?.sector || "",
-              village: DraftTenantDetails?.address?.village || "",
-              landmark: landmark || DraftTenantDetails?.address?.landmark || "",
-              pincode: pincode || DraftTenantDetails?.address?.pincode || "",
-              city: city || DraftTenantDetails?.address?.city || "",
-              state: state_name || DraftTenantDetails?.address?.state || "",
-            },
-
-            booking: {
-              joiningDateTentative:
-                DraftTenantDetails?.booking?.joiningDateTentative || "",
-              refuseAdvanceAmount:
-                DraftTenantDetails?.booking?.refuseAdvanceAmount ?? true,
-            },
-
-            jobDetails: {
-              employmentStatus:
-                DraftTenantDetails?.jobDetails?.employmentStatus || "",
-              companyName: DraftTenantDetails?.jobDetails?.companyName || "",
-              collegeName: DraftTenantDetails?.jobDetails?.collegeName || "",
-              jobRole: DraftTenantDetails?.jobDetails?.jobRole || "",
-              workLocation: DraftTenantDetails?.jobDetails?.workLocation || "",
-              shiftType: DraftTenantDetails?.jobDetails?.shiftType || "",
-              shiftFrom: DraftTenantDetails?.jobDetails?.shiftFrom || "",
-              shiftTo: DraftTenantDetails?.jobDetails?.shiftTo || "",
-            },
-
-            guardians: (DraftTenantDetails?.guardians || []).map((g) => ({
-              guardianFullName: g?.guardianFullName || "",
-              relationshipToTenant: g?.relationshipToTenant || "",
-              guardianOccupation: g?.guardianOccupation || "",
-              mobileNo: g?.mobileNo || "",
-            })),
-            shouldCollectFullRent: DraftTenantDetails?.shouldCollectFullRent,
-            customRent: DraftTenantDetails?.customRent,
-            oneTimeDeduction: DraftTenantDetails?.oneTimeDeduction || [],
-          },
+          ...base,
+          request: withDraftExtras(
+            { ...buildPersonalRequest(), proRate: true },
+            meta,
+          ),
         },
       });
-      setStep(2);
-      setFormLoading(true);
+      return;
     }
+
+    dispatch({
+      type: "UPDATE_SAVE_DRAFT_SAGA",
+      payload: {
+        ...base,
+        customerId,
+        request: withDraftExtras(
+          {
+            ...existingStep2Fields(customerId),
+            ...buildPersonalRequest(),
+            ...(step2Fields || {}),
+          },
+          meta,
+        ),
+      },
+    });
+  };
+
+  const persistDraft = (action) => {
+    pendingActionRef.current = action;
+    const step2Fields = step2Api.current?.getDraftFields?.() || null;
+    pendingStep2Ref.current = step2Fields;
+    dispatchDraftSave(draftTenantId, step2Fields, action);
+  };
+
+
+
+
+  // ---- Step navigation --------------------------------------------------------
+
+  const isBookingFlow = flow === "booking";
+
+  const goToStep = (target) => {
+    if (target === STEP_PREVIEW) {
+      setStep2Summary(step2Api.current?.getSummary?.() || null);
+      setConfirmed(false);
+      setSubmitError("");
+    }
+    setStep(target);
+  };
+
+  // Continue to the next step (or straight back to Preview after an Edit).
+  const goNext = () => {
+    if (returnToPreview) {
+      setReturnToPreview(false);
+      goToStep(STEP_PREVIEW);
+      return;
+    }
+    goToStep(getNextStep(step, isBookingFlow));
+  };
+
+  const handleNextFromStepOne = () => {
+    if (validateStepOne()) goNext();
+  };
+
+  const handleNextFromStepThree = () => {
+    if (validateStepThree()) goNext();
+  };
+
+  // "Skip for now": documents and job details are optional, nothing is validated here.
+  const handleSkipStepThree = () => goNext();
+
+  const handleEdit = (target) => {
+    setReturnToPreview(true);
+    setSubmitError("");
+    setStep(target);
+  };
+
+  const handleStepperSelect = (target) => {
+    if (target >= step) return;
+    setReturnToPreview(step === STEP_PREVIEW);
+    setSubmitError("");
+    setStep(target);
+  };
+
+  // ---- Closing midway ------------------------------------------------------------
+
+  // Anything typed or a step beyond the first means there is work to lose.
+  const isDirty = () =>
+    step > STEP_BASIC ||
+    !!(firstname || lastname || Phone || Email || idProofNo || house_no || street || city || pincode);
+
+  // Every close (X) goes through here: warn before throwing work away.
+  const requestClose = () => {
+    if (!submitting && isDirty()) {
+      setShowUnsaved(true);
+      return;
+    }
+    handleClose();
+  };
+
+  const handleUnsavedSaveDraft = () => {
+    setShowUnsaved(false);
+    handleSaveDraft();
+  };
+
+  // ---- Save Draft (every step) ---------------------------------------------------
+
+  const handleSaveDraft = () => {
+    if (!validateStepOne()) {
+      setStep(STEP_BASIC);
+      return;
+    }
+    setFormLoading(true);
+    persistDraft("exit");
+  };
+
+  // ---- Final confirmation (Preview Details) --------------------------------------
+
+  const failSubmit = (message) => {
+    pendingActionRef.current = null;
+    submittingRef.current = false;
+    setSubmitting(false);
+    setFormLoading(false);
+    if (message) setSubmitError(message);
+  };
+
+  const handleConfirm = () => {
+    if (submittingRef.current) return; // double-click guard
+    setSubmitError("");
+
+    if (!validateStepOne()) {
+      setStep(STEP_BASIC);
+      return;
+    }
+    if (!step2Api.current?.validate?.()) {
+      setStep(STEP_ONBOARD);
+      return;
+    }
+    if (!isBookingFlow && !validateStepThree()) {
+      setStep(STEP_DOCUMENTS);
+      return;
+    }
+
+    submittingRef.current = true;
+    setSubmitting(true);
+    persistDraft("submit");
   };
 
   // const validateVehicle = () => {
@@ -1154,7 +1098,8 @@ function AddTenant({
     return "";
   };
 
-  const handleSaveStep3 = () => {
+  // Guardian validation for Step 3 (everything on this step is optional).
+  const validateStepThree = () => {
     const errors = [];
     let hasError = false;
     let firstInvalidRef = null;
@@ -1191,16 +1136,39 @@ function AddTenant({
         firstInvalidRef?.focus();
       }, 300);
 
-      return;
+      return false;
     }
+    return true;
+  };
 
+  // Guardians, job details or newly chosen proof images entered on Step 3.
+  const hasAdditionalDetails = () =>
+    aadhaarFile instanceof File ||
+    panFile instanceof File ||
+    guardians?.some(
+      (g) =>
+        g.guardianFullName?.trim() ||
+        g.relationshipToTenant ||
+        g.guardianOccupation ||
+        g.mobileNo?.trim(),
+    ) ||
+    jobDetails?.some(
+      (job) =>
+        job.employmentStatus ||
+        job.organizationName?.trim() ||
+        job.role ||
+        job.workLocation?.trim() ||
+        job.shiftType,
+    );
+
+  const dispatchAdditionalDetails = (customerId) => {
     dispatch({
       type: "ADDITIONAL_DETAILS_TENANT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        customerId: draftTenantId,
-        aadhaarPic: aadhaarFile || "",
-        panPic: panFile || "",
+        customerId,
+        aadhaarPic: aadhaarFile instanceof File ? aadhaarFile : "",
+        panPic: panFile instanceof File ? panFile : "",
         additionalData: {
           guardians: guardians?.map((g) => ({
             guardianFullName: g.guardianFullName || "",
@@ -1212,7 +1180,7 @@ function AddTenant({
           })),
           customerJobs: jobDetails?.map((job) => ({
             hostelId: state?.login?.selectedHostel_Id,
-            customerId: draftTenantId,
+            customerId,
             employmentStatus:
               job.employmentStatus?.value || job.employmentStatus || "",
             organizationName: job.organizationName?.trim() || "",
@@ -1225,73 +1193,151 @@ function AddTenant({
         },
       },
     });
-    setSaveLoading(true);
   };
 
+
   useEffect(() => {
-    if (state.UsersList?.phoneError === 202) {
+    if (state.UsersList?.phoneError) {
       setFormLoading(false);
+      dispatch({ type: 'CLEAR_PHONE_ERROR' })
     }
   }, [state.UsersList?.phoneError]);
 
+  // ---- Draft save results ---------------------------------------------------------
+
+  // Called once the draft customer is stored (created or updated).
+  const afterDraftPersisted = (customerId) => {
+    const action = pendingActionRef.current;
+    pendingActionRef.current = null;
+
+    if (action === "exit") {
+      setFormLoading(false);
+      toast.success("Draft saved");
+      handleClose();
+      return;
+    }
+
+    if (action === "submit") {
+      const ok = isBookingFlow
+        ? step2Api.current?.submitBooking?.(customerId)
+        : step2Api.current?.submitCheckin?.(customerId);
+      if (!ok) failSubmit("Please review the highlighted details and try again.");
+    }
+  };
+
+  // console.log("state.UsersList?.saveDreaftTenantSuccessCode", state.UsersList?.saveDreaftTenantSuccessCode)
+
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
-      // setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
-      setStep(2);
-      dispatch({
-        type: "DRAFT_TENANT_LIST_SAGA",
-        payload: state?.UsersList?.draftTenantDetails?.customerId,
-      });
-      setNewTenant(false);
-      setFormLoading(false);
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
+      const newId = state?.UsersList?.draftTenantDetails?.customerId;
+      if (newId) setDraftTenantId(newId);
+      // A brand new draft only holds the personal details; store Step 2 next.
+      if (pendingStep2Ref.current && newId) {
+        const step2Fields = pendingStep2Ref.current;
+        pendingStep2Ref.current = null;
+        dispatchDraftSave(newId, step2Fields, pendingActionRef.current);
+        return;
+      }
+      afterDraftPersisted(newId);
     }
   }, [state.UsersList?.saveDreaftTenantSuccessCode]);
 
   useEffect(() => {
-    if (state.UsersList?.addtionalDetailsSuccessCode === 201) {
-      setSaveLoading(false);
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: 1,
-          size: 10,
-        },
-      });
-      handleClose();
-      dispatch({ type: "REMOVE_ADDITIONAL_DETAILS_TENANT_REDUCER" });
-    }
-  }, [state.UsersList?.addtionalDetailsSuccessCode]);
-
-  useEffect(() => {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
-      setFormLoading(false);
-      if (step === 1) {
-        setStep(2);
-      }
-
-      dispatch({
-        type: "DRAFT_TENANT_LIST_SAGA",
-        payload: draftTenantId,
-      });
-
       dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
+      const updatedId =
+        state?.UsersList?.UpdateDraftTenantDetails?.customerId || draftTenantId;
+
+      if (updatedId) setDraftTenantId(updatedId);
+      afterDraftPersisted(
+        draftTenantId ||
+        state?.UsersList?.UpdateDraftTenantDetails?.customerId,
+      );
     }
   }, [state.UsersList?.updateSaveDreaftTenantStatus]);
 
+  // ---- Final success ---------------------------------------------------------------
+
+  const completeSuccess = (type) => {
+    pendingActionRef.current = null;
+    submittingRef.current = false;
+    setSubmitting(false);
+    dispatch({
+      type: "USERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id, page: 1, size: 10 },
+    });
+    setSuccessInfo({
+      flow: type,
+      customerId: draftTenantId,
+      // The create endpoints only return a message, so the name is the one the
+      // draft customer was stored with.
+      name: `${capitalizedFirstname} ${capitalizedLastname}`.trim(),
+    });
+  };
+
+  // Called by Step 2 once the backend confirmed the booking / check-in.
+  const handleSubmitSuccess = (type) => {
+    if (type === "checkin" && hasAdditionalDetails()) {
+      awaitingAdditionalRef.current = true;
+      dispatchAdditionalDetails(draftTenantId);
+      return;
+    }
+    completeSuccess(type);
+  };
+
+  useEffect(() => {
+    if (state.UsersList?.addtionalDetailsSuccessCode === 201) {
+      dispatch({ type: "REMOVE_ADDITIONAL_DETAILS_TENANT_REDUCER" });
+      if (awaitingAdditionalRef.current) {
+        awaitingAdditionalRef.current = false;
+        completeSuccess("checkin");
+      }
+    }
+  }, [state.UsersList?.addtionalDetailsSuccessCode]);
+
+  // The check-in already succeeded; only the optional extras failed to save.
+  useEffect(() => {
+    if (state.UsersList?.additionalUpdateError && awaitingAdditionalRef.current) {
+      awaitingAdditionalRef.current = false;
+      toast.warning(
+        "Checked in, but guardian / job / document details were not saved. Add them from the tenant profile.",
+      );
+      completeSuccess("checkin");
+    }
+  }, [state.UsersList?.additionalUpdateError]);
+
+  const handleSuccessClose = () => {
+    const created = successInfo;
+    setSuccessInfo(null);
+    onTenantCreated?.(created?.customerId);
+    handleClose();
+  };
+
+  // ---- Failures --------------------------------------------------------------------
+
+  const apiErrorText = (value) => (typeof value === "string" ? value : "");
+
+  const handleSubmitFailed = () => {
+    failSubmit(
+      apiErrorText(state.UsersList?.bedError) ||
+      apiErrorText(state.Booking?.bookingBedError) ||
+      "Could not complete the request. Please try again.",
+    );
+  };
+
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false);
+      failSubmit(
+        submittingRef.current
+          ? "Network error. Your details are kept, please try again."
+          : "",
+      );
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
-
-  const handleNextStep = () => {
-    setStep(3);
-  };
 
   const handleDraftTenant = (customerId) => {
     if (customerId) {
@@ -1328,8 +1374,7 @@ function AddTenant({
     }
   }, [state.UsersList?.draftTenantGetStatusCode]);
 
-  const DraftTenantDetails =
-    state?.UsersList?.alreadyAvailableDraftTenantGetList;
+
 
   useEffect(() => {
     if (DraftTenantDetails && !newTenant && !state.UsersList?.draftClickError) {
@@ -1338,16 +1383,36 @@ function AddTenant({
       setPhone(DraftTenantDetails?.mobileNo || "");
       setEmail(DraftTenantDetails?.emailId || "");
       setFile(DraftTenantDetails?.profilePic || "");
-      // setDraftTenantId(DraftTenantDetails?.customerId || "");
+      // Without backend support the choice is kept in the form only.
+      if (DRAFT_EXTRA_FIELDS_ENABLED) {
+        setAddressLater(!!DraftTenantDetails?.addressLater);
+      }
+      setDraftTenantId(DraftTenantDetails?.customerId || "");
+
+      // Reopen a saved draft on the right step (once, not on every refresh).
+      const resumeCustomerId =
+        alreadySaveDraftTenantDetails?.apiCall?.customerId ||
+        alreadySaveDraftTenantDetails?.customerId;
+      if (
+        resumeCustomerId &&
+        !resumeAppliedRef.current &&
+        String(DraftTenantDetails?.customerId) === String(resumeCustomerId)
+      ) {
+        resumeAppliedRef.current = true;
+        setStep(getResumeStep(DraftTenantDetails));
+      }
+      if (DraftTenantDetails?.customerId) {
+        setRestoredDraftId(DraftTenantDetails.customerId);
+      }
 
       setIdProofType(
         DraftTenantDetails?.idProof?.type
           ? {
-              value: DraftTenantDetails.idProof.type,
-              label:
-                DraftTenantDetails.idProof.type.charAt(0).toUpperCase() +
-                DraftTenantDetails.idProof.type.slice(1),
-            }
+            value: DraftTenantDetails.idProof.type,
+            label:
+              DraftTenantDetails.idProof.type.charAt(0).toUpperCase() +
+              DraftTenantDetails.idProof.type.slice(1),
+          }
           : null,
       );
       setIdProofNo(DraftTenantDetails?.idProof?.number || "");
@@ -1421,13 +1486,13 @@ function AddTenant({
         mappedGuardians.length
           ? mappedGuardians
           : [
-              {
-                guardianFullName: "",
-                relationshipToTenant: null,
-                guardianOccupation: null,
-                mobileNo: "",
-              },
-            ],
+            {
+              guardianFullName: "",
+              relationshipToTenant: null,
+              guardianOccupation: null,
+              mobileNo: "",
+            },
+          ],
       );
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
@@ -1437,6 +1502,7 @@ function AddTenant({
   }, [DraftTenantDetails, newTenant, state.UsersList?.draftClickError]);
 
   const resetForm = () => {
+    setAddressLater(false);
     setFirstname("");
     setLastname("");
     setPhone("");
@@ -1520,12 +1586,15 @@ function AddTenant({
 
   useEffect(() => {
     if (state.UsersList?.additionalUpdateError) {
-      setSaveLoading(false);
       dispatch({ type: "REMOVE_ADDITIONAL_UPDATE_ERROR" });
     }
   }, [state.UsersList?.additionalUpdateError]);
 
   const step2Ref = useRef(null);
+
+  useEffect(() => {
+    if (step === 2) setStep2Opened(true);
+  }, [step]);
 
   useEffect(() => {
     if (step) {
@@ -1540,91 +1609,28 @@ function AddTenant({
 
   return (
     <>
+      {/* <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 ${successInfo ? "invisible" : ""}`}> */}
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="w-full h-full flex items-center justify-end p-2 font-gilroy">
-          <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
-            <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
-              <h5 className="mb-4 font-gilroy">
-                {bookingOnly ? "Booking Tenant" : "Add New Tenant "}
+        <div className="w-full h-full flex items-center justify-end p-[9px] font-gilroy">
+          <div className="w-full max-w-[1008px] h-full bg-white rounded-[20px] flex gap-[30px] p-[16px] pr-[26px] overflow-hidden shadow-lg">
+            <div className="relative flex w-[271px] min-w-[271px] flex-col gap-[51px] overflow-hidden rounded-[10px] bg-[#f4f8ff] px-[24px] py-[40px]">
+              <h5 className="m-0 font-gilroy text-[24px] font-semibold text-[#222222]">
+                {bookingOnly ? "Booking Tenant" : "Add New Tenant"}
               </h5>
-              <div
-                // onClick={() => {
-                //   // if (isDisabled) return;
-                //   setStep(1);
-                // }}
-                className="flex items-start  mb-4 cursor-pointer"
-              >
-                <div
-                  className={`rounded-full flex items-center justify-center w-8 h-8 border ${step === 1 ? "bg-[#1E45E1]" : "bg-white"} border-[#1E45E1]`}
-                >
-                  <TableDocument
-                    size="16"
-                    color={step === 1 ? "#FFFFFF" : "#1E45E1"}
-                  />
-                </div>
-                <span className="ml-2 font-gilroy text-sm cursor-pointer">
-                  Step 1
-                  <br />
-                  <label className=" font-gilroy text-base cursor-pointer break-words">
-                    Basic Details
-                  </label>
-                </span>
-              </div>
-              <div
-                // onClick={() => {
-                //   // if (isDisabled) return;
-                //   if (newTenant && !handleSaveStepOne()) return;
-
-                //   setStep(2);
-                // }}
-                className="flex items-start  mb-4 cursor-pointer"
-              >
-                <div
-                  className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
-                >
-                  <DocumentText
-                    size="16"
-                    color={step === 2 ? "#FFFFFF" : "#1E45E1"}
-                    className=" flex-shrink-0"
-                  />
-                </div>
-                <span className="ml-2 font-gilroy text-sm cursor-pointer">
-                  Step 2
-                  <br />
-                  <label className=" font-gilroy text-base cursor-pointer">
-                    {bookingOnly ? "Booking " : "On-board Process "}
-                  </label>
-                </span>
-              </div>
-              {!bookingOnly && (
-                <div
-                  // onClick={() => {
-                  //   if (newTenant && !handleSaveStepOne()) return;
-                  //   setStep(3);
-                  // }}
-                  className="flex items-start  mb-4 cursor-pointer"
-                >
-                  <div
-                    className={`rounded-full flex items-center  justify-center w-8 h-8 min-w-[32px] border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
-                  >
-                    <DocumentText
-                      size="16"
-                      color={step === 3 ? "#FFFFFF" : "#1E45E1"}
-                      className=" flex-shrink-0"
-                    />
-                  </div>
-                  <span className="ml-2 font-gilroy text-sm cursor-pointer">
-                    Step 3
-                    <br />
-                    <label className=" font-gilroy text-base cursor-pointer break-words">
-                      Documents & Job Details
-                    </label>
-                  </span>
-                </div>
-              )}
+              <TenantStepper
+                steps={getTenantSteps(isBookingFlow, !!bookingOnly)}
+                current={step}
+                onSelect={handleStepperSelect}
+              />
+              <img
+                src={stepperIllustration}
+                alt=""
+                aria-hidden
+                className="pointer-events-none absolute bottom-0 left-[-15px] w-[291px] max-w-none opacity-50"
+              />
             </div>
 
-            <div className="flex-1 relative bg-white rounded-tr-[20px] rounded-br-[20px] overflow-y-auto my-2 mx-1">
+            <div className="flex-1 min-w-0 min-h-0 flex flex-col bg-white">
               {step === 1 && (
                 <div className="flex justify-between items-start px-2 py-1 sticky top-0 z-10 bg-white  border-[#eee]">
                   {step === 1 && (
@@ -1637,13 +1643,14 @@ function AddTenant({
                   <Add
                     size="24"
                     color="#FF0000"
-                    onClick={handleClose}
+                    onClick={requestClose}
                     className="cursor-pointer rotate-45"
                   />
                 </div>
               )}
-              <div className="show-scrolls ml-2 mt-1 overflow-y-auto overflow-x-hidden h-[600px] bg-transparent">
-                <div className="m-2">
+              {/* The only scroll area; footers inside it are sticky. */}
+              <div className="show-scrolls flex-1 min-h-0 overflow-y-auto overflow-x-hidden -mx-[4px] px-[4px] pt-[4px]">
+                <div>
                   {step === 1 && (
                     <div className="grid grid-cols-12 gap-3">
                       <div className="col-span-12 flex flex-col">
@@ -1654,13 +1661,9 @@ function AddTenant({
                             </p>
                             <div className="relative w-full">
                               <div
-                                className={`flex items-center border rounded-lg mb-2 ${
-                                  bookingOnly
-                                    ? "bg-gray-100 opacity-60 cursor-not-allowed"
-                                    : "bg-white"
-                                }`}
+                                className={`${fieldGroupClass(false, "secondary")} !pr-0 mb-2 overflow-hidden ${bookingOnly ? "opacity-60 cursor-not-allowed" : ""}`}
                               >
-                                <span className="text-gray-600 mr-4 px-2">
+                                <span className="font-gilroy text-[14px] font-medium text-[#18181B]">
                                   +91
                                 </span>
 
@@ -1673,7 +1676,7 @@ function AddTenant({
                                   onChange={handleChange}
                                   placeholder="Search"
                                   onWheel={(e) => e.target.blur()}
-                                  className="bg-transparent outline-none w-full disabled:cursor-not-allowed"
+                                  className={fieldInnerInputClass}
                                 />
 
                                 <div
@@ -1682,13 +1685,12 @@ function AddTenant({
                                       ? handleSearch
                                       : undefined
                                   }
-                                  className={`px-3 py-2 rounded-r-lg flex items-center justify-center min-w-[90px] ${
-                                    bookingOnly
-                                      ? "bg-gray-400 cursor-not-allowed"
-                                      : searchLoading
-                                        ? "bg-[#1E45E1] opacity-80 cursor-not-allowed"
-                                        : "bg-[#1E45E1] cursor-pointer"
-                                  }`}
+                                  className={`h-full w-[52px] shrink-0 flex items-center justify-center ${bookingOnly
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : searchLoading
+                                      ? "bg-[#1E45E1] opacity-80 cursor-not-allowed"
+                                      : "bg-[#1E45E1] cursor-pointer"
+                                    }`}
                                 >
                                   {searchLoading ? (
                                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -1703,7 +1705,7 @@ function AddTenant({
                                   className="absolute top-full left-0 w-full z-50 mt-1"
                                 >
                                   {state?.UsersList?.searchTenant?.length >
-                                  0 ? (
+                                    0 ? (
                                     <div className="bg-white border-1 border-[#46464640] shadow rounded-lg  max-h-[300px] overflow-y-auto show-scrolls">
                                       {state?.UsersList?.searchTenant?.map(
                                         (user, index) => (
@@ -1714,14 +1716,13 @@ function AddTenant({
                                               )
                                             }
                                             key={user.id}
-                                            className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${
-                                              index !==
+                                            className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${index !==
                                               state?.UsersList?.searchTenant
                                                 ?.length -
-                                                1
-                                                ? "border-b border-[#F1F1F1]"
-                                                : ""
-                                            }`}
+                                              1
+                                              ? "border-b border-[#F1F1F1]"
+                                              : ""
+                                              }`}
                                           >
                                             {user.profilePic ? (
                                               <img
@@ -1867,9 +1868,7 @@ function AddTenant({
                                 ref={firstnameRef}
                                 value={firstname}
                                 onChange={(e) => handleFirstName(e)}
-                                className={`text-base text-black  font-gilroy ${
-                                  firstname ? "font-extrabold" : "font-medium"
-                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                className={fieldClass(!!firstnameError)}
                               />
                               {firstnameError && (
                                 <ErrorMessage
@@ -1889,9 +1888,7 @@ function AddTenant({
                                 placeholder="Enter Last Name"
                                 value={lastname}
                                 onChange={(e) => handleLastName(e)}
-                                className={`text-base text-black font-gilroy ${
-                                  lastname ? "font-extrabold" : "font-medium"
-                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                className={fieldClass()}
                               />
                             </Form.Group>
 
@@ -1905,31 +1902,22 @@ function AddTenant({
                                   </span>
                                 </Form.Label>
 
-                                <InputGroup>
-                                  <div
-                                    className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${
-                                      countryCode
-                                        ? "font-semibold"
-                                        : "font-light"
-                                    }`}
-                                  >
-                                    <span>+{countryCode}</span>
-
-                                    <ArrowDown2 size="18" />
-                                  </div>
-
-                                  <Form.Control
+                                <div className={fieldGroupClass(!!phoneError)}>
+                                  <span className="flex shrink-0 items-center gap-1 font-gilroy text-[14px] font-medium text-[#18181B] select-none">
+                                    +{countryCode}
+                                    <ArrowDown2 size="14" color="#18181B" />
+                                  </span>
+                                  <input
                                     value={Phone}
                                     ref={phoneRef}
                                     onChange={handlePhone}
                                     type="text"
+                                    inputMode="numeric"
                                     placeholder="Enter Mobile Number"
                                     maxLength={10}
-                                    className={`text-base text-[#4B4B4B] font-gilroy ${
-                                      Phone ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
+                                    className={fieldInnerInputClass}
                                   />
-                                </InputGroup>
+                                </div>
 
                                 {phoneError && (
                                   <ErrorMessage
@@ -1963,9 +1951,7 @@ function AddTenant({
                                 value={Email}
                                 ref={emailRef}
                                 onChange={(e) => handleEmail(e)}
-                                className={`text-base text-[#4B4B4B] font-gilroy ${
-                                  Email ? "font-semibold" : "font-medium"
-                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                                className={fieldClass(!!emailError)}
                               />
                               {emailError && (
                                 <ErrorMessage
@@ -1999,8 +1985,7 @@ function AddTenant({
                                 value={idProofType}
                                 onChange={handleSelectChange}
                                 placeholder="Select"
-                                classNamePrefix="custom"
-                                styles={CustomStyles}
+                                styles={fieldSelectStyles()}
                               />
                             </div>
 
@@ -2015,7 +2000,7 @@ function AddTenant({
                                 onChange={handleInputChange}
                                 placeholder="Enter no"
                                 onWheel={(e) => e.target.blur()}
-                                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                                className={fieldClass()}
                               />
                             </div>
                           </div>
@@ -2026,220 +2011,207 @@ function AddTenant({
                               Address Details
                             </h5>
 
-                            {/* <div className="text-[#64748B]">
+                            <label className="flex items-center gap-2 text-sm text-[#64748B] font-gilroy font-medium cursor-pointer m-0">
                               <input
                                 type="checkbox"
-                                className="cursor-pointer "
-                              />{" "}
-                              Do it later
-                            </div> */}
-                          </div>
-
-                          <div className="grid grid-cols-1 gap-2 mt-2">
-                            <div className="col-span-1 mb-1">
-                              <Form.Group>
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Flat , House no , Building , Company ,
-                                  Apartment{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter House No"
-                                  value={house_no}
-                                  onChange={(e) => handleHouseNo(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    house_no ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
-                                />
-                              </Form.Group>
-                              {house_noError && (
-                                <ErrorMessage
-                                  message={house_noError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-2 mt-2">
-                            <div className=" mb-1">
-                              <Form.Group>
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Area , Street , Sector , Village{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Street"
-                                  value={street}
-                                  onChange={(e) => handleStreetName(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    street ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
-                                />
-                              </Form.Group>
-                              {streetError && (
-                                <ErrorMessage
-                                  message={streetError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-
-                            <div className=" mb-1">
-                              <Form.Group className="">
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Landmark{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="E.g , near appollo hospital"
-                                  value={landmark}
-                                  onChange={(e) => handleLandmark(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    landmark ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
-                                />
-                              </Form.Group>
-                              {landmarkError && (
-                                <ErrorMessage
-                                  message={landmarkError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-
-                            <div className="mb-1">
-                              <Form.Group controlId="exampleForm.ControlInput1">
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Pincode
-                                </Form.Label>
-                                <Form.Control
-                                  value={pincode}
-                                  ref={pincodeRef}
-                                  onChange={(e) => handlePinCodeChange(e)}
-                                  type="tel"
-                                  maxLength={6}
-                                  inputMode="numeric"
-                                  pattern="[0-9]*"
-                                  placeholder="Enter Pincode"
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    pincode ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
-                                />
-
-                                {pincodeError && (
-                                  <ErrorMessage
-                                    message={pincodeError}
-                                    type="error"
-                                  />
-                                )}
-                              </Form.Group>
-                            </div>
-
-                            <div className=" mb-1">
-                              <Form.Group>
-                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                  Town/City{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter City"
-                                  value={city}
-                                  ref={cityRef}
-                                  onChange={(e) => handleCity(e)}
-                                  className={`text-base text-gray-700 font-gilroy ${
-                                    city ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-gray-300 h-10 rounded-md`}
-                                />
-                              </Form.Group>
-                              {cityError && (
-                                <ErrorMessage
-                                  message={cityError}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="mb-1">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlInput5"
-                            >
-                              <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
-                                State{" "}
-                              </Form.Label>
-
-                              <Select
-                                options={indianStates}
-                                ref={stateRef}
-                                onChange={(selectedOption) => {
-                                  setStateName(selectedOption?.value);
+                                checked={addressLater}
+                                onChange={(e) => {
+                                  setAddressLater(e.target.checked);
+                                  if (e.target.checked) setPincodeError("");
                                 }}
-                                onInputChange={(inputValue, { action }) => {
-                                  if (action === "input-change") {
-                                    const lettersOnly = inputValue.replace(
-                                      /[^a-zA-Z\s]/g,
-                                      "",
-                                    );
-                                    return lettersOnly;
-                                  }
-                                  return inputValue;
-                                }}
-                                value={
-                                  state_name
-                                    ? {
-                                        value: state_name,
-                                        label: state_name,
-                                      }
-                                    : null
-                                }
-                                placeholder="Select State"
-                                classNamePrefix="custom"
-                                menuPlacement="auto"
-                                noOptionsMessage={() => "No state available"}
-                                styles={CustomStyles}
+                                className="cursor-pointer w-4 h-4 accent-[#1E45E1]"
                               />
-                            </Form.Group>
+                              Do it Later
+                            </label>
                           </div>
-                          <div className="d-flex justify-content-end mt-3">
+
+                          {!addressLater && (
+                            <>
+                              <div className="grid grid-cols-1 gap-2 mt-2">
+                                <div className="col-span-1 mb-1">
+                                  <Form.Group>
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Flat , House no , Building , Company ,
+                                      Apartment{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="Enter House No"
+                                      value={house_no}
+                                      onChange={(e) => handleHouseNo(e)}
+                                      className={fieldClass(!!house_noError)}
+                                    />
+                                  </Form.Group>
+                                  {house_noError && (
+                                    <ErrorMessage
+                                      message={house_noError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2 mt-2">
+                                <div className=" mb-1">
+                                  <Form.Group>
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Area , Street , Sector , Village{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="Enter Street"
+                                      value={street}
+                                      onChange={(e) => handleStreetName(e)}
+                                      className={fieldClass(!!streetError)}
+                                    />
+                                  </Form.Group>
+                                  {streetError && (
+                                    <ErrorMessage
+                                      message={streetError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+
+                                <div className=" mb-1">
+                                  <Form.Group className="">
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Landmark{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="E.g , near appollo hospital"
+                                      value={landmark}
+                                      onChange={(e) => handleLandmark(e)}
+                                      className={fieldClass(!!landmarkError)}
+                                    />
+                                  </Form.Group>
+                                  {landmarkError && (
+                                    <ErrorMessage
+                                      message={landmarkError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+
+                                <div className="mb-1">
+                                  <Form.Group controlId="exampleForm.ControlInput1">
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Pincode
+                                    </Form.Label>
+                                    <Form.Control
+                                      value={pincode}
+                                      ref={pincodeRef}
+                                      onChange={(e) => handlePinCodeChange(e)}
+                                      type="tel"
+                                      maxLength={6}
+                                      inputMode="numeric"
+                                      pattern="[0-9]*"
+                                      placeholder="Enter Pincode"
+                                      className={fieldClass(!!pincodeError)}
+                                    />
+
+                                    {pincodeError && (
+                                      <ErrorMessage
+                                        message={pincodeError}
+                                        type="error"
+                                      />
+                                    )}
+                                  </Form.Group>
+                                </div>
+
+                                <div className=" mb-1">
+                                  <Form.Group>
+                                    <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                      Town/City{" "}
+                                    </Form.Label>
+                                    <FormControl
+                                      type="text"
+                                      id="form-controls"
+                                      placeholder="Enter City"
+                                      value={city}
+                                      ref={cityRef}
+                                      onChange={(e) => handleCity(e)}
+                                      className={fieldClass(!!cityError)}
+                                    />
+                                  </Form.Group>
+                                  {cityError && (
+                                    <ErrorMessage
+                                      message={cityError}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="mb-1">
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput5"
+                                >
+                                  <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
+                                    State{" "}
+                                  </Form.Label>
+
+                                  <Select
+                                    options={indianStates}
+                                    ref={stateRef}
+                                    onChange={(selectedOption) => {
+                                      setStateName(selectedOption?.value);
+                                    }}
+                                    onInputChange={(inputValue, { action }) => {
+                                      if (action === "input-change") {
+                                        const lettersOnly = inputValue.replace(
+                                          /[^a-zA-Z\s]/g,
+                                          "",
+                                        );
+                                        return lettersOnly;
+                                      }
+                                      return inputValue;
+                                    }}
+                                    value={
+                                      state_name
+                                        ? {
+                                          value: state_name,
+                                          label: state_name,
+                                        }
+                                        : null
+                                    }
+                                    placeholder="Select State"
+                                    menuPlacement="auto"
+                                    noOptionsMessage={() => "No state available"}
+                                    styles={fieldSelectStyles()}
+                                  />
+                                </Form.Group>
+                              </div>
+                            </>
+                          )}
+                          <div className={TENANT_FOOTER_CLASS}>
                             <button
-                              disabled={
-                                formLoading || state.UsersList?.draftClickError
-                              }
-                              className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1]
-                                 border-1 border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
-                                   formLoading ||
-                                   state.UsersList?.draftClickError
-                                     ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
-                                     : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
-                                 }`}
-                              onClick={
-                                newTenant
-                                  ? handleSaveStepOne
-                                  : handleSaveUpdateStepOne
-                              }
+                              type="button"
+                              disabled={formLoading}
+                              className={TENANT_BTN_SECONDARY}
+                              onClick={handleSaveDraft}
                             >
                               {formLoading ? (
                                 <>
                                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
                                   Saving...
                                 </>
-                              ) : newTenant ? (
-                                "Save &  Next"
                               ) : (
-                                "Update &  Next"
+                                "Save Draft"
                               )}
                             </button>
-                            {/* <button
-                              className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-                              onClick={handleNext}
+                            <button
+                              type="button"
+                              disabled={formLoading || state.UsersList?.draftClickError}
+                              className={TENANT_BTN_PRIMARY}
+                              onClick={handleNextFromStepOne}
                             >
-                              Next <ArrowRight color="#FFFFFF" size="18" />
-                            </button> */}
+                              Next <ArrowRight color="#FFFFFF" size="16" />
+                            </button>
                           </div>
 
                           {/* <div className="flex justify-end mt-3">
@@ -2262,16 +2234,24 @@ function AddTenant({
                     </div>
                   )}
 
-                  {step === 2 && (
-                    <div ref={step2Ref}>
+                  {step2Opened && (
+                    <div
+                      ref={step === 2 ? step2Ref : null}
+                      className={step === 2 ? "" : "hidden"}
+                    >
                       <AddTenantBookingCheckin
-                        handleClose={handleClose}
-                        handleNextStep={handleNextStep}
-                        mobile={Phone}
-                        firstname={firstname}
-                        draftTenantId={draftTenantId}
+                        ref={step2Api}
+                        handleClose={requestClose}
                         newTenant={newTenant}
                         bookingOnly={bookingOnly}
+                        initialFlow={flow}
+                        restoredDraftId={restoredDraftId}
+                        onFlowChange={setFlow}
+                        onNext={goNext}
+                        onSaveDraft={handleSaveDraft}
+                        draftSaving={formLoading}
+                        onSubmitSuccess={handleSubmitSuccess}
+                        onSubmitError={handleSubmitFailed}
                       />
                     </div>
                   )}
@@ -2288,7 +2268,7 @@ function AddTenant({
                           <Add
                             size="24"
                             color="#FF0000"
-                            onClick={handleClose}
+                            onClick={requestClose}
                             className="cursor-pointer rotate-45"
                           />
                         </div>
@@ -2448,7 +2428,7 @@ function AddTenant({
                                     }
                                   }}
                                   placeholder="Guardian Full Name"
-                                  className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                  className={fieldClass()}
                                 />
                               </div>
 
@@ -2468,7 +2448,7 @@ function AddTenant({
                                     )
                                   }
                                   placeholder="Select Relationship"
-                                  styles={CustomStyles}
+                                  styles={fieldSelectStyles()}
                                 />
                               </div>
 
@@ -2488,7 +2468,7 @@ function AddTenant({
                                     )
                                   }
                                   placeholder="Select Occupation"
-                                  styles={CustomStyles}
+                                  styles={fieldSelectStyles()}
                                 />
                               </div>
 
@@ -2520,7 +2500,7 @@ function AddTenant({
                                   onWheel={(e) => e.target.blur()}
                                   maxLength={10}
                                   placeholder="Mobile No"
-                                  className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                  className={fieldClass(!!guardianErrors[index]?.mobileNo)}
                                 />
                                 {guardianErrors[index]?.mobileNo && (
                                   <ErrorMessage
@@ -2593,7 +2573,7 @@ function AddTenant({
                                       )
                                     }
                                     placeholder="Employment Status"
-                                    styles={CustomStyles}
+                                    styles={fieldSelectStyles()}
                                   />
                                 </div>
 
@@ -2612,7 +2592,7 @@ function AddTenant({
                                       )
                                     }
                                     placeholder="Company / College Name"
-                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                    className={fieldClass()}
                                   />
                                 </div>
 
@@ -2628,7 +2608,7 @@ function AddTenant({
                                       handleJobChange(index, "role", value)
                                     }
                                     placeholder="Job Role"
-                                    styles={CustomStyles}
+                                    styles={fieldSelectStyles()}
                                   />
                                 </div>
 
@@ -2647,7 +2627,7 @@ function AddTenant({
                                       )
                                     }
                                     placeholder="Work Location"
-                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                    className={fieldClass()}
                                   />
                                 </div>
 
@@ -2663,7 +2643,7 @@ function AddTenant({
                                       handleJobChange(index, "shiftType", value)
                                     }
                                     placeholder="Shift Type"
-                                    styles={CustomStyles}
+                                    styles={fieldSelectStyles()}
                                   />
                                 </div>
 
@@ -2682,7 +2662,7 @@ function AddTenant({
                                         e.target.value,
                                       )
                                     }
-                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                    className={fieldClass()}
                                   />
                                 </div>
 
@@ -2701,7 +2681,7 @@ function AddTenant({
                                         e.target.value,
                                       )
                                     }
-                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                    className={fieldClass()}
                                   />
                                 </div>
                               </div>
@@ -2779,7 +2759,7 @@ function AddTenant({
                                 onChange={handleVehicleTypeChange}
                                 options={vehicleTypeOptions}
                                 placeholder="Vehicle Type"
-                                styles={CustomStyles}
+                                styles={fieldSelectStyles(!!vehicleTypeError)}
                               />
 
                               {vehicleTypeError && (
@@ -2800,7 +2780,7 @@ function AddTenant({
                                 value={vehicleNumber}
                                 onChange={handleVehicleNumberChange}
                                 placeholder="Help us to Identify on the parking..."
-                                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                                className={fieldClass(!!vehicleNumberError)}
                               />
                               {vehicleNumberError && (
                                 <ErrorMessage
@@ -2819,38 +2799,95 @@ function AddTenant({
                                 value={parkingSpace}
                                 onChange={handleParkingSpaceChange}
                                 placeholder="Enter the Block or Space No"
-                                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                                className={fieldClass()}
                               />
                             </div>
                           </div>
                         )}
                       </div> */}
 
-                      <div className="flex justify-end mt-4">
+                      <div className={TENANT_FOOTER_CLASS}>
                         <button
-                          className="bg-gray-200 text-gray-600 px-4 py-2 rounded !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                          onClick={handleClose}
+                          type="button"
+                          disabled={formLoading}
+                          onClick={handleSaveDraft}
+                          className={TENANT_BTN_SECONDARY}
                         >
-                          Do it later
-                        </button>
-
-                        <button
-                          onClick={handleSaveStep3}
-                          disabled={saveLoading}
-                          className={`font-gilroy text-sm bg-[#038C3D] text-white font-semibold rounded-md py-2.5 px-4 mb-2 mx-2 h-11 w-36 whitespace-nowrap flex items-center justify-center gap-2 ${
-                            saveLoading ? "opacity-70 cursor-not-allowed" : ""
-                          }`}
-                        >
-                          {saveLoading ? (
+                          {formLoading ? (
                             <>
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
                               Saving...
                             </>
                           ) : (
-                            "Save"
+                            "Save Draft"
                           )}
                         </button>
+                        <div className="flex items-center gap-[12px]">
+                          <button
+                            type="button"
+                            onClick={handleSkipStepThree}
+                            className={TENANT_BTN_TERTIARY}
+                          >
+                            Skip for now
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleNextFromStepThree}
+                            className={TENANT_BTN_PRIMARY}
+                          >
+                            Next <ArrowRight color="#FFFFFF" size="16" />
+                          </button>
+                        </div>
                       </div>
+                    </div>
+                  )}
+
+                  {step === STEP_PREVIEW && step2Summary && (
+                    <div ref={step2Ref}>
+                      <h5 className="mb-3 flex items-center text-[18px] font-semibold text-gray-800">
+                        <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
+                        Preview Details
+                      </h5>
+                      <TenantPreview
+                        flow={isBookingFlow ? "booking" : "checkin"}
+                        property={
+                          (state.UsersList?.hostelList || []).find(
+                            (h) =>
+                              String(h.hostelId) ===
+                              String(state.login?.selectedHostel_Id),
+                          )?.name || ""
+                        }
+                        personal={{
+                          name: `${capitalizedFirstname} ${capitalizedLastname}`.trim(),
+                          mobile: Phone ? `+${countryCode} ${Phone}` : "",
+                          email: Email,
+                          idProof: idProofNo
+                            ? `${idProofType?.label || idProofType?.value || idProofType || "ID"} · ${idProofNo}`
+                            : "",
+                          address: [house_no, street, landmark, city, state_name, pincode]
+                            .filter(Boolean)
+                            .join(", "),
+                          addressLater,
+                          guardians: (guardians || [])
+                            .filter((g) => g.guardianFullName?.trim())
+                            .map((g) => ({
+                              name: g.guardianFullName,
+                              mobile: g.mobileNo,
+                            })),
+                        }}
+                        stay={step2Summary}
+                        docs={{ aadhaar: aadhaarFile, pan: panFile }}
+                        confirmed={confirmed}
+                        onConfirmChange={setConfirmed}
+                        onEdit={handleEdit}
+                        onBack={() => handleStepperSelect(getPreviousStep(STEP_PREVIEW, isBookingFlow))}
+                        onSaveDraft={handleSaveDraft}
+                        onConfirm={handleConfirm}
+                        draftSaving={formLoading}
+                        submitting={submitting}
+                        canSubmit={step2Api.current?.canSubmit?.() ?? true}
+                        error={submitError}
+                      />
                     </div>
                   )}
                 </div>
@@ -2859,6 +2896,25 @@ function AddTenant({
           </div>
         </div>
       </div>
+      {showUnsaved && (
+        <UnsavedChangesDialog
+          isBooking={isBookingFlow}
+          saving={formLoading}
+          onSaveDraft={handleUnsavedSaveDraft}
+          onDiscard={() => {
+            setShowUnsaved(false);
+            handleClose();
+          }}
+          onKeepEditing={() => setShowUnsaved(false)}
+        />
+      )}
+      {successInfo && (
+        <TenantAddedSuccess
+          name={successInfo.name}
+          flow={successInfo.flow}
+          onClose={handleSuccessClose}
+        />
+      )}
     </>
   );
 }
@@ -2874,5 +2930,6 @@ AddTenant.propTypes = {
   onclickdata: PropTypes.func.isRequired,
   alreadySaveDraftTenantDetails: PropTypes?.object,
   bookingOnly: PropTypes?.bool,
+  onTenantCreated: PropTypes?.func,
 };
 export default AddTenant;

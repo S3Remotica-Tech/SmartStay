@@ -15,31 +15,123 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import PropTypes from "prop-types";
 import { CustomStyles } from "../../Utils/SelectStyles";
+import VendorExpenseFilter from "./VendorExpenseFilter";
+
+
+export const EMPTY_VENDOR_EXPENSE_FILTERS = {
+  search: "",
+  startDate: "",
+  endDate: "",
+  paymentStatus: "",
+  paymentStatusLabel: "",
+  categoryId: "",
+  categoryName: "",
+  minAmount: "",
+  maxAmount: "",
+};
+
 
 function VendorExpenseHistory({ selectedVendorId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+
   const vendorExpenseList =
     state.ComplianceList?.vendorOverviewExpenseList?.expenses || [];
-
-  const [openExpense, setOpenExpense] = useState(null);
-
-  const monthOptions = [
-    { value: "this_month", label: "This Month" },
-    { value: "last_month", label: "Last Month" },
-    { value: "last_3_months", label: "Last 3 Months" },
-    { value: "last_6_months", label: "Last 6 Months" },
-    { value: "this_year", label: "This Year" },
-  ];
-  const selectOptions = [{ value: "ALL", label: "All" }];
-  // const [statusfilter, setStatusFilter] = useState("ALL");
+  const [statusfilter, setStatusfilter] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [openExpense, setOpenExpense] = useState(null);
+  const [categoryfilter, setCategoryfilter] = useState("ALL");
 
-  const [selectedMonth, setSelectedMonth] = useState();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [chips, setChips] = useState([]);
+  const expenseFilters = state.ComplianceList?.vendorExpenseFilters;
 
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
+
+  const PAYMENT_STATUS_STYLES = {
+    paid: {
+      label: "Paid",
+      badge: "bg-[#E8F8EC] text-[#00A32E]",
+      dot: "bg-[#00A32E]",
+    },
+    partial: {
+      label: "Partially Paid",
+      badge: "bg-[#FFF7E6] text-[#FA8C16]",
+      dot: "bg-[#FA8C16]",
+    },
+    pending: {
+      label: "Pending",
+      badge: "bg-[#FDECEC] text-[#E5484D]",
+      dot: "bg-[#E5484D]",
+    },
   };
+
+  const getStatusStyle = (status) => {
+    const s = String(status || "").toLowerCase();
+    if (s === "full" || s.startsWith("paid")) return PAYMENT_STATUS_STYLES.paid;
+    if (s.includes("partial")) return PAYMENT_STATUS_STYLES.partial;
+    if (s.includes("pending")) return PAYMENT_STATUS_STYLES.pending;
+    return {
+      label: status || "-",
+      badge: "bg-[#F3F4F6] text-[#6B7280]",
+      dot: "bg-[#6B7280]",
+    };
+  };
+  const selectOptions = [
+    { value: "ALL", label: "All" },
+    ...(state.ComplianceList?.vendorOverviewExpenseList?.filterOptions?.status || []).map(
+      (item) => ({
+        value: item.type,
+        label: item.name,
+      })
+    ),
+  ];
+
+  const categoryOptions = [
+    { value: "ALL", label: "All" },
+    ...(state.ComplianceList?.vendorOverviewExpenseList?.filterOptions?.category || []).map(
+      (item) => ({
+        value: item.type,
+        label: item.name,
+      })
+    ),
+  ];
+
+  const { canReadModule: canReadExpense } = useHasPermission("Expense");
+
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
+  const tableContainerRef = useRef(null);
+  const previousVendorExpenseRequestRef = useRef(null);
+
+  const isAll = (opt) => !opt || opt.value === "ALL";
+  const handleStatusFilter = (selectedOption) => {
+    setPage(1);
+    const selectedStatus = selectedOption?.value || "ALL";
+    setStatusfilter(selectedStatus);
+    dispatch({
+      type: "SET_VENDOR_EXPENSE_FILTERS",
+      payload: {
+        paymentStatus: isAll(selectedOption) ? "" : selectedOption.value,
+        paymentStatusLabel: isAll(selectedOption) ? "" : selectedOption.label,
+      },
+    });
+
+  };
+
+
+  const handleCategoryFilter = (selectedOption) => {
+    setPage(1);
+    setCategoryfilter(selectedOption?.value || "ALL");
+    dispatch({
+      type: "SET_VENDOR_EXPENSE_FILTERS",
+      payload: {
+        categoryId: isAll(selectedOption) ? "" : selectedOption.value,
+        categoryName: isAll(selectedOption) ? "" : selectedOption.label,
+      },
+    });
+  };
+
+
   const handleToggleExpense = (id) => {
     setOpenExpense((prev) => (prev === id ? null : id));
   };
@@ -47,12 +139,13 @@ function VendorExpenseHistory({ selectedVendorId }) {
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
+    dispatch({
+      type: "SET_VENDOR_EXPENSE_FILTERS",
+      payload: { search: e.target.value },
+    });
   };
-  const { canReadModule: canReadExpense } = useHasPermission("Expense");
 
-  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const [page, setPage] = useState(1);
-  const tableContainerRef = useRef(null);
+
   // const lastScrollLeftRef = useRef(0);
   const currentPage =
     state.ComplianceList?.vendorOverviewExpenseList?.currentPage ?? 1;
@@ -84,6 +177,86 @@ function VendorExpenseHistory({ selectedVendorId }) {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_VENDOR_EXPENSE_FILTERS",
+        payload: { ...EMPTY_VENDOR_EXPENSE_FILTERS },
+      });
+      setChips([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.ComplianceList.vendorOverviewExpenseListStatus === 200) {
+
+      setIsFilterOpen(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_VENDOR_OVERVIEW_EXPENSE_LIST" });
+      }, 100);
+    }
+  }, [state.ComplianceList.vendorOverviewExpenseListStatus]);
+
+  useEffect(() => {
+    const f = expenseFilters;
+    const filterData = [];
+
+    if (f?.search)
+      filterData.push({ key: "search", label: "Search", value: f.search });
+
+    if (f?.startDate && f?.endDate)
+      filterData.push({
+        key: "date",
+        label: "Date",
+        value: `${f.startDate} to ${f.endDate}`,
+      });
+
+    if (f?.paymentStatusLabel)
+      filterData.push({
+        key: "paymentStatus",
+        label: "Payment Status",
+        value: f.paymentStatusLabel,
+      });
+
+    if (f?.categoryName)
+      filterData.push({
+        key: "category",
+        label: "Category",
+        value: f.categoryName,
+      });
+
+    if (f?.minAmount !== "" && f?.minAmount !== null)
+      filterData.push({ key: "minAmount", label: "Min", value: f.minAmount });
+
+    if (f?.maxAmount !== "" && f?.maxAmount !== null)
+      filterData.push({ key: "maxAmount", label: "Max", value: f.maxAmount });
+
+    setChips(filterData);
+  }, [expenseFilters]);
+
+
+  const handleReset = () => {
+    setSearchQuery("");
+    setStatusfilter("");
+    setCategoryfilter("")
+
+
+    dispatch({
+      type: "SET_VENDOR_EXPENSE_FILTERS",
+      payload: { ...EMPTY_VENDOR_EXPENSE_FILTERS },
+    });
+    dispatch({
+      type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+      payload: {
+        vendorId: selectedVendorId,
+        ...EMPTY_VENDOR_EXPENSE_FILTERS,
+        page: 1,
+        size,
+      },
+    });
+
+  };
+
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -95,82 +268,94 @@ function VendorExpenseHistory({ selectedVendorId }) {
     setPage(1);
   }, [searchQuery]);
 
-  const previousVendorExpenseRequestRef = useRef(null);
+
 
   useEffect(() => {
     if (!selectedVendorId) return;
+    const timeout = setTimeout(() => {
+      const payload = {
+        vendorId: selectedVendorId,
+        page,
+        size,
+        search: searchQuery || expenseFilters?.search || "",
+        paymentStatus: statusfilter === "ALL" ? "" : statusfilter,
+        categoryId: categoryfilter === "ALL" ? "" : categoryfilter,
+        startDate: expenseFilters?.startDate || "",
+        endDate: expenseFilters?.endDate || "",
+        minAmount: expenseFilters?.minAmount ?? "",
+        maxAmount: expenseFilters?.maxAmount ?? "",
+      };
 
-    const payload = {
-      vendorId: selectedVendorId,
-      page,
-      size,
-      search: searchQuery,
-    };
+      const requestKey = JSON.stringify(payload);
+      if (previousVendorExpenseRequestRef.current === requestKey) return;
+      previousVendorExpenseRequestRef.current = requestKey;
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+        payload,
+      });
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [page, size, selectedVendorId, searchQuery, statusfilter, categoryfilter]);
 
-    const requestKey = JSON.stringify(payload);
 
-    if (previousVendorExpenseRequestRef.current === requestKey) return;
 
-    previousVendorExpenseRequestRef.current = requestKey;
-
-    dispatch({
-      type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-      payload,
-    });
-  }, [page, size, selectedVendorId, searchQuery]);
 
   return (
     <div className="px-4 bg-white">
       <div className="flex flex-wrap items-center justify-between  bg-white min-h-[60px] sticky top-0 z-[50]">
         <div className="flex flex-wrap items-center gap-3">
-          <div
-            // className={`border border-gray-300 rounded-lg w-36 ${
-            //   statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-            // }`}
-            className={`border border-gray-300 rounded-lg w-36 `}
-          >
+          <div className="border border-gray-300 rounded-lg w-36">
             <Select
-              isDisabled
               options={selectOptions}
               styles={CustomStyles}
-              // isDisabled={canReadExpense}
+              isDisabled={!canReadExpense}
               menuPlacement="auto"
               classNamePrefix="custom"
-              // onChange={(e) => handleStatusFilter(e)}
-              // value={
-              //   selectOptions.find((opt) => opt.value === statusfilter) || null
-              // }
+              onChange={handleStatusFilter}
+              value={
+                selectOptions.find((opt) => opt.value === statusfilter) || selectOptions[0]
+              }
               id="statusselect"
             />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="border border-gray-300 rounded-lg w-36">
             <Select
-              isDisabled={canReadExpense}
-              options={monthOptions}
-              value={selectedMonth}
-              onChange={handleMonthChange}
-              classNamePrefix="custom"
-              menuPlacement="auto"
-              noOptionsMessage={() => "No options"}
+              options={categoryOptions}
               styles={CustomStyles}
+              isDisabled={!canReadExpense}
+              menuPlacement="auto"
+              classNamePrefix="custom"
+              onChange={handleCategoryFilter}
+              value={
+                categoryOptions.find((opt) => opt.value === categoryfilter) ||
+                categoryOptions[0]
+              }
+              id="categoryselect"
             />
           </div>
 
-          <div
+          <div onClick={() => {
+            if (canReadExpense) {
+              setIsFilterOpen(true);
+            }
+          }}
             className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
           >
             <Filter
               size={16}
-              onClick={() => {
-                if (canReadExpense) {
-                  // setIsFilterOpen(true);
-                }
-              }}
-              className={`transition-opacity duration-300 ${canReadExpense
+
+              className={`transition-opacity duration-300 ${!canReadExpense
                 ? "cursor-not-allowed opacity-100 pointer-events-auto"
-                : "cursor-not-allowed opacity-40 pointer-events-none"
+                : "cursor-pointer opacity-40 "
                 }`}
+            />
+
+            <VendorExpenseFilter
+              show={isFilterOpen}
+              handleClose={() => setIsFilterOpen(false)}
+              size={size}
+              selectedVendorId={selectedVendorId}
             />
           </div>
         </div>
@@ -186,7 +371,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
             >
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search by title..."
                 value={searchQuery}
                 onChange={handleInputChange}
                 disabled={!canReadExpense}
@@ -213,6 +398,28 @@ function VendorExpenseHistory({ selectedVendorId }) {
         </div>
       </div>
 
+      {chips?.length > 0 && (
+        <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+          <div className="flex flex-wrap gap-2 flex-1">
+            {chips.map((chip) => (
+              <span
+                key={chip.key}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+              >
+                {chip.label} :
+                <span className="text-gray-900">{chip.value}</span>
+              </span>
+            ))}
+          </div>
+          <span
+            className="text-blue-600 text-sm font-medium cursor-pointer"
+            onClick={handleReset}
+          >
+            Reset
+          </span>
+        </div>
+      )}
+
       {vendorExpenseList?.length > 0 ? (
         <div className="bg-white    rounded-xl  mx-1 my-3 ">
           <div
@@ -232,6 +439,9 @@ function VendorExpenseHistory({ selectedVendorId }) {
 
                   <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
                     Expense Title
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
+                    Category
                   </th>
                   <th className="px-4 py-2.5 text-left text-xs text-[#666]">
                     Amount
@@ -264,6 +474,9 @@ function VendorExpenseHistory({ selectedVendorId }) {
                       <td className="px-4 py-2.5 text-sm">
                         {expense.title || "-"}
                       </td>
+                      <td className="px-4 py-2.5 text-sm">
+                        {expense.categoryName || "-"}
+                      </td>
 
                       <td className="px-4 py-2.5 text-sm">
                         ₹ {expense.totalAmount}
@@ -274,21 +487,17 @@ function VendorExpenseHistory({ selectedVendorId }) {
                       </td>
 
                       <td className="px-4 py-2.5">
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px]
-              ${expense.balanceAmount === 0
-                              ? "bg-[#E8F8EC] text-[#00A32E]"
-                              : "bg-[#FFF7E6] text-[#FA8C16]"
-                            }`}
-                        >
-                          <span
-                            className={`h-2 w-2 rounded-full ${expense.balanceAmount === 0
-                              ? "bg-[#00A32E]"
-                              : "bg-[#FA8C16]"
-                              }`}
-                          />
-                          {expense.paymentStatus}
-                        </span>
+                        {(() => {
+                          const st = getStatusStyle(expense.paymentStatus);
+                          return (
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] whitespace-nowrap ${st.badge}`}
+                            >
+                              <span className={`h-2 w-2 rounded-full ${st.dot}`} />
+                              {st.label}
+                            </span>
+                          );
+                        })()}
                       </td>
 
                       <td className="px-4 py-2.5">
@@ -306,55 +515,41 @@ function VendorExpenseHistory({ selectedVendorId }) {
                     </tr>
 
                     {openExpense === expense?.expenseId && (
-                      <tr>
-                        <td colSpan={7} className="p-0 bg-[#FAFAFA]">
-                          <table className="w-full">
-                            <thead className="bg-[#F5F5F5]">
-                              <tr>
-                                <th className="px-4 py-2 text-left text-[11px]">
-                                  ITEM DETAILS
-                                </th>
-                                <th className="px-4 py-2 text-left text-[11px]">
-                                  QUANTITY
-                                </th>
-                                <th className="px-4 py-2 text-left text-[11px]">
-                                  UNIT
-                                </th>
-                                <th className="px-4 py-2 text-left text-[11px]">
-                                  PER UNIT PRICE
-                                </th>
-                                <th className="px-4 py-2 text-right text-[11px]">
-                                  AMOUNT
-                                </th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {expense?.expenseItems?.map((item) => (
-                                <tr key={item.id} className="border-t">
-                                  <td className="px-4 py-2  text-[11px]">
-                                    {item.item || "-"}
-                                  </td>
-
-                                  <td className="px-4 py-2  text-[11px]">
-                                    {item.quantity}
-                                  </td>
-
-                                  <td className="px-4 py-2  text-[11px]">
-                                    {item.unit || "-"}
-                                  </td>
-
-                                  <td className="px-4 py-2  text-[11px]">
-                                    ₹ {item.unitPrice.toFixed(2)}
-                                  </td>
-
-                                  <td className="px-4 py-2  text-[11px] text-right">
-                                    ₹ {item.totalAmount.toFixed(2)}
-                                  </td>
+                      <tr >
+                        <td colSpan={8} className="p-0 bg-[#FAFAFA]">
+                          {expense?.expenseItems?.length > 0 ? (
+                            <table className="w-full">
+                              <thead className="bg-[#F5F5F5]">
+                                <tr>
+                                  <th className="px-4 py-2 text-left text-[11px]">ITEM DETAILS</th>
+                                  <th className="px-4 py-2 text-left text-[11px]">QUANTITY</th>
+                                  <th className="px-4 py-2 text-left text-[11px]">UNIT</th>
+                                  <th className="px-4 py-2 text-left text-[11px]">PER UNIT PRICE</th>
+                                  <th className="px-4 py-2 text-right text-[11px]">AMOUNT</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                              </thead>
+
+                              <tbody>
+                                {expense.expenseItems.map((item) => (
+                                  <tr key={item.id} className="border-t">
+                                    <td className="px-4 py-2 text-[11px]">{item.item || "-"}</td>
+                                    <td className="px-4 py-2 text-[11px]">{item.quantity}</td>
+                                    <td className="px-4 py-2 text-[11px]">{item.unit || "-"}</td>
+                                    <td className="px-4 py-2 text-[11px]">
+                                      ₹ {Number(item.unitPrice || 0).toFixed(2)}
+                                    </td>
+                                    <td className="px-4 py-2 text-[11px] text-right">
+                                      ₹ {Number(item.totalAmount || 0).toFixed(2)}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <div className="flex items-center justify-center py-6 text-[12px] text-[#6B7280] font-gilroy">
+                              No item details available
+                            </div>
+                          )}
                         </td>
                       </tr>
                     )}

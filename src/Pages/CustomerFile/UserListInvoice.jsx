@@ -21,6 +21,7 @@ import UnPaidInvoice from "../Bills/UnPaidInvoice";
 import DiscountInvoice from "../PDF/DiscountInvoice";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import DeleteBill from "../Bills/DeleteBill"
 
 function UserListInvoice() {
   const state = useSelector((state) => state);
@@ -159,6 +160,17 @@ function UserListInvoice() {
   const handleCloseRefundAmount = () => {
     setPayableForm(false);
   };
+  const [showdeleteform, setShowDeleteform] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+
+  const handleDeleteInvoice = (details) => {
+    setShowDeleteform(true)
+    setDeleteId(details?.invoiceId)
+  }
+  const handleCloseDeleteInvoice = () => {
+    setShowDeleteform(false)
+  }
+
 
   const handleUnpaid = (item) => {
     setSelectedInvoice(item);
@@ -311,7 +323,11 @@ function UserListInvoice() {
           refundDetails={refundDetails}
         />
       )}
-
+      <DeleteBill
+        show={showdeleteform}
+        onCancel={handleCloseDeleteInvoice}
+        billId={deleteId}
+      />
       <div className="flex justify-end w-full lg:-mt-[65px] ">
         <Button
           onClick={handleAddBill}
@@ -634,9 +650,9 @@ function UserListInvoice() {
 
                                           {view?.paymentStatus !== "Cancelled" &&
                                             view?.paymentStatus !== "Paid" && (
-                                              <button
-                                                disabled
-                                                className={`flex items-center gap-2 cursor-not-allowed w-full px-3 py-2 text-sm rounded-b-[10px]
+                                              <button onClick={() => handleDeleteInvoice(view)}
+
+                                                className={`flex items-center gap-2 cursor-pointer w-full px-3 py-2 text-sm rounded-b-[10px]
       ${canDeleteInvoice
                                                     ? "hover:bg-[#FFF0F0] text-red-500 "
                                                     : "opacity-50 cursor-not-allowed text-[#ccc]"

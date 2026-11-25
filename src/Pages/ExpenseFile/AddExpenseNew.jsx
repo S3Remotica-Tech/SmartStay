@@ -25,6 +25,13 @@ import {
   GroupHeading,
 
 } from "../../Utils/CustomSelectComponents";
+import {
+  datePickerInputClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 const CustomStylesCode = {
   control: (base, state) => ({
@@ -124,108 +131,6 @@ const CustomStylesCode = {
 
 
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "45px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
-    opacity: state.isDisabled ? 0.7 : 1,
-    minWidth: 0,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    maxWidth: "100%",
-    overflow: "hidden",
-  }),
-
-  placeholder: (base) => ({
-    ...base,
-    color: "#6B7280",
-  }),
-
-  option: (base, state) => ({
-    ...base,
-    fontSize: 14,
-    padding: "6px 12px",
-    backgroundColor: state.isSelected
-      ? "#EEF2FF"
-      : state.isFocused
-        ? "#F3F4F6"
-        : "#fff",
-    color: "#111827",
-    cursor: "pointer",
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    fontFamily: "Gilroy",
-    overflow: "hidden",
-    borderLeft: state.isSelected
-      ? "3px solid #1E45E1"
-      : "3px solid transparent",
-    fontWeight: state.isSelected ? 500 : 400,
-  }),
-
-  menu: (base) => ({
-    ...base,
-    width: "100%",
-    minWidth: 0,
-    maxWidth: "100%",
-    boxSizing: "border-box",
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    overflow: "hidden",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "150px",
-    padding: 0,
-    overflowY: "auto",
-    overflowX: "hidden",
-    width: "100%",
-    boxSizing: "border-box",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-    minWidth: 0,
-    overflow: "hidden",
-    flex: 1,
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-    flexShrink: 0,
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 
 
@@ -1037,7 +942,7 @@ function AddExpenseNew() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
             <div className="col-span-1 xl:col-span-8">
-              <label className="block mb-2 text-[13px] font-medium text-[#222]">
+              <label className={fieldLabelClass}>
                 Expense Title{" "}
               </label>
 
@@ -1047,20 +952,19 @@ function AddExpenseNew() {
                 value={expenseTitle}
                 onChange={handleExpenseTitle}
                 placeholder="Enter Expense Name"
-                className={`w-full h-[48px] px-3 rounded-lg border ${expenseTitleError ? "border-red-500" : "border-[#D9D9D9]"
-                  } outline-none`}
+                className={fieldClass(!!expenseTitleError)}
               />
 
               {expenseTitleError && (
-                <ErrorMessage message={expenseTitleError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={expenseTitleError} type="error" />
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
             <div className="col-span-1 xl:col-span-4">
-              <label className="block mb-2 text-[13px] font-medium">
-                Category <span className="text-red-500 text-[20px]">*</span>
+              <label className={fieldLabelClass}>
+                Category <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div ref={categoryRef}>
@@ -1074,19 +978,19 @@ function AddExpenseNew() {
                   onChange={handleCategory}
                   options={expenseOptions}
                   placeholder="Select"
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles(!!categoryError)}
                 />
               </div>
 
               {categoryError && (
-                <ErrorMessage message={categoryError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={categoryError} type="error" />
               )}
             </div>
             <div className="col-span-1 xl:col-span-4">
-              <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+              <label className={fieldLabelClass}>
                 Sub Category{" "}
                 {subCategoryList.length > 0 ? (
-                  <span className="text-red-600 inline-block text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 ) : (
                   <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
                 )}
@@ -1103,11 +1007,10 @@ function AddExpenseNew() {
                 }
                 onChange={handleSubCategory}
                 placeholder="Select"
-                classNamePrefix="custom"
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!subCategoryError)}
               />
               {subCategoryError && (
-                <ErrorMessage message={subCategoryError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={subCategoryError} type="error" />
               )}
             </div>
           </div>
@@ -1115,9 +1018,9 @@ function AddExpenseNew() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
             <div className="col-span-1 xl:col-span-4">
               <div>
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                <label className={fieldLabelClass}>
                   Total Amount (INR)
-                  <span className="text-red-500 text-[20px]">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </label>
 
                 <input
@@ -1127,19 +1030,18 @@ function AddExpenseNew() {
                   type="number"
                   placeholder="Enter Amount"
                   onWheel={(e) => e.target.blur()}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${amount ? "font-semibold" : "font-medium"
-                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={fieldClass(!!amountError)}
                 />
 
                 {amountError && (
-                  <ErrorMessage message={amountError} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={amountError} type="error" />
                 )}
               </div>
             </div>
             <div className="col-span-1 xl:col-span-4">
-              <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+              <label className={fieldLabelClass}>
                 Purchase Date
-                <span className="text-red-600 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <div className="relative" ref={purchaseDateRef}>
@@ -1153,9 +1055,7 @@ function AddExpenseNew() {
                   maxDate={new Date()}
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
-                  className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
-      ${purchaseDateError ? "border-red-500" : "border-[#D9D9D9]"
-                    } focus:outline-none`}
+                  className={datePickerInputClass(!!purchaseDateError)}
                 />
 
                 <Calendar
@@ -1166,14 +1066,14 @@ function AddExpenseNew() {
               </div>
 
               {purchaseDateError && (
-                <ErrorMessage message={purchaseDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={purchaseDateError} type="error" />
               )}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
             <div className="col-span-1 xl:col-span-8 flex items-center justify-between">
               <div className="">
-                <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                <label className={fieldLabelClass}>
                   Link this Expense to a Vendor?
                 </label>
               </div>
@@ -1216,9 +1116,9 @@ function AddExpenseNew() {
               <div className="mb-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
                   <div className="col-span-1 xl:col-span-8 ">
-                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                    <label className={fieldLabelClass}>
                       Vendor
-                      <span className="text-red-600 text-[20px]">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <Select
@@ -1227,11 +1127,10 @@ function AddExpenseNew() {
                       ref={vendorRef}
                       onChange={handleVendorChange}
                       placeholder="Select"
-                      classNamePrefix="custom"
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!vendorError)}
                     />
                     {vendorError && (
-                      <ErrorMessage message={vendorError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={vendorError} type="error" />
                     )}
                   </div>
                 </div>
@@ -1240,7 +1139,7 @@ function AddExpenseNew() {
                   <div className="col-span-1 xl:col-span-8">
                     <label className="text-[13px] font-medium text-[#1A1C21]">
                       Payment Status{" "}
-                      <span className="text-red-500 text-[20px]">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <div className="flex gap-6 mt-3">
@@ -1271,7 +1170,7 @@ function AddExpenseNew() {
                     </div>
 
                     {paymentStatusError && (
-                      <ErrorMessage message={paymentStatusError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={paymentStatusError} type="error" />
                     )}
                   </div>
                 </div>
@@ -1279,9 +1178,9 @@ function AddExpenseNew() {
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
                     <div className="col-span-1 xl:col-span-4">
                       <div>
-                        <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                        <label className={fieldLabelClass}>
                           Paid Amount (INR){" "}
-                          <span className="text-red-500 text-[20px]">*</span>
+                          <span className={fieldRequiredClass}>*</span>
                         </label>
 
                         <input
@@ -1291,19 +1190,18 @@ function AddExpenseNew() {
                           onChange={handlePaidAmountChange}
                           onWheel={(e) => e.target.blur()}
                           placeholder="Enter Paid Amount"
-                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${paidAmount ? "font-semibold" : "font-medium"
-                            } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                          className={fieldClass(!!paidAmountError)}
                         />
 
                         {paidAmountError && (
-                          <ErrorMessage
+                          <ErrorMessage className="mt-[6px]"
                             message={paidAmountError}
                             type="error"
                           />
                         )}
 
                         {errors.paidAmount && (
-                          <ErrorMessage
+                          <ErrorMessage className="mt-[6px]"
                             message={errors.paidAmount}
                             type="error"
                           />
@@ -1312,7 +1210,7 @@ function AddExpenseNew() {
                     </div>
                     <div className="col-span-1 xl:col-span-4">
                       <div>
-                        <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                        <label className={fieldLabelClass}>
                           Balance Amount (Outstanding){" "}
                           <span className="text-transparent select-none text-[20px]">
                             *
@@ -1327,18 +1225,17 @@ function AddExpenseNew() {
                           onWheel={(e) => e.target.blur()}
                           // onChange={handleBalanceAmountChange}
                           placeholder="Enter Balance Amount"
-                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${balanceAmount ? "font-semibold" : "font-medium"
-                            } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
+                          className={fieldClass(false)}
                         />
 
                         {/* {balanceAmountError && (
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={balanceAmountError}
                           type="error"
                         />
                       )}
                       {errors.balanceAmount && (
-                        <ErrorMessage
+                        <ErrorMessage className="mt-[6px]"
                           message={errors.balanceAmount}
                           type="error"
                         />
@@ -1351,7 +1248,7 @@ function AddExpenseNew() {
               {paymentStatus === "Pending" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
                   <div className="col-span-1 xl:col-span-8">
-                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                    <label className={fieldLabelClass}>
                       Credit Period (for this expense only)
                     </label>
 
@@ -1361,8 +1258,7 @@ function AddExpenseNew() {
                       onChange={handleCreditPeriodChange}
                       placeholder="Enter Credit Period"
                       onWheel={(e) => e.target.blur()}
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${creditPeriod ? "font-semibold" : "font-medium"
-                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                      className={fieldClass()}
                     />
                   </div>
                 </div>
@@ -1374,9 +1270,9 @@ function AddExpenseNew() {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
                   <div className="col-span-1 xl:col-span-8  ">
-                    <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                    <label className={fieldLabelClass}>
                       Payment Method
-                      <span className="text-red-500 ml-1 text-[20px] ">*</span>
+                      <span className={fieldRequiredClass}>*</span>
                     </label>
 
                     <Select
@@ -1389,7 +1285,7 @@ function AddExpenseNew() {
                       }}
                       options={paymentOptionsV1}
                       placeholder="Select Payment Method"
-                      styles={CustomStyles}
+                      styles={fieldSelectStyles(!!paymentMethodError)}
                       components={{
                         Option,
                         SingleValue,
@@ -1400,13 +1296,13 @@ function AddExpenseNew() {
                     />
 
                     {paymentMethodError && (
-                      <ErrorMessage message={paymentMethodError} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
                     )}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
                   <div className="col-span-1 xl:col-span-8 ">
-                    <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                    <label className={fieldLabelClass}>
                       Transaction ID
                     </label>
                     <input
@@ -1414,8 +1310,7 @@ function AddExpenseNew() {
                       placeholder="Enter Transaction ID"
                       value={transactionId}
                       onChange={handleTransactionIdChange}
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
-                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                      className={fieldClass()}
                     />
                   </div>
                 </div>
@@ -1434,7 +1329,7 @@ function AddExpenseNew() {
               <div className="col-span-1 xl:col-span-8">
                 {attachments?.length === 0 && (
                   <div className="mb-2">
-                    <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                    <label className={fieldLabelClass}>
                       Attachments/Proofs (If any)
                     </label>
 
@@ -1546,7 +1441,7 @@ function AddExpenseNew() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
               <div className="col-span-1 xl:col-span-8">
-                <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                <label className={fieldLabelClass}>
                   Description
                 </label>
 
@@ -1581,19 +1476,19 @@ function AddExpenseNew() {
                     <tr className="bg-[#F9FAFB] text-left text-xs text-[#6B7280] rounded-xl">
                       <th className="p-2 border border-[#F9FAFB] rounded-t-lg">
                         ITEM DETAILS{" "}
-                        {/* <span className="text-red-500 ml-1">*</span> */}
+                        {/* <span className={fieldRequiredClass}>*</span> */}
                       </th>
                       <th className="p-2 w-[100px] border border-[#F9FAFB]">
                         QUANTITY
-                        {/* <span className="text-red-500 ml-1">*</span> */}
+                        {/* <span className={fieldRequiredClass}>*</span> */}
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
                         UNIT
-                        {/* <span className="text-red-500 ml-1">*</span> */}
+                        {/* <span className={fieldRequiredClass}>*</span> */}
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
                         PER UNIT PRICE{" "}
-                        {/* <span className="text-red-500 ml-1">*</span> */}
+                        {/* <span className={fieldRequiredClass}>*</span> */}
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
                         AMOUNT
@@ -1620,7 +1515,7 @@ function AddExpenseNew() {
                                   )
                                 }
                                 placeholder="Enter Item Name"
-                                className="w-full  outline-none text-sm rounded-md"
+                                className="w-full outline-none text-sm rounded-md"
                               />
                             </td>
 
@@ -1637,7 +1532,7 @@ function AddExpenseNew() {
                                   )
                                 }
                                 onWheel={(e) => e.target.blur()}
-                                className="w-full  outline-none text-sm rounded-md"
+                                className="w-full outline-none text-sm rounded-md"
                               />
                             </td>
 
@@ -1675,7 +1570,7 @@ function AddExpenseNew() {
                                   )
                                 }
                                 onWheel={(e) => e.target.blur()}
-                                className="w-full  outline-none text-sm rounded-md "
+                                className="w-full outline-none text-sm rounded-md "
                               />
                             </td>
 
@@ -1707,28 +1602,28 @@ function AddExpenseNew() {
                             expenseItemErrors[index]?.price) && (
                               <tr className="">
                                 <td className=" pb-2 text-xs  whitespace-nowrap ">
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={expenseItemErrors[index]?.itemName}
                                     type="error"
                                   />
                                 </td>
 
                                 <td className=" pb-2 text-xs text-red-500 whitespace-nowrap w-[200px] ">
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={expenseItemErrors[index]?.quantity}
                                     type="error"
                                   />
                                 </td>
 
                                 <td className="pb-2 text-xs text-red-500 whitespace-nowrap">
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={expenseItemErrors[index]?.unit}
                                     type="error"
                                   />
                                 </td>
 
                                 <td className=" pb-2 text-xs text-red-500 whitespace-nowrap">
-                                  <ErrorMessage
+                                  <ErrorMessage className="mt-[6px]"
                                     message={expenseItemErrors[index]?.price}
                                     type="error"
                                   />
@@ -1760,7 +1655,7 @@ function AddExpenseNew() {
             </div>
 
             {errors.totalAmount && (
-              <ErrorMessage message={errors.totalAmount} type="error" />
+              <ErrorMessage className="mt-[6px]" message={errors.totalAmount} type="error" />
             )}
             <div className="flex justify-between">
               <div>
@@ -1797,13 +1692,13 @@ function AddExpenseNew() {
                             }));
                             setTax(e.target.value);
                           }}
-                          className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                          className={`${fieldClass(!!errors.tax)} !w-[100px]`}
                         />
                       </div>
                     </div>
                     {errors.tax && (
                       <div className="w-full mt-1">
-                        <ErrorMessage message={errors.tax} type="error" />
+                        <ErrorMessage className="mt-[6px]" message={errors.tax} type="error" />
                       </div>
                     )}
                     <div className="flex justify-between items-center">
@@ -1854,13 +1749,13 @@ function AddExpenseNew() {
                           placeholder={
                             discountType === "amount" ? "Amount" : "Percentage"
                           }
-                          className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                          className={`${fieldClass(!!errors.discount)} !w-[100px]`}
                         />
                       </div>
                     </div>
 
                     {errors.discount && (
-                      <ErrorMessage message={errors.discount} type="error" />
+                      <ErrorMessage className="mt-[6px]" message={errors.discount} type="error" />
                     )}
                     <div className="border-t pt-3 flex justify-between font-semibold">
                       <span className="text-sm">TOTAL AMOUNT</span>
@@ -1876,7 +1771,7 @@ function AddExpenseNew() {
           </div>
           {state.ExpenseList?.insufficiantFundError && (
             <div className="flex items-center justify-center  mb-2 mt-2">
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.ExpenseList?.insufficiantFundError}
                 type="error"
               />

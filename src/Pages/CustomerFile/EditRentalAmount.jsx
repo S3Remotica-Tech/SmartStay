@@ -8,6 +8,13 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
 function EditRentalAmount({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -214,8 +221,8 @@ function EditRentalAmount({ show, handleClose }) {
             {/* TYPE */}
             <div>
               <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-[#222]">
-                  Type <span className="text-red-500 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Type <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <Select
@@ -223,42 +230,14 @@ function EditRentalAmount({ show, handleClose }) {
                   onChange={handleTypeChange}
                   options={type}
                   placeholder="Select Type"
-                  classNamePrefix="custom"
                   noOptionsMessage={() => "No Type available"}
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      boxShadow: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: state.data.value === "Others" ? "#1E45E1" : "#000",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    indicatorSeparator: () => ({ display: "none" }),
-                    menuList: (base) => ({
-                      ...base,
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                      scrollbarWidth: "thin",
-                      msOverflowStyle: "auto",
-                    }),
+                    ...fieldSelectStyles(!!typeError),
+                    menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
                   }}
                 />
 
-                {typeError && <ErrorMessage message={typeError} type="error" />}
+                {typeError && <ErrorMessage className="mt-[6px]" message={typeError} type="error" />}
               </Form.Group>
             </div>
 
@@ -266,9 +245,9 @@ function EditRentalAmount({ show, handleClose }) {
             {types && (
               <div>
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222]">
+                  <Form.Label className={fieldLabelClass}>
                     New Monthly Rent{" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <FormControl
@@ -277,11 +256,11 @@ function EditRentalAmount({ show, handleClose }) {
                     value={monthlyRent}
                     onChange={handleMonthlyRentChange}
                     placeholder="Enter New Rent"
-                    className="h-[50px] rounded-lg border border-[#D9D9D9] text-base font-medium font-gilroy text-[#4B4B4B] focus:shadow-none"
+                    className={fieldClass(!!monthlyRentError)}
                   />
 
                   {monthlyRentError && (
-                    <ErrorMessage message={monthlyRentError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={monthlyRentError} type="error" />
                   )}
                 </Form.Group>
               </div>
@@ -291,13 +270,13 @@ function EditRentalAmount({ show, handleClose }) {
             {types === "Rent-Revision" && (
               <div>
                 <Form.Group>
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222]">
+                  <Form.Label className={fieldLabelClass}>
                     Effective From{" "}
-                    <span className="text-red-500 text-xl">*</span>
+                    <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
                   <div className="relative w-full">
-                    <DatePicker
+                    <DatePicker className={datePickerClass(!!effectiveFromError)}
                       ref={dateRef}
                       picker="month"
                       format="MM/YYYY"
@@ -313,19 +292,12 @@ function EditRentalAmount({ show, handleClose }) {
 
                         return !allowedMonths.includes(currentMonth);
                       }}
-                      style={{
-                        width: "100%",
-                        height: 48,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                      }}
+                     
                     />
                   </div>
 
                   {effectiveFromError && (
-                    <ErrorMessage message={effectiveFromError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={effectiveFromError} type="error" />
                   )}
                 </Form.Group>
               </div>
@@ -335,7 +307,7 @@ function EditRentalAmount({ show, handleClose }) {
             {types && (
               <div>
                 <Form.Group className="mb-3">
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222]">
+                  <Form.Label className={fieldLabelClass}>
                     Reason
                   </Form.Label>
 
@@ -344,7 +316,7 @@ function EditRentalAmount({ show, handleClose }) {
                     placeholder="Enter your reason"
                     value={reason}
                     onChange={handleReasonChange}
-                    className="h-[50px] rounded-lg border border-[#D9D9D9] text-base font-medium font-gilroy text-[#4B4B4B] focus:shadow-none"
+                    className={fieldClass()}
                   />
                 </Form.Group>
               </div>
@@ -352,7 +324,7 @@ function EditRentalAmount({ show, handleClose }) {
           </div>
 
           {state.UsersList?.updateTenantError && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.UsersList.updateTenantError}
               type="error"
             />
@@ -373,7 +345,7 @@ function EditRentalAmount({ show, handleClose }) {
 
         {IsChangedError && (
           <div className="flex justify-center">
-            <ErrorMessage message={IsChangedError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={IsChangedError} type="error" />
           </div>
         )}
 

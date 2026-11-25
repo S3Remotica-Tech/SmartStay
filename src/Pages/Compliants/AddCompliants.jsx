@@ -16,107 +16,14 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "50px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 function AddCompliants({ show, handleClose, edit, ComplaintData }) {
   const state = useSelector((state) => state);
@@ -384,7 +291,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
 
         <div className="mx-4 flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
           {Array.isArray(complaintList) && complaintList.length === 0 && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={[
                 " Please Create Complaint Type in Settings-Complaint  before adding an complaint",
               ]}
@@ -395,8 +302,8 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
           <div className="grid grid-cols-12 gap-3">
             <div className="col-span-12">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                  Tenant <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Tenant <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <Select
@@ -423,18 +330,18 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                       })()
                       : null
                   }
-                  styles={CustomStyles}
+                  styles={fieldSelectStyles(!!usererrmsg)}
                 />
 
                 {usererrmsg.trim() !== "" && (
-                  <ErrorMessage message={usererrmsg} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={usererrmsg} type="error" />
                 )}
               </Form.Group>
             </div>
 
             <div className="col-span-12 ">
-              <label className="block text-sm text-gray-900 font-medium font-gilroy mb-1">
-                Complaint Type <span className="text-red-600 text-xl">*</span>
+              <label className={fieldLabelClass}>
+                Complaint Type <span className={fieldRequiredClass}>*</span>
               </label>
               <Select
                 options={
@@ -467,7 +374,6 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                       : null
                 }
                 placeholder="Select a type"
-                classNamePrefix="custom"
                 menuPlacement="auto"
                 isDisabled={edit}
                 components={
@@ -479,11 +385,11 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                     : undefined
                 }
                 noOptionsMessage={() => "No complaint types available"}
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!complaint_typeerrmsg)}
               />
 
               {complaint_typeerrmsg.trim() !== "" && (
-                <ErrorMessage message={complaint_typeerrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={complaint_typeerrmsg} type="error" />
               )}
             </div>
 
@@ -500,59 +406,59 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
 
             <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                  Floor <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Floor <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Floor"
                   value={floorname}
                   readOnly
-                  className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
 
             <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
               <Form.Group controlId="exampleForm.ControlInput3">
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                  Room <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Room <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Rooms"
                   value={room_name}
                   readOnly
-                  className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
 
             <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
               <Form.Group className="" controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                  Bed <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Bed <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Beds"
                   value={bed_name}
                   readOnly
-                  className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
 
             <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
               <Form.Group controlId="purchaseDate">
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                  Complaint Date <span className="text-red-600 text-xl">*</span>
+                <Form.Label className={fieldLabelClass}>
+                  Complaint Date <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <div className="datepicker-wrapper w-full relative">
                   <DatePicker
                     wrapperClassName="w-full"
-                    className="w-full h-12 cursor-pointer font-gilroy"
+                    className={datePickerClass(!!dateerrmsg)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -585,10 +491,10 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                   />
                 </div>
                 {dateerrmsg.trim() !== "" && (
-                  <ErrorMessage message={dateerrmsg} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={dateerrmsg} type="error" />
                 )}
                 {joiningDateErrmsg.trim() !== "" && (
-                  <ErrorMessage message={joiningDateErrmsg} type="error" />
+                  <ErrorMessage className="mt-[6px]" message={joiningDateErrmsg} type="error" />
                 )}
               </Form.Group>
             </div>
@@ -598,7 +504,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 className="mb-1"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
+                <Form.Label className={fieldLabelClass}>
                   Description
                 </Form.Label>
 
@@ -607,7 +513,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                   onChange={(e) => setDescription(e.target.value)}
                   type="text"
                   placeholder="Enter description"
-                  className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
+                  className={fieldClass(!!totalErrormsg)}
                 />
               </Form.Group>
             </div>
@@ -625,7 +531,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
 
         {totalErrormsg.trim() !== "" && (
           <div className="d-flex justify-content-center mb-2">
-            <ErrorMessage message={totalErrormsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={totalErrormsg} type="error" />
           </div>
         )}
 

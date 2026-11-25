@@ -9,6 +9,12 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import PropTypes from "prop-types";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 dayjs.extend(customParseFormat);
 
 function EditJoiningDate({ show, handleClose }) {
@@ -134,15 +140,15 @@ function EditJoiningDate({ show, handleClose }) {
           <div className="row mb-0">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
               <Form.Group>
-                <Form.Label className="text-sm text-gray-900 font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Edit Joining Date{" "}
-                  <span className="text-red-600 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <div className="relative w-full">
                   <DatePicker
                     ref={dateRef}
-                    className="w-full h-12 cursor-pointer font-gilroy border border-gray-300 rounded-lg"
+                    className={datePickerClass(!!effectiveFromError)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={
@@ -153,7 +159,7 @@ function EditJoiningDate({ show, handleClose }) {
                   />
 
                   {effectiveFromError && (
-                    <ErrorMessage message={effectiveFromError} type="error" />
+                    <ErrorMessage className="mt-[6px]" message={effectiveFromError} type="error" />
                   )}
                 </div>
               </Form.Group>
@@ -165,7 +171,7 @@ function EditJoiningDate({ show, handleClose }) {
                 className="mb-3"
                 controlId="exampleForm.ControlInput5"
               >
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                <Form.Label className={fieldLabelClass}>
                   Reason
                 </Form.Label>
 
@@ -174,14 +180,14 @@ function EditJoiningDate({ show, handleClose }) {
                   placeholder="Enter your reason"
                   value={reason}
                   onChange={handleReasonChange}
-                  className="text-base text-gray-600 font-gilroy font-medium border border-gray-300 rounded-lg h-12 shadow-none"
+                  className={fieldClass()}
                 />
               </Form.Group>
             </div>
           </div>
 
           {state.UsersList?.updateTenantError && (
-            <ErrorMessage
+            <ErrorMessage className="mt-[6px]"
               message={state.UsersList.updateTenantError}
               type="error"
             />
@@ -190,7 +196,7 @@ function EditJoiningDate({ show, handleClose }) {
 
         {IsChangedError && (
           <div className="flex justify-center">
-            <ErrorMessage message={IsChangedError} type="error" />
+            <ErrorMessage className="mt-[6px]" message={IsChangedError} type="error" />
           </div>
         )}
 

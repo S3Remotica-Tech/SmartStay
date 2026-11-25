@@ -14,108 +14,15 @@ import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CloseCircle, Add, More } from "iconsax-react";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+  fieldSelectStyles,
+  fieldTextareaClass,
+} from "../../Utils/FieldStyles";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "50px",
-    height: "45px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
-
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
-
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-    fontFamily: "Gilroy",
-  }),
-
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-      fontFamily: "Gilroy",
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "45px",
-  }),
-
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 const CustomStylesTable = {
   control: (base, state) => ({
     ...base,
@@ -984,9 +891,9 @@ function NewInvoice() {
         <div className="grid grid-cols-10  gap-4 mt-2 flex items-stretch ">
           <div className="col-span-8">
             <div className="mb-3">
-              <label className="font-[Gilroy] text-[12px] font-medium text-[#222]">
+              <label className={fieldLabelClass}>
                 Select Tenant{" "}
-                <span className="text-red-500 text-[20px]">*</span>
+                <span className={fieldRequiredClass}>*</span>
               </label>
 
               <Select
@@ -998,15 +905,14 @@ function NewInvoice() {
                 }
                 isDisabled={billData || isDisabledOverview}
                 placeholder="Select Customer"
-                classNamePrefix="custom"
                 menuPlacement="auto"
                 noOptionsMessage={() => "No customers available"}
-                styles={CustomStyles}
+                styles={fieldSelectStyles(!!customererrmsg)}
                 formatOptionLabel={formatOptionLabel}
               />
 
               {customererrmsg.trim() !== "" && (
-                <ErrorMessage message={customererrmsg} type="error" />
+                <ErrorMessage className="mt-[6px]" message={customererrmsg} type="error" />
               )}
             </div>
           </div>
@@ -1101,7 +1007,7 @@ function NewInvoice() {
 
         <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
           <div className="col-span-4">
-            <label className="font-[Gilroy] text-[12px] font-medium text-[#222]">
+            <label className={fieldLabelClass}>
               Invoice Number{" "}
               <span className="text-transparent select-none text-[20px]">
                 *
@@ -1114,22 +1020,22 @@ function NewInvoice() {
               placeholder="Enter Invoice Number"
               value={invoicenumber || ""}
               onChange={handleInvoiceChange}
-              className="w-full h-[48px] px-[10px] py-[12px] text-[14px] text-[#4B4B4B] font-[Gilroy] font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0"
+              className={fieldClass(!!invoicenumbererrmsg)}
             />
 
             {invoicenumbererrmsg.trim() !== "" && (
-              <ErrorMessage message={invoicenumbererrmsg} type="error" />
+              <ErrorMessage className="mt-[6px]" message={invoicenumbererrmsg} type="error" />
             )}
           </div>
           <div className="col-span-4">
-            <label className="font-[Gilroy] text-[12px] font-medium text-[#222]">
-              Invoice Date <span className="text-red-500 text-[20px]">*</span>
+            <label className={fieldLabelClass}>
+              Invoice Date <span className={fieldRequiredClass}>*</span>
             </label>
 
             <div className="relative w-full datepicker-wrapper">
               <DatePicker
                 disabled={billData}
-                className="w-full h-[48px] cursor-pointer font-[Gilroy] text-sm"
+                className={datePickerClass(!!invoicedateerrmsg)}
                 format="DD/MM/YYYY"
                 placeholder="DD/MM/YYYY"
                 value={invoicedate ? dayjs(invoicedate) : null}
@@ -1143,7 +1049,7 @@ function NewInvoice() {
             </div>
 
             {invoicedateerrmsg.trim() !== "" && (
-              <ErrorMessage message={invoicedateerrmsg} type="error" />
+              <ErrorMessage className="mt-[6px]" message={invoicedateerrmsg} type="error" />
             )}
           </div>
         </div>
@@ -1197,7 +1103,7 @@ function NewInvoice() {
                                   });
                                 }}
                                 placeholder="Enter Item Name"
-                                className="w-full h-[45px] px-1 text-[14px] border-0 outline-none bg-transparent placeholder:text-[#A5A5A5] disabled:text-gray-400"
+                                className={fieldClass()}
                               />
 
                               <button
@@ -1292,15 +1198,7 @@ function NewInvoice() {
                                 return updated;
                               });
                             }}
-                            className="
-                      w-full
-                      h-[30px]
-                      px-1
-                      text-[14px]
-                      border-0
-                      outline-none
-                      bg-transparent
-                    "
+                            className={fieldClass(!!rowErrors[index].itemType)}
                           />
                         </td>
 
@@ -1337,7 +1235,7 @@ function NewInvoice() {
                           <tr className="border-b border-[#EEEEEE]">
                             <td className="px-3 pb-2">
                               {rowErrors[index]?.itemType && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={rowErrors[index].itemType}
                                   type="error"
                                 />
@@ -1346,7 +1244,7 @@ function NewInvoice() {
 
                             <td colSpan={2} className="px-3 pb-2">
                               {rowErrors[index]?.amount && (
-                                <ErrorMessage
+                                <ErrorMessage className="mt-[6px]"
                                   message={rowErrors[index].amount}
                                   type="error"
                                 />
@@ -1478,17 +1376,7 @@ function NewInvoice() {
                       setDiscount(value);
                     }}
                     placeholder="0"
-                    className=" disabled:bg-gray-100
-      w-[55px]
-      h-[26px]
-      px-1
-      text-[12px]
-      text-right font-semibold
-      border border-[#DCDCDC]
-      rounded-[3px]
-      outline-none
-      
-    "
+                    className={fieldClass()}
                   />
                 </div>
               </div>
@@ -1512,7 +1400,7 @@ function NewInvoice() {
 
         <div className="grid grid-cols-1 md:grid-cols-10 mt-2 gap-4">
           <div className="col-span-1 md:col-span-8 min-w-0">
-            <label className="block mb-1.5 text-[12px] font-medium text-[#444444]">
+            <label className={fieldLabelClass}>
               Terms & Conditions
             </label>
 
@@ -1522,35 +1410,22 @@ function NewInvoice() {
               onChange={(e) => setTermsAndConditions(e.target.value)}
               rows={4}
               placeholder="Enter the terms & conditions for this invoice"
-              className="
-      w-full
- 
-      resize-none
-      rounded-[5px]
-      border
-      border-[#DCDCDC]
-      px-2
-      py-2
-      text-[14px]
-      text-[#333333]
-      outline-none
-      placeholder:text-[#A5A5A5]
-      focus:border-[#B8C4E8]
-    "
+             
+                  className={fieldTextareaClass()}
             />
           </div>
         </div>
 
         <div>
           {allfielderrmsg.trim() !== "" && (
-            <ErrorMessage message={allfielderrmsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={allfielderrmsg} type="error" />
           )}
           {tableErrmsg.trim() !== "" && (
-            <ErrorMessage message={tableErrmsg} type="error" />
+            <ErrorMessage className="mt-[6px]" message={tableErrmsg} type="error" />
           )}
           {state.InvoiceList.unableAddInvoiceDetailsError && (
             <div ref={errorRef}>
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.InvoiceList.unableAddInvoiceDetailsError}
                 type="error"
               />{" "}
@@ -1559,7 +1434,7 @@ function NewInvoice() {
 
           {state.InvoiceList.recurringEditError && (
             <div className="flex justify-center my-1">
-              <ErrorMessage
+              <ErrorMessage className="mt-[6px]"
                 message={state.InvoiceList.recurringEditError}
                 type="error"
               />

@@ -10,6 +10,12 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 import PropTypes from "prop-types";
 import FormComingSoon from "../../Utils/FormComingSoon";
+import {
+  datePickerClass,
+  fieldClass,
+  fieldLabelClass,
+  fieldRequiredClass,
+} from "../../Utils/FieldStyles";
 function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
   const dispatch = useDispatch();
 
@@ -243,9 +249,9 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
           <div className="relative px-4 py-1  flex-1 overflow-y-auto show-scrolls">
             <div className="mb-2">
               <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy">
+                <Form.Label className={fieldLabelClass}>
                   Reason (Comments){" "}
-                  <span className="text-red-500 text-xl">*</span>
+                  <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
                 <FormControl
@@ -254,23 +260,23 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                   placeholder="Enter Comments"
                   value={reason}
                   onChange={handleRecheckin}
-                  className="h-12 text-base text-gray-600 font-medium font-gilroy border border-gray-300 rounded-lg shadow-none focus:outline-none"
+                  className={fieldClass(!!reasonError)}
                 />
               </Form.Group>
 
               {reasonError && (
-                <ErrorMessage message={reasonError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={reasonError} type="error" />
               )}
             </div>
 
             <div className="relative z-10">
-              <Form.Label className="text-sm font-medium font-gilroy pt-1.5 block">
-                Re Check-In Date <span className="text-red-500 text-xl">*</span>
+              <Form.Label className={fieldLabelClass}>
+                Re Check-In Date <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
               <DatePicker
                 ref={dateRef}
-                className="w-full h-12 cursor-pointer font-gilroy"
+                className={datePickerClass(!!recheckinDateError)}
                 disabledDate={(current) => {
                   if (!current) return false;
 
@@ -294,7 +300,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               />
 
               {recheckinDateError && (
-                <ErrorMessage message={recheckinDateError} type="error" />
+                <ErrorMessage className="mt-[6px]" message={recheckinDateError} type="error" />
               )}
             </div>
 
@@ -306,7 +312,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
             {state.UsersList?.cancelCheckoutError && (
               <div className="d-flex justify-content-center">
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state.UsersList?.cancelCheckoutError}
                   type="error"
                 />

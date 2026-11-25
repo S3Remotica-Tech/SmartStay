@@ -1,0 +1,46 @@
+<svg width="632" height="260" viewBox="0 0 632 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PG building with open door, suitcase, a key and a phone showing a confirmed check-in. Line art to match the Figma sketches. -->
+  <g stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 252H624"/>
+    <!-- building -->
+    <path d="M170 252V92H430V252"/>
+    <path d="M156 92L300 30L444 92"/>
+    <rect x="276" y="62" width="48" height="18" rx="3"/>
+    <path d="M286 71H314"/>
+    <circle cx="300" cy="124" r="16"/>
+    <path d="M300 108V140M284 124H316"/>
+    <!-- windows -->
+    <rect x="194" y="112" width="44" height="40" rx="2"/>
+    <path d="M216 112V152M194 132H238"/>
+    <rect x="362" y="112" width="44" height="40" rx="2"/>
+    <path d="M384 112V152M362 132H406"/>
+    <rect x="194" y="176" width="44" height="40" rx="2"/>
+    <path d="M216 176V216M194 196H238"/>
+    <rect x="362" y="176" width="44" height="40" rx="2"/>
+    <path d="M384 176V216M362 196H406"/>
+    <!-- door with awning, half open -->
+    <path d="M266 176H334L326 164H274Z"/>
+    <path d="M278 252V176H322V252"/>
+    <path d="M278 176L296 184V246L278 252"/>
+    <circle cx="291" cy="216" r="2"/>
+    <!-- suitcase -->
+    <rect x="232" y="222" width="34" height="30" rx="4"/>
+    <path d="M242 222V214H256V222M240 234H258"/>
+    <!-- phone with check-in confirmation -->
+    <rect x="470" y="96" width="78" height="150" rx="12"/>
+    <path d="M498 106H520"/>
+    <circle cx="509" cy="150" r="18"/>
+    <path d="M500 150L506 156L518 144"/>
+    <path d="M486 188H532M492 202H526M486 222H532"/>
+    <!-- key -->
+    <circle cx="84" cy="64" r="13"/>
+    <circle cx="84" cy="64" r="4"/>
+    <path d="M97 64H134M124 64V73M132 64V71"/>
+    <!-- tree -->
+    <path d="M70 252V204"/>
+    <path d="M70 204C52 200 46 180 54 166C48 150 60 134 74 138C84 126 100 136 96 152C106 164 100 186 86 190C82 200 76 204 70 204Z"/>
+    <path d="M70 226L60 214M70 218L80 208"/>
+    <!-- bush -->
+    <path d="M580 252C576 240 584 230 596 232C600 220 616 222 618 234C626 236 628 246 624 252"/>
+  </g>
+</svg>

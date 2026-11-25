@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import {
+  fieldClass,
+} from "../../Utils/FieldStyles";
 
 function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
   const state = useSelector((state) => state);
@@ -334,11 +337,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                                 )
                               }
                               placeholder="₹ 0.00"
-                              className={`w-full h-[34px] text-sm rounded-md border px-2 outline-none font-medium ${
-                                !selectedInvoices.includes(item.invoiceId)
-                                  ? "bg-gray-100 cursor-not-allowed"
-                                  : "bg-white"
-                              }`}
+                              className={fieldClass(!!error)}
                             />
                           </td>
                         </tr>
@@ -359,12 +358,12 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
             </div>
             {error && (
               <div className="mb-3">
-                <ErrorMessage message={error} type="error" />
+                <ErrorMessage className="mt-[6px]" message={error} type="error" />
               </div>
             )}
             {state?.Booking?.applyRedeemError && (
               <div className="mb-3">
-                <ErrorMessage
+                <ErrorMessage className="mt-[6px]"
                   message={state?.Booking?.applyRedeemError}
                   type="error"
                 />
