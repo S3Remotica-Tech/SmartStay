@@ -33,6 +33,13 @@ import {
   fieldRequiredClass,
 } from "../../Utils/FieldStyles";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function Banking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -876,20 +883,20 @@ function Banking() {
 
                 <div className="relative ">
                   {transactionFilterddata?.length > 0 ? (
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                            <tr className="h-9">
-                              <th className="w-[230px] px-2">Account Name</th>
-                              <th className="w-[230px] px-2">Date</th>
-                              <th className="w-[230px] px-2">Amount</th>
-                              <th className="w-[230px] px-2">Description</th>
-                              <th className="w-[230px] px-2">Transaction</th>
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-40">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Account Name</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Date</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Description</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Transaction</th>
                             </tr>
                           </thead>
 
@@ -897,21 +904,20 @@ function Banking() {
                             {paginatedTransactions?.map((user) => (
                               <tr
                                 key={user.id}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                               >
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.accountHolder}
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.createdAt}
                                 </td>
-                                <td className="w-[230px] px-2 py-1">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.amount}
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.source}
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                                   {user.type}
                                 </td>
                               </tr>

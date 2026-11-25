@@ -1225,17 +1225,35 @@ function TenantOverview(props) {
                         <img alt="edit" src={EditImage} className="w-[14px] h-[14px]" />
                       </button>
 
-                      {imageUrl && (
-                        <button
-                          type="button"
-                          title="Delete photo"
-                          disabled={!canDeleteTenant}
-                          onClick={() => setShowDeleteConfirm(true)}
-                          className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center cursor-pointer "
-                        >
-                          <Trash size="14" color="#FF0000" />
-                        </button>
-                      )}
+                      {imageUrl &&
+                        (!CustomerOverView?.canRemoveProfilePic ? (
+                          <CustomTooltip
+                            text="This is the Aadhaar profile photo, it can't be removed"
+                            direction="top-full"
+                            usePortal={true}
+                          >
+                            <span className="inline-flex cursor-not-allowed">
+                              <button
+                                type="button"
+                                disabled
+                                aria-label="Aadhaar profile photo can't be removed"
+                                className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center pointer-events-none"
+                              >
+                                <Trash size="14" color="#FF0000" />
+                              </button>
+                            </span>
+                          </CustomTooltip>
+                        ) : (
+                          <button
+                            type="button"
+                            title="Delete photo"
+                            disabled={!canDeleteTenant}
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center cursor-pointer "
+                          >
+                            <Trash size="14" color="#FF0000" />
+                          </button>
+                        ))}
                     </div>
                   )}
 

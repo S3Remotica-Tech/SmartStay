@@ -20,6 +20,13 @@ import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function CheckOut() {
   const navigate = useNavigate();
 
@@ -277,26 +284,26 @@ function CheckOut() {
                       />
                     </div>
 
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         // ref={tableContainerRef}
-                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                            <tr className="h-9">
-                              <th className="w-[230px] px-2">Name</th>
-                              <th className="w-[230px] px-2">
-                                <div className="-ml-1">Mobile No</div>
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-40">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Name</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
+                                Mobile No
                               </th>
-                              <th className="w-[230px] px-2">
-                                <div className="-ml-2">Floor</div>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
+                                Floor
                               </th>
-                              <th className="w-[230px] px-2">Room</th>
-                              <th className="w-[230px] px-2">Bed</th>
-                              <th className="w-[230px] px-2">Check-Out Date</th>
-                              <th className="w-[230px] px-2">Status</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Room</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Bed</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Check-Out Date</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Status</th>
                             </tr>
                           </thead>
 
@@ -304,43 +311,53 @@ function CheckOut() {
                             {paginatedData.map((checkout) => (
                               <tr
                                 key={checkout.customerId}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                               >
                                 <td
                                   onClick={() =>
                                     handleCustomerProfilePage(checkout)
                                   }
-                                  className="w-[230px] px-2 py-1 whitespace-nowrap"
+                                  className={`${TABLE_BODY_CELL} text-left cursor-pointer`}
                                 >
-                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold text-blue-700 cursor-pointer underline">
-                                    {checkout.fullName}
-                                  </span>
+                                  <div className="flex items-center gap-[13px]">
+                                    <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                      {(checkout.fullName || "")
+                                        .trim()
+                                        .split(" ")
+                                        .filter(Boolean)
+                                        .slice(0, 2)
+                                        .map((w) => w[0])
+                                        .join("")
+                                        .toUpperCase() || "-"}
+                                    </div>
+                                    <span className="block max-w-[180px] truncate font-semibold text-[#111928] hover:underline">
+                                      {checkout.fullName}
+                                    </span>
+                                  </div>
                                 </td>
 
-                                <td className="w-[230px] py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                                   +{checkout?.countryCode} {checkout.mobile}
                                 </td>
 
-                                <td className="w-[230px] py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {checkout.floorName || "_"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {checkout.roomName || "_"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {checkout.bedName || "_"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <span className="inline-block  rounded-full  overflow-hidden text-ellipsis whitespace-nowrap align-middle text-[#1E45E1]">
-                                    {checkout.checkoutDate || "N/A"}
-                                  </span>
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                                  {checkout.checkoutDate || "N/A"}
                                 </td>
 
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <span className="inline-block px-2 py-1 rounded-md bg-red-100 text-red-600">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                                  <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(255,189,189,0.4)]">
+                                    <span className="w-[6px] h-[6px] rounded-full bg-[#EF4444]" />
                                     {checkout.currentStatus || "-"}
                                   </span>
                                 </td>

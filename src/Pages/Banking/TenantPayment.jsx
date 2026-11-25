@@ -118,6 +118,13 @@ GroupHeading.propTypes = {
     label: PropTypes.string,
   }).isRequired,
 };
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function TenantPayment({ show, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -618,23 +625,23 @@ function TenantPayment({ show, handleClose }) {
             <label className="text-[#222222] text-[16px] font-semibold mb-2">
               Invoice Details
             </label>
-            <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
-              <table className="w-full">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-x-auto">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                 <thead>
-                  <tr className="bg-[#F9FAFB] border-b border-[#E5E7EB] ">
-                    <th className="text-left px-4 py-2 text-[11px] font-semibold text-[#6B7280]">
+                  <tr>
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       TYPE
                     </th>
-                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       INV NO
                     </th>
-                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       DUE DATE
                     </th>
-                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       INVOICE DUE
                     </th>
-                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       AMOUNT TO APPLY
                     </th>
                   </tr>
@@ -642,26 +649,26 @@ function TenantPayment({ show, handleClose }) {
 
                 <tbody>
                   {invoiceDetails.map((item, index) => (
-                    <tr key={item.id} className="border-b border-[#E5E7EB]">
-                      <td className="px-4 py-2.5 text-sm font-medium text-[#222222]">
+                    <tr key={item.id}>
+                      <td className={`${TABLE_BODY_CELL} font-medium text-[#111928]`}>
                         {item.type}
                       </td>
 
-                      <td className="px-4 py-2.5">
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <span className="text-[#1E45E1] text-sm font-medium">
                           {item.invoiceNo}
                         </span>
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm text-[#6B7280]">
+                      <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                         {item.dueDate}
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm font-semibold text-[#222222]">
+                      <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                         ₹ {item.invoiceDue.toLocaleString()}
                       </td>
 
-                      <td className="px-4 py-2.5">
+                      <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                         <input
                           type="number"
                           onWheel={(e) => e.target.blur()}

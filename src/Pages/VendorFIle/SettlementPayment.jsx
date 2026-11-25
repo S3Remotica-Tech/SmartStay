@@ -33,6 +33,13 @@ import {
 
 
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -723,23 +730,23 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
               <label className="text-[#222222] text-[16px] font-semibold mb-2">
                 Unpaid Expenses List
               </label>
-              <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
-                <table className="w-full">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-x-auto">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
                   <thead>
-                    <tr className="bg-[#F9FAFB] border-b border-[#E5E7EB] uppercase">
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                    <tr>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         Expense No
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         Ref No
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         Amount
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         Due
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         Amount To Apply
                       </th>
                     </tr>
@@ -750,27 +757,26 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                       expenseList.map((item, index) => (
                         <tr
                           key={item.expenseId}
-                          className="border-b border-[#E5E7EB]"
                         >
-                          <td className="px-4 py-2.5 text-[11px] font-medium text-[#222222]">
+                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] font-medium text-[#111928]`}>
                             {item.expenseNo}
                           </td>
 
-                          <td className="px-4 py-2.5">
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <span className="text-[#1E45E1] text-[11px] font-medium whitespace-nowrap">
                               {item.referenceNo || "-"}
                             </span>
                           </td>
 
-                          <td className="px-4 py-2.5 text-[11px] text-[#6B7280] whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] text-[#314158]`}>
                             ₹ {item.totalAmount}
                           </td>
 
-                          <td className="px-4 py-2.5 text-[11px] font-semibold text-[#222222] whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} !h-[52px] !text-[13px] !border-b-[#EEF2F6] bg-[#F8FAFC] font-semibold text-[#111928]`}>
                             ₹ {item.totalBalance}
                           </td>
 
-                          <td className="px-4 py-2.5">
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             <input
                               type="number"
                               value={item.amountToApply || ""}

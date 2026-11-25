@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +18,13 @@ import DeleteStaff from "./DeleteStaff";
 
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function SettingNewUser() {
   const state = useSelector((state) => state);
@@ -220,7 +227,7 @@ function SettingNewUser() {
 
   return (
     <div>
-      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+      <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[60px] whitespace-nowrap">
         <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
           <label className="font-gilroy text-[18px] text-[#222] font-semibold">
             Staff
@@ -267,49 +274,49 @@ function SettingNewUser() {
       ) : (
         <div className="mt-2">
           {usersFilterddata?.length > 0 ? (
-            <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
               <div
                 id="tableContainer"
                 // ref={tableContainerRef}
-                className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
               >
-                <Table className=" w-full font-gilroy">
-                  <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                  <thead className="sticky top-0 z-40">
                     <tr>
-                      <th className="whitespace-nowrap px-4">Staff Name</th>
-                      <th>Email</th>
-                      <th>Mobile No</th>
-                      <th>Roles</th>
-                      <th>Action</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>Staff Name</th>
+                      <th className={TABLE_HEADER_CELL}>Email</th>
+                      <th className={TABLE_HEADER_CELL}>Mobile No</th>
+                      <th className={TABLE_HEADER_CELL}>Roles</th>
+                      <th className={`${TABLE_HEADER_CELL} sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                     </tr>
                   </thead>
                   <tbody className="text-[13px] text-black font-gilroy">
                     {paginatedData?.map((item, index) => {
                       return (
-                        <tr key={index} className="border-b border-gray-200">
+                        <tr key={index} className="border-gray-200">
                           <td
                             title={`${item?.fullName}`}
-                            className="px-4 text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
+                            className={`${TABLE_BODY_CELL} font-medium text-[#111928] max-w-[120px] truncate overflow-hidden`}
                           >
                             {item?.fullName}
                           </td>
 
                           <td
                             title={item?.mailId}
-                            className="text-sm text-gray-700 max-w-[220px] truncate whitespace-nowrap overflow-hidden"
+                            className={`${TABLE_BODY_CELL} text-[#314158] max-w-[220px] truncate overflow-hidden`}
                           >
                             {item?.mailId}
                           </td>
 
-                          <td className="text-sm text-gray-700 truncate">
+                          <td className={`${TABLE_BODY_CELL} text-[#314158] truncate`}>
                             +{item?.countryCode} {item?.mobileNo}
                           </td>
 
-                          <td className=" text-sm text-gray-700 truncate">
+                          <td className={`${TABLE_BODY_CELL} text-[#314158] truncate`}>
                             {item?.roleName}
                           </td>
 
-                          <td className="border-b border-gray-200 p-0 text-left align-middle">
+                          <td className={`${TABLE_BODY_CELL} border-b border-gray-200 p-0 text-left align-middle sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                             <div
                               className="relative flex items-center cursor-pointer pl-2"
                               onClick={(e) => handleDotsClick(index, e)}
@@ -318,14 +325,15 @@ function SettingNewUser() {
                                 className={`h-[20px] w-[20px] rotate-90 cursor-pointer ${
                                   showDots === index
                                     ? "text-[#1E45E1]"
-                                    : "text-gray-500"
+                                    : "text-[#314158]"
                                 }`}
                               />
 
                               {showDots === index && (
+                                createPortal(
                                 <div
                                   ref={popupRef}
-                                  className="fixed z-[1000] w-[140px] rounded-lg border border-gray-200 bg-white "
+                                  className="font-gilroy fixed z-[1000] w-[140px] rounded-lg border border-gray-200 bg-white "
                                   style={{
                                     top: showAbove
                                       ? popupPosition.top -
@@ -399,7 +407,9 @@ function SettingNewUser() {
                                       </span>
                                     </div>
                                   </div>
-                                </div>
+                                </div>,
+                                document.body,
+                              )
                               )}
                             </div>
                           </td>
@@ -407,7 +417,7 @@ function SettingNewUser() {
                       );
                     })}
                   </tbody>
-                </Table>
+                </table>
               </div>
             </div>
           ) : (

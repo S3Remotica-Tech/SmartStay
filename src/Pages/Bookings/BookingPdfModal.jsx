@@ -23,6 +23,14 @@ import ApplyBookingModal from "./ApplyInvoices";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
 import { TiTick } from "react-icons/ti";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
+
 const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -1037,46 +1045,46 @@ const InvoiceCard = ({ rowData }) => {
             {activeTab === "payments" && (
               <div>
                 {pdfDetails?.paymentHistory?.length > 0 && (
-                  <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                  <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                     <div
                       id="tableContainer"
-                      className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                      className="overflow-auto relative  h-[150px] show-scrolls"
                     >
-                      <table className="w-full text-sm">
-                        <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                      <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                        <thead>
                           <tr>
-                            <th className="text-left px-3 py-2">DATE</th>
-                            <th className="text-left px-3 py-2">REF NO</th>
-                            <th className="text-left px-3 py-2">
+                            <th className={`${TABLE_HEADER_CELL} text-left`}>DATE</th>
+                            <th className={`${TABLE_HEADER_CELL} text-left`}>REF NO</th>
+                            <th className={`${TABLE_HEADER_CELL} text-left`}>
                               PAYMENT MODE
                             </th>
-                            <th className="text-left px-3 py-2">AMOUNT</th>
-                            <th className="text-left px-3 py-2">STATUS</th>
+                            <th className={`${TABLE_HEADER_CELL} text-left`}>AMOUNT</th>
+                            <th className={`${TABLE_HEADER_CELL} text-left`}>STATUS</th>
                           </tr>
                         </thead>
 
                         <tbody>
                           {pdfDetails.paymentHistory.map((item, index) => (
-                            <tr key={index} className="border-t">
-                              <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                            <tr key={index}>
+                              <td className={`${TABLE_BODY_CELL} text-[#314158] font-semibold`}>
                                 {item.date || item.paidDate || "-"}
                               </td>
 
-                              <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                              <td className={`${TABLE_BODY_CELL} text-[#1E45E1] font-medium`}>
                                 {item.transactionReferenceId ||
                                   item.referenceNumber ||
                                   "-"}
                               </td>
 
-                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                              <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                                 {item.bankAccount}
                               </td>
 
-                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                              <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                                 ₹{item.amount}
                               </td>
 
-                              <td className="px-3 py-2">
+                              <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                 <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
                                   ● Paid
                                 </span>
@@ -1101,33 +1109,33 @@ const InvoiceCard = ({ rowData }) => {
             )}
 
             {activeTab === "invoices" && (
-              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
-                  className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                  className="overflow-auto relative  h-[150px] show-scrolls"
                 >
-                  <table className="w-full text-sm">
-                    <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead>
                       <tr>
-                        <th className="text-left px-3 py-2">DATE</th>
-                        <th className="text-left px-3 py-2">INV NO</th>
-                        <th className="text-left px-3 py-2">AMOUNT APPLIED</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>DATE</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>INV NO</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>AMOUNT APPLIED</th>
                       </tr>
                     </thead>
 
                     <tbody>
                       {mappingTableData?.length > 0 ? (
                         mappingTableData?.map((item, index) => (
-                          <tr key={index} className="border-t">
-                            <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                          <tr key={index}>
+                            <td className={`${TABLE_BODY_CELL} text-[#314158] font-semibold`}>
                               {item.redeemedOn || "-"}
                             </td>
 
-                            <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                            <td className={`${TABLE_BODY_CELL} text-[#1E45E1] font-medium`}>
                               {item.invoiceNo || "-"}
                             </td>
 
-                            <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                            <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                               {item.amount}
                             </td>
                           </tr>
@@ -1136,7 +1144,7 @@ const InvoiceCard = ({ rowData }) => {
                         <tr>
                           <td
                             colSpan={12}
-                            className="text-center align-middle py-3 text-sm text-red-600 font-semibold"
+                            className={`${TABLE_BODY_CELL} text-center align-middle text-red-600 font-semibold`}
                           >
                             No Data Found
                           </td>

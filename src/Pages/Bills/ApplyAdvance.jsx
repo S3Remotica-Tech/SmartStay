@@ -8,6 +8,13 @@ import {
   fieldClass,
 } from "../../Utils/FieldStyles";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -216,19 +223,19 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
             </div>
           </div>
           <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
-            <div className="bg-white rounded-xl border border-[#E8E8E8]">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden">
               <div className="overflow-auto h-fit">
-                <table className="w-full text-sm">
-                  <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
-                    <tr className="rounded-tl-xl rounded-tr-xl">
-                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                  <thead className="sticky top-0 z-10">
+                    <tr>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         TYPE
                       </th>
-                      <th className="text-left px-4 py-2">INV NO</th>
-                      <th className="text-left px-4 py-2">DUE DATE</th>
-                      <th className="text-left px-4 py-2">INVOICE AMOUNT</th>
-                      <th className="text-left px-4 py-2">INVOICE BALANCE</th>
-                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>INV NO</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>DUE DATE</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>INVOICE AMOUNT</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>INVOICE BALANCE</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         AMOUNT TO APPLY
                       </th>
                     </tr>
@@ -238,30 +245,29 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
                     {initializeDetails?.currentInvoiceInfo ? (
                       <tr
                         key={initializeDetails?.currentInvoiceInfo?.invoiceId}
-                        className="border-t  whitespace-nowrap"
                       >
-                        <td className="px-4 py-2 font-semibold">
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           {initializeDetails?.currentInvoiceInfo?.invoiceType}
                         </td>
 
-                        <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
+                        <td className={`${TABLE_BODY_CELL} text-[#1E45E1] cursor-pointer font-semibold`}>
                           {initializeDetails?.currentInvoiceInfo?.invoiceNumber}
                         </td>
 
-                        <td className="px-4 py-2 text-gray-500">
+                        <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                           {initializeDetails?.currentInvoiceInfo?.dueDate}
                         </td>
 
-                        <td className="font-semibold px-4 py-2">
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           ₹{initializeDetails?.currentInvoiceInfo?.totalAmount}
                         </td>
 
-                        <td className="px-4 py-2 font-semibold">
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           ₹
                           {initializeDetails?.currentInvoiceInfo?.pendingAmount}
                         </td>
 
-                        <td className="px-4 py-2 font-semibold">
+                        <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                           <input
                             type="number"
                             value={
@@ -284,7 +290,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
                       <tr>
                         <td
                           colSpan={6}
-                          className="text-center text-red-600 py-5"
+                          className={`${TABLE_BODY_CELL} text-center text-red-600 py-5`}
                         >
                           No pending invoices found
                         </td>

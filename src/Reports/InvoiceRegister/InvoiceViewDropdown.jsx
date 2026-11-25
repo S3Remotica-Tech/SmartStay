@@ -43,13 +43,13 @@ function InvoiceViewDropdown({ value, onChange }) {
   };
 
   return (
-    <div ref={dropdownRef} className="relative min-w-[190px] font-gilroy">
+    <div ref={dropdownRef} className="relative w-fit font-gilroy">
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className="w-full h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-medium text-[#1D293D]"
+        className="w-fit h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-medium text-[#1D293D]"
       >
         <span className="whitespace-nowrap">{selected.label}</span>
         <ArrowDown2
@@ -62,7 +62,7 @@ function InvoiceViewDropdown({ value, onChange }) {
       {isOpen && (
         <ul
           role="listbox"
-          className="absolute left-0 z-40 mt-1 w-full bg-white rounded-2xl shadow-lg overflow-hidden border-[1px] border-[#E5E7EB] p-0 m-0 list-none"
+          className="absolute left-0 z-40 mt-1 w-max min-w-full bg-white rounded-2xl shadow-lg overflow-hidden border-[1px] border-[#E5E7EB] p-0 m-0 list-none"
         >
           {viewOptions.map((option, index) => (
             <li
@@ -74,11 +74,10 @@ function InvoiceViewDropdown({ value, onChange }) {
                 if (e.key === "Enter" || e.key === " ") handleSelect(option);
               }}
               tabIndex={0}
-              className={`px-[16px] py-2 text-sm cursor-pointer hover:bg-[#F1F5FF] ${
-                option.value === value
-                  ? "text-[#1E45E1] font-semibold"
-                  : "text-[#222]"
-              } ${index < viewOptions.length - 1 ? "border-b border-[#E5E7EB]" : ""}`}
+              className={`px-[16px] py-2 text-sm whitespace-nowrap cursor-pointer hover:bg-[#F1F5FF] ${option.value === value
+                ? "text-[#1E45E1] font-semibold"
+                : "text-[#222]"
+                } ${index < viewOptions.length - 1 ? "border-b border-[#E5E7EB]" : ""}`}
             >
               {option.label}
             </li>

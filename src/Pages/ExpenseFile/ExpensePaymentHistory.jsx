@@ -2,6 +2,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function ExpensePaymentHistory() {
   const state = useSelector((state) => state);
   // const dispatch = useDispatch();
@@ -13,27 +20,27 @@ function ExpensePaymentHistory() {
     <div>
       {expensePayments?.length > 0 ? (
         <div>
-          <div className="bg-white    rounded-xl  mx-1 my-3 ">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
             <div
               id="tableContainer"
               className="overflow-auto relative h-[250px]  show-scrolls"
             >
-              <table className=" w-full font-gilroy ">
-                <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead className="sticky top-0 z-30">
                   <tr>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       DATE
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       REF NO
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       PAYMENT MODE
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       STATUS
                     </th>
-                    <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       AMOUNT
                     </th>
                   </tr>
@@ -42,27 +49,27 @@ function ExpensePaymentHistory() {
                 <tbody>
                   {expensePayments.length > 0 ? (
                     expensePayments.map((payment) => (
-                      <tr key={payment.id} className="border-b last:border-b-0">
-                        <td className="px-4 py-2.5 text-sm">
+                      <tr key={payment.id} className="last:border-b-0">
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           {payment.paymentDate}
                         </td>
 
-                        <td className="px-4 py-2.5 text-[#1E45E1] text-sm">
+                        <td className={`${TABLE_BODY_CELL} text-[#1E45E1]`}>
                           {payment.transactionId || "-"}
                         </td>
 
-                        <td className="px-4 py-2.5 text-sm">
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           {payment.bankName || payment.paymentMethod || "-"}
                         </td>
 
-                        <td className="px-4 py-2.5">
-                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8F8EC] px-2.5 py-1 text-[12px] font-medium text-[#00A32E]">
-                            <span className="h-2 w-2 rounded-full bg-[#00A32E]" />
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                          <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(179,229,187,0.3)]">
+                            <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
                             Paid
                           </span>
                         </td>
 
-                        <td className="px-4 py-2.5 font-medium">
+                        <td className={`${TABLE_BODY_CELL} font-medium text-[#111928]`}>
                           ₹ {payment.paidAmount?.toLocaleString()}
                         </td>
                       </tr>

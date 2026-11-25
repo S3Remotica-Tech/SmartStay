@@ -110,9 +110,9 @@ function VendorRegister() {
   // }
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
+    <div className="h-screen flex flex-col font-gilroy">
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white min-h-[60px]">
         <div className='flex items-center gap-2'>
           <ArrowLeft onClick={handleNavigateReports}
             size="20"

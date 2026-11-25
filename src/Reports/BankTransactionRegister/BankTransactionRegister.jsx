@@ -19,6 +19,13 @@ import {
   useSelector,
 } from "react-redux";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function BankTransactionRegister() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -153,8 +160,8 @@ function BankTransactionRegister() {
   ];
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+    <div className="h-screen flex flex-col font-gilroy">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
           <ArrowLeft
             onClick={handleNavigateReports}
@@ -306,12 +313,12 @@ function BankTransactionRegister() {
           ))}
         </div>
 
-        <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
+        <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px] flex-1">
           <div className="overflow-x-auto relative show-scrolls">
-            <table className="w-full  text-[12px] font-gilroy">
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
-                <tr className="border-b border-[#E8E8E8]">
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]">
+            <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+              <thead className="sticky top-0 z-30">
+                <tr>
+                  <th className={`${TABLE_HEADER_CELL} text-left sticky left-0 z-40 w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}>
                     <Setting3
                       onClick={() => setOpen(!open)}
                       className="cursor-pointer"
@@ -320,41 +327,41 @@ function BankTransactionRegister() {
                     />
                   </th>
 
-                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-left sticky left-[48px] z-30 w-[140px] min-w-[140px] max-w-[140px]`}>
                     date
                   </th>
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] uppercase ">
+                  <th className={`${TABLE_HEADER_CELL} text-left sticky left-[188px] z-30 w-[220px] min-w-[220px] max-w-[220px]`}>
                     Reference
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-center`}>
                     Bank Acc
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-center w-[200px]`}>
                     Mode
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-center`}>
                     Description
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-center`}>
                     <div className="flex justify-center items-center gap-1">
                       Credit
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      <ArrowSwapVertical size="14" color="#6B7280" />
                     </div>
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-center`}>
                     <div className="flex justify-center items-center gap-1">
                       Debit
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      <ArrowSwapVertical size="14" color="#6B7280" />
                     </div>
                   </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                  <th className={`${TABLE_HEADER_CELL} text-center`}>
                     STATUS
                   </th>
                 </tr>
@@ -362,21 +369,21 @@ function BankTransactionRegister() {
 
               <tbody>
                 {invoices.map((row, i) => (
-                  <tr key={i} className="border-b last:border-none  transition">
-                    <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
+                  <tr key={i}>
+                    <td className={`${TABLE_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px] text-[#111928]`}></td>
                     <td
-                      className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
+                      className={`${TABLE_BODY_CELL} text-[#1E45E1] font-semibold truncate sticky left-[48px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
                       title={row.no}
                     >
                       {row.no}
                     </td>
 
-                    <td className="px-4 py-3 sticky left-[170px] z-20 bg-white w-[200px]">
+                    <td className={`${TABLE_BODY_CELL} sticky left-[188px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px] text-[#111928]`}>
                       <div className="flex items-center gap-2">
                         {/* <img
                                                     src={row.avatar}
                                                     alt={row.name}
-                                                    className="w-7 h-7 rounded-full object-cover"
+                                                    className="w-[30px] h-[30px] rounded-full object-cover"
                                                 /> */}
                         <span
                           className="truncate whitespace-nowrap font-semibold text-[#111928]"
@@ -388,29 +395,29 @@ function BankTransactionRegister() {
                     </td>
 
                     <td
-                      className="px-4 py-3 text-center font-semibold truncate whitespace-nowrap"
+                      className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#111928]`}
                       title={row.type}
                     >
                       {row.type}
                     </td>
 
-                    <td className="px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap">
+                    <td className={`${TABLE_BODY_CELL} text-center text-[#314158] truncate`}>
                       {row.date}
                     </td>
 
-                    <td className="px-4 py-3 text-center  text-[#6B7280] truncate font-medium">
+                    <td className={`${TABLE_BODY_CELL} text-center text-[#314158] truncate font-medium`}>
                       {row.dueDate}
                     </td>
 
-                    <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
+                    <td className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#111928]`}>
                       ₹ {row.amount}
                     </td>
 
-                    <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
+                    <td className={`${TABLE_BODY_CELL} text-center font-semibold truncate text-[#111928]`}>
                       ₹ {row.due}
                     </td>
 
-                    <td className="px-4 py-3 text-center"></td>
+                    <td className={`${TABLE_BODY_CELL} text-center text-[#111928]`}></td>
                   </tr>
                 ))}
               </tbody>
