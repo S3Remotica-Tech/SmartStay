@@ -42,6 +42,9 @@ import ChevronDown from "../Assets/Images/NewLogin/chevron-down.svg";
 import GlobeIcon from "../Assets/Images/NewLogin/globe.svg";
 import LocationIcon from "../Assets/Images/NewLogin/location.svg";
 
+// Google sign-up and Region are shown only in development for now.
+const isDev = import.meta.env.MODE === "development";
+
 const FIELD_H = "h-[50px]";
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 const PHONE_REGEX = /^(?!0{10})[1-9][0-9]{9}$/;
@@ -422,11 +425,15 @@ function NewSignupPage() {
         </div>
       }
     >
-      <GoogleAuthButton label="Sign up with Google" />
+      {isDev && (
+        <>
+          <GoogleAuthButton label="Sign up with Google" />
 
-      <p className="mb-0 text-center font-tasa text-[16px] leading-[18px] tracking-[0.08px] text-[#222222]">
-        or
-      </p>
+          <p className="mb-0 text-center font-tasa text-[16px] leading-[18px] tracking-[0.08px] text-[#222222]">
+            or
+          </p>
+        </>
+      )}
 
       <form
         id="signup-form"
@@ -562,45 +569,47 @@ function NewSignupPage() {
             )}
           </AuthField>
 
-          {/* Region (optional): country is India only; state uses the Add
-              Tenant address list. Leaving it empty is fine. */}
-          <div className="flex w-full flex-col gap-[12px]">
-            <label htmlFor="signup-state" className={authLabelText}>
-              Region
-            </label>
-            <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-              <div
-                aria-label="Country: India"
-                className={`${authFieldShell(false, FIELD_H)} cursor-default hover:bg-white`}
-              >
-                <img src={GlobeIcon} alt="" width="21" height="21" />
-                <span className="font-tasa text-[16px] text-[#222222]">India</span>
-              </div>
-              <div className="relative">
-                <img
-                  src={LocationIcon}
-                  alt=""
-                  width="21"
-                  height="21"
-                  className="pointer-events-none absolute left-[16px] top-1/2 z-[1] -translate-y-1/2"
-                />
-                <Select isDisabled
-                  inputId="signup-state"
-                  options={indianStates}
-                  value={stateName ? { value: stateName, label: stateName } : null}
-                  onChange={(option) => setStateName(option?.value || "")}
-                  onInputChange={(inputValue, { action }) =>
-                    action === "input-change"
-                      ? inputValue.replace(/[^a-zA-Z\s]/g, "")
-                      : inputValue
-                  }
-                  placeholder="Select state"
-                  isClearable
-                  styles={authSelectStyles(false, 47)}
-                />
+          {/* Region (optional, dev only): country is India only; state uses
+              the Add Tenant address list. Leaving it empty is fine. */}
+          {isDev && (
+            <div className="flex w-full flex-col gap-[12px]">
+              <label htmlFor="signup-state" className={authLabelText}>
+                Region
+              </label>
+              <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
+                <div
+                  aria-label="Country: India"
+                  className={`${authFieldShell(false, FIELD_H)} cursor-default hover:bg-white`}
+                >
+                  <img src={GlobeIcon} alt="" width="21" height="21" />
+                  <span className="font-tasa text-[16px] text-[#222222]">India</span>
+                </div>
+                <div className="relative">
+                  <img
+                    src={LocationIcon}
+                    alt=""
+                    width="21"
+                    height="21"
+                    className="pointer-events-none absolute left-[16px] top-1/2 z-[1] -translate-y-1/2"
+                  />
+                  <Select
+                    inputId="signup-state"
+                    options={indianStates}
+                    value={stateName ? { value: stateName, label: stateName } : null}
+                    onChange={(option) => setStateName(option?.value || "")}
+                    onInputChange={(inputValue, { action }) =>
+                      action === "input-change"
+                        ? inputValue.replace(/[^a-zA-Z\s]/g, "")
+                        : inputValue
+                    }
+                    placeholder="Select state"
+                    isClearable
+                    styles={authSelectStyles(false, 47)}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <Checkbox
             id="signup-agree"

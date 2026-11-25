@@ -27,6 +27,9 @@ import { LoginPromoCard } from "./NewAuth/AuthPromoCards";
 import { authFieldInput, authInlineLink } from "./NewAuth/authStyles";
 import WaveEmoji from "../Assets/Images/NewLogin/wave.svg";
 
+// Google sign-in is shown only in development until the API is ready.
+const isDev = import.meta.env.MODE === "development";
+
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
 function NewLoginPage() {
@@ -274,11 +277,15 @@ function NewLoginPage() {
             Sign in
           </AuthSubmitButton>
 
-          <span className="font-tasa text-[16px] font-medium leading-[26px] text-[#686677]">
-            OR
-          </span>
+          {isDev && (
+            <>
+              <span className="font-tasa text-[16px] font-medium leading-[26px] text-[#686677]">
+                OR
+              </span>
 
-          <GoogleAuthButton label="Continue with Google" />
+              <GoogleAuthButton label="Continue with Google" />
+            </>
+          )}
         </div>
       </form>
 
