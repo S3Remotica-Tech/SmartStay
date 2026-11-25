@@ -1,9 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// Invoice Register - Consolidated View table.
-// Everything for the table lives in this one file: the table itself,
-// "Customize Tabs" (show/hide + drag order, saved through the customize API)
-// and the Consolidated filter drawer. Maths/filters/columns come from
-// consolidatedHelpers.js (shared with the export).
 import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
@@ -704,9 +699,8 @@ function SortableColumnItem({ item, onToggle }) {
     <label
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-3 text-sm mb-0 bg-white ${
-        item.locked ? "cursor-not-allowed" : "cursor-pointer"
-      }`}
+      className={`flex items-center gap-3 text-sm mb-0 bg-white ${item.locked ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
     >
       <span
         {...attributes}
@@ -725,9 +719,8 @@ function SortableColumnItem({ item, onToggle }) {
       />
 
       <span
-        className={`flex-1 text-base ${
-          item.locked ? "text-[#6B7280]" : "text-[#101828]"
-        }`}
+        className={`flex-1 text-base ${item.locked ? "text-[#6B7280]" : "text-[#101828]"
+          }`}
       >
         {item.fieldName}
       </span>
@@ -823,9 +816,8 @@ function ConsolidatedColumnCustomizer({
           onClick={() => onOpenChange(!isOpen)}
           aria-label="Customize columns"
           aria-expanded={isOpen}
-          className={`relative w-[42px] h-[42px] flex items-center justify-center rounded-[5px] bg-white border-[1px] ${
-            isOpen ? "border-[#1E45E1]" : "border-[#F2F2F2]"
-          }`}
+          className={`relative w-[42px] h-[42px] flex items-center justify-center rounded-[5px] bg-white border-[1px] ${isOpen ? "border-[#1E45E1]" : "border-[#F2F2F2]"
+            }`}
         >
           <Setting4 size="22" color={isOpen ? "#1E45E1" : "#4B4B4B"} />
           {hiddenCount > 0 && (
@@ -1209,9 +1201,8 @@ function ConsolidatedInvoiceTable({
         {columns.map((column) => (
           <td key={column.key} className={`${bodyCell} ${alignClass[column.align]}`}>
             <span
-              className={`inline-block h-3 rounded bg-[#E5E7EB] animate-pulse ${
-                column.key === "tenant" ? "w-[120px]" : "w-[56px]"
-              }`}
+              className={`inline-block h-3 rounded bg-[#E5E7EB] animate-pulse ${column.key === "tenant" ? "w-[120px]" : "w-[56px]"
+                }`}
             />
           </td>
         ))}
@@ -1236,9 +1227,8 @@ function ConsolidatedInvoiceTable({
             {columns.map((column) => (
               <td
                 key={column.key}
-                className={`${bodyCell} ${floorBorder} ${rowBg} ${alignClass[column.align]} ${
-                  column.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
-                }`}
+                className={`${bodyCell} ${floorBorder} ${rowBg} ${alignClass[column.align]} ${column.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
+                  }`}
               >
                 {renderRowCell(column, row, isExpanded)}
               </td>
@@ -1256,15 +1246,13 @@ function ConsolidatedInvoiceTable({
                 aria-expanded={isExpanded}
                 disabled={!canViewDetails}
                 onClick={() => toggleExpanded(row.bedId)}
-                className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${
-                  isExpanded
-                    ? "border-[#1E45E1] bg-[#EFF6FF]"
-                    : "border-[#E2E8F0] bg-white"
-                } ${
-                  canViewDetails
+                className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${isExpanded
+                  ? "border-[#1E45E1] bg-[#EFF6FF]"
+                  : "border-[#E2E8F0] bg-white"
+                  } ${canViewDetails
                     ? "cursor-pointer hover:bg-[#F1F5FF]"
                     : "cursor-not-allowed opacity-40"
-                }`}
+                  }`}
               >
                 <Eye
                   size="16"
@@ -1284,9 +1272,8 @@ function ConsolidatedInvoiceTable({
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className={`${childCell} bg-[#F8FAFC] ${alignClass[column.align]} ${
-                      column.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
-                    }`}
+                    className={`${childCell} bg-[#F8FAFC] ${alignClass[column.align]} ${column.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
+                      }`}
                   >
                     {renderInvoiceCell(column, invoice)}
                   </td>
@@ -1337,14 +1324,12 @@ function ConsolidatedInvoiceTable({
             role="switch"
             aria-checked={includeAllTenants}
             onClick={() => setIncludeAllTenants((prev) => !prev)}
-            className={`relative inline-flex h-[18px] w-[33px] flex-shrink-0 items-center rounded-full transition-colors ${
-              includeAllTenants ? "bg-[#1E45E1]" : "bg-[#CAD5E2]"
-            }`}
+            className={`relative inline-flex h-[18px] w-[33px] flex-shrink-0 items-center rounded-full transition-colors ${includeAllTenants ? "bg-[#1E45E1]" : "bg-[#CAD5E2]"
+              }`}
           >
             <span
-              className={`inline-block h-[12px] w-[12px] rounded-full bg-white shadow-[0px_0.75px_2.25px_0px_rgba(0,0,0,0.1),0px_0.75px_1.5px_0px_rgba(0,0,0,0.1)] transition-transform ${
-                includeAllTenants ? "translate-x-[18px]" : "translate-x-[3px]"
-              }`}
+              className={`inline-block h-[12px] w-[12px] rounded-full bg-white shadow-[0px_0.75px_2.25px_0px_rgba(0,0,0,0.1),0px_0.75px_1.5px_0px_rgba(0,0,0,0.1)] transition-transform ${includeAllTenants ? "translate-x-[18px]" : "translate-x-[3px]"
+                }`}
             />
           </button>
         </div>
