@@ -35,11 +35,13 @@ export async function getInvoiceRegister(hostelId, filters = {}) {
   });
 }
 
-// Invoice Register - Consolidated view (filters go in the POST body)
+// Invoice Register - Consolidated view (filters go in the POST body).
+// isPaginated defaults to true (table, page/size); the export preview sends
+// isPaginated: false in its body to get the whole sheet.
 export async function getConsolidatedInvoiceRegister(hostelId, filters = {}) {
   return await AxiosConfigV2.post(
     `/v2/reports/invoice/consolidated/${hostelId}`,
-    filters,
+    { isPaginated: true, ...filters },
   );
 }
 

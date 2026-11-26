@@ -29,7 +29,7 @@ import ConsolidatedInvoiceTable, {
   getCollectionSummary,
   getConsolidatedFilterChips,
   getConsolidatedHeader,
-  getFloorOptions,
+  getConsolidatedFloorOptions,
   normaliseConsolidatedBeds,
   buildConsolidatedColumns,
 } from "./ConsolidatedInvoiceTable";
@@ -89,6 +89,11 @@ function InvoiceRegister() {
   // Consolidated View API data (state.reports.getConsolidatedInvoice).
   const [consolidatedRegister, setConsolidatedRegister] = useState(null);
   const [consolidatedLoading, setConsolidatedLoading] = useState(false);
+  // Consolidated View server pagination (1-based, response paginationData).
+  // Kept apart from the List View's page/size.
+  const [consolidatedPage, setConsolidatedPage] = useState(1);
+  const [consolidatedSize, setConsolidatedSize] = useState(10);
+  const consolidatedScopeKeyRef = useRef("");
   // Single bed list used by the table, stat cards, floor filter and export.
   const consolidatedBeds = useMemo(
     () => normaliseConsolidatedBeds(consolidatedRegister),
@@ -98,6 +103,12 @@ function InvoiceRegister() {
   // itself and hands back the saved list (shown until the next fetch); the
   // export uses the same list.
   const [savedColumns, setSavedColumns] = useState(null);
+  // Bumped after Customize Tabs save so the list is fetched again (like UserList).
+  const [consolidatedRefreshKey, setConsolidatedRefreshKey] = useState(0);
+  const handleConsolidatedColumnsSaved = (columns) => {
+    setSavedColumns(columns);
+    setConsolidatedRefreshKey((key) => key + 1);
+  };
   const consolidatedColumns = useMemo(
     () =>
       savedColumns ||
@@ -257,17 +268,9 @@ function InvoiceRegister() {
   );
 
   const consolidatedFloorOptions = useMemo(
-    () => getFloorOptions(consolidatedBeds),
-    [consolidatedBeds],
+    () => getConsolidatedFloorOptions(consolidatedRegister, consolidatedBeds),
+    [consolidatedRegister, consolidatedBeds],
   );
-
-  // Set by the Sidebar when a property is selected.
-  let selectedHostelName = "";
-  try {
-    selectedHostelName = localStorage.getItem("selectedHostelName") || "";
-  } catch {
-    selectedHostelName = "";
-  }
 
   const consolidatedChips = getConsolidatedFilterChips(consolidatedFilters);
   const displayedChips = isConsolidated ? consolidatedChips : chips;
@@ -370,7 +373,7 @@ function InvoiceRegister() {
         onClick={() => setViewMenuOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={viewMenuOpen}
-        className="w-fit h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-medium text-[#1D293D]"
+        className="w-fit h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-semibold text-[#1D293D]"
       >
         <span className="whitespace-nowrap">{selectedViewOption.label}</span>
         <ArrowDown2
@@ -916,6 +919,23 @@ function InvoiceRegister() {
     if (!isConsolidated) return;
     if (!state.login?.selectedHostel_Id) return;
 
+    // A new scope (property, dates, filters, toggle, page size) starts again
+    // at page 1; the page change re-runs this effect, so only one call is made.
+    const scopeKey = JSON.stringify([
+      state.login.selectedHostel_Id,
+      startDate,
+      endDate,
+      consolidatedFilters,
+      includeAllTenants,
+      consolidatedSize,
+    ]);
+    const scopeChanged = consolidatedScopeKeyRef.current !== scopeKey;
+    consolidatedScopeKeyRef.current = scopeKey;
+    if (scopeChanged && consolidatedPage !== 1) {
+      setConsolidatedPage(1);
+      return;
+    }
+
     const filters = {
       startDate: startDate,
       endDate: endDate,
@@ -930,6 +950,8 @@ function InvoiceRegister() {
       // Echoed back by the API; the toggle needs paid tenants and empty beds.
       includePaidInvoice: includeAllTenants,
       includeEmptyBeds: includeAllTenants,
+      page: consolidatedPage,
+      size: consolidatedSize,
     };
     if (startDate && endDate) {
       dispatch({
@@ -949,7 +971,27 @@ function InvoiceRegister() {
     endDate,
     consolidatedFilters,
     includeAllTenants,
+    consolidatedRefreshKey,
+    consolidatedPage,
+    consolidatedSize,
   ]);
+
+  // Consolidated View pagination from the response's paginationData.
+  const consolidatedPagination = consolidatedRegister?.paginationData;
+  const consolidatedCurrentPage =
+    Number(consolidatedPagination?.currentPage) || consolidatedPage;
+  const consolidatedTotalPages = Number(consolidatedPagination?.totalPages) || 1;
+  const consolidatedTotalRecords =
+    Number(consolidatedPagination?.totalElements) || 0;
+
+  const handleConsolidatedPageChange = (newPage) => {
+    if (newPage === consolidatedPage) return;
+    setConsolidatedPage(newPage);
+  };
+
+  const handleConsolidatedSizeChange = (sizeValue) => {
+    setConsolidatedSize(sizeValue);
+  };
 
   useEffect(() => {
     setPage(1);
@@ -1055,14 +1097,20 @@ function InvoiceRegister() {
   }, [state?.reports?.reportsPdfExportError]);
 
   return (
-    <div className="h-screen flex flex-col font-gilroy">
+    // From md up the page is exactly one screen tall and never scrolls itself:
+    // header, chips, stat cards and toolbar stay put and only the table body
+    // scrolls (with its column headers stuck on top). On phones the page
+    // scrolls normally and each table has its own 70vh scroll area.
+    <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col font-gilroy md:overflow-hidden">
       {loading && (
-        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+        <div className="fixed top-0 right-0 bottom-0 left-0 md:left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white no-wrap min-h-[60px]">
-        <div className="flex items-center gap-2">
+      {/* Title and toolbar sit side by side only from xl (1280px); below that
+          the toolbar takes its own full-width row so it never wraps unevenly. */}
+      <div className="shrink-0 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-[12px] xl:gap-4 py-[8px] xl:py-0 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
+        <div className="flex items-center gap-2 shrink-0">
           <ArrowLeft
             onClick={handleNavigateReports}
             size="20"
@@ -1087,7 +1135,7 @@ function InvoiceRegister() {
                 {register && (
                   <div
                     ref={dropdownRef}
-                    className="absolute z-40 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]"
+                    className="absolute z-40 mt-2 w-64 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]"
                   >
                     {reportCards.map((item, index) => {
                       const isFirst = index === 0;
@@ -1122,8 +1170,13 @@ function InvoiceRegister() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-stretch">
-          <div className="datepicker-wrapper" style={{ position: "relative" }}>
+        {/* Every control is 36px tall and centred, so mixed heights
+            (react-select in ApiPagination) can't push the row out of line. */}
+        <div className="flex flex-wrap items-center gap-[10px] w-full xl:w-auto xl:justify-end">
+          <div
+            className="datepicker-wrapper h-[36px] w-full sm:w-[260px]"
+            style={{ position: "relative" }}
+          >
             <RangePicker
               allowClear={false}
               style={{
@@ -1158,21 +1211,38 @@ function InvoiceRegister() {
                 ? () => setShowConsolidatedFilter(true)
                 : handleClickFilter
             }
-            className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
+            className="h-[36px] flex items-center justify-center gap-2 px-4 border rounded-lg text-sm font-gilroy flex-1 sm:flex-none"
           >
             <Filter size="16" />
             Filter
           </button>
+          {/* On phones pagination drops to its own last row so Filter and
+              Export stay side by side. */}
           {!isConsolidated && invoiceRegister?.invoiceList?.length > 0 && (
-            <ApiPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-              onPageChange={handlePageChange}
-              onSizeChange={handleSizeChange}
-              size={size}
-              isTenantPagination={true}
-            />
+            <div className="w-full sm:w-auto order-last sm:order-none">
+              <ApiPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalRecords={totalRecords}
+                onPageChange={handlePageChange}
+                onSizeChange={handleSizeChange}
+                size={size}
+                isTenantPagination={true}
+              />
+            </div>
+          )}
+          {isConsolidated && consolidatedTotalRecords > 0 && (
+            <div className="w-full sm:w-auto order-last sm:order-none">
+              <ApiPagination
+                currentPage={consolidatedCurrentPage}
+                totalPages={consolidatedTotalPages}
+                totalRecords={consolidatedTotalRecords}
+                onPageChange={handleConsolidatedPageChange}
+                onSizeChange={handleConsolidatedSizeChange}
+                size={consolidatedSize}
+                isTenantPagination={true}
+              />
+            </div>
           )}
           <button
             onClick={() => {
@@ -1182,7 +1252,7 @@ function InvoiceRegister() {
               else handleDownload();
             }}
             disabled={!isExportAllow}
-            className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+            className={`h-[36px] flex items-center justify-center gap-2 px-4 rounded-lg text-sm font-gilroy flex-1 sm:flex-none
     ${!isExportAllow
                 ? "bg-gray-400 cursor-not-allowed text-white"
                 : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
@@ -1194,9 +1264,9 @@ function InvoiceRegister() {
         </div>
       </div>
 
-      <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
+      <div className="px-1 pb-[12px] bg-[#F9FAFB] rounded-lg py-0 flex flex-col md:flex-1 md:min-h-0">
         {displayedChips?.length > 0 && (
-          <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+          <div className="shrink-0 mx-1 sm:mx-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
             <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
               {displayedChips?.map((chip) => (
                 <div key={chip.key}>
@@ -1221,12 +1291,12 @@ function InvoiceRegister() {
           </div>
         )}
 
-        <div className="mt-3 ms-1 me-1 overflow-x-auto ">
-          <div className="flex gap-4 flex-nowrap">
+        <div className="shrink-0 mt-3 ms-1 me-1 overflow-x-auto show-scrolls">
+          <div className="flex gap-[12px] sm:gap-4 flex-nowrap">
             {displayedStats.map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[120px] min-w-[250px] flex-shrink-0"
+                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[104px] sm:h-[120px] min-w-[180px] sm:min-w-[250px] flex-shrink-0"
               >
                 <div className="flex justify-between ">
                   {item.tooltip ? (
@@ -1257,7 +1327,7 @@ function InvoiceRegister() {
                 </div>
 
                 <div className="flex items-center gap-2 mt-2">
-                  <h2 className="text-2xl font-semibold text-[#101828]">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-[#101828]">
                     {item.isCurrency
                       ? `₹ ${item.value ?? 0}`
                       : (item.value ?? 0)}
@@ -1280,7 +1350,7 @@ function InvoiceRegister() {
             viewSwitcher={viewSwitcher}
             beds={consolidatedBeds}
             tableColumns={consolidatedColumns}
-            onColumnsSaved={setSavedColumns}
+            onColumnsSaved={handleConsolidatedColumnsSaved}
             isLoading={consolidatedLoading}
             filters={consolidatedFilters}
             period={selectedRange}
@@ -1293,15 +1363,17 @@ function InvoiceRegister() {
           />
         )}
 
-        {!isConsolidated && <div className="mx-1 mt-3">{viewSwitcher}</div>}
+        {!isConsolidated && (
+          <div className="shrink-0 mx-1 mt-3">{viewSwitcher}</div>
+        )}
 
         {isConsolidated ? null : invoiceRegister?.invoiceList?.length > 0 ? (
           // UI matches ConsolidatedInvoiceTable (card, 50px header, 58px rows,
           // dot status badge). Data, handlers and sticky columns are unchanged.
-          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 mt-[12px] flex flex-col md:flex-1 md:min-h-0">
             <div
               ref={tableRef}
-              className="overflow-y-auto relative h-[calc(100vh-200px)] show-scrolls"
+              className="overflow-auto relative max-h-[70vh] md:max-h-none md:flex-1 md:min-h-0 show-scrolls"
             >
               <table className="w-full min-w-max border-separate border-spacing-0">
                 <thead className="sticky top-0 z-30">
@@ -1319,7 +1391,9 @@ function InvoiceRegister() {
                       Invoice No
                     </th>
 
-                    <th className={`${LIST_HEADER_CELL} sticky left-[188px] z-40 w-[220px] min-w-[220px] max-w-[220px] text-left`}>
+                    {/* Name is pinned only from md up; on phones the three
+                        pinned columns would be wider than the screen. */}
+                    <th className={`${LIST_HEADER_CELL} sticky md:left-[188px] z-30 md:z-40 w-[220px] min-w-[220px] max-w-[220px] text-left`}>
                       Name
                     </th>
 
@@ -1371,7 +1445,7 @@ function InvoiceRegister() {
                           {row.invoiceNumber}
                         </td>
 
-                        <td className={`${LIST_BODY_CELL} sticky left-[188px] z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
+                        <td className={`${LIST_BODY_CELL} md:sticky md:left-[188px] md:z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
                           <div className="flex items-center gap-[13px] max-w-[188px] relative">
                             {row.profilePic ? (
                               <img
@@ -1551,18 +1625,13 @@ function InvoiceRegister() {
           <ConsolidatedExportSettings
             show={showExportSettings}
             onClose={() => setShowExportSettings(false)}
-            beds={consolidatedBeds}
+            // Preview closed -> fetch the table again (isPaginated: true).
+            onPreviewClosed={() => setConsolidatedRefreshKey((key) => key + 1)}
             scope={{
               filters: consolidatedFilters,
               period: selectedRange,
               includeAllTenants,
             }}
-            columns={consolidatedColumns}
-            floorOptions={consolidatedFloorOptions}
-            propertyName={
-              consolidatedRegister?.hostelInformation?.hostelName ||
-              selectedHostelName
-            }
           />
         )}
       </div>

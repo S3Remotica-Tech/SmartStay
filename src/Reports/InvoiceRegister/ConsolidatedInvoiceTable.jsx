@@ -26,6 +26,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import CustomTooltip from "../../Utils/CustomTooltip";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 // ---------------------------------------------------------------------------
 // Shared Consolidated View logic (exported: InvoiceRegister and
@@ -60,7 +61,7 @@ const toNumber = (value) => {
 };
 
 // API dates are DD/MM/YYYY; everything else here expects ISO (YYYY-MM-DD).
-const toIsoDate = (value) => {
+export const toIsoDate = (value) => {
   if (!value) return null;
   const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(value).trim());
   return match ? `${match[3]}-${match[2]}-${match[1]}` : value;
@@ -369,6 +370,15 @@ export const getFloorOptions = (beds = []) => {
   return [...floors.entries()]
     .sort((a, b) => a[1] - b[1])
     .map(([floor]) => floor);
+};
+
+// Floor options from the API (filters.floors lists every floor, even ones
+// with no rows in the current result); falls back to the floors in the rows.
+export const getConsolidatedFloorOptions = (response, beds = []) => {
+  const apiFloors = (response?.filters?.floors || [])
+    .map((floor) => floor?.floorName)
+    .filter(Boolean);
+  return apiFloors.length > 0 ? [...new Set(apiFloors)] : getFloorOptions(beds);
 };
 
 
@@ -687,8 +697,9 @@ ConsolidatedFilterDrawer.propTypes = {
 // Locked columns (isLocked) always stay selected.
 
 function SortableColumnItem({ item, onToggle }) {
+  // Locked columns (isLocked: true) can't be dragged or dropped onto.
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.fieldName });
+    useSortable({ id: item.fieldName, disabled: Boolean(item.locked) });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -707,7 +718,12 @@ function SortableColumnItem({ item, onToggle }) {
         {...listeners}
         onClick={(e) => e.stopPropagation()}
       >
-        <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
+        <IoMdMenu
+          className={`text-xl ${item.locked
+            ? "text-[#D0D5DD] cursor-not-allowed"
+            : "text-[#28303F] cursor-grab"
+            }`}
+        />
       </span>
 
       <input
@@ -751,6 +767,7 @@ function ConsolidatedColumnCustomizer({
 }) {
   const [customizeItems, setCustomizeItems] = useState(columns);
   const [searchText, setSearchText] = useState("");
+  const [error, setError] = useState("");
   const wrapperRef = useRef(null);
 
   // Start from the saved columns every time the panel opens.
@@ -758,8 +775,22 @@ function ConsolidatedColumnCustomizer({
     if (isOpen) {
       setCustomizeItems(columns);
       setSearchText("");
+      setError("");
     }
   }, [isOpen, columns]);
+
+  // Same rule as UserList: at least one column must stay visible.
+  const handleSave = () => {
+    setError("");
+    const hasSelected = customizeItems.some(
+      (item) => item.known && (item.locked || item.selected),
+    );
+    if (!hasSelected) {
+      setError("Please select at least one column");
+      return;
+    }
+    onSave(customizeItems);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -786,6 +817,7 @@ function ConsolidatedColumnCustomizer({
   ).length;
 
   const handleToggle = (fieldName) => {
+    setError("");
     setCustomizeItems((prev) =>
       prev.map((i) =>
         i.fieldName === fieldName && !i.locked
@@ -796,6 +828,7 @@ function ConsolidatedColumnCustomizer({
   };
 
   const handleSelectAll = () => {
+    setError("");
     setCustomizeItems((prev) =>
       prev.map((i) => ({ ...i, selected: i.locked ? true : !allSelected })),
     );
@@ -803,9 +836,16 @@ function ConsolidatedColumnCustomizer({
 
   const handleDragEnd = ({ active, over }) => {
     if (!over || active.id === over.id) return;
-    const oldIndex = customizeItems.findIndex((i) => i.fieldName === active.id);
-    const newIndex = customizeItems.findIndex((i) => i.fieldName === over.id);
-    setCustomizeItems(arrayMove(customizeItems, oldIndex, newIndex));
+    // Reorder only the unlocked columns; locked ones keep their positions.
+    const unlocked = customizeItems.filter((i) => !i.locked);
+    const oldIndex = unlocked.findIndex((i) => i.fieldName === active.id);
+    const newIndex = unlocked.findIndex((i) => i.fieldName === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
+    const moved = arrayMove(unlocked, oldIndex, newIndex);
+    let next = 0;
+    setCustomizeItems(
+      customizeItems.map((i) => (i.locked ? i : moved[next++])),
+    );
   };
 
   return (
@@ -884,17 +924,26 @@ function ConsolidatedColumnCustomizer({
             </SortableContext>
           </DndContext>
 
+          {error && (
+            <div className="flex justify-center my-2">
+              <ErrorMessage message={error} type="warning" />
+            </div>
+          )}
+
           <div className="p-[12px] border-t border-[#E5E7EB] flex gap-2">
             <button
               type="button"
-              onClick={() => setCustomizeItems(columns)}
+              onClick={() => {
+                setCustomizeItems(columns);
+                setError("");
+              }}
               className="flex-1 py-2 text-sm border-[1px] border-[#D1D5DC] rounded-lg text-[#344054] bg-white"
             >
               Reset
             </button>
             <button
               type="button"
-              onClick={() => onSave(customizeItems)}
+              onClick={handleSave}
               disabled={isSaving}
               className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70"
             >
@@ -1288,9 +1337,10 @@ function ConsolidatedInvoiceTable({
   const showEmpty = !isLoading && rows.length === 0;
 
   return (
-    <div className="font-gilroy mx-1 mt-[12px]">
-      <div className="flex flex-wrap items-end justify-between gap-[12px] min-h-[53px]">
-        <div className="flex items-start gap-[10px]">
+    // Fills the space the page leaves (md+); only the table body scrolls.
+    <div className="font-gilroy mx-1 mt-[12px] flex flex-col md:flex-1 md:min-h-0">
+      <div className="shrink-0 flex flex-wrap items-end justify-between gap-[12px] min-h-[53px]">
+        <div className="flex flex-wrap items-start gap-[10px]">
           {viewSwitcher}
           <ConsolidatedColumnCustomizer
             columns={tableColumns}
@@ -1311,10 +1361,10 @@ function ConsolidatedInvoiceTable({
           </CustomTooltip>
         </div>
 
-        <div className="flex items-center gap-[10px] h-[42px]">
+        <div className="flex items-center justify-between sm:justify-start gap-[10px] min-h-[42px] w-full sm:w-auto">
           <label
             htmlFor="consolidated-include-all"
-            className="text-[14px] leading-[20px] text-[#222] mb-0 cursor-pointer"
+            className="text-[13px] sm:text-[14px] leading-[20px] text-[#222] mb-0 cursor-pointer"
           >
             Include Fully Paid Tenants &amp; Empty Beds
           </label>
@@ -1343,10 +1393,14 @@ function ConsolidatedInvoiceTable({
           />
         </div>
       ) : (
-        <div className="mt-[12px] bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden">
-          <div className="overflow-x-auto show-scrolls" aria-busy={isLoading}>
+        <div className="mt-[12px] bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col md:flex-1 md:min-h-0">
+          <div
+            className="overflow-auto max-h-[70vh] md:max-h-none md:flex-1 md:min-h-0 show-scrolls"
+            aria-busy={isLoading}
+          >
             <table className="w-max min-w-full border-separate border-spacing-0">
-              <thead>
+              {/* Column headers stay visible while the rows scroll. */}
+              <thead className="sticky top-0 z-[3]">
                 <tr>
                   {columns.map((column) => (
                     <th
@@ -1366,7 +1420,7 @@ function ConsolidatedInvoiceTable({
             </table>
           </div>
 
-          <div className="flex items-center justify-between px-[20px] py-[12px] border-t border-[#E2E8F0] bg-white text-[14px] leading-[20px] text-[#62748E]">
+          <div className="shrink-0 flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[4px] px-[12px] sm:px-[20px] py-[12px] border-t border-[#E2E8F0] bg-white text-[13px] sm:text-[14px] leading-[20px] text-[#62748E]">
             <span>{isLoading ? "Loading collection sheet…" : footerText}</span>
             <span>Grouped by Floor → Room → Bed</span>
           </div>

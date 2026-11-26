@@ -6,6 +6,9 @@ export const initialState = {
   getConsolidatedInvoice: [],
   getConsolidatedInvoiceSuccess: 0,
   getConsolidatedInvoiceError: "",
+  consolidatedInvoiceExport: "",
+  consolidatedInvoiceExportSuccess: 0,
+  consolidatedInvoiceExportError: "",
   consolidatedInvoiceCustomize: "",
   consolidatedInvoiceCustomizeSuccess: 0,
   consolidatedInvoiceCustomizeError: "",
@@ -135,6 +138,19 @@ const ReportsReducer = (state = initialState, action) => {
       return { ...state, getConsolidatedInvoiceError: action.payload };
     case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_ERROR":
       return { ...state, getConsolidatedInvoiceError: "" };
+
+    case "GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER":
+      return {
+        ...state,
+        consolidatedInvoiceExport: action.payload.response,
+        consolidatedInvoiceExportSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER":
+      return { ...state, consolidatedInvoiceExportSuccess: 0 };
+    case "GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR":
+      return { ...state, consolidatedInvoiceExportError: action.payload };
+    case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR":
+      return { ...state, consolidatedInvoiceExportError: "" };
 
     case "CONSOLIDATED_INVOICE_CUSTOMIZE_REDUCER":
       return {

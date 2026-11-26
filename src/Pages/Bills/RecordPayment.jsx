@@ -211,7 +211,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_RECORD_PAYMENT" });
-      }, 3000);
+      }, 300);
     }
   }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 

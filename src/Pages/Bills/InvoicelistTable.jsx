@@ -438,7 +438,7 @@ const InvoiceTable = (props) => {
             {STATUS_BADGE[props.item?.paymentStatus] && (
               <StatusBadge status={props.item.paymentStatus} />
             )}
-            {props.item?.isCancelled && <StatusBadge status="Cancelled" />}
+            {/* {props.item?.isCancelled && <StatusBadge status="Cancelled" />} */}
           </div>
         </td>
 

@@ -12,8 +12,9 @@ import React, {
   useState,
 } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import { Modal, Offcanvas } from "react-bootstrap";
-import { DatePicker } from "antd";
+// import { DatePicker } from "antd"; // for the commented-out Date Range field
 import dayjs from "dayjs";
 import {
   ArrowDown2,
@@ -34,7 +35,7 @@ import {
 import { IoCloseOutline } from "react-icons/io5";
 import ErrorMessage from "../../Components/ErrorMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import { createPdfFromPages, downloadPdf } from "../../Utils/ExportPdf";
+import { createPdfFromPages } from "../../Utils/ExportPdf";
 import {
   COLLECTION_STATUS_OPTIONS,
   DEFAULT_CONSOLIDATED_FILTERS,
@@ -42,8 +43,12 @@ import {
   countActiveFilters,
   filterRowsByAllTenants,
   formatAmount,
+  buildConsolidatedColumns,
+  getConsolidatedFloorOptions,
   getVisibleColumns,
+  normaliseConsolidatedBeds,
   periodToRange,
+  toIsoDate,
 } from "./ConsolidatedInvoiceTable";
 
 // ---------------------------------------------------------------------------
@@ -51,9 +56,10 @@ import {
 // No rendering here; the same rows/totals logic as the table is reused.
 // ---------------------------------------------------------------------------
 
+// Same keys as the API's filters.groupBy.
 export const EXPORT_GROUP_BY = {
-  FLOOR_ROOM_BED: "floor-room-bed",
-  ROOM_BED: "room-bed",
+  FLOOR_ROOM_BED: "FLOOR_ROOM_BED",
+  ROOM_BED: "ROOM_BED",
 };
 
 export const EXPORT_GROUP_BY_OPTIONS = [
@@ -66,6 +72,129 @@ export const DEFAULT_EXPORT_PDF_SETTINGS = {
   includeFloorSubtotals: true,
   includeGrandTotal: true,
   includePropertyAndPeriod: true,
+};
+
+// ---- API mapping (GET_REPORTS_CONSOLIDATED_INVOICE_SAGA response) ----
+
+// Group By options from the API (filters.groupBy), else the defaults.
+export const getExportGroupByOptions = (response) => {
+  const options = (response?.filters?.groupBy || [])
+    .filter((option) => option?.key)
+    .map((option) => ({
+      value: option.key,
+      label: (option.label || option.key).replace(/\s*->\s*/g, " → "),
+    }));
+  return options.length > 0 ? options : EXPORT_GROUP_BY_OPTIONS;
+};
+
+const pickBool = (value, fallback) =>
+  typeof value === "boolean" ? value : Boolean(fallback);
+
+// PDF settings from the API flags (includeSubTotals, includeGrandTotal,
+// includeHostelName); a missing flag keeps the fallback value.
+export const getExportPdfSettings = (
+  response,
+  fallback = DEFAULT_EXPORT_PDF_SETTINGS,
+) => ({
+  ...fallback,
+  includeFloorSubtotals: pickBool(
+    response?.includeSubTotals,
+    fallback.includeFloorSubtotals,
+  ),
+  includeGrandTotal: pickBool(
+    response?.includeGrandTotal,
+    fallback.includeGrandTotal,
+  ),
+  includePropertyAndPeriod: pickBool(
+    response?.includeHostelName,
+    fallback.includePropertyAndPeriod,
+  ),
+});
+
+// Report details printed on the PDF: hostelInformation, invoiceHeader
+// (report period) and footerInfo (generated date/time from the server).
+export const getExportReportInfo = (response) => {
+  const hostel = response?.hostelInformation || {};
+  const header = response?.invoiceHeader || {};
+  const footer = response?.footerInfo || {};
+  const from = toIsoDate(header.startDate);
+  const to = toIsoDate(header.endDate);
+  const address =
+    hostel.fullAddress ||
+    [hostel.houseNo, hostel.street, hostel.city, hostel.state, hostel.pincode]
+      .filter(Boolean)
+      .join(", ");
+  return {
+    propertyName: hostel.hostelName || "",
+    propertyAddress: address || "",
+    propertyMobile: hostel.mobile ? String(hostel.mobile) : "",
+    period:
+      from && to && dayjs(from).isValid() && dayjs(to).isValid()
+        ? { from: dayjs(from).toDate(), to: dayjs(to).toDate() }
+        : null,
+    generatedLabel: [footer.date, footer.time].filter(Boolean).join(", "),
+  };
+};
+
+// Collection Status label -> API paymentStatus key (filters.paymentStatus).
+const PAYMENT_STATUS_KEY = {
+  Paid: "PAID",
+  Pending: "PENDING",
+  "Partially Paid": "PARTIAL_PAYMENT",
+};
+
+// Floor name -> floorId, from the API's filters.floors, then the rows.
+export const getFloorIdsByName = (response, beds = []) => {
+  const map = new Map();
+  (response?.filters?.floors || []).forEach((floor) => {
+    if (floor?.floorName && floor.floorId !== null && floor.floorId !== undefined) {
+      map.set(floor.floorName, floor.floorId);
+    }
+  });
+  beds.forEach((bed) => {
+    if (!map.has(bed.floor) && bed.floorId !== null && bed.floorId !== undefined) map.set(bed.floor, bed.floorId);
+  });
+  return map;
+};
+
+// Request body for the export, in the download API's format
+// (POST /v2/reports/download/invoice/consolidated/:hostelId). The preview fetch
+// (GET_REPORTS_CONSOLIDATED_INVOICE_SAGA) and Download PDF
+// (REPORTS_CONSOLIDATED_INVOICE_PDFSAGA) both send it.
+// Overdue has no field in this format: it filters the preview only.
+export const buildConsolidatedExportRequest = (
+  scope = {},
+  pdfSettings = DEFAULT_EXPORT_PDF_SETTINGS,
+  floorIdsByName = new Map(),
+) => {
+  const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope.filters };
+  const includeAll = Boolean(scope.includeAllTenants);
+  const groupByFloor = pdfSettings.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
+  const paymentStatus = (filters.statuses || [])
+    .map((status) => PAYMENT_STATUS_KEY[status])
+    .filter(Boolean);
+  const floorIds = (filters.floors || [])
+    .map((floor) => floorIdsByName.get(floor))
+    .filter((id) => id !== null && id !== undefined);
+  return {
+    search: filters.search?.trim() || undefined,
+    paymentStatus: paymentStatus.length ? paymentStatus : undefined,
+    startDate: scope.period?.from
+      ? dayjs(scope.period.from).format("DD-MM-YYYY")
+      : undefined,
+    endDate: scope.period?.to
+      ? dayjs(scope.period.to).format("DD-MM-YYYY")
+      : undefined,
+    floorIds: floorIds.length ? floorIds : undefined,
+    includePaidInvoice: includeAll,
+    includeEmptyBeds: includeAll,
+    groupBy: pdfSettings.groupBy,
+    includeSubTotals: groupByFloor && Boolean(pdfSettings.includeFloorSubtotals),
+    includeGrandTotal: Boolean(pdfSettings.includeGrandTotal),
+    includeHostelName: Boolean(pdfSettings.includePropertyAndPeriod),
+    // The whole sheet is exported, never one page.
+    isPaginated: false,
+  };
 };
 
 // Amount columns that are added up in subtotals and the grand total.
@@ -362,16 +491,16 @@ const paginateExportData = (
     items: pageItems.map((item, position) =>
       item.type === "row"
         ? {
-            ...item,
-            showFloor:
-              item.groupLabel === null || position === 0 || item.firstInGroup,
-            // A subtotal row already divides floors, so no extra rule then.
-            separatorAbove:
-              item.groupLabel !== null &&
-              item.firstInGroup &&
-              position > 0 &&
-              pageItems[position - 1].type !== "subtotal",
-          }
+          ...item,
+          showFloor:
+            item.groupLabel === null || position === 0 || item.firstInGroup,
+          // A subtotal row already divides floors, so no extra rule then.
+          separatorAbove:
+            item.groupLabel !== null &&
+            item.firstInGroup &&
+            position > 0 &&
+            pageItems[position - 1].type !== "subtotal",
+        }
         : item,
     ),
   }));
@@ -480,6 +609,21 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
     ? "All tenants and empty beds"
     : "Pending tenants only";
   const filtersText = truncateText(buildFiltersSummary(meta.filters), 420, 10);
+  // Server time from footerInfo when the API sent it.
+  const generatedText =
+    meta.generatedLabel || dayjs(meta.generatedAt).format("DD MMM YYYY, HH:mm");
+  const propertyLine = truncateText(
+    [
+      "Invoice Register",
+      meta.propertyName,
+      meta.propertyAddress,
+      meta.propertyMobile ? `Ph: ${meta.propertyMobile}` : "",
+    ]
+      .filter(Boolean)
+      .join(" · "),
+    CONTENT_WIDTH,
+    12,
+  );
 
   const firstTotalIndex = columns.findIndex((column) => column.isTotal);
   const leadingColumns =
@@ -496,34 +640,34 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
   const renderTotalsRow = (item, height, borderTop, borderBottom, styles) => {
     const cellHeight = height - borderTop - borderBottom;
     return (
-    <div
-      key={`${item.type}-${item.label}`}
-      data-pdf-item={item.type}
-      style={{
-        display: "flex",
-        height,
-        boxSizing: "border-box",
-        ...styles,
-      }}
-    >
-      <div style={cellStyle(cellHeight, leadingWidth, "left")}>
-        <PdfText size={styles.fontSize}>{item.label}</PdfText>
-      </div>
-      {trailingColumns.map((column) => (
-        <div
-          key={column.key}
-          style={cellStyle(
-            cellHeight,
-            column.widthPercent,
-            column.align === "center" ? "center" : "right",
-          )}
-        >
-          <PdfText size={styles.fontSize}>
-            {column.isTotal ? formatExportTotal(column.key, item.totals) : ""}
-          </PdfText>
+      <div
+        key={`${item.type}-${item.label}`}
+        data-pdf-item={item.type}
+        style={{
+          display: "flex",
+          height,
+          boxSizing: "border-box",
+          ...styles,
+        }}
+      >
+        <div style={cellStyle(cellHeight, leadingWidth, "left")}>
+          <PdfText size={styles.fontSize}>{item.label}</PdfText>
         </div>
-      ))}
-    </div>
+        {trailingColumns.map((column) => (
+          <div
+            key={column.key}
+            style={cellStyle(
+              cellHeight,
+              column.widthPercent,
+              column.align === "center" ? "center" : "right",
+            )}
+          >
+            <PdfText size={styles.fontSize}>
+              {column.isTotal ? formatExportTotal(column.key, item.totals) : ""}
+            </PdfText>
+          </div>
+        ))}
+      </div>
     );
   };
 
@@ -594,10 +738,16 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
         <div style={{ fontSize: 20, fontWeight: 700, color: "#020618", lineHeight: "26px" }}>
           <PdfText size={20}>Pending Collection Sheet</PdfText>
         </div>
-        <div style={{ fontSize: 12, color: "#62748E", lineHeight: "18px" }}>
-          <PdfText size={12}>
-            Invoice Register{meta.propertyName ? ` · ${meta.propertyName}` : ""}
-          </PdfText>
+        <div
+          style={{
+            fontSize: 12,
+            color: "#62748E",
+            lineHeight: "18px",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          <PdfText size={12}>{propertyLine}</PdfText>
         </div>
         <div
           style={{
@@ -619,7 +769,7 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
             <b>Filters:</b> {filtersText}
           </PdfText>
           <PdfText size={10} style={{ marginLeft: "auto" }}>
-            <b>Generated:</b> {dayjs(meta.generatedAt).format("DD MMM YYYY, HH:mm")}
+            <b>Generated:</b> {generatedText}
           </PdfText>
         </div>
       </div>
@@ -638,7 +788,7 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
         </div>
         <div style={{ fontSize: 10, lineHeight: "18px", color: "#62748E" }}>
           <PdfText size={10}>
-            Generated {dayjs(meta.generatedAt).format("DD MMM YYYY, HH:mm")}
+            Generated {generatedText}
           </PdfText>
         </div>
       </div>
@@ -756,6 +906,9 @@ ConsolidatedReportPage.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   meta: PropTypes.shape({
     propertyName: PropTypes.string,
+    propertyAddress: PropTypes.string,
+    propertyMobile: PropTypes.string,
+    generatedLabel: PropTypes.string,
     period: PropTypes.object,
     includeAllTenants: PropTypes.bool,
     filters: PropTypes.object,
@@ -784,10 +937,12 @@ const iconButton =
 // Pages are paginated, rendered off-screen, captured to images and assembled
 // into a PDF; the same images are shown here, so preview = download.
 function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
   const [status, setStatus] = useState(STATUS.PREPARING);
   const [progress, setProgress] = useState({ done: 0, total: 0 });
   const [images, setImages] = useState([]);
-  const [pdf, setPdf] = useState(null);
+  const [downloading, setDownloading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [zoom, setZoom] = useState(null); // null = fit to view
   const [fitScale, setFitScale] = useState(1);
@@ -820,7 +975,6 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
   // When hidden, clear the previous result so a stale preview never flashes.
   useEffect(() => {
     setImages([]);
-    setPdf(null);
     setPageIndex(0);
     setZoom(null);
     if (!show || !exportData) {
@@ -857,7 +1011,6 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
         });
         if (cancelled) return;
         setImages(result.images);
-        setPdf(result.pdf);
         setStatus(STATUS.READY);
       } catch {
         if (!cancelled) setStatus(STATUS.ERROR);
@@ -912,11 +1065,37 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [show, status, pageIndex, goTo]);
 
+  // Download PDF -> backend (POST /v2/reports/download/invoice/consolidated/:hostelId)
+  // with the same request body used to fetch this preview.
   const handleDownload = () => {
-    if (pdf) downloadPdf(pdf, fileName);
+    console.log("exportData", exportData)
+    const hostelId = state.login?.selectedHostel_Id;
+    if (!exportData?.request || !hostelId) return;
+    setDownloading(true);
+    dispatch({
+      type: "REPORTS_CONSOLIDATED_INVOICE_PDFSAGA",
+      payload: { hostelId, filters: exportData.request },
+    });
   };
 
+  useEffect(() => {
+    if (state.reports?.reportsConsolidatedInvoicePdfSuccess === 200) {
+      setDownloading(false);
+      const result = state.reports?.reportsConsolidatedInvoicePdf;
+      const pdfUrl = typeof result === "string" ? result : result?.url;
+      if (pdfUrl) window.open(pdfUrl, "_blank");
+      dispatch({ type: "REMOVE_REPORTS_CONSOLIDATED_INVOICE_PDF_REDUCER" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.reports?.reportsConsolidatedInvoicePdfSuccess]);
+
+  useEffect(() => {
+    if (state.reports?.reportsPdfExportError) setDownloading(false);
+  }, [state.reports?.reportsPdfExportError]);
+
   const isReady = status === STATUS.READY;
+  // The backend builds the PDF, so Download only needs the request body.
+  const canDownload = Boolean(exportData?.request) && !downloading;
 
   return (
     <Modal
@@ -1008,11 +1187,10 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
                   type="button"
                   onClick={() => setZoom(null)}
                   aria-pressed={zoom === null}
-                  className={`flex items-center gap-1 h-[36px] px-[12px] rounded-[10px] border-[1px] text-[14px] font-medium ${
-                    zoom === null
-                      ? "border-[#1E45E1] bg-[#EFF6FF] text-[#1E45E1]"
-                      : "border-[#E2E8F0] bg-white text-[#314158]"
-                  }`}
+                  className={`flex items-center gap-1 h-[36px] px-[12px] rounded-[10px] border-[1px] text-[14px] font-medium ${zoom === null
+                    ? "border-[#1E45E1] bg-[#EFF6FF] text-[#1E45E1]"
+                    : "border-[#E2E8F0] bg-white text-[#314158]"
+                    }`}
                 >
                   <Maximize4 size="14" color={zoom === null ? "#1E45E1" : "#314158"} />
                   Fit
@@ -1024,11 +1202,15 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
           <button
             type="button"
             onClick={handleDownload}
-            disabled={!isReady}
+            disabled={!canDownload}
             className="flex items-center gap-2 h-[36px] px-[16px] rounded-[10px] bg-[#1E45E1] text-white text-[14px] font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <DocumentDownload size="16" color="#FFFFFF" />
-            Download PDF
+            {downloading ? (
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <DocumentDownload size="16" color="#FFFFFF" />
+            )}
+            {downloading ? "Downloading…" : "Download PDF"}
           </button>
           <button
             type="button"
@@ -1151,13 +1333,15 @@ ConsolidatedExportPreview.propTypes = {
     grandTotal: PropTypes.object,
     settings: PropTypes.object,
     meta: PropTypes.object,
+    request: PropTypes.object,
   }),
   onBack: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
 // ---- from ConsolidatedExportSettings.jsx ----
-const { RangePicker } = DatePicker;
+// Used by the Date Range field, which is commented out in the Report Scope.
+// const { RangePicker } = DatePicker;
 
 const OVERDUE_OPTION = "Overdue";
 
@@ -1214,14 +1398,12 @@ function SettingToggle({ id, checked, onChange, disabled = false, label }) {
       aria-label={label}
       disabled={disabled}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-[24px] w-[44px] flex-shrink-0 items-center rounded-full transition-colors ${
-        checked ? "bg-[#1E45E1]" : "bg-[#CAD5E2]"
-      } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+      className={`relative inline-flex h-[24px] w-[44px] flex-shrink-0 items-center rounded-full transition-colors ${checked ? "bg-[#1E45E1]" : "bg-[#CAD5E2]"
+        } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
     >
       <span
-        className={`inline-block h-[16px] w-[16px] rounded-full bg-white shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] transition-transform ${
-          checked ? "translate-x-[24px]" : "translate-x-[4px]"
-        }`}
+        className={`inline-block h-[16px] w-[16px] rounded-full bg-white shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] transition-transform ${checked ? "translate-x-[24px]" : "translate-x-[4px]"
+          }`}
       />
     </button>
   );
@@ -1320,10 +1502,19 @@ function ExportSettingsPanel({
   savedPrefs,
   onSavePrefs,
   floorOptions,
+  register,
   propertyName,
   onPrepared,
   isBehindPreview = false,
 }) {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  // Body of the export fetch in flight (null = nothing pending).
+  const pendingRequestRef = useRef(null);
+  const groupByOptions = useMemo(
+    () => getExportGroupByOptions(register),
+    [register],
+  );
   const [range, setRange] = useState(null);
   const [statuses, setStatuses] = useState([]);
   const [floors, setFloors] = useState([]);
@@ -1355,9 +1546,12 @@ function ExportSettingsPanel({
         ? normaliseExportColumnKeys(columns, savedPrefs.columnKeys)
         : getDefaultExportColumnKeys(columns),
     );
-    setPdfSettings(savedPrefs?.pdfSettings || DEFAULT_EXPORT_PDF_SETTINGS);
+    // Defaults come from the API flags (includeSubTotals, includeGrandTotal,
+    // includeHostelName) until the user has exported once.
+    setPdfSettings(savedPrefs?.pdfSettings || getExportPdfSettings(register));
     setStep(STEP.CONFIGURE);
     setErrors([]);
+    pendingRequestRef.current = null;
     // Seed only when the panel opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
@@ -1415,50 +1609,110 @@ function ExportSettingsPanel({
   const updatePdf = (field, value) =>
     setPdfSettings((prev) => ({ ...prev, [field]: value }));
 
+  const NO_ROWS_MESSAGE =
+    "No tenant stays match this scope. Change the filters or include fully paid tenants and empty beds.";
+
+  // Only the date range is checked here; the row count is checked on the
+  // API result (see the effect below).
   const validate = () => {
     const messages = [];
     if (!exportPeriod) {
       messages.push("Select a date range for the export.");
     }
-    if (exportPeriod && liveData?.rowCount === 0) {
-      messages.push(
-        "No tenant stays match this scope. Change the filters or include fully paid tenants and empty beds.",
-      );
-    }
     return messages;
   };
 
+  // Preview & Export PDF -> GET_REPORTS_CONSOLIDATED_INVOICE_SAGA with this
+  // export's scope and PDF flags (isExport keeps the table data untouched).
   const handlePrepare = () => {
     const messages = validate();
     setErrors(messages);
     if (messages.length > 0) return;
+    const hostelId = state.login?.selectedHostel_Id;
+    if (!hostelId) return;
 
+    const request = buildConsolidatedExportRequest(
+      exportScope,
+      pdfSettings,
+      getFloorIdsByName(register, beds),
+    );
+    pendingRequestRef.current = request;
     setStep(STEP.PREPARING);
-    // Let the Preparing state render before building the export data.
-    setTimeout(() => {
-      try {
-        const data = buildExportData(beds, exportScope, exportSettings);
-        onSavePrefs({
-          columnKeys: exportSettings.columnKeys,
-          pdfSettings,
-        });
-        setStep(STEP.CONFIGURE);
-        // Hand over to the PDF preview, with the report details it prints.
-        onPrepared({
-          ...data,
-          meta: {
-            propertyName,
-            period: exportPeriod,
-            includeAllTenants,
-            filters: exportFilters,
-            generatedAt: new Date(),
-          },
-        });
-      } catch {
-        setStep(STEP.ERROR);
-      }
-    }, 0);
+    dispatch({
+      type: "GET_REPORTS_CONSOLIDATED_INVOICE_SAGA",
+      payload: { hostelId, filters: request, isExport: true },
+    });
   };
+
+  // API response -> export rows, PDF settings and report details.
+  useEffect(() => {
+    if (state.reports?.consolidatedInvoiceExportSuccess !== 200) return;
+    const response = state.reports?.consolidatedInvoiceExport;
+    const request = pendingRequestRef.current;
+    pendingRequestRef.current = null;
+    dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER" });
+    if (!request) return;
+
+    try {
+      const info = getExportReportInfo(response);
+      const settings = {
+        ...exportSettings,
+        ...getExportPdfSettings(response, pdfSettings),
+      };
+      // The API already applied search, status, floors and the paid/empty-bed
+      // flags, so its rows are used as-is. Only Overdue (no API field) is
+      // applied here.
+      const data = buildExportData(
+        normaliseConsolidatedBeds(response),
+        {
+          ...exportScope,
+          filters: {
+            ...DEFAULT_CONSOLIDATED_FILTERS,
+            overdueOnly: exportFilters.overdueOnly,
+          },
+          includeAllTenants: true,
+        },
+        settings,
+      );
+      setStep(STEP.CONFIGURE);
+      // API returned 200 but nothing to export -> keep the panel open.
+      if (data.rowCount === 0) {
+        setErrors([NO_ROWS_MESSAGE]);
+        return;
+      }
+      onSavePrefs({ columnKeys: exportSettings.columnKeys, pdfSettings });
+      // Hand over to the PDF preview, with the report details it prints and
+      // the request body the Download PDF call reuses.
+      onPrepared({
+        ...data,
+        request,
+        meta: {
+          propertyName: info.propertyName || propertyName,
+          propertyAddress: info.propertyAddress,
+          propertyMobile: info.propertyMobile,
+          period: info.period || exportPeriod,
+          generatedLabel: info.generatedLabel,
+          includeAllTenants,
+          filters: exportFilters,
+          generatedAt: new Date(),
+        },
+      });
+    } catch {
+      setStep(STEP.ERROR);
+    }
+    // Runs only when the export fetch finishes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.reports?.consolidatedInvoiceExportSuccess]);
+
+  useEffect(() => {
+    if (!state.reports?.consolidatedInvoiceExportError) return;
+    if (pendingRequestRef.current) {
+      pendingRequestRef.current = null;
+      setStep(STEP.ERROR);
+    }
+    dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.reports?.consolidatedInvoiceExportError]);
 
   const footerSummary = [
     `${liveData?.occupiedCount ?? 0} tenant stays`,
@@ -1491,7 +1745,7 @@ function ExportSettingsPanel({
         </SectionTitle>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-[12px] sm:gap-[16px] pt-[12px]">
-          <div>
+          {/* <div>
             <span className={fieldLabel}>Date Range · Invoice Date</span>
             <RangePicker
               allowClear={false}
@@ -1507,7 +1761,7 @@ function ExportSettingsPanel({
                 fontFamily: "Gilroy",
               }}
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor="export-status" className={fieldLabel}>
               Collection Status
@@ -1630,9 +1884,8 @@ function ExportSettingsPanel({
             return (
               <label
                 key={column.key}
-                className={`flex items-center justify-between min-h-[36px] px-[12px] py-[6px] mb-0 rounded-[10px] border-[1px] border-[#DBEAFE] bg-[rgba(239,246,255,0.6)] ${
-                  locked ? "cursor-not-allowed" : "cursor-pointer"
-                }`}
+                className={`flex items-center justify-between min-h-[36px] px-[12px] py-[6px] mb-0 rounded-[10px] border-[1px] border-[#DBEAFE] bg-[rgba(239,246,255,0.6)] ${locked ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
               >
                 <span className="flex items-center gap-[10px]">
                   <input
@@ -1681,7 +1934,7 @@ function ExportSettingsPanel({
                   onChange={(e) => updatePdf("groupBy", e.target.value)}
                   className={`${fieldBox} cursor-pointer`}
                 >
-                  {EXPORT_GROUP_BY_OPTIONS.map((option) => (
+                  {groupByOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
@@ -1933,6 +2186,7 @@ ExportSettingsPanel.propTypes = {
   }),
   onSavePrefs: PropTypes.func.isRequired,
   floorOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  register: PropTypes.object,
   propertyName: PropTypes.string,
   onPrepared: PropTypes.func.isRequired,
   isBehindPreview: PropTypes.bool,
@@ -1941,15 +2195,29 @@ ExportSettingsPanel.propTypes = {
 // ---- Export Pending Collection Sheet (the only component the page uses) ----
 // Settings drawer -> Prepare -> PDF preview (Back returns to the settings).
 // Chosen columns and PDF settings are remembered while the page is open.
-function ConsolidatedExportSettings({
-  show,
-  onClose,
-  beds,
-  scope,
-  columns,
-  floorOptions,
-  propertyName,
-}) {
+function ConsolidatedExportSettings({ show, onClose, onPreviewClosed, scope }) {
+  // Data straight from the reducer (GET_REPORTS_CONSOLIDATED_INVOICE_SAGA).
+  const state = useSelector((state) => state);
+  const register = state?.reports?.getConsolidatedInvoice;
+  const beds = useMemo(() => normaliseConsolidatedBeds(register), [register]);
+  const columns = useMemo(
+    () => buildConsolidatedColumns(register?.tableColumns),
+    [register],
+  );
+  const floorOptions = useMemo(
+    () => getConsolidatedFloorOptions(register, beds),
+    [register, beds],
+  );
+  // Sidebar stores the selected property name; used if the API has none.
+  let selectedHostelName = "";
+  try {
+    selectedHostelName = localStorage.getItem("selectedHostelName") || "";
+  } catch {
+    selectedHostelName = "";
+  }
+  const propertyName =
+    register?.hostelInformation?.hostelName || selectedHostelName;
+
   const [exportPrefs, setExportPrefs] = useState(null);
   const [exportPreviewData, setExportPreviewData] = useState(null);
 
@@ -1964,6 +2232,7 @@ function ConsolidatedExportSettings({
         savedPrefs={exportPrefs}
         onSavePrefs={setExportPrefs}
         floorOptions={floorOptions}
+        register={register}
         propertyName={propertyName}
         onPrepared={setExportPreviewData}
         isBehindPreview={Boolean(exportPreviewData)}
@@ -1975,6 +2244,8 @@ function ConsolidatedExportSettings({
         onClose={() => {
           setExportPreviewData(null);
           onClose();
+          // Page reloads its paginated data (isPaginated: true).
+          onPreviewClosed?.();
         }}
       />
     </>
@@ -1984,15 +2255,12 @@ function ConsolidatedExportSettings({
 ConsolidatedExportSettings.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  beds: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onPreviewClosed: PropTypes.func,
   scope: PropTypes.shape({
     filters: PropTypes.object,
     period: PropTypes.object,
     includeAllTenants: PropTypes.bool,
   }).isRequired,
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  floorOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  propertyName: PropTypes.string,
 };
 
 export default ConsolidatedExportSettings;
