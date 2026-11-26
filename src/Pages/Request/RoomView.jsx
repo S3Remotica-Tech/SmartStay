@@ -36,7 +36,7 @@ function RoomView(props) {
   return (
     <div className="lg:px-4  ">
       {roomList?.length > 0 ? (
-        <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 overflow-y-auto max-h-[400px] show-scrolls">
+        <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 xl:grid-cols-4 overflow-y-auto max-h-[400px] show-scrolls">
           {roomList?.map((room) => {
           
 

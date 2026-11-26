@@ -428,7 +428,7 @@ function ParticularHostelDetails(props) {
       {roomList?.length > 0 ? (
 
         <div className="flex-1 min-h-0 overflow-y-auto show-scrolls pr-2">
-          <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4">
+          <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
             {roomList.map((room, index) => (
               <div key={room.id || index} className="flex justify-center ">
                 <div className="w-full h-full fade-in border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white">

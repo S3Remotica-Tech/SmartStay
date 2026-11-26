@@ -179,7 +179,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
             )}
           </div>
           <div className="max-h-[400px] overflow-y-auto show-scrolls px-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
               {roomList?.length > 0
                 ? roomList?.map((room) => {
                     // const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
