@@ -20,6 +20,7 @@ import {
   AuthSubmitButton,
   GoogleAuthButton,
   PasswordToggle,
+  useAuthLaptopDensity,
 } from "./NewAuth/AuthParts";
 import { SignupPromoCard } from "./NewAuth/AuthPromoCards";
 // passwordRuleErrors: same rules and wording as CreateAccount.jsx, shared
@@ -32,6 +33,7 @@ import {
 import Select from "react-select";
 import {
   authFieldInput,
+  authFieldShell,
   authInlineLink,
   authLabelText,
   authSelectStyles,
@@ -45,8 +47,8 @@ import LocationIcon from "../Assets/Images/NewLogin/location.svg";
 const isDev = import.meta.env.MODE === "development";
 
 // Fields shrink a little on short screens so the form fits without scroll.
-const FIELD_H = "h-[clamp(44px,6.5vh,50px)]";
-const FIELD_H_CSS = "clamp(44px, 6.5vh, 50px)";
+const FIELD_H = "h-[clamp(42px,5.8vh,50px)]";
+const FIELD_H_CSS = "clamp(42px, 5.8vh, 50px)";
 
 // State select sized like the other fields (authSelectStyles is fixed 50px).
 const stateSelectStyles = (() => {
@@ -93,6 +95,7 @@ const chevron = (
 );
 
 function NewSignupPage() {
+  useAuthLaptopDensity();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -461,8 +464,7 @@ function NewSignupPage() {
         onSubmit={handleCreateAccount}
         className="flex w-full flex-col"
       >
-        {/* lg: two fields per row so the whole form fits without scroll. */}
-        <div className="grid w-full grid-cols-1 gap-[clamp(8px,1.4vh,16px)] lg:grid-cols-2 lg:gap-x-[16px]">
+        <div className="flex w-full flex-col gap-[clamp(8px,1.4vh,16px)]">
           <AuthField
             id="signup-full-name"
             label="Full Name"
@@ -592,19 +594,17 @@ function NewSignupPage() {
               the Add Tenant address list. Leaving it empty is fine. */}
           {isDev && (
             <div className="flex w-full flex-col gap-[clamp(6px,1.2vh,12px)]">
-              <div className="flex items-center justify-between">
-                <label htmlFor="signup-state" className={authLabelText}>
-                  Region
-                </label>
-                <span
+              <label htmlFor="signup-state" className={authLabelText}>
+                Region
+              </label>
+              <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
+                <div
                   aria-label="Country: India"
-                  className="flex items-center gap-[6px] font-tasa text-[14px] leading-[normal] text-[#49475A]"
+                  className={`${authFieldShell(false, FIELD_H)} cursor-default hover:bg-white`}
                 >
-                  <img src={GlobeIcon} alt="" width="16" height="16" />
-                  India
-                </span>
-              </div>
-              <div>
+                  <img src={GlobeIcon} alt="" width="21" height="21" />
+                  <span className="font-tasa text-[16px] text-[#222222]">India</span>
+                </div>
                 <div className="relative">
                   <img
                     src={LocationIcon}
@@ -641,7 +641,7 @@ function NewSignupPage() {
             id="signup-agree"
             checked={agreed}
             onChange={(e) => setAgreed(e.target.checked)}
-            className="!items-center !gap-[7px] lg:col-span-2"
+            className="!items-center !gap-[7px]"
             label={
               <span className="font-tasa text-[16px] font-normal leading-[20px] tracking-[-0.02px] text-[#0A090B]">
                 I Agree all the{" "}
