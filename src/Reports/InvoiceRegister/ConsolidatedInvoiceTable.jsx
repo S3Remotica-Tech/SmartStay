@@ -1025,6 +1025,7 @@ StatusBadge.propTypes = {
 
 function ConsolidatedInvoiceTable({
   viewSwitcher,
+  pagination = null,
   beds = [],
   tableColumns = [],
   onColumnsSaved,
@@ -1422,7 +1423,10 @@ function ConsolidatedInvoiceTable({
 
           <div className="shrink-0 flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[4px] px-[12px] sm:px-[20px] py-[12px] border-t border-[#E2E8F0] bg-white text-[13px] sm:text-[14px] leading-[20px] text-[#62748E]">
             <span>{isLoading ? "Loading collection sheet…" : footerText}</span>
-            <span>Grouped by Floor → Room → Bed</span>
+            <div className="flex flex-wrap items-center gap-x-[16px] gap-y-[8px]">
+              <span>Grouped by Floor → Room → Bed</span>
+              {pagination}
+            </div>
           </div>
         </div>
       )}
@@ -1441,6 +1445,8 @@ function ConsolidatedInvoiceTable({
 
 ConsolidatedInvoiceTable.propTypes = {
   viewSwitcher: PropTypes.node,
+  // ApiPagination for the server pages, rendered in the footer.
+  pagination: PropTypes.node,
   beds: PropTypes.arrayOf(PropTypes.object),
   tableColumns: PropTypes.arrayOf(PropTypes.object),
   onColumnsSaved: PropTypes.func,
