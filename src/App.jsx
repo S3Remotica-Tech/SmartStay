@@ -190,9 +190,9 @@ function App() {
           <>
             {/* Onboarding is development only for now; production renders Sidebar as before. */}
             {isDev ? (
-              <OnboardingGate>
-                <Sidebar />
-              </OnboardingGate>
+              // <OnboardingGate>
+              <Sidebar />
+              // </OnboardingGate>
             ) : (
               <Sidebar />
             )}

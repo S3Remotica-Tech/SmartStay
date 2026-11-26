@@ -1198,7 +1198,7 @@ function NewInvoice() {
                                 return updated;
                               });
                             }}
-                            className={fieldClass(!!rowErrors[index].itemType)}
+                            className={fieldClass(!!rowErrors[index]?.amount)}
                           />
                         </td>
 

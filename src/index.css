@@ -42,19 +42,3 @@ input[type=number] {
     font-size: 90%;
   }
 }
-
-/* Auth screens (login/signup): the form column is height-bound, so on short
-   laptop viewports (e.g. 1536x~730 after browser chrome) compact its vertical
-   rhythm. Defaults = original Figma values. */
-:root {
-  --auth-field-h: 50px;
-  --auth-gap: 20px;
-  --auth-chrome: 112px;
-}
-@media (min-width: 1024px) and (max-height: 820px) {
-  :root {
-    --auth-field-h: 42px;
-    --auth-gap: 12px;
-    --auth-chrome: 84px;
-  }
-}
