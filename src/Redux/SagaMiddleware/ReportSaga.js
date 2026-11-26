@@ -2,7 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from "react-toastify";
-import { ReportsExpensePDF, ReportsInvoicePDF, ReportsTenantRegisterPDF, ReportsReceiptsPDF, getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
+import { ReportsExpensePDF, ReportsInvoicePDF, ReportsConsolidatedInvoicePDF, ReportsTenantRegisterPDF, ReportsReceiptsPDF, getReportsDetails, getInvoiceRegister, getConsolidatedInvoiceRegister, consolidatedInvoiceCustomizeData, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
 
 
 function* handleApiError(error) {
@@ -72,6 +72,90 @@ function* handleGetInvoiceRegister(action) {
 
    }
 
+
+}
+
+function* handleGetConsolidatedInvoiceRegister(action) {
+   try {
+      // isExport: the Export Pending Collection Sheet uses the same API with its
+      // own scope; its result goes to separate keys so the table is untouched.
+      const { hostelId, filters, isExport } = action.payload;
+      const response = yield call(getConsolidatedInvoiceRegister, hostelId, filters)
+
+      const hostel_Id = GlobalHostelId(response);
+      if (hostel_Id) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
+      }
+      if (response?.status === 200) {
+         yield put({
+            type: isExport ? 'GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER' : 'GET_REPORTS_CONSOLIDATED_INVOICE_REDUCER',
+            payload: { response: response.data || [], statusCode: response?.status }
+         })
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+      if (error) {
+         yield put({
+            type: action.payload?.isExport ? 'GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR' : 'GET_REPORTS_CONSOLIDATED_INVOICE_ERROR',
+            payload: error?.response?.data || error?.message || "Something went wrong"
+         })
+      }
+
+   }
+
+}
+
+function* handleCustomizeConsolidatedInvoice(action) {
+   try {
+      const response = yield call(consolidatedInvoiceCustomizeData, action.payload)
+
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+      };
+
+      const hostel_Id = GlobalHostelId(response);
+      if (hostel_Id) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
+      }
+      if (response?.status === 200) {
+         yield put({ type: 'CONSOLIDATED_INVOICE_CUSTOMIZE_REDUCER', payload: { response: response.data, statusCode: response?.status } })
+
+         toast.success("Updated successfully!", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+      if (error) {
+         yield put({ type: 'CONSOLIDATED_INVOICE_CUSTOMIZE_ERROR', payload: error?.response?.data || error?.message })
+      }
+
+   }
 
 }
 
@@ -292,6 +376,41 @@ function* handleReportsInvoicePDF(action) {
 }
 
 
+function* handleReportsConsolidatedInvoicePDF(action) {
+   try {
+      const response = yield call(ReportsConsolidatedInvoicePDF, action.payload)
+
+      if (response?.status === 200) {
+         yield put({
+            type: 'REPORTS_CONSOLIDATED_INVOICE_PDF_REDUCER', payload:
+            {
+               response: response.data, statusCode: response?.status
+            }
+         })
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+
+      // Always report the failure so the Download button stops its spinner.
+      yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error?.response?.data || error?.message || "Download failed" } })
+      if (error?.response?.status === 400 || error?.status === 400) {
+         toast.error(`${error?.response?.data || error}`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" }
+         })
+      }
+   }
+}
+
+
 function* handleReportsExpensePDF(action) {
    try {
       const response = yield call(ReportsExpensePDF, action.payload)
@@ -347,6 +466,8 @@ function* handleReportsExpensePDF(action) {
 function* ReportSaga() {
    yield takeEvery('GET_REEPORTS_SAGA', handleReportsDetails)
    yield takeEvery('GET_REPORTS_INVOICE_REGISTER_SAGA', handleGetInvoiceRegister)
+   yield takeEvery('GET_REPORTS_CONSOLIDATED_INVOICE_SAGA', handleGetConsolidatedInvoiceRegister)
+   yield takeEvery('CONSOLIDATED_INVOICE_CUSTOMIZE_SAGA', handleCustomizeConsolidatedInvoice)
    yield takeEvery('GET_REPORTS_EXPENSE_REGISTER_SAGA', handleGetExpenseRegister)
    yield takeEvery('GET_REPORTS_RECEIPT_REGISTER_SAGA', handleGetReceiptRegister)
    yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
@@ -354,6 +475,7 @@ function* ReportSaga() {
    yield takeEvery('REPORTS_RECEIPT_REGISTER_PDFSAGA', handleReportsReceiptsPDF)
    yield takeEvery('REPORTS_INVOICE_REGISTER_PDFSAGA', handleReportsInvoicePDF)
    yield takeEvery('REPORTS_EXPENSE_REGISTER_PDFSAGA', handleReportsExpensePDF)
+   yield takeEvery('REPORTS_CONSOLIDATED_INVOICE_PDFSAGA', handleReportsConsolidatedInvoicePDF)
 
 }
 export default ReportSaga;

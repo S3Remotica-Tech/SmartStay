@@ -753,7 +753,7 @@ function PgList() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center bg-white h-screen">
+                  <div className="flex flex-col items-center bg-white">
                     {floorList?.map((floor, index) =>
                       index >= visibleRange[0] && index <= visibleRange[1] ? (
                         <div
