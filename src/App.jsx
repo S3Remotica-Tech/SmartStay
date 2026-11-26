@@ -32,7 +32,7 @@ import ThankYou from "./NewV2LandingPage/ThankYou";
 import Sidebar from "./Components/Sidebar";
 // Property Setup onboarding. Behind VITE_ENABLE_ONBOARDING (default off):
 // when off, OnboardingGate renders <Sidebar /> exactly as before.
-import OnboardingGate from "./Pages/OnboardingFile/OnboardingGate";
+// import OnboardingGate from "./Pages/OnboardingFile/OnboardingGate";
 import { isDev, isOnboardingEnabled } from "./Pages/OnboardingFile/onboardingConfig";
 import { messaging, onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";

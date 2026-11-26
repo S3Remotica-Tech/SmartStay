@@ -535,7 +535,7 @@ const buildExportFileName = (propertyName, period) => {
   if (safe(propertyName)) parts.push(safe(propertyName));
   if (period?.from && period?.to) {
     parts.push(
-      `${dayjs(period.from).format("YYYY-MM-DD")}_to_${dayjs(period.to).format("YYYY-MM-DD")}`,
+      `${dayjs(period.from).format("DD-MM-YYYY")}_to_${dayjs(period.to).format("DD-MM-YYYY")}`,
     );
   }
   return `${parts.join("_")}.pdf`;
@@ -603,6 +603,8 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
   { page, columns, meta, showPropertyAndPeriod },
   ref,
 ) {
+
+  console.log("meta", meta)
   const layout = PDF_LAYOUT;
   const periodLabel = formatPeriodLabel(meta.period);
   const scopeLabel = meta.includeAllTenants
