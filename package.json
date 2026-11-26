@@ -119,7 +119,7 @@
     "preview": "vite preview",
     "test": "jest --coverage",
     "e2e": "playwright test",
-    "e2e:codegen": "playwright codegen --save-storage=playwright/.auth/user.json --output=e2e/recorded.spec.js --viewport-size=1366,700  http://localhost:5173/hostel-management-login"
+    "e2e:codegen": "playwright codegen --save-storage=playwright/.auth/user.json --output=e2e/recorded.spec.js --viewport-size=1260,580 http://localhost:5173/hostel-management-login"
   },
   "eslintConfig": {
     "extends": [
