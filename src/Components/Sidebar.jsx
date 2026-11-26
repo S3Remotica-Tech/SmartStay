@@ -122,6 +122,11 @@ import BillTemplates from "../Pages/Settings/BillTemplates/BillTemplates";
 import CustomTooltip from "../Utils/CustomTooltip";
 
 function Sidebar() {
+  // Laptop density (index.css): only the logged-in product, not login/landing.
+  useEffect(() => {
+    document.documentElement.classList.add("app-density");
+    return () => document.documentElement.classList.remove("app-density");
+  }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();

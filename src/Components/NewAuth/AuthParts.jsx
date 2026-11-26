@@ -33,7 +33,7 @@ import AppStoreBadge from "../../Assets/Images/NewLogin/app-store.svg";
 export function AuthLayout({ card, header, footer, children }) {
   const navigate = useNavigate();
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-white font-tasa [--auth-h:min(880px,calc(100vh-112px))] lg:h-screen lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(40px,6vw,117px)] lg:overflow-hidden lg:px-[clamp(24px,4.3vw,66px)]">
+    <div className="relative flex min-h-screen w-full flex-col bg-white font-tasa [--auth-h:min(880px,calc(100vh-var(--auth-chrome)))] lg:h-screen lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(40px,6vw,117px)] lg:overflow-hidden lg:px-[clamp(24px,4.3vw,66px)]">
       {/* top-[0px], not top-0: Bootstrap's .top-0 is !important and would
           beat the lg:top value. */}
       <p className="fixed inset-x-0 top-[0px] z-20 mb-0 bg-white/95 px-[16px] py-[12px] text-right font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A] sm:px-[32px] lg:absolute lg:left-auto lg:right-[clamp(24px,6.5vw,99px)] lg:top-[clamp(12px,3.5vh,46px)] lg:bg-transparent lg:p-0">
@@ -53,14 +53,14 @@ export function AuthLayout({ card, header, footer, children }) {
           is !important and would keep auto margins on lg, pushing the column
           off-centre. */}
       <main className="mx-[auto] flex w-full max-w-[580px] flex-col px-[16px] pb-[32px] pt-[64px] lg:mx-[0px] lg:h-[var(--auth-h)] lg:min-w-0 lg:max-w-[548px] lg:flex-[0_1_548px] lg:justify-center lg:p-0">
-        {header && <div className="shrink-0 pb-[20px]">{header}</div>}
+        {header && <div className="shrink-0 pb-[var(--auth-gap)]">{header}</div>}
         {/* 4px inset so focus rings are not clipped by the scroll box. The
             scrollbar is hidden (it narrowed the fields vs. the footer button);
             12px fade edges show there is more to scroll. */}
-        <div className="-mx-[4px] flex min-h-0 flex-col gap-[20px] p-[4px] lg:overflow-y-auto lg:py-[12px] lg:[mask-image:linear-gradient(to_bottom,transparent,#000_12px,#000_calc(100%-12px),transparent)] lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
+        <div className="-mx-[4px] flex min-h-0 flex-col gap-[var(--auth-gap)] p-[4px] lg:overflow-y-auto lg:py-[12px] lg:[mask-image:linear-gradient(to_bottom,transparent,#000_12px,#000_calc(100%-12px),transparent)] lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
           {children}
         </div>
-        {footer && <div className="shrink-0 pt-[20px]">{footer}</div>}
+        {footer && <div className="shrink-0 pt-[var(--auth-gap)]">{footer}</div>}
       </main>
 
       {/* lg: pinned in the bottom gutter under the card + form; below lg: end of page. */}
@@ -199,7 +199,7 @@ export function AuthSubmitButton({
       type="submit"
       form={form}
       disabled={loading || disabled}
-      className={`flex h-[50px] w-full items-center justify-center gap-[8px] rounded-[8px] border-0 bg-primary-500 font-tasa text-[20px] font-medium text-white transition-opacity focus-visible:shadow-[0_0_0_2px_#FFFFFF,0_0_0_4px_#0485F7] ${state}`}
+      className={`flex h-[var(--auth-field-h)] w-full items-center justify-center gap-[8px] rounded-[8px] border-0 bg-primary-500 font-tasa text-[20px] font-medium text-white transition-opacity focus-visible:shadow-[0_0_0_2px_#FFFFFF,0_0_0_4px_#0485F7] ${state}`}
     >
       {loading ? (
         <>
@@ -236,7 +236,7 @@ export function GoogleAuthButton({ label }) {
         disabled
         aria-disabled="true"
         tabIndex={-1}
-        className={`flex h-[50px] w-full items-center justify-center gap-[17px] rounded-[8px] border-[1px] border-solid border-[#DDDDDD] bg-white ${authComingSoon}`}
+        className={`flex h-[var(--auth-field-h)] w-full items-center justify-center gap-[17px] rounded-[8px] border-[1px] border-solid border-[#DDDDDD] bg-white ${authComingSoon}`}
       >
         <img src={GoogleIcon} alt="" className="h-[23px] w-[23px] object-cover" />
         <span className="font-tasa text-[18px] font-medium text-[#222222] sm:text-[20px]">

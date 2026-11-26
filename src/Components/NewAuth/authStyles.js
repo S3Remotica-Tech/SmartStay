@@ -49,8 +49,8 @@ export const authSelectStyles = (hasError = false, leftPad = 16) => {
       ...base.control(b, s),
       ...font,
       fontWeight: 400,
-      minHeight: "50px",
-      height: "50px",
+      minHeight: "var(--auth-field-h, 50px)",
+      height: "var(--auth-field-h, 50px)",
       border: `1px solid ${hasError ? "#FF383C" : "#D9D9D9"}`,
       "&:hover": {
         borderColor: hasError ? "#FF383C" : "#D9D9D9",
@@ -61,7 +61,7 @@ export const authSelectStyles = (hasError = false, leftPad = 16) => {
     placeholder: (b) => ({ ...b, color: "#9C9C9C", fontWeight: 400 }),
     singleValue: (b) => ({ ...b, color: "#222222", fontWeight: 400 }),
     input: (b) => ({ ...b, margin: 0, padding: 0, color: "#222222" }),
-    indicatorsContainer: (b) => ({ ...b, height: "48px" }),
+    indicatorsContainer: (b) => ({ ...b, height: "calc(var(--auth-field-h, 50px) - 2px)" }),
     option: (b, s) => ({ ...base.option(b, s), ...font, fontSize: "15px", fontWeight: 400 }),
     noOptionsMessage: (b) => ({ ...base.noOptionsMessage(b), ...font, fontSize: "14px" }),
   };

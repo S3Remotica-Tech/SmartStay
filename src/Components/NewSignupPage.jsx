@@ -42,7 +42,7 @@ import ChevronDown from "../Assets/Images/NewLogin/chevron-down.svg";
 import GlobeIcon from "../Assets/Images/NewLogin/globe.svg";
 import LocationIcon from "../Assets/Images/NewLogin/location.svg";
 
-const FIELD_H = "h-[50px]";
+const FIELD_H = "h-[var(--auth-field-h)]";
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 const PHONE_REGEX = /^(?!0{10})[1-9][0-9]{9}$/;
 
@@ -371,9 +371,9 @@ function NewSignupPage() {
     <AuthLayout
       card={<SignupPromoCard />}
       header={
-        <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[var(--auth-gap)]">
           <AuthLogo />
-          <div className="flex flex-col gap-[18px] py-[6px]">
+          <div className="flex flex-col gap-[var(--auth-gap)] py-[6px]">
             <h1 className="mb-0 font-tasa text-[28px] font-medium leading-[25px] tracking-[0.16px] text-[#222222] sm:text-[32px]">
               Let&apos;s get started
             </h1>
@@ -434,7 +434,7 @@ function NewSignupPage() {
         onSubmit={handleCreateAccount}
         className="flex w-full flex-col"
       >
-        <div className="flex w-full flex-col gap-[16px]">
+        <div className="flex w-full flex-col gap-[var(--auth-gap)]">
           <AuthField
             id="signup-full-name"
             label="Full Name"
