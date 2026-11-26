@@ -1216,34 +1216,6 @@ function InvoiceRegister() {
             <Filter size="16" />
             Filter
           </button>
-          {/* On phones pagination drops to its own last row so Filter and
-              Export stay side by side. */}
-          {!isConsolidated && invoiceRegister?.invoiceList?.length > 0 && (
-            <div className="w-full sm:w-auto order-last sm:order-none">
-              <ApiPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalRecords={totalRecords}
-                onPageChange={handlePageChange}
-                onSizeChange={handleSizeChange}
-                size={size}
-                isTenantPagination={true}
-              />
-            </div>
-          )}
-          {isConsolidated && consolidatedTotalRecords > 0 && (
-            <div className="w-full sm:w-auto order-last sm:order-none">
-              <ApiPagination
-                currentPage={consolidatedCurrentPage}
-                totalPages={consolidatedTotalPages}
-                totalRecords={consolidatedTotalRecords}
-                onPageChange={handleConsolidatedPageChange}
-                onSizeChange={handleConsolidatedSizeChange}
-                size={consolidatedSize}
-                isTenantPagination={true}
-              />
-            </div>
-          )}
           <button
             onClick={() => {
               if (!isExportAllow) return;
@@ -1348,6 +1320,20 @@ function InvoiceRegister() {
         {isConsolidated && (
           <ConsolidatedInvoiceTable
             viewSwitcher={viewSwitcher}
+            // Shown in the table footer, next to "Grouped by …".
+            pagination={
+              consolidatedTotalRecords > 0 ? (
+                <ApiPagination
+                  currentPage={consolidatedCurrentPage}
+                  totalPages={consolidatedTotalPages}
+                  totalRecords={consolidatedTotalRecords}
+                  onPageChange={handleConsolidatedPageChange}
+                  onSizeChange={handleConsolidatedSizeChange}
+                  size={consolidatedSize}
+                  isTenantPagination={true}
+                />
+              ) : null
+            }
             beds={consolidatedBeds}
             tableColumns={consolidatedColumns}
             onColumnsSaved={handleConsolidatedColumnsSaved}
@@ -1545,6 +1531,23 @@ function InvoiceRegister() {
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* Pagination under the table, like the Consolidated View footer. */}
+            <div className="shrink-0 flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[8px] px-[12px] sm:px-[20px] py-[12px] border-t border-[#E2E8F0] bg-white text-[13px] sm:text-[14px] leading-[20px] text-[#62748E]">
+              <span>
+                Showing {invoiceRegister?.invoiceList?.length} of {totalRecords}{" "}
+                invoices
+              </span>
+              <ApiPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalRecords={totalRecords}
+                onPageChange={handlePageChange}
+                onSizeChange={handleSizeChange}
+                size={size}
+                isTenantPagination={true}
+              />
             </div>
 
             {open && (
