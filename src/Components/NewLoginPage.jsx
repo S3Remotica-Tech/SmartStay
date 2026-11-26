@@ -22,6 +22,7 @@ import {
   GoogleAuthButton,
   PasswordToggle,
   StoreBadges,
+  useAuthLaptopDensity,
 } from "./NewAuth/AuthParts";
 import { LoginPromoCard } from "./NewAuth/AuthPromoCards";
 import { authFieldInput, authInlineLink } from "./NewAuth/authStyles";
@@ -33,6 +34,7 @@ const isDev = import.meta.env.MODE === "development";
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
 function NewLoginPage() {
+  useAuthLaptopDensity();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigate = useNavigate();

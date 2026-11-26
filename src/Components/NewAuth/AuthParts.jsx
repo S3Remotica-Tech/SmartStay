@@ -1,6 +1,6 @@
 // Building blocks shared by the new auth screens (NewLoginPage, NewSignupPage).
 // Composition only — no API logic lives here; each page owns its own flow.
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeSlash } from "iconsax-react";
@@ -16,6 +16,19 @@ import LogoWordmark from "../../Assets/Images/NewLogin/logo-wordmark.svg";
 import GoogleIcon from "../../Assets/Images/NewLogin/google-g.png";
 import GooglePlayBadge from "../../Assets/Images/NewLogin/google-play.svg";
 import AppStoreBadge from "../../Assets/Images/NewLogin/app-store.svg";
+
+/**
+ * Laptop density for login/signup only: at 1024-1600px wide the page renders
+ * at 90% (root font size, see `html.app-density` in index.css; all CSS px are
+ * rem via postcss.config.js). Call from the page, not from AuthLayout, so the
+ * forgot-password screens stay at 100%.
+ */
+export function useAuthLaptopDensity() {
+  useEffect(() => {
+    document.documentElement.classList.add("app-density");
+    return () => document.documentElement.classList.remove("app-density");
+  }, []);
+}
 
 /**
  * Page shell.
