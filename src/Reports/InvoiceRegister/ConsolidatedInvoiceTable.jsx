@@ -3,11 +3,8 @@ import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { Offcanvas } from "react-bootstrap";
-import { DatePicker } from "antd";
 import {
   Eye,
-  Filter,
   InfoCircle,
   Lock1,
   SearchNormal1,
@@ -15,7 +12,6 @@ import {
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
-import { IoCloseOutline } from "react-icons/io5";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -27,6 +23,7 @@ import { CSS } from "@dnd-kit/utilities";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import CustomTooltip from "../../Utils/CustomTooltip";
 import ErrorMessage from "../../Components/ErrorMessage";
+import ConsolidatedFilterDrawer from "./ConsolidatedFilterDrawer";
 
 // ---------------------------------------------------------------------------
 // Shared Consolidated View logic (exported: InvoiceRegister and
@@ -265,11 +262,25 @@ export const DEFAULT_CONSOLIDATED_FILTERS = {
   floors: [],
 };
 
-export const COLLECTION_STATUS_OPTIONS = [
-  ROW_STATUS.PAID,
-  ROW_STATUS.PENDING,
-  ROW_STATUS.PARTIALLY_PAID,
-];
+// Collection Status filter values are the API's paymentStatus keys
+// (response filters.paymentStatus: [{ key, label }]), like floors come from
+// filters.floors. No API options -> empty list (no status checkboxes).
+export const getConsolidatedStatusOptions = (response) =>
+  (response?.filters?.paymentStatus || [])
+    .filter((option) => option?.key)
+    .map((option) => ({ key: option.key, label: option.label || option.key }));
+
+// key -> label, for chips and the export summary.
+export const getStatusLabelMap = (statusOptions = []) =>
+  Object.fromEntries(statusOptions.map((option) => [option.key, option.label]));
+
+// Row status (badge label) -> paymentStatus key, for filtering loaded rows.
+const ROW_STATUS_KEY = {
+  [ROW_STATUS.PAID]: "PAID",
+  [ROW_STATUS.PENDING]: "PENDING",
+  [ROW_STATUS.PARTIALLY_PAID]: "PARTIAL_PAYMENT",
+};
+const ROW_LEVEL_STATUS_KEYS = Object.values(ROW_STATUS_KEY);
 
 // Overdue is an invoice-level condition, not a row status:
 // the invoice still has an outstanding balance and its due date has passed.
@@ -324,8 +335,16 @@ export const applyConsolidatedFilters = (
     result = result.filter((row) => active.floors.includes(row.floor));
   }
 
-  if (active.statuses.length > 0) {
-    result = result.filter((row) => active.statuses.includes(row.status));
+  // Statuses are paymentStatus keys. Rows can only be re-checked for the three
+  // row-level ones (Paid / Pending / Partial Payment); if any other key is
+  // selected (Advance in hand, Refunded, …) the API's result is used as-is.
+  if (
+    active.statuses.length > 0 &&
+    active.statuses.every((key) => ROW_LEVEL_STATUS_KEYS.includes(key))
+  ) {
+    result = result.filter((row) =>
+      active.statuses.includes(ROW_STATUS_KEY[row.status]),
+    );
   }
 
   return result;
@@ -340,16 +359,18 @@ export const countActiveFilters = (filters = DEFAULT_CONSOLIDATED_FILTERS) =>
 // Chips use the same { key, label, value } shape as the List View chips.
 export const getConsolidatedFilterChips = (
   filters = DEFAULT_CONSOLIDATED_FILTERS,
+  statusOptions = [],
 ) => {
   const chips = [];
   if (filters.search?.trim()) {
     chips.push({ key: "search", label: "Tenant", value: filters.search.trim() });
   }
   if (filters.statuses?.length > 0) {
+    const labels = getStatusLabelMap(statusOptions);
     chips.push({
       key: "statuses",
       label: "Status is",
-      value: filters.statuses.join(", "),
+      value: filters.statuses.map((key) => labels[key] || key).join(", "),
     });
   }
   if (filters.overdueOnly) {
@@ -474,221 +495,6 @@ export const buildColumnCustomizePayload = (columns = []) =>
     order: index + 1,
   }));
 
-
-// ---- from ConsolidatedFilterDrawer.jsx ----
-const { RangePicker } = DatePicker;
-
-const statusLabels = {
-  [ROW_STATUS.PAID]: "Paid",
-  [ROW_STATUS.PENDING]: "Pending",
-  [ROW_STATUS.PARTIALLY_PAID]: "Partially paid",
-};
-
-const sectionLabel =
-  "block mb-0 font-gilroy font-medium text-[14px] leading-[20px] text-[#364153]";
-
-const optionLabel =
-  "flex items-center gap-2 mb-0 cursor-pointer font-gilroy text-[14px] leading-[20px] text-[#364153]";
-
-// Advanced Filters drawer for the Consolidated View (Figma node 7072-173655).
-// Edits a draft; nothing changes until "Apply Filters". Closing discards the draft.
-function ConsolidatedFilterDrawer({
-  show,
-  onClose,
-  filters,
-  period,
-  floorOptions,
-  onApply,
-}) {
-  const [draft, setDraft] = useState(filters);
-  const [draftRange, setDraftRange] = useState(periodToRange(period));
-
-  useEffect(() => {
-    if (show) {
-      setDraft({ ...DEFAULT_CONSOLIDATED_FILTERS, ...filters });
-      setDraftRange(periodToRange(period));
-    }
-    // Re-seed only when the drawer opens.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show]);
-
-  const toggleInList = (field, value) => {
-    setDraft((prev) => {
-      const list = prev[field] || [];
-      return {
-        ...prev,
-        [field]: list.includes(value)
-          ? list.filter((item) => item !== value)
-          : [...list, value],
-      };
-    });
-  };
-
-  const handleReset = () => {
-    setDraft(DEFAULT_CONSOLIDATED_FILTERS);
-    setDraftRange([dayjs().startOf("month"), dayjs().endOf("month")]);
-  };
-
-  const handleApply = () => {
-    onApply({
-      filters: { ...draft, search: draft.search.trim() },
-      range: draftRange,
-    });
-  };
-
-  return (
-    <Offcanvas
-      show={show}
-      onHide={onClose}
-      placement="end"
-      style={{ width: 432, maxWidth: "100vw" }}
-      aria-labelledby="consolidated-filter-title"
-    >
-      <div className="flex flex-col h-full bg-white font-gilroy">
-        <div className="flex items-center justify-between p-6 border-b border-[#E5E7EB]">
-          <div className="flex items-center gap-[10px]">
-            <Filter size="20" color="#16151C" />
-            <h2
-              id="consolidated-filter-title"
-              className="m-0 font-semibold text-[18px] leading-[23px] text-[#16151C]"
-            >
-              Advanced Filters
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close filters"
-            className="bg-transparent border-0 p-0"
-          >
-            <IoCloseOutline size={22} color="#FF0000" />
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-6 show-scrolls">
-          <label htmlFor="consolidated-filter-search" className={sectionLabel}>
-            Search
-          </label>
-          <div className="mt-2 flex items-center gap-2 h-[42px] pl-[10px] pr-4 border-[1px] border-[#D1D5DC] rounded-[12px]">
-            <SearchNormal1 size="18" color="#98A2B3" />
-            <input
-              id="consolidated-filter-search"
-              value={draft.search}
-              onChange={(e) =>
-                setDraft((prev) => ({ ...prev, search: e.target.value }))
-              }
-              placeholder="Search by tenant name"
-              className="w-full text-[14px] text-[#101828] outline-none placeholder:text-[rgba(16,24,40,0.5)]"
-            />
-          </div>
-
-          <div className="pt-6">
-            <span className={sectionLabel}>
-              Period - <span className="font-normal">Custom date range</span>
-            </span>
-            <div className="mt-2">
-              <RangePicker
-                allowClear={false}
-                format="MMM DD, YYYY"
-                value={draftRange}
-                onChange={(dates) => setDraftRange(dates)}
-                disabledDate={(current) =>
-                  current && current > dayjs().endOf("day")
-                }
-                style={{
-                  width: "100%",
-                  height: 42,
-                  borderRadius: 12,
-                  borderColor: "#D9D9D9",
-                  fontFamily: "Gilroy",
-                }}
-              />
-            </div>
-          </div>
-
-          <fieldset className="pt-6">
-            <legend className={sectionLabel}>Collection Status</legend>
-            <div className="pt-2 flex flex-col gap-2">
-              {COLLECTION_STATUS_OPTIONS.map((status) => (
-                <label key={status} className={optionLabel}>
-                  <input
-                    type="checkbox"
-                    checked={draft.statuses.includes(status)}
-                    onChange={() => toggleInList("statuses", status)}
-                    className="w-4 h-4 accent-[#1E45E1]"
-                  />
-                  {statusLabels[status]}
-                </label>
-              ))}
-              <label className={optionLabel}>
-                <input
-                  type="checkbox"
-                  checked={draft.overdueOnly}
-                  onChange={() =>
-                    setDraft((prev) => ({ ...prev, overdueOnly: !prev.overdueOnly }))
-                  }
-                  className="w-4 h-4 accent-[#1E45E1]"
-                />
-                Overdue
-              </label>
-            </div>
-          </fieldset>
-
-          <fieldset className="pt-6">
-            <legend className={sectionLabel}>Floors</legend>
-            <div className="pt-2 grid grid-cols-2 gap-2">
-              {floorOptions.map((floor) => (
-                <label key={floor} className={optionLabel}>
-                  <input
-                    type="checkbox"
-                    checked={draft.floors.includes(floor)}
-                    onChange={() => toggleInList("floors", floor)}
-                    className="w-4 h-4 accent-[#1E45E1]"
-                  />
-                  {floor}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        </div>
-
-        <div className="flex gap-[12px] p-6 bg-[#F9FAFB] border-t border-[#E5E7EB]">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="flex-1 h-[42px] rounded-[12px] border-[1px] border-[#D1D5DC] bg-white font-medium text-[16px] text-[#364153]"
-          >
-            Reset
-          </button>
-          <button
-            type="button"
-            onClick={handleApply}
-            className="flex-1 h-[42px] rounded-[12px] bg-[#1E45E1] font-medium text-[16px] text-white"
-          >
-            Apply Filters
-          </button>
-        </div>
-      </div>
-    </Offcanvas>
-  );
-}
-
-ConsolidatedFilterDrawer.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  filters: PropTypes.shape({
-    search: PropTypes.string,
-    statuses: PropTypes.arrayOf(PropTypes.string),
-    overdueOnly: PropTypes.bool,
-    floors: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
-  period: PropTypes.shape({
-    from: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.object]),
-    to: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.object]),
-  }),
-  floorOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onApply: PropTypes.func.isRequired,
-};
 
 // ---- from ConsolidatedColumnCustomizer.jsx ----
 // "Customize Tabs" for the Consolidated View, same behaviour as UserList:
@@ -1038,6 +844,7 @@ function ConsolidatedInvoiceTable({
   onCloseFilter,
   onApplyFilters,
   floorOptions = [],
+  statusOptions = [],
 }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -1387,10 +1194,13 @@ function ConsolidatedInvoiceTable({
       </div>
 
       {showEmpty ? (
-        <div className="my-[12px]">
+        // Fills the space left on screen (md+) and scrolls if that's shorter
+        // than the message, so the empty state is never cut off.
+        <div className="mt-[12px] md:flex-1 md:min-h-0 md:overflow-y-auto show-scrolls [&>div]:h-full">
           <NoDataMessage
             label="Pending Collections"
             isSearching={hasActiveFilters}
+            isHeightChanged={true}
           />
         </div>
       ) : (
@@ -1438,6 +1248,7 @@ function ConsolidatedInvoiceTable({
         period={period}
         floorOptions={floorOptions}
         onApply={onApplyFilters}
+        statusOptions={statusOptions}
       />
     </div>
   );
@@ -1454,6 +1265,10 @@ ConsolidatedInvoiceTable.propTypes = {
   onCloseFilter: PropTypes.func.isRequired,
   onApplyFilters: PropTypes.func.isRequired,
   floorOptions: PropTypes.arrayOf(PropTypes.string),
+  // API filters.paymentStatus as [{ key, label }].
+  statusOptions: PropTypes.arrayOf(
+    PropTypes.shape({ key: PropTypes.string, label: PropTypes.string }),
+  ),
   filters: PropTypes.shape({
     search: PropTypes.string,
     statuses: PropTypes.arrayOf(PropTypes.string),

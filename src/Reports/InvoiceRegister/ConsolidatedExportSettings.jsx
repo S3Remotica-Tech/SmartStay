@@ -37,7 +37,6 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { createPdfFromPages } from "../../Utils/ExportPdf";
 import {
-  COLLECTION_STATUS_OPTIONS,
   DEFAULT_CONSOLIDATED_FILTERS,
   applyConsolidatedFilters,
   countActiveFilters,
@@ -45,6 +44,8 @@ import {
   formatAmount,
   buildConsolidatedColumns,
   getConsolidatedFloorOptions,
+  getConsolidatedStatusOptions,
+  getStatusLabelMap,
   getVisibleColumns,
   normaliseConsolidatedBeds,
   periodToRange,
@@ -136,13 +137,6 @@ export const getExportReportInfo = (response) => {
   };
 };
 
-// Collection Status label -> API paymentStatus key (filters.paymentStatus).
-const PAYMENT_STATUS_KEY = {
-  Paid: "PAID",
-  Pending: "PENDING",
-  "Partially Paid": "PARTIAL_PAYMENT",
-};
-
 // Floor name -> floorId, from the API's filters.floors, then the rows.
 export const getFloorIdsByName = (response, beds = []) => {
   const map = new Map();
@@ -170,9 +164,8 @@ export const buildConsolidatedExportRequest = (
   const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope.filters };
   const includeAll = Boolean(scope.includeAllTenants);
   const groupByFloor = pdfSettings.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
-  const paymentStatus = (filters.statuses || [])
-    .map((status) => PAYMENT_STATUS_KEY[status])
-    .filter(Boolean);
+  // Statuses are already the API's paymentStatus keys (filters.paymentStatus).
+  const paymentStatus = (filters.statuses || []).filter(Boolean);
   const floorIds = (filters.floors || [])
     .map((floor) => floorIdsByName.get(floor))
     .filter((id) => id !== null && id !== undefined);
@@ -552,9 +545,13 @@ const statusText = {
 const CONTENT_WIDTH = PDF_LAYOUT.pageWidth - PDF_LAYOUT.paddingX * 2;
 const FONT_SIZE = 10;
 
-const buildFiltersSummary = (filters = {}) => {
+const buildFiltersSummary = (filters = {}, statusLabels = {}) => {
   const parts = [];
-  if (filters.statuses?.length) parts.push(`Status: ${filters.statuses.join(", ")}`);
+  if (filters.statuses?.length) {
+    parts.push(
+      `Status: ${filters.statuses.map((key) => statusLabels[key] || key).join(", ")}`,
+    );
+  }
   if (filters.overdueOnly) parts.push("Overdue only");
   if (filters.floors?.length) parts.push(`Floors: ${filters.floors.join(", ")}`);
   if (filters.search?.trim()) parts.push(`Tenant: ${filters.search.trim()}`);
@@ -610,7 +607,11 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
   const scopeLabel = meta.includeAllTenants
     ? "All tenants and empty beds"
     : "Pending tenants only";
-  const filtersText = truncateText(buildFiltersSummary(meta.filters), 420, 10);
+  const filtersText = truncateText(
+    buildFiltersSummary(meta.filters, meta.statusLabels),
+    420,
+    10,
+  );
   // Server time from footerInfo when the API sent it.
   const generatedText =
     meta.generatedLabel || dayjs(meta.generatedAt).format("DD MMM YYYY, HH:mm");
@@ -911,6 +912,7 @@ ConsolidatedReportPage.propTypes = {
     propertyAddress: PropTypes.string,
     propertyMobile: PropTypes.string,
     generatedLabel: PropTypes.string,
+    statusLabels: PropTypes.objectOf(PropTypes.string),
     period: PropTypes.object,
     includeAllTenants: PropTypes.bool,
     filters: PropTypes.object,
@@ -1420,7 +1422,16 @@ SettingToggle.propTypes = {
 };
 
 // Small multi-select with checkboxes for the Report Scope fields.
-function ScopeMultiSelect({ id, options, selected, onChange, emptyLabel }) {
+// labels: optional value -> display text (status keys -> API labels).
+function ScopeMultiSelect({
+  id,
+  options,
+  selected,
+  onChange,
+  emptyLabel,
+  labels = {},
+}) {
+  const labelOf = (value) => labels[value] || value;
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
 
@@ -1442,7 +1453,8 @@ function ScopeMultiSelect({ id, options, selected, onChange, emptyLabel }) {
     );
   };
 
-  const summary = selected.length > 0 ? selected.join(", ") : emptyLabel;
+  const summary =
+    selected.length > 0 ? selected.map(labelOf).join(", ") : emptyLabel;
 
   return (
     <div ref={wrapperRef} className="relative">
@@ -1474,7 +1486,7 @@ function ScopeMultiSelect({ id, options, selected, onChange, emptyLabel }) {
                 onChange={() => toggleOption(option)}
                 className="w-4 h-4 accent-[#1E45E1]"
               />
-              {option}
+              {labelOf(option)}
             </label>
           ))}
         </div>
@@ -1489,6 +1501,7 @@ ScopeMultiSelect.propTypes = {
   selected: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   emptyLabel: PropTypes.string.isRequired,
+  labels: PropTypes.objectOf(PropTypes.string),
 };
 
 // Export Pending Collection Sheet – settings panel (Figma node 7072-173297).
@@ -1516,6 +1529,15 @@ function ExportSettingsPanel({
   const groupByOptions = useMemo(
     () => getExportGroupByOptions(register),
     [register],
+  );
+  // Collection Status options from the API (filters.paymentStatus), like floors.
+  const statusOptions = useMemo(
+    () => getConsolidatedStatusOptions(register),
+    [register],
+  );
+  const statusLabels = useMemo(
+    () => ({ ...getStatusLabelMap(statusOptions), [OVERDUE_OPTION]: OVERDUE_OPTION }),
+    [statusOptions],
   );
   const [range, setRange] = useState(null);
   const [statuses, setStatuses] = useState([]);
@@ -1696,6 +1718,7 @@ function ExportSettingsPanel({
           generatedLabel: info.generatedLabel,
           includeAllTenants,
           filters: exportFilters,
+          statusLabels,
           generatedAt: new Date(),
         },
       });
@@ -1770,7 +1793,8 @@ function ExportSettingsPanel({
             </label>
             <ScopeMultiSelect
               id="export-status"
-              options={[...COLLECTION_STATUS_OPTIONS, OVERDUE_OPTION]}
+              options={[...statusOptions.map((option) => option.key), OVERDUE_OPTION]}
+              labels={statusLabels}
               selected={statuses}
               onChange={setStatuses}
               emptyLabel="All statuses"

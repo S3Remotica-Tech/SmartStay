@@ -30,6 +30,7 @@ import ConsolidatedInvoiceTable, {
   getConsolidatedFilterChips,
   getConsolidatedHeader,
   getConsolidatedFloorOptions,
+  getConsolidatedStatusOptions,
   normaliseConsolidatedBeds,
   buildConsolidatedColumns,
 } from "./ConsolidatedInvoiceTable";
@@ -79,9 +80,13 @@ function InvoiceRegister() {
   const isConsolidated = viewMode === INVOICE_VIEW_MODES.CONSOLIDATED;
   const [viewMenuOpen, setViewMenuOpen] = useState(false);
   const viewMenuRef = useRef(null);
-  const [consolidatedFilters, setConsolidatedFilters] = useState(
-    DEFAULT_CONSOLIDATED_FILTERS,
-  );
+  // Consolidated View selected filters live in the reducer
+  // (state.reports.consolidatedInvoiceFilters), like the List View's
+  // invoiceRegisterFilters, so they survive leaving the page.
+  const consolidatedFilters =
+    state.reports?.consolidatedInvoiceFilters || DEFAULT_CONSOLIDATED_FILTERS;
+  const setConsolidatedFilters = (filters) =>
+    dispatch({ type: "SET_CONSOLIDATED_INVOICE_FILTERS", payload: filters });
   const [showConsolidatedFilter, setShowConsolidatedFilter] = useState(false);
   // Held here so the export settings can start from the current view.
   const [includeAllTenants, setIncludeAllTenants] = useState(false);
@@ -272,12 +277,32 @@ function InvoiceRegister() {
     [consolidatedRegister, consolidatedBeds],
   );
 
-  const consolidatedChips = getConsolidatedFilterChips(consolidatedFilters);
+  // Collection Status options from the API (filters.paymentStatus), like floors.
+  const consolidatedStatusOptions = useMemo(
+    () => getConsolidatedStatusOptions(consolidatedRegister),
+    [consolidatedRegister],
+  );
+
+  const consolidatedChips = getConsolidatedFilterChips(
+    consolidatedFilters,
+    consolidatedStatusOptions,
+  );
   const displayedChips = isConsolidated ? consolidatedChips : chips;
 
   const handleResetConsolidatedFilters = () => {
     setConsolidatedFilters(DEFAULT_CONSOLIDATED_FILTERS);
   };
+
+  // Hostel changed -> reset the Consolidated filters. Skips the first run
+  // (page open), so filters saved in the reducer survive coming back here.
+  const prevHostelIdRef = useRef(null);
+  useEffect(() => {
+    const hostelId = state.login?.selectedHostel_Id;
+    if (prevHostelIdRef.current !== null && prevHostelIdRef.current !== hostelId) {
+      setConsolidatedFilters(DEFAULT_CONSOLIDATED_FILTERS);
+    }
+    prevHostelIdRef.current = hostelId;
+  }, [state.login?.selectedHostel_Id]);
 
   // Period edits in the drawer go through the existing date range handler,
   // so the top RangePicker and List View data stay in sync.
@@ -940,7 +965,8 @@ function InvoiceRegister() {
       startDate: startDate,
       endDate: endDate,
       search: consolidatedFilters?.search || undefined,
-      statuses: consolidatedFilters?.statuses?.length
+      // paymentStatus keys, same field as the download API payload.
+      paymentStatus: consolidatedFilters?.statuses?.length
         ? consolidatedFilters.statuses
         : undefined,
       floors: consolidatedFilters?.floors?.length
@@ -1236,7 +1262,9 @@ function InvoiceRegister() {
         </div>
       </div>
 
-      <div className="px-1 pb-[12px] bg-[#F9FAFB] rounded-lg py-0 flex flex-col md:flex-1 md:min-h-0">
+      {/* No py-0 here: Bootstrap's .py-0 is !important and would erase pb-[12px],
+          leaving the table / empty-state card flush against the screen bottom. */}
+      <div className="px-1 pb-[12px] bg-[#F9FAFB] rounded-lg flex flex-col md:flex-1 md:min-h-0">
         {displayedChips?.length > 0 && (
           <div className="shrink-0 mx-1 sm:mx-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
             <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
@@ -1346,6 +1374,7 @@ function InvoiceRegister() {
             onCloseFilter={() => setShowConsolidatedFilter(false)}
             onApplyFilters={handleApplyConsolidatedFilters}
             floorOptions={consolidatedFloorOptions}
+            statusOptions={consolidatedStatusOptions}
           />
         )}
 
@@ -1606,11 +1635,14 @@ function InvoiceRegister() {
             )}
           </div>
         ) : (
-          <div className="my-2">
+          // Fills the space left on screen (md+) and scrolls if that's shorter
+          // than the message, so the empty state is never cut off.
+          <div className="mt-2 md:flex-1 md:min-h-0 md:overflow-y-auto show-scrolls [&>div]:h-full">
             <NoDataMessage
               label="Invoice"
               isSearching={isSearching}
               isClearSearch={false}
+              isHeightChanged={true}
             />
           </div>
         )}

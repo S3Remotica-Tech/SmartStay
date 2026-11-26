@@ -9,3 +9,10 @@ coverage
 /coverage
 /dist
 dist
+
+# Playwright (e2e)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.auth/
+.env.e2e
