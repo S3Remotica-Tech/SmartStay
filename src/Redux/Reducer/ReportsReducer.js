@@ -30,6 +30,15 @@ export const initialState = {
   reportsExpensePdfSuccess: 0,
   reportsPdfExportError: "",
 
+  // Invoice Register - Consolidated View selected filters
+  // (same shape as DEFAULT_CONSOLIDATED_FILTERS in ConsolidatedInvoiceTable.jsx).
+  consolidatedInvoiceFilters: {
+    search: "",
+    statuses: [], // paymentStatus keys (API filters.paymentStatus)
+    overdueOnly: false,
+    floors: [], // floor names (API filters.floors)
+  },
+
   invoiceRegisterFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -268,6 +277,15 @@ const ReportsReducer = (state = initialState, action) => {
         ...state,
         receiptRegisterFilters: {
           ...state.receiptRegisterFilters,
+          ...action.payload,
+        },
+      };
+
+    case "SET_CONSOLIDATED_INVOICE_FILTERS":
+      return {
+        ...state,
+        consolidatedInvoiceFilters: {
+          ...state.consolidatedInvoiceFilters,
           ...action.payload,
         },
       };
