@@ -143,9 +143,9 @@ CustomItems.propTypes = {
 const ServiceIcon = ({ src }) => <img src={src} alt="" width="22" height="22" />;
 ServiceIcon.propTypes = { src: PropTypes.string.isRequired };
 
-function ServiceToggle({ title, checked, onChange }) {
+function ServiceToggle({ title, checked, onChange, "data-testid": testId = "step4-services-rules-change-switch" }) {
   return (
-    <Switch data-testid="step4-services-rules-change-switch"
+    <Switch data-testid={testId}
       size="sm"
       checked={checked}
       onChange={(e) => onChange(e.target.checked)}
@@ -155,6 +155,7 @@ function ServiceToggle({ title, checked, onChange }) {
 }
 
 ServiceToggle.propTypes = {
+  "data-testid": PropTypes.string,
   title: PropTypes.string.isRequired,
   checked: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -288,7 +289,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           titleId="ob-cleaning-title"
           icon={<ServiceIcon src={RoomIcon} />}
           trailing={
-            <ServiceToggle data-testid="step4-services-rules-room-cleaning-input"
+            <ServiceToggle data-testid="step4-services-rules-room-cleaning-switch"
               title="Room Cleaning"
               checked={s.roomCleaning.enabled}
               onChange={(enabled) =>
@@ -318,7 +319,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           titleId="ob-food-title"
           icon={<ServiceIcon src={FoodIcon} />}
           trailing={
-            <ServiceToggle data-testid="step4-services-rules-food-input"
+            <ServiceToggle data-testid="step4-services-rules-food-switch"
               title="Food"
               checked={s.food.enabled}
               onChange={(enabled) =>
@@ -361,7 +362,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
             titleId={`ob-${svc.key}-title`}
             icon={<ServiceIcon src={TOGGLE_ICONS[svc.key]} />}
             trailing={
-              <ServiceToggle data-testid={`step4-services-rules-set-input-${svc.key}`}
+              <ServiceToggle data-testid={`step4-services-rules-service-switch-${svc.key}`}
                 title={svc.label}
                 checked={s[svc.key]}
                 onChange={(on) => set({ [svc.key]: on })}

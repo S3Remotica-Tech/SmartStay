@@ -219,13 +219,14 @@ export function AuthSubmitButton({
   loadingText,
   form,
   children,
+  "data-testid": testId = "auth-parts-btn",
 }) {
   let state = "hover:bg-primary-700";
   if (loading || disabled) state = "cursor-not-allowed opacity-40";
   else if (dimmed) state = "opacity-40";
   if (loading) state = "cursor-not-allowed opacity-70";
   return (
-    <button data-testid="auth-parts-btn"
+    <button data-testid={testId}
       type="submit"
       form={form}
       disabled={loading || disabled}
@@ -251,17 +252,18 @@ AuthSubmitButton.propTypes = {
   // id of the <form> when the button sits outside it (fixed footer).
   form: PropTypes.string,
   children: PropTypes.node,
+  "data-testid": PropTypes.string,
 };
 
 /**
  * Google button — visible as designed, disabled until the Google auth API
  * exists. No SDK, no client id, no handler.
  */
-export function GoogleAuthButton({ label }) {
+export function GoogleAuthButton({ label, "data-testid": testId = "auth-parts-google-btn" }) {
   return (
     // TODO(auth): enable when Google sign-in API is ready
     <span title="Coming soon" className="block w-full">
-      <button data-testid="auth-parts-btn-2"
+      <button data-testid={testId}
         type="button"
         disabled
         aria-disabled="true"
@@ -279,6 +281,7 @@ export function GoogleAuthButton({ label }) {
 
 GoogleAuthButton.propTypes = {
   label: PropTypes.node.isRequired,
+  "data-testid": PropTypes.string,
 };
 
 const PLAY_STORE_URL =

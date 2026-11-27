@@ -1017,6 +1017,13 @@ function ConsolidatedInvoiceTable({
             </span>
           </div>
         );
+      case "actualRent":
+        // Invoice row: the invoice's full amount (invoiceAmount), not a pending figure.
+        return (
+          <span className="font-medium text-[#314158]">
+            ₹{formatAmount(invoice?.amount)}
+          </span>
+        );
       case "status":
         return <StatusBadge status={invoice?.status} />;
       case "contact":
@@ -1074,6 +1081,10 @@ function ConsolidatedInvoiceTable({
       const canViewDetails = (row?.invoices || []).length > 0;
       const isExpanded = canViewDetails && expandedBedIds?.includes(row?.bedId);
       const rowBg = isExpanded ? "bg-[#F8F9FF]" : "bg-white";
+      // Why the Details (eye) button is disabled, shown on hover.
+      const detailsDisabledReason = row?.isVacant
+        ? "Vacant bed – no tenant, so no invoices"
+        : "No pending invoices for this tenant";
 
       return (
         <Fragment key={row?.bedId}>
@@ -1090,30 +1101,47 @@ function ConsolidatedInvoiceTable({
             <td
               className={`${bodyCell} ${floorBorder} ${stickyCell} z-[1] ${rowBg} text-center`}
             >
-              <button data-testid={`consolidated-invoice-table-toggle-expanded-btn-2-${row?.bedId}`}
-                type="button"
-                aria-label={
-                  row?.isVacant
-                    ? "No invoices for vacant bed"
-                    : `${isExpanded ? "Hide" : "View"} invoices for ${row?.tenant?.name}`
-                }
-                aria-expanded={isExpanded}
-                disabled={!canViewDetails}
-                onClick={() => toggleExpanded(row?.bedId)}
-                className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${isExpanded
-                  ? "border-[#1E45E1] bg-[#EFF6FF]"
-                  : "border-[#E2E8F0] bg-white"
-                  } ${canViewDetails
-                    ? "cursor-pointer hover:bg-[#F1F5FF]"
-                    : "cursor-not-allowed opacity-40"
-                  }`}
-              >
-                <Eye
-                  size="16"
-                  color={isExpanded ? "#1E45E1" : "#4A5565"}
-                  variant={isExpanded ? "Bold" : "Linear"}
-                />
-              </button>
+              {(() => {
+                const detailsButton = (
+                  <button data-testid={`consolidated-invoice-table-toggle-expanded-btn-2-${row?.bedId}`}
+                    type="button"
+                    aria-label={
+                      canViewDetails
+                        ? `${isExpanded ? "Hide" : "View"} invoices for ${row?.tenant?.name}`
+                        : detailsDisabledReason
+                    }
+                    aria-expanded={isExpanded}
+                    disabled={!canViewDetails}
+                    onClick={() => toggleExpanded(row?.bedId)}
+                    className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${isExpanded
+                      ? "border-[#1E45E1] bg-[#EFF6FF]"
+                      : "border-[#E2E8F0] bg-white"
+                      } ${canViewDetails
+                        ? "cursor-pointer hover:bg-[#F1F5FF]"
+                        : "pointer-events-none opacity-40"
+                      }`}
+                  >
+                    <Eye
+                      size="16"
+                      color={isExpanded ? "#1E45E1" : "#4A5565"}
+                      variant={isExpanded ? "Bold" : "Linear"}
+                    />
+                  </button>
+                );
+                if (canViewDetails) return detailsButton;
+                // A disabled <button> gets no hover events, so the wrapper owns the
+                // hover (button is pointer-events-none) and shows the reason.
+                return (
+                  <CustomTooltip text={detailsDisabledReason} direction="right-full" usePortal={true}>
+                    <span
+                      data-testid={`consolidated-invoice-table-details-disabled-${row?.bedId}`}
+                      className="inline-flex cursor-not-allowed"
+                    >
+                      {detailsButton}
+                    </span>
+                  </CustomTooltip>
+                );
+              })()}
             </td>
           </tr>
 

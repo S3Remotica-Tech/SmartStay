@@ -145,6 +145,7 @@ function roleOf(name, opening, kind) {
   if ((name === "Form.Control" || name === "FormControl") && strAttr(opening, "as") === "textarea") return "textarea";
   if (name === "DatePicker") return "date";
   if (ROLE_BY_NAME[name]) return ROLE_BY_NAME[name];
+  if (/(Button|Btn)$/.test(name)) return "btn"; // custom button components
   if (/^[A-Z]/.test(name)) {
     // custom field component (onChange only) vs. iconsax / react-icons icon with onClick
     return attr(opening, "onChange") && !attr(opening, "onClick") ? "input" : "icon";
@@ -268,10 +269,16 @@ for (const file of files) {
 
       const isWrap = wrapNames.has(name);
       const hasHandler = HANDLERS.some((h) => attr(o, h));
-      const isTarget = isWrap || (ROLE_BY_NAME[name] !== undefined && !NON_TARGET.has(name)) || (name === "DatePicker" && antdNames.has(name)) || hasHandler;
+      const isButtonComponent = /(Button|Btn)$/.test(name);
+      const isTarget = isWrap || isButtonComponent || (ROLE_BY_NAME[name] !== undefined && !NON_TARGET.has(name)) || (name === "DatePicker" && antdNames.has(name)) || hasHandler;
       if (!isTarget) return;
       if (name === "Form" && !attr(o, "onSubmit")) return; // layout-only <Form>
       if (isWrap && path.parentPath.isJSXAttribute()) return; // can't wrap a prop value
+      // Already wrapped by a previous run: parent is <div data-testid=… className="contents">.
+      if (isWrap) {
+        const parent = path.parentPath.isJSXElement() ? path.parentPath.node.openingElement : null;
+        if (parent && nameOf(parent.name) === "div" && attr(parent, "data-testid") && strAttr(parent, "className") === "contents") return;
+      }
 
       const kind = isWrap ? (datepickerNames.has(name) ? "date" : "select") : null;
       const role = roleOf(name, o, kind);

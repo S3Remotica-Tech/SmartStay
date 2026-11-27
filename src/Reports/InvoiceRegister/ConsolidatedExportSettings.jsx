@@ -1392,9 +1392,9 @@ SectionTitle.propTypes = {
   children: PropTypes.node,
 };
 
-function SettingToggle({ id, checked, onChange, disabled = false, label }) {
+function SettingToggle({ id, checked, onChange, disabled = false, label, "data-testid": testId = "consolidated-export-settings-change-btn" }) {
   return (
-    <button data-testid="consolidated-export-settings-change-btn"
+    <button data-testid={testId}
       id={id}
       type="button"
       role="switch"
@@ -1414,6 +1414,7 @@ function SettingToggle({ id, checked, onChange, disabled = false, label }) {
 }
 
 SettingToggle.propTypes = {
+  "data-testid": PropTypes.string,
   id: PropTypes.string,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -1430,6 +1431,7 @@ function ScopeMultiSelect({
   onChange,
   emptyLabel,
   labels = {},
+  "data-testid": testId = "consolidated-export-settings-is-open",
 }) {
   const labelOf = (value) => labels[value] || value;
   const [isOpen, setIsOpen] = useState(false);
@@ -1458,7 +1460,7 @@ function ScopeMultiSelect({
 
   return (
     <div ref={wrapperRef} className="relative">
-      <button data-testid="consolidated-export-settings-is-open-btn"
+      <button data-testid={`${testId}-btn`}
         id={id}
         type="button"
         aria-haspopup="listbox"
@@ -1480,7 +1482,7 @@ function ScopeMultiSelect({
               key={option}
               className="flex items-center gap-2 px-[12px] py-1.5 mb-0 cursor-pointer text-[14px] text-[#314158] hover:bg-[#F1F5FF]"
             >
-              <input data-testid={`consolidated-export-settings-toggle-option-checkbox-${option}`}
+              <input data-testid={`${testId}-option-${option}`}
                 type="checkbox"
                 checked={selected?.includes(option)}
                 onChange={() => toggleOption(option)}
@@ -1496,6 +1498,7 @@ function ScopeMultiSelect({
 }
 
 ScopeMultiSelect.propTypes = {
+  "data-testid": PropTypes.string,
   id: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   selected: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -1791,7 +1794,7 @@ function ExportSettingsPanel({
             <label htmlFor="export-status" className={fieldLabel}>
               Collection Status
             </label>
-            <ScopeMultiSelect data-testid="consolidated-export-settings-collection-status-input"
+            <ScopeMultiSelect data-testid="consolidated-export-settings-collection-status"
               id="export-status"
               options={[...(statusOptions?.map((option) => option?.key) || []), OVERDUE_OPTION]}
               labels={statusLabels}
@@ -1804,7 +1807,7 @@ function ExportSettingsPanel({
             <label htmlFor="export-floor" className={fieldLabel}>
               Floor
             </label>
-            <ScopeMultiSelect data-testid="consolidated-export-settings-floor-input"
+            <ScopeMultiSelect data-testid="consolidated-export-settings-floor"
               id="export-floor"
               options={floorOptions}
               selected={floors}
@@ -1864,7 +1867,7 @@ function ExportSettingsPanel({
               Add matching tenant stays with no outstanding balance.
             </p>
           </div>
-          <SettingToggle data-testid="consolidated-export-settings-export-include-all-input"
+          <SettingToggle data-testid="consolidated-export-settings-include-all-switch"
             id="export-include-all"
             label="Include Fully Paid Tenants & Empty beds"
             checked={includeAllTenants}
@@ -2011,7 +2014,7 @@ function ExportSettingsPanel({
                       </span>
                     )}
                   </span>
-                  <SettingToggle data-testid={`consolidated-export-settings-update-pdf-input-${item?.field}`}
+                  <SettingToggle data-testid={`consolidated-export-settings-pdf-field-switch-${item?.field}`}
                     label={item?.label}
                     checked={Boolean(pdfSettings[item?.field]) && !item?.disabled}
                     disabled={item?.disabled}
