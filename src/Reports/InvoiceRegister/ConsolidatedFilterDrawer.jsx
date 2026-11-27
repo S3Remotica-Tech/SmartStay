@@ -49,8 +49,8 @@ function ConsolidatedFilterDrawer({
       const list = prev[field] || [];
       return {
         ...prev,
-        [field]: list.includes(value)
-          ? list.filter((item) => item !== value)
+        [field]: list?.includes(value)
+          ? list?.filter((item) => item !== value)
           : [...list, value],
       };
     });
@@ -63,7 +63,7 @@ function ConsolidatedFilterDrawer({
 
   const handleApply = () => {
     onApply({
-      filters: { ...draft, search: draft.search.trim() },
+      filters: { ...draft, search: draft?.search?.trim() },
       range: draftRange,
     });
   };
@@ -105,9 +105,9 @@ function ConsolidatedFilterDrawer({
             <SearchNormal1 size="18" color="#98A2B3" />
             <input
               id="consolidated-filter-search"
-              value={draft.search}
+              value={draft?.search}
               onChange={(e) =>
-                setDraft((prev) => ({ ...prev, search: e.target.value }))
+                setDraft((prev) => ({ ...prev, search: e?.target?.value }))
               }
               placeholder="Search by tenant name"
               className="w-full text-[14px] text-[#101828] outline-none placeholder:text-[rgba(16,24,40,0.5)]"
@@ -141,23 +141,23 @@ function ConsolidatedFilterDrawer({
           <fieldset className="pt-6">
             <legend className={sectionLabel}>Collection Status</legend>
             <div className="pt-2 flex flex-col gap-2">
-              {statusOptions.map((status) => (
-                <label key={status.key} className={optionLabel}>
+              {statusOptions?.map((status) => (
+                <label key={status?.key} className={optionLabel}>
                   <input
                     type="checkbox"
-                    checked={draft.statuses.includes(status.key)}
-                    onChange={() => toggleInList("statuses", status.key)}
+                    checked={draft?.statuses?.includes(status?.key)}
+                    onChange={() => toggleInList("statuses", status?.key)}
                     className="w-4 h-4 accent-[#1E45E1]"
                   />
-                  {status.label}
+                  {status?.label}
                 </label>
               ))}
               <label className={optionLabel}>
                 <input
                   type="checkbox"
-                  checked={draft.overdueOnly}
+                  checked={draft?.overdueOnly}
                   onChange={() =>
-                    setDraft((prev) => ({ ...prev, overdueOnly: !prev.overdueOnly }))
+                    setDraft((prev) => ({ ...prev, overdueOnly: !prev?.overdueOnly }))
                   }
                   className="w-4 h-4 accent-[#1E45E1]"
                 />
@@ -169,11 +169,11 @@ function ConsolidatedFilterDrawer({
           <fieldset className="pt-6">
             <legend className={sectionLabel}>Floors</legend>
             <div className="pt-2 grid grid-cols-2 gap-2">
-              {floorOptions.map((floor) => (
+              {floorOptions?.map((floor) => (
                 <label key={floor} className={optionLabel}>
                   <input
                     type="checkbox"
-                    checked={draft.floors.includes(floor)}
+                    checked={draft?.floors?.includes(floor)}
                     onChange={() => toggleInList("floors", floor)}
                     className="w-4 h-4 accent-[#1E45E1]"
                   />

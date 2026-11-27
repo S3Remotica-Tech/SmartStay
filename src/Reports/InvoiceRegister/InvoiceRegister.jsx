@@ -75,7 +75,7 @@ function InvoiceRegister() {
   const [page, setPage] = useState(1);
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
-  const isSearching = chips.length > 0;
+  const isSearching = chips?.length > 0;
   const [viewMode, setViewMode] = useState(INVOICE_VIEW_MODES.LIST);
   const isConsolidated = viewMode === INVOICE_VIEW_MODES.CONSOLIDATED;
   const [viewMenuOpen, setViewMenuOpen] = useState(false);
@@ -84,7 +84,7 @@ function InvoiceRegister() {
   // (state.reports.consolidatedInvoiceFilters), like the List View's
   // invoiceRegisterFilters, so they survive leaving the page.
   const consolidatedFilters =
-    state.reports?.consolidatedInvoiceFilters || DEFAULT_CONSOLIDATED_FILTERS;
+    state?.reports?.consolidatedInvoiceFilters || DEFAULT_CONSOLIDATED_FILTERS;
   const setConsolidatedFilters = (filters) =>
     dispatch({ type: "SET_CONSOLIDATED_INVOICE_FILTERS", payload: filters });
   const [showConsolidatedFilter, setShowConsolidatedFilter] = useState(false);
@@ -128,12 +128,12 @@ function InvoiceRegister() {
   const { canReadModule: canReadReports } = useHasPermission("Reports");
 
   const isValidSubscription =
-    state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
+    state?.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
 
   const isExportAllow = isValidSubscription && canReadReports;
 
   useEffect(() => {
-    if (state.reports.getInvoiceRegisterSuccess === 200) {
+    if (state?.reports?.getInvoiceRegisterSuccess === 200) {
       setLoading(false);
       isInitialLoad.current = true;
       setInvoiceRegister(state?.reports?.getInvoiceRegister);
@@ -142,10 +142,10 @@ function InvoiceRegister() {
         dispatch({ type: "REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER" });
       }, 100);
     }
-  }, [state.reports.getInvoiceRegisterSuccess]);
+  }, [state?.reports?.getInvoiceRegisterSuccess]);
 
   useEffect(() => {
-    if (state.reports.getConsolidatedInvoiceSuccess === 200) {
+    if (state?.reports?.getConsolidatedInvoiceSuccess === 200) {
       setConsolidatedLoading(false);
       setConsolidatedRegister(state?.reports?.getConsolidatedInvoice);
       setSavedColumns(null);
@@ -153,14 +153,14 @@ function InvoiceRegister() {
         dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_REDUCER" });
       }, 100);
     }
-  }, [state.reports.getConsolidatedInvoiceSuccess]);
+  }, [state?.reports?.getConsolidatedInvoiceSuccess]);
 
   useEffect(() => {
-    if (state.reports.getConsolidatedInvoiceError) {
+    if (state?.reports?.getConsolidatedInvoiceError) {
       setConsolidatedLoading(false);
       dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_ERROR" });
     }
-  }, [state.reports.getConsolidatedInvoiceError]);
+  }, [state?.reports?.getConsolidatedInvoiceError]);
 
   useEffect(() => {
     let timeout;
@@ -184,20 +184,20 @@ function InvoiceRegister() {
   }, []);
 
   useEffect(() => {
-    const el = tableRef.current;
+    const el = tableRef?.current;
     if (!el) return;
 
     const handleScroll = () => {
-      setIsScrolled(el.scrollLeft > 0);
+      setIsScrolled(el?.scrollLeft > 0);
     };
 
-    el.addEventListener("scroll", handleScroll);
-    return () => el.removeEventListener("scroll", handleScroll);
+    el?.addEventListener("scroll", handleScroll);
+    return () => el?.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (dropdownRef?.current && !dropdownRef?.current?.contains(event?.target)) {
         setRegister(false);
       }
     }
@@ -297,12 +297,12 @@ function InvoiceRegister() {
   // (page open), so filters saved in the reducer survive coming back here.
   const prevHostelIdRef = useRef(null);
   useEffect(() => {
-    const hostelId = state.login?.selectedHostel_Id;
-    if (prevHostelIdRef.current !== null && prevHostelIdRef.current !== hostelId) {
+    const hostelId = state?.login?.selectedHostel_Id;
+    if (prevHostelIdRef?.current !== null && prevHostelIdRef?.current !== hostelId) {
       setConsolidatedFilters(DEFAULT_CONSOLIDATED_FILTERS);
     }
     prevHostelIdRef.current = hostelId;
-  }, [state.login?.selectedHostel_Id]);
+  }, [state?.login?.selectedHostel_Id]);
 
   // Period edits in the drawer go through the existing date range handler,
   // so the top RangePicker and List View data stay in sync.
@@ -311,15 +311,15 @@ function InvoiceRegister() {
     setShowConsolidatedFilter(false);
 
     const [from, to] = range || [];
-    const currentFrom = selectedRange?.from ? dayjs(selectedRange.from) : null;
-    const currentTo = selectedRange?.to ? dayjs(selectedRange.to) : null;
+    const currentFrom = selectedRange?.from ? dayjs(selectedRange?.from) : null;
+    const currentTo = selectedRange?.to ? dayjs(selectedRange?.to) : null;
     const periodChanged =
       from &&
       to &&
       (!currentFrom ||
         !currentTo ||
-        !from.isSame(currentFrom, "day") ||
-        !to.isSame(currentTo, "day"));
+        !from?.isSame(currentFrom, "day") ||
+        !to?.isSame(currentTo, "day"));
 
     if (periodChanged) {
       handleDateChange([from, to]);
@@ -329,38 +329,38 @@ function InvoiceRegister() {
   const consolidatedStats = [
     {
       title: "Total Invoices",
-      value: consolidatedSummary.totalInvoices,
+      value: consolidatedSummary?.totalInvoices,
     },
     {
       title: "Total Amount",
-      value: formatAmount(consolidatedSummary.totalAmount),
+      value: formatAmount(consolidatedSummary?.totalAmount),
       isCurrency: true,
     },
     {
       title: "Paid Amount",
-      value: formatAmount(consolidatedSummary.paidAmount),
+      value: formatAmount(consolidatedSummary?.paidAmount),
       isCurrency: true,
     },
     {
       title: "Outstanding",
-      value: formatAmount(consolidatedSummary.outstandingAmount),
+      value: formatAmount(consolidatedSummary?.outstandingAmount),
       isCurrency: true,
     },
     {
       title: "Booking Amount",
-      value: formatAmount(consolidatedSummary.bookingAmount),
+      value: formatAmount(consolidatedSummary?.bookingAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
     {
       title: "Refunded Booking Amount",
-      value: formatAmount(consolidatedSummary.refundedBookingAmount),
+      value: formatAmount(consolidatedSummary?.refundedBookingAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
     {
       title: "Cancelled Amount",
-      value: formatAmount(consolidatedSummary.cancelledAmount),
+      value: formatAmount(consolidatedSummary?.cancelledAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
@@ -371,7 +371,7 @@ function InvoiceRegister() {
   // View switch dropdown: close on outside click.
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (viewMenuRef.current && !viewMenuRef.current.contains(event.target)) {
+      if (viewMenuRef?.current && !viewMenuRef?.current?.contains(event?.target)) {
         setViewMenuOpen(false);
       }
     };
@@ -385,11 +385,11 @@ function InvoiceRegister() {
 
   const handleSelectView = (option) => {
     setViewMenuOpen(false);
-    if (option.value !== viewMode) setViewMode(option.value);
+    if (option?.value !== viewMode) setViewMode(option?.value);
   };
 
   const selectedViewOption =
-    VIEW_OPTIONS.find((option) => option.value === viewMode) || VIEW_OPTIONS[0];
+    VIEW_OPTIONS.find((option) => option?.value === viewMode) || VIEW_OPTIONS[0];
 
   const viewSwitcher = (
     <div ref={viewMenuRef} className="relative w-fit font-gilroy">
@@ -400,7 +400,7 @@ function InvoiceRegister() {
         aria-expanded={viewMenuOpen}
         className="w-fit h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-semibold text-[#1D293D]"
       >
-        <span className="whitespace-nowrap">{selectedViewOption.label}</span>
+        <span className="whitespace-nowrap">{selectedViewOption?.label}</span>
         <ArrowDown2
           size="16"
           color="#1D293D"
@@ -415,20 +415,20 @@ function InvoiceRegister() {
         >
           {VIEW_OPTIONS.map((option, index) => (
             <li
-              key={option.value}
+              key={option?.value}
               role="option"
-              aria-selected={option.value === viewMode}
+              aria-selected={option?.value === viewMode}
               onClick={() => handleSelectView(option)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") handleSelectView(option);
+                if (e?.key === "Enter" || e?.key === " ") handleSelectView(option);
               }}
               tabIndex={0}
-              className={`px-[16px] py-2 text-sm whitespace-nowrap cursor-pointer hover:bg-[#F1F5FF] ${option.value === viewMode
+              className={`px-[16px] py-2 text-sm whitespace-nowrap cursor-pointer hover:bg-[#F1F5FF] ${option?.value === viewMode
                 ? "text-[#1E45E1] font-semibold"
                 : "text-[#222]"
                 } ${index < VIEW_OPTIONS.length - 1 ? "border-b border-[#E5E7EB]" : ""}`}
             >
-              {option.label}
+              {option?.label}
             </li>
           ))}
         </ul>
@@ -437,7 +437,7 @@ function InvoiceRegister() {
   );
 
   const handleNavigateReports = () => {
-    navigate(`/reports/${state.login.selectedHostel_Id}`);
+    navigate(`/reports/${state?.login?.selectedHostel_Id}`);
     dispatch({
       type: "SET_INVOICE_REGISTER_FILTERS",
       payload: {
@@ -469,10 +469,10 @@ function InvoiceRegister() {
   const handleNavigateBillsPdf = (row) => {
     dispatch({
       type: "GETPARTICULARBILLSDETAILS",
-      payload: { hostelId: row.hostelId, invoiceId: row.invoiceId },
+      payload: { hostelId: row?.hostelId, invoiceId: row?.invoiceId },
     });
 
-    navigate(`/invoice/details/${row.invoiceId}`, {
+    navigate(`/invoice/details/${row?.invoiceId}`, {
       state: {
         rowData: row,
         isReportsInvoiceRegisterWay: true,
@@ -521,33 +521,33 @@ function InvoiceRegister() {
     setRegister(false);
 
     if (item?.title === "Tenant Register") {
-      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/tenant-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Receipt Register") {
-      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/receipt-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Bank Transaction Register") {
       navigate(
-        `/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`,
+        `/reports/bank-transaction-register/${state?.login?.selectedHostel_Id}`,
       );
     } else if (item?.title === "Occupancy") {
-      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/occupancy-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Expense Register") {
-      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/expense-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Vendor Ledger") {
-      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/vendor-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Electricity Billing Register") {
       navigate(
-        `/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`,
+        `/reports/electricity-billing-register/${state?.login?.selectedHostel_Id}`,
       );
     } else if (item?.title === "Complaint Register") {
-      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/complaint-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Request Register") {
-      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/request-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Final Settlement") {
       navigate(
-        `/reports/final-settlement-register/${state.login?.selectedHostel_Id}`,
+        `/reports/final-settlement-register/${state?.login?.selectedHostel_Id}`,
       );
     } else if (item?.title === "Invoice Register") {
-      navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/invoice-register/${state?.login?.selectedHostel_Id}`);
     }
 
     dispatch({
@@ -575,119 +575,119 @@ function InvoiceRegister() {
   };
 
   useEffect(() => {
-    const invoiceFilters = state.reports.invoiceRegisterFilters;
+    const invoiceFilters = state?.reports?.invoiceRegisterFilters;
     const filterData = [];
 
 
 
     if (invoiceFilters?.paymentStatus?.length > 0) {
-      filterData.push({
+      filterData?.push({
         key: "payment-status",
         label: "Status is",
         type: "paymentStatus",
-        value: invoiceFilters.paymentStatusLabels?.join(", ") || "",
+        value: invoiceFilters?.paymentStatusLabels?.join(", ") || "",
       });
     }
 
     if (invoiceFilters?.createdBy?.length) {
-      filterData.push({
+      filterData?.push({
         key: "collected",
         label: "Collected By is",
         type: "collected",
-        value: invoiceFilters.createdByLabels?.join(", ") || "",
+        value: invoiceFilters?.createdByLabels?.join(", ") || "",
       });
     }
 
     if (invoiceFilters?.invoiceTypes?.length) {
-      filterData.push({
+      filterData?.push({
         key: "type",
         label: "Type is",
         type: "type",
-        value: invoiceFilters.invoiceTypeLabels?.join(", ") || "",
+        value: invoiceFilters?.invoiceTypeLabels?.join(", ") || "",
       });
     }
 
     if (invoiceFilters?.invoiceModes?.length) {
-      filterData.push({
+      filterData?.push({
         key: "modes",
         label: "Mode is",
         type: "modes",
-        value: invoiceFilters.invoiceModeLabels?.join(", ") || "",
+        value: invoiceFilters?.invoiceModeLabels?.join(", ") || "",
       });
     }
 
     const periodValue = Array.isArray(invoiceFilters?.period)
-      ? invoiceFilters.period.join(", ")
+      ? invoiceFilters?.period?.join(", ")
       : invoiceFilters?.period;
 
     if (periodValue) {
-      filterData.push({
+      filterData?.push({
         key: "period",
         label: "Period is",
         type: "period",
-        value: invoiceFilters.periodLabel || periodValue,
+        value: invoiceFilters?.periodLabel || periodValue,
       });
     }
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
-      filterData.push({
+      filterData?.push({
         key: "date-range",
         label: "Date Range is",
         type: "date",
         value:
-          invoiceFilters.startDate && invoiceFilters.endDate
-            ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-            : invoiceFilters.startDate || invoiceFilters.endDate,
+          invoiceFilters?.startDate && invoiceFilters?.endDate
+            ? `${invoiceFilters?.startDate} - ${invoiceFilters?.endDate}`
+            : invoiceFilters?.startDate || invoiceFilters?.endDate,
       });
     }
 
     if (invoiceFilters?.search) {
-      filterData.push({
+      filterData?.push({
         key: "search",
         label: "Tenant",
         type: "search",
-        value: invoiceFilters.search,
+        value: invoiceFilters?.search,
       });
     }
 
     if (invoiceFilters?.minPaidAmount) {
-      filterData.push({
+      filterData?.push({
         key: "minPaidAmount",
         label: "min-paid Amount",
         type: "minPaidAmount",
-        value: `₹${invoiceFilters.minPaidAmount}`,
+        value: `₹${invoiceFilters?.minPaidAmount}`,
       });
     }
 
     if (invoiceFilters?.maxPaidAmount) {
-      filterData.push({
+      filterData?.push({
         key: "maxPaidAmount",
         label: "max-paid Amount",
         type: "maxPaidAmount",
-        value: `₹${invoiceFilters.maxPaidAmount}`,
+        value: `₹${invoiceFilters?.maxPaidAmount}`,
       });
     }
 
     if (invoiceFilters?.minOutstandingAmount) {
-      filterData.push({
+      filterData?.push({
         key: "minOutstandingAmount",
         label: "min-outstanding",
         type: "minOutstandingAmount",
-        value: `₹${invoiceFilters.minOutstandingAmount}`,
+        value: `₹${invoiceFilters?.minOutstandingAmount}`,
       });
     }
 
     if (invoiceFilters?.maxOutstandingAmount) {
-      filterData.push({
+      filterData?.push({
         key: "maxOutstandingAmount",
         label: "max-outstanding",
         type: "maxOutstandingAmount",
-        value: `₹${invoiceFilters.maxOutstandingAmount}`,
+        value: `₹${invoiceFilters?.maxOutstandingAmount}`,
       });
     }
 
     setChips(filterData);
-  }, [state.reports.invoiceRegisterFilters]);
+  }, [state?.reports?.invoiceRegisterFilters]);
 
   const handleReset = () => {
     const startOfMonth = dayjs().startOf("month").toDate();
@@ -722,7 +722,7 @@ function InvoiceRegister() {
     dispatch({
       type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
       payload: {
-        hostelId: state.login.selectedHostel_Id,
+        hostelId: state?.login?.selectedHostel_Id,
         filters: {
           size: size,
           page: page,
@@ -737,7 +737,7 @@ function InvoiceRegister() {
   const isInitialLoad = useRef(true);
 
   useEffect(() => {
-    if (!apiStart || !apiEnd || !isInitialLoad.current) return;
+    if (!apiStart || !apiEnd || !isInitialLoad?.current) return;
 
     isInitialLoad.current = false;
 
@@ -770,7 +770,7 @@ function InvoiceRegister() {
       dispatch({
         type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           filters: {
             size: size,
             page: page,
@@ -783,11 +783,11 @@ function InvoiceRegister() {
     const [from, to] = dates;
 
     setSelectedRange({
-      from: from ? from.toDate() : null,
-      to: to ? to.toDate() : null,
+      from: from ? from?.toDate() : null,
+      to: to ? to?.toDate() : null,
     });
 
-    const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    const invoiceFilters = state?.reports?.invoiceRegisterFilters;
 
 
     const filters = {
@@ -798,19 +798,19 @@ function InvoiceRegister() {
       search: invoiceFilters?.search || undefined,
 
       paymentStatus: invoiceFilters?.paymentStatus?.length
-        ? invoiceFilters.paymentStatus
+        ? invoiceFilters?.paymentStatus
         : undefined,
 
       invoiceModes: invoiceFilters?.invoiceModes?.length
-        ? invoiceFilters.invoiceModes
+        ? invoiceFilters?.invoiceModes
         : undefined,
 
       invoiceTypes: invoiceFilters?.invoiceTypes?.length
-        ? invoiceFilters.invoiceTypes
+        ? invoiceFilters?.invoiceTypes
         : undefined,
 
       createdBy: invoiceFilters?.createdBy?.length
-        ? invoiceFilters.createdBy
+        ? invoiceFilters?.createdBy
         : undefined,
 
       period: invoiceFilters?.period || "",
@@ -825,7 +825,7 @@ function InvoiceRegister() {
     dispatch({
       type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
       payload: {
-        hostelId: state.login.selectedHostel_Id,
+        hostelId: state?.login?.selectedHostel_Id,
         filters,
       },
     });
@@ -881,19 +881,19 @@ function InvoiceRegister() {
 
   const startDate = useMemo(() => {
     return selectedRange?.from
-      ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+      ? dayjs(selectedRange?.from).format("DD-MM-YYYY")
       : undefined;
   }, [selectedRange?.from]);
 
   const endDate = useMemo(() => {
     return selectedRange?.to
-      ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+      ? dayjs(selectedRange?.to).format("DD-MM-YYYY")
       : undefined;
   }, [selectedRange?.to]);
 
   useEffect(() => {
-    if (!state.login?.selectedHostel_Id) return;
-    const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    if (!state?.login?.selectedHostel_Id) return;
+    const invoiceFilters = state?.reports?.invoiceRegisterFilters;
 
     const filters = {
       startDate: startDate,
@@ -903,19 +903,19 @@ function InvoiceRegister() {
       search: invoiceFilters?.search || undefined,
 
       paymentStatus: invoiceFilters?.paymentStatus?.length
-        ? invoiceFilters.paymentStatus
+        ? invoiceFilters?.paymentStatus
         : undefined,
 
       invoiceModes: invoiceFilters?.invoiceModes?.length
-        ? invoiceFilters.invoiceModes
+        ? invoiceFilters?.invoiceModes
         : undefined,
 
       invoiceTypes: invoiceFilters?.invoiceTypes?.length
-        ? invoiceFilters.invoiceTypes
+        ? invoiceFilters?.invoiceTypes
         : undefined,
 
       createdBy: invoiceFilters?.createdBy?.length
-        ? invoiceFilters.createdBy
+        ? invoiceFilters?.createdBy
         : undefined,
 
       period: invoiceFilters?.period || "",
@@ -930,31 +930,31 @@ function InvoiceRegister() {
       dispatch({
         type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           filters,
         },
       });
 
       setLoading(true);
     }
-  }, [state.login?.selectedHostel_Id, size, page, startDate, endDate]);
+  }, [state?.login?.selectedHostel_Id, size, page, startDate, endDate]);
 
   // Consolidated View: same trigger as the List call above, only while that view is open.
   useEffect(() => {
     if (!isConsolidated) return;
-    if (!state.login?.selectedHostel_Id) return;
+    if (!state?.login?.selectedHostel_Id) return;
 
     // A new scope (property, dates, filters, toggle, page size) starts again
     // at page 1; the page change re-runs this effect, so only one call is made.
     const scopeKey = JSON.stringify([
-      state.login.selectedHostel_Id,
+      state?.login?.selectedHostel_Id,
       startDate,
       endDate,
       consolidatedFilters,
       includeAllTenants,
       consolidatedSize,
     ]);
-    const scopeChanged = consolidatedScopeKeyRef.current !== scopeKey;
+    const scopeChanged = consolidatedScopeKeyRef?.current !== scopeKey;
     consolidatedScopeKeyRef.current = scopeKey;
     if (scopeChanged && consolidatedPage !== 1) {
       setConsolidatedPage(1);
@@ -967,10 +967,10 @@ function InvoiceRegister() {
       search: consolidatedFilters?.search || undefined,
       // paymentStatus keys, same field as the download API payload.
       paymentStatus: consolidatedFilters?.statuses?.length
-        ? consolidatedFilters.statuses
+        ? consolidatedFilters?.statuses
         : undefined,
       floors: consolidatedFilters?.floors?.length
-        ? consolidatedFilters.floors
+        ? consolidatedFilters?.floors
         : undefined,
       overdueOnly: consolidatedFilters?.overdueOnly || undefined,
       // Echoed back by the API; the toggle needs paid tenants and empty beds.
@@ -983,7 +983,7 @@ function InvoiceRegister() {
       dispatch({
         type: "GET_REPORTS_CONSOLIDATED_INVOICE_SAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           filters,
         },
       });
@@ -992,7 +992,7 @@ function InvoiceRegister() {
     }
   }, [
     isConsolidated,
-    state.login?.selectedHostel_Id,
+    state?.login?.selectedHostel_Id,
     startDate,
     endDate,
     consolidatedFilters,
@@ -1022,16 +1022,16 @@ function InvoiceRegister() {
   useEffect(() => {
     setPage(1);
   }, [
-    state.reports?.invoiceRegisterFilters?.search,
-    state.reports?.invoiceRegisterFilters?.paymentStatus,
-    state.reports?.invoiceRegisterFilters?.invoiceModes,
-    state.reports?.invoiceRegisterFilters?.invoiceTypes,
-    state.reports?.invoiceRegisterFilters?.createdBy,
-    state.reports?.invoiceRegisterFilters?.period,
-    state.reports?.invoiceRegisterFilters?.minPaidAmount,
-    state.reports?.invoiceRegisterFilters?.maxPaidAmount,
-    state.reports?.invoiceRegisterFilters?.minOutstandingAmount,
-    state.reports?.invoiceRegisterFilters?.maxOutstandingAmount,
+    state?.reports?.invoiceRegisterFilters?.search,
+    state?.reports?.invoiceRegisterFilters?.paymentStatus,
+    state?.reports?.invoiceRegisterFilters?.invoiceModes,
+    state?.reports?.invoiceRegisterFilters?.invoiceTypes,
+    state?.reports?.invoiceRegisterFilters?.createdBy,
+    state?.reports?.invoiceRegisterFilters?.period,
+    state?.reports?.invoiceRegisterFilters?.minPaidAmount,
+    state?.reports?.invoiceRegisterFilters?.maxPaidAmount,
+    state?.reports?.invoiceRegisterFilters?.minOutstandingAmount,
+    state?.reports?.invoiceRegisterFilters?.maxOutstandingAmount,
   ]);
 
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
@@ -1053,39 +1053,39 @@ function InvoiceRegister() {
   };
 
   useEffect(() => {
-    if (state.createAccount?.networkError) {
+    if (state?.createAccount?.networkError) {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
-  }, [state.createAccount?.networkError]);
+  }, [state?.createAccount?.networkError]);
 
   const handleDownload = () => {
-    if (state.login.selectedHostel_Id) {
-      const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    if (state?.login?.selectedHostel_Id) {
+      const invoiceFilters = state?.reports?.invoiceRegisterFilters;
       dispatch({
         type: "REPORTS_INVOICE_REGISTER_PDFSAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           startDate: startDate,
           endDate: endDate,
           search: invoiceFilters?.search || undefined,
 
           paymentStatus: invoiceFilters?.paymentStatus?.length
-            ? invoiceFilters.paymentStatus
+            ? invoiceFilters?.paymentStatus
             : undefined,
 
           invoiceModes: invoiceFilters?.invoiceModes?.length
-            ? invoiceFilters.invoiceModes
+            ? invoiceFilters?.invoiceModes
             : undefined,
 
           invoiceTypes: invoiceFilters?.invoiceTypes?.length
-            ? invoiceFilters.invoiceTypes
+            ? invoiceFilters?.invoiceTypes
             : undefined,
 
           createdBy: invoiceFilters?.createdBy?.length
-            ? invoiceFilters.createdBy
+            ? invoiceFilters?.createdBy
             : undefined,
 
           period: invoiceFilters?.period || "",
@@ -1163,9 +1163,9 @@ function InvoiceRegister() {
                     ref={dropdownRef}
                     className="absolute z-40 mt-2 w-64 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]"
                   >
-                    {reportCards.map((item, index) => {
+                    {reportCards?.map((item, index) => {
                       const isFirst = index === 0;
-                      const isLast = index === reportCards.length - 1;
+                      const isLast = index === reportCards?.length - 1;
 
                       return (
                         <div
@@ -1181,7 +1181,7 @@ function InvoiceRegister() {
             ${!isLast ? "border-b border-[#E5E7EB]" : ""}
           `}
                         >
-                          {item.title}
+                          {item?.title}
                         </div>
                       );
                     })}
@@ -1215,7 +1215,7 @@ function InvoiceRegister() {
               placeholder={["From date", "To date"]}
               value={
                 selectedRange?.from && selectedRange?.to
-                  ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                  ? [dayjs(selectedRange?.from), dayjs(selectedRange?.to)]
                   : null
               }
               onChange={handleDateChange}
@@ -1226,7 +1226,7 @@ function InvoiceRegister() {
                 return false;
               }}
               getPopupContainer={(triggerNode) =>
-                triggerNode.closest(".datepicker-wrapper")
+                triggerNode?.closest(".datepicker-wrapper")
               }
             />
           </div>
@@ -1269,11 +1269,11 @@ function InvoiceRegister() {
           <div className="shrink-0 mx-1 sm:mx-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
             <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
               {displayedChips?.map((chip) => (
-                <div key={chip.key}>
+                <div key={chip?.key}>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
-                    {chip.label} :
+                    {chip?.label} :
                     <span className="text-[12px] font-medium text-[#16151C]">
-                      {chip.value}
+                      {chip?.value}
                     </span>
                   </span>
                 </div>
@@ -1293,47 +1293,47 @@ function InvoiceRegister() {
 
         <div className="shrink-0 mt-3 ms-1 me-1 overflow-x-auto show-scrolls">
           <div className="flex gap-[12px] sm:gap-4 flex-nowrap">
-            {displayedStats.map((item, i) => (
+            {displayedStats?.map((item, i) => (
               <div
                 key={i}
                 className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[104px] sm:h-[120px] min-w-[180px] sm:min-w-[250px] flex-shrink-0"
               >
                 <div className="flex justify-between ">
-                  {item.tooltip ? (
+                  {item?.tooltip ? (
                     <CustomTooltip
-                      text={item.tooltip}
+                      text={item?.tooltip}
                       direction="top-full"
                       usePortal={true}
                     >
                       <label className="text-sm font-semibold text-[#4A5565] cursor-help">
-                        {item.title}
+                        {item?.title}
                       </label>
                     </CustomTooltip>
                   ) : (
                     <label className="text-sm font-semibold text-[#4A5565]">
-                      {item.title}
+                      {item?.title}
                     </label>
                   )}
-                  {item.up && (
+                  {item?.up && (
                     <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
-                      ↑ {item.up}
+                      ↑ {item?.up}
                     </span>
                   )}
-                  {item.down && (
+                  {item?.down && (
                     <span className="text-xs text-[#C10007] bg-[#FEF2F2] h-fit  rounded-lg px-2 py-1">
-                      ↓ {item.down}
+                      ↓ {item?.down}
                     </span>
                   )}
                 </div>
 
                 <div className="flex items-center gap-2 mt-2">
                   <h2 className="text-xl sm:text-2xl font-semibold text-[#101828]">
-                    {item.isCurrency
-                      ? `₹ ${item.value ?? 0}`
-                      : (item.value ?? 0)}
+                    {item?.isCurrency
+                      ? `₹ ${item?.value ?? 0}`
+                      : (item?.value ?? 0)}
                   </h2>
                 </div>
-                {item.link && (
+                {item?.link && (
                   <p
                     className="text-xs text-[#155DFC] w-fit cursor-pointer"
                     onClick={handleClickFilter}
@@ -1455,49 +1455,49 @@ function InvoiceRegister() {
                         <td
                           onClick={() => handleNavigateBillsPdf(row)}
                           className={`${LIST_BODY_CELL} cursor-pointer text-[#1E45E1] font-semibold truncate sticky left-[48px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
-                          title={row.invoiceNumber}
+                          title={row?.invoiceNumber}
                         >
-                          {row.invoiceNumber}
+                          {row?.invoiceNumber}
                         </td>
 
                         <td className={`${LIST_BODY_CELL} md:sticky md:left-[188px] md:z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
                           <div className="flex items-center gap-[13px] max-w-[188px] relative">
-                            {row.profilePic ? (
+                            {row?.profilePic ? (
                               <img
-                                src={row.profilePic}
-                                alt={row.fullName}
+                                src={row?.profilePic}
+                                alt={row?.fullName}
                                 className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
                               />
                             ) : (
                               <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
-                                {row.initials}
+                                {row?.initials}
                               </div>
                             )}
 
                             <span
                               onMouseEnter={(e) => {
-                                const rect = e.target.getBoundingClientRect();
+                                const rect = e?.target?.getBoundingClientRect();
                                 setPosition({
-                                  top: rect.top + rect.height / 2,
-                                  left: rect.right - 20,
+                                  top: rect?.top + rect?.height / 2,
+                                  left: rect?.right - 20,
                                 });
                                 setHovered(i);
                               }}
                               onMouseLeave={() => setHovered(null)}
                               className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
                             >
-                              {row.fullName}
+                              {row?.fullName}
                             </span>
 
                             {hovered === i && (
                               <div
                                 style={{
-                                  top: position.top,
-                                  left: position.left,
+                                  top: position?.top,
+                                  left: position?.left,
                                 }}
                                 className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
                               >
-                                {row.fullName}
+                                {row?.fullName}
                               </div>
                             )}
                           </div>
@@ -1505,45 +1505,45 @@ function InvoiceRegister() {
 
                         <td
                           className={`${LIST_BODY_CELL} text-center font-medium text-[#111928] truncate ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                          title={row.invoiceType}
+                          title={row?.invoiceType}
                         >
-                          {row.invoiceType}
+                          {row?.invoiceType}
                         </td>
 
                         <td
                           className={`${LIST_BODY_CELL} text-center text-[#314158] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          {row.invoiceDate}
+                          {row?.invoiceDate}
                         </td>
 
                         <td
                           className={`${LIST_BODY_CELL} text-center text-[#314158] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          {row.dueDate}
+                          {row?.dueDate}
                         </td>
 
                         <td
                           className={`${LIST_BODY_CELL} text-right font-medium text-[#111928] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          ₹{row.invoiceAmount}
+                          ₹{row?.invoiceAmount}
                         </td>
 
                         <td
                           className={`${LIST_BODY_CELL} text-right font-bold text-[#111928] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          ₹{row.dueAmount}
+                          ₹{row?.dueAmount}
                         </td>
 
                         <td
                           className={`${LIST_BODY_CELL} text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           <span
-                            className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${(statusColor[row.paymentStatus] || statusColor.Pending).bg}`}
+                            className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${(statusColor[row?.paymentStatus] || statusColor?.Pending)?.bg}`}
                           >
                             <span
-                              className={`w-[6px] h-[6px] rounded-full ${(statusColor[row.paymentStatus] || statusColor.Pending).dot}`}
+                              className={`w-[6px] h-[6px] rounded-full ${(statusColor[row?.paymentStatus] || statusColor?.Pending)?.dot}`}
                             />
-                            {row.paymentStatus.replace(/_/g, " ")}
+                            {row?.paymentStatus?.replace(/_/g, " ")}
                           </span>
                         </td>
                       </tr>
@@ -1607,17 +1607,17 @@ function InvoiceRegister() {
                   </div>
 
                   <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                    {options.map((item) => (
+                    {options?.map((item) => (
                       <label
-                        key={item.key}
+                        key={item?.key}
                         className="flex items-center gap-3 text-sm cursor-pointer"
                       >
                         <input
                           type="checkbox"
-                          defaultChecked={item.checked}
+                          defaultChecked={item?.checked}
                           className="w-4 h-4 accent-[#1E45E1] rounded"
                         />
-                        <span className="text-[#101828]">{item.label}</span>
+                        <span className="text-[#101828]">{item?.label}</span>
                       </label>
                     ))}
                   </div>

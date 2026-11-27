@@ -10,7 +10,17 @@ import pluginJsxA11y from "eslint-plugin-jsx-a11y";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+  {
+    // Playwright (e2e tests, config, reports) is not part of the app lint
+    ignores: [
+      "e2e/**",
+      "playwright/**",
+      "playwright-report/**",
+      "test-results/**",
+      "playwright.config.js",
+    ],
+  },
+  { files:["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
   {
     languageOptions: {
       globals: {

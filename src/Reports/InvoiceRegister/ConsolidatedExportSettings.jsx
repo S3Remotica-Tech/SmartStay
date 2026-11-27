@@ -82,10 +82,10 @@ export const getExportGroupByOptions = (response) => {
   const options = (response?.filters?.groupBy || [])
     .filter((option) => option?.key)
     .map((option) => ({
-      value: option.key,
-      label: (option.label || option.key).replace(/\s*->\s*/g, " → "),
+      value: option?.key,
+      label: (option?.label || option?.key)?.replace(/\s*->\s*/g, " → "),
     }));
-  return options.length > 0 ? options : EXPORT_GROUP_BY_OPTIONS;
+  return options?.length > 0 ? options : EXPORT_GROUP_BY_OPTIONS;
 };
 
 const pickBool = (value, fallback) =>
@@ -100,15 +100,15 @@ export const getExportPdfSettings = (
   ...fallback,
   includeFloorSubtotals: pickBool(
     response?.includeSubTotals,
-    fallback.includeFloorSubtotals,
+    fallback?.includeFloorSubtotals,
   ),
   includeGrandTotal: pickBool(
     response?.includeGrandTotal,
-    fallback.includeGrandTotal,
+    fallback?.includeGrandTotal,
   ),
   includePropertyAndPeriod: pickBool(
     response?.includeHostelName,
-    fallback.includePropertyAndPeriod,
+    fallback?.includePropertyAndPeriod,
   ),
 });
 
@@ -118,22 +118,22 @@ export const getExportReportInfo = (response) => {
   const hostel = response?.hostelInformation || {};
   const header = response?.invoiceHeader || {};
   const footer = response?.footerInfo || {};
-  const from = toIsoDate(header.startDate);
-  const to = toIsoDate(header.endDate);
+  const from = toIsoDate(header?.startDate);
+  const to = toIsoDate(header?.endDate);
   const address =
-    hostel.fullAddress ||
-    [hostel.houseNo, hostel.street, hostel.city, hostel.state, hostel.pincode]
+    hostel?.fullAddress ||
+    [hostel?.houseNo, hostel?.street, hostel?.city, hostel?.state, hostel?.pincode]
       .filter(Boolean)
       .join(", ");
   return {
-    propertyName: hostel.hostelName || "",
+    propertyName: hostel?.hostelName || "",
     propertyAddress: address || "",
-    propertyMobile: hostel.mobile ? String(hostel.mobile) : "",
+    propertyMobile: hostel?.mobile ? String(hostel?.mobile) : "",
     period:
       from && to && dayjs(from).isValid() && dayjs(to).isValid()
         ? { from: dayjs(from).toDate(), to: dayjs(to).toDate() }
         : null,
-    generatedLabel: [footer.date, footer.time].filter(Boolean).join(", "),
+    generatedLabel: [footer?.date, footer?.time].filter(Boolean).join(", "),
   };
 };
 
@@ -141,12 +141,12 @@ export const getExportReportInfo = (response) => {
 export const getFloorIdsByName = (response, beds = []) => {
   const map = new Map();
   (response?.filters?.floors || []).forEach((floor) => {
-    if (floor?.floorName && floor.floorId !== null && floor.floorId !== undefined) {
-      map.set(floor.floorName, floor.floorId);
+    if (floor?.floorName && floor?.floorId !== null && floor?.floorId !== undefined) {
+      map?.set(floor?.floorName, floor?.floorId);
     }
   });
-  beds.forEach((bed) => {
-    if (!map.has(bed.floor) && bed.floorId !== null && bed.floorId !== undefined) map.set(bed.floor, bed.floorId);
+  beds?.forEach((bed) => {
+    if (!map?.has(bed?.floor) && bed?.floorId !== null && bed?.floorId !== undefined) map?.set(bed?.floor, bed?.floorId);
   });
   return map;
 };
@@ -161,30 +161,30 @@ export const buildConsolidatedExportRequest = (
   pdfSettings = DEFAULT_EXPORT_PDF_SETTINGS,
   floorIdsByName = new Map(),
 ) => {
-  const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope.filters };
-  const includeAll = Boolean(scope.includeAllTenants);
-  const groupByFloor = pdfSettings.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
+  const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope?.filters };
+  const includeAll = Boolean(scope?.includeAllTenants);
+  const groupByFloor = pdfSettings?.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
   // Statuses are already the API's paymentStatus keys (filters.paymentStatus).
-  const paymentStatus = (filters.statuses || []).filter(Boolean);
-  const floorIds = (filters.floors || [])
-    .map((floor) => floorIdsByName.get(floor))
+  const paymentStatus = (filters?.statuses || []).filter(Boolean);
+  const floorIds = (filters?.floors || [])
+    .map((floor) => floorIdsByName?.get(floor))
     .filter((id) => id !== null && id !== undefined);
   return {
-    search: filters.search?.trim() || undefined,
-    paymentStatus: paymentStatus.length ? paymentStatus : undefined,
-    startDate: scope.period?.from
-      ? dayjs(scope.period.from).format("DD-MM-YYYY")
+    search: filters?.search?.trim() || undefined,
+    paymentStatus: paymentStatus?.length ? paymentStatus : undefined,
+    startDate: scope?.period?.from
+      ? dayjs(scope?.period?.from).format("DD-MM-YYYY")
       : undefined,
-    endDate: scope.period?.to
-      ? dayjs(scope.period.to).format("DD-MM-YYYY")
+    endDate: scope?.period?.to
+      ? dayjs(scope?.period?.to).format("DD-MM-YYYY")
       : undefined,
-    floorIds: floorIds.length ? floorIds : undefined,
+    floorIds: floorIds?.length ? floorIds : undefined,
     includePaidInvoice: includeAll,
     includeEmptyBeds: includeAll,
-    groupBy: pdfSettings.groupBy,
-    includeSubTotals: groupByFloor && Boolean(pdfSettings.includeFloorSubtotals),
-    includeGrandTotal: Boolean(pdfSettings.includeGrandTotal),
-    includeHostelName: Boolean(pdfSettings.includePropertyAndPeriod),
+    groupBy: pdfSettings?.groupBy,
+    includeSubTotals: groupByFloor && Boolean(pdfSettings?.includeFloorSubtotals),
+    includeGrandTotal: Boolean(pdfSettings?.includeGrandTotal),
+    includeHostelName: Boolean(pdfSettings?.includePropertyAndPeriod),
     // The whole sheet is exported, never one page.
     isPaginated: false,
   };
@@ -205,20 +205,20 @@ export const TOTAL_KEYS = [
 
 // Totals for a set of rows. Vacant beds are excluded.
 const sumExportRows = (rows = []) => {
-  const occupied = rows.filter((row) => !row.isVacant);
-  const totals = { tenantCount: occupied.length };
+  const occupied = rows?.filter((row) => !row?.isVacant);
+  const totals = { tenantCount: occupied?.length };
   TOTAL_KEYS.forEach((key) => {
-    totals[key] = occupied.reduce((sum, row) => sum + (row[key] || 0), 0);
+    totals[key] = occupied?.reduce((sum, row) => sum + (row[key] || 0), 0);
   });
   return totals;
 };
 
 const compareRoomBed = (a, b) => {
-  const room = String(a.room).localeCompare(String(b.room), "en", {
+  const room = String(a?.room).localeCompare(String(b?.room), "en", {
     numeric: true,
   });
   if (room !== 0) return room;
-  return String(a.bed).localeCompare(String(b.bed), "en", { numeric: true });
+  return String(a?.bed).localeCompare(String(b?.bed), "en", { numeric: true });
 };
 
 // scope: { filters, period, includeAllTenants }
@@ -231,61 +231,61 @@ export const buildExportData = (
   today = dayjs(),
 ) => {
   const rows = filterRowsByAllTenants(
-    applyConsolidatedFilters(beds, scope.filters, scope.period, today),
-    Boolean(scope.includeAllTenants),
+    applyConsolidatedFilters(beds, scope?.filters, scope?.period, today),
+    Boolean(scope?.includeAllTenants),
   );
 
-  const groupByFloor = settings.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
+  const groupByFloor = settings?.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
   const orderedRows = groupByFloor ? rows : [...rows].sort(compareRoomBed);
 
   let groups;
   if (groupByFloor) {
     const byFloor = new Map();
-    orderedRows.forEach((row) => {
-      if (!byFloor.has(row.floor)) byFloor.set(row.floor, []);
-      byFloor.get(row.floor).push(row);
+    orderedRows?.forEach((row) => {
+      if (!byFloor?.has(row?.floor)) byFloor?.set(row?.floor, []);
+      byFloor?.get(row?.floor)?.push(row);
     });
-    groups = [...byFloor.entries()].map(([floor, floorRows]) => ({
+    groups = [...(byFloor?.entries() || [])].map(([floor, floorRows]) => ({
       label: floor,
       rows: floorRows,
-      subtotal: settings.includeFloorSubtotals ? sumExportRows(floorRows) : null,
+      subtotal: settings?.includeFloorSubtotals ? sumExportRows(floorRows) : null,
     }));
   } else {
     groups = [{ label: null, rows: orderedRows, subtotal: null }];
   }
 
-  const occupiedCount = rows.filter((row) => !row.isVacant).length;
+  const occupiedCount = rows?.filter((row) => !row?.isVacant)?.length;
 
-  const columnKeys = settings.columnKeys || [];
+  const columnKeys = settings?.columnKeys || [];
 
   return {
     columnKeys,
     // Column definitions (API order) for the PDF table.
-    columns: (settings.columns || []).filter((column) =>
-      columnKeys.includes(column.key),
+    columns: (settings?.columns || []).filter((column) =>
+      columnKeys?.includes(column?.key),
     ),
     groups,
-    grandTotal: settings.includeGrandTotal ? sumExportRows(rows) : null,
-    rowCount: rows.length,
+    grandTotal: settings?.includeGrandTotal ? sumExportRows(rows) : null,
+    rowCount: rows?.length,
     occupiedCount,
-    vacantCount: rows.length - occupiedCount,
+    vacantCount: rows?.length - occupiedCount,
     settings,
   };
 };
 
 // Columns offered in the export settings (everything the PDF can render).
 export const getExportableColumns = (columns = []) =>
-  columns.filter((column) => column.known);
+  columns?.filter((column) => column?.known);
 
 // Export column keys: always keeps locked columns, in API order.
 export const normaliseExportColumnKeys = (columns = [], keys = []) =>
   getExportableColumns(columns)
-    .filter((column) => column.locked || keys.includes(column.key))
-    .map((column) => column.key);
+    ?.filter((column) => column?.locked || keys?.includes(column?.key))
+    ?.map((column) => column?.key);
 
 // Initial export columns = the columns currently visible in the table.
 export const getDefaultExportColumnKeys = (columns = []) =>
-  getVisibleColumns(columns).map((column) => column.key);
+  getVisibleColumns(columns)?.map((column) => column?.key);
 
 // ---- from consolidatedExportLayout.js ----
 // Page layout and pagination for the Pending Collection Sheet PDF.
@@ -329,36 +329,36 @@ const COLUMN_WEIGHTS = {
 
 // columns: definitions from buildConsolidatedColumns (exportData.columns).
 const getExportColumns = (columns = []) => {
-  const totalWeight = columns.reduce(
-    (sum, column) => sum + (COLUMN_WEIGHTS[column.key] || 8),
+  const totalWeight = columns?.reduce(
+    (sum, column) => sum + (COLUMN_WEIGHTS[column?.key] || 8),
     0,
   );
-  return columns.map((column) => ({
+  return columns?.map((column) => ({
     ...column,
-    widthPercent: ((COLUMN_WEIGHTS[column.key] || 8) / totalWeight) * 100,
-    isTotal: TOTAL_KEYS.includes(column.key),
+    widthPercent: ((COLUMN_WEIGHTS[column?.key] || 8) / totalWeight) * 100,
+    isTotal: TOTAL_KEYS.includes(column?.key),
   }));
 };
 
 // Plain-text value of one cell, shared by the PDF page and tests.
 const formatExportCell = (column, row) => {
-  switch (column.key) {
+  switch (column?.key) {
     case "floor":
     case "room":
     case "bed":
-      return String(row[column.key] ?? "");
+      return String(row[column?.key] ?? "");
     case "tenant":
-      return row.isVacant ? "—" : row.tenant?.name || "—";
+      return row?.isVacant ? "—" : row?.tenant?.name || "—";
     case "status":
-      return row.status;
+      return row?.status;
     case "contact":
-      return row.isVacant ? "—" : row.tenant?.phone || "—";
+      return row?.isVacant ? "—" : row?.tenant?.phone || "—";
     case "actualRent":
-      return row.isVacant ? "—" : `₹${formatAmount(row.actualRent)}`;
+      return row?.isVacant ? "—" : `₹${formatAmount(row?.actualRent)}`;
     case "pendingInvoiceCount":
-      return row.isVacant ? "—" : String(row.pendingInvoiceCount);
+      return row?.isVacant ? "—" : String(row?.pendingInvoiceCount);
     default:
-      return `₹${formatAmount(row[column.key])}`;
+      return `₹${formatAmount(row[column?.key])}`;
   }
 };
 
@@ -368,13 +368,13 @@ const formatExportTotal = (key, totals) =>
     : `₹${formatAmount(totals[key] ?? 0)}`;
 
 const itemHeight = (item, layout) => {
-  switch (item.type) {
+  switch (item?.type) {
     case "subtotal":
-      return layout.subtotalHeight;
+      return layout?.subtotalHeight;
     case "grand":
-      return layout.grandTotalHeight;
+      return layout?.grandTotalHeight;
     default:
-      return layout.rowHeight;
+      return layout?.rowHeight;
   }
 };
 
@@ -383,19 +383,19 @@ const getPageBodyCapacity = (
   showPropertyAndPeriod,
   layout = PDF_LAYOUT,
 ) => {
-  let header = layout.runningHeaderHeight;
+  let header = layout?.runningHeaderHeight;
   if (isFirstPage) {
     header = showPropertyAndPeriod
-      ? layout.firstHeaderHeight
-      : layout.firstHeaderCompactHeight;
+      ? layout?.firstHeaderHeight
+      : layout?.firstHeaderCompactHeight;
   }
   return (
-    layout.pageHeight -
-    layout.paddingY * 2 -
+    layout?.pageHeight -
+    layout?.paddingY * 2 -
     header -
-    layout.tableHeaderHeight -
-    layout.footerHeight -
-    layout.safety
+    layout?.tableHeaderHeight -
+    layout?.footerHeight -
+    layout?.safety
   );
 };
 
@@ -404,27 +404,27 @@ const getPageBodyCapacity = (
 // first row of each floor group (see paginateExportData).
 const buildItems = (exportData) => {
   const items = [];
-  exportData.groups.forEach((group, groupIndex) => {
-    group.rows.forEach((row, rowIndex) => {
-      items.push({
+  exportData?.groups?.forEach((group, groupIndex) => {
+    group?.rows?.forEach((row, rowIndex) => {
+      items?.push({
         type: "row",
         row,
         groupIndex,
-        groupLabel: group.label,
+        groupLabel: group?.label,
         firstInGroup: rowIndex === 0,
       });
     });
-    if (group.subtotal) {
-      items.push({
+    if (group?.subtotal) {
+      items?.push({
         type: "subtotal",
-        label: `${group.label} subtotal`,
-        totals: group.subtotal,
+        label: `${group?.label} subtotal`,
+        totals: group?.subtotal,
         groupIndex,
       });
     }
   });
-  if (exportData.grandTotal) {
-    items.push({ type: "grand", label: "Grand Total", totals: exportData.grandTotal });
+  if (exportData?.grandTotal) {
+    items?.push({ type: "grand", label: "Grand Total", totals: exportData?.grandTotal });
   }
   return items;
 };
@@ -432,7 +432,7 @@ const buildItems = (exportData) => {
 // An item followed by a subtotal or the grand total stays on the same page as
 // it, so totals never start a page alone.
 const keepsWithNext = (item, next) =>
-  Boolean(next) && (next.type === "subtotal" || next.type === "grand");
+  Boolean(next) && (next?.type === "subtotal" || next?.type === "grand");
 
 // Splits the report into pages without ever splitting a row.
 // Returns [{ pageNumber, totalPages, isFirst, items: [...] }]. Row items carry
@@ -448,51 +448,51 @@ const paginateExportData = (
   let remaining = getPageBodyCapacity(true, showPropertyAndPeriod, layout);
 
   const startNewPage = () => {
-    pages.push(current);
+    pages?.push(current);
     current = [];
     remaining = getPageBodyCapacity(false, showPropertyAndPeriod, layout);
   };
 
   let index = 0;
-  while (index < items.length) {
+  while (index < items?.length) {
     // Measure this item plus any items it must stay with.
     let end = index;
     let blockHeight = itemHeight(items[index], layout);
-    while (end + 1 < items.length && keepsWithNext(items[end], items[end + 1])) {
+    while (end + 1 < items?.length && keepsWithNext(items[end], items[end + 1])) {
       end += 1;
       blockHeight += itemHeight(items[end], layout);
     }
 
-    if (blockHeight > remaining && current.length > 0) startNewPage();
+    if (blockHeight > remaining && current?.length > 0) startNewPage();
 
     // A block taller than a full page is not expected; place it item by item.
     for (let i = index; i <= end; i += 1) {
       const height = itemHeight(items[i], layout);
-      if (height > remaining && current.length > 0) startNewPage();
-      current.push(items[i]);
+      if (height > remaining && current?.length > 0) startNewPage();
+      current?.push(items[i]);
       remaining -= height;
     }
     index = end + 1;
   }
 
-  if (current.length > 0 || pages.length === 0) pages.push(current);
+  if (current?.length > 0 || pages?.length === 0) pages?.push(current);
 
-  return pages.map((pageItems, pageIndex) => ({
+  return pages?.map((pageItems, pageIndex) => ({
     pageNumber: pageIndex + 1,
-    totalPages: pages.length,
+    totalPages: pages?.length,
     isFirst: pageIndex === 0,
-    items: pageItems.map((item, position) =>
-      item.type === "row"
+    items: pageItems?.map((item, position) =>
+      item?.type === "row"
         ? {
           ...item,
           showFloor:
-            item.groupLabel === null || position === 0 || item.firstInGroup,
+            item?.groupLabel === null || position === 0 || item?.firstInGroup,
           // A subtotal row already divides floors, so no extra rule then.
           separatorAbove:
-            item.groupLabel !== null &&
-            item.firstInGroup &&
+            item?.groupLabel !== null &&
+            item?.firstInGroup &&
             position > 0 &&
-            pageItems[position - 1].type !== "subtotal",
+            pageItems[position - 1]?.type !== "subtotal",
         }
         : item,
     ),
@@ -510,12 +510,12 @@ const PDF_TEXT_SHIFT = (fontSize) => Math.round(0.33 * fontSize + 3.3);
 const truncateText = (text, widthPx, fontSize = 10) => {
   const value = String(text ?? "");
   const maxChars = Math.max(Math.floor((widthPx - 16) / (fontSize * 0.56)), 3);
-  return value.length > maxChars ? `${value.slice(0, maxChars - 1)}…` : value;
+  return value?.length > maxChars ? `${value?.slice(0, maxChars - 1)}…` : value;
 };
 
 const formatPeriodLabel = (period) => {
   if (!period?.from || !period?.to) return "All dates";
-  return `${dayjs(period.from).format("DD MMM YYYY")} – ${dayjs(period.to).format("DD MMM YYYY")}`;
+  return `${dayjs(period?.from).format("DD MMM YYYY")} – ${dayjs(period?.to).format("DD MMM YYYY")}`;
 };
 
 const buildExportFileName = (propertyName, period) => {
@@ -525,13 +525,13 @@ const buildExportFileName = (propertyName, period) => {
       .replace(/[^a-z0-9]+/gi, "-")
       .replace(/^-+|-+$/g, "");
   const parts = ["Pending-Collection-Sheet"];
-  if (safe(propertyName)) parts.push(safe(propertyName));
+  if (safe(propertyName)) parts?.push(safe(propertyName));
   if (period?.from && period?.to) {
-    parts.push(
-      `${dayjs(period.from).format("DD-MM-YYYY")}_to_${dayjs(period.to).format("DD-MM-YYYY")}`,
+    parts?.push(
+      `${dayjs(period?.from).format("DD-MM-YYYY")}_to_${dayjs(period?.to).format("DD-MM-YYYY")}`,
     );
   }
-  return `${parts.join("_")}.pdf`;
+  return `${parts?.join("_")}.pdf`;
 };
 
 // ---- from ConsolidatedReportPage.jsx ----
@@ -547,15 +547,15 @@ const FONT_SIZE = 10;
 
 const buildFiltersSummary = (filters = {}, statusLabels = {}) => {
   const parts = [];
-  if (filters.statuses?.length) {
-    parts.push(
-      `Status: ${filters.statuses.map((key) => statusLabels[key] || key).join(", ")}`,
+  if (filters?.statuses?.length) {
+    parts?.push(
+      `Status: ${filters?.statuses?.map((key) => statusLabels[key] || key)?.join(", ")}`,
     );
   }
-  if (filters.overdueOnly) parts.push("Overdue only");
-  if (filters.floors?.length) parts.push(`Floors: ${filters.floors.join(", ")}`);
-  if (filters.search?.trim()) parts.push(`Tenant: ${filters.search.trim()}`);
-  return parts.length > 0 ? parts.join(" · ") : "None";
+  if (filters?.overdueOnly) parts?.push("Overdue only");
+  if (filters?.floors?.length) parts?.push(`Floors: ${filters?.floors?.join(", ")}`);
+  if (filters?.search?.trim()) parts?.push(`Tenant: ${filters?.search?.trim()}`);
+  return parts?.length > 0 ? parts?.join(" · ") : "None";
 };
 
 const justify = { left: "flex-start", center: "center", right: "flex-end" };
@@ -592,7 +592,7 @@ const cellStyle = (height, widthPercent, align, extra = {}) => ({
   ...extra,
 });
 
-const cellWidthPx = (column) => (column.widthPercent / 100) * CONTENT_WIDTH;
+const cellWidthPx = (column) => (column?.widthPercent / 100) * CONTENT_WIDTH;
 
 // One A4 landscape page of the Pending Collection Sheet. Heights come from
 // PDF_LAYOUT so the pagination in consolidatedExportLayout.js matches.
@@ -603,24 +603,24 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
 
   console.log("meta", meta)
   const layout = PDF_LAYOUT;
-  const periodLabel = formatPeriodLabel(meta.period);
-  const scopeLabel = meta.includeAllTenants
+  const periodLabel = formatPeriodLabel(meta?.period);
+  const scopeLabel = meta?.includeAllTenants
     ? "All tenants and empty beds"
     : "Pending tenants only";
   const filtersText = truncateText(
-    buildFiltersSummary(meta.filters, meta.statusLabels),
+    buildFiltersSummary(meta?.filters, meta?.statusLabels),
     420,
     10,
   );
   // Server time from footerInfo when the API sent it.
   const generatedText =
-    meta.generatedLabel || dayjs(meta.generatedAt).format("DD MMM YYYY, HH:mm");
+    meta?.generatedLabel || dayjs(meta?.generatedAt).format("DD MMM YYYY, HH:mm");
   const propertyLine = truncateText(
     [
       "Invoice Register",
-      meta.propertyName,
-      meta.propertyAddress,
-      meta.propertyMobile ? `Ph: ${meta.propertyMobile}` : "",
+      meta?.propertyName,
+      meta?.propertyAddress,
+      meta?.propertyMobile ? `Ph: ${meta?.propertyMobile}` : "",
     ]
       .filter(Boolean)
       .join(" · "),
@@ -628,13 +628,13 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
     12,
   );
 
-  const firstTotalIndex = columns.findIndex((column) => column.isTotal);
+  const firstTotalIndex = columns?.findIndex((column) => column?.isTotal);
   const leadingColumns =
-    firstTotalIndex === -1 ? columns : columns.slice(0, firstTotalIndex);
+    firstTotalIndex === -1 ? columns : columns?.slice(0, firstTotalIndex);
   const trailingColumns =
-    firstTotalIndex === -1 ? [] : columns.slice(firstTotalIndex);
-  const leadingWidth = leadingColumns.reduce(
-    (sum, column) => sum + column.widthPercent,
+    firstTotalIndex === -1 ? [] : columns?.slice(firstTotalIndex);
+  const leadingWidth = leadingColumns?.reduce(
+    (sum, column) => sum + column?.widthPercent,
     0,
   );
 
@@ -644,8 +644,8 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
     const cellHeight = height - borderTop - borderBottom;
     return (
       <div
-        key={`${item.type}-${item.label}`}
-        data-pdf-item={item.type}
+        key={`${item?.type}-${item?.label}`}
+        data-pdf-item={item?.type}
         style={{
           display: "flex",
           height,
@@ -654,19 +654,19 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
         }}
       >
         <div style={cellStyle(cellHeight, leadingWidth, "left")}>
-          <PdfText size={styles.fontSize}>{item.label}</PdfText>
+          <PdfText size={styles?.fontSize}>{item?.label}</PdfText>
         </div>
-        {trailingColumns.map((column) => (
+        {trailingColumns?.map((column) => (
           <div
-            key={column.key}
+            key={column?.key}
             style={cellStyle(
               cellHeight,
-              column.widthPercent,
-              column.align === "center" ? "center" : "right",
+              column?.widthPercent,
+              column?.align === "center" ? "center" : "right",
             )}
           >
-            <PdfText size={styles.fontSize}>
-              {column.isTotal ? formatExportTotal(column.key, item.totals) : ""}
+            <PdfText size={styles?.fontSize}>
+              {column?.isTotal ? formatExportTotal(column?.key, item?.totals) : ""}
             </PdfText>
           </div>
         ))}
@@ -676,18 +676,18 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
 
   const renderCell = (column, item, cellHeight) => {
     const { row } = item;
-    const isIdentity = ["floor", "room", "bed", "tenant"].includes(column.key);
+    const isIdentity = ["floor", "room", "bed", "tenant"].includes(column?.key);
     let text = formatExportCell(column, row);
-    if (column.key === "floor" && !item.showFloor) text = "";
-    if (column.key === "tenant") {
+    if (column?.key === "floor" && !item?.showFloor) text = "";
+    if (column?.key === "tenant") {
       text = truncateText(text, cellWidthPx(column), FONT_SIZE);
     }
     return (
       <div
-        key={column.key}
-        style={cellStyle(cellHeight, column.widthPercent, column.align, {
-          fontWeight: isIdentity || column.key === "totalPending" ? 600 : 400,
-          color: column.key === "status" ? statusText[row.status] || "#111928" : undefined,
+        key={column?.key}
+        style={cellStyle(cellHeight, column?.widthPercent, column?.align, {
+          fontWeight: isIdentity || column?.key === "totalPending" ? 600 : 400,
+          color: column?.key === "status" ? statusText[row?.status] || "#111928" : undefined,
         })}
       >
         <PdfText size={FONT_SIZE}>{text}</PdfText>
@@ -696,8 +696,8 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
   };
 
   const renderItem = (item) => {
-    if (item.type === "subtotal") {
-      return renderTotalsRow(item, layout.subtotalHeight, 0, 1, {
+    if (item?.type === "subtotal") {
+      return renderTotalsRow(item, layout?.subtotalHeight, 0, 1, {
         background: "#F8FAFC",
         borderBottom: "1px solid #CAD5E2",
         fontWeight: 600,
@@ -705,8 +705,8 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
         color: "#1D293D",
       });
     }
-    if (item.type === "grand") {
-      return renderTotalsRow(item, layout.grandTotalHeight, 2, 0, {
+    if (item?.type === "grand") {
+      return renderTotalsRow(item, layout?.grandTotalHeight, 2, 0, {
         background: "#EEF2FF",
         borderTop: "2px solid #1E45E1",
         fontWeight: 700,
@@ -714,15 +714,15 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
         color: "#020618",
       });
     }
-    const borderTop = item.separatorAbove ? 2 : 0;
-    const cellHeight = layout.rowHeight - borderTop - 1;
+    const borderTop = item?.separatorAbove ? 2 : 0;
+    const cellHeight = layout?.rowHeight - borderTop - 1;
     return (
       <div
-        key={item.row.bedId}
+        key={item?.row?.bedId}
         data-pdf-item="row"
         style={{
           display: "flex",
-          height: layout.rowHeight,
+          height: layout?.rowHeight,
           boxSizing: "border-box",
           borderBottom: "1px solid #E5E7EB",
           borderTop: borderTop ? "2px solid #CAD5E2" : undefined,
@@ -730,14 +730,14 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
           color: "#111928",
         }}
       >
-        {columns.map((column) => renderCell(column, item, cellHeight))}
+        {columns?.map((column) => renderCell(column, item, cellHeight))}
       </div>
     );
   };
 
   const renderFirstHeader = () =>
     showPropertyAndPeriod ? (
-      <div style={{ height: layout.firstHeaderHeight, boxSizing: "border-box" }}>
+      <div style={{ height: layout?.firstHeaderHeight, boxSizing: "border-box" }}>
         <div style={{ fontSize: 20, fontWeight: 700, color: "#020618", lineHeight: "26px" }}>
           <PdfText size={20}>Pending Collection Sheet</PdfText>
         </div>
@@ -779,7 +779,7 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
     ) : (
       <div
         style={{
-          height: layout.firstHeaderCompactHeight,
+          height: layout?.firstHeaderCompactHeight,
           boxSizing: "border-box",
           display: "flex",
           alignItems: "flex-start",
@@ -800,7 +800,7 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
   const renderRunningHeader = () => (
     <div
       style={{
-        height: layout.runningHeaderHeight,
+        height: layout?.runningHeaderHeight,
         boxSizing: "border-box",
         display: "flex",
         alignItems: "flex-start",
@@ -812,7 +812,7 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
     >
       <PdfText size={11} style={{ fontWeight: 700, color: "#020618" }}>
         Pending Collection Sheet
-        {showPropertyAndPeriod && meta.propertyName ? ` · ${meta.propertyName}` : ""}
+        {showPropertyAndPeriod && meta?.propertyName ? ` · ${meta?.propertyName}` : ""}
       </PdfText>
       {showPropertyAndPeriod && <PdfText size={11}>{periodLabel}</PdfText>}
     </div>
@@ -821,11 +821,11 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
   return (
     <div
       ref={ref}
-      data-pdf-page={page.pageNumber}
+      data-pdf-page={page?.pageNumber}
       style={{
-        width: layout.pageWidth,
-        height: layout.pageHeight,
-        padding: `${layout.paddingY}px ${layout.paddingX}px`,
+        width: layout?.pageWidth,
+        height: layout?.pageHeight,
+        padding: `${layout?.paddingY}px ${layout?.paddingX}px`,
         boxSizing: "border-box",
         background: "#FFFFFF",
         overflow: "hidden",
@@ -834,14 +834,14 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
         fontFamily: "Gilroy, 'DM Sans', Arial, sans-serif",
       }}
     >
-      {page.isFirst ? renderFirstHeader() : renderRunningHeader()}
+      {page?.isFirst ? renderFirstHeader() : renderRunningHeader()}
 
       <div
         data-pdf-item="table-header"
         style={{
           display: "flex",
           alignItems: "stretch",
-          height: layout.tableHeaderHeight,
+          height: layout?.tableHeaderHeight,
           boxSizing: "border-box",
           background: "#F8F9FF",
           borderTop: "1px solid #E5E7EB",
@@ -853,31 +853,31 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
           color: "#6B7280",
         }}
       >
-        {columns.map((column) => (
+        {columns?.map((column) => (
           <div
-            key={column.key}
+            key={column?.key}
             style={{
               boxSizing: "border-box",
               flexShrink: 0,
-              width: `${column.widthPercent}%`,
+              width: `${column?.widthPercent}%`,
               padding: "0 8px",
               display: "flex",
               alignItems: "center",
-              justifyContent: justify[column.align],
+              justifyContent: justify[column?.align],
             }}
           >
-            <PdfText size={9} style={{ lineHeight: "12px", textAlign: column.align }}>
-              {column.label}
+            <PdfText size={9} style={{ lineHeight: "12px", textAlign: column?.align }}>
+              {column?.label}
             </PdfText>
           </div>
         ))}
       </div>
 
-      <div style={{ flex: 1, overflow: "hidden" }}>{page.items.map(renderItem)}</div>
+      <div style={{ flex: 1, overflow: "hidden" }}>{page?.items?.map(renderItem)}</div>
 
       <div
         style={{
-          height: layout.footerHeight,
+          height: layout?.footerHeight,
           boxSizing: "border-box",
           display: "flex",
           alignItems: "flex-end",
@@ -892,7 +892,7 @@ const ConsolidatedReportPage = forwardRef(function ConsolidatedReportPage(
           Actual Rent is shown for reference and is not added to Total Pending.
         </PdfText>
         <PdfText size={9}>
-          Page {page.pageNumber} of {page.totalPages}
+          Page {page?.pageNumber} of {page?.totalPages}
         </PdfText>
       </div>
     </div>
@@ -967,13 +967,13 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
 
   const pages = useMemo(
     () =>
-      exportData && exportData.rowCount > 0
+      exportData && exportData?.rowCount > 0
         ? paginateExportData(exportData, { showPropertyAndPeriod })
         : [],
     [exportData, showPropertyAndPeriod],
   );
 
-  const fileName = buildExportFileName(meta.propertyName, meta.period);
+  const fileName = buildExportFileName(meta?.propertyName, meta?.period);
 
   // Start (or restart) generation whenever new export data arrives.
   // When hidden, clear the previous result so a stale preview never flashes.
@@ -985,25 +985,25 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
       setStatus(STATUS.PREPARING);
       return;
     }
-    if (exportData.rowCount === 0) {
+    if (exportData?.rowCount === 0) {
       setStatus(STATUS.EMPTY);
       return;
     }
-    setProgress({ done: 0, total: pages.length });
+    setProgress({ done: 0, total: pages?.length });
     setStatus(STATUS.PREPARING);
-  }, [show, exportData, pages.length, attempt]);
+  }, [show, exportData, pages?.length, attempt]);
 
   // Once the off-screen pages are mounted, capture them into a PDF.
   useEffect(() => {
-    if (!show || status !== STATUS.PREPARING || pages.length === 0) return undefined;
+    if (!show || status !== STATUS.PREPARING || pages?.length === 0) return undefined;
     let cancelled = false;
 
     const generate = async () => {
       try {
         if (document.fonts?.ready) await document.fonts.ready;
         await new Promise((resolve) => requestAnimationFrame(() => resolve()));
-        const elements = pageRefs.current.slice(0, pages.length).filter(Boolean);
-        if (elements.length !== pages.length) {
+        const elements = pageRefs?.current?.slice(0, pages?.length)?.filter(Boolean);
+        if (elements?.length !== pages?.length) {
           throw new Error("Report pages were not rendered");
         }
         const result = await createPdfFromPages(elements, {
@@ -1014,7 +1014,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
           },
         });
         if (cancelled) return;
-        setImages(result.images);
+        setImages(result?.images);
         setStatus(STATUS.READY);
       } catch {
         if (!cancelled) setStatus(STATUS.ERROR);
@@ -1029,11 +1029,11 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
 
   // Fit-to-view scale follows the viewer size.
   const updateFitScale = useCallback(() => {
-    const viewer = viewerRef.current;
+    const viewer = viewerRef?.current;
     if (!viewer) return;
     const scale = Math.min(
-      (viewer.clientWidth - FIT_PADDING) / PDF_LAYOUT.pageWidth,
-      (viewer.clientHeight - FIT_PADDING) / PDF_LAYOUT.pageHeight,
+      (viewer?.clientWidth - FIT_PADDING) / PDF_LAYOUT.pageWidth,
+      (viewer?.clientHeight - FIT_PADDING) / PDF_LAYOUT.pageHeight,
     );
     setFitScale(scale > 0 ? Math.min(scale, MAX_ZOOM) : 1);
   }, []);
@@ -1046,7 +1046,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
   }, [status, updateFitScale]);
 
   const scale = zoom ?? fitScale;
-  const totalPages = images.length;
+  const totalPages = images?.length;
 
   const goTo = useCallback(
     (index) => setPageIndex(Math.max(0, Math.min(index, totalPages - 1))),
@@ -1062,8 +1062,8 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
   useEffect(() => {
     if (!show || status !== STATUS.READY) return undefined;
     const handleKey = (event) => {
-      if (event.key === "ArrowRight") goTo(pageIndex + 1);
-      if (event.key === "ArrowLeft") goTo(pageIndex - 1);
+      if (event?.key === "ArrowRight") goTo(pageIndex + 1);
+      if (event?.key === "ArrowLeft") goTo(pageIndex - 1);
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -1073,29 +1073,29 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
   // with the same request body used to fetch this preview.
   const handleDownload = () => {
     console.log("exportData", exportData)
-    const hostelId = state.login?.selectedHostel_Id;
+    const hostelId = state?.login?.selectedHostel_Id;
     if (!exportData?.request || !hostelId) return;
     setDownloading(true);
     dispatch({
       type: "REPORTS_CONSOLIDATED_INVOICE_PDFSAGA",
-      payload: { hostelId, filters: exportData.request },
+      payload: { hostelId, filters: exportData?.request },
     });
   };
 
   useEffect(() => {
-    if (state.reports?.reportsConsolidatedInvoicePdfSuccess === 200) {
+    if (state?.reports?.reportsConsolidatedInvoicePdfSuccess === 200) {
       setDownloading(false);
-      const result = state.reports?.reportsConsolidatedInvoicePdf;
+      const result = state?.reports?.reportsConsolidatedInvoicePdf;
       const pdfUrl = typeof result === "string" ? result : result?.url;
       if (pdfUrl) window.open(pdfUrl, "_blank");
       dispatch({ type: "REMOVE_REPORTS_CONSOLIDATED_INVOICE_PDF_REDUCER" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.reports?.reportsConsolidatedInvoicePdfSuccess]);
+  }, [state?.reports?.reportsConsolidatedInvoicePdfSuccess]);
 
   useEffect(() => {
-    if (state.reports?.reportsPdfExportError) setDownloading(false);
-  }, [state.reports?.reportsPdfExportError]);
+    if (state?.reports?.reportsPdfExportError) setDownloading(false);
+  }, [state?.reports?.reportsPdfExportError]);
 
   const isReady = status === STATUS.READY;
   // The backend builds the PDF, so Download only needs the request body.
@@ -1242,9 +1242,9 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
               <p className="mb-0 font-semibold text-[14px] text-[#1D293D]">
                 Generating PDF preview…
               </p>
-              {progress.total > 0 && (
+              {progress?.total > 0 && (
                 <p className="mb-0 text-[12px] text-[#62748E]">
-                  Page {progress.done} of {progress.total}
+                  Page {progress?.done} of {progress?.total}
                 </p>
               )}
             </div>
@@ -1298,7 +1298,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
       {/* Pages used only for PDF capture. They sit at the top-left, behind the
           full-screen preview (z-index -1), because html2canvas can produce
           blank captures for elements placed far off-screen. */}
-      {status === STATUS.PREPARING && pages.length > 0 && (
+      {status === STATUS.PREPARING && pages?.length > 0 && (
         <div
           aria-hidden="true"
           style={{
@@ -1309,9 +1309,9 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
             pointerEvents: "none",
           }}
         >
-          {pages.map((page, index) => (
+          {pages?.map((page, index) => (
             <ConsolidatedReportPage
-              key={page.pageNumber}
+              key={page?.pageNumber}
               ref={(element) => {
                 pageRefs.current[index] = element;
               }}
@@ -1437,7 +1437,7 @@ function ScopeMultiSelect({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      if (wrapperRef?.current && !wrapperRef?.current?.contains(event?.target)) {
         setIsOpen(false);
       }
     };
@@ -1447,14 +1447,14 @@ function ScopeMultiSelect({
 
   const toggleOption = (value) => {
     onChange(
-      selected.includes(value)
-        ? selected.filter((item) => item !== value)
+      selected?.includes(value)
+        ? selected?.filter((item) => item !== value)
         : [...selected, value],
     );
   };
 
   const summary =
-    selected.length > 0 ? selected.map(labelOf).join(", ") : emptyLabel;
+    selected?.length > 0 ? selected?.map(labelOf)?.join(", ") : emptyLabel;
 
   return (
     <div ref={wrapperRef} className="relative">
@@ -1475,14 +1475,14 @@ function ScopeMultiSelect({
           aria-multiselectable="true"
           className="absolute left-0 right-0 z-50 mt-1 bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-lg py-2"
         >
-          {options.map((option) => (
+          {options?.map((option) => (
             <label
               key={option}
               className="flex items-center gap-2 px-[12px] py-1.5 mb-0 cursor-pointer text-[14px] text-[#314158] hover:bg-[#F1F5FF]"
             >
               <input
                 type="checkbox"
-                checked={selected.includes(option)}
+                checked={selected?.includes(option)}
                 onChange={() => toggleOption(option)}
                 className="w-4 h-4 accent-[#1E45E1]"
               />
@@ -1555,19 +1555,19 @@ function ExportSettingsPanel({
 
   useEffect(() => {
     if (!show) return;
-    const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope.filters };
-    setRange(periodToRange(scope.period));
+    const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope?.filters };
+    setRange(periodToRange(scope?.period));
     setStatuses(
-      filters.overdueOnly
-        ? [...filters.statuses, OVERDUE_OPTION]
-        : [...filters.statuses],
+      filters?.overdueOnly
+        ? [...(filters?.statuses || []), OVERDUE_OPTION]
+        : [...(filters?.statuses || [])],
     );
-    setFloors([...filters.floors]);
-    setSearch(filters.search || "");
-    setIncludeAllTenants(Boolean(scope.includeAllTenants));
+    setFloors([...(filters?.floors || [])]);
+    setSearch(filters?.search || "");
+    setIncludeAllTenants(Boolean(scope?.includeAllTenants));
     setColumnKeys(
       savedPrefs?.columnKeys
-        ? normaliseExportColumnKeys(columns, savedPrefs.columnKeys)
+        ? normaliseExportColumnKeys(columns, savedPrefs?.columnKeys)
         : getDefaultExportColumnKeys(columns),
     );
     // Defaults come from the API flags (includeSubTotals, includeGrandTotal,
@@ -1583,8 +1583,8 @@ function ExportSettingsPanel({
   const exportFilters = useMemo(
     () => ({
       search,
-      statuses: statuses.filter((status) => status !== OVERDUE_OPTION),
-      overdueOnly: statuses.includes(OVERDUE_OPTION),
+      statuses: statuses?.filter((status) => status !== OVERDUE_OPTION),
+      overdueOnly: statuses?.includes(OVERDUE_OPTION),
       floors,
     }),
     [search, statuses, floors],
@@ -1593,7 +1593,7 @@ function ExportSettingsPanel({
   const exportPeriod = useMemo(
     () =>
       range?.[0] && range?.[1]
-        ? { from: range[0].toDate(), to: range[1].toDate() }
+        ? { from: range[0]?.toDate(), to: range[1]?.toDate() }
         : null,
     [range],
   );
@@ -1619,14 +1619,14 @@ function ExportSettingsPanel({
   );
 
   const hasFilters = countActiveFilters(exportFilters) > 0;
-  const groupsByFloor = pdfSettings.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
+  const groupsByFloor = pdfSettings?.groupBy !== EXPORT_GROUP_BY.ROOM_BED;
 
   const toggleColumn = (key) => {
-    if (exportableColumns.some((column) => column.key === key && column.locked)) {
+    if (exportableColumns?.some((column) => column?.key === key && column?.locked)) {
       return;
     }
     setColumnKeys((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
+      prev?.includes(key) ? prev?.filter((k) => k !== key) : [...prev, key],
     );
   };
 
@@ -1641,7 +1641,7 @@ function ExportSettingsPanel({
   const validate = () => {
     const messages = [];
     if (!exportPeriod) {
-      messages.push("Select a date range for the export.");
+      messages?.push("Select a date range for the export.");
     }
     return messages;
   };
@@ -1651,8 +1651,8 @@ function ExportSettingsPanel({
   const handlePrepare = () => {
     const messages = validate();
     setErrors(messages);
-    if (messages.length > 0) return;
-    const hostelId = state.login?.selectedHostel_Id;
+    if (messages?.length > 0) return;
+    const hostelId = state?.login?.selectedHostel_Id;
     if (!hostelId) return;
 
     const request = buildConsolidatedExportRequest(
@@ -1670,9 +1670,9 @@ function ExportSettingsPanel({
 
   // API response -> export rows, PDF settings and report details.
   useEffect(() => {
-    if (state.reports?.consolidatedInvoiceExportSuccess !== 200) return;
-    const response = state.reports?.consolidatedInvoiceExport;
-    const request = pendingRequestRef.current;
+    if (state?.reports?.consolidatedInvoiceExportSuccess !== 200) return;
+    const response = state?.reports?.consolidatedInvoiceExport;
+    const request = pendingRequestRef?.current;
     pendingRequestRef.current = null;
     dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER" });
     if (!request) return;
@@ -1692,7 +1692,7 @@ function ExportSettingsPanel({
           ...exportScope,
           filters: {
             ...DEFAULT_CONSOLIDATED_FILTERS,
-            overdueOnly: exportFilters.overdueOnly,
+            overdueOnly: exportFilters?.overdueOnly,
           },
           includeAllTenants: true,
         },
@@ -1700,22 +1700,22 @@ function ExportSettingsPanel({
       );
       setStep(STEP.CONFIGURE);
       // API returned 200 but nothing to export -> keep the panel open.
-      if (data.rowCount === 0) {
+      if (data?.rowCount === 0) {
         setErrors([NO_ROWS_MESSAGE]);
         return;
       }
-      onSavePrefs({ columnKeys: exportSettings.columnKeys, pdfSettings });
+      onSavePrefs({ columnKeys: exportSettings?.columnKeys, pdfSettings });
       // Hand over to the PDF preview, with the report details it prints and
       // the request body the Download PDF call reuses.
       onPrepared({
         ...data,
         request,
         meta: {
-          propertyName: info.propertyName || propertyName,
-          propertyAddress: info.propertyAddress,
-          propertyMobile: info.propertyMobile,
-          period: info.period || exportPeriod,
-          generatedLabel: info.generatedLabel,
+          propertyName: info?.propertyName || propertyName,
+          propertyAddress: info?.propertyAddress,
+          propertyMobile: info?.propertyMobile,
+          period: info?.period || exportPeriod,
+          generatedLabel: info?.generatedLabel,
           includeAllTenants,
           filters: exportFilters,
           statusLabels,
@@ -1727,22 +1727,22 @@ function ExportSettingsPanel({
     }
     // Runs only when the export fetch finishes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.reports?.consolidatedInvoiceExportSuccess]);
+  }, [state?.reports?.consolidatedInvoiceExportSuccess]);
 
   useEffect(() => {
-    if (!state.reports?.consolidatedInvoiceExportError) return;
-    if (pendingRequestRef.current) {
+    if (!state?.reports?.consolidatedInvoiceExportError) return;
+    if (pendingRequestRef?.current) {
       pendingRequestRef.current = null;
       setStep(STEP.ERROR);
     }
     dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.reports?.consolidatedInvoiceExportError]);
+  }, [state?.reports?.consolidatedInvoiceExportError]);
 
   const footerSummary = [
     `${liveData?.occupiedCount ?? 0} tenant stays`,
-    liveData?.vacantCount > 0 ? `${liveData.vacantCount} empty beds` : null,
-    `${exportSettings.columnKeys.length} columns`,
+    liveData?.vacantCount > 0 ? `${liveData?.vacantCount} empty beds` : null,
+    `${exportSettings?.columnKeys?.length} columns`,
     "A4 landscape",
   ]
     .filter(Boolean)
@@ -1793,7 +1793,7 @@ function ExportSettingsPanel({
             </label>
             <ScopeMultiSelect
               id="export-status"
-              options={[...statusOptions.map((option) => option.key), OVERDUE_OPTION]}
+              options={[...(statusOptions?.map((option) => option?.key) || []), OVERDUE_OPTION]}
               labels={statusLabels}
               selected={statuses}
               onChange={setStatuses}
@@ -1884,7 +1884,7 @@ function ExportSettingsPanel({
             <button
               type="button"
               onClick={() =>
-                setColumnKeys(exportableColumns.map((column) => column.key))
+                setColumnKeys(exportableColumns?.map((column) => column?.key))
               }
               className="bg-transparent border-0 p-0 text-[12px] font-semibold text-[#1E45E1]"
             >
@@ -1904,12 +1904,12 @@ function ExportSettingsPanel({
         </SectionTitle>
 
         <div className="grid grid-cols-2 gap-2 pt-[12px]">
-          {exportableColumns.map((column) => {
-            const locked = column.locked;
-            const checked = locked || columnKeys.includes(column.key);
+          {exportableColumns?.map((column) => {
+            const locked = column?.locked;
+            const checked = locked || columnKeys?.includes(column?.key);
             return (
               <label
-                key={column.key}
+                key={column?.key}
                 className={`flex items-center justify-between min-h-[36px] px-[12px] py-[6px] mb-0 rounded-[10px] border-[1px] border-[#DBEAFE] bg-[rgba(239,246,255,0.6)] ${locked ? "cursor-not-allowed" : "cursor-pointer"
                   }`}
               >
@@ -1918,11 +1918,11 @@ function ExportSettingsPanel({
                     type="checkbox"
                     checked={checked}
                     disabled={locked}
-                    onChange={() => toggleColumn(column.key)}
+                    onChange={() => toggleColumn(column?.key)}
                     className="w-4 h-4 accent-[#1E45E1]"
                   />
                   <span className="font-medium text-[13px] sm:text-[14px] leading-[18px] sm:leading-[20px] text-[#314158]">
-                    {column.label}
+                    {column?.label}
                   </span>
                 </span>
                 {locked && (
@@ -1956,13 +1956,13 @@ function ExportSettingsPanel({
                 </label>
                 <select
                   id="export-group-by"
-                  value={pdfSettings.groupBy}
-                  onChange={(e) => updatePdf("groupBy", e.target.value)}
+                  value={pdfSettings?.groupBy}
+                  onChange={(e) => updatePdf("groupBy", e?.target?.value)}
                   className={`${fieldBox} cursor-pointer`}
                 >
-                  {groupByOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
+                  {groupByOptions?.map((option) => (
+                    <option key={option?.value} value={option?.value}>
+                      {option?.label}
                     </option>
                   ))}
                 </select>
@@ -2000,22 +2000,22 @@ function ExportSettingsPanel({
                 },
               ].map((item) => (
                 <div
-                  key={item.field}
+                  key={item?.field}
                   className="flex items-center justify-between pb-2 border-b border-[#F1F5F9]"
                 >
                   <span className="font-medium text-[14px] leading-[20px] text-[#314158]">
-                    {item.label}
-                    {item.disabled && (
+                    {item?.label}
+                    {item?.disabled && (
                       <span className="block text-[11px] text-[#62748E]">
                         Available when grouped by floor.
                       </span>
                     )}
                   </span>
                   <SettingToggle
-                    label={item.label}
-                    checked={Boolean(pdfSettings[item.field]) && !item.disabled}
-                    disabled={item.disabled}
-                    onChange={(value) => updatePdf(item.field, value)}
+                    label={item?.label}
+                    checked={Boolean(pdfSettings[item?.field]) && !item?.disabled}
+                    disabled={item?.disabled}
+                    onChange={(value) => updatePdf(item?.field, value)}
                   />
                 </div>
               ))}
@@ -2030,7 +2030,7 @@ function ExportSettingsPanel({
               className="bg-white rounded-[8px] p-[12px] shadow-[0px_1px_1.5px_rgba(0,0,0,0.1),0px_1px_1px_rgba(0,0,0,0.1)]"
               aria-hidden="true"
             >
-              {pdfSettings.includePropertyAndPeriod && (
+              {pdfSettings?.includePropertyAndPeriod && (
                 <>
                   <div className="h-[6px] w-[64px] rounded bg-[#1D293D]" />
                   <div className="mt-2 h-[4px] w-[96px] rounded bg-[#CAD5E2]" />
@@ -2046,12 +2046,12 @@ function ExportSettingsPanel({
                   <div className="h-[4px] w-[20px] rounded bg-[#90A1B9]" />
                 </div>
               ))}
-              {pdfSettings.includeFloorSubtotals && groupsByFloor && (
+              {pdfSettings?.includeFloorSubtotals && groupsByFloor && (
                 <div className="flex justify-end py-[6px]">
                   <div className="h-[4px] w-[48px] rounded bg-[#90A1B9]" />
                 </div>
               )}
-              {pdfSettings.includeGrandTotal && (
+              {pdfSettings?.includeGrandTotal && (
                 <div className="flex justify-end pt-2">
                   <div className="h-[6px] w-[64px] rounded bg-[#314158]" />
                 </div>
@@ -2064,7 +2064,7 @@ function ExportSettingsPanel({
         </div>
       </section>
 
-      {errors.length > 0 && (
+      {errors?.length > 0 && (
         <div role="alert">
           <ErrorMessage message={errors} type="error" />
         </div>
