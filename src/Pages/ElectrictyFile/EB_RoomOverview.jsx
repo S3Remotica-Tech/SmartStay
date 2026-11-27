@@ -188,7 +188,7 @@ const EBRoomOverview = ({ onBack, room }) => {
       <div>
         <div className="mb-2 px-2">
           <div className="flex items-center sticky top-1 z-[1000] bg-white p-3 h-15 -ml-3.5">
-            <img
+            <img data-testid="eb-room-overview-leftarrow-img"
               src={leftarrow}
               alt="leftarrow"
               width={20}
@@ -227,7 +227,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
         <div className="flex items-center mb-3 mx-2">
           <div className="flex">
-            <div
+            <div data-testid="eb-room-overview-reading-action"
               onClick={() => setActiveTab("room")}
               className={`
     font-gilroy text-base 
@@ -237,7 +237,7 @@ const EBRoomOverview = ({ onBack, room }) => {
             >
               Reading
             </div>
-            <div
+            <div data-testid="eb-room-overview-occupants-action"
               onClick={() => setActiveTab("customer")}
               className={`
     font-gilroy text-base 

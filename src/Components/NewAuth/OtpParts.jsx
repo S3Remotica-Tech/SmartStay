@@ -178,7 +178,7 @@ export function OtpInput({
           {!lg && i === OTP_LENGTH / 2 && (
             <span aria-hidden="true" className="h-[2px] w-[8px] shrink-0 bg-[#D1D5DB]" />
           )}
-          <input
+          <input data-testid={`otp-parts-change-input-${i}`}
             ref={(el) => {
               refs.current[i] = el;
             }}
@@ -276,7 +276,7 @@ export function OtpVerifyPanel({
   const statusId = `${id}-status`;
 
   return (
-    <form
+    <form data-testid="otp-parts-resend-code-in-00-form"
       noValidate
       onSubmit={(e) => {
         e.preventDefault();
@@ -293,7 +293,7 @@ export function OtpVerifyPanel({
         >
           {label}
         </label>
-        <OtpInput
+        <OtpInput data-testid="otp-parts-code-input"
           id={id}
           size={size}
           value={code}
@@ -323,7 +323,7 @@ export function OtpVerifyPanel({
         {left === 0 && (
           <p className="mb-0 text-[16px] leading-[25px] tracking-[0.08px]">
             Didn&apos;t receive the code?{"  "}
-            <button
+            <button data-testid="otp-parts-resend-otp-btn"
               type="button"
               onClick={onResend}
               disabled={resendBusy || loading}
@@ -335,7 +335,7 @@ export function OtpVerifyPanel({
         )}
         <p className="mb-0 text-[15px] leading-[24px]">
           {wrongText}{" "}
-          <button
+          <button data-testid="otp-parts-change-contact-btn"
             type="button"
             onClick={onChangeContact}
             disabled={loading}

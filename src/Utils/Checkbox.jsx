@@ -15,6 +15,7 @@ function Checkbox({
   description,
   id,
   className = "",
+  "data-testid": testId,
 }) {
   const inputRef = useRef(null);
   useEffect(() => {
@@ -41,6 +42,7 @@ function Checkbox({
     >
       <span className="relative mt-[2px] flex">
         <input
+          data-testid={testId}
           ref={inputRef}
           id={id}
           type="checkbox"
@@ -83,6 +85,7 @@ function Checkbox({
 }
 
 Checkbox.propTypes = {
+  "data-testid": PropTypes.string,
   checked: PropTypes.bool,
   indeterminate: PropTypes.bool,
   onChange: PropTypes.func,

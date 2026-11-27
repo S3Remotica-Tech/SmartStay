@@ -16,7 +16,7 @@ function UnsavedChangesDialog({ isBooking, saving, onSaveDraft, onDiscard, onKee
         aria-describedby="unsaved-text"
         className="relative w-full max-w-[476px] overflow-hidden rounded-[10px] border-[0.8px] border-solid border-[rgba(0,0,0,0.1)] bg-white shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)]"
       >
-        <button
+        <button data-testid="unsaved-changes-dialog-close-btn"
           type="button"
           aria-label="Close"
           onClick={onKeepEditing}
@@ -48,7 +48,7 @@ function UnsavedChangesDialog({ isBooking, saving, onSaveDraft, onDiscard, onKee
         </div>
 
         <div className="flex h-[74px] items-center justify-between gap-[12px] px-[20px]">
-          <button
+          <button data-testid="unsaved-changes-dialog-save-draft-btn"
             type="button"
             disabled={saving}
             onClick={onSaveDraft}
@@ -64,7 +64,7 @@ function UnsavedChangesDialog({ isBooking, saving, onSaveDraft, onDiscard, onKee
             )}
           </button>
           <div className="flex items-center gap-[12px]">
-            <button
+            <button data-testid="unsaved-changes-dialog-discard-btn"
               type="button"
               disabled={saving}
               onClick={onDiscard}
@@ -72,7 +72,7 @@ function UnsavedChangesDialog({ isBooking, saving, onSaveDraft, onDiscard, onKee
             >
               Discard
             </button>
-            <button
+            <button data-testid="unsaved-changes-dialog-keep-editing-btn"
               type="button"
               onClick={onKeepEditing}
               className="flex h-[36px] w-[123px] items-center justify-center rounded-[6px] bg-[#1E45E1] font-gilroy text-[16px] font-medium text-white outline-none hover:bg-[#1638B5] focus-visible:shadow-[0_0_0_2px_#FFFFFF,0_0_0_4px_#0485F7]"

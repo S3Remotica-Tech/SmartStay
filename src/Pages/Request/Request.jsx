@@ -479,7 +479,7 @@ function Request() {
           : "border-gray-200 opacity-60 cursor-not-allowed"
       }`}
               >
-                <input
+                <input data-testid="request-input-change-input"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -496,7 +496,7 @@ function Request() {
             </div>
 
             <div>
-              <button
+              <button data-testid="request-add-btn"
                 disabled={!canWriteComplaints}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -585,7 +585,7 @@ function Request() {
 
             <div className="flex items-center justify-between mt-2">
               <div className="flex ">
-                <button
+                <button data-testid="request-current-btn"
                   onClick={() => setActiveTab("current")}
                   className={`px-6 py-3 text-sm font-medium transition-all ${
                     activeTab === "current"
@@ -596,7 +596,7 @@ function Request() {
                   Current
                 </button>
 
-                <button
+                <button data-testid="request-completed-btn"
                   onClick={() => setActiveTab("completed")}
                   className={`px-6 py-3 text-sm font-medium transition-all ${
                     activeTab === "completed"
@@ -613,7 +613,7 @@ function Request() {
                   <div
                     className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                   >
-                    <Filter
+                    <Filter data-testid="request-icon"
                       size={16}
                       onClick={() => {
                         if (canReadComplaints) {
@@ -628,17 +628,17 @@ function Request() {
                     />
                   </div>
                   <div className={`border border-gray-300 rounded-lg w-36 `}>
-                    <Select
+                    <div data-testid="request-statusselect-select" className="contents"><Select
                       styles={CustomStyles}
                       isDisabled={!canReadComplaints}
                       menuPlacement="auto"
                       classNamePrefix="custom"
                       id="statusselect"
-                    />
+                    /></div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Select
+                    <div data-testid="request-statusselect-select-2" className="contents"><Select
                       //   options={paymentStatusOptions}
                       isDisabled={!canReadComplaints}
                       classNamePrefix="custom"
@@ -646,7 +646,7 @@ function Request() {
                       noOptionsMessage={() => "No options"}
                       styles={CustomStyles}
                       id="statusselect"
-                    />
+                    /></div>
                   </div>
                 </div>
 
@@ -654,7 +654,7 @@ function Request() {
                   className={` flex items-center justify-end gap-2 mx-3 mr-2 `}
                 >
                   <div>
-                    <Setting3
+                    <Setting3 data-testid="request-open-icon"
                       onClick={() => setOpen(!open)}
                       className="cursor-pointer"
                       size="22"
@@ -715,7 +715,7 @@ function Request() {
 
                           <tbody>
                             {data.map((user, index) => (
-                              <tr
+                              <tr data-testid={`request-action-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (user.requestType === "Bed Change") {
@@ -805,7 +805,7 @@ function Request() {
                                     isScrolling ? "!bg-white" : "bg-white"
                                   } text-[#111928]`}
                                 >
-                                  <PiDotsThreeOutlineVerticalFill
+                                  <PiDotsThreeOutlineVerticalFill data-testid={`request-icon-2-${index}`}
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -831,7 +831,7 @@ function Request() {
                                     >
                                       {user.requestType === "Amenity" && (
                                         <>
-                                          <button
+                                          <button data-testid={`request-approve-btn-${index}`}
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               handleApprove();
@@ -845,7 +845,7 @@ function Request() {
                                             Approve
                                           </button>
 
-                                          <button
+                                          <button data-testid={`request-deny-btn-${index}`}
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               handleDeny();
@@ -862,7 +862,7 @@ function Request() {
                                       )}
 
                                       {user.requestType === "Bed Change" && (
-                                        <button
+                                        <button data-testid={`request-check-availability-btn-${index}`}
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             setActiveRow(null);
@@ -939,7 +939,7 @@ function Request() {
 
                           <tbody>
                             {data.map((user, index) => (
-                              <tr
+                              <tr data-testid={`request-action-2-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (user.requestType === "Bed Change") {
@@ -1029,7 +1029,7 @@ function Request() {
                                     isScrolling ? "!bg-white" : "bg-white"
                                   } text-[#111928]`}
                                 >
-                                  <PiDotsThreeOutlineVerticalFill
+                                  <PiDotsThreeOutlineVerticalFill data-testid={`request-icon-3-${index}`}
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1053,7 +1053,7 @@ function Request() {
                                         position: "fixed",
                                       }}
                                     >
-                                      <button
+                                      <button data-testid={`request-delete-btn-${index}`}
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           handleDeleteRequest();

@@ -160,7 +160,7 @@ function StaticExample({
 
   return (
     <div className="modal show block static font-gilroy">
-      <Modal show={show} onHide={handleClose} centered backdrop="static" >
+      <Modal data-testid="add-floor-modal" show={show} onHide={handleClose} centered backdrop="static" >
         <Modal.Dialog className="m-0 p-0 w-full max-w-full">
           <Modal.Header className="m-0 border border-[#E7E7E7]">
 
@@ -168,7 +168,7 @@ function StaticExample({
               {updateFloor ? " Edit Floor" : "Add Floor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
+            <CloseCircle data-testid="add-floor-close-icon" size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
           </Modal.Header>
 
           <Modal.Body className="px-3 py-2">
@@ -183,7 +183,7 @@ function StaticExample({
                     Floor Name or No {" "}
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control data-testid="add-floor-floor-name-or-no-input"
                     ref={floorNameRef}
                     value={floorNo}
                     onChange={handleFloorChange}
@@ -230,7 +230,7 @@ function StaticExample({
 
 
           <Modal.Footer className="border-0 p-3 mt-1">
-            <Button  disabled={formLoading}
+            <Button data-testid="add-floor-create-floor-btn"  disabled={formLoading}
               onClick={handleCreateFloor}
               className="w-100 m-0 !bg-[#1e45e1] !font-semibold !rounded-xl !py-3 !font-gilroy"
             >

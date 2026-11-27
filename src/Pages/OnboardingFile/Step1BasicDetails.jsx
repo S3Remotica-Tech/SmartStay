@@ -108,7 +108,7 @@ function Step1BasicDetails({ onNext }) {
   });
 
   return (
-    <form noValidate onSubmit={handleSubmit(onNext)} className="flex flex-col gap-[16px] sm:px-[4px]">
+    <form data-testid="step1-basic-details-91-address-location-form" noValidate onSubmit={handleSubmit(onNext)} className="flex flex-col gap-[16px] sm:px-[4px]">
       <LogoPicker
         id="ob-logo"
         label="Property logo"
@@ -120,7 +120,7 @@ function Step1BasicDetails({ onNext }) {
       />
 
       <FormField id={FIELD_IDS.propertyName} label="Name" required error={errorFor("propertyName")}>
-        <input
+        <input data-testid="step1-basic-details-property-name-input"
           type="text"
           autoComplete="organization"
           placeholder="Enter your property name"
@@ -138,7 +138,7 @@ function Step1BasicDetails({ onNext }) {
           Property Type<span className="ml-[10px] text-field-error" aria-hidden>*</span>
           <span className="sr-only"> (required)</span>
         </span>
-        <OptionCards
+        <OptionCards data-testid="step1-basic-details-ob-type-input"
           name="ob-type"
           labelledBy="ob-type-label"
           options={PROPERTY_TYPES}
@@ -154,7 +154,7 @@ function Step1BasicDetails({ onNext }) {
       )}
 
       {isDev && audience && (
-        <ChoiceChips
+        <ChoiceChips data-testid="step1-basic-details-ob-audience-input"
           name="ob-audience"
           legend={audience.label}
           options={audience.options}
@@ -166,7 +166,7 @@ function Step1BasicDetails({ onNext }) {
       {isDev && basic.propertyType === "FLAT" && basic.audience === FLAT_CUSTOM && (
         <FormField id={FIELD_IDS.flatBhk} label="Number of BHK" required error={errorFor("flatBhk")}>
           <div className={`${fieldGroupClass(Boolean(errorFor("flatBhk")))} max-w-[220px]`}>
-            <input
+            <input data-testid="step1-basic-details-e-g-6-input"
               type="text"
               inputMode="numeric"
               placeholder="e.g. 6"
@@ -188,7 +188,7 @@ function Step1BasicDetails({ onNext }) {
               +91
             </span>
             <span className="h-[20px] w-[1px] bg-[#DEDEE0]" aria-hidden />
-            <input
+            <input data-testid="step1-basic-details-mobile-number-input"
               type="tel"
               inputMode="numeric"
               autoComplete="tel-national"
@@ -200,7 +200,7 @@ function Step1BasicDetails({ onNext }) {
           </div>
         </FormField>
         <FormField id={FIELD_IDS.email} label="Email (optional)" error={errorFor("email")}>
-          <input
+          <input data-testid="step1-basic-details-email-address-input"
             type="email"
             inputMode="email"
             autoComplete="email"
@@ -215,7 +215,7 @@ function Step1BasicDetails({ onNext }) {
       <SectionTitle>Address/Location</SectionTitle>
 
       <FormField id={FIELD_IDS.addressLine} label="Address Line" required error={errorFor("addressLine")}>
-        <textarea
+        <textarea data-testid="step1-basic-details-e-g-flat-no-10-eden-homes-omr-textarea"
           rows={3}
           autoComplete="street-address"
           placeholder="e.g. Flat No 10, Eden homes, OMR Road"
@@ -227,7 +227,7 @@ function Step1BasicDetails({ onNext }) {
       </FormField>
 
       <FormField id="ob-landmark" label="Landmark">
-        <input
+        <input data-testid="step1-basic-details-for-easy-identification-input"
           id="ob-landmark"
           type="text"
           placeholder="For easy identification"
@@ -240,7 +240,7 @@ function Step1BasicDetails({ onNext }) {
 
       <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-3 sm:gap-[8px]">
         <FormField id={FIELD_IDS.city} label="City" required error={errorFor("city")}>
-          <input
+          <input data-testid="step1-basic-details-e-g-solinganallur-chennai-input"
             type="text"
             autoComplete="address-level2"
             placeholder="e.g. Solinganallur, Chennai"
@@ -259,7 +259,7 @@ function Step1BasicDetails({ onNext }) {
               height="21"
               className="pointer-events-none absolute left-[12px] top-[11.5px] z-[1]"
             />
-            <Select
+            <div data-testid="step1-basic-details-state-select" className="contents"><Select
               inputId={FIELD_IDS.state}
               options={indianStates}
               value={indianStates.find((o) => o.value === basic.state) || null}
@@ -273,11 +273,11 @@ function Step1BasicDetails({ onNext }) {
               aria-describedby={errorFor("state") ? errorId(FIELD_IDS.state) : undefined}
               styles={stateSelectStyles(Boolean(errorFor("state")))}
               menuPortalTarget={document.body}
-            />
+            /></div>
           </div>
         </FormField>
         <FormField id={FIELD_IDS.pincode} label="Pin code" required error={errorFor("pincode")}>
-          <input
+          <input data-testid="step1-basic-details-pin-input"
             type="text"
             inputMode="numeric"
             autoComplete="postal-code"

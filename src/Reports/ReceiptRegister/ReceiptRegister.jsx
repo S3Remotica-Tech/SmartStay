@@ -569,14 +569,14 @@ function ReceiptRegister() {
       )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
-          <ArrowLeft
+          <ArrowLeft data-testid="receipt-register-navigate-reports-icon"
             onClick={handleNavigateReports}
             size="20"
             color="#4A5565"
             className="cursor-pointer"
           />
           <div>
-            <div
+            <div data-testid="receipt-register-receipt-register-action"
               className="flex items-center gap-2 relative w-fit"
               onClick={() => setRegister(!register)}
             >
@@ -600,7 +600,7 @@ function ReceiptRegister() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`receipt-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item);
@@ -630,7 +630,7 @@ function ReceiptRegister() {
 
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="datepicker-wrapper" style={{ position: "relative" }}>
-            <RangePicker
+            <RangePicker data-testid="receipt-register-date-change-input"
               allowClear={false}
               style={{
                 width: "100%",
@@ -658,7 +658,7 @@ function ReceiptRegister() {
             />
           </div>
 
-          <button
+          <button data-testid="receipt-register-filter-btn"
             onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
@@ -678,7 +678,7 @@ function ReceiptRegister() {
             />
           )}
 
-          <button
+          <button data-testid="receipt-register-export-btn"
             onClick={() => isExportAllow && handleDownload()}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
@@ -708,7 +708,7 @@ function ReceiptRegister() {
               ))}
             </div>
 
-            <span
+            <span data-testid="receipt-register-reset-action"
               onClick={handleReset}
               className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
             >
@@ -960,7 +960,7 @@ function ReceiptRegister() {
 
             {open && (
               <>
-                <div
+                <div data-testid="receipt-register-open-action"
                   className="fixed inset-0 bg-black/20 z-40 "
                   onClick={() => setOpen(false)}
                 />
@@ -978,7 +978,7 @@ function ReceiptRegister() {
                   <div className="p-3 border-b">
                     <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                       <SearchNormal1 size={16} color="#98A2B3" />
-                      <input
+                      <input data-testid="receipt-register-search-input"
                         placeholder="Search"
                         className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
                       />
@@ -991,7 +991,7 @@ function ReceiptRegister() {
                         key={item.key}
                         className="flex items-center gap-3 text-sm cursor-pointer"
                       >
-                        <input
+                        <input data-testid={`receipt-register-checkbox-${item.key}`}
                           type="checkbox"
                           defaultChecked={item.checked}
                           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -1002,10 +1002,10 @@ function ReceiptRegister() {
                   </div>
 
                   <div className="p-3 border-t flex gap-2">
-                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                    <button data-testid="receipt-register-reset-btn" className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                       Reset
                     </button>
-                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                    <button data-testid="receipt-register-apply-filters-btn" className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                       Apply Filters
                     </button>
                   </div>

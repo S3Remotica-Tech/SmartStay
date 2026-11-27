@@ -42,7 +42,7 @@ function DeleteFloor({ show, handleClose, currentItem }) {
 
   return (
     <div>
-      <Modal
+      <Modal data-testid="delete-floor-delete-floor-cancel-modal"
         show={show}
         onHide={handleCloseFormFloor}
         centered
@@ -60,14 +60,14 @@ function DeleteFloor({ show, handleClose, currentItem }) {
         </Modal.Body>
 
         <Modal.Footer className="flex !justify-center !border-t-0 mb-3">
-          <Button
+          <Button data-testid="delete-floor-cancel-btn"
             onClick={handleCloseFormFloor}
             className="!rounded-lg !py-4 !px-10 !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="delete-floor-delete-btn"
             disabled={deleteLoading}
             onClick={handleDelete}
             className={`

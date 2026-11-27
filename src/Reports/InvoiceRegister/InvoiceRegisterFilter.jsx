@@ -462,7 +462,7 @@ function InvoiceRegisterFilter({
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
+      <Offcanvas data-testid="invoice-register-filter-filter-system-filter-other-drawer" show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{
@@ -479,7 +479,7 @@ function InvoiceRegisterFilter({
             Filter
           </Offcanvas.Title>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="invoice-register-filter-close-icon"
             onClick={handleClose}
             style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
           />
@@ -513,7 +513,7 @@ function InvoiceRegisterFilter({
                 </Form.Label>
               </div>
 
-              <Form.Control
+              <Form.Control data-testid="invoice-register-filter-tenant-name-input"
                 style={{
                   marginTop: 10,
                   fontSize: 14,
@@ -564,7 +564,7 @@ function InvoiceRegisterFilter({
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="invoice-register-filter-status-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -581,7 +581,7 @@ function InvoiceRegisterFilter({
 
                   return billStatus?.includes(option?.value);
                 }}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -610,7 +610,7 @@ function InvoiceRegisterFilter({
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="invoice-register-filter-type-select" className="contents"><Select
                 styles={CustomStyles}
                 options={typeOptions}
                 value={selectedTypeOptions}
@@ -620,7 +620,7 @@ function InvoiceRegisterFilter({
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -649,7 +649,7 @@ function InvoiceRegisterFilter({
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="invoice-register-filter-mode-select" className="contents"><Select
                 styles={CustomStyles}
                 options={modeOptions}
                 value={selectedModeOptions}
@@ -659,7 +659,7 @@ function InvoiceRegisterFilter({
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -688,7 +688,7 @@ function InvoiceRegisterFilter({
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="invoice-register-filter-user-select" className="contents"><Select
                 styles={CustomStyles}
                 options={createdByOptions}
                 value={selectedCreatedByOptions}
@@ -698,7 +698,7 @@ function InvoiceRegisterFilter({
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -727,7 +727,7 @@ function InvoiceRegisterFilter({
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="invoice-register-filter-period-select" className="contents"><Select
                 isSearchable={false}
                 options={periodOptions}
                 styles={CustomStyles}
@@ -736,7 +736,7 @@ function InvoiceRegisterFilter({
                 onChange={(selected) => {
                   setPeriod(selected);
                 }}
-              />
+              /></div>
             </Form.Group>
 
             <div className="mb-3">
@@ -753,14 +753,14 @@ function InvoiceRegisterFilter({
               </label>
 
               <div className="flex gap-2">
-                <input
+                <input data-testid="invoice-register-filter-paid-amount-range-input"
                   type="number"
                   placeholder="₹Min"
                   value={paidAmountMin}
                   onChange={handlePaidMinChange}
                   className={inputClass}
                 />
-                <input
+                <input data-testid="invoice-register-filter-paid-amount-range-input-2"
                   type="number"
                   placeholder="₹Max"
                   value={paidAmountMax}
@@ -782,14 +782,14 @@ function InvoiceRegisterFilter({
               </label>
 
               <div className="flex gap-2">
-                <input
+                <input data-testid="invoice-register-filter-outstanding-amount-range-input"
                   type="number"
                   placeholder="₹Min"
                   value={outstandingMin}
                   onChange={handleOutstandingMinChange}
                   className={inputClass}
                 />
-                <input
+                <input data-testid="invoice-register-filter-outstanding-amount-range-input-2"
                   type="number"
                   placeholder="₹Max"
                   value={outstandingMax}
@@ -849,7 +849,7 @@ function InvoiceRegisterFilter({
             zIndex: 10,
           }}
         >
-          <Button
+          <Button data-testid="invoice-register-filter-reset-btn"
             onClick={() => {
               setBillStatus([]);
               setInvoiceType([]);
@@ -872,7 +872,7 @@ function InvoiceRegisterFilter({
           >
             Reset
           </Button>
-          <Button
+          <Button data-testid="invoice-register-filter-apply-btn"
             onClick={handleFilterBills}
             style={{
               backgroundColor: "#1E45E1",

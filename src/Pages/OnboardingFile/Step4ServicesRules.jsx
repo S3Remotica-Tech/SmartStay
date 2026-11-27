@@ -83,7 +83,7 @@ function CustomItems({ id, title, items, onChange }) {
   return (
     <Panel title={title} titleId={`${id}-title`}>
       <div className="flex w-full gap-[12px]">
-        <input
+        <input data-testid="step4-services-rules-eg-input"
           id={id}
           type="text"
           aria-labelledby={`${id}-title`}
@@ -103,7 +103,7 @@ function CustomItems({ id, title, items, onChange }) {
           }}
           className={`${fieldClass(Boolean(error))} !h-[40px]`}
         />
-        <button type="button" onClick={add} disabled={full || !text.trim()} className={ADD_BTN}>
+        <button data-testid="step4-services-rules-add-btn" type="button" onClick={add} disabled={full || !text.trim()} className={ADD_BTN}>
           Add
           <img src={AddWhite} alt="" width="17" height="17" />
         </button>
@@ -117,7 +117,7 @@ function CustomItems({ id, title, items, onChange }) {
               className="flex h-[32px] items-center gap-[6px] rounded-[31px] border-[0.8px] border-solid border-primary-500 bg-[#EEF2FF] pl-[12.8px] pr-[6px] font-gilroy text-[12px] font-semibold text-primary-500"
             >
               <span className="max-w-[220px] truncate">{item}</span>
-              <button
+              <button data-testid={`step4-services-rules-change-btn-${item}`}
                 type="button"
                 onClick={() => onChange(items.filter((i) => i !== item))}
                 aria-label={`Remove ${item}`}
@@ -145,7 +145,7 @@ ServiceIcon.propTypes = { src: PropTypes.string.isRequired };
 
 function ServiceToggle({ title, checked, onChange }) {
   return (
-    <Switch
+    <Switch data-testid="step4-services-rules-change-switch"
       size="sm"
       checked={checked}
       onChange={(e) => onChange(e.target.checked)}
@@ -168,7 +168,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
   const noGuests = s.guestPolicy === "NO_GUESTS";
 
   return (
-    <form
+    <form data-testid="step4-services-rules-property-rules-visiting-hours-form"
       noValidate
       onSubmit={handleSubmit(() => {
         if (!submitting) onFinish();
@@ -180,7 +180,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
         <SectionTitle>Property Rules</SectionTitle>
 
         <Panel title="Essential rules" titleId="ob-essential-title">
-          <ChoiceChips
+          <ChoiceChips data-testid="step4-services-rules-ob-essential-input"
             name="ob-essential"
             options={ESSENTIAL_RULES}
             value={s.essentialRules}
@@ -190,7 +190,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
         </Panel>
 
         <Panel title="Guest Policy" titleId="ob-guest-title">
-          <ChoiceChips
+          <ChoiceChips data-testid="step4-services-rules-ob-guest-input"
             name="ob-guest"
             options={GUEST_POLICIES}
             value={s.guestPolicy}
@@ -201,7 +201,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
               Visiting hours until
             </p>
             <div className="flex flex-col gap-[8px] sm:flex-row">
-              <TimeSelect
+              <TimeSelect data-testid="step4-services-rules-from-input"
                 id="ob-visit-from"
                 ariaLabel="Visiting hours from"
                 placeholder="From"
@@ -214,7 +214,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
                   set({ visitingFrom: value });
                 }}
               />
-              <TimeSelect
+              <TimeSelect data-testid="step4-services-rules-to-input"
                 id="ob-visit-to"
                 ariaLabel="Visiting hours to"
                 placeholder="to"
@@ -235,7 +235,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
 
         <Panel title="Gate Opening Hours" titleId="ob-gate-title">
           <div className="flex flex-col gap-[12px] sm:flex-row">
-            <TimeSelect
+            <TimeSelect data-testid="step4-services-rules-from-input-2"
               id="ob-gate-from"
               ariaLabel="Gate opens at"
               placeholder="From"
@@ -247,7 +247,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
                 set({ gateFrom: value });
               }}
             />
-            <TimeSelect
+            <TimeSelect data-testid="step4-services-rules-to-input-2"
               id="ob-gate-to"
               ariaLabel="Gate closes at"
               placeholder="to"
@@ -265,7 +265,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
         </Panel>
 
         <Panel title="Notice Period" description="Before a tenant vacates" titleId="ob-notice-title">
-          <ChoiceChips
+          <ChoiceChips data-testid="step4-services-rules-ob-notice-input"
             name="ob-notice"
             options={NOTICE_PERIODS}
             value={s.noticePeriod}
@@ -273,7 +273,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           />
         </Panel>
 
-        <CustomItems
+        <CustomItems data-testid="step4-services-rules-ob-custom-rule-input"
           id="ob-custom-rule"
           title="Add Custom rule"
           items={s.customRules}
@@ -288,7 +288,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           titleId="ob-cleaning-title"
           icon={<ServiceIcon src={RoomIcon} />}
           trailing={
-            <ServiceToggle
+            <ServiceToggle data-testid="step4-services-rules-room-cleaning-input"
               title="Room Cleaning"
               checked={s.roomCleaning.enabled}
               onChange={(enabled) =>
@@ -298,7 +298,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           }
         >
           {s.roomCleaning.enabled && (
-            <ChoiceChips
+            <ChoiceChips data-testid="step4-services-rules-ob-cleaning-input"
               name="ob-cleaning"
               legend="Frequency"
               options={CLEANING_FREQUENCIES}
@@ -318,7 +318,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           titleId="ob-food-title"
           icon={<ServiceIcon src={FoodIcon} />}
           trailing={
-            <ServiceToggle
+            <ServiceToggle data-testid="step4-services-rules-food-input"
               title="Food"
               checked={s.food.enabled}
               onChange={(enabled) =>
@@ -333,7 +333,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
         >
           {s.food.enabled && (
             <div className="flex flex-col gap-[16px] sm:flex-row sm:gap-[56px]">
-              <ChoiceChips
+              <ChoiceChips data-testid="step4-services-rules-ob-food-included-input"
                 name="ob-food-included"
                 legend="Includes in Rent"
                 options={MEALS}
@@ -341,7 +341,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
                 multiple
                 onChange={(value) => set({ food: { ...s.food, includedMeals: value } })}
               />
-              <ChoiceChips
+              <ChoiceChips data-testid="step4-services-rules-ob-food-additional-input"
                 name="ob-food-additional"
                 legend="Additional"
                 options={FOOD_ADDITIONAL}
@@ -361,7 +361,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
             titleId={`ob-${svc.key}-title`}
             icon={<ServiceIcon src={TOGGLE_ICONS[svc.key]} />}
             trailing={
-              <ServiceToggle
+              <ServiceToggle data-testid={`step4-services-rules-set-input-${svc.key}`}
                 title={svc.label}
                 checked={s[svc.key]}
                 onChange={(on) => set({ [svc.key]: on })}
@@ -370,7 +370,7 @@ function Step4ServicesRules({ onFinish, onBack }) {
           />
         ))}
 
-        <CustomItems
+        <CustomItems data-testid="step4-services-rules-ob-custom-service-input"
           id="ob-custom-service"
           title="Add Custom services"
           items={s.customServices}

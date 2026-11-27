@@ -357,7 +357,7 @@ function NewSignupPage() {
             className="mt-0"
           />
         ) : null}
-        <OtpVerifyPanel
+        <OtpVerifyPanel data-testid="new-signup-page-signup-otp-icon"
           id="signup-otp"
           label="Enter OTP"
           size="lg"
@@ -437,7 +437,7 @@ function NewSignupPage() {
 
           <p className="mb-0 text-center font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A]">
             Already Have an Account?{"  "}
-            <button
+            <button data-testid="new-signup-page-sign-in-btn"
               type="button"
               onClick={() => navigate("/hostel-management-login")}
               className={authInlineLink}
@@ -458,7 +458,7 @@ function NewSignupPage() {
         </div>
       )}
 
-      <form
+      <form data-testid="new-signup-page-signup-form"
         id="signup-form"
         noValidate
         onSubmit={handleCreateAccount}
@@ -473,7 +473,7 @@ function NewSignupPage() {
             hasError={Boolean(fullNameError)}
             errors={[fullNameError]}
           >
-            <input
+            <input data-testid="new-signup-page-your-name-input"
               id="signup-full-name"
               type="text"
               autoComplete="name"
@@ -496,7 +496,7 @@ function NewSignupPage() {
           >
             {/* TODO(auth): enable when other country codes are supported by the API (+91 only today) */}
             <span title="Coming soon" className="flex shrink-0">
-              <button
+              <button data-testid="new-signup-page-country-code-91-btn"
                 type="button"
                 disabled
                 aria-disabled="true"
@@ -508,7 +508,7 @@ function NewSignupPage() {
                 {chevron}
               </button>
             </span>
-            <input
+            <input data-testid="new-signup-page-78654-98732-input"
               id="signup-mobile"
               type="tel"
               inputMode="numeric"
@@ -532,7 +532,7 @@ function NewSignupPage() {
             hasError={Boolean(emailError || serverEmailError)}
             errors={[emailError, serverEmailError]}
           >
-            <input
+            <input data-testid="new-signup-page-email-input"
               id="signup-email"
               type="email"
               autoComplete="email"
@@ -553,7 +553,7 @@ function NewSignupPage() {
               label="Organization Name"
               heightClass={FIELD_H}
             >
-              <input
+              <input data-testid="new-signup-page-property-organization-name-input"
                 id="signup-organization"
                 type="text"
                 disabled
@@ -572,7 +572,7 @@ function NewSignupPage() {
             hasError={passwordHasError}
             errors={[passwordEmptyError, passwordRules.length ? passwordRules : ""]}
           >
-            <input
+            <input data-testid="new-signup-page-minimum-8-characters-input"
               id="signup-password"
               type={showPassword ? "text" : "password"}
               autoComplete="new-password"
@@ -613,7 +613,7 @@ function NewSignupPage() {
                     height="21"
                     className="pointer-events-none absolute left-[16px] top-1/2 z-[1] -translate-y-1/2"
                   />
-                  <Select
+                  <div data-testid="new-signup-page-region-select" className="contents"><Select
                     inputId="signup-state"
                     options={indianStates}
                     value={stateName ? { value: stateName, label: stateName } : null}
@@ -631,13 +631,13 @@ function NewSignupPage() {
                     menuPortalTarget={document.body}
                     menuPosition="fixed"
                     menuPlacement="auto"
-                  />
+                  /></div>
                 </div>
               </div>
             </div>
           )}
 
-          <Checkbox
+          <Checkbox data-testid="new-signup-page-signup-agree-checkbox"
             id="signup-agree"
             checked={agreed}
             onChange={(e) => setAgreed(e.target.checked)}
@@ -646,7 +646,7 @@ function NewSignupPage() {
               <span className="font-tasa text-[16px] font-normal leading-[20px] tracking-[-0.02px] text-[#0A090B]">
                 I Agree all the{" "}
                 {/* TODO(auth): enable when a Terms of Service page exists */}
-                <button
+                <button data-testid="new-signup-page-coming-soon-btn"
                   type="button"
                   disabled
                   aria-disabled="true"
@@ -657,7 +657,7 @@ function NewSignupPage() {
                   Terms of Service
                 </button>{" "}
                 and{" "}
-                <a
+                <a data-testid="new-signup-page-privacy-policy-link"
                   href="/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"

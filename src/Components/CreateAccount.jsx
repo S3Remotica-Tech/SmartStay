@@ -350,7 +350,7 @@ function CreateAccountPage() {
               )}
 
               <div className="flex gap-1 mb-1 cursor-pointer justify-center lg:justify-start 2xl:ml-[75px]">
-                <img
+                <img data-testid="create-account-company-logo-img"
                   src={Logo}
                   alt="Company Logo"
                   onClick={handleLogoClick}
@@ -358,7 +358,7 @@ function CreateAccountPage() {
                 />
 
                 <div>
-                  <label
+                  <label data-testid="create-account-smartstay-action"
                     onClick={handleLogoClick}
                     className="text-blue-700 font-extrabold font-gilroy cursor-pointer"
                   >
@@ -452,7 +452,7 @@ function CreateAccountPage() {
                     </Form.Label>
 
                     <InputGroup >
-                      <Form.Select
+                      <Form.Select data-testid="create-account-mobile-number-select"
                         value={countryCode}
                         id="vendor-select-create_account"
                         className={`!border !border-[#E0ECFF] !rounded-l-lg !h-[43px] !text-[16px] !text-[#4B4B4B] !font-gilroy ${countryCode ? "!font-semibold" : "!font-medium"} !shadow-none !bg-white !max-w-[90px] !rounded-none`}
@@ -503,7 +503,7 @@ function CreateAccountPage() {
 
                       className={`relative shadow-none !border !border-[#E0ECFF] !text-base text-[#222222] font-gilroy ${password ? "font-semibold" : "font-medium"} border-r-0`}
                     />
-                    <InputGroup.Text onClick={togglePasswordVisibility}
+                    <InputGroup.Text data-testid="create-account-toggle-password-visibility-icon" onClick={togglePasswordVisibility}
                       className="bg-transparent !border !border-[#E0ECFF] cursor-pointer"
                     >
                       {showPassword ? (
@@ -543,7 +543,7 @@ function CreateAccountPage() {
                       placeholder="Password"
                       className={`relative shadow-none !border !border-[#E0ECFF] !text-base text-[#222222] font-gilroy ${confirmpassword ? "font-semibold" : "font-medium"} border-r-0`}
                     />
-                    <InputGroup.Text onClick={toggleConfirmPasswordVisibility}
+                    <InputGroup.Text data-testid="create-account-toggle-confirm-password-icon" onClick={toggleConfirmPasswordVisibility}
                       className="bg-transparent border border-[#E0ECFF] cursor-pointer" >
                       {showConfirmPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
@@ -596,7 +596,7 @@ function CreateAccountPage() {
               <div className="mt-3 mb-2 2xl:ml-[75px]">
                 <label className="text-[14px] font-normal font-montserrat">
                   Already have an account?
-                  <span
+                  <span data-testid="create-account-sign-in-action"
                     onClick={handleLoginPage}
                     className="ml-2 text-[16px] font-semibold font-gilroy text-[#1E45E1] cursor-pointer create-account-hover"
                   >

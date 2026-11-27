@@ -107,7 +107,7 @@ function ExpenseOverview({
                 className="cursor-pointer"
               />
 
-              <button
+              <button data-testid="expense-overview-close-btn"
                 onClick={onClose}
                 className="h-8 w-8 rounded bg-[#FFF3F3] flex items-center justify-center"
               >
@@ -140,7 +140,7 @@ function ExpenseOverview({
           )}
           <div className="flex items-center justify-between mt-8 border-b  ">
             <div className="flex gap-8">
-              <button
+              <button data-testid="expense-overview-payments-btn"
                 onClick={() => setActiveTab("payments")}
                 className={`pb-3 font-semibold ${activeTab === "payments"
                   ? "border-b-2 border-[#1E45E1] text-[#222]"
@@ -150,7 +150,7 @@ function ExpenseOverview({
                 Payments
               </button>
 
-              <button
+              <button data-testid="expense-overview-expense-items-btn"
                 onClick={() => setActiveTab("expenses")}
                 className={`pb-3 font-semibold ${activeTab === "expenses"
                   ? "border-b-2 border-[#1E45E1] text-[#222]"
@@ -161,7 +161,7 @@ function ExpenseOverview({
               </button>
             </div>
             {activeTab === "payments" && (
-              <button
+              <button data-testid="expense-overview-settle-payment-btn"
                 disabled={expenseOverView?.balanceAmount <= 0}
                 onClick={() => handleShowSettlement(true)}
                 className={`px-4 py-2 rounded-lg text-sm ${expenseOverView?.balanceAmount <= 0

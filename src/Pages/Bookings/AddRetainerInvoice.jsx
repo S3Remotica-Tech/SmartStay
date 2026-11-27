@@ -690,7 +690,7 @@ function AddRetainerInvoice() {
             New Retainer Invoice
           </h2>
 
-          <button
+          <button data-testid="add-retainer-invoice-close-btn"
             onClick={handleClose}
             className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 
               items-center px-2 py-1 font-gilroy "
@@ -716,7 +716,7 @@ function AddRetainerInvoice() {
                   transition-all"
                 >
                   <div className="flex-1">
-                    <Select
+                    <div data-testid="add-retainer-invoice-search-tenant-select" className="contents"><Select
                       isDisabled={customerId}
                       ref={customerRef}
                       placeholder="Select/Search Tenant"
@@ -728,10 +728,10 @@ function AddRetainerInvoice() {
                           (opt) => opt.value === customername,
                         ) || null
                       }
-                    />
+                    /></div>
                   </div>
 
-                  <button
+                  <button data-testid="add-retainer-invoice-btn"
                     type="button"
                     className={`h-[48px] w-14 flex items-center justify-center rounded-r-lg bg-[#1E45E1] 
                       transition-colors
@@ -841,7 +841,7 @@ function AddRetainerInvoice() {
                 <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <CreatableSelect
+              <div data-testid="add-retainer-invoice-received-from-select" className="contents"><CreatableSelect
                 isDisabled={!selectedCustomer}
                 ref={guardianRef}
                 placeholder="Enter / Select Respective Person"
@@ -874,7 +874,7 @@ function AddRetainerInvoice() {
                   setGuardianName(value);
                   setGuardianErrmsg("");
                 }}
-              />
+              /></div>
 
               {guardianErrmsg && (
                 <ErrorMessage className="mt-[6px]" message={guardianErrmsg} type="error" />
@@ -887,7 +887,7 @@ function AddRetainerInvoice() {
               </label>
 
               <div className="relative" ref={invoiceDateRef}>
-                <DatePicker
+                <div data-testid="add-retainer-invoice-invoice-date" className="contents"><DatePicker
                   selected={invoiceDate}
                   onChange={handleInvoiceDate}
                   dateFormat="dd/MM/yyyy"
@@ -896,7 +896,7 @@ function AddRetainerInvoice() {
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
                   className={datePickerInputClass(!!invoiceDateErrmsg)}
-                />
+                /></div>
                 <Calendar
                   size="20"
                   color="#1E45E1"
@@ -937,7 +937,7 @@ function AddRetainerInvoice() {
                     <tbody>
                       <tr className="border border-[#F9FAFB]">
                         <td className="p-2 border border-[#F9FAFB]">
-                          <input
+                          <input data-testid="add-retainer-invoice-description-input"
                             ref={itemNameRef}
                             value={expenseItem.itemName}
                             onChange={(e) =>
@@ -949,7 +949,7 @@ function AddRetainerInvoice() {
                         </td>
 
                         <td className="p-2 border border-[#F9FAFB]">
-                          <Select
+                          <div data-testid="add-retainer-invoice-item-change-retainertype-select" className="contents"><Select
                             ref={retainertypeRef}
                             value={expenseItem.retainertype}
                             options={retainerTypeOptions}
@@ -967,11 +967,11 @@ function AddRetainerInvoice() {
                             onChange={(selected) =>
                               handleItemChange("retainertype", selected)
                             }
-                          />
+                          /></div>
                         </td>
 
                         <td className="p-2 border border-[#F9FAFB]">
-                          <input
+                          <input data-testid="add-retainer-invoice-item-change-amount-input"
                             ref={amountRef}
                             type="number"
                             value={expenseItem.amount}
@@ -1057,7 +1057,7 @@ function AddRetainerInvoice() {
                 Payment Method <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <Select
+              <div data-testid="add-retainer-invoice-payment-method-select" className="contents"><Select
                 ref={paymentMethodRef}
                 placeholder="Select Payment Method"
                 styles={fieldSelectStyles(!!paymentMethodErrmsg)}
@@ -1071,7 +1071,7 @@ function AddRetainerInvoice() {
                 value={paymentMethod}
                 options={paymentOptionsV1}
                 onChange={handlePaymentMethod}
-              />
+              /></div>
               {paymentMethodErrmsg && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodErrmsg} type="error" />
               )}
@@ -1081,7 +1081,7 @@ function AddRetainerInvoice() {
               <label className={fieldLabelClass}>
                 Transaction ID
               </label>
-              <input
+              <input data-testid="add-retainer-invoice-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -1097,7 +1097,7 @@ function AddRetainerInvoice() {
                 Description / Notes
               </label>
 
-              <textarea
+              <textarea data-testid="add-retainer-invoice-description-notes-textarea"
                 rows={4}
                 placeholder="Enter Description"
                 className={fieldTextareaClass()}
@@ -1114,7 +1114,7 @@ function AddRetainerInvoice() {
           </p>
 
           <div className="flex items-center gap-3 mt-4 md:mt-0">
-            <button
+            <button data-testid="add-retainer-invoice-cancel-btn"
               type="button"
               onClick={handleClose}
               className="px-6 py-2 rounded-lg border border-[#D9D9D9] text-[#4B4B4B] text-sm font-medium hover:bg-gray-50"
@@ -1122,7 +1122,7 @@ function AddRetainerInvoice() {
               Cancel
             </button>
 
-            <button
+            <button data-testid="add-retainer-invoice-save-and-generate-btn"
               type="button"
               onClick={handleSaveAndGenerate}
               disabled={saveLoading}

@@ -235,7 +235,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   }, [state.createAccount?.networkError]);
 
   return (
-    <Modal
+    <Modal data-testid="assign-amenities-modal"
       show={show}
       onHide={handleClose}
       centered
@@ -268,7 +268,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
             </div>
           </Modal.Title>
 
-          <CloseCircle
+          <CloseCircle data-testid="assign-amenities-close-icon"
             size={24}
             color="#000"
             onClick={handleClose}
@@ -295,7 +295,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
               <div className="h-full border border-gray-300 rounded-xl cursor-pointer">
                 <div className="flex items-center gap-3 p-2">
                   <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-[30px] bg-white w-[260px]">
-                    <input
+                    <input data-testid="assign-amenities-search-by-name-input"
                       type="text"
                       placeholder="Search by name"
                       value={unassignedSearch}
@@ -315,7 +315,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                     Unassigned
                   </div>
                   <div>
-                    <input
+                    <input data-testid="assign-amenities-global-select-all-checkbox"
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleGlobalSelectAll}
@@ -411,7 +411,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
                         <div>
                           {list?.canAssign !== false && (
-                            <input
+                            <input data-testid={`assign-amenities-assigned-checkbox-change-checkbox-${list.customerId}`}
                               type="checkbox"
                               checked={assignedCheckedUsers.includes(
                                 list.customerId,
@@ -440,13 +440,13 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
             <div className="col-span-12 sm:col-span-12 md:col-span-2 lg:col-span-2 flex flex-col items-center justify-center mt-5 lg:mt-0 relative min-h-[100px]">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
                 <div className="bg-green-100 rounded-md p-2 cursor-pointer">
-                  <RiShareForwardFill
+                  <RiShareForwardFill data-testid="assign-amenities-assign-user-icon"
                     onClick={handleAssignUser}
                     className="text-green-700 text-2xl"
                   />
                 </div>
                 <div className="bg-red-100 rounded-md p-2 cursor-pointer">
-                  <IoArrowUndoSharp
+                  <IoArrowUndoSharp data-testid="assign-amenities-un-assign-user-icon"
                     onClick={handleUnAssignUser}
                     className="text-red-600 text-2xl"
                   />
@@ -458,7 +458,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
               <div className="h-full border border-gray-300 rounded-xl cursor-pointer">
                 <div className="flex items-center gap-3 p-2">
                   <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-[30px] bg-white w-[260px]">
-                    <input
+                    <input data-testid="assign-amenities-search-by-name-input-2"
                       type="text"
                       placeholder="Search by name"
                       value={assignedSearch}
@@ -477,7 +477,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                     Assigned
                   </div>
                   <div>
-                    <input
+                    <input data-testid="assign-amenities-assigned-global-select-all-checkbox"
                       type="checkbox"
                       checked={assignedSelectAll}
                       onChange={handleAssignedGlobalSelectAll}
@@ -556,7 +556,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                           </div>
 
                           <div>
-                            <input
+                            <input data-testid={`assign-amenities-unassigned-checkbox-change-checkbox-${list.customerId}`}
                               type="checkbox"
                               checked={unAssignedCheckedUsers.includes(
                                 list.customerId,

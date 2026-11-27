@@ -87,7 +87,7 @@ function NavScrollExample() {
               PG Detail
             </p>
 
-            <select
+            <select data-testid="topbar-default-select-example-select"
               className="form-select ps-2"
               aria-label="Default select example"
               style={{
@@ -137,25 +137,25 @@ function NavScrollExample() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link
+              <Nav.Link data-testid="topbar-dashboard-link"
                 href="#action1"
                 style={{ color: "gray", fontSize: "14px", fontWeight: "600" }}
               >
                 Dashboard
               </Nav.Link>
-              <Nav.Link
+              <Nav.Link data-testid="topbar-invoice-link"
                 href="#action2"
                 style={{ color: "gray", fontSize: "14px", fontWeight: "600" }}
               >
                 Invoice
               </Nav.Link>
-              <Nav.Link
+              <Nav.Link data-testid="topbar-compliances-link"
                 href="#action1"
                 style={{ color: "gray", fontSize: "14px", fontWeight: "600" }}
               >
                 Compliances
               </Nav.Link>
-              <Nav.Link
+              <Nav.Link data-testid="topbar-reports-link"
                 href="#action2"
                 style={{ color: "gray", fontSize: "14px", fontWeight: "600" }}
               >
@@ -205,7 +205,7 @@ function NavScrollExample() {
               </p>
             </div>
           </Form>
-          <Form.Select
+          <Form.Select data-testid="topbar-default-select-example-select-2"
             className="me-5 pt-3"
             aria-label="Default select example"
             style={{ border: "none", height: "10px", width: "40px" }}

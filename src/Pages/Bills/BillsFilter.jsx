@@ -343,7 +343,7 @@ function BillsFilter({ show, handleClose, size }) {
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
+      <Offcanvas data-testid="bills-filter-filter-system-filter-reset-drawer" show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{
@@ -360,7 +360,7 @@ function BillsFilter({ show, handleClose, size }) {
             Filter
           </Offcanvas.Title>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="bills-filter-close-icon"
             onClick={handleClose}
             style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
           />
@@ -383,7 +383,7 @@ function BillsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Form.Control className={fieldClass()}
+              <Form.Control data-testid="bills-filter-tenant-name-input" className={fieldClass()}
                 type="text"
                 placeholder="Enter Tenant Name"
                 value={tenantName}
@@ -414,7 +414,7 @@ function BillsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="bills-filter-status-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -431,7 +431,7 @@ function BillsFilter({ show, handleClose, size }) {
 
                   return billStatus.includes(option.value);
                 }}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -449,7 +449,7 @@ function BillsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="bills-filter-type-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 options={typeOptions}
                 value={selectedTypeOptions}
@@ -459,7 +459,7 @@ function BillsFilter({ show, handleClose, size }) {
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -477,7 +477,7 @@ function BillsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="bills-filter-mode-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 options={modeOptions}
                 value={selectedModeOptions}
@@ -487,7 +487,7 @@ function BillsFilter({ show, handleClose, size }) {
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -505,7 +505,7 @@ function BillsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="bills-filter-user-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 options={createdByOptions}
                 value={selectedCreatedByOptions}
@@ -515,7 +515,7 @@ function BillsFilter({ show, handleClose, size }) {
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -533,7 +533,7 @@ function BillsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Select
+              <div data-testid="bills-filter-period-select" className="contents"><Select
                 isSearchable={false}
                 options={periodOptions}
                 styles={fieldSelectStyles()}
@@ -546,7 +546,7 @@ function BillsFilter({ show, handleClose, size }) {
                     setEndDate("");
                   }
                 }}
-              />
+              /></div>
             </Form.Group>
 
             {period?.value === "CUSTOM" && (
@@ -564,7 +564,7 @@ function BillsFilter({ show, handleClose, size }) {
                       fontSize: 12,
                     }}
                   >
-                    <DatePicker
+                    <DatePicker data-testid="bills-filter-start-date"
                       className={datePickerClass(!!dateError)}
                       wrapperClassName="w-full"
                      
@@ -599,7 +599,7 @@ function BillsFilter({ show, handleClose, size }) {
                     className="datepicker-wrapper"
                     style={{ position: "relative", width: "100%" }}
                   >
-                    <DatePicker
+                    <DatePicker data-testid="bills-filter-end-date"
                       className={datePickerClass()}
                      
                       format="DD/MM/YYYY"
@@ -663,7 +663,7 @@ function BillsFilter({ show, handleClose, size }) {
             zIndex: 10,
           }}
         >
-          <Button
+          <Button data-testid="bills-filter-reset-btn"
             onClick={() => {
               setBillStatus([]);
               setInvoiceType([]);
@@ -683,7 +683,7 @@ function BillsFilter({ show, handleClose, size }) {
           >
             Reset
           </Button>
-          <Button
+          <Button data-testid="bills-filter-apply-btn"
             onClick={handleFilterBills}
             style={{
               backgroundColor: "#1E45E1",

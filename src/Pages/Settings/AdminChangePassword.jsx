@@ -137,7 +137,7 @@ function AdminChangePassword({ show, handleClose }) {
             </label>
 
             <div className="relative mt-2">
-              <input
+              <input data-testid="admin-change-password-current-password-input"
                 autoComplete="off"
                 name="current_password"
                 type={showCurrent ? "text" : "password"}
@@ -152,14 +152,14 @@ function AdminChangePassword({ show, handleClose }) {
               />
 
               {showCurrent ? (
-                <Eye
+                <Eye data-testid="admin-change-password-show-current-icon"
                   size="20"
                   color="#9CA3AF"
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                   onClick={() => setShowCurrent(false)}
                 />
               ) : (
-                <EyeSlash
+                <EyeSlash data-testid="admin-change-password-show-current-icon-2"
                   size="20"
                   color="#9CA3AF"
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -179,7 +179,7 @@ function AdminChangePassword({ show, handleClose }) {
             </label>
 
             <div className="relative mt-2">
-              <input
+              <input data-testid="admin-change-password-new-password-input"
                 autoComplete="new-password"
                 name="new_password"
                 type={showNew ? "text" : "password"}
@@ -194,14 +194,14 @@ function AdminChangePassword({ show, handleClose }) {
               />
 
               {showNew ? (
-                <Eye
+                <Eye data-testid="admin-change-password-show-new-icon"
                   size="20"
                   color="#9CA3AF"
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                   onClick={() => setShowNew(false)}
                 />
               ) : (
-                <EyeSlash
+                <EyeSlash data-testid="admin-change-password-show-new-icon-2"
                   size="20"
                   color="#9CA3AF"
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -221,7 +221,7 @@ function AdminChangePassword({ show, handleClose }) {
             </label>
 
             <div className="relative mt-2">
-              <input
+              <input data-testid="admin-change-password-confirm-password-input"
                 autoComplete="new-password"
                 name="confirm_password"
                 type={showConfirm ? "text" : "password"}
@@ -236,14 +236,14 @@ function AdminChangePassword({ show, handleClose }) {
               />
 
               {showConfirm ? (
-                <Eye
+                <Eye data-testid="admin-change-password-show-confirm-icon"
                   size="20"
                   color="#9CA3AF"
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                   onClick={() => setShowConfirm(false)}
                 />
               ) : (
-                <EyeSlash
+                <EyeSlash data-testid="admin-change-password-show-confirm-icon-2"
                   size="20"
                   color="#9CA3AF"
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -270,14 +270,14 @@ function AdminChangePassword({ show, handleClose }) {
         )}
 
         <div className="m-4 flex justify-end gap-4">
-          <button
+          <button data-testid="admin-change-password-cancel-btn"
             onClick={handleClose}
             className="h-[44px] px-6 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-medium hover:bg-gray-100 transition"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="admin-change-password-save-changes-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition

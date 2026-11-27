@@ -13,7 +13,7 @@ import { isRecurringUnit, useHostelAmenities } from "./tenantAmenityUtils";
 
 function Checkbox({ checked, onChange, label }) {
   return (
-    <button
+    <button data-testid="tenant-amenities-section-change-btn"
       type="button"
       role="checkbox"
       aria-checked={checked}
@@ -148,7 +148,7 @@ function TenantAmenitiesSection({ selected, onChange, proRate, onProRateChange }
                       {startsAt(amenity)}
                     </span>
                   </div>
-                  <Checkbox
+                  <Checkbox data-testid={`tenant-amenities-section-toggle-amenity-checkbox-${amenity.amenityId}`}
                     checked={isOn}
                     onChange={() => toggleAmenity(amenity)}
                     label={`Assign ${amenity.name}`}
@@ -165,7 +165,7 @@ function TenantAmenitiesSection({ selected, onChange, proRate, onProRateChange }
                       {amenity.plans.map((plan) => {
                         const active = plan.key === planKey;
                         return (
-                          <button
+                          <button data-testid={`tenant-amenities-section-choose-plan-btn-${plan.key}`}
                             key={plan.key}
                             type="button"
                             role="radio"
@@ -187,7 +187,7 @@ function TenantAmenitiesSection({ selected, onChange, proRate, onProRateChange }
                                 {formatPlanPrice(plan)}
                               </span>
                             </span>
-                            <Radio selected={active} />
+                            <Radio data-testid={`tenant-amenities-section-radio-${plan.key}`} selected={active} />
                           </button>
                         );
                       })}
@@ -207,7 +207,7 @@ function TenantAmenitiesSection({ selected, onChange, proRate, onProRateChange }
 
       {hasRecurring && (
         <label className="m-0 mt-[4px] flex cursor-pointer items-center gap-[8px] text-[14px] font-medium text-[#222222]">
-          <input
+          <input data-testid="tenant-amenities-section-pro-rate-change-checkbox"
             type="checkbox"
             checked={proRate}
             onChange={(e) => onProRateChange(e.target.checked)}

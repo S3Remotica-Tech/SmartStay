@@ -652,14 +652,14 @@ function ExpenseRegister() {
       )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
-          <ArrowLeft
+          <ArrowLeft data-testid="expense-register-navigate-reports-icon"
             onClick={handleNavigateReports}
             size="20"
             color="#4A5565"
             className="cursor-pointer"
           />
           <div>
-            <div
+            <div data-testid="expense-register-expense-register-action"
               className="flex items-center gap-2 relative w-fit"
               onClick={() => setRegister(!register)}
             >
@@ -683,7 +683,7 @@ function ExpenseRegister() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`expense-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item);
@@ -713,7 +713,7 @@ function ExpenseRegister() {
 
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="datepicker-wrapper" style={{ position: "relative" }}>
-            <RangePicker
+            <RangePicker data-testid="expense-register-date-change-input"
               allowClear={false}
               style={{
                 width: "100%",
@@ -742,7 +742,7 @@ function ExpenseRegister() {
             />
           </div>
 
-          <button
+          <button data-testid="expense-register-filter-btn"
             onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
@@ -761,7 +761,7 @@ function ExpenseRegister() {
               isTenantPagination={true}
             />
           )}
-          <button
+          <button data-testid="expense-register-export-btn"
             onClick={() => isExportAllow && handleDownload()}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
@@ -792,7 +792,7 @@ function ExpenseRegister() {
               ))}
             </div>
 
-            <span
+            <span data-testid="expense-register-reset-action"
               onClick={handleReset}
               className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
             >

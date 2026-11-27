@@ -24,7 +24,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
       <div className="fixed font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col">
         <div className="h-[48px] px-6 border-b border-[#EAECF0] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="generate-all-invoices-close-btn"
               type="button"
               onClick={onClose}
               className="text-[#667085] hover:text-[#344054]"
@@ -37,7 +37,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
             </span>
           </div>
 
-          <button
+          <button data-testid="generate-all-invoices-close-btn-2"
             type="button"
             onClick={onClose}
             className="text-[#667085] hover:text-[#344054]"
@@ -78,7 +78,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
           </div>
 
           <label className="flex items-center gap-2.5 mt-5 cursor-pointer">
-            <input
+            <input data-testid="generate-all-invoices-reviewed-invoice-checkbox"
               type="checkbox"
               checked={reviewedInvoice}
               onChange={(e) => setReviewedInvoice(e.target.checked)}
@@ -92,7 +92,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
         </div>
 
         <div className="border-t border-[#EAECF0] px-6 py-4 flex items-center gap-3">
-          <button
+          <button data-testid="generate-all-invoices-cancel-btn"
             type="button"
             onClick={onClose}
             className="flex-1 h-[36px] rounded-lg border border-[#D0D5DD] bg-white text-[12px] font-semibold text-[#344054]"
@@ -100,7 +100,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="generate-all-invoices-generate-invoices-btn"
             type="button"
             disabled={!reviewedInvoice}
             onClick={handleConfirmGenerate}

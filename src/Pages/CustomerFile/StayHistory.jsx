@@ -43,7 +43,7 @@ function StayHistory({ show, handleClose }) {
   return (
 
     <div className="modal show block static font-gilroy">
-      <Modal
+      <Modal data-testid="stay-history-stay-details-modal"
         show={show}
         onHide={handleClose}
         centered
@@ -56,7 +56,7 @@ function StayHistory({ show, handleClose }) {
               Stay Details
             </Modal.Title>
 
-            <CloseCircle
+            <CloseCircle data-testid="stay-history-close-icon"
               size="24"
               color="#000"
               onClick={handleClose}

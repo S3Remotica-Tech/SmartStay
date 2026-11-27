@@ -61,7 +61,7 @@ function DeleteBanking({
 
 
                 <div className="flex items-center justify-center gap-3 px-6 pb-6">
-                    <button
+                    <button data-testid="delete-banking-cancel-btn"
                         type="button"
                         onClick={handleCloseDelete}
 
@@ -72,7 +72,7 @@ function DeleteBanking({
                     </button>
 
 
-                    <button
+                    <button data-testid="delete-banking-delete-bank-btn"
                         disabled={deleteLoading}
                         onClick={handleDeleteBank}
                         className={`w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-[#1E45E1] text-white font-semibold font-gilroy text-[14px]

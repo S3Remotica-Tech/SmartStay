@@ -41,7 +41,7 @@ function PremiumPlan() {
             </div>
           </div>
 
-          <button
+          <button data-testid="premium-plan-change-plan-btn"
             onClick={() => handleNavigatePlan("allplans")}
             className="bg-[#1E45E1] text-white text-sm font-normal px-6 py-2.5 rounded-[10px] hover:bg-[#1639c0] h-fit"
           >

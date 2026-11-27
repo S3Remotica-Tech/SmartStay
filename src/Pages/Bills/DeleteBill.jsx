@@ -45,7 +45,7 @@ function DeleteBill({
 
     return (
         <>
-            <div
+            <div data-testid="delete-bill-action"
                 className="fixed inset-0 bg-black/40 z-[1100]"
                 onClick={() => !loading && onCancel()}
             />
@@ -60,7 +60,7 @@ function DeleteBill({
                 </div>
 
                 <div className="flex gap-[12px]">
-                    <button
+                    <button data-testid="delete-bill-cancel-btn"
                         disabled={loading}
                         onClick={onCancel}
                         className="w-full max-w-[160px] h-[52px] rounded-lg border border-[#1E45E1] bg-white text-[#1E45E1] text-[14px] font-semibold font-gilroy hover:bg-[#EEF2FF]"
@@ -68,7 +68,7 @@ function DeleteBill({
                         Cancel
                     </button>
 
-                    <button
+                    <button data-testid="delete-bill-confirm-btn"
                         disabled={loading}
                         onClick={handleConfirm}
                         className={`w-full max-w-[160px] h-[52px] rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold font-gilroy flex items-center justify-center gap-2 ${loading

@@ -166,7 +166,7 @@ function Overview() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="overview-edit-btn"
               type="button"
               className="flex items-center gap-1 text-[#1E45E1] text-[14px] font-medium"
             >
@@ -174,7 +174,7 @@ function Overview() {
               Edit
             </button>
 
-            <button
+            <button data-testid="overview-is-contact-info-open-btn"
               type="button"
               onClick={() => setIsContactInfoOpen((prev) => !prev)}
               className="flex items-center justify-center"
@@ -249,7 +249,7 @@ function Overview() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="overview-edit-btn-2"
               type="button"
               className="flex items-center gap-1 text-[#1E45E1] text-[14px] font-medium"
             >
@@ -257,7 +257,7 @@ function Overview() {
               Edit
             </button>
 
-            <button
+            <button data-testid="overview-is-address-open-btn"
               type="button"
               onClick={() => setIsAddressOpen((prev) => !prev)}
             >
@@ -307,7 +307,7 @@ function Overview() {
             </h3>
           </div>
 
-          <button
+          <button data-testid="overview-is-business-open-btn"
             type="button"
             onClick={() => setIsBusinessOpen((prev) => !prev)}
           >
@@ -362,7 +362,7 @@ function Overview() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="overview-edit-btn-3"
               type="button"
               className="flex items-center gap-1 text-[#1E45E1] text-[14px] font-medium"
             >
@@ -370,7 +370,7 @@ function Overview() {
               Edit
             </button>
 
-            <button
+            <button data-testid="overview-is-services-open-btn"
               type="button"
               onClick={() => setIsServicesOpen((prev) => !prev)}
             >
@@ -409,7 +409,7 @@ function Overview() {
                       </div>
                     </div>
 
-                    <button
+                    <button data-testid={`overview-services-btn-${index}`}
                       type="button"
                       onClick={() => {
                         setServices((prev) =>
@@ -439,7 +439,7 @@ function Overview() {
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {service.frequency.map((item, itemIndex) => (
-                          <button
+                          <button data-testid={`overview-btn-${itemIndex}`}
                             key={itemIndex}
                             type="button"
                             className={`px-2.5 py-1 rounded-full border flex items-center text-[11px] ${
@@ -469,7 +469,7 @@ function Overview() {
 
                         <div className="flex flex-wrap gap-1.5">
                           {service.includes.map((item, itemIndex) => (
-                            <button
+                            <button data-testid={`overview-btn-2-${itemIndex}`}
                               key={itemIndex}
                               type="button"
                               className={`px-2.5 py-1 rounded-full border flex items-center text-[11px] ${
@@ -496,7 +496,7 @@ function Overview() {
 
                         <div className="flex flex-wrap gap-1.5">
                           {service.additional?.map((item, itemIndex) => (
-                            <button
+                            <button data-testid={`overview-btn-3-${itemIndex}`}
                               key={itemIndex}
                               type="button"
                               className={`px-2.5 py-1 rounded-full border flex items-center text-[11px] ${
@@ -535,7 +535,7 @@ function Overview() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="overview-edit-btn-4"
               type="button"
               className="flex items-center gap-1 text-[#1E45E1] text-[14px] font-medium"
             >
@@ -543,7 +543,7 @@ function Overview() {
               Edit
             </button>
 
-            <button
+            <button data-testid="overview-is-property-rules-open-btn"
               type="button"
               onClick={() => setIsPropertyRulesOpen((prev) => !prev)}
             >
@@ -565,7 +565,7 @@ function Overview() {
               </div>
 
               <div className="flex flex-wrap gap-1.5 mt-2">
-                <button
+                <button data-testid="overview-no-smoking-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#1E45E1] text-[#3157E8] bg-[#EEF2FF]"
                 >
@@ -575,21 +575,21 @@ function Overview() {
                   No Smoking
                 </button>
 
-                <button
+                <button data-testid="overview-no-drinking-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#E4E4E7] text-[#6F767E] bg-[#FFFFFF]"
                 >
                   No Drinking
                 </button>
 
-                <button
+                <button data-testid="overview-non-veg-allowed-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#E4E4E7] text-[#6F767E] bg-[#FFFFFF]"
                 >
                   Non-Veg Allowed
                 </button>
 
-                <button
+                <button data-testid="overview-no-pets-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#E4E4E7] text-[#6F767E] bg-[#FFFFFF]"
                 >
@@ -606,7 +606,7 @@ function Overview() {
               </div>
 
               <div className="flex flex-wrap gap-1.5 mt-2">
-                <button
+                <button data-testid="overview-no-guests-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#1E45E1] text-[#3157E8] bg-[#EEF2FF]"
                 >
@@ -616,14 +616,14 @@ function Overview() {
                   No Guests
                 </button>
 
-                <button
+                <button data-testid="overview-no-overnight-stay-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#E4E4E7] text-[#6F767E] bg-[#FFFFFF]"
                 >
                   No Overnight Stay
                 </button>
 
-                <button
+                <button data-testid="overview-same-gender-only-btn"
                   type="button"
                   className="px-2.5 py-1 rounded-full border flex items-center text-[11px] border-[#E4E4E7] text-[#6F767E] bg-[#FFFFFF]"
                 >

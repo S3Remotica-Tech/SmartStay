@@ -19,7 +19,7 @@ function ParentsGuardian({ additionalContact }) {
     <>
       {additionalContact?.map((contact, index) => (
         <div key={contact.contactId} className="mb-2">
-          <div
+          <div data-testid={`parents-guardian-contact-action-${contact.contactId}`}
             className=" bg-gray-100 px-4 py-1.5 rounded-xl cursor-pointer"
             onClick={() => handleToggle(index)}
           >
@@ -54,7 +54,7 @@ function ParentsGuardian({ additionalContact }) {
               </div>
 
               <div className="flex items-center gap-3">
-                <button
+                <button data-testid={`parents-guardian-btn-${contact.contactId}`}
                   disabled
                   // onClick={() => {
                   //   if (canUpdateTenant) {

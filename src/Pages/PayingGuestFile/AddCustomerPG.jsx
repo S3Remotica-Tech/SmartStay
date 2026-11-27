@@ -612,6 +612,7 @@ function AddCustomer({ showMenu, handleClose }) {
                 {step === 1 ? "Basic Details" : "Address Details"}
               </h5>
               <CloseCircle
+                data-testid="pg-tenant-close"
                 size="24"
                 color="#000"
                 onClick={handleClose}
@@ -643,6 +644,7 @@ function AddCustomer({ showMenu, handleClose }) {
                                 className="absolute h-[20px] w-[20px] top-[90px] left-[80px] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full"
                               />
                               <input
+                                data-testid="pg-tenant-photo-input"
                                 type="file"
                                 accept="image/*"
                                 multiple
@@ -677,6 +679,7 @@ function AddCustomer({ showMenu, handleClose }) {
                             </Form.Label>
                             <FormControl
                               id="form-controls"
+                              data-testid="pg-tenant-first-name"
                               placeholder="Enter First Name"
                               type="text"
                               ref={firstnameRef}
@@ -699,6 +702,7 @@ function AddCustomer({ showMenu, handleClose }) {
                             <FormControl
                               type="text"
                               id="form-controls"
+                              data-testid="pg-tenant-last-name"
                               placeholder="Enter Last Name"
                               value={lastname}
                               onChange={(e) => handleLastName(e)}
@@ -730,6 +734,7 @@ function AddCustomer({ showMenu, handleClose }) {
                                   ref={phoneRef}
                                   onChange={handlePhone}
                                   type="text"
+                                  data-testid="pg-tenant-mobile"
                                   placeholder="Enter Mobile Number"
                                   maxLength={10}
                                   className={`${fieldClass(!!phoneError)} !rounded-l-none`}
@@ -764,6 +769,7 @@ function AddCustomer({ showMenu, handleClose }) {
                             <FormControl
                               type="text"
                               id="form-controls"
+                              data-testid="pg-tenant-email"
                               placeholder="Enter Email ID"
                               value={Email}
                               ref={emailRef}
@@ -792,6 +798,7 @@ function AddCustomer({ showMenu, handleClose }) {
 
                     <div className="d-flex justify-content-end mt-3">
                       <Button
+                        data-testid="pg-tenant-save-info"
                         disabled={formLoading}
                         className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
                         onClick={handleSaveUserlist}
@@ -799,6 +806,7 @@ function AddCustomer({ showMenu, handleClose }) {
                         Save Info
                       </Button>
                       <Button
+                        data-testid="pg-tenant-next"
                         className="!font-gilroy text-sm bg-white !text-[#1E45E1] !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                         onClick={handleNext}
                       >
@@ -820,6 +828,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           <FormControl
                             type="text"
                             id="form-controls"
+                            data-testid="pg-tenant-house-no"
                             placeholder="Enter House No"
                             value={house_no}
                             onChange={(e) => handleHouseNo(e)}
@@ -839,6 +848,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           <FormControl
                             type="text"
                             id="form-controls"
+                            data-testid="pg-tenant-street"
                             placeholder="Enter Street"
                             value={street}
                             onChange={(e) => handleStreetName(e)}
@@ -858,6 +868,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           <FormControl
                             type="text"
                             id="form-controls"
+                            data-testid="pg-tenant-landmark"
                             placeholder="E.g , near appollo hospital"
                             value={landmark}
                             onChange={(e) => handleLandmark(e)}
@@ -882,6 +893,7 @@ function AddCustomer({ showMenu, handleClose }) {
                             maxLength={6}
                             inputMode="numeric"
                             pattern="[0-9]*"
+                            data-testid="pg-tenant-pincode"
                             placeholder="Enter Pincode"
                             className={fieldClass(!!pincodeError)}
                           />
@@ -900,6 +912,7 @@ function AddCustomer({ showMenu, handleClose }) {
                           <FormControl
                             type="text"
                             id="form-controls"
+                            data-testid="pg-tenant-city"
                             placeholder="Enter City"
                             value={city}
                             ref={cityRef}
@@ -921,7 +934,8 @@ function AddCustomer({ showMenu, handleClose }) {
                             State{" "}
                           </Form.Label>
 
-                          <Select
+                          <div data-testid="pg-tenant-state-select">
+                          <div data-testid="add-customer-pg-state-select" className="contents"><Select
                             options={indianStates}
                             ref={stateRef}
                             onChange={(selectedOption) => {
@@ -949,19 +963,22 @@ function AddCustomer({ showMenu, handleClose }) {
                               ...fieldSelectStyles(),
                               menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                             }}
-                          />
+                          /></div>
+                          </div>
                         </Form.Group>
                       </div>
                     </div>
 
                     <div className="flex justify-end mt-3">
                       <Button
+                        data-testid="pg-tenant-previous"
                         className="!font-gilroy !text-sm bg-white !text-blue-700 !font-semibold !rounded-md mb-2 h-11 w-36 whitespace-nowrap"
                         onClick={handlePrevious}
                       >
                         Previous
                       </Button>
                       <Button
+                        data-testid="pg-tenant-create"
                         disabled={formLoading}
                         className="!font-gilroy !text-sm !bg-blue-700 !text-white !font-semibold rounded-md px-4 mb-2 mx-2 h-11 w-36 whitespace-nowrap"
                         onClick={handleSaveUserlist}

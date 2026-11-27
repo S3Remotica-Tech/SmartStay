@@ -60,7 +60,7 @@ function SidebarQuickActions({
 
   return (
     <>
-      <Offcanvas
+      <Offcanvas data-testid="sidebar-quick-actions-drawer"
         show={showMenuModal}
         onHide={() => {
           setShowMenuModal(false);
@@ -76,7 +76,7 @@ function SidebarQuickActions({
               <img src={SearchVector} alt="search" className="w-4 h-4" />
             </span>
 
-            <input
+            <input data-testid="sidebar-quick-actions-search-query-input"
               type="text"
               placeholder="Search"
               value={searchQuery}
@@ -85,7 +85,7 @@ function SidebarQuickActions({
             />
           </div>
 
-          <span
+          <span data-testid="sidebar-quick-actions-show-menu-modal-action"
             onClick={() => {
               setShowMenuModal(false);
               setSearchQuery("");
@@ -100,7 +100,7 @@ function SidebarQuickActions({
           <div className="flex flex-col">
             {filteredItems.length > 0 ? (
               filteredItems.map((item, index) => (
-                <div
+                <div data-testid={`sidebar-quick-actions-action-${index}`}
                   key={index}
                   onClick={() =>
                     state.login.selectedHostel_Id &&

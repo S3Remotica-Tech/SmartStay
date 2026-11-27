@@ -111,7 +111,7 @@ const Profile_Security = () => {
           </p>
         </div>
         <div className="w-full md:w-1/6 flex items-center mt-2 md:mt-0">
-          <Form.Check
+          <Form.Check data-testid="setting-security-page-custom-switch-check"
             type="switch"
             id="custom-switch"
             checked={isChecked}
@@ -131,7 +131,7 @@ const Profile_Security = () => {
           </p>
         </div>
         <div className="w-full md:w-1/6 flex items-center mt-2 md:mt-0">
-          <Form.Check
+          <Form.Check data-testid="setting-security-page-custom-switch-email-check"
             type="switch"
             id="custom-switch-email"
             checked={isCheckedvalue}
@@ -151,7 +151,7 @@ const Profile_Security = () => {
           </p>
         </div>
         <div className="w-full md:w-1/6 flex items-center mt-2 md:mt-0">
-          <Form.Check
+          <Form.Check data-testid="setting-security-page-custom-switch-sms-check"
             type="switch"
             id="custom-switch-sms"
             checked={isCheckedvalue}
@@ -161,7 +161,7 @@ const Profile_Security = () => {
       </div>
 
       <div className="flex justify-start mt-3 mb-2 w-full">
-        <Button
+        <Button data-testid="setting-security-page-save-changes-btn"
           onClick={handleTwoStepVerify}
           disabled={!isChanged}
           className="!font-gilroy !font-semibold !text-sm !text-white !bg-[#1E45E1] rounded-md py-3 px-3 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"

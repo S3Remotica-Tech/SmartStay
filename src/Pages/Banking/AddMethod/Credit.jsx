@@ -393,7 +393,7 @@ function Credit({ handleClose }) {
               Linked Bank
             </label>
 
-            <input
+            <input data-testid="credit-linked-bank-input"
               value={OverviewDetails?.bankName}
               disabled
               placeholder=""
@@ -406,7 +406,7 @@ function Credit({ handleClose }) {
               Card Network <span className="text-red-500">*</span>
             </label>
 
-            <Select
+            <div data-testid="credit-card-network-select" className="contents"><Select
               ref={cardNetworkRef}
               options={cardOptions}
               value={cardNetwork}
@@ -414,7 +414,7 @@ function Credit({ handleClose }) {
               placeholder="Ex : Visa, Master"
               className="mt-2"
               styles={CustomStyles}
-            />
+            /></div>
             {cardNetworkError && (
               <ErrorMessage message={cardNetworkError} type="error" />
             )}
@@ -426,7 +426,7 @@ function Credit({ handleClose }) {
             Card Holder Name <span className="text-red-500">*</span>
           </label>
 
-          <input
+          <input data-testid="credit-card-holder-name-input"
             ref={cardHolderNameRef}
             value={cardHolderName}
             onChange={handleCardHolderNameChange}
@@ -443,7 +443,7 @@ function Credit({ handleClose }) {
             Card Number (Last 4 Digits ) <span className="text-red-500">*</span>
           </label>
 
-          <input
+          <input data-testid="credit-card-number-last-4-digits-input"
             ref={cardNumberRef}
             value={cardNumber}
             onChange={handleCardNumberChange}
@@ -460,7 +460,7 @@ function Credit({ handleClose }) {
             Display Name <span className="text-red-500">*</span>
           </label>
 
-          <input
+          <input data-testid="credit-display-name-input"
             ref={displayNameRef}
             value={displayName}
             onChange={handleDisplayNameChange}
@@ -478,7 +478,7 @@ function Credit({ handleClose }) {
               Credit Limit
             </label>
 
-            <input
+            <input data-testid="credit-credit-limit-input"
               ref={creditLimitRef}
               value={creditLimit}
               onChange={handleCreditLimitChange}
@@ -496,7 +496,7 @@ function Credit({ handleClose }) {
             </label>
 
             <div className="relative">
-              <Select
+              <div data-testid="credit-billing-cycle-select" className="contents"><Select
                 options={billingCycleOptions}
                 value={
                   billingCycleOptions.find(
@@ -507,7 +507,7 @@ function Credit({ handleClose }) {
                 placeholder="Select Day"
                 isSearchable={false}
                 styles={CustomStyles}
-              />
+              /></div>
             </div>
           </div>
 
@@ -570,7 +570,7 @@ function Credit({ handleClose }) {
             Description
           </label>
 
-          <textarea
+          <textarea data-testid="credit-description-textarea"
             rows={4}
             value={description}
             onChange={handleDescriptionChange}
@@ -591,14 +591,14 @@ function Credit({ handleClose }) {
       )}
 
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button
+        <button data-testid="credit-cancel-btn"
           onClick={handleClose}
           className="px-6 py-2 text-[#6B7280] text-sm font-medium"
         >
           Cancel
         </button>
 
-        <button
+        <button data-testid="credit-save-credit-btn"
           disabled={isSaving}
           onClick={handleSaveCredit}
           className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

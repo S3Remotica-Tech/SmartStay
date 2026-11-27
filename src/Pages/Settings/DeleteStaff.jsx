@@ -26,7 +26,7 @@ function DeleteStaff({ show, handleClose, deleteId }) {
   }, [state.InvoiceList?.deleteUserSuccessStatusCode]);
 
   return (
-    <Modal
+    <Modal data-testid="delete-staff-delete-staff-are-you-modal"
       show={show}
       onHide={handleClose}
       centered
@@ -44,14 +44,14 @@ function DeleteStaff({ show, handleClose, deleteId }) {
       </Modal.Body>
 
       <Modal.Footer className="!flex !justify-center !items-center !gap-2 !border-t-0 !mt-[-10px]">
-        <button
+        <button data-testid="delete-staff-cancel-btn"
           onClick={handleClose}
           className="!flex-1 !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 !bg-white !text-blue-700 !border !border-blue-700 !font-semibold !font-gilroy !text-sm"
         >
           Cancel
         </button>
 
-        <button
+        <button data-testid="delete-staff-delete-btn"
           disabled={deleteLoading}
           onClick={handleDelete}
           className={`

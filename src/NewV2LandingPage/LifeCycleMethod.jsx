@@ -220,7 +220,7 @@ function LifeCycleMethod({ isFeatureWay }) {
       </div>
       {!isFeatureWay && (
         <div className="max-w-7xl flex items-center justify-center">
-          <button
+          <button data-testid="life-cycle-method-explore-features-btn"
             onClick={handleNavigateFeatures}
             className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium 2xl:text-xl hover:bg-gray-100 hover:text-[#222222] transition"
           >

@@ -125,7 +125,7 @@ function SubscriptionCard() {
             </div>
           </div>
 
-          <button
+          <button data-testid="basic-plan-change-plan-btn"
             className="bg-[#1E45E1] text-white px-6 py-2 rounded-[10px] text-sm h-fit"
             onClick={() => handleNavigatePlan("allplans")}
           >
@@ -248,7 +248,7 @@ function SubscriptionCard() {
                       </td>
 
                       <td className={`${TABLE_BODY_CELL} text-center sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
-                        <div
+                        <div data-testid={`basic-plan-action-${item.historyId}`}
                           className="relative mt-1 flex cursor-pointer items-center justify-center"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -278,7 +278,7 @@ function SubscriptionCard() {
                                 className="font-gilroy min-w-[140px]
                               bg-white border border-gray-200 rounded-lg shadow-lg"
                               >
-                                <button
+                                <button data-testid={`basic-plan-download-btn-${item.historyId}`}
                                   className="w-full px-4 py-2 text-sm flex items-center gap-2 hover:bg-gray-50 rounded-lg"
                                   onClick={(e) => {
                                     e.stopPropagation();

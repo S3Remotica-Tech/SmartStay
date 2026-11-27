@@ -126,23 +126,23 @@ function AddTemplate() {
           </div>
 
           <div className="flex items-center gap-2 relative">
-            <button
+            <button data-testid="add-template-preview-btn"
               onClick={() => setShowPreview(true)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg border bg-white text-[12px] font-medium"
             >
               <Eye size={16} /> Preview
             </button>
-            <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg border bg-white text-[12px] font-medium">
+            <button data-testid="add-template-save-draft-btn" className="flex items-center gap-1.5 px-3 py-2 rounded-lg border bg-white text-[12px] font-medium">
               <Archive size={16} /> Save Draft
             </button>
-            <button
+            <button data-testid="add-template-activate-template-btn"
               onClick={() => handleSave("Activate")}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0f8a4a] text-white text-[12px] font-medium"
             >
               <TickCircle size={16} color="#FFF" variant="Bold" /> Activate
               Template
             </button>
-            <button
+            <button data-testid="add-template-show-more-btn"
               ref={popupRef}
               onClick={() => setShowMore(!showMore)}
               className="w-8 h-8 flex items-center justify-center rounded-lg border bg-white"
@@ -151,10 +151,10 @@ function AddTemplate() {
             </button>
             {showMore && (
               <div className="absolute top-10 right-0 w-36 bg-white border rounded-lg shadow-lg z-10 overflow-hidden">
-                <button className="w-full flex items-center gap-2 px-3 py-2.5 text-[12px] hover:bg-gray-50">
+                <button data-testid="add-template-disable-btn" className="w-full flex items-center gap-2 px-3 py-2.5 text-[12px] hover:bg-gray-50">
                   <Archive size={14} /> Disable
                 </button>
-                <button className="w-full flex items-center gap-2 px-3 py-2.5 text-[12px] text-red-600 hover:bg-red-50">
+                <button data-testid="add-template-delete-btn" className="w-full flex items-center gap-2 px-3 py-2.5 text-[12px] text-red-600 hover:bg-red-50">
                   <Trash size={14} /> Delete
                 </button>
               </div>
@@ -175,7 +175,7 @@ function AddTemplate() {
                   <label className={fieldLabelClass}>
                     Template Title
                   </label>
-                  <input
+                  <input data-testid="add-template-template-title-input"
                     value={title}
                     placeholder="Enter Title"
                     onChange={(e) => setTitle(e.target.value)}
@@ -186,7 +186,7 @@ function AddTemplate() {
                   <label className={fieldLabelClass}>
                     Template Code
                   </label>
-                  <input
+                  <input data-testid="add-template-template-code-input"
                     value={code}
                     placeholder="Enter Code"
                     onChange={(e) => setCode(e.target.value)}
@@ -198,7 +198,7 @@ function AddTemplate() {
                     Meta description
                   </label>
                   <div className="relative">
-                    <textarea
+                    <textarea data-testid="add-template-meta-description-textarea"
                       placeholder="Enter your description for Template.."
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
@@ -228,7 +228,7 @@ function AddTemplate() {
                     key={item.key}
                     className="flex items-center gap-2 cursor-pointer"
                   >
-                    <input
+                    <input data-testid={`add-template-signature-configuration-checkbox-${item.key}`}
                       type="checkbox"
                       checked={signature[item.key]}
                       onChange={() =>
@@ -259,7 +259,7 @@ function AddTemplate() {
 
               <div className="flex items-center gap-1 px-4 py-1 border-b border-gray-100 flex-wrap bg-gray-200">
                 <div className="flex items-center gap-1 pr-2 border-r border-gray-200 ">
-                  <button
+                  <button data-testid="add-template-btn"
                     type="button"
                     onClick={() => editor?.chain().focus().toggleBold().run()}
                     className={`w-8 h-8 flex items-center justify-center rounded ${
@@ -271,7 +271,7 @@ function AddTemplate() {
                     <TextBold size={17} />
                   </button>
 
-                  <button
+                  <button data-testid="add-template-btn-2"
                     type="button"
                     onClick={() => editor?.chain().focus().toggleItalic().run()}
                     className={`w-8 h-8 flex items-center justify-center rounded ${
@@ -283,7 +283,7 @@ function AddTemplate() {
                     <TextItalic size={17} />
                   </button>
 
-                  <button
+                  <button data-testid="add-template-btn-3"
                     type="button"
                     onClick={() =>
                       editor?.chain().focus().toggleUnderline().run()
@@ -297,7 +297,7 @@ function AddTemplate() {
                     <TextUnderline size={17} />
                   </button>
 
-                  <button
+                  <button data-testid="add-template-s-btn"
                     type="button"
                     onClick={() => editor?.chain().focus().toggleStrike().run()}
                     className={`w-8 h-8 flex items-center justify-center rounded ${
@@ -310,7 +310,7 @@ function AddTemplate() {
                   </button>
                 </div>
 
-                <Select
+                <div data-testid="add-template-select" className="contents"><Select
                   options={headingOptions}
                   defaultValue={headingOptions[0]}
                   isSearchable={false}
@@ -326,10 +326,10 @@ function AddTemplate() {
                   className="w-[130px] text-[12px]"
                   classNamePrefix="heading-select"
                   styles={fieldSelectStyles()}
-                />
+                /></div>
 
                 <div className="flex items-center gap-1 px-2 border-x border-gray-200">
-                  <button
+                  <button data-testid="add-template-1-btn"
                     type="button"
                     onClick={() =>
                       editor?.chain().focus().toggleOrderedList().run()
@@ -343,7 +343,7 @@ function AddTemplate() {
                     1.≡
                   </button>
 
-                  <button
+                  <button data-testid="add-template-btn-4"
                     type="button"
                     onClick={() =>
                       editor?.chain().focus().toggleBulletList().run()
@@ -359,7 +359,7 @@ function AddTemplate() {
                 </div>
 
                 <div className="flex items-center gap-1 px-2 border-r border-gray-200">
-                  <button
+                  <button data-testid="add-template-btn-5"
                     type="button"
                     onClick={() =>
                       editor?.chain().focus().setTextAlign("left").run()
@@ -369,7 +369,7 @@ function AddTemplate() {
                     <TextalignLeft size={17} />
                   </button>
 
-                  <button
+                  <button data-testid="add-template-btn-6"
                     type="button"
                     onClick={() =>
                       editor?.chain().focus().setTextAlign("center").run()
@@ -379,7 +379,7 @@ function AddTemplate() {
                     <TextalignCenter size={17} />
                   </button>
 
-                  <button
+                  <button data-testid="add-template-btn-7"
                     type="button"
                     onClick={() =>
                       editor?.chain().focus().setTextAlign("right").run()
@@ -391,7 +391,7 @@ function AddTemplate() {
                 </div>
 
                 <div className="relative">
-                  <button
+                  <button data-testid="add-template-add-link-btn"
                     type="button"
                     onClick={() => setShowLinkInput((prev) => !prev)}
                     className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100"
@@ -402,7 +402,7 @@ function AddTemplate() {
 
                   {showLinkInput && (
                     <div className="absolute top-10 right-0 z-50 flex items-center gap-2 p-2 bg-white border rounded-lg shadow-lg">
-                      <input
+                      <input data-testid="add-template-https-example-com-input"
                         autoFocus
                         type="url"
                         value={linkUrl}
@@ -411,7 +411,7 @@ function AddTemplate() {
                         className="w-48 px-2 py-1.5 text-[12px] border rounded outline-none focus:border-[#1E45E1]"
                       />
 
-                      <button
+                      <button data-testid="add-template-add-btn"
                         type="button"
                         onClick={() => {
                           if (linkUrl.trim()) {
@@ -433,7 +433,7 @@ function AddTemplate() {
                   )}
                 </div>
 
-                <button
+                <button data-testid="add-template-upload-image-btn"
                   type="button"
                   onClick={() => imageInputRef.current?.click()}
                   className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100"
@@ -442,7 +442,7 @@ function AddTemplate() {
                   <ImageIcon size={17} />
                 </button>
 
-                <input
+                <input data-testid="add-template-file"
                   ref={imageInputRef}
                   type="file"
                   accept="image/png,image/jpeg,image/jpg,image/webp"

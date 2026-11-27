@@ -13,6 +13,7 @@ function AmountInput({
   disabled = false,
   inputRef,
   className = "",
+  "data-testid": testId,
   ariaLabel,
   children,
 }) {
@@ -25,6 +26,7 @@ function AmountInput({
         ₹
       </span>
       <input
+        data-testid={testId}
         ref={inputRef}
         type="text"
         inputMode="decimal"
@@ -43,6 +45,7 @@ function AmountInput({
 }
 
 AmountInput.propTypes = {
+  "data-testid": PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,

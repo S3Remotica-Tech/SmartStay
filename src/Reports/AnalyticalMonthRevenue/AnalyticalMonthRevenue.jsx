@@ -236,12 +236,12 @@ function AnalyticalMonthRevenue() {
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
         <div className='flex items-center gap-2'>
-          <ArrowLeft onClick={handleNavigateReports}
+          <ArrowLeft data-testid="analytical-month-revenue-navigate-reports-icon" onClick={handleNavigateReports}
             size="20"
             color="#4A5565" className='cursor-pointer'
           />
           <div>
-            <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
+            <div data-testid="analytical-month-revenue-month-vs-month-revenue-action" className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
               <h1 className="text-lg font-semibold my-0 text-[#222222]">Month vs Month Revenue</h1>
               <div className='rounded-none border-0'>
                 <ArrowDown2
@@ -257,7 +257,7 @@ function AnalyticalMonthRevenue() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`analytical-month-revenue-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item)
@@ -413,7 +413,7 @@ function AnalyticalMonthRevenue() {
                     Compare:
                   </span>
 
-                  <MonthPicker
+                  <MonthPicker data-testid="analytical-month-revenue-month-input"
                     value={compareMonthRevenue ? dayjs(compareMonthRevenue) : null}
                     onChange={(date) => setCompareMonthRevenue(date)}
                     format="MMMM YYYY"
@@ -432,7 +432,7 @@ function AnalyticalMonthRevenue() {
                     With:
                   </span>
 
-                  <MonthPicker
+                  <MonthPicker data-testid="analytical-month-revenue-month-input-2"
                     value={withMonthRevenue ? dayjs(withMonthRevenue) : null}
                     onChange={(date) => setWithMonthRevenue(date)}
                     format="MMMM YYYY"
@@ -442,7 +442,7 @@ function AnalyticalMonthRevenue() {
                 </div>
 
               </div>
-              <button
+              <button data-testid="analytical-month-revenue-export-btn"
                 className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
               >
 

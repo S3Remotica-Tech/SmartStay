@@ -246,7 +246,7 @@ function SettingNewUser() {
               />
             </div>
 
-            <button
+            <button data-testid="setting-user-new-staff-btn"
               disabled={!canWriteUser}
               onClick={handleOpenAddUser}
               className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
@@ -317,7 +317,7 @@ function SettingNewUser() {
                           </td>
 
                           <td className={`${TABLE_BODY_CELL} border-b border-gray-200 p-0 text-left align-middle sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
-                            <div
+                            <div data-testid={`setting-user-new-dots-click-action-${index}`}
                               className="relative flex items-center cursor-pointer pl-2"
                               onClick={(e) => handleDotsClick(index, e)}
                             >
@@ -345,7 +345,7 @@ function SettingNewUser() {
                                   }}
                                 >
                                   <div>
-                                    <div
+                                    <div data-testid={`setting-user-new-edit-action-${index}`}
                                       onClick={() =>
                                         canUpdateUser && handleEditForm(item)
                                       }
@@ -377,7 +377,7 @@ function SettingNewUser() {
 
                                     <div className="h-px bg-gray-100" />
 
-                                    <div
+                                    <div data-testid={`setting-user-new-delete-action-${index}`}
                                       onClick={() =>
                                         canDeleteUser && handleDeleteForm(item)
                                       }

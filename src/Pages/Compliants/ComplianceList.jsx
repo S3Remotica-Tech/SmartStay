@@ -516,7 +516,7 @@ const ComplianceList = (props) => {
 
                   <div className="flex-grow">
                     <div className="pb-2">
-                      <label
+                      <label data-testid="compliance-list-navigate-complaints-view-action"
                         onClick={() => handleNavigateComplaintsView(props.complaints)}
                         className="ml-2.5 text-blue-700 font-semibold text-base underline cursor-pointer mb-1"
                       >
@@ -543,7 +543,7 @@ const ComplianceList = (props) => {
 
 
                 <div>
-                  <div
+                  <div data-testid="compliance-list-show-dots-action"
 
                     className={`
     h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center relative cursor-pointer
@@ -563,7 +563,7 @@ const ComplianceList = (props) => {
                           className="absolute right-12 top-0 w-[175px] bg-gray-50 border border-gray-50 rounded-lg flex items-center justify-start z-[1000]"
                         >
                           <div className="w-full">
-                            <div
+                            <div data-testid="compliance-list-change-status-action"
 
                               onClick={() => {
                                 if (canWriteComplaints) {
@@ -593,7 +593,7 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                            <div
+                            <div data-testid="compliance-list-assign-complaint-action"
                               onClick={() => {
                                 if (canWriteComplaints) {
                                   handleAssignOpenClose(props.complaints)
@@ -623,7 +623,7 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                            <div
+                            <div data-testid="compliance-list-edit-action"
                               onClick={() => {
                                 if (canUpdateComplaints) {
                                   handleEdit(props.complaints);
@@ -656,7 +656,7 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                            <div
+                            <div data-testid="compliance-list-delete-action"
                               onClick={() => {
                                 if (canDeleteComplaints) {
                                   handleDeleteFormShow(props.complaints)
@@ -881,7 +881,7 @@ const ComplianceList = (props) => {
                       {props.complaints?.assigneeName}
                     </span>
                   ) : (
-                    <span
+                    <span data-testid="compliance-list-assign-action"
                       className={`text-sm font-semibold cursor-pointer ${!canWriteComplaints
                         ? "text-gray-300"
                         : "text-blue-600 hover:underline"
@@ -981,7 +981,7 @@ const ComplianceList = (props) => {
                   )}
                 </div>
 
-                <div
+                <div data-testid="compliance-list-action"
                   onClick={() => canWriteComplaints ? handleIconClick(props.complaints) : ''}
                   // className="border border-[#DCDCDC] rounded-full px-2.5 py-1.5 cursor-pointer flex items-center justify-center"
                   className="border border-[#DCDCDC] rounded-full px-3 py-1.5 flex items-center gap-1 cursor-pointer hover:bg-gray-100"
@@ -998,7 +998,7 @@ const ComplianceList = (props) => {
 
 
 
-                <Modal
+                <Modal data-testid="compliance-list-modal"
                   show={showCard}
                   onHide={handleCloseIconClick}
                   centered
@@ -1046,7 +1046,7 @@ const ComplianceList = (props) => {
                       </div>
 
 
-                      <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
+                      <CloseCircle data-testid="compliance-list-close-icon-click-icon" size="24" color="#000" onClick={handleCloseIconClick}
                         className="cursor-pointer" />
                     </Modal.Header>
                     <Modal.Body className="max-h-[400px] overflow-y-auto show-scrolls">
@@ -1154,7 +1154,7 @@ const ComplianceList = (props) => {
                     )}
                     <Modal.Footer className="p-2 border-0">
                       <div className="mt-4 relative inline-block w-full">
-                        <Form.Control
+                        <Form.Control data-testid="compliance-list-post-your-reply-here-input"
                           type="text"
                           value={comments}
                           onChange={(e) => handleComments(e)}
@@ -1162,7 +1162,7 @@ const ComplianceList = (props) => {
                           className="w-full h-[52px] border border-[#E7E7E7] rounded-xl pl-4 py-1 font-gilroy focus:outline-none"
                         />
 
-                        <div
+                        <div data-testid="compliance-list-add-comment-action"
                           onClick={handleAddComment}
                           className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-[#1E45E1] border border-[#E7E7E7] rounded-full p-2 flex items-center justify-center cursor-pointer"
                         >
@@ -1178,7 +1178,7 @@ const ComplianceList = (props) => {
                 </Modal>
 
                 {/* change status */}
-                <Modal
+                <Modal data-testid="compliance-list-change-status-modal"
                   show={showChangeStatus}
                   onHide={ChangeStatusClose}
                   centered
@@ -1192,7 +1192,7 @@ const ComplianceList = (props) => {
                             Change Status
                           </div>
 
-                          <CloseCircle size="24" color="#301414" onClick={ChangeStatusClose}
+                          <CloseCircle data-testid="compliance-list-change-status-close-icon" size="24" color="#301414" onClick={ChangeStatusClose}
                             className="-mt-3 cursor-pointer" />
                         </Modal.Header>
                       </div>
@@ -1203,7 +1203,7 @@ const ComplianceList = (props) => {
                             <label className={fieldLabelClass}>
                               Change Status <span className={fieldRequiredClass}>*</span>
                             </label>
-                            <Select
+                            <div data-testid="compliance-list-change-status-select" className="contents"><Select
                               options={[
                                 { value: "pending", label: "Pending" },
                                 { value: "inprogress", label: "Inprogress" },
@@ -1220,7 +1220,7 @@ const ComplianceList = (props) => {
                                 ...fieldSelectStyles(!!statusError),
                                 menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                               }}
-                            />
+                            /></div>
                           </div>
 
                           {statusError.trim() !== "" && (
@@ -1254,7 +1254,7 @@ const ComplianceList = (props) => {
 
 
                     <Modal.Footer className="!border-t-0">
-                      <Button disabled={formLoading}
+                      <Button data-testid="compliance-list-change-status-btn" disabled={formLoading}
                         className="w-full !bg-blue-700 font-medium h-12 rounded-xl !text-base !font-gilroy"
                         onClick={handleChangeStatusClick}
                       >
@@ -1265,7 +1265,7 @@ const ComplianceList = (props) => {
                 </Modal>
 
                 {/* Assign complaint */}
-                <Modal
+                <Modal data-testid="compliance-list-assign-complaint-assign-modal"
                   show={showAssignComplaint}
                   onHide={handleCloseAssign}
                   centered
@@ -1277,7 +1277,7 @@ const ComplianceList = (props) => {
                         Assign Complaint
                       </div>
 
-                      <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
+                      <CloseCircle data-testid="compliance-list-close-assign-icon" size="24" color="#000" onClick={handleCloseAssign}
                         className="cursor-pointer" />
 
 
@@ -1295,7 +1295,7 @@ const ComplianceList = (props) => {
                             Assign Complaint <span className={fieldRequiredClass}>*</span>
                           </label>
 
-                          <Select
+                          <div data-testid="compliance-list-assign-complaint-select" className="contents"><Select
                             options={
                               state.Settings.addSettingStaffList
                                 ? state.Settings.addSettingStaffList.map((v) => ({
@@ -1323,7 +1323,7 @@ const ComplianceList = (props) => {
                               ...fieldSelectStyles(!!statusErrorType),
                               menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                             }}
-                          />
+                          /></div>
 
                           {statusErrorType.trim() !== "" && (
                             <div className="flex justify-center mt-1">
@@ -1348,7 +1348,7 @@ const ComplianceList = (props) => {
                     )}
 
                     <Modal.Footer className="border-0">
-                      <Button disabled={formAssignCompliantLoading}
+                      <Button data-testid="compliance-list-assign-complaint-btn" disabled={formAssignCompliantLoading}
                         className="w-full !bg-blue-700 font-medium h-12 rounded-xl !text-base !font-gilroy"
                         onClick={handleAssignComplaintClick}
                       >
@@ -1369,7 +1369,7 @@ const ComplianceList = (props) => {
 
 
       {/* Delete Compliance Modal */}
-      <Modal
+      <Modal data-testid="compliance-list-delete-compliance-are-you-modal"
         show={deleteForm}
         onHide={handleCloseDeleteForm}
         centered
@@ -1390,14 +1390,14 @@ const ComplianceList = (props) => {
 
         <Modal.Footer className="flex justify-center border-0 ">
 
-          <Button
+          <Button data-testid="compliance-list-cancel-btn"
             onClick={handleCloseDeleteForm}
             className="w-full max-w-[160px] h-12 px-5 py-3 rounded-lg !border !border-blue-700 bg-white !text-blue-700 !text-sm !font-semibold !font-gilroy"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="compliance-list-compliance-delete-btn"
             disabled={deleteLoading}
             onClick={handleComplianceDelete}
             className={`

@@ -50,7 +50,7 @@ function NoDataFormat({
 
                 <div className="flex gap-4 items-center">
                     {isSearching && isClearSearch && (
-                        <button
+                        <button data-testid="no-data-clear-search-btn"
                             onClick={handleClear}
                             className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
                             !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7] text-sm"
@@ -62,7 +62,7 @@ function NoDataFormat({
                     {
                         isWay === "Floor" && (
                             <>
-                                <button disabled={!canWritePayingGuests}
+                                <button data-testid="no-data-add-floor-btn" disabled={!canWritePayingGuests}
                                     onClick={handleAddFloor}
                                     className="flex justify-center gap-1 items-center rounded-lg !font-gilroy !text-white
                             !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7] text-sm"
@@ -72,7 +72,7 @@ function NoDataFormat({
                                 </button>
 
 
-                                <button disabled
+                                <button data-testid="no-data-watch-demo-btn" disabled
                                     // onClick={handleAddFloor}
                                     className="flex justify-center gap-1 items-center  rounded-lg !font-gilroy !text-[#191919]
                             !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7] text-sm cursor-not-allowed"
@@ -86,7 +86,7 @@ function NoDataFormat({
                     }
                     {
                         isWay === "Room" && (
-                            <button disabled={!canWritePayingGuests}
+                            <button data-testid="no-data-add-room-btn" disabled={!canWritePayingGuests}
                                 onClick={handleAddRoom}
                                 className="flex justify-center gap-1 items-center rounded-lg !font-gilroy !text-white
                             !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7] text-sm"

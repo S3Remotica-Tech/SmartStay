@@ -218,7 +218,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
             Check-out Tenant
           </h2>
 
-          <button onClick={handleClosecheck} className="cursor-pointer">
+          <button data-testid="due-customer-confirm-checkout-closecheck-btn" onClick={handleClosecheck} className="cursor-pointer">
             <CloseCircle size={24} color="#000" />
           </button>
         </div>
@@ -273,7 +273,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
           <div className="flex justify-between items-center">
             <span className="text-sm font-gilroy font-normal">Status</span>
             <div className="flex justify-between items-center mb-3">
-              <button className="text-xs font-gilroy font-semibold bg-green-600 text-white px-3 py-1.5 rounded-full border-none">
+              <button data-testid="due-customer-confirm-checkout-checkout-btn" className="text-xs font-gilroy font-semibold bg-green-600 text-white px-3 py-1.5 rounded-full border-none">
                 Checkout
               </button>
             </div>
@@ -283,7 +283,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
             <label className={fieldLabelClass}>
               Comments
             </label>
-            <textarea
+            <textarea data-testid="due-customer-confirm-checkout-comments-textarea"
               className={fieldTextareaClass()}
               placeholder="Please Enter Comments"
               rows={3}
@@ -308,13 +308,13 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
 
         <div className="flex items-center justify-end gap-4 m-4">
-          <Button
+          <Button data-testid="due-customer-confirm-checkout-cancel-btn"
             className="!text-base !font-gilroy !font-normal !bg-transparent !text-gray-800 px-4 py-2 rounded"
             onClick={handleClosecheck}
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="due-customer-confirm-checkout-check-out-btn"
             disabled={formLoading || !state.UsersList?.initializeCheckout?.canCheckout}
             onClick={handleConfirmCheckout}
             className="text-base !font-gilroy !font-normal !bg-[#1E45E1] text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"

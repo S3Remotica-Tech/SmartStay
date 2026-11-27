@@ -443,31 +443,31 @@ function BankingLedger() {
       <div className="flex justify-between items-center gap-2 min-h-[60px]">
         <div className="flex flex-wrap items-center gap-3">
           <div className={`border border-gray-300 rounded-lg w-36 `}>
-            <Select
+            <div data-testid="banking-ledger-period-select" className="contents"><Select
               isDisabled={!canReadBanking}
               styles={CustomStyles}
               placeholder="Select Period"
               options={periodOptions}
               value={periodOptions.find((option) => option.value === period)}
               onChange={handlePeriodChange}
-            />
+            /></div>
           </div>
 
           <div className="flex items-center gap-3">
-            <Select
+            <div data-testid="banking-ledger-source-select" className="contents"><Select
               isDisabled={!canReadBanking}
               styles={CustomStyles}
               placeholder="Select Source"
               options={sourceOptions}
               value={source}
               onChange={handleSourceChange}
-            />
+            /></div>
           </div>
 
           <div
             className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
           >
-            <Filter
+            <Filter data-testid="banking-ledger-icon"
               size={16}
               onClick={() => {
                 if (canReadBanking) {
@@ -509,7 +509,7 @@ function BankingLedger() {
               </span>
             ))}
           </div>
-          <span
+          <span data-testid="banking-ledger-reset-action"
             className="text-blue-600 text-sm font-medium cursor-pointer"
             onClick={handleReset}
           >

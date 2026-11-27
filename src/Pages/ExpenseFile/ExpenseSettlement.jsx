@@ -297,7 +297,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
-      <div
+      <div data-testid="expense-settlement-expense-settle-payment-balance-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy border border-gray-50"
       >
@@ -308,7 +308,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             Expense Settle Payment
           </h1>
-          <Add
+          <Add data-testid="expense-settlement-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -322,7 +322,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                 {expenseOverView?.title ? "Title" : "Category"}
               </label>
               <div className="relative">
-                <input
+                <input data-testid="expense-settlement-input"
                   disabled
                   type="text"
                   value={
@@ -350,7 +350,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                 </p>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="expense-settlement-paid-amount-inr-due-amount-input"
                   type="number"
                   ref={paidAmountRef}
                   value={paidAmount}
@@ -359,7 +359,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                   onWheel={(e) => e.target.blur()}
                   className={fieldClass(!!paidAmountError)}
                 />
-                <button
+                <button data-testid="expense-settlement-set-btn"
                   onClick={handleSetAmount}
                   className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                 >
@@ -377,7 +377,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                 Balance payable If (Outstanding){" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <input
+              <input data-testid="expense-settlement-balance-payable-if-outstanding-input"
                 type="text"
                 value={finalOutstanding}
                 readOnly
@@ -390,18 +390,18 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                 Paid Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <DatePicker
+                <div data-testid="expense-settlement-paid-date" className="contents"><DatePicker
                   // ref={paidDateRef}
                   wrapperClassName="w-full"
                   selected={paidDate}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
-                  customInput={<input ref={paidDateRef} />}
+                  customInput={<input data-testid="expense-settlement-paid-date-input" ref={paidDateRef} />}
                   minDate={transactionDate}
                   maxDate={new Date()}
                   className={datePickerInputClass(!!paidDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -419,7 +419,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                 Payment method{" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="expense-settlement-payment-method-select" className="contents"><Select
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={(selected) => {
@@ -437,7 +437,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymentMethodError && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -448,7 +448,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
               <label className={fieldLabelClass}>
                 Transaction ID
               </label>
-              <input
+              <input data-testid="expense-settlement-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -457,7 +457,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
               />
             </div>
 
-            <input
+            <input data-testid="expense-settlement-file-change-file"
               ref={fileInputRef}
               type="file"
               multiple
@@ -471,7 +471,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                   Attachments/Proofs (If any)
                 </label>
 
-                <div
+                <div data-testid="expense-settlement-image-to-upload-jpg-action"
                   onClick={() => fileInputRef.current?.click()}
                   className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
                 >
@@ -514,7 +514,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                               {selectedImageName?.name}
                             </p>
 
-                            <button
+                            <button data-testid="expense-settlement-btn"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setPreviewImage(null);
@@ -544,7 +544,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                     key={index}
                     className="relative border rounded-lg w-full"
                   >
-                    <img
+                    <img data-testid={`expense-settlement-preview-img-${index}`}
                       src={item.preview}
                       alt="preview"
                       className="h-[100px]  w-[200px] object-cover cursor-pointer rounded-lg"
@@ -573,7 +573,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
               </div>
             )}
             {attachments?.length > 0 && (
-              <div
+              <div data-testid="expense-settlement-add-more-files-action"
                 className="flex justify-end my-2"
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -586,7 +586,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
               <label className={fieldLabelClass}>
                 Description
               </label>
-              <textarea
+              <textarea data-testid="expense-settlement-description-textarea"
                 rows={4}
                 value={description}
                 onChange={handleDescriptionChange}
@@ -635,7 +635,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
           />
         )}
         <div className="flex justify-end gap-4 my-4 mr-4">
-          <button
+          <button data-testid="expense-settlement-cancel-btn"
             onClick={handleClose}
             type="button"
             className="text-[#4B4B4B] text-sm font-medium"
@@ -643,7 +643,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="expense-settlement-submit-btn"
             type="submit"
             disabled={formLoading}
             onClick={handleSubmit}

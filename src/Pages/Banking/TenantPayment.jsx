@@ -324,7 +324,7 @@ function TenantPayment({ show, handleClose }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
-      <div
+      <div data-testid="tenant-payment-tenant-payment-tenant-payable-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-fit bg-white rounded-lg shadow-xl z-50 flex flex-col"
       >
@@ -337,7 +337,7 @@ function TenantPayment({ show, handleClose }) {
           </h1>
           <div className="flex gap-2">
             <div className="relative">
-              <MessageQuestion
+              <MessageQuestion data-testid="tenant-payment-show-works-icon"
                 className="cursor-pointer"
                 onClick={() => setShowWorks(!showWorks)}
               />
@@ -351,7 +351,7 @@ function TenantPayment({ show, handleClose }) {
                 </div>
               )}
             </div>
-            <Add
+            <Add data-testid="tenant-payment-close-icon"
               size={24}
               color="#FF0000"
               onClick={handleClose}
@@ -366,7 +366,7 @@ function TenantPayment({ show, handleClose }) {
                 Tenant <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <Select
+                <div data-testid="tenant-payment-tenant-select" className="contents"><Select
                   ref={tenantRef}
                   value={tenant}
                   onChange={handleTenantChange}
@@ -374,7 +374,7 @@ function TenantPayment({ show, handleClose }) {
                   placeholder="Select Tenant"
                   className="text-sm"
                   styles={fieldSelectStyles(!!tenantError)}
-                />
+                /></div>
               </div>
 
               {tenantError && (
@@ -397,7 +397,7 @@ function TenantPayment({ show, handleClose }) {
                 <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="tenant-payment-amount-received-inr-input"
                   type="number"
                   ref={amountReceivedRef}
                   value={amountReceived}
@@ -417,14 +417,14 @@ function TenantPayment({ show, handleClose }) {
                 Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative" ref={paymentDateRef}>
-                <DatePicker
+                <div data-testid="tenant-payment-date" className="contents"><DatePicker
                   wrapperClassName="w-full"
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   className={datePickerInputClass(!!paymentDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -442,7 +442,7 @@ function TenantPayment({ show, handleClose }) {
                 Payment method{" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="tenant-payment-payment-method-select" className="contents"><Select
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={handlePaymentMethodChange}
@@ -457,7 +457,7 @@ function TenantPayment({ show, handleClose }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymentMethodError && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -471,7 +471,7 @@ function TenantPayment({ show, handleClose }) {
                   *
                 </span>
               </label>
-              <input
+              <input data-testid="tenant-payment-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -485,7 +485,7 @@ function TenantPayment({ show, handleClose }) {
               <label className={fieldLabelClass}>
                 Notes
               </label>
-              <textarea
+              <textarea data-testid="tenant-payment-notes-textarea"
                 rows={4}
                 value={description}
                 onChange={handleDescriptionChange}
@@ -501,7 +501,7 @@ function TenantPayment({ show, handleClose }) {
                 Attachments/Proofs (If any)
               </label>
 
-              <input
+              <input data-testid="tenant-payment-attachments-proofs-if-any-file"
                 ref={fileInputRef}
                 type="file"
                 multiple
@@ -510,7 +510,7 @@ function TenantPayment({ show, handleClose }) {
                 onChange={handleFileChange}
               />
 
-              <div
+              <div data-testid="tenant-payment-image-to-upload-jpg-action"
                 onClick={() => fileInputRef.current?.click()}
                 className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
               >
@@ -554,7 +554,7 @@ function TenantPayment({ show, handleClose }) {
                             {selectedImageName?.name}
                           </p>
 
-                          <button
+                          <button data-testid="tenant-payment-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               setPreviewImage(null);
@@ -574,7 +574,7 @@ function TenantPayment({ show, handleClose }) {
                   </div>
                 </div>
               )}
-              <div
+              <div data-testid="tenant-payment-add-more-files-action"
                 className="flex justify-end my-2"
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -591,7 +591,7 @@ function TenantPayment({ show, handleClose }) {
                     key={index}
                     className="relative border rounded-lg w-full"
                   >
-                    <img
+                    <img data-testid={`tenant-payment-preview-img-${index}`}
                       src={item.preview}
                       alt="preview"
                       className="h-[100px]  w-[200px] object-cover cursor-pointer rounded-lg"
@@ -669,7 +669,7 @@ function TenantPayment({ show, handleClose }) {
                       </td>
 
                       <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
-                        <input
+                        <input data-testid={`tenant-payment-amount-apply-change-input-${item.id}`}
                           type="number"
                           onWheel={(e) => e.target.blur()}
                           value={item.amountToApply}
@@ -717,7 +717,7 @@ function TenantPayment({ show, handleClose }) {
           </div>
         </div>
         <div className="flex justify-end gap-4 m-3">
-          <button
+          <button data-testid="tenant-payment-cancel-btn"
             onClick={handleClose}
             type="button"
             className="text-[#4B4B4B] text-sm font-medium"
@@ -725,7 +725,7 @@ function TenantPayment({ show, handleClose }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="tenant-payment-submit-btn"
             onClick={handleSubmit}
             disabled={loading}
             className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"

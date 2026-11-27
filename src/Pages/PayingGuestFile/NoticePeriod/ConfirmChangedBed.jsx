@@ -206,7 +206,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
           <div className="text-[20px] font-semibold font-gilroy">
             Confirm Change Bed
           </div>
-          <CloseCircle
+          <CloseCircle data-testid="confirm-changed-bed-close-icon"
             size={24}
             color="#000"
             onClick={handleClose}
@@ -293,7 +293,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
                 <Form.Label className="mb-1 text-sm font-gilroy flex items-center">
                   Date <span className="text-red-500 text-xl ml-1">*</span>
                 </Form.Label>
-                <DatePicker
+                <DatePicker data-testid="confirm-changed-bed-date"
                   className="w-full h-12 border border-gray-300 cursor-pointer font-gilroy px-2"
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
@@ -318,7 +318,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
                     <span className="text-red-500 text-xl ml-1">*</span>
                   </Form.Label>
                   <div className="flex items-center ms-3">
-                    <Form.Check.Input
+                    <Form.Check.Input data-testid="confirm-changed-bed-new-rent-amount-input"
                       type="checkbox"
                       checked={sameAsCurrent}
                       onChange={handleSameAsCurrent}
@@ -330,7 +330,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
                   </div>
                 </div>
 
-                <FormControl
+                <FormControl data-testid="confirm-changed-bed-form-controls-input"
                   value={newRoomRent}
                   onChange={handleRentChange}
                   type="text"
@@ -362,14 +362,14 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
         </div>
 
         <div className="flex gap-3 mt-1 mx-3 mb-3">
-          <button
+          <button data-testid="confirm-changed-bed-cancel-btn"
             onClick={handleClose}
             className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-base font-gilroy"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="confirm-changed-bed-assign-btn"
             onClick={handleSubmit}
             disabled={formLoading}
             // className={`w-full px-4 py-2 flex items-center gap-2 rounded-md text-base font-gilroy

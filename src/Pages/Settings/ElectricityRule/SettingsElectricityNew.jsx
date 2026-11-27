@@ -108,7 +108,7 @@ function SettingsElectricityNew() {
                 </label>
               </div>
               <CustomTooltip text="Edit" direction="top-full" usePortal={false}>
-                <button
+                <button data-testid="settings-electricity-new-navigate-eb-rule-electricity-btn"
                   disabled={!canUpdateElectricity}
                   onClick={() => handleNavigateEbRule("electricity-rule")}
                   className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs transition

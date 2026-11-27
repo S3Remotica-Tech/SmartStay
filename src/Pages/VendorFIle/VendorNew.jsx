@@ -731,7 +731,7 @@ function Vendor() {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="vendor-new-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -739,7 +739,7 @@ function Vendor() {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="vendor-new-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -812,7 +812,7 @@ function Vendor() {
                     : "border-gray-200 opacity-60 cursor-not-allowed"
                   }`}
               >
-                <input
+                <input data-testid="vendor-new-input-change-input"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -829,7 +829,7 @@ function Vendor() {
             </div>
 
             <div>
-              <button
+              <button data-testid="vendor-new-add-vendor-btn"
                 disabled={!canWriteVendor}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -876,7 +876,7 @@ function Vendor() {
                       {item.label !== "Total Paid" && (
                         <div className="relative group w-fit">
                           <CustomTooltip text="Click to Filter" direction="top-full" usePortal={true}>
-                            <Filter
+                            <Filter data-testid={`vendor-new-payment-status-icon-${index}`}
                               onClick={() => setPaymentStatus(item.search)}
                               size="14"
                               color="#9CA3AF"
@@ -901,7 +901,7 @@ function Vendor() {
                   className={`border border-gray-300 rounded-lg w-36 ${categoryFilter ? "bg-gray-100 text-gray-700" : "bg-white"
                     }`}
                 >
-                  <Select
+                  <div data-testid="vendor-new-statusselect-select" className="contents"><Select
                     options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadVendor}
@@ -910,11 +910,11 @@ function Vendor() {
                     onChange={handleCategoryFilter}
                     value={selectedCategoryOption}
                     id="statusselect"
-                  />
+                  /></div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Select
+                  <div data-testid="vendor-new-statusselect-select-2" className="contents"><Select
                     options={paymentStatusOptions}
                     isDisabled={!canReadVendor}
                     classNamePrefix="custom"
@@ -928,14 +928,14 @@ function Vendor() {
                         (opt) => opt.value === paymentStatus,
                       ) || null
                     }
-                  />
+                  /></div>
                 </div>
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                 >
                   <CustomTooltip text="Filter" direction="top-full" usePortal={true}>
-                    <Filter
+                    <Filter data-testid="vendor-new-icon"
                       size={16}
                       onClick={() => {
                         if (canReadVendor) {
@@ -953,7 +953,7 @@ function Vendor() {
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
                 <CustomTooltip text="Customize" direction="top-full" usePortal={true}>
-                  <Setting3
+                  <Setting3 data-testid="vendor-new-open-icon"
                     onClick={() => setOpen(!open)}
                     className="cursor-pointer"
                     size="22"
@@ -989,7 +989,7 @@ function Vendor() {
                     </span>
                   ))}
                 </div>
-                <span
+                <span data-testid="vendor-new-reset-action"
                   className="text-blue-600 text-sm font-medium cursor-pointer"
                   onClick={handleReset}
                 >
@@ -1040,7 +1040,7 @@ function Vendor() {
                         formattedData?.length > 0 &&
                         formattedData?.map((user, index) => {
                           return (
-                            <tr
+                            <tr data-testid={`vendor-new-action-2-${index}`}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowOverview(true);
@@ -1236,7 +1236,7 @@ function Vendor() {
                                   } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
-                                <div
+                                <div data-testid={`vendor-new-action-3-${index}`}
                                   className="relative mt-1 flex cursor-pointer items-center justify-center"
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -1266,7 +1266,7 @@ function Vendor() {
                                         position: "fixed",
                                       }}
                                     >
-                                      <button
+                                      <button data-testid={`vendor-new-edit-btn-${index}`}
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setActiveRow(null);
@@ -1292,7 +1292,7 @@ function Vendor() {
                                         Edit
                                       </button>
 
-                                      <button
+                                      <button data-testid={`vendor-new-delete-btn-${index}`}
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setActiveRow(null);
@@ -1331,7 +1331,7 @@ function Vendor() {
 
                   {open && (
                     <>
-                      <div
+                      <div data-testid="vendor-new-open-action"
                         className="fixed inset-0 bg-black/20 z-50 "
                         onClick={() => setOpen(false)}
                       />
@@ -1352,7 +1352,7 @@ function Vendor() {
                               <div className="text-[16px] text-[#333333] font-semibold ">
                                 Customize Tabs{" "}
                               </div>
-                              <div
+                              <div data-testid="vendor-new-customize-items-action"
                                 onClick={() => {
                                   setCustomizeItems((prev) =>
                                     prev.map((i) => ({
@@ -1375,7 +1375,7 @@ function Vendor() {
 
                             <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                               <SearchNormal1 size={16} color="#98A2B3" />
-                              <input
+                              <input data-testid="vendor-new-search-text-input"
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                                 placeholder="Search"
@@ -1428,13 +1428,13 @@ function Vendor() {
                         )}
 
                         <div className="p-3 border-t flex gap-2">
-                          <button
+                          <button data-testid="vendor-new-reset-btn"
                             onClick={handleResetCustomize}
                             className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
                           >
                             Reset
                           </button>
-                          <button
+                          <button data-testid="vendor-new-save-btn"
                             onClick={handleSave}
                             disabled={customizeLoading}
                             className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
@@ -1499,7 +1499,7 @@ function Vendor() {
           />
         )}
 
-        <Modal
+        <Modal data-testid="vendor-new-delete-vendor-are-you-modal"
           show={showDeleteVendor}
           onHide={handleCloseForDeleteVendor}
           centered
@@ -1517,14 +1517,14 @@ function Vendor() {
           </Modal.Body>
 
           <Modal.Footer className="flex justify-center border-0 -mt-2">
-            <Button
+            <Button data-testid="vendor-new-cancel-btn"
               onClick={handleCloseForDeleteVendor}
               className="me-2 w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="vendor-new-confirm-delete-vendor-btn"
               disabled={deleteLoading}
               onClick={ConfirmDeleteVendor}
               className={`

@@ -81,8 +81,8 @@ function SettingAgreement() {
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
-              <form autoComplete="off" role="search">
-                <input
+              <form data-testid="setting-agreement-form" autoComplete="off" role="search">
+                <input data-testid="setting-agreement-search-templates-input"
                   type="search"
                   name="settings-filter"
                   value={search}
@@ -102,7 +102,7 @@ function SettingAgreement() {
                 className="absolute right-2.5 top-1/2 -translate-y-1/2"
               />
             </div>
-            <button
+            <button data-testid="setting-agreement-new-template-btn"
               disabled={!canWriteAgreement}
               onClick={handleAddTemplate}
               className={`flex items-center gap-2 whitespace-nowrap rounded-md border px-3 py-2 text-sm font-medium transition ${
@@ -158,13 +158,13 @@ function SettingAgreement() {
               </div>
 
               <div className="flex items-center gap-3 text-gray-400">
-                <button className="hover:text-gray-700 transition-colors">
+                <button data-testid={`setting-agreement-btn-${item.id}`} className="hover:text-gray-700 transition-colors">
                   <Edit2 size={16} variant="Linear" color="#64748B" />
                 </button>
-                <button className="hover:text-gray-700 transition-colors">
+                <button data-testid={`setting-agreement-btn-2-${item.id}`} className="hover:text-gray-700 transition-colors">
                   <Copy size={16} variant="Linear" color="#64748B" />
                 </button>
-                <button className="hover:text-red-500 transition-colors">
+                <button data-testid={`setting-agreement-btn-3-${item.id}`} className="hover:text-red-500 transition-colors">
                   <Trash size={16} variant="Linear" color="#64748B" />
                 </button>
               </div>

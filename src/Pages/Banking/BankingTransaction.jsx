@@ -234,7 +234,7 @@ function BankingEditTransaction(props) {
   const DropdownIndicator = () => null;
   return (
     <>
-      <Modal
+      <Modal data-testid="banking-transaction-edit-transaction-account-modal"
         show={props.EditTransactionForm}
         onHide={() => handleCloseTransactionEdit()}
         backdrop="static"
@@ -251,7 +251,7 @@ function BankingEditTransaction(props) {
             Edit Transaction
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="banking-transaction-close-transaction-edit-icon"
             size="24"
             color="#000"
             onClick={handleCloseTransactionEdit}
@@ -269,7 +269,7 @@ function BankingEditTransaction(props) {
                 </span>
               </Form.Label>
 
-              <Select
+              <div data-testid="banking-transaction-account-select" className="contents"><Select
                 isDisabled={true}
                 components={{ DropdownIndicator }}
                 options={
@@ -304,7 +304,7 @@ function BankingEditTransaction(props) {
                   ...fieldSelectStyles(!!accountError),
                   menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                 }}
-              />
+              /></div>
 
               {accountError && (
                 <ErrorMessage className="mt-[6px]" message={accountError} type="error" />
@@ -321,7 +321,7 @@ function BankingEditTransaction(props) {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker className={datePickerClass(!!dateError)}
+                  <DatePicker data-testid="banking-transaction-date" className={datePickerClass(!!dateError)}
                    
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -356,7 +356,7 @@ function BankingEditTransaction(props) {
                   Amount{" "}
                   <span className={fieldRequiredClass}> * </span>
                 </Form.Label>
-                <FormControl className={fieldClass(!!amountError)}
+                <FormControl data-testid="banking-transaction-amount-input" className={fieldClass(!!amountError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter Amount"
@@ -378,7 +378,7 @@ function BankingEditTransaction(props) {
                   *{" "}
                 </span>
               </Form.Label>
-              <Form.Select className={fieldClass()}
+              <Form.Select data-testid="banking-transaction-default-select-example-select" className={fieldClass()}
                 disabled
                 aria-label="Default select example"
                
@@ -397,7 +397,7 @@ function BankingEditTransaction(props) {
                 <Form.Label className={fieldLabelClass}>
                   Description{" "}
                 </Form.Label>
-                <FormControl className={fieldClass()}
+                <FormControl data-testid="banking-transaction-description-input" className={fieldClass()}
                   type="text"
                   id="form-controls"
                   placeholder="Enter description"
@@ -441,7 +441,7 @@ function BankingEditTransaction(props) {
           className="d-flex justify-content-center"
           style={{ borderTop: "none" }}
         >
-          <Button
+          <Button data-testid="banking-transaction-save-changes-btn"
             disabled={formLoading}
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{

@@ -44,7 +44,7 @@ function WelcomeMenu({ userName, onLogout, loggingOut }) {
 
   return (
     <div ref={ref} className="relative">
-      <button
+      <button data-testid="onboarding-layout-welcome-btn"
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
@@ -65,7 +65,7 @@ function WelcomeMenu({ userName, onLogout, loggingOut }) {
       </button>
       {open && (
         <div role="menu" className={`${MENU_PANEL_CLASS} absolute right-0 top-[calc(100%+8px)] z-[20]`}>
-          <button
+          <button data-testid="onboarding-layout-open-btn"
             type="button"
             role="menuitem"
             disabled={loggingOut}
@@ -98,7 +98,7 @@ function StepNav({ activeIndex, maxReachable, onSelect }) {
           const reachable = i <= maxReachable;
           return (
             <li key={step.key}>
-              <button
+              <button data-testid={`onboarding-layout-select-btn-${step.key}`}
                 type="button"
                 onClick={() => onSelect(i)}
                 disabled={!reachable || active}

@@ -146,7 +146,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
       <div>
         <div className="mb-4 mx-2">
           <div className="flex items-center -ml-11 sticky top-1 z-[1000] bg-white px-5 py-3 h-[60px]">
-            <img
+            <img data-testid="eb-tenant-overview-leftarrow-img"
               src={leftarrow}
               alt="leftarrow"
               width={20}
@@ -214,7 +214,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
         <div className="flex items-center mb-3 mx-2">
           <div className="flex -mt-2.5">
-            <div
+            <div data-testid="eb-tenant-overview-current-reading-action"
               onClick={() => setActiveTab("customer")}
               className={`text-[17px] font-gilroy cursor-pointer mr-6 pb-1.5 
             ${activeTab === "customer" ? "text-black font-semibold border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] font-normal border-b-2 border-transparent"}`}
@@ -222,7 +222,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
               Current Reading
             </div>
 
-            <div
+            <div data-testid="eb-tenant-overview-previous-reading-action"
               onClick={() => setActiveTab("room")}
               className={`text-[16px] font-gilroy cursor-pointer pb-1.5 
             ${activeTab === "room" ? "text-black font-semibold border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] font-normal border-b-2 border-transparent"}`}

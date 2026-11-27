@@ -294,7 +294,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
             )}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="refund-amount-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -357,7 +357,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <input
+              <input data-testid="refund-amount-refund-amount-input"
                 type="number"
                 min="0"
                 step="1"
@@ -380,7 +380,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 Balance Due <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <input
+              <input data-testid="refund-amount-balance-due-input"
                 disabled
                 type="number"
                 min="0"
@@ -403,7 +403,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
               <div className="relative w-full">
                 <div className="datepicker-wrapper relative w-full">
-                  <DatePicker
+                  <DatePicker data-testid="refund-amount-refund-date"
                     wrapperClassName="w-full"
                     className={datePickerClass(!!refundDateError)}
                     style={{ height: 48 }}
@@ -450,7 +450,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 Refund From <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <Select
+              <div data-testid="refund-amount-refund-from-select" className="contents"><Select
                 options={paymentOptionsV1}
                 onChange={handleRefundFrom}
                 value={refundFrom}
@@ -466,7 +466,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {refundFromError.trim() !== "" && (
                 <ErrorMessage className="mt-[6px]" message={refundFromError} type="error" />
@@ -478,7 +478,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 Transaction ID
               </label>
 
-              <input
+              <input data-testid="refund-amount-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -499,7 +499,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
         `
         <div className="m-4 flex justify-end">
           <div className="mt-4 flex gap-2 text-end">
-            <button
+            <button data-testid="refund-amount-cancel-btn"
               type="button"
               onClick={handleClose}
               className="rounded-lg border border-gray-300 bg-white px-4 py-2 font-gilroy text-[16px] font-normal text-gray-700 transition hover:bg-gray-100"
@@ -507,7 +507,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
               Cancel
             </button>
 
-            <button
+            <button data-testid="refund-amount-save-invoice-list-btn"
               type="button"
               disabled={formRecordLoading}
               onClick={handleSaveInvoiceList}

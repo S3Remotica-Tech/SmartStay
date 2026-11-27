@@ -1271,7 +1271,7 @@ function UserList(props) {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="user-list-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -1279,7 +1279,7 @@ function UserList(props) {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="user-list-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -1478,7 +1478,7 @@ function UserList(props) {
           <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
             <div className="flex gap-6">
               {tabs?.map((tab) => (
-                <button
+                <button data-testid={`user-list-change-btn-${tab.key}`}
                   key={tab.key}
                   onClick={() => handleChange(tab.key)}
                   className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
@@ -1502,7 +1502,7 @@ function UserList(props) {
                         : "border-gray-200 opacity-60 cursor-not-allowed"
                       }`}
                   >
-                    <input
+                    <input data-testid="user-list-handlefilter-input"
                       type="text"
                       placeholder="Search..."
                       value={filterInput}
@@ -1521,7 +1521,7 @@ function UserList(props) {
 
               {value === "4" && (
                 <>
-                  <button
+                  <button data-testid="user-list-walk-in-btn"
                     disabled={!canWriteWalkin}
                     onClick={handleShow}
                     className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
@@ -1533,7 +1533,7 @@ function UserList(props) {
 
               {value === "1" && (
                 <div className="relative flex" ref={dropdownRef}>
-                  <button
+                  <button data-testid="user-list-add-tenant-btn"
                     disabled={!canWriteWalkin}
                     onClick={() => handleShowAddTenant(false)}
                     className="bg-[#1E45E1] text-white flex items-center gap-1 text-sm font-semibold rounded-l-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
@@ -1542,7 +1542,7 @@ function UserList(props) {
                     Add Tenant
                   </button>
 
-                  <button
+                  <button data-testid="user-list-show-dropdown-btn"
                     disabled={!canWriteWalkin}
                     onClick={() => setShowDropdown(!showDropdown)}
                     className="bg-[#1E45E1] border-l border-[#4B6BEE] text-white px-2 rounded-r-lg flex items-center justify-center disabled:opacity-50"
@@ -1559,7 +1559,7 @@ function UserList(props) {
                       className="fixed  right-10 top-16 w-56 z-50
                      bg-white rounded-lg shadow-lg border border-[#E5E7EB]  "
                     >
-                      <button
+                      <button data-testid="user-list-new-tenant-btn"
                         onClick={() => {
                           setShowDropdown(false);
                           handleShowAddTenant(false);
@@ -1569,7 +1569,7 @@ function UserList(props) {
                         New Tenant
                       </button>
 
-                      <button
+                      <button data-testid="user-list-new-tenant-shortstay-btn"
                         onClick={() => {
                           setShowDropdown(false);
                         }}
@@ -1578,7 +1578,7 @@ function UserList(props) {
                         New Tenant (Shortstay)
                       </button>
 
-                      <button
+                      <button data-testid="user-list-booking-btn"
                         onClick={() => {
                           setShowDropdown(false);
                           handleShowAddTenant(true);
@@ -1625,7 +1625,7 @@ function UserList(props) {
                             {item.label !== "Total" && (
                               <div className="relative group shrink-0">
                                 <CustomTooltip text="Click to Filter" direction="top-full" usePortal={false}>
-                                  <Filter
+                                  <Filter data-testid={`user-list-status-filter-icon-${index}`}
                                     onClick={() =>
                                       setStatusFilter({
                                         value: item.search,
@@ -1658,7 +1658,7 @@ function UserList(props) {
                           : "bg-white"
                           }`}
                       >
-                        <Select
+                        <div data-testid="user-list-statusselect-select" className="contents"><Select
                           options={selectOptions}
                           styles={CustomStyles}
                           isDisabled={!canReadTenant}
@@ -1671,11 +1671,11 @@ function UserList(props) {
                             ) || null
                           }
                           id="statusselect"
-                        />
+                        /></div>
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <Select
+                        <div data-testid="user-list-month-change-select" className="contents"><Select
                           isDisabled={!canReadTenant}
                           options={monthOptions}
                           value={selectedMonth}
@@ -1684,14 +1684,14 @@ function UserList(props) {
                           menuPlacement="auto"
                           noOptionsMessage={() => "No options"}
                           styles={CustomStyles}
-                        />
+                        /></div>
                       </div>
 
                       <div
                         className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                       >
                         <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
-                          <Filter
+                          <Filter data-testid="user-list-icon"
                             size={16}
                             onClick={() => {
                               if (canReadTenant) {
@@ -1781,7 +1781,7 @@ function UserList(props) {
                         )}
                       </button> */}
                       <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
-                        <Setting3
+                        <Setting3 data-testid="user-list-open-icon"
                           onClick={() => setOpen(!open)}
                           className="cursor-pointer"
                           size="22"
@@ -1815,7 +1815,7 @@ function UserList(props) {
                           </span>
                         ))}
                       </div>
-                      <span
+                      <span data-testid="user-list-reset-action"
                         className="text-blue-600 text-sm font-medium cursor-pointer"
                         onClick={handleReset}
                       >
@@ -1861,7 +1861,7 @@ function UserList(props) {
                               formattedData?.length > 0 &&
                               formattedData?.map((user, index) => {
                                 return (
-                                  <tr
+                                  <tr data-testid={`user-list-action-2-${user?.apiCall?.customerId || index}`}
                                     onClick={() =>
                                       canReadTenant &&
                                       handleRoomDetailsPage(user?.apiCall)
@@ -2080,7 +2080,7 @@ function UserList(props) {
                                         } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
                                       {" "}
-                                      <div
+                                      <div data-testid={`user-list-action-3-${user?.apiCall?.customerId || index}`}
                                         className="relative mt-1 flex cursor-pointer items-center justify-center"
                                         onClick={(e) => {
                                           e.stopPropagation();
@@ -2119,7 +2119,7 @@ function UserList(props) {
                                               <div className="flex flex-col py-2 ">
                                                 {user.status === "Checked In" && (
                                                   <>
-                                                    <div
+                                                    <div data-testid={`user-list-move-to-notice-period-action-${user?.apiCall?.customerId || index}`}
                                                       onClick={() =>
                                                         canUpdateCheckout &&
                                                         handleCustomerCheckout(
@@ -2139,7 +2139,7 @@ function UserList(props) {
                                                       </span>
                                                     </div>
 
-                                                    <div
+                                                    <div data-testid={`user-list-change-bed-action-${user?.apiCall?.customerId || index}`}
                                                       onClick={() =>
                                                         canUpdateBooking &&
                                                         handleCustomerReAssign(
@@ -2164,7 +2164,7 @@ function UserList(props) {
                                                 {user.status ===
                                                   "Notice Period" && (
                                                     <>
-                                                      <div
+                                                      <div data-testid={`user-list-cancel-check-out-action-${user?.apiCall?.customerId || index}`}
                                                         onClick={() =>
                                                           canWriteTenant &&
                                                           handleBacktoCheckout(user)
@@ -2182,7 +2182,7 @@ function UserList(props) {
                                                         </span>
                                                       </div>
 
-                                                      <div
+                                                      <div data-testid={`user-list-generate-action-${user?.apiCall?.customerId || index}`}
                                                         onClick={() =>
                                                           canWriteCheckout &&
                                                           handleCheckoutGenrateNew(
@@ -2206,7 +2206,7 @@ function UserList(props) {
 
                                                 {user.status ===
                                                   "Settlement Generated" && (
-                                                    <div
+                                                    <div data-testid={`user-list-check-out-action-${user?.apiCall?.customerId || index}`}
                                                       onClick={() =>
                                                         canWriteCheckout &&
                                                         handleConformCheckout(user)
@@ -2228,7 +2228,7 @@ function UserList(props) {
 
                                                 {user.status === "Booked" && (
                                                   <>
-                                                    <div
+                                                    <div data-testid={`user-list-check-in-action-${user?.apiCall?.customerId || index}`}
                                                       onClick={() =>
                                                         canWriteTenant &&
                                                         handleBookingAssign(user)
@@ -2246,7 +2246,7 @@ function UserList(props) {
                                                       </span>
                                                     </div>
 
-                                                    <div
+                                                    <div data-testid={`user-list-make-as-inactive-action-${user?.apiCall?.customerId || index}`}
                                                       onClick={() =>
                                                         canUpdateBooking &&
                                                         handleInActive(user)
@@ -2268,7 +2268,7 @@ function UserList(props) {
 
                                                 {user.status === "Draft" && (
                                                   <>
-                                                    <button
+                                                    <button data-testid={`user-list-draft-continue-btn-${user?.apiCall?.customerId || index}`}
                                                       type="button"
                                                       onClick={() => {
                                                         if (canWriteTenant) {
@@ -2295,7 +2295,7 @@ function UserList(props) {
                                                       </span>
                                                     </button>
 
-                                                    <button
+                                                    <button data-testid={`user-list-delete-btn-${user?.apiCall?.customerId || index}`}
                                                       type="button"
                                                       disabled={!canDeleteTenant}
                                                       onClick={() =>
@@ -2341,7 +2341,7 @@ function UserList(props) {
 
                         {open && (
                           <>
-                            <div
+                            <div data-testid="user-list-open-action"
                               className="fixed inset-0 bg-black/20 z-50 "
                               onClick={() => setOpen(false)}
                             />
@@ -2362,7 +2362,7 @@ function UserList(props) {
                                     <div className="text-[16px] text-[#333333] font-semibold ">
                                       Customize Tabs{" "}
                                     </div>
-                                    <div
+                                    <div data-testid="user-list-customize-items-action"
                                       onClick={() => {
                                         setCustomizeItems((prev) =>
                                           prev.map((i) => ({
@@ -2390,7 +2390,7 @@ function UserList(props) {
 
                                   <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                                     <SearchNormal1 size={16} color="#98A2B3" />
-                                    <input
+                                    <input data-testid="user-list-search-text-input"
                                       value={searchText}
                                       onChange={(e) =>
                                         setSearchText(e.target.value)
@@ -2455,13 +2455,13 @@ function UserList(props) {
                               )}
 
                               <div className="p-3 border-t flex gap-2">
-                                <button
+                                <button data-testid="user-list-reset-btn"
                                   onClick={handleResetCustomize}
                                   className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
                                 >
                                   Reset
                                 </button>
-                                <button
+                                <button data-testid="user-list-save-btn"
                                   onClick={handleSave}
                                   disabled={customizeLoading}
                                   className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70"

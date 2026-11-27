@@ -921,7 +921,7 @@ function Expenses() {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="expense-new-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -929,7 +929,7 @@ function Expenses() {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="expense-new-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -1000,7 +1000,7 @@ function Expenses() {
                   : "border-gray-200 opacity-60 cursor-not-allowed"
                 }`}
             >
-              <input
+              <input data-testid="expense-new-search-by-title-input"
                 type="text"
                 className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
                 placeholder="Search by Title"
@@ -1017,7 +1017,7 @@ function Expenses() {
             </div>
 
             <div className="mr-1">
-              <button
+              <button data-testid="expense-new-add-expense-btn"
                 disabled={!canWriteExpense}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -1039,7 +1039,7 @@ function Expenses() {
             <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
               <div className="flex flex-wrap items-center gap-3">
                 <div className={`border border-gray-300 rounded-lg w-36 `}>
-                  <Select
+                  <div data-testid="expense-new-statusselect-select" className="contents"><Select
                     options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadExpense}
@@ -1052,11 +1052,11 @@ function Expenses() {
                       ) || null
                     }
                     id="statusselect"
-                  />
+                  /></div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Select
+                  <div data-testid="expense-new-payment-status-filter-select" className="contents"><Select
                     // isDisabled
                     closeMenuOnSelect={true}
                     hideSelectedOptions={false}
@@ -1071,14 +1071,14 @@ function Expenses() {
                       ) || null
                     }
                     onChange={handlePaymentStatusFilter}
-                  />
+                  /></div>
                 </div>
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                 >
                   <CustomTooltip text="Filter" direction="top-full" usePortal={true}>
-                    <Filter
+                    <Filter data-testid="expense-new-icon"
                       size={16}
                       onClick={() => {
                         if (canReadExpense) {
@@ -1096,7 +1096,7 @@ function Expenses() {
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
                 <CustomTooltip text="Customize" direction="top-full" usePortal={true}>
-                  <Setting3
+                  <Setting3 data-testid="expense-new-open-icon"
                     onClick={() => setOpen(!open)}
                     className="cursor-pointer"
                     size="22"
@@ -1142,7 +1142,7 @@ function Expenses() {
 
                       <div className="relative group w-fit">
                         <CustomTooltip text="Click to Filter" direction="top-full" usePortal={true}>
-                          <Filter
+                          <Filter data-testid={`expense-new-selected-bill-status-icon-${index}`}
                             onClick={() => setSelectedBillStatus(item.search)}
                             size="14"
                             color="#9CA3AF"
@@ -1175,7 +1175,7 @@ function Expenses() {
                     </span>
                   ))}
                 </div>
-                <span
+                <span data-testid="expense-new-reset-action"
                   className="text-blue-600 text-sm font-medium cursor-pointer"
                   onClick={handleReset}
                 >
@@ -1222,7 +1222,7 @@ function Expenses() {
                         formattedData?.length > 0 &&
                         formattedData?.map((user, index) => {
                           return (
-                            <tr
+                            <tr data-testid={`expense-new-action-2-${index}`}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowOverview(true);
@@ -1395,7 +1395,7 @@ function Expenses() {
                                   } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
-                                <div
+                                <div data-testid={`expense-new-action-3-${index}`}
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     handleShowDots(e, user.apiCall?.expenseId);
@@ -1426,7 +1426,7 @@ function Expenses() {
                                               left: popupPosition.left - 250,
                                             }}
                                           >
-                                            <button
+                                            <button data-testid={`expense-new-tag-asset-btn-${index}`}
                                               type="button"
                                               disabled
                                               // disabled={!canWriteExpense}
@@ -1445,7 +1445,7 @@ function Expenses() {
 
                                             <div className="h-px bg-gray-100 m-0" />
 
-                                            <button
+                                            <button data-testid={`expense-new-edit-btn-${index}`}
                                               type="button"
                                               disabled
                                               // disabled={!canUpdateExpense}
@@ -1468,7 +1468,7 @@ function Expenses() {
 
                                             <div className="h-px bg-gray-100 m-0" />
 
-                                            <div
+                                            <div data-testid={`expense-new-delete-action-${index}`}
                                               className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
                                  ${!canDeleteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
                                `}
@@ -1513,7 +1513,7 @@ function Expenses() {
 
                   {open && (
                     <>
-                      <div
+                      <div data-testid="expense-new-open-action"
                         className="fixed inset-0 bg-black/20 z-50 "
                         onClick={() => setOpen(false)}
                       />
@@ -1534,7 +1534,7 @@ function Expenses() {
                               <div className="text-[16px] text-[#333333] font-semibold ">
                                 Customize Tabs{" "}
                               </div>
-                              <div
+                              <div data-testid="expense-new-customize-items-action"
                                 onClick={() => {
                                   setCustomizeItems((prev) =>
                                     prev.map((i) => ({
@@ -1557,7 +1557,7 @@ function Expenses() {
 
                             <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                               <SearchNormal1 size={16} color="#98A2B3" />
-                              <input
+                              <input data-testid="expense-new-search-text-input"
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                                 placeholder="Search"
@@ -1610,13 +1610,13 @@ function Expenses() {
                         )}
 
                         <div className="p-3 border-t flex gap-2">
-                          <button
+                          <button data-testid="expense-new-reset-btn"
                             onClick={handleResetCustomize}
                             className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
                           >
                             Reset
                           </button>
-                          <button
+                          <button data-testid="expense-new-save-btn"
                             onClick={handleSave}
                             disabled={customizeLoading}
                             className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"

@@ -510,7 +510,7 @@ function SortableColumnItem({ item, onToggle }) {
       className={`flex items-center gap-3 text-sm mb-0 bg-white ${item?.locked ? "cursor-not-allowed" : "cursor-pointer"
         }`}
     >
-      <span
+      <span data-testid="consolidated-invoice-table-action"
         {...attributes}
         {...listeners}
         onClick={(e) => e?.stopPropagation()}
@@ -523,7 +523,7 @@ function SortableColumnItem({ item, onToggle }) {
         />
       </span>
 
-      <input
+      <input data-testid="consolidated-invoice-table-toggle-checkbox"
         type="checkbox"
         checked={item?.locked || item?.selected}
         disabled={item?.locked}
@@ -648,7 +648,7 @@ function ConsolidatedColumnCustomizer({
   return (
     <div ref={wrapperRef} className="relative">
       <CustomTooltip text="Customize" direction="top-full" usePortal={true}>
-        <button
+        <button data-testid="consolidated-invoice-table-customize-columns-btn"
           type="button"
           onClick={() => onOpenChange(!isOpen)}
           aria-label="Customize columns"
@@ -676,7 +676,7 @@ function ConsolidatedColumnCustomizer({
               <div className="text-[16px] text-[#333333] font-semibold">
                 Customize Tabs
               </div>
-              <button
+              <button data-testid="consolidated-invoice-table-select-all-btn"
                 type="button"
                 onClick={handleSelectAll}
                 className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 bg-transparent border-0 p-0"
@@ -688,7 +688,7 @@ function ConsolidatedColumnCustomizer({
 
             <div className="flex items-center gap-2 px-[12px] py-2 border-[1px] border-[#E5E7EB] rounded-lg">
               <SearchNormal1 size={16} color="#98A2B3" />
-              <input
+              <input data-testid="consolidated-invoice-table-search-columns-input"
                 value={searchText}
                 onChange={(e) => setSearchText(e?.target?.value)}
                 placeholder="Search"
@@ -728,7 +728,7 @@ function ConsolidatedColumnCustomizer({
           )}
 
           <div className="p-[12px] border-t border-[#E5E7EB] flex gap-2">
-            <button
+            <button data-testid="consolidated-invoice-table-reset-btn"
               type="button"
               onClick={() => {
                 setCustomizeItems(columns);
@@ -738,7 +738,7 @@ function ConsolidatedColumnCustomizer({
             >
               Reset
             </button>
-            <button
+            <button data-testid="consolidated-invoice-table-save-btn"
               type="button"
               onClick={handleSave}
               disabled={isSaving}
@@ -975,7 +975,7 @@ function ConsolidatedInvoiceTable({
           return <span className="font-semibold text-[#6B7280]">0</span>;
         }
         return (
-          <button
+          <button data-testid="consolidated-invoice-table-toggle-expanded-btn"
             type="button"
             onClick={() => toggleExpanded(row?.bedId)}
             aria-expanded={isExpanded}
@@ -1090,7 +1090,7 @@ function ConsolidatedInvoiceTable({
             <td
               className={`${bodyCell} ${floorBorder} ${stickyCell} z-[1] ${rowBg} text-center`}
             >
-              <button
+              <button data-testid={`consolidated-invoice-table-toggle-expanded-btn-2-${row?.bedId}`}
                 type="button"
                 aria-label={
                   row?.isVacant
@@ -1173,7 +1173,7 @@ function ConsolidatedInvoiceTable({
           >
             Include Fully Paid Tenants &amp; Empty Beds
           </label>
-          <button
+          <button data-testid="consolidated-invoice-table-consolidated-include-all-btn"
             id="consolidated-include-all"
             type="button"
             role="switch"

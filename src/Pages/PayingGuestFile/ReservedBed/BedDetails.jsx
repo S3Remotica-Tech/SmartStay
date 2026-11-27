@@ -106,7 +106,7 @@ function BedDetails({
   return (
     <>
       <div className="modal show block static font-gilroy">
-        <Modal show={show} onHide={handleCloseBed} centered>
+        <Modal data-testid="bed-details-reserved-modal" show={show} onHide={handleCloseBed} centered>
           <Modal.Dialog className="w-full max-w-full rounded-2xl m-0 p-0">
             <Modal.Header className="pb-0 border border-gray-200">
               <div className="flex justify-between w-full py-1.5 pl-1 pr-2 -mt-2">
@@ -178,7 +178,7 @@ function BedDetails({
 
                           <div className="mt-2">
                             <div>
-                              <label
+                              <label data-testid={`bed-details-navigate-tenant-profile-action-${index}`}
                                 className="block max-w-[120px] truncate text-lg font-gilroy font-semibold text-blue-700 cursor-pointer underline"
                                 title={tenant?.tenantFullName || "N/A"}
                                 onClick={() =>
@@ -198,7 +198,7 @@ function BedDetails({
                           </div>
                         </div>
 
-                        <div
+                        <div data-testid={`bed-details-show-dots-action-${index}`}
                           onClick={() => handleShowDots(index)}
                           className={`relative flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 cursor-pointer
               ${activeRoomId === index ? "bg-blue-100" : "bg-white"}`}
@@ -210,7 +210,7 @@ function BedDetails({
                               ref={popupRef}
                               className="absolute right-12 top-2 w-40 flex flex-col z-[1000] border border-gray-300 rounded-lg bg-[#f9f9f9] shadow-md"
                             >
-                              <div
+                              <div data-testid={`bed-details-check-in-action-${index}`}
                                 onClick={() =>
                                   canWriteCustomers && handleCheckin(tenant)
                                 }
@@ -232,7 +232,7 @@ function BedDetails({
 
                               <div className="h-px bg-gray-200" />
 
-                              <div
+                              <div data-testid={`bed-details-make-as-inactive-action-${index}`}
                                 onClick={() =>
                                   canUpdateBooking && handleMakeInActive(tenant)
                                 }
@@ -258,7 +258,7 @@ function BedDetails({
 
                               <div className="h-px bg-gray-200" />
 
-                              <div
+                              <div data-testid={`bed-details-edit-action-${index}`}
                                 onClick={() =>
                                   canUpdatePayingGuests
                                     ? handleEditBed()

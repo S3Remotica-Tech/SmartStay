@@ -496,7 +496,7 @@ const AddReceiptForm = (props) => {
       <div className='container px-5'>
 
         <div style={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }} >
-          <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+          <svg data-testid="add-receipt-back-bill-action" onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
           <p className='mt-1' style={{
             fontWeight: 500,
             fontSize: "18px",
@@ -515,7 +515,7 @@ const AddReceiptForm = (props) => {
               </Form.Label>
 
 
-              <Select
+              <div data-testid="add-receipt-customer-select" className="contents"><Select
                 className="show-scroll"
                 menuPlacement="auto"
                 options={[...new Map(state?.InvoiceList?.ManualInvoices?.map(u => [u.hos_user_id, {
@@ -532,7 +532,7 @@ const AddReceiptForm = (props) => {
                   ...fieldSelectStyles(!!customererrmsg),
                   menuList: (base) => ({ ...base, padding: 0, maxHeight: "200px" }),
                 }}
-              />
+              /></div>
 
 
 
@@ -551,7 +551,7 @@ const AddReceiptForm = (props) => {
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label className={fieldLabelClass} >Reference ID</Form.Label>
-              <Form.Control className={fieldClass()}
+              <Form.Control data-testid="add-receipt-reference-id-input" className={fieldClass()}
                 type="text"
                 placeholder="Enter Invoice Number"
                 value={reference_id || ''}
@@ -570,14 +570,14 @@ const AddReceiptForm = (props) => {
                 </Form.Label>
 
                 {edit ? (
-                  <Form.Control
+                  <Form.Control data-testid="add-receipt-invoice-number-input"
                     type="text"
                     value={invoicenumber}
                     readOnly
                     className={fieldClass()}
                   />
                 ) : (
-                  <Select
+                  <div data-testid="add-receipt-invoice-number-select" className="contents"><Select
                     className="custom-dropdown"
                     options={customerinvoicefilter.map((u) => ({
                       value: u.Invoices,
@@ -596,7 +596,7 @@ const AddReceiptForm = (props) => {
                       ...fieldSelectStyles(!!invoicenumbererrmsg),
                       menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
                     }}
-                  />
+                  /></div>
                 )}
 
                 {invoicenumbererrmsg && (
@@ -622,7 +622,7 @@ const AddReceiptForm = (props) => {
                 <Form.Label className={fieldLabelClass}>
                   Due Amount {" "}
                 </Form.Label>
-                <Form.Control className={fieldClass()}
+                <Form.Control data-testid="add-receipt-due-amount-input" className={fieldClass()}
                   type="text"
                   placeholder="Enter Due Amount"
                   value={due_amount}
@@ -636,7 +636,7 @@ const AddReceiptForm = (props) => {
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label className={fieldLabelClass} >Amount Received {" "}     <span className={fieldRequiredClass}>*</span></Form.Label>
-              <Form.Control className={fieldClass(!!receivedamounterrmsg)}
+              <Form.Control data-testid="add-receipt-amount-received-input" className={fieldClass(!!receivedamounterrmsg)}
                
                 type="text"
                 placeholder="Enter Received Amount"
@@ -672,7 +672,7 @@ const AddReceiptForm = (props) => {
 
 
 
-                <DatePicker
+                <DatePicker data-testid="add-receipt-payment-date"
                   className={datePickerClass(!!payment_dateerrmsg)}
                  
                   format="DD/MM/YYYY"
@@ -699,7 +699,7 @@ const AddReceiptForm = (props) => {
                 Mode of Transaction{" "}
                 <span className={fieldRequiredClass}>*</span>
               </Form.Label>
-              <Select
+              <div data-testid="add-receipt-mode-of-transaction-select" className="contents"><Select
                 options={paymentOptions}
                 value={
                   paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
@@ -716,7 +716,7 @@ const AddReceiptForm = (props) => {
                   ...fieldSelectStyles(!!paymentError),
                   menuList: (base) => ({ ...base, padding: 0, maxHeight: "80px" }),
                 }}
-              />
+              /></div>
 
 
 
@@ -740,7 +740,7 @@ const AddReceiptForm = (props) => {
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label className={fieldLabelClass} >Notes</Form.Label>
-              <Form.Control className={fieldClass(!!notes_errmsg)}
+              <Form.Control data-testid="add-receipt-notes-input" className={fieldClass(!!notes_errmsg)}
                
                 type="text"
                 placeholder="Enter Notes"
@@ -758,7 +758,7 @@ const AddReceiptForm = (props) => {
 
 
           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <Button
+            <Button data-testid="add-receipt-create-receipt-btn"
               onClick={handleCreateReceipt}
               className='w-80 mt-5 me-5' style={{
                 backgroundColor: "#1E45E1", fontWeight: 500, height: 40,

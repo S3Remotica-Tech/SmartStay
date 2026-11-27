@@ -329,7 +329,7 @@ const InvoiceTable = (props) => {
         <td
           className={`${TABLE_BODY_CELL} ${ROW_BG} text-left font-semibold text-[#1E45E1] cursor-pointer`}
         >
-          <div
+          <div data-testid={`invoicelist-table-action-${props.item.invoiceId}`}
             onClick={(e) => {
               e.stopPropagation();
               handleNavigatePDF(props.item);
@@ -345,7 +345,7 @@ const InvoiceTable = (props) => {
         </td>
 
         <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left text-[#111928]`}>
-          <div
+          <div data-testid={`invoicelist-table-action-2-${props.item.invoiceId}`}
             className="flex items-center gap-[13px] cursor-pointer w-fit group/name"
             onClick={(e) => {
               e.stopPropagation();
@@ -447,7 +447,7 @@ const InvoiceTable = (props) => {
         >
           <div className="w-full flex justify-center">
             <div className={`cursor-pointer flex justify-center items-center relative w-[34px] h-[34px] rounded-[12px] border-[1px] ${showDots ? "border-[#1E45E1] bg-[#EFF6FF]" : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"}`}>
-              <PiDotsThreeOutlineVerticalFill
+              <PiDotsThreeOutlineVerticalFill data-testid={`invoicelist-table-icon-${props.item.invoiceId}`}
                 className={`h-4 w-4 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-[#4A5565]"}`}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -473,7 +473,7 @@ const InvoiceTable = (props) => {
                   }}
                 >
                   {props.item.canEdit && (
-                    <button
+                    <button data-testid={`invoicelist-table-edit-btn-${props.item.invoiceId}`}
                       type="button"
                       onClick={() => canUpdateInvoice && handleEdit(props)}
                       disabled={!canUpdateInvoice}
@@ -498,7 +498,7 @@ const InvoiceTable = (props) => {
                   )}
 
                   {props.item.canRedeem ? (
-                    <button
+                    <button data-testid={`invoicelist-table-apply-to-invoices-btn-${props.item.invoiceId}`}
                       disabled={!canUpdateInvoice}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -565,7 +565,7 @@ const InvoiceTable = (props) => {
                         </span>
                       </button> */}
 
-                      <button
+                      <button data-testid={`invoicelist-table-adjust-with-retainer-btn-${props.item.invoiceId}`}
                         disabled={
                           !canUpdateInvoice || !props.item?.canApplyFromAdvance
                         }
@@ -640,7 +640,7 @@ const InvoiceTable = (props) => {
                   </button> */}
 
                   {props.item.canUnpaid && (
-                    <button
+                    <button data-testid={`invoicelist-table-unpaid-btn-${props.item.invoiceId}`}
                       disabled={!canUpdateInvoice}
                       onClick={() =>
                         canUpdateInvoice && handleUnpaid(props.item)
@@ -665,7 +665,7 @@ const InvoiceTable = (props) => {
                     (props.item?.invoiceType === "Rent" ||
                       props.item?.invoiceType === "Settlement" ||
                       props.item?.invoiceType === "Reassign-Rent") && (
-                      <button
+                      <button data-testid={`invoicelist-table-make-discount-btn-${props.item.invoiceId}`}
                         disabled={!canUpdateInvoice}
                         onClick={() =>
                           canUpdateInvoice && handleMakeDiscount(props.item)
@@ -680,7 +680,7 @@ const InvoiceTable = (props) => {
                       </button>
                     )}
 
-                  <div
+                  <div data-testid={`invoicelist-table-download-action-${props.item.invoiceId}`}
                     onClick={() =>
                       isExportAllow && handleInvoicepdf(props.item)
                     }
@@ -697,7 +697,7 @@ const InvoiceTable = (props) => {
                     props.item?.invoiceAmount > 0 &&
                     props.item?.paymentStatus !== "Cancelled" &&
                     props.item?.paymentStatus !== "Paid" && (
-                      <div
+                      <div data-testid={`invoicelist-table-record-payment-action-${props.item.invoiceId}`}
                         onClick={() => canWriteInvoice && handleShowform(props)}
                         className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
@@ -716,7 +716,7 @@ const InvoiceTable = (props) => {
                   {props.item?.invoiceAmount < 0 &&
                     props.item?.paymentStatus !== "Refunded" &&
                     props.item?.paymentStatus !== "Cancelled" && (
-                      <div
+                      <div data-testid={`invoicelist-table-refund-amount-action-${props.item.invoiceId}`}
                         onClick={() =>
                           canWriteInvoice && handleRefundAmount(props)
                         }
@@ -736,7 +736,7 @@ const InvoiceTable = (props) => {
 
                   {props.item?.paymentStatus !== "Cancelled" &&
                     props.item?.paymentStatus !== "Paid" && (
-                      <div
+                      <div data-testid={`invoicelist-table-delete-action-${props.item.invoiceId}`}
                         onClick={() =>
                           canDeleteInvoice && handleBillDelete(props)
                         }

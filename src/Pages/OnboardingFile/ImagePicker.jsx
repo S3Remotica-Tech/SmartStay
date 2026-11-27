@@ -54,7 +54,7 @@ function useFileDrop({ disabled, multiple, onFiles }) {
     },
   };
   const input = (
-    <input
+    <input data-testid="image-picker-file"
       ref={inputRef}
       type="file"
       accept={ACCEPT}
@@ -97,7 +97,7 @@ export function LogoPicker({ id, label, helper, value, onSelect, onCancel, onRem
   return (
     <div className="flex w-full flex-wrap items-center gap-[16px] sm:flex-nowrap" {...dropProps}>
       {input}
-      <button
+      <button data-testid="image-picker-open-btn"
         type="button"
         id={id}
         onClick={open}
@@ -181,7 +181,7 @@ export function LogoPicker({ id, label, helper, value, onSelect, onCancel, onRem
 
       <div className="flex shrink-0 items-center gap-[8px]">
         {state === "processing" && (
-          <button
+          <button data-testid="image-picker-cancel-btn"
             type="button"
             onClick={onCancel}
             className={`${SECONDARY_SM} border-transparent bg-transparent text-[#111827] hover:bg-ink-100`}
@@ -191,14 +191,14 @@ export function LogoPicker({ id, label, helper, value, onSelect, onCancel, onRem
         )}
         {state === "ready" && (
           <>
-            <button
+            <button data-testid="image-picker-replace-btn"
               type="button"
               onClick={open}
               className={`${SECONDARY_SM} border-[#D1D5DB] bg-white text-[#111827] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] hover:bg-[#F3F4F6]`}
             >
               Replace
             </button>
-            <button
+            <button data-testid="image-picker-remove-btn"
               type="button"
               onClick={onRemove}
               className={`${SECONDARY_SM} border-transparent bg-transparent text-[#DC2626] hover:bg-[#FEF2F2]`}
@@ -208,7 +208,7 @@ export function LogoPicker({ id, label, helper, value, onSelect, onCancel, onRem
           </>
         )}
         {["empty", "hover", "error", "disabled"].includes(state) && (
-          <button
+          <button data-testid="image-picker-open-btn-2"
             type="button"
             onClick={open}
             disabled={state === "disabled"}
@@ -308,13 +308,13 @@ export function PhotoSlot({ index, value, onReplace, onRemove, disabled }) {
 
         {value.status === "ready" && (
           <div className="absolute right-[9px] top-[9px] flex items-start gap-[4.7px]">
-            <button type="button" className={TOOL_BTN} onClick={() => setViewing(true)} aria-label={`View ${name}`} title="View">
+            <button data-testid="image-picker-view-btn" type="button" className={TOOL_BTN} onClick={() => setViewing(true)} aria-label={`View ${name}`} title="View">
               <img src={EyeIcon} alt="" width="12.6" height="12.6" />
             </button>
-            <button type="button" className={TOOL_BTN} onClick={open} disabled={disabled} aria-label={`Replace ${name}`} title="Replace">
+            <button data-testid="image-picker-replace-btn-2" type="button" className={TOOL_BTN} onClick={open} disabled={disabled} aria-label={`Replace ${name}`} title="Replace">
               <img src={ReplaceIcon} alt="" width="12.6" height="12.6" />
             </button>
-            <button type="button" className={`${TOOL_BTN} hover:!bg-[#FEF2F2]`} onClick={onRemove} disabled={disabled} aria-label={`Delete ${name}`} title="Delete">
+            <button data-testid="image-picker-delete-btn" type="button" className={`${TOOL_BTN} hover:!bg-[#FEF2F2]`} onClick={onRemove} disabled={disabled} aria-label={`Delete ${name}`} title="Delete">
               <img src={TrashIcon} alt="" width="12.6" height="12.6" />
             </button>
           </div>
@@ -322,10 +322,10 @@ export function PhotoSlot({ index, value, onReplace, onRemove, disabled }) {
 
         {value.status === "error" && (
           <div className="absolute right-[8px] top-[8px] flex items-start gap-[6px]">
-            <button type="button" className={TOOL_BTN_LG} onClick={open} disabled={disabled} aria-label={`Replace ${name}`} title="Replace">
+            <button data-testid="image-picker-replace-btn-3" type="button" className={TOOL_BTN_LG} onClick={open} disabled={disabled} aria-label={`Replace ${name}`} title="Replace">
               <img src={Replace16} alt="" width="16" height="16" />
             </button>
-            <button type="button" className={`${TOOL_BTN_LG} hover:!bg-[#FEF2F2]`} onClick={onRemove} disabled={disabled} aria-label={`Delete ${name}`} title="Delete">
+            <button data-testid="image-picker-delete-btn-2" type="button" className={`${TOOL_BTN_LG} hover:!bg-[#FEF2F2]`} onClick={onRemove} disabled={disabled} aria-label={`Delete ${name}`} title="Delete">
               <img src={Trash16} alt="" width="16" height="16" />
             </button>
           </div>
@@ -340,7 +340,7 @@ export function PhotoSlot({ index, value, onReplace, onRemove, disabled }) {
           : `${value.name}${value.status === "ready" ? ` · ${formatBytes(value.size)}` : ""}`}
       </p>
 
-      <Modal show={viewing} onHide={() => setViewing(false)} centered size="lg">
+      <Modal data-testid="image-picker-modal" show={viewing} onHide={() => setViewing(false)} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title className="font-gilroy text-[16px] font-semibold">{value.name}</Modal.Title>
         </Modal.Header>
@@ -379,7 +379,7 @@ export function AddPhotoSlot({ id, onFiles, disabled, remaining, describedBy }) 
   return (
     <div className="flex min-w-0 flex-col gap-[8px]" {...dropProps}>
       {input}
-      <button
+      <button data-testid="image-picker-add-images-select-up-btn"
         id={id}
         type="button"
         onClick={open}

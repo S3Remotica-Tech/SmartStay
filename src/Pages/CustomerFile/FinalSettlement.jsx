@@ -752,7 +752,7 @@ function FinalSettlement() {
     <div className="h-screen overflow-y-hidden ">
       <div className="mb-3 sticky top-0 bg-white z-0 h-[50px] px-3 py-2.5 ">
         <div className="flex items-center gap-3">
-          <ArrowLeft
+          <ArrowLeft data-testid="final-settlement-close-icon"
             onClick={handleClose}
             size="26"
             color="#4A5565"
@@ -887,7 +887,7 @@ function FinalSettlement() {
                   ? finalSettlementList?.stayInfo?.actualCheckoutDate
                   : checkoutDate?.format("DD/MM/YYYY")}
 
-                <Edit
+                <Edit data-testid="final-settlement-icon"
                   size={16}
                   color="#1E45E1"
                   className="cursor-pointer"
@@ -899,7 +899,7 @@ function FinalSettlement() {
 
           {isEditingDate && (
             <div ref={datePickerRef} className="relative w-full mt-1">
-              <DatePicker
+              <DatePicker data-testid="final-settlement-checkout-date"
                 value={checkoutDate}
                 allowClear={false}
                 className={datePickerClass()}
@@ -939,7 +939,7 @@ function FinalSettlement() {
             <div className="me-1">
               {/* unpaid invoice */}
 
-              <div
+              <div data-testid="final-settlement-unpaid-invoices-action"
                 className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy cursor-pointer"
                 onClick={() => setShowInvoices((prev) => !prev)}
               >
@@ -1061,7 +1061,7 @@ function FinalSettlement() {
 
               {/* refundable rent */}
 
-              <div
+              <div data-testid="final-settlement-do-you-want-to-action"
                 className="mb-2 border border-gray-200 rounded-lg bg-white font-gilroy cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -1092,13 +1092,13 @@ function FinalSettlement() {
                     </span>
                   </div>
                   {isEditingRent ? (
-                    <div
+                    <div data-testid="final-settlement-set-action"
                       onClick={(e) => e.stopPropagation()}
                       className="rounded-[8px] border border-blue-100 bg-white p-1 shadow-[0_0_12px_rgba(59,130,246,0.15)]"
                     >
                       <div className="flex items-center justify-between">
                         {isEditingRent ? (
-                          <input
+                          <input data-testid="final-settlement-amount-input"
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
@@ -1111,7 +1111,7 @@ function FinalSettlement() {
                           </h2>
                         )}
 
-                        <button
+                        <button data-testid="final-settlement-set-btn"
                           onClick={(e) => {
                             e.stopPropagation();
                             setCustomRent(Number(amount));
@@ -1131,7 +1131,7 @@ function FinalSettlement() {
                         ₹{PayableORRefundabeleRent || 0}
                       </span>
                       {finalAmountSetClicked && (
-                        <Edit2
+                        <Edit2 data-testid="final-settlement-icon-2"
                           size="16"
                           color="#1E45E1"
                           onClick={(e) => {
@@ -1144,12 +1144,12 @@ function FinalSettlement() {
                     </div>
                   )}
                 </div>
-                <div
+                <div data-testid="final-settlement-do-you-want-to-action-2"
                   className="flex items-center justify-between gap-2 px-4 py-2"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex items-center gap-1">
-                    <input
+                    <input data-testid="final-settlement-collect-full-rent-checkbox"
                       type="checkbox"
                       id="collectFullRent"
                       checked={collectFullRent}
@@ -1226,7 +1226,7 @@ function FinalSettlement() {
                           )
                         </div>
 
-                        <div
+                        <div data-testid="final-settlement-action"
                           onClick={(e) => {
                             e.stopPropagation();
                             setShowDetails(!showDetails);
@@ -1288,7 +1288,7 @@ function FinalSettlement() {
                                 Other Charges
                               </div>
 
-                              <div
+                              <div data-testid="final-settlement-action-2"
                                 className="flex cursor-pointer"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1345,7 +1345,7 @@ function FinalSettlement() {
 
               {/* Missed EB */}
 
-              <div
+              <div data-testid="final-settlement-electricity-bill-action"
                 className="mb-2 border border-gray-200 rounded-[10px] bg-white font-gilroy cursor-pointer"
                 onClick={() => setShowEbMissed((prev) => !prev)}
               >
@@ -1413,7 +1413,7 @@ function FinalSettlement() {
                                 </span>
                               </div>
 
-                              <div
+                              <div data-testid={`final-settlement-add-action-${index}`}
                                 className="flex items-center gap-1 cursor-pointer"
                                 onClick={() => handleRoomReading(item)}
                               >
@@ -1484,7 +1484,7 @@ function FinalSettlement() {
 
               {/* Wallet */}
 
-              <div
+              <div data-testid="final-settlement-wallet-action"
                 className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy cursor-pointer"
                 onClick={() => setShowWallet((prev) => !prev)}
               >
@@ -1576,7 +1576,7 @@ function FinalSettlement() {
 
               {/* Refundable Advance */}
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
-                <div
+                <div data-testid="final-settlement-show-refundable-advance-action"
                   className="flex items-start justify-between px-3 py-3 cursor-pointer"
                   onClick={() => setShowRefundableAdvance((prev) => !prev)}
                 >
@@ -1679,7 +1679,7 @@ function FinalSettlement() {
               {/* additional advance */}
 
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
-                <div
+                <div data-testid="final-settlement-addtitional-advance-action"
                   className="flex items-start justify-between px-3 py-3 cursor-pointer"
                   onClick={() => setShowAdditionalAdvance((prev) => !prev)}
                 >
@@ -1778,7 +1778,7 @@ function FinalSettlement() {
               {/* Booking */}
 
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
-                <div
+                <div data-testid="final-settlement-show-booking-action"
                   className="flex items-start justify-between px-3 py-3 cursor-pointer"
                   onClick={() => setShowBooking((prev) => !prev)}
                 >
@@ -1888,7 +1888,7 @@ function FinalSettlement() {
 
               {/* Retainer Invoice */}
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
-                <div
+                <div data-testid="final-settlement-retainer-invoice-action"
                   className="flex items-start justify-between px-3 py-3 cursor-pointer"
                   onClick={() => setShowRetainer((prev) => !prev)}
                 >
@@ -1993,7 +1993,7 @@ function FinalSettlement() {
 
               {/* deductions */}
 
-              <div
+              <div data-testid="final-settlement-deductions-pending-add-note-action"
                 className="mt-3 border border-gray-200 rounded-lg font-gilroy cursor-pointer"
                 onClick={() => setShowDeductions((prev) => !prev)}
               >
@@ -2022,7 +2022,7 @@ function FinalSettlement() {
                   </div>
                 </div>
                 <div className="flex !items-center w-fit !justify-end w-full">
-                  <div
+                  <div data-testid="final-settlement-add-action-2"
                     className="flex !items-center w-fit !justify-end my-2 mx-4 gap-1 cursor-pointer text-[#1E429F] 
                       border-1 border-[#E1EFFE] 
                       bg-[#E1EFFE] px-3 py-1 rounded"
@@ -2042,7 +2042,7 @@ function FinalSettlement() {
                 {showDeductions && <hr className="m-0 border-gray-300" />}
 
                 {showDeductions && (
-                  <div
+                  <div data-testid="final-settlement-action-3"
                     className="px-[10px] py-2"
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -2085,7 +2085,7 @@ function FinalSettlement() {
                         <div key={index} className="flex gap-3 px-4 mb-3">
                           <div className="w-1/2">
                             {!item.showInput ? (
-                              <Select
+                              <div data-testid={`final-settlement-select-${index}`} className="contents"><Select
                                 options={filteredOptions}
                                 value={
                                   filteredOptions.find(
@@ -2116,9 +2116,9 @@ function FinalSettlement() {
                                 menuPlacement="bottom"
                                 menuPosition="fixed"
                                 styles={fieldSelectStyles()}
-                              />
+                              /></div>
                             ) : (
-                              <input
+                              <input data-testid={`final-settlement-custom-reason-input-${index}`}
                                 disabled={item.isSystemGenerated}
                                 type="text"
                                 placeholder="Enter custom reason"
@@ -2143,7 +2143,7 @@ function FinalSettlement() {
                           </div>
 
                           <div className="w-[40%] relative">
-                            <input
+                            <input data-testid={`final-settlement-input-change-amount-input-${index}`}
                               type="text"
                               placeholder="Enter amount"
                               value={item.amount}
@@ -2173,7 +2173,7 @@ function FinalSettlement() {
 
                             <div className="w-[10%] flex justify-center items-center p-0">
                               {!item.isSystemGenerated && (
-                                <CloseCircle
+                                <CloseCircle data-testid={`final-settlement-icon-3-${index}`}
                                   variant="Bold"
                                   size="20"
                                   className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
@@ -2207,7 +2207,7 @@ function FinalSettlement() {
 
                   <div className="flex items-center gap-3 border rounded-md px-1 py-1">
                     {isEditing ? (
-                      <input
+                      <input data-testid="final-settlement-temp-discount-input"
                         type="text"
                         value={tempDiscount}
                         onChange={(e) => {
@@ -2232,7 +2232,7 @@ function FinalSettlement() {
                         ₹ {discount}
                       </div>
                     )}
-                    <button
+                    <button data-testid="final-settlement-btn"
                       onClick={() => {
                         if (isEditing) {
                           handleSet();
@@ -2266,7 +2266,7 @@ function FinalSettlement() {
                     : "Refund Payable to Tenant"}
                 </p>
 
-                <span
+                <span data-testid="final-settlement-view-breakdown-action"
                   className="
       flex items-center gap-1.5
       text-[#1E45E1] cursor-pointer
@@ -2363,7 +2363,7 @@ function FinalSettlement() {
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 mb-10">
-                    <input
+                    <input data-testid="final-settlement-advance-input"
                       type="text"
                       name="Advance"
                       id="Advance"
@@ -2415,14 +2415,14 @@ function FinalSettlement() {
             </div>
 
             <div className="flex items-center gap-6 h-fit">
-              <button
+              <button data-testid="final-settlement-cancel-btn"
                 onClick={handleClose}
                 className="text-base font-normal font-gilroy"
               >
                 Cancel
               </button>
 
-              <button
+              <button data-testid="final-settlement-click-generate-btn"
                 disabled={GenerateLoading}
                 onClick={handleClickGenerate}
                 className={`

@@ -119,7 +119,7 @@ text-[#0D30BA] text-base 2xl:text-2xl font-medium px-4 py-1.5 rounded-full mb-6 
             </div> */}
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 2xl:gap-6 animate-[fadeUp_0.6s_ease-out]">
 
-              <button
+              <button data-testid="homepage-request-demo-btn"
                 onClick={handleNavigateDemo}
                 className="font-dmsans flex items-center gap-2 px-6 py-2.5 2xl:px-8 2xl:py-3 border-1 border-[#515151] rounded-lg text-[#515151] text-base 2xl:text-lg font-medium hover:bg-gray-100 transition"
               >
@@ -127,7 +127,7 @@ text-[#0D30BA] text-base 2xl:text-2xl font-medium px-4 py-1.5 rounded-full mb-6 
                 <ArrowRight size="18" className="2xl:w-5 2xl:h-5" />
               </button>
 
-              <button
+              <button data-testid="homepage-signup-for-free-trial-btn"
                 onClick={handleSignUp}
                 className="font-dmsans flex items-center gap-2 px-6 py-2.5 2xl:px-8 2xl:py-3 bg-[#1E45E1] text-white rounded-lg text-base 2xl:text-lg font-medium hover:bg-blue-700 transition shadow-md"
               >

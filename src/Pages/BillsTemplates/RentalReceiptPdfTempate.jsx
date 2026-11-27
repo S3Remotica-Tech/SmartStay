@@ -1116,13 +1116,13 @@ const RentalReceiptPdfTemplate = ({
                     className="d-flex align-items-center"
                     style={{ gap: "3px" }}
                   >
-                    <button className="btn btn-sm text-white px-0 py-0 mb-1 me-1">
+                    <button data-testid="rental-receipt-pdf-tempate-btn" className="btn btn-sm text-white px-0 py-0 mb-1 me-1">
                       −
                     </button>
                     <span style={{ fontWeight: "bold", fontSize: "8px" }}>
                       100%
                     </span>
-                    <button className="btn btn-sm text-white px-0 py-0 mb-1 ms-1">
+                    <button data-testid="rental-receipt-pdf-tempate-btn-2" className="btn btn-sm text-white px-0 py-0 mb-1 ms-1">
                       +
                     </button>
                   </div>
@@ -1131,10 +1131,10 @@ const RentalReceiptPdfTemplate = ({
                     style={{ borderLeft: "1px solid #555", height: "20px" }}
                   ></div>
 
-                  <button className="btn btn-sm  px-1 py-0 me-0">
+                  <button data-testid="rental-receipt-pdf-tempate-btn-3" className="btn btn-sm  px-1 py-0 me-0">
                     <img src={Topbottom} alt="topbottom" />
                   </button>
-                  <button className="btn btn-sm px-1 py-0">
+                  <button data-testid="rental-receipt-pdf-tempate-btn-4" className="btn btn-sm px-1 py-0">
                     <img src={left85arrow} alt="left85arrow" />
                   </button>
                 </div>
@@ -1142,21 +1142,21 @@ const RentalReceiptPdfTemplate = ({
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "12px" }}
                 >
-                  <button className="btn btn-sm  px-2 py-0">
+                  <button data-testid="rental-receipt-pdf-tempate-btn-5" className="btn btn-sm  px-2 py-0">
                     <img
                       src={downloadicon}
                       alt="topbottom"
                       style={{ width: "12px", height: "12px" }}
                     />
                   </button>
-                  <button className="btn btn-sm  px-2 py-0">
+                  <button data-testid="rental-receipt-pdf-tempate-btn-6" className="btn btn-sm  px-2 py-0">
                     <img
                       src={printdown}
                       alt="topbottom"
                       style={{ width: "12px", height: "12px" }}
                     />
                   </button>
-                  <div
+                  <div data-testid="rental-receipt-pdf-tempate-show-full-view-action"
                     className="bg-white rounded-circle d-flex align-items-center justify-content-center"
                     onClick={() => setShowFullView(false)}
                     style={{

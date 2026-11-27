@@ -187,7 +187,7 @@ function VendorCategory() {
         </div>
 
         <div className="w-full flex justify-center md:justify-end">
-          <button
+          <button data-testid="vendor-category-vendor-category-btn"
             onClick={handleShow}
             disabled={!canWriteVendor}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
@@ -242,7 +242,7 @@ function VendorCategory() {
                         </div>
                       </div>
 
-                      <button
+                      <button data-testid={`vendor-category-show-dots-btn-${i}`}
                         ref={(el) => (buttonRefs.current[i] = el)}
                         onClick={(e) => handleShowDots(i, u.id, e)}
                         className="flex items-center justify-center h-[35px] w-[35px] rounded-full
@@ -259,7 +259,7 @@ function VendorCategory() {
                               left: menuPos.left,
                             }}
                           >
-                            <button
+                            <button data-testid={`vendor-category-edit-btn-${i}`}
                               onClick={(e) => {
                                 if (!canUpdateVendor) return;
                                 handleUpdate(e, u);
@@ -277,7 +277,7 @@ function VendorCategory() {
                               />
                               Edit
                             </button>
-                            <button
+                            <button data-testid={`vendor-category-delete-btn-${i}`}
                               onClick={() => {
                                 if (!canDeleteVendor) return;
                                 handleDelete(u?.id);

@@ -60,7 +60,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
 
   return (
     <div>
-      <Modal
+      <Modal data-testid="delete-room-delete-room-are-you-modal"
         show={show}
         onHide={handleDeleteRoomForm}
         centered
@@ -84,14 +84,14 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
             marginTop: "-10px",
           }}
         >
-          <Button
+          <Button data-testid="delete-room-cancel-btn"
             onClick={handleDeleteRoomForm}
             className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="delete-room-delete-room-confirm-btn"
             className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy disabled:!opacity-50"
             onClick={handleDeleteRoomConfirm}
             disabled={deleteLoading}

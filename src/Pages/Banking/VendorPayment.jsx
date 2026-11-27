@@ -400,7 +400,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
-      <div
+      <div data-testid="vendor-payment-vendor-balance-payable-if-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy border border-gray-50"
       >
@@ -411,7 +411,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             {isBanking ? "Vendor Payment" : "Settle Payment"}
           </h1>
-          <Add
+          <Add data-testid="vendor-payment-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -434,7 +434,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   className={fieldClass()}
                 /> */}
 
-                <Select
+                <div data-testid="vendor-payment-vendor-select" className="contents"><Select
                   value={vendorOptions.find(
                     (option) => option.value === selectedVendor,
                   )}
@@ -443,7 +443,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   placeholder="Select Vendor"
                   styles={fieldSelectStyles(!!vendorError)}
                   isSearchable={true}
-                />
+                /></div>
               </div>
 
               {vendorError && (
@@ -466,7 +466,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 </p>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="vendor-payment-paid-amount-inr-due-amount-input"
                   type="number"
                   ref={paidAmountRef}
                   value={paidAmount}
@@ -475,7 +475,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   onWheel={(e) => e.target.blur()}
                   className={fieldClass(!!paidAmountError)}
                 />
-                <button
+                <button data-testid="vendor-payment-set-btn"
                   onClick={handleSetAmount}
                   className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                 >
@@ -493,7 +493,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 Balance payable If (Outstanding){" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <input
+              <input data-testid="vendor-payment-balance-payable-if-outstanding-input"
                 type="text"
                 value={finalOutstanding || 0}
                 readOnly
@@ -506,17 +506,17 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 Paid Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <DatePicker
+                <div data-testid="vendor-payment-paid-date" className="contents"><DatePicker
                   // ref={paidDateRef}  wrapperClassName="w-full"
                   selected={paidDate}
                   wrapperClassName="w-full"
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
-                  customInput={<input ref={paidDateRef} />}
+                  customInput={<input data-testid="vendor-payment-paid-date-input" ref={paidDateRef} />}
                   maxDate={new Date()}
                   className={datePickerInputClass(!!paidDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -534,7 +534,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 Payment method{" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="vendor-payment-payment-method-select" className="contents"><Select
 
                 value={paymentMethod}
                 ref={paymentMethodRef}
@@ -553,7 +553,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymentMethodError && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -564,7 +564,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
               <label className={fieldLabelClass}>
                 Transaction ID
               </label>
-              <input
+              <input data-testid="vendor-payment-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -572,7 +572,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 className={fieldClass()}
               />
             </div>
-            <input
+            <input data-testid="vendor-payment-file-change-file"
               ref={fileInputRef}
               type="file"
               multiple
@@ -587,7 +587,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   Attachments/Proofs (If any)
                 </label>
 
-                <div
+                <div data-testid="vendor-payment-image-to-upload-jpg-action"
                   onClick={() => fileInputRef.current?.click()}
                   className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
                 >
@@ -630,7 +630,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                               {selectedImageName?.name}
                             </p>
 
-                            <button
+                            <button data-testid="vendor-payment-btn"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setPreviewImage(null);
@@ -660,7 +660,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                     key={index}
                     className="relative border rounded-lg w-full"
                   >
-                    <img
+                    <img data-testid={`vendor-payment-preview-img-${index}`}
                       src={item.preview}
                       alt="preview"
                       className="h-[100px]  w-[200px] object-cover cursor-pointer rounded-lg"
@@ -690,7 +690,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
             )}
 
             {attachments?.length > 0 && (
-              <div
+              <div data-testid="vendor-payment-add-more-files-action"
                 className="flex justify-end my-2"
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -704,7 +704,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
               <label className={fieldLabelClass}>
                 Description
               </label>
-              <textarea
+              <textarea data-testid="vendor-payment-description-textarea"
                 rows={4}
                 value={description}
                 onChange={handleDescriptionChange}
@@ -764,7 +764,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                           </td>
 
                           <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
-                            <input
+                            <input data-testid={`vendor-payment-amount-apply-change-input-${item.expenseId}`}
                               type="number"
                               value={item.amountToApply || ""}
                               onChange={(e) =>
@@ -835,7 +835,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
           </div>
         </div>
         <div className="flex justify-end gap-4 my-4 mr-4">
-          <button
+          <button data-testid="vendor-payment-cancel-btn"
             onClick={handleClose}
             type="button"
             className="text-[#4B4B4B] text-sm font-medium"
@@ -843,7 +843,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="vendor-payment-submit-btn"
             disabled={vendorInitialize?.totalDueAmount === 0 || formLoading}
             type="submit"
             onClick={handleSubmit}

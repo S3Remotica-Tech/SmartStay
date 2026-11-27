@@ -325,7 +325,7 @@ function SettingExpenses() {
         </div>
 
         <div className="w-full flex justify-center md:justify-end">
-          <button
+          <button data-testid="setting-expenses-category-btn"
             onClick={handleShow}
             disabled={!canWriteExpense}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
@@ -377,7 +377,7 @@ function SettingExpenses() {
 
                     <div className="flex items-center gap-[10px] shrink-0">
                       <div className="border-1  py-1 px-2 rounded border-dashed border-[#1E45E1] ">
-                        <AddCircle
+                        <AddCircle data-testid={`setting-expenses-icon-${category.categoryId}`}
                           size="16"
                           color="#1E45E1"
                           className={
@@ -392,7 +392,7 @@ function SettingExpenses() {
                         />
                       </div>
                       <div className="relative">
-                        <PiDotsThreeOutlineVerticalFill
+                        <PiDotsThreeOutlineVerticalFill data-testid={`setting-expenses-open-menu-id-icon-${category.categoryId}`}
                           className="cursor-pointer"
                           onClick={() =>
                             setOpenMenuId(
@@ -408,7 +408,7 @@ function SettingExpenses() {
                             ref={popupRef}
                             className="absolute right-0 top-6 z-50 w-28 bg-white border rounded shadow-md"
                           >
-                            <div
+                            <div data-testid={`setting-expenses-edit-action-${category.categoryId}`}
                               className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
           ${canUpdateExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
                               onClick={() => {
@@ -425,7 +425,7 @@ function SettingExpenses() {
                               <span>Edit</span>
                             </div>
 
-                            <div
+                            <div data-testid={`setting-expenses-delete-action-${category.categoryId}`}
                               className={`flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100
           ${canDeleteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
                               onClick={() => {
@@ -473,7 +473,7 @@ function SettingExpenses() {
                                   : "opacity-0 translate-x-1 pointer-events-none"
                                 }`}
                             >
-                              <img
+                              <img data-testid={`setting-expenses-edit-img-${sub.subCategoryId}`}
                                 src={Editbtn}
                                 className={`h-[15px] w-[15px] ${canUpdateExpense
                                   ? "cursor-pointer"
@@ -485,7 +485,7 @@ function SettingExpenses() {
                                 }
                               />
 
-                              <img
+                              <img data-testid={`setting-expenses-delete-img-${sub.subCategoryId}`}
                                 src={Closebtn}
                                 className={`h-[15px] w-[15px] ${canDeleteExpense
                                   ? "cursor-pointer"
@@ -536,7 +536,7 @@ function SettingExpenses() {
             />
           )}
 
-          <Modal
+          <Modal data-testid="setting-expenses-cancel-coming-soon-modal"
             show={showModal}
             onHide={cancelDelete}
             centered
@@ -556,14 +556,14 @@ function SettingExpenses() {
             </Modal.Body>
 
             <Modal.Footer className="flex justify-center !border-t-0 -mt-2">
-              <button
+              <button data-testid="setting-expenses-cancel-btn"
                 onClick={cancelDelete}
                 className="w-full max-w-[160px] h-13 px-5 py-3 bg-white !text-blue-700 !border !border-blue-700 !font-gilroy !font-semibold !text-sm rounded-lg"
               >
                 Cancel
               </button>
 
-              <button
+              <button data-testid="setting-expenses-coming-soon-btn"
                 disabled
                 onClick={confirmDelete}
                 className="w-full max-w-[160px] h-13 px-3 py-3 !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm rounded-lg !cursor-not-allowed !opacity-65"

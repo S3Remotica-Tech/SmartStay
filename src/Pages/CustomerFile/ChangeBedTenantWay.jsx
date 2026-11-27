@@ -482,7 +482,7 @@ function ChangeBedTenantWay(props) {
           <div className="relative flex items-center justify-between p-3 border-b">
             <div className="text-xl font-semibold font-gilroy">Change Bed</div>
 
-            <CloseCircle
+            <CloseCircle data-testid="change-bed-tenant-way-close-re-assign-icon"
               size="24"
               color="#000"
               onClick={handleCloseReAssign}
@@ -547,7 +547,7 @@ function ChangeBedTenantWay(props) {
                       Date <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <div className="relative w-full datepicker-wrapper">
-                      <DatePicker className={datePickerClass(!!dateError)}
+                      <DatePicker data-testid="change-bed-tenant-way-date" className={datePickerClass(!!dateError)}
                        
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
@@ -638,7 +638,7 @@ function ChangeBedTenantWay(props) {
                       New Floor{" "}
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
-                    <Select
+                    <div data-testid="change-bed-tenant-way-new-floor-select" className="contents"><Select
                       isDisabled={!selectedDate}
                       options={
                         state.UsersList.floorList?.map((u) => ({
@@ -667,7 +667,7 @@ function ChangeBedTenantWay(props) {
                         ...fieldSelectStyles(!!floorError),
                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
-                    />
+                    /></div>
                     {floorError && (
                       <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
                     )}
@@ -680,7 +680,7 @@ function ChangeBedTenantWay(props) {
                       New Room{" "}
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
-                    <Select
+                    <div data-testid="change-bed-tenant-way-new-room-select" className="contents"><Select
                       options={roomOptions}
                       onChange={(selectedOption) =>
                         handleRooms(selectedOption?.value)
@@ -706,7 +706,7 @@ function ChangeBedTenantWay(props) {
                         ...fieldSelectStyles(!!roomError),
                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
-                    />
+                    /></div>
                     {roomError && (
                       <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
                     )}
@@ -719,7 +719,7 @@ function ChangeBedTenantWay(props) {
                       New Bed{" "}
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
-                    <Select
+                    <div data-testid="change-bed-tenant-way-new-bed-select" className="contents"><Select
                       options={
                         availableBed
                           ? availableBed
@@ -760,7 +760,7 @@ function ChangeBedTenantWay(props) {
                         ...fieldSelectStyles(!!bedError),
                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
-                    />
+                    /></div>
                     {bedError && (
                       <ErrorMessage className="mt-[6px]" message={bedError} type="error" />
                     )}
@@ -780,7 +780,7 @@ function ChangeBedTenantWay(props) {
                         <span className="text-red-500 text-[20px] ml-1">*</span>
                       </Form.Label>
 
-                      <Form.Check
+                      <Form.Check data-testid="change-bed-tenant-way-new-rent-amount-check"
                         type="checkbox"
                         label={
                           <span className="text-[#1E45E1] font-medium text-[12px] font-gilroy whitespace-nowrap">
@@ -801,7 +801,7 @@ function ChangeBedTenantWay(props) {
                       />
                     </div>
 
-                    <FormControl
+                    <FormControl data-testid="change-bed-tenant-way-new-room-rent-input"
                       onChange={(e) => handleNewRoomRent(e)}
                       value={newRoomRent}
                       type="text"
@@ -832,7 +832,7 @@ function ChangeBedTenantWay(props) {
             </div>
           )}
           <div className="flex justify-end gap-3 mt-3 p-4">
-            <Button
+            <Button data-testid="change-bed-tenant-way-change-bed-btn"
               disabled={formLoading}
               className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
               onClick={handleSaveReassignBed}

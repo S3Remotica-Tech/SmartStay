@@ -96,7 +96,7 @@ function WhyChooseWithFAQ() {
               const isOpen = openIndex === index;
 
               return (
-                <div
+                <div data-testid={`why-choose-with-faq-toggle-faq-action-${index}`}
                   key={index}
                   className="bg-white rounded-lg p-4 shadow-sm cursor-pointer"
                   onClick={() => toggleFAQ(index)}

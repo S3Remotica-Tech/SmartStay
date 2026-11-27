@@ -184,7 +184,7 @@ function CustomerProfile(props) {
     <>
       <nav className="sticky top-0 z-[1000] bg-white h-[60px] flex items-center ">
         <div className="w-full px-4 flex items-center gap-2">
-          <img
+          <img data-testid="checkout-profile-leftarrow-img"
             src={leftarrow}
             alt="leftarrow"
             className="w-5 h-5 cursor-pointer"
@@ -257,7 +257,7 @@ function CustomerProfile(props) {
 
           {CustomerOverView?.hostelInfo?.currentStatus !== "Write-Off" && (
             <div className="flex items-center">
-              <button
+              <button data-testid="checkout-profile-re-check-in-btn"
                 disabled
                 className="
               flex items-center justify-center gap-2
@@ -290,7 +290,7 @@ function CustomerProfile(props) {
                 isSmallScreen ? "flex-col" : "flex-col sm:flex-col lg:flex-row"
               }`}
             >
-              <button
+              <button data-testid="checkout-profile-overview-btn"
                 onClick={(e) => handleChanges(e, "1")}
                 className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4  transition-all duration-200 ${
                   value === "1"
@@ -301,7 +301,7 @@ function CustomerProfile(props) {
                 Overview
               </button>
 
-              <button
+              <button data-testid="checkout-profile-eb-reading-btn"
                 onClick={(e) => handleChanges(e, "2")}
                 className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4 transition-all duration-200 ${
                   value === "2"
@@ -312,7 +312,7 @@ function CustomerProfile(props) {
                 EB Reading
               </button>
 
-              <button
+              <button data-testid="checkout-profile-bill-btn"
                 onClick={(e) => handleChanges(e, "3")}
                 className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4 transition-all duration-200 ${
                   value === "3"
@@ -323,7 +323,7 @@ function CustomerProfile(props) {
                 Bill
               </button>
 
-              <button
+              <button data-testid="checkout-profile-transaction-btn"
                 onClick={(e) => handleChanges(e, "4")}
                 className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4 transition-all duration-200 ${
                   value === "4"
@@ -434,7 +434,7 @@ function CustomerProfile(props) {
                   <div className="border border-[#DCDCDC] rounded-[10px] p-3">
                     <div className="w-full bg-transparent">
                       <div className="flex items-center justify-around gap-4 w-full border-0">
-                        <div
+                        <div data-testid="checkout-profile-kyc-address-action"
                           onClick={() => setActiveTab("kyc")}
                           className={`flex items-center cursor-pointer px-3 py-[6px] border-b-2 font-[Gilroy] font-semibold transition-all duration-200 ${
                             activeTab === "kyc"
@@ -445,7 +445,7 @@ function CustomerProfile(props) {
                           KYC Address
                         </div>
 
-                        <div
+                        <div data-testid="checkout-profile-manual-address-action"
                           onClick={() => setActiveTab("manual")}
                           className={`flex items-center cursor-pointer px-3 py-[6px] border-b-2 font-[Gilroy] font-semibold transition-all duration-200 ${
                             activeTab === "manual"
@@ -712,7 +712,7 @@ function CustomerProfile(props) {
                         Stay details
                       </p>
 
-                      <div
+                      <div data-testid="checkout-profile-show-stay-history-action"
                         className="bg-white rounded-full p-[6px] flex items-center justify-center cursor-pointer"
                         onClick={handleShowStayHistory}
                       >
@@ -920,7 +920,7 @@ function CustomerProfile(props) {
                 <div className=" bg-white relative    border border-[#E5E7EB] rounded-[10px] ">
                   <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
                     <div className="flex justify-around w-full   ">
-                      <button
+                      <button data-testid="checkout-profile-kyc-documents-btn"
                         onClick={() => setDocumentValue("1")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
         ${
@@ -932,7 +932,7 @@ function CustomerProfile(props) {
                         KYC Documents
                       </button>
 
-                      <button
+                      <button data-testid="checkout-profile-manual-documents-btn"
                         onClick={() => setDocumentValue("2")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
         ${
@@ -948,7 +948,7 @@ function CustomerProfile(props) {
 
                   {documentvalue === "1" &&
                     CustomerOverView?.files?.kycDoc?.length > 0 && (
-                      <button
+                      <button data-testid="checkout-profile-btn"
                         disabled={isDisabledButton}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         // onClick={handlePreviewKYC}
@@ -959,7 +959,7 @@ function CustomerProfile(props) {
 
                   {documentvalue === "2" &&
                     CustomerOverView?.files?.otherDoc?.length > 0 && (
-                      <button
+                      <button data-testid="checkout-profile-btn-2"
                         disabled={isDisabledButton}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         // onClick={handlePreview}
@@ -983,7 +983,7 @@ function CustomerProfile(props) {
                                 No KYC Documents are there!
                               </p>
 
-                              <button
+                              <button data-testid="checkout-profile-upload-document-btn"
                                 // onClick={handlePreviewKYC}
                                 disabled={isDisabledButton}
                                 className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
@@ -1012,7 +1012,7 @@ function CustomerProfile(props) {
                                 No Manual Documents are there!
                               </p>
 
-                              <button
+                              <button data-testid="checkout-profile-upload-document-btn-2"
                                 // onClick={handlePreview}
                                 disabled={isDisabledButton}
                                 className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
@@ -1037,7 +1037,7 @@ function CustomerProfile(props) {
                       </div>
                       {additionalContact?.length > 0 && (
                         <div className="flex items-center gap-3">
-                          <button
+                          <button data-testid="checkout-profile-additional-btn"
                             disabled={isDisabledButton}
                             type="button"
                             // onClick={handleAdditionalForm}
@@ -1067,7 +1067,7 @@ function CustomerProfile(props) {
                       ) : (
                         <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
                           <p className="mb-1">No Contact Details are there!</p>
-                          <button
+                          <button data-testid="checkout-profile-add-btn"
                             type="button"
                             disabled={isDisabledButton}
                             // onClick={handleAdditionalForm}

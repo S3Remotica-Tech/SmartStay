@@ -843,6 +843,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
               className={`w-full flex justify-center px-1 `}
             >
               <div
+                data-testid={`pg-bed-${bed.bedName}`}
                 className={`flex flex-col items-center justify-start w-20 cursor-pointer `}
               >
                 <div className="relative w-9 h-10">
@@ -937,6 +938,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
                     })()}
 
                   <img
+                    data-testid="pg-bed-icon"
                     className={`mt-1 h-10 w-9  cursor-pointer`}
                     src={bed.isOccupied ? Green : White}
                     alt="bedd"
@@ -962,6 +964,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
         {!state.login.isTrigger && (
           <div
+            data-testid="pg-add-bed-tile"
             className={`w-full flex px-1 cursor-pointer ${filteredBeds.length === 0 ? "col-span-full justify-center" : "justify-center"}
              `}
             onClick={() => {
@@ -1002,7 +1005,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
               </div>
 
               <div className="ml-[200px]">
-                <Button
+                <Button data-testid="bed-details-map-continue-btn"
                   className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
                   onClick={handleShowConfirmChangeBed}
                 >

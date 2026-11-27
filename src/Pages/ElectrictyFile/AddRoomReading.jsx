@@ -200,7 +200,7 @@ function AddRoomReading({
             {editRoomReading ? "Edit Room Reading" : "Add Room Reading"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-room-reading-close-icon"
             size={26}
             color="black"
             className="cursor-pointer"
@@ -241,7 +241,7 @@ function AddRoomReading({
 
             <div className="datepicker-wrapper relarive w-full mt-1">
               <div className="datepicker-wrapper relative w-full">
-                <DatePicker
+                <DatePicker data-testid="add-room-reading-reading-date"
                   ref={readingDateRef}
                   className={datePickerClass(!!dateError)}
                   format="DD/MM/YYYY"
@@ -277,7 +277,7 @@ function AddRoomReading({
               )}
             </div>
 
-            <Form.Control
+            <Form.Control data-testid="add-room-reading-reading-input"
               className={fieldClass(!!readingError)}
               type="number"
               placeholder="Enter Reading"
@@ -311,13 +311,13 @@ function AddRoomReading({
         )}
 
         <div className="p-4 flex justify-end">
-          <Button
+          <Button data-testid="add-room-reading-cancel-btn"
             className="bg-transparent !text-black !font-gilroy !border-none"
             onClick={handleClose}
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="add-room-reading-submit-btn"
             disabled={loading}
             className="!bg-[#1E45E1] !font-gilroy !w-32"
             onClick={handleSubmit}

@@ -204,7 +204,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
       <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{label}</td>
       {checkboxValues[rowName]?.map((checked, index) => (
         <td className={`${TABLE_BODY_CELL} text-center text-[#111928]`} key={index}>
-          <input
+          <input data-testid={`add-role-checkbox-change-checkbox-${index}`}
             type="checkbox"
             checked={checked}
             onChange={() => handleCheckboxChange(rowName, index)}
@@ -356,7 +356,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
             {editRoleDetails ? "Edit Role" : "Create Role"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-role-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -369,7 +369,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
               <label className={fieldLabelClass}>
                 Role Name <span className={fieldRequiredClass}>*</span>
               </label>
-              <input
+              <input data-testid="add-role-role-name-input"
                 id="form-controls"
                 type="text"
                 placeholder="Enter Role"
@@ -391,7 +391,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
               <label className={fieldLabelClass}>
                 Role Description{" "}
               </label>
-              <textarea
+              <textarea data-testid="add-role-role-description-textarea"
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Enter description"
@@ -445,7 +445,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         )}
 
         <div className="flex justify-end p-2 ">
-          <Button
+          <Button data-testid="add-role-submit-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="!bg-[#1E45E1] !font-semibold !py-3 !rounded-lg !text-[16px] !font-gilroy !flex !items-center !justify-center gap-2 disabled:!opacity-70 disabled:!cursor-not-allowed"

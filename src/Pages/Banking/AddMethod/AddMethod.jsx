@@ -40,7 +40,7 @@ function AddPaymentMethod({ handleClose }) {
             Add Payment Method
           </h2>
 
-          <button
+          <button data-testid="add-method-close-btn"
             onClick={handleClose}
             className=" text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy "
           >
@@ -63,7 +63,7 @@ function AddPaymentMethod({ handleClose }) {
                 key={index}
                 className="flex items-center gap-2 text-[14px] text-[#111928] cursor-pointer"
               >
-                <input
+                <input data-testid={`add-method-type-radio-${index}`}
                   type="radio"
                   name="paymentType"
                   value={item}

@@ -523,7 +523,7 @@ const RoomReadingTable = () => {
           </div>
 
           <div className="flex items-center gap-6 mb-2 ml-0.5 -mt-2">
-            <div
+            <div data-testid="eb-hostel-active-tab-room-action"
               onClick={() => setActiveTab("room")}
               className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "room"
                 ? "text-black font-semibold border-b-2 border-blue-700"
@@ -533,7 +533,7 @@ const RoomReadingTable = () => {
               {isEbBased ? "Hostel Reading" : "Room Reading"}
             </div>
 
-            <div
+            <div data-testid="eb-hostel-tenants-reading-action"
               onClick={() => setActiveTab("customer")}
               className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "customer"
                 ? "text-black font-semibold border-b-2 border-blue-700"
@@ -572,7 +572,7 @@ const RoomReadingTable = () => {
                         {item}
                       </span>
                     )}
-                    <span
+                    <span data-testid={`eb-hostel-remove-filter-action-${index}`}
                       className="flex items-center justify-center bg-gray-100 rounded-full w-4.5 h-4.5 ml-0.5 cursor-pointer"
                       onClick={() => removeFilter(item)}
                     >
@@ -683,7 +683,7 @@ const RoomReadingTable = () => {
                                           : "not-allowed",
                                       }}
                                     >
-                                      <PiDotsThreeOutlineVerticalFill
+                                      <PiDotsThreeOutlineVerticalFill data-testid={`eb-hostel-show-dots-hostel-reading-icon-${i}`}
                                         size={20}
                                         className={`${showDots === i
                                           ? "text-[#1E45E1]"
@@ -711,7 +711,7 @@ const RoomReadingTable = () => {
                                             }}
                                           >
                                             <div className="w-full">
-                                              <div
+                                              <div data-testid={`eb-hostel-edit-action-${i}`}
                                                 className={`flex justify-start items-center gap-2 rounded-t-lg bg-gray-50 px-3 py-2 ${!canUpdateElectricity
                                                   ? "cursor-not-allowed opacity-50"
                                                   : "cursor-pointer opacity-100"
@@ -747,7 +747,7 @@ const RoomReadingTable = () => {
                                                 </label>
                                               </div>
 
-                                              <div
+                                              <div data-testid={`eb-hostel-delete-action-${i}`}
                                                 className={`flex justify-start items-center gap-2  px-3 py-2 ${!canDeleteElectricity
                                                   ? "cursor-not-allowed opacity-50"
                                                   : "cursor-pointer opacity-100"
@@ -886,7 +886,7 @@ const RoomReadingTable = () => {
                                     {row?.floorName}
                                   </td>
 
-                                  <td
+                                  <td data-testid={`eb-hostel-action-${i}`}
                                     className={`${TABLE_BODY_CELL} ${canReadElectricity ? "!text-[#1E45E1]" : "!text-gray-300"} cursor-pointer font-semibold text-[#111928]`}
                                     onClick={() =>
                                       canReadElectricity &&
@@ -923,7 +923,7 @@ const RoomReadingTable = () => {
                                           : "not-allowed",
                                       }}
                                     >
-                                      <button
+                                      <button data-testid={`eb-hostel-more-options-btn-${i}`}
                                         type="button"
                                         aria-label="More options"
                                         onClick={(e) =>
@@ -967,7 +967,7 @@ const RoomReadingTable = () => {
                                             }}
                                           >
                                             <div className="w-full">
-                                              <button
+                                              <button data-testid={`eb-hostel-add-btn-${i}`}
                                                 type="button"
                                                 disabled={!canWriteElectricity}
                                                 onClick={() =>
@@ -991,7 +991,7 @@ const RoomReadingTable = () => {
                                               </button>
                                               {row?.currentReading ? (
                                                 <>
-                                                  <button
+                                                  <button data-testid={`eb-hostel-edit-btn-${i}`}
                                                     type="button"
                                                     disabled={
                                                       !canUpdateElectricity
@@ -1015,7 +1015,7 @@ const RoomReadingTable = () => {
                                                       Edit
                                                     </span>
                                                   </button>
-                                                  <button
+                                                  <button data-testid={`eb-hostel-delete-btn-${i}`}
                                                     type="button"
                                                     disabled={
                                                       !canDeleteElectricity
@@ -1045,7 +1045,7 @@ const RoomReadingTable = () => {
                                                     </span>
                                                   </button>
 
-                                                  <button
+                                                  <button data-testid={`eb-hostel-reset-eb-reading-btn-${i}`}
                                                     type="button"
                                                     onClick={() =>
                                                       handleResetEBReading(row)
@@ -1171,7 +1171,7 @@ const RoomReadingTable = () => {
                               <tr
                                 key={i}
                               >
-                                <td
+                                <td data-testid={`eb-hostel-tenants-details-page-action-${i}`}
                                   className={`${TABLE_BODY_CELL} text-left cursor-pointer text-[#111928]`}
                                   onClick={() => handleTenantsDetailsPage(row)}
                                 >

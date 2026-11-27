@@ -236,7 +236,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
 
-      <div
+      <div data-testid="reset-reading-reset-eb-meter-reading-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-[9999] flex flex-col font-gilroy border border-gray-50"
       >
@@ -259,7 +259,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
             </p>
           </div>
 
-          <button onClick={handleClose}>
+          <button data-testid="reset-reading-close-btn" onClick={handleClose}>
             <Add size={22} color="#D92D20" className="rotate-45" />
           </button>
         </div>
@@ -270,7 +270,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
               Reset Reason
             </label>
             <div ref={reasonRef}>
-              <CreatableSelect
+              <div data-testid="reset-reading-reset-reason-select" className="contents"><CreatableSelect
                 value={reason}
                 inputValue={reasonInput}
                 onInputChange={(value) => {
@@ -297,7 +297,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 options={reasonOptions}
                 styles={CustomStyles}
                 placeholder="Select or type reason"
-              />
+              /></div>
             </div>
 
             {reasonError && <ErrorMessage className="mt-[6px]" message={reasonError} type="error" />}
@@ -309,7 +309,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
             </label>
 
             <div className="relative" ref={dateRef}>
-              <DatePicker
+              <div data-testid="reset-reading-starting-date" className="contents"><DatePicker
                 selected={date}
                 onChange={(value) => {
                   setDate(value);
@@ -322,7 +322,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 wrapperClassName="w-full"
                 maxDate={new Date()}
                 className={datePickerInputClass(!!dateError)}
-              />
+              /></div>
 
               <Calendar
                 size={18}
@@ -353,7 +353,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
             </div>
 
             <div className="relative">
-              <input
+              <input data-testid="reset-reading-00000-input"
                 ref={readingRef}
                 value={reading}
                 onChange={(e) => {
@@ -382,14 +382,14 @@ function ResetReading({ show, handleClose, resetDetails }) {
           </div>
         )}
         <div className="border-t px-5 py-4 flex justify-end gap-3">
-          <button
+          <button data-testid="reset-reading-cancel-btn"
             onClick={handleClose}
             className="border border-[#D0D5DD] px-6 py-2 rounded-lg text-sm"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="reset-reading-submit-btn"
             onClick={handleSubmit}
             disabled={loading}
             className="bg-[#1E45E1] text-white px-6 py-2 rounded-lg text-sm flex items-center gap-2 disabled:opacity-70"

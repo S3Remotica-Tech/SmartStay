@@ -147,7 +147,7 @@ function DashExpenseProfit() {
         </h2>
 
         <div className="relative">
-          <button
+          <button data-testid="dash-expense-profit-calendar-open-btn"
             disabled
             onClick={() => setCalendarOpen(!calendarOpen)}
             className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
@@ -171,7 +171,7 @@ function DashExpenseProfit() {
               className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50"
             >
               {dateOptions.map((option) => (
-                <button
+                <button data-testid={`dash-expense-profit-selected-data-btn-${option.value}`}
                   key={option.value}
                   onClick={() => {
                     setSelectedData(option.value);

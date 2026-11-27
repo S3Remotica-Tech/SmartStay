@@ -335,7 +335,7 @@ function AssignBooking(props) {
 
   return (
     <>
-      <Modal
+      <Modal data-testid="assignbooking-move-to-check-in-modal"
         show={props.modalType}
         onHide={handleAssignClose}
         centered
@@ -360,7 +360,7 @@ function AssignBooking(props) {
             {props?.assignBooking.first_name}
           </label>
 
-          <CloseCircle
+          <CloseCircle data-testid="assignbooking-assign-close-icon"
             size="24"
             color="#222222"
             onClick={handleAssignClose}
@@ -403,7 +403,7 @@ function AssignBooking(props) {
                   </span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="assignbooking-floor-select" className="contents"><Select
                   options={
                     state?.UsersList?.hosteldetailslist?.map((item) => ({
                       value: item.floor_id,
@@ -479,7 +479,7 @@ function AssignBooking(props) {
                       display: "none",
                     }),
                   }}
-                />
+                /></div>
               </Form.Group>
 
               {floorError && (
@@ -509,7 +509,7 @@ function AssignBooking(props) {
                   </span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="assignbooking-room-select" className="contents"><Select
                   options={
                     state.UsersList?.roomdetails?.map((item) => ({
                       value: item.Room_Id,
@@ -581,7 +581,7 @@ function AssignBooking(props) {
                       display: "none",
                     }),
                   }}
-                />
+                /></div>
               </Form.Group>
               {roomError && (
                  <ErrorMessage message={roomError} type="error" />
@@ -601,7 +601,7 @@ function AssignBooking(props) {
                 Bed  {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
-              <Select
+              <div data-testid="assignbooking-bed-select" className="contents"><Select
                 options={
                   state.UsersList?.bednumberdetails?.bed_details?.length > 0
                     ? state.UsersList.bednumberdetails.bed_details
@@ -674,7 +674,7 @@ function AssignBooking(props) {
                     display: "none",
                   }),
                 }}
-              />
+              /></div>
 
               {bedError && (
                 <ErrorMessage message={bedError} type="error" />
@@ -699,7 +699,7 @@ function AssignBooking(props) {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%", marginTop: 6 }}
                 >
-                  <DatePicker
+                  <DatePicker data-testid="assignbooking-joining-date"
                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -741,7 +741,7 @@ function AssignBooking(props) {
                   Advance Amount {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="assignbooking-advance-amount-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter Advance Amount"
@@ -776,7 +776,7 @@ function AssignBooking(props) {
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
-                <FormControl
+                <FormControl data-testid="assignbooking-rent-amount-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter Rent Amount"
@@ -848,7 +848,7 @@ function AssignBooking(props) {
 
 
         <Modal.Footer style={{ borderTop: "none" }}>
-          <Button
+          <Button data-testid="assignbooking-move-check-in-btn"
             onClick={handleSubmit}
             variant="primary"
             type="submit"

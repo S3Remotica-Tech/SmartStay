@@ -256,7 +256,7 @@ function BillingRuleOld() {
 
                   {recurringBills.billStartDate ? (
                     <div className="d-flex justify-content-between p-0 align-items-center">
-                      <Button
+                      <Button data-testid="billing-rule-old-configure-btn"
                         disabled={!canWriteBills}
                         onClick={handleShowLongStay}
                         style={{
@@ -273,7 +273,7 @@ function BillingRuleOld() {
                         <ArrowSwapHorizontal size="20" color="#fff" /> Configure
                       </Button>
 
-                      <Form.Check
+                      <Form.Check data-testid="billing-rule-old-custom-switch-check"
                         disabled
                         type="switch"
                         id="custom-switch"
@@ -283,7 +283,7 @@ function BillingRuleOld() {
                       />
                     </div>
                   ) : (
-                    <Button
+                    <Button data-testid="billing-rule-old-setup-now-btn"
                       disabled={!canWriteBills}
                       onClick={handleShowLongStay}
                       style={{
@@ -365,7 +365,7 @@ function BillingRuleOld() {
                   >
                     Set up one-time or daily billing for short-term tenants.
                   </Card.Text>
-                  <Button
+                  <Button data-testid="billing-rule-old-coming-soon-btn"
                     disabled
                     // onClick={handleShowShortStay}
                     style={{

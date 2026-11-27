@@ -448,7 +448,7 @@ function LongStayRecurringModal() {
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
         <div>
           <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap flex gap-2 items-center">
-            <ArrowLeft
+            <ArrowLeft data-testid="long-stay-navigate-billing-rule-billing-icon"
               size={24}
               color="#292D32"
               className="cursor-pointer"
@@ -478,7 +478,7 @@ function LongStayRecurringModal() {
           </label>
 
           <div className="flex gap-4 my-2">
-            <div
+            <div data-testid="long-stay-monthly-recurring-its-action"
               onClick={() => {
                 if (isDisabledType) return;
                 handleChange("fixed");
@@ -492,7 +492,7 @@ function LongStayRecurringModal() {
   }
 `}
             >
-              <input
+              <input data-testid="long-stay-how-rent-invoices-are-generated-radio"
                 type="radio"
                 name="billingMethod"
                 value="fixed"
@@ -511,7 +511,7 @@ function LongStayRecurringModal() {
               </div>
             </div>
 
-            <div
+            <div data-testid="long-stay-tenant-joining-based-invoices-action"
               onClick={() => {
                 if (isDisabledType) return;
                 handleChange("joining_date_based");
@@ -525,7 +525,7 @@ function LongStayRecurringModal() {
                                 : "border-gray-200 bg-white shadow-sm"
                             }`}
             >
-              <input
+              <input data-testid="long-stay-how-rent-invoices-are-generated-radio-2"
                 type="radio"
                 name="billingMethod"
                 value="joining_date_based"
@@ -570,7 +570,7 @@ function LongStayRecurringModal() {
                 <span className="text-red-600 text-sm">*</span>
               </label>
 
-              <div
+              <div data-testid="long-stay-action"
                 onClick={() => !isDisabled && setOpenDayPicker(!openDayPicker)}
                 className={`w-full border border-gray-300 min-h-[40px] rounded-md px-3 py-2.5 text-sm flex justify-between items-center
   ${isDisabled ? "bg-gray-100 cursor-not-allowed" : "bg-white cursor-pointer"}`}
@@ -596,7 +596,7 @@ function LongStayRecurringModal() {
                 <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
                   <div className="grid grid-cols-5 gap-3">
                     {days.map((day) => (
-                      <button
+                      <button data-testid={`long-stay-billing-date-btn-${day}`}
                         key={day}
                         type="button"
                         onClick={() => {
@@ -660,7 +660,7 @@ function LongStayRecurringModal() {
             </h2>
 
             <div className="flex grid grid-cols-1 md:grid-cols-2  gap-4 my-2">
-              <div
+              <div data-testid="long-stay-prepaid-invoices-will-generate-action"
                 onClick={() => {
                   if (isDisabledType) return;
                   handleChangePaid("prepaid");
@@ -673,7 +673,7 @@ function LongStayRecurringModal() {
         : "border-gray-200 bg-white shadow-sm"
     }`}
               >
-                <input
+                <input data-testid="long-stay-billing-period-radio"
                   type="radio"
                   name="billingPeriod"
                   value="prepaid"
@@ -699,7 +699,7 @@ function LongStayRecurringModal() {
                 </div>
               </div>
 
-              <div
+              <div data-testid="long-stay-postpaid-invoices-will-generate-action"
                 onClick={() => {
                   if (
                     billingMethod !== "joining_date_based" &&
@@ -720,7 +720,7 @@ function LongStayRecurringModal() {
             : "cursor-pointer"
         }`}
               >
-                <input
+                <input data-testid="long-stay-billing-period-radio-2"
                   type="radio"
                   name="billingPeriod"
                   value="postpaid"
@@ -773,7 +773,7 @@ function LongStayRecurringModal() {
           )}
 
           <div className="flex justify-end mt-6">
-            <button
+            <button data-testid="long-stay-save-configuration-btn"
               disabled={!state.UsersList.hotelDetailsinPg?.canModifyBilling}
               onClick={handleSave}
               className={`flex items-center gap-2 text-sm font-gilroy px-4 py-2.5 rounded-lg border
@@ -817,7 +817,7 @@ function LongStayRecurringModal() {
               </label>
 
               <div className="relative max-w-xs" ref={gracePickerRef}>
-                <div
+                <div data-testid="long-stay-open-grace-picker-action"
                   onClick={() => setOpenGracePicker(!openGracePicker)}
                   className="w-full border border-gray-300 min-h-[40px] rounded-md px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
                 >
@@ -831,7 +831,7 @@ function LongStayRecurringModal() {
 
                   <div className="flex items-center gap-2">
                     {gracePeriod > 0 && (
-                      <button
+                      <button data-testid="long-stay-btn"
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -862,7 +862,7 @@ function LongStayRecurringModal() {
                   <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
                     <div className="grid grid-cols-5 gap-1">
                       {days.map((day) => (
-                        <button
+                        <button data-testid={`long-stay-errors-btn-${day}`}
                           key={day}
                           type="button"
                           onClick={() => {
@@ -917,7 +917,7 @@ function LongStayRecurringModal() {
                   Due Within (Days)
                 </label>
 
-                <div
+                <div data-testid="long-stay-open-due-picker-action"
                   onClick={() => setOpenDuePicker(!openDuePicker)}
                   className="w-full border border-gray-300 rounded-md min-h-[40px] px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
                 >
@@ -938,7 +938,7 @@ function LongStayRecurringModal() {
                   <div className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-2">
                     <div className="grid grid-cols-5 gap-3">
                       {days?.map((day) => (
-                        <button
+                        <button data-testid={`long-stay-due-days-btn-${day}`}
                           key={day}
                           type="button"
                           onClick={() => {
@@ -987,7 +987,7 @@ function LongStayRecurringModal() {
                   Send Reminder (Days Before Due)
                 </label>
 
-                <div
+                <div data-testid="long-stay-action-2"
                   onClick={() =>
                     dueDays && setOpenReminderPicker(!openReminderPicker)
                   }
@@ -1009,7 +1009,7 @@ ${dueDays ? "cursor-pointer bg-white" : "bg-gray-100 cursor-not-allowed"}
                       >
                         {day.label}
 
-                        <button
+                        <button data-testid={`long-stay-btn-2-${day.value}`}
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -1048,7 +1048,7 @@ ${dueDays ? "cursor-pointer bg-white" : "bg-gray-100 cursor-not-allowed"}
                         );
 
                         return (
-                          <button
+                          <button data-testid={`long-stay-toggle-reminder-day-btn-${day}`}
                             key={day}
                             type="button"
                             onClick={() => toggleReminderDay(day)}
@@ -1086,7 +1086,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                   <span className="text-red-600 text-sm">*</span>
                 </label>
 
-                <div
+                <div data-testid="long-stay-open-notice-picker-action"
                   onClick={() => setOpenNoticePicker(!openNoticePicker)}
                   className="w-full border border-gray-300 rounded-md min-h-[40px] px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
                 >
@@ -1113,7 +1113,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                   >
                     <div className="grid grid-cols-5 gap-3">
                       {noticeDaysOptions?.map((day) => (
-                        <button
+                        <button data-testid={`long-stay-notice-days-btn-${day}`}
                           key={day}
                           type="button"
                           onClick={() => {
@@ -1189,7 +1189,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                       {lateFeeEnabled ? "On" : "Off"}
                     </span>
 
-                    <button
+                    <button data-testid="long-stay-late-fee-enabled-btn"
                       disabled={
                         import.meta.env.MODE === "production" ||
                         import.meta.env.MODE === "qa"
@@ -1213,7 +1213,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                     </label>
 
                     <div className="space-y-2">
-                      <div
+                      <div data-testid="long-stay-flat-fee-one-time-action"
                         onClick={() => setLateFeeType("flat")}
                         className={`flex items-center gap-3 p-2 border  rounded-lg cursor-pointer
       ${
@@ -1222,7 +1222,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
           : "border-gray-200"
       }`}
                       >
-                        <input
+                        <input data-testid="long-stay-late-fee-type-radio"
                           type="radio"
                           checked={lateFeeType === "flat"}
                           readOnly
@@ -1242,7 +1242,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                         </div>
                       </div>
 
-                      <div
+                      <div data-testid="long-stay-daily-fee-fixed-amount-action"
                         onClick={() => setLateFeeType("daily")}
                         className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer
       ${
@@ -1251,7 +1251,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
           : "border-gray-200  border"
       }`}
                       >
-                        <input
+                        <input data-testid="long-stay-late-fee-type-radio-2"
                           type="radio"
                           checked={lateFeeType === "daily"}
                           readOnly
@@ -1271,7 +1271,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                         </div>
                       </div>
 
-                      <div
+                      <div data-testid="long-stay-tiered-daily-fee-variable-action"
                         onClick={() => setLateFeeType("tiered")}
                         className={`flex items-center gap-3 p-2 border rounded-lg cursor-pointer
       ${
@@ -1280,7 +1280,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
           : "border-gray-200"
       }`}
                       >
-                        <input
+                        <input data-testid="long-stay-late-fee-type-radio-3"
                           type="radio"
                           checked={lateFeeType === "tiered"}
                           readOnly
@@ -1312,7 +1312,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                             ₹
                           </span>
 
-                          <input
+                          <input data-testid="long-stay-flat-fee-amount-input"
                             type="number"
                             value={flatFeeAmount}
                             onChange={handleFlatFeeAmountChange}
@@ -1334,7 +1334,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                               ₹
                             </span>
 
-                            <input
+                            <input data-testid="long-stay-daily-fee-amount-input"
                               type="number"
                               value={dailyFeeAmount}
                               onChange={handleDailyFeeAmountChange}
@@ -1353,7 +1353,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                               ₹
                             </span>
 
-                            <input
+                            <input data-testid="long-stay-maximum-late-fee-cap-input"
                               type="number"
                               value={maxLateFeeCap}
                               onChange={handleMaxLateFeeCapChange}
@@ -1394,7 +1394,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                               {payments.map((payment, index) => (
                                 <tr key={index} className="">
                                   <td className="px-4 py-2">
-                                    <Select
+                                    <div data-testid={`long-stay-input-change-select-${index}`} className="contents"><Select
                                       options={dayOptions}
                                       value={dayOptions.find(
                                         (option) =>
@@ -1411,11 +1411,11 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                                           },
                                         })
                                       }
-                                    />
+                                    /></div>
                                   </td>
 
                                   <td className="px-4 py-2">
-                                    <Select
+                                    <div data-testid={`long-stay-input-change-select-2-${index}`} className="contents"><Select
                                       options={dayOptions}
                                       value={dayOptions.find(
                                         (option) =>
@@ -1432,11 +1432,11 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                                           },
                                         })
                                       }
-                                    />
+                                    /></div>
                                   </td>
 
                                   <td className="px-4 py-2">
-                                    <input
+                                    <input data-testid={`long-stay-amount-per-day-input-${index}`}
                                       type="text"
                                       name="amountPerDay"
                                       value={payment.amountPerDay}
@@ -1448,7 +1448,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                                   </td>
 
                                   <td className="px-4 py-2 ">
-                                    <button
+                                    <button data-testid={`long-stay-remove-btn-${index}`}
                                       onClick={() => handleDeleteRow(index)}
                                       className="text-[#FF0000] px-3 py-1 flex gap-2 items-center rounded whitespace-nowrap"
                                     >
@@ -1472,7 +1472,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                             Payment Amount will applies from 12 of the Month
                           </div>
 
-                          <button
+                          <button data-testid="long-stay-add-slab-btn"
                             onClick={handleAddRow}
                             className="mt-4  text-[#1E45E1] px-4 py-1 rounded border-1 border-[#1E45E1]"
                           >
@@ -1490,7 +1490,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                               ₹
                             </span>
 
-                            <input
+                            <input data-testid="long-stay-maximum-late-fee-amount-input"
                               type="number"
                               className={fieldClass()}
                             />
@@ -1522,7 +1522,7 @@ ${selected ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"}`}
                             Discard
                         </button> */}
 
-            <button
+            <button data-testid="long-stay-save-changes-btn"
               onClick={handleSaveChanges}
               disabled={formLoading}
               className="disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 flex items-center gap-2 bg-[#2F4ED8] hover:bg-[#243ec0] text-white text-sm font-gilroy px-5 py-2.5 rounded-lg"

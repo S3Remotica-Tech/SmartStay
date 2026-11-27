@@ -28,7 +28,7 @@ function SidebarProfile({
   const state = useSelector((state) => state);
 
   return (
-    <Offcanvas
+    <Offcanvas data-testid="sidebar-profile-logout-v-drawer"
       show={showProfileCard}
       onHide={() => setShowProfileCard(false)}
       placement="end"
@@ -109,7 +109,7 @@ function SidebarProfile({
           </div>
         </div>
 
-        <div
+        <div data-testid="sidebar-profile-show-profile-card-action"
           onClick={() => setShowProfileCard(false)}
           role="button"
           tabIndex={0}
@@ -187,7 +187,7 @@ function SidebarProfile({
             //   navigate("/profile");
             // }}
           >
-            <div
+            <div data-testid="sidebar-profile-view-profile-manage-your-action"
               className="d-flex align-items-start gap-2"
               onClick={handleShowsettingsGenaral}
             >
@@ -219,7 +219,7 @@ function SidebarProfile({
             <div style={{ fontSize: 20, color: "#999", marginTop: 2 }}>›</div>
           </div>
 
-          <div
+          <div data-testid="sidebar-profile-logout-action"
             role="button"
             onClick={() => {
               setShowProfileCard(false);

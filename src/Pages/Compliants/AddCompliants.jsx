@@ -281,7 +281,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
             {edit ? "Edit Compliant" : "Add an complaint"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-compliants-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -306,7 +306,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                   Tenant <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="add-compliants-tenant-select" className="contents"><Select
                   isDisabled={edit}
                   ref={customerSelectRef}
                   options={(state?.UsersList?.TenantList || []).map((u) => ({
@@ -331,7 +331,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                       : null
                   }
                   styles={fieldSelectStyles(!!usererrmsg)}
-                />
+                /></div>
 
                 {usererrmsg.trim() !== "" && (
                   <ErrorMessage className="mt-[6px]" message={usererrmsg} type="error" />
@@ -343,7 +343,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
               <label className={fieldLabelClass}>
                 Complaint Type <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="add-compliants-complaint-type-select" className="contents"><Select
                 options={
                   Array.isArray(complainttypelist) &&
                     complainttypelist.length > 0
@@ -386,7 +386,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 }
                 noOptionsMessage={() => "No complaint types available"}
                 styles={fieldSelectStyles(!!complaint_typeerrmsg)}
-              />
+              /></div>
 
               {complaint_typeerrmsg.trim() !== "" && (
                 <ErrorMessage className="mt-[6px]" message={complaint_typeerrmsg} type="error" />
@@ -409,7 +409,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 <Form.Label className={fieldLabelClass}>
                   Floor <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-compliants-floor-input"
                   type="text"
                   placeholder="Floor"
                   value={floorname}
@@ -424,7 +424,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 <Form.Label className={fieldLabelClass}>
                   Room <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-compliants-room-input"
                   type="text"
                   placeholder="Rooms"
                   value={room_name}
@@ -439,7 +439,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 <Form.Label className={fieldLabelClass}>
                   Bed <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-compliants-bed-input"
                   type="text"
                   placeholder="Beds"
                   value={bed_name}
@@ -456,7 +456,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 </Form.Label>
 
                 <div className="datepicker-wrapper w-full relative">
-                  <DatePicker
+                  <DatePicker data-testid="add-compliants-complaint-date"
                     wrapperClassName="w-full"
                     className={datePickerClass(!!dateerrmsg)}
                     format="DD/MM/YYYY"
@@ -508,7 +508,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                   Description
                 </Form.Label>
 
-                <Form.Control
+                <Form.Control data-testid="add-compliants-description-input"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   type="text"
@@ -536,7 +536,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
         )}
 
         <div className="m-4 flex justify-end">
-          <Button
+          <Button data-testid="add-compliants-addcomplaint-btn"
             disabled={formLoading}
             className="w-full !bg-blue-700 !font-gilroy text-white font-medium font-gilroy text-base h-12 rounded-xl"
             onClick={handleAddcomplaint}

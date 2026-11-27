@@ -291,7 +291,7 @@ function SettingNewRole() {
               />
             </div>
 
-            <button
+            <button data-testid="setting-new-role-create-role-btn"
               onClick={handleAddRole}
               disabled={!canWriteRole}
               className={`h-[38px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex justify-center items-center gap-1
@@ -360,7 +360,7 @@ function SettingNewRole() {
                       </td>
 
                       <td className={`${TABLE_BODY_CELL} text-center sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
-                        <div
+                        <div data-testid={`setting-new-role-show-dots-action-${index}`}
                           className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${showDots === index
                             ? "border-[#1E45E1] bg-[#EFF6FF]"
                             : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
@@ -380,7 +380,7 @@ function SettingNewRole() {
                               left: popupPosition.left,
                             }}
                           >
-                            <div
+                            <div data-testid={`setting-new-role-edit-action-${index}`}
                               className={`flex items-center gap-2 px-3 py-2 rounded ${view.editable && canUpdateRole
                                 ? "cursor-pointer hover:bg-blue-50"
                                 : "opacity-50 cursor-not-allowed"
@@ -396,7 +396,7 @@ function SettingNewRole() {
                               </span>
                             </div>
 
-                            <div
+                            <div data-testid={`setting-new-role-delete-action-${index}`}
                               className={`flex items-center gap-2 px-3 py-2  rounded ${view.editable && canDeleteRole
                                 ? "cursor-pointer hover:bg-blue-50"
                                 : "opacity-50 cursor-not-allowed"
@@ -439,7 +439,7 @@ function SettingNewRole() {
       )}
 
       {
-        <Modal
+        <Modal data-testid="setting-new-role-delete-role-are-you-modal"
           show={deleteRole}
           onHide={handleCloseDeleteForm}
           centered
@@ -457,13 +457,13 @@ function SettingNewRole() {
           </Modal.Body>
 
           <Modal.Footer className="flex justify-center border-0 -mt-2 gap-1">
-            <Button
+            <Button data-testid="setting-new-role-cancel-btn"
               className="!w-full !max-w-[160px] !h-[52px] !rounded-lg !px-5 !py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
               onClick={handleCloseDeleteForm}
             >
               Cancel
             </Button>
-            <Button
+            <Button data-testid="setting-new-role-delete-role-btn"
               disabled={deleteLoading}
               onClick={handleDeleteRole}
               className={`

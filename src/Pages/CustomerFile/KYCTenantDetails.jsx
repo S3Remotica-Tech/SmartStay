@@ -57,7 +57,7 @@ function KYCTenantDetails({ show, handleClose }) {
         <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-[18px] font-semibold text-[#222]">KYC Info</h2>
 
-          <button
+          <button data-testid="kyctenant-details-close-btn"
             onClick={handleClose}
             className="text-xl text-red-500 hover:text-red-600"
           >

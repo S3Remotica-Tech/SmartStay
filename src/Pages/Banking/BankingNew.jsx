@@ -1009,7 +1009,7 @@ function BankingNew() {
                         : "border-gray-200 opacity-60 cursor-not-allowed"
                       }`}
                   >
-                    <input
+                    <input data-testid="banking-new-search-input"
                       disabled
                       // disabled={!canReadBanking}
                       type="text"
@@ -1030,7 +1030,7 @@ function BankingNew() {
               </div>
 
               <div className="relative mx-2">
-                <button
+                <button data-testid="banking-new-add-transaction-btn"
                   // disabled={!canWriteBanking}
                   onClick={() => setShowTransactionMenu((prev) => !prev)}
                   className="flex items-center justify-between gap-2 !font-gilroy text-[14px] !bg-[#1e45e1] 
@@ -1050,7 +1050,7 @@ function BankingNew() {
                     className="absolute top-full right-[20px] mt-1 bg-white border border-[#E5E7EB] 
                     rounded-[8px] shadow-lg  min-w-[220px]"
                   >
-                    <button
+                    <button data-testid="banking-new-add-expense-btn"
                       disabled={!canWriteExpense}
                       onClick={() => handleAddExpense()}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
@@ -1058,7 +1058,7 @@ function BankingNew() {
                       Add Expense
                     </button>
 
-                    <button
+                    <button data-testid="banking-new-tenant-payment-btn"
                       disabled
                       // disabled={!canWriteInvoice}
                       onClick={() => handleTenantPayment()}
@@ -1067,7 +1067,7 @@ function BankingNew() {
                       Tenant Payment
                     </button>
 
-                    <button
+                    <button data-testid="banking-new-self-transfer-btn"
                       disabled={!canWriteBanking}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -1078,7 +1078,7 @@ function BankingNew() {
                       Self Transfer
                     </button>
 
-                    <button
+                    <button data-testid="banking-new-vendor-payment-btn"
                       disabled={!canWriteVendor}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -1089,14 +1089,14 @@ function BankingNew() {
                       Vendor Payment
                     </button>
 
-                    <button
+                    <button data-testid="banking-new-credit-card-payment-btn"
                       disabled={!canWriteBanking}
                       onClick={() => handleCreditPayment()}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Credit Card Payment
                     </button>
-                    <button
+                    <button data-testid="banking-new-investment-btn"
                       disabled={!canWriteBanking}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -1155,7 +1155,7 @@ function BankingNew() {
                           ? item?.cashAccountType
                           : `${item.bankName} - ${item.displayName}`;
                       return (
-                        <div
+                        <div data-testid={`banking-new-balance-action-${item.id}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowOverview(item);
@@ -1216,7 +1216,7 @@ function BankingNew() {
                                 </div>
                               </div>
 
-                              <div
+                              <div data-testid={`banking-new-action-${item.id}`}
                                 className={` flex items-center justify-center
     ${item?.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
     }
@@ -1244,7 +1244,7 @@ function BankingNew() {
 
                                   {(
 
-                                    <button
+                                    <button data-testid={`banking-new-self-transfer-btn-2-${item.id}`}
                                       disabled={
                                         !(canWriteBanking)
                                       }
@@ -1270,7 +1270,7 @@ function BankingNew() {
                                   )}
 
 
-                                  <button
+                                  <button data-testid={`banking-new-investment-btn-2-${item.id}`}
                                     disabled={!canWriteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1301,7 +1301,7 @@ function BankingNew() {
                                   </button>
 
 
-                                  <button
+                                  <button data-testid={`banking-new-edit-btn-${item.id}`}
 
                                     disabled={
                                       !canUpdateBanking || !isDev
@@ -1325,7 +1325,7 @@ function BankingNew() {
 
 
 
-                                  <button
+                                  <button data-testid={`banking-new-delete-btn-${item.id}`}
                                     // disabled
                                     // disabled={!canDeleteBanking}
                                     disabled={
@@ -1362,7 +1362,7 @@ function BankingNew() {
                               </div>
                               <div className="relative">
                                 <CustomTooltip text="View Bank Information" direction="top-full" usePortal={true}>
-                                  <BsExclamationCircle
+                                  <BsExclamationCircle data-testid={`banking-new-icon-${item.id}`}
                                     ref={iconRef}
                                     className="text-[#64748B] cursor-pointer"
                                     onClick={(e) => {
@@ -1386,7 +1386,7 @@ function BankingNew() {
                                 </CustomTooltip>
                                 {showBankInfo === item.bankId &&
                                   createPortal(
-                                    <div
+                                    <div data-testid={`banking-new-description-action-${item.id}`}
                                       onClick={(e) => e.stopPropagation()}
                                       ref={popupRef2}
                                       className="fixed z-[9999] w-72 rounded-xl bg-white border border-gray-200 shadow-xl p-3"
@@ -1506,7 +1506,7 @@ function BankingNew() {
                       );
                     })
                   ) : (
-                    <div
+                    <div data-testid="banking-new-add-bank-cash-credit-action"
                       onClick={() => canWriteBanking && handleAddAccount()}
                       className={`border-1 max-w-[140px]  shrink-0 w-full min-w-[100px] rounded-md px-4 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                         ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
@@ -1534,7 +1534,7 @@ function BankingNew() {
                   )}
                 </div>
                 {banking && banking?.length > 0 && (
-                  <div
+                  <div data-testid="banking-new-add-bank-cash-credit-action-2"
                     onClick={() => canWriteBanking && handleAddAccount()}
                     className={`border-1  max-w-[140px] shrink-0 w-full min-w-[140px] rounded-md px-4 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                       ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
@@ -1574,7 +1574,7 @@ function BankingNew() {
                 <div className="flex justify-between items-center gap-2 ">
                   <div className="flex flex-wrap items-center gap-3">
                     <div className={`border border-gray-300 rounded-lg w-36 `}>
-                      <Select
+                      <div data-testid="banking-new-period-select" className="contents"><Select
                         isDisabled={!canReadBanking}
                         styles={CustomStyles}
                         placeholder="Select Period"
@@ -1583,25 +1583,25 @@ function BankingNew() {
                           (option) => option.value === period,
                         )}
                         onChange={handlePeriodChange}
-                      />
+                      /></div>
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <Select
+                      <div data-testid="banking-new-source-select" className="contents"><Select
                         isDisabled={!canReadBanking}
                         styles={CustomStyles}
                         placeholder="Select Source"
                         options={sourceOptions}
                         value={source}
                         onChange={handleSourceChange}
-                      />
+                      /></div>
                     </div>
 
                     <div
                       className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                     >
                       <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
-                        <Filter
+                        <Filter data-testid="banking-new-icon-2"
                           size={16}
                           onClick={() => {
                             if (canReadBanking) {
@@ -1644,7 +1644,7 @@ function BankingNew() {
                         </span>
                       ))}
                     </div>
-                    <span
+                    <span data-testid="banking-new-reset-action"
                       className="text-blue-600 text-sm font-medium cursor-pointer"
                       onClick={handleReset}
                     >
@@ -1861,7 +1861,7 @@ function BankingNew() {
                 </p>
 
                 <div className="mt-2 flex justify-center gap-3">
-                  <button
+                  <button data-testid="banking-new-cancel-btn"
                     onClick={() => {
                       setShowSuccessPopup(false);
                       dispatch({ type: "CLOSE_BANK_OVERVIEW" });
@@ -1871,7 +1871,7 @@ function BankingNew() {
                     Cancel
                   </button>
 
-                  <button
+                  <button data-testid="banking-new-view-overview-btn"
                     onClick={() => {
                       setShowSuccessPopup(false);
                       setShowOverview(true);

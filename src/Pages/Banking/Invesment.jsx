@@ -241,7 +241,7 @@ function Invesment({ show, handleClose, bankDetails }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
-      <div
+      <div data-testid="invesment-investment-investment-amount-inr-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-fit bg-white rounded-lg shadow-xl z-50 flex flex-col"
       >
@@ -252,7 +252,7 @@ function Invesment({ show, handleClose, bankDetails }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             Investment
           </h1>
-          <Add
+          <Add data-testid="invesment-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -266,7 +266,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                 Investment
               </label>
               <div className="relative">
-                <input
+                <input data-testid="invesment-investment-input"
                   value={investment}
                   onChange={handleInvestmentChange}
                   type="type"
@@ -287,7 +287,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                 Amount (INR) <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="invesment-amount-inr-input"
                   type="number"
                   onWheel={(e) => e.target.blur()}
                   value={amount}
@@ -305,7 +305,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                 Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <DatePicker
+                <div data-testid="invesment-date" className="contents"><DatePicker
                   wrapperClassName="w-full"
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
@@ -313,7 +313,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                   maxDate={new Date()}
                   placeholderText="Select Date"
                   className={datePickerInputClass(!!paymentDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -333,7 +333,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                 Payment Bank{" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="invesment-payment-bank-select" className="contents"><Select
                 isDisabled={bankDetails}
                 value={paymentMethod}
                 onChange={handlePaymentMethodChange}
@@ -348,7 +348,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymentMethodError && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -360,7 +360,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                   Payment Method{" "} <span className={fieldRequiredClass}>*</span>
 
                 </label>
-                <input type="text" value={`${bankDetails?.displayName} - ${bankDetails?.paymentMethod}`} disabled className={fieldClass()} />
+                <input data-testid="invesment-payment-method-input" type="text" value={`${bankDetails?.displayName} - ${bankDetails?.paymentMethod}`} disabled className={fieldClass()} />
 
 
               </div>
@@ -375,7 +375,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                   *
                 </span>
               </label>
-              <input
+              <input data-testid="invesment-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -389,7 +389,7 @@ function Invesment({ show, handleClose, bankDetails }) {
               <label className={fieldLabelClass}>
                 Notes
               </label>
-              <textarea
+              <textarea data-testid="invesment-notes-textarea"
                 rows={4}
                 value={description}
                 onChange={handleDescriptionChange}
@@ -400,7 +400,7 @@ function Invesment({ show, handleClose, bankDetails }) {
           </div>
         </div>
         <div className="flex justify-end gap-4 m-3">
-          <button
+          <button data-testid="invesment-cancel-btn"
             onClick={handleClose}
             type="button"
             className="text-[#4B4B4B] text-sm font-medium"
@@ -408,7 +408,7 @@ function Invesment({ show, handleClose, bankDetails }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="invesment-submit-btn"
             onClick={handleSubmit}
             type="button"
             disabled={loading}

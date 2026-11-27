@@ -69,11 +69,11 @@ export function StepActions({ onBack, label, icon, invalid, loading, loadingLabe
   return (
     <div className="flex flex-wrap items-center justify-end gap-[12px] pt-[10px]">
       {onBack && (
-        <button type="button" onClick={onBack} disabled={loading} className={STEP_BACK_BTN}>
+        <button data-testid="onboarding-parts-back-btn" type="button" onClick={onBack} disabled={loading} className={STEP_BACK_BTN}>
           Back
         </button>
       )}
-      <button
+      <button data-testid="onboarding-parts-btn"
         type="submit"
         aria-disabled={invalid || loading || undefined}
         aria-busy={loading || undefined}
@@ -202,7 +202,7 @@ export function ChoiceChips({
                   : "border-[#E4E4E7] bg-white font-normal text-[#6F767E] hover:bg-ink-50"
               } ${disabled ? "cursor-not-allowed opacity-50" : ""} has-[:focus-visible]:shadow-[0_0_0_2px_#0485F7]`}
             >
-              <input
+              <input data-testid={`onboarding-parts-toggle-input-${opt.value}`}
                 id={inputId}
                 type={multiple ? "checkbox" : "radio"}
                 name={name}
@@ -260,7 +260,7 @@ export function OptionCards({ name, options, value, onChange, error, labelledBy 
                   : "border-[#DCDCDC] bg-white hover:bg-ink-50"
             }`}
           >
-            <input
+            <input data-testid={`onboarding-parts-change-radio-${opt.value}`}
               id={inputId}
               type="radio"
               name={name}
@@ -439,7 +439,7 @@ export function TimeSelect({
         height="17"
         className="pointer-events-none absolute left-[12px] top-[11px] z-[1]"
       />
-      <Select
+      <div data-testid="onboarding-parts-change-select" className="contents"><Select
         inputId={id}
         aria-label={ariaLabel}
         options={options}
@@ -455,7 +455,7 @@ export function TimeSelect({
           ...timeSelectStyles(hasError),
           valueContainer: (b) => ({ ...b, padding: "0 8px 0 38px" }),
         }}
-      />
+      /></div>
     </div>
   );
 }

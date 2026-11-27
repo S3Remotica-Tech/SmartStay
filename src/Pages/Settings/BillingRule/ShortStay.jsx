@@ -65,7 +65,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal data-testid="short-stay-short-stay-recurring-check-modal" show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Header style={{}}>
           <Modal.Title
             style={{
@@ -77,7 +77,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
           >
             Short Stay Recurring
           </Modal.Title>
-          <CloseCircle
+          <CloseCircle data-testid="short-stay-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -95,7 +95,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
               <Form.Group controlId="" style={{ marginBottom: 16 }}>
                 <Form.Label className={fieldLabelClass}
                  >From</Form.Label>
-                <Form.Control className={fieldClass()} type="text"
+                <Form.Control data-testid="short-stay-from-input" className={fieldClass()} type="text"
                  
                   onFocus={() => {
                     setFromEditing(true);
@@ -117,7 +117,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
               <Form.Group controlId="" style={{ marginBottom: 16 }}>
                 <Form.Label className={fieldLabelClass}
                  >To</Form.Label>
-                <Form.Control className={fieldClass()} type="text"
+                <Form.Control data-testid="short-stay-to-input" className={fieldClass()} type="text"
                  
 
                   value={
@@ -142,40 +142,40 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
               {fromEditing ? (
                 <div className="d-flex justify-content-end gap-2 align-items-center">
-                  <Select
+                  <div data-testid="short-stay-hh-select" className="contents"><Select
                     options={hourOptions}
                     onChange={(e) => setCheckInFromHour(e.value)}
                     placeholder="HH"
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-mm-select" className="contents"><Select
                     options={minuteOptions}
                     onChange={(e) => setCheckInFromMinute(e.value)}
                     placeholder="MM"
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-am-pm-select" className="contents"><Select
                     options={ampmOptions}
                     onChange={(e) => setCheckInFromAmPm(e.value)}
                     placeholder="AM/PM"
-                  />
+                  /></div>
                 </div>
               ) : (
 
                 <div className="d-flex justify-content-end gap-2 align-items-center">
-                  <Select
+                  <div data-testid="short-stay-hh-select-2" className="contents"><Select
                     options={hourOptions}
                     onChange={(e) => setCheckInToHour(e.value)}
                     placeholder="HH"
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-mm-select-2" className="contents"><Select
                     options={minuteOptions}
                     onChange={(e) => setCheckInToMinute(e.value)}
                     placeholder="MM"
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-am-pm-select-2" className="contents"><Select
                     options={ampmOptions}
                     onChange={(e) => setCheckInToAmPm(e.value)}
                     placeholder="AM/PM"
-                  />
+                  /></div>
                 </div>
               )}
 
@@ -194,7 +194,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
                 >
                   From
                 </Form.Label>
-                <Form.Control className={fieldClass()} type="text"
+                <Form.Control data-testid="short-stay-from-input-2" className={fieldClass()} type="text"
                  
 
                   value={
@@ -222,7 +222,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
                 >
                   To
                 </Form.Label>
-                <Form.Control className={fieldClass()} type="text"
+                <Form.Control data-testid="short-stay-to-input-2" className={fieldClass()} type="text"
                  
                   placeholder="HH:MM AM/PM"
                   value={
@@ -243,45 +243,45 @@ function ShortStayRecurringModal({ handleClose, show }) {
             <div className="d-flex justify-content-end gap-2 align-items-center">
               {checkOutEditing ? (
                 <>
-                  <Select
+                  <div data-testid="short-stay-check-out-time-select" className="contents"><Select
                     options={hourOptions}
                     styles={fieldSelectStyles()}
                     placeholder="HH"
                     onChange={(e) => setCheckOutFromHour(e.value)}
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-check-out-time-select-2" className="contents"><Select
                     options={minuteOptions}
                     styles={fieldSelectStyles()}
                     placeholder="MM"
                     onChange={(e) => setCheckOutFromMinute(e.value)}
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-check-out-time-select-3" className="contents"><Select
                     options={ampmOptions}
                     styles={fieldSelectStyles()}
                     placeholder="AM/PM"
                     onChange={(e) => setCheckOutFromAmPm(e.value)}
-                  />
+                  /></div>
                 </>
               ) : (
                 <>
-                  <Select
+                  <div data-testid="short-stay-check-out-time-select-4" className="contents"><Select
                     options={hourOptions}
                     styles={fieldSelectStyles()}
                     placeholder="HH"
                     onChange={(e) => setCheckOutToHour(e.value)}
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-check-out-time-select-5" className="contents"><Select
                     options={minuteOptions}
                     styles={fieldSelectStyles()}
                     placeholder="MM"
                     onChange={(e) => setCheckOutToMinute(e.value)}
-                  />
-                  <Select
+                  /></div>
+                  <div data-testid="short-stay-check-out-time-select-6" className="contents"><Select
                     options={ampmOptions}
                     styles={fieldSelectStyles()}
                     placeholder="AM/PM"
                     onChange={(e) => setCheckOutToAmPm(e.value)}
-                  />
+                  /></div>
                 </>
               )}
             </div>
@@ -292,7 +292,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
           <Form.Group style={{ marginBottom: 24 }}>
             <Form.Label className={fieldLabelClass}>Late Fee</Form.Label>
             <InputGroup>
-              <Form.Control className={fieldClass()}
+              <Form.Control data-testid="short-stay-late-fee-input" className={fieldClass()}
                 placeholder="₹ 0.00"
                
               />
@@ -333,7 +333,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
               marginTop: 16,
             }}
           >
-            <Button
+            <Button data-testid="short-stay-cancel-btn"
               onClick={handleClose}
               style={{
                 backgroundColor: "#fff",
@@ -347,7 +347,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
             >
               Cancel
             </Button>
-            <Button
+            <Button data-testid="short-stay-save-btn"
               onClick={handleClose}
               style={{
                 backgroundColor: "#1E45E1",

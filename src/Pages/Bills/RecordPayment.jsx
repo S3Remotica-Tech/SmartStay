@@ -311,7 +311,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
             Record Payment
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="record-payment-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -366,7 +366,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 Paid Amount <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <input
+              <input data-testid="record-payment-paid-amount-input"
                 type="number"
                 min="0"
                 step="1"
@@ -392,7 +392,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <input
+              <input data-testid="record-payment-balance-amount-input"
                 disabled
                 type="number"
                 min="0"
@@ -410,7 +410,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
               <div className="relative w-full">
                 <div className="datepicker-wrapper relative w-full">
-                  <DatePicker
+                  <DatePicker data-testid="record-payment-paid-date"
                     wrapperClassName="w-full"
                     className={datePickerClass(!!dateerrmsg)}
                     format="DD/MM/YYYY"
@@ -451,7 +451,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <Select
+              <div data-testid="record-payment-mode-of-transaction-select" className="contents"><Select
                 options={paymentOptionsV1}
                 onChange={(selectedOption) =>
                   handleTransaction(selectedOption?.value)
@@ -475,7 +475,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymodeerrormsg.trim() !== "" && (
                 <ErrorMessage className="mt-[6px]" message={paymodeerrormsg} type="error" />
@@ -487,7 +487,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 Transaction ID
               </label>
 
-              <input
+              <input data-testid="record-payment-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -512,7 +512,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         ) : null}
 
         <div className="flex justify-end gap-2 m-4">
-          <button
+          <button data-testid="record-payment-cancel-btn"
             type="button"
             onClick={handleClose}
             className="rounded-lg border border-gray-300 bg-white px-4 py-2 font-gilroy text-[16px] font-normal text-gray-700 transition hover:bg-gray-100"
@@ -520,7 +520,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="record-payment-save-record-payment-btn"
             type="button"
             disabled={formRecordLoading}
             onClick={handleSaveRecordPayment}

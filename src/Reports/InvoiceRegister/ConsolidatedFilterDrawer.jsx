@@ -69,7 +69,7 @@ function ConsolidatedFilterDrawer({
   };
 
   return (
-    <Offcanvas
+    <Offcanvas data-testid="consolidated-filter-drawer-advanced-filters-search-period-drawer"
       show={show}
       onHide={onClose}
       placement="end"
@@ -87,7 +87,7 @@ function ConsolidatedFilterDrawer({
               Advanced Filters
             </h2>
           </div>
-          <button
+          <button data-testid="consolidated-filter-drawer-close-filters-btn"
             type="button"
             onClick={onClose}
             aria-label="Close filters"
@@ -103,7 +103,7 @@ function ConsolidatedFilterDrawer({
           </label>
           <div className="mt-2 flex items-center gap-2 h-[42px] pl-[10px] pr-4 border-[1px] border-[#D1D5DC] rounded-[12px]">
             <SearchNormal1 size="18" color="#98A2B3" />
-            <input
+            <input data-testid="consolidated-filter-drawer-search-input"
               id="consolidated-filter-search"
               value={draft?.search}
               onChange={(e) =>
@@ -119,7 +119,7 @@ function ConsolidatedFilterDrawer({
               Period - <span className="font-normal">Custom date range</span>
             </span>
             <div className="mt-2">
-              <RangePicker
+              <RangePicker data-testid="consolidated-filter-drawer-search-input-2"
                 allowClear={false}
                 format="MMM DD, YYYY"
                 value={draftRange}
@@ -143,7 +143,7 @@ function ConsolidatedFilterDrawer({
             <div className="pt-2 flex flex-col gap-2">
               {statusOptions?.map((status) => (
                 <label key={status?.key} className={optionLabel}>
-                  <input
+                  <input data-testid={`consolidated-filter-drawer-toggle-in-list-statuses-checkbox-${status?.key}`}
                     type="checkbox"
                     checked={draft?.statuses?.includes(status?.key)}
                     onChange={() => toggleInList("statuses", status?.key)}
@@ -153,7 +153,7 @@ function ConsolidatedFilterDrawer({
                 </label>
               ))}
               <label className={optionLabel}>
-                <input
+                <input data-testid="consolidated-filter-drawer-draft-checkbox"
                   type="checkbox"
                   checked={draft?.overdueOnly}
                   onChange={() =>
@@ -171,7 +171,7 @@ function ConsolidatedFilterDrawer({
             <div className="pt-2 grid grid-cols-2 gap-2">
               {floorOptions?.map((floor) => (
                 <label key={floor} className={optionLabel}>
-                  <input
+                  <input data-testid={`consolidated-filter-drawer-toggle-in-list-floors-checkbox-${floor}`}
                     type="checkbox"
                     checked={draft?.floors?.includes(floor)}
                     onChange={() => toggleInList("floors", floor)}
@@ -185,14 +185,14 @@ function ConsolidatedFilterDrawer({
         </div>
 
         <div className="flex gap-[12px] p-6 bg-[#F9FAFB] border-t border-[#E5E7EB]">
-          <button
+          <button data-testid="consolidated-filter-drawer-reset-btn"
             type="button"
             onClick={handleReset}
             className="flex-1 h-[42px] rounded-[12px] border-[1px] border-[#D1D5DC] bg-white font-medium text-[16px] text-[#364153]"
           >
             Reset
           </button>
-          <button
+          <button data-testid="consolidated-filter-drawer-apply-filters-btn"
             type="button"
             onClick={handleApply}
             className="flex-1 h-[42px] rounded-[12px] bg-[#1E45E1] font-medium text-[16px] text-white"

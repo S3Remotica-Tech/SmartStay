@@ -86,7 +86,7 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
   }, [state.UsersList?.tenantDocumentUploadError]);
 
   return (
-    <Modal
+    <Modal data-testid="manual-documents-upload-cancel-attach-modal"
       show={show}
       onHide={handleClose}
       centered
@@ -98,7 +98,7 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
           {isKyc ? "Upload KYC Document" : "Upload Manual Document"}
         </Modal.Title>
 
-        <CloseCircle
+        <CloseCircle data-testid="manual-documents-upload-close-icon"
           size={24}
           color="#000"
           onClick={handleClose}
@@ -114,7 +114,7 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
                 <p className="font-gilroy text-sm">No Files</p>
               ) : (
                 files.map((item, index) => (
-                  <div
+                  <div data-testid={`manual-documents-upload-selected-index-action-${index}`}
                     key={index}
                     onClick={() => setSelectedIndex(index)}
                     className={`cursor-pointer rounded-[8px] p-[5px] mb-[10px] 
@@ -125,14 +125,14 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
   }`}
                   >
                     {item.file.type.startsWith("image/") ? (
-                      <img
+                      <img data-testid={`manual-documents-upload-selected-index-img-${index}`}
                         onClick={() => setSelectedIndex(index)}
                         src={item.url}
                         alt=""
                         className="w-full h-[90px] object-cover rounded-[6px]"
                       />
                     ) : (
-                      <iframe
+                      <iframe data-testid={`manual-documents-upload-pdf-preview-action-${index}`}
                         onClick={() => setSelectedIndex(index)}
                         src={item.url}
                         className="w-full h-[90px] pointer-events-none"
@@ -175,7 +175,7 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
                     {selectedFile.file.name}
                   </span>
 
-                  <CloseSquare
+                  <CloseSquare data-testid="manual-documents-upload-delete-file-icon"
                     variant="Bulk"
                     size={22}
                     color="#E0ECFF"
@@ -198,7 +198,7 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
                   <div>
                     <label className="cursor-pointer text-[#1E45E1] font-gilroy text-[14px] font-normal">
                       Choose file
-                      <input
+                      <input data-testid="manual-documents-upload-file-upload-file"
                         type="file"
                         accept="image/*,.pdf"
                         className="hidden"
@@ -231,7 +231,7 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
         >
           {selectedFile && (
             <div>
-              <label
+              <label data-testid="manual-documents-upload-add-more-files-action"
                 onClick={handleFileSelect}
                 className="font-gilroy text-[#1E45E1] text-[14px] cursor-pointer"
               >
@@ -241,21 +241,21 @@ function ManualDocumentsUpload({ show, handleClose, isKyc }) {
           )}
 
           <div>
-            <Button
+            <Button data-testid="manual-documents-upload-cancel-btn"
               onClick={handleClose}
               className="bg-white border-0 !text-[#1E45E1] !font-semibold rounded-[12px] mr-3 !font-gilroy"
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="manual-documents-upload-attach-btn"
               onClick={handleUpload}
               className="bg-[#1E45E1] text-white !font-semibold rounded-[12px] !font-gilroy"
             >
               Attach
             </Button>
 
-            <input
+            <input data-testid="manual-documents-upload-file-upload-file-2"
               type="file"
               ref={fileInputRef}
               className="hidden"

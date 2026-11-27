@@ -38,7 +38,7 @@ function BankingLinkMethod({ isDeleted }) {
           Linked Payment methods
         </div>
 
-        <button
+        <button data-testid="banking-link-method-add-method-btn"
           onClick={handleAddMethod}
           disabled={!canWriteBanking || isDeleted}
           className={` disabled:opacity-50 flex items-center gap-1 rounded-md px-3 py-1.5 text-[12px] 

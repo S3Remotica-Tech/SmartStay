@@ -202,7 +202,7 @@ function ManagedUsers() {
                       </td>
 
                       <td className={`${TABLE_BODY_CELL} text-center sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
-                        <PiDotsThreeOutlineVerticalFill
+                        <PiDotsThreeOutlineVerticalFill data-testid={`managed-users-dots-click-icon-${index}`}
                           className="cursor-pointer"
                           size={20}
                           onClick={(e) => handleDotsClick(index, e)}
@@ -223,7 +223,7 @@ function ManagedUsers() {
                             }}
                           >
                             <div>
-                              <div
+                              <div data-testid={`managed-users-edit-action-${index}`}
                                 onClick={() =>
                                   canUpdateUser && handleEditForm(user)
                                 }
@@ -256,7 +256,7 @@ function ManagedUsers() {
                               </div>
 
                               <div className="h-px bg-gray-200 m-0" />
-                              <div
+                              <div data-testid={`managed-users-delete-action-${index}`}
                                 onClick={() =>
                                   canDeleteUser && handleDeleteForm(user)
                                 }

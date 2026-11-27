@@ -189,7 +189,7 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
             </p>
           </div>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="add-amenities-close-icon"
             aria-label="Close"
             onClick={handleCloseForm}
             className="text-[#FF383C] text-[24px] cursor-pointer shrink-0"
@@ -208,7 +208,7 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
               <label htmlFor="amenity-name" className={labelClass}>
                 Amenity Name <span className="text-[#FB2C36]">*</span>
               </label>
-              <input
+              <input data-testid="add-amenities-amenity-name-input"
                 id="amenity-name"
                 type="text"
                 placeholder="E.g. Laundry Service, Gym Access"
@@ -225,7 +225,7 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
               <label htmlFor="amenity-description" className={labelClass}>
                 Description
               </label>
-              <textarea
+              <textarea data-testid="add-amenities-description-textarea"
                 id="amenity-description"
                 rows={2}
                 placeholder="Short description of this amenity (1–2 lines)"
@@ -252,7 +252,7 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
               </p>
             </div>
 
-            <AmenityPlanRows
+            <AmenityPlanRows data-testid="add-amenities-plans-change-input"
               plans={plans}
               errors={planErrors}
               onChange={handlePlansChange}
@@ -275,14 +275,14 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
         )}
 
         <div className="shrink-0 border-t-[1px] border-[#F3F4F6] bg-white px-[24px] pt-[17px] pb-[16px] flex items-center justify-end gap-[12px]">
-          <button
+          <button data-testid="add-amenities-cancel-btn"
             type="button"
             onClick={handleCloseForm}
             className="h-[36px] rounded-[12px] border-[1px] border-[rgba(0,0,0,0.1)] bg-white px-[17px] font-gilroy text-[14px] font-medium text-[#0A0A0A] transition-colors hover:bg-[#F9F9F9]"
           >
             Cancel
           </button>
-          <button
+          <button data-testid="add-amenities-submit-btn"
             type="button"
             disabled={formLoading}
             onClick={handleSubmit}

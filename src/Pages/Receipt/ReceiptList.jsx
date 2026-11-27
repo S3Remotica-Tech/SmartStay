@@ -177,13 +177,13 @@ const Receipt = (props) => {
     <>
       <tr>
         <td className={`${TABLE_BODY_CELL} w-[250px] text-[#1E45E1] font-semibold cursor-pointer hover:underline`}>
-          <div onClick={() => handleDownload(props.item)}>
+          <div data-testid="receipt-list-download-action" onClick={() => handleDownload(props.item)}>
             {props.item.transactionNumber ? props.item?.transactionNumber : "-"}
           </div>
         </td>
 
         <td className={`${TABLE_BODY_CELL} w-[250px] text-[#1E45E1] font-semibold`}>
-          <div
+          <div data-testid="receipt-list-navigate-tenant-profile-action"
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => handleNavigateTenantProfile(props.item)}
             title={props.item?.fullName}
@@ -240,7 +240,7 @@ const Receipt = (props) => {
 
         <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
           <div className="w-full flex justify-start">
-            <div
+            <div data-testid="receipt-list-show-dots-action"
               className="cursor-pointer flex justify-center items-center relative"
               onClick={(e) => handleShowDots(e)}
             >
@@ -264,7 +264,7 @@ const Receipt = (props) => {
                     }}
                   >
                     <div>
-                      <button
+                      <button data-testid="receipt-list-edit-btn"
                         type="button"
                         disabled
                         className="flex justify-start items-center gap-2 w-full px-3 py-2 
@@ -282,7 +282,7 @@ const Receipt = (props) => {
                     {/* {props.item.invoiceType !== "Settlement" &&
  props.item.invoiceType !== "Refund" && ( */}
 
-                    <div
+                    <div data-testid="receipt-list-delete-action"
                       className={`flex justify-start items-center gap-2 w-full px-3 py-2 bg-transparent ${
                         canDeleteReceipt
                           ? "cursor-pointer opacity-100"
@@ -315,7 +315,7 @@ const Receipt = (props) => {
                       </span>
                     </div>
 
-                    <div
+                    <div data-testid="receipt-list-download-action-2"
                       className={`flex justify-start items-center gap-2 w-full px-3 py-2 ${
                         !isExportAllow
                           ? "opacity-50 cursor-not-allowed"
@@ -355,7 +355,7 @@ const Receipt = (props) => {
         </td>
       </tr>
 
-      <Modal
+      <Modal data-testid="receipt-list-delete-receipt-are-you-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         centered
@@ -398,7 +398,7 @@ const Receipt = (props) => {
             marginTop: "-10px",
           }}
         >
-          <Button
+          <Button data-testid="receipt-list-cancel-btn"
             className="me-2"
             style={{
               width: "100%",
@@ -417,7 +417,7 @@ const Receipt = (props) => {
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="receipt-list-delete-btn"
             className={`
     !w-full 
     !max-w-[160px] 

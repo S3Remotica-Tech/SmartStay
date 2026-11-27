@@ -123,7 +123,7 @@ function BookedBed({
                     <div>
                         <div className="  !text-[18px] !text-gray-900 !font-semibold !font-gilroy flex items-center gap-2" >
                             Bed Status
-                            <button
+                            <button data-testid="booked-bed-edit-bed-btn"
                                 type="button"
                                 disabled={!canUpdatePayingGuests}
                                 onClick={handleEditBed}
@@ -146,7 +146,7 @@ function BookedBed({
                     </div>
 
                     <div className=" z-10">
-                        <Add
+                        <Add data-testid="booked-bed-close-bed-icon"
                             size="24"
                             color="#99A1AF"
                             onClick={handleCloseBed}
@@ -164,7 +164,7 @@ function BookedBed({
 
                             return (
                                 <div key={tenantId} className="">
-                                    <div onClick={() => toggleReserved(tenant)}
+                                    <div data-testid={`booked-bed-reserved-view-tenant-action-${tenantId}`} onClick={() => toggleReserved(tenant)}
                                         className={`flex justify-between items-center  px-2 py-2 cursor-pointer rounded transition-all duration-200 ${isExpanded
                                             ? "border-1 border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
                                             : "border border-[#F2F2F2] hover:bg-[#F7FAFF]"
@@ -208,8 +208,8 @@ function BookedBed({
                                             </div>
                                         </div>
                                         <div >
-                                            <button className='my-1 px-2 py-1 bg-[#1E45E1] text-white font-gilroy rounded text-xs '>Reserved</button>
-                                            <div className="flex my-1 gap-1 items-center text-[#1E45E1] text-xs" onClick={(e) => {
+                                            <button data-testid={`booked-bed-reserved-btn-${tenantId}`} className='my-1 px-2 py-1 bg-[#1E45E1] text-white font-gilroy rounded text-xs '>Reserved</button>
+                                            <div data-testid={`booked-bed-view-tenant-action-${tenantId}`} className="flex my-1 gap-1 items-center text-[#1E45E1] text-xs" onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleNavigateTenantProfile(tenant);
                                             }
@@ -228,7 +228,7 @@ function BookedBed({
                             <div className="w-full my-3 shrink-0 px-3 mt-4">
                                 <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB] w-full">
                                     {["overview", "activity"].map((tab) => (
-                                        <button
+                                        <button data-testid={`booked-bed-active-tab-btn-${tab}`}
                                             key={tab}
                                             type="button"
                                             onClick={() => setActiveTab(tab)}
@@ -260,7 +260,7 @@ function BookedBed({
 
                             {activeTab === "overview" && (
                                 <div className="flex items-center gap-2 mb-10 mt-2">
-                                    <button
+                                    <button data-testid="booked-bed-check-in-btn"
                                         type="button"
                                         disabled={!canWriteCustomers}
                                         onClick={() => handleCheckin(selectedReservedTenant)}
@@ -279,7 +279,7 @@ function BookedBed({
                                         </span>
                                     </button>
 
-                                    <button
+                                    <button data-testid="booked-bed-make-as-inactive-btn"
                                         type="button"
                                         disabled={!canUpdateBooking}
                                         onClick={() => handleMakeInActive(selectedReservedTenant)}

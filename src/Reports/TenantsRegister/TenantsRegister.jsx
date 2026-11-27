@@ -606,14 +606,14 @@ function TenantsRegister() {
       )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
-          <ArrowLeft
+          <ArrowLeft data-testid="tenants-register-navigate-reports-icon"
             onClick={handleNavigateReports}
             size="20"
             color="#4A5565"
             className="cursor-pointer"
           />
           <div>
-            <div
+            <div data-testid="tenants-register-tenant-register-action"
               className="flex items-center gap-2 relative w-fit"
               onClick={() => setRegister(!register)}
             >
@@ -637,7 +637,7 @@ function TenantsRegister() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`tenants-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item);
@@ -667,7 +667,7 @@ function TenantsRegister() {
 
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="datepicker-wrapper" style={{ position: "relative" }}>
-            <RangePicker
+            <RangePicker data-testid="tenants-register-date-change-input"
               allowClear={false}
               style={{
                 width: "100%",
@@ -696,7 +696,7 @@ function TenantsRegister() {
             />
           </div>
 
-          <button
+          <button data-testid="tenants-register-filter-btn"
             onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
@@ -715,7 +715,7 @@ function TenantsRegister() {
             />
           )}
 
-          <button
+          <button data-testid="tenants-register-export-btn"
             onClick={() => isExportAllow && handleDownload()}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
@@ -746,7 +746,7 @@ function TenantsRegister() {
               ))}
             </div>
 
-            <span
+            <span data-testid="tenants-register-reset-action"
               onClick={handleReset}
               className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
             >
@@ -942,7 +942,7 @@ function TenantsRegister() {
 
             {open && (
               <>
-                <div
+                <div data-testid="tenants-register-open-action"
                   className="fixed inset-0 bg-black/20 z-40 "
                   onClick={() => setOpen(false)}
                 />
@@ -960,7 +960,7 @@ function TenantsRegister() {
                   <div className="p-3 border-b">
                     <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                       <SearchNormal1 size={16} color="#98A2B3" />
-                      <input
+                      <input data-testid="tenants-register-search-input"
                         placeholder="Search"
                         className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
                       />
@@ -973,7 +973,7 @@ function TenantsRegister() {
                         key={item.key}
                         className="flex items-center gap-3 text-sm cursor-pointer"
                       >
-                        <input
+                        <input data-testid={`tenants-register-checkbox-${item.key}`}
                           type="checkbox"
                           defaultChecked={item.checked}
                           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -984,10 +984,10 @@ function TenantsRegister() {
                   </div>
 
                   <div className="p-3 border-t flex gap-2">
-                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                    <button data-testid="tenants-register-reset-btn" className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                       Reset
                     </button>
-                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                    <button data-testid="tenants-register-apply-filters-btn" className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                       Apply Filters
                     </button>
                   </div>

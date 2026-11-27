@@ -220,7 +220,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
             Add Parent/Guardian Details
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="user-additional-contact-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -236,7 +236,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                   Guardian Full Name{" "}
                   <span className={fieldRequiredClass}> *</span>
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="user-additional-contact-guardian-full-name-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter Guardian Name"
@@ -259,14 +259,14 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                 </Form.Label>
                 {isOthers ? (
                   <div style={{ position: "relative" }}>
-                    <FormControl
+                    <FormControl data-testid="user-additional-contact-relationship-input"
                       type="text"
                       placeholder="Enter Relationship"
                       value={guardian}
                       onChange={(e) => setGuardian(e.target.value)}
                       className={fieldClass()}
                     />
-                    <Trash
+                    <Trash data-testid="user-additional-contact-is-others-icon"
                       size="18"
                       color="#FF0000"
                       variant="link"
@@ -278,7 +278,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                     ></Trash>
                   </div>
                 ) : (
-                  <Select
+                  <div data-testid="user-additional-contact-relationship-select" className="contents"><Select
                     ref={guardianRef}
                     value={
                       reasonOptions.find((opt) => opt.value === guardian) ||
@@ -295,7 +295,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                       menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
                       menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                     }}
-                  />
+                  /></div>
                 )}
               </Form.Group>
 
@@ -311,7 +311,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
 
                 {isOccupationOther ? (
                   <div style={{ position: "relative" }}>
-                    <FormControl
+                    <FormControl data-testid="user-additional-contact-guardian-occupation-input"
                       type="text"
                       placeholder="Enter Occupation"
                       value={guardianOccupation}
@@ -319,7 +319,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                       className={fieldClass()}
                     />
 
-                    <Trash
+                    <Trash data-testid="user-additional-contact-is-occupation-other-icon"
                       size="18"
                       color="#FF0000"
                       variant="link"
@@ -331,7 +331,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                     />
                   </div>
                 ) : (
-                  <Select
+                  <div data-testid="user-additional-contact-guardian-occupation-select" className="contents"><Select
                     value={occupationOptions.find(
                       (opt) => opt.value === guardianOccupation,
                     )}
@@ -347,7 +347,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                       menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
                       menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                     }}
-                  />
+                  /></div>
                 )}
 
                 {occupationError && (
@@ -364,7 +364,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                 </Form.Label>
 
                 <InputGroup className="!flex">
-                  <Form.Select
+                  <Form.Select data-testid="user-additional-contact-mobile-number-select"
                     value={countryCode}
                     id="vendor-select-pg"
                     className={`${fieldClass()} !w-[88px] !flex-none !rounded-r-none`}
@@ -372,7 +372,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
                     <option>+{countryCode}</option>
                   </Form.Select>
 
-                  <Form.Control
+                  <Form.Control data-testid="user-additional-contact-mobile-number-input"
                     value={Phone}
                     ref={PhoneRef}
                     onChange={handlePhone}
@@ -406,14 +406,14 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
         )}
 
         <div className="flex justify-end gap-3 p-4">
-          <Button
+          <Button data-testid="user-additional-contact-cancel-btn"
             onClick={handleClose}
             className="w-full mt-1 bg-white border-0 !font-gilroy !text-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] font-gilroy px-[40px] py-2"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="user-additional-contact-submit-contact-btn"
             disabled={formLoading}
             onClick={handleSubmitContact}
             className="w-full mt-1 !whitespace-nowrap !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy !px-[40px] py-2"

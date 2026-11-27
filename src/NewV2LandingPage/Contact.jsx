@@ -286,14 +286,14 @@ function Contact() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form data-testid="contact-name-contact-number-91-form" onSubmit={handleSubmit} className="space-y-4">
 
               <div>
                 <label className="text-sm font-medium">
                   Name <span className="text-red-500">*</span>
                 </label>
 
-                <input
+                <input data-testid="contact-name-input"
                   type="text"
                   name="user_name"
                   value={formData.user_name}
@@ -319,7 +319,7 @@ function Contact() {
                     +91
                   </span>
 
-                  <input
+                  <input data-testid="contact-contact-number-input"
                     type="text"
                     name="user_phone"
                     value={formData.user_phone}
@@ -339,7 +339,7 @@ function Contact() {
               <div>
                 <label className="text-sm font-medium">City</label>
 
-                <input
+                <input data-testid="contact-city-input"
                   type="text"
                   name="user_city"
                   value={formData.user_city}
@@ -353,7 +353,7 @@ function Contact() {
               <div>
                 <label className="text-sm font-medium">Message</label>
 
-                <textarea
+                <textarea data-testid="contact-message-textarea"
                   rows="3"
                   name="message"
                   value={formData.message}
@@ -364,7 +364,7 @@ function Contact() {
               </div>
 
 
-              <button
+              <button data-testid="contact-submit-btn"
                 type="submit"
                 className="w-full bg-[#1E45E1] text-white py-[14px] rounded-lg font-medium mt-2"
               >

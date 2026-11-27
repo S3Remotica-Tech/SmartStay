@@ -52,7 +52,7 @@ function Logout({ show, handleClose }) {
   }, [state.login?.logoutAdminStatusCode]);
 
   return (
-    <Modal
+    <Modal data-testid="logout-logout-are-you-sure-modal"
       show={show}
       onHide={handleClose}
       centered
@@ -70,13 +70,13 @@ function Logout({ show, handleClose }) {
       </Modal.Body>
 
       <Modal.Footer className="!flex !flex-row !flex-nowrap !justify-center !items-center !border-t-0 !-mt-2 !gap-2.5">
-        <Button
+        <Button data-testid="logout-cancel-btn"
           className="!w-40 !h-13 !rounded-lg !px-5 !py-3 !bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-sm"
           onClick={handleClose}
         >
           Cancel
         </Button>
-        <Button
+        <Button data-testid="logout-logout-btn"
           disabled={logoutAdminLoading}
           className={`
     !w-40 

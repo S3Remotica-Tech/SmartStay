@@ -215,7 +215,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
   return (
     <div>
       {show && (
-        <div
+        <div data-testid="vendor-expense-filter-close-click-action"
           className="fixed inset-0 bg-black/30 z-[1040]"
           onClick={handleCloseClick}
         />
@@ -230,7 +230,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
             <Filter size="24" color="#222222" />
             Filter by
           </div>
-          <IoCloseOutline
+          <IoCloseOutline data-testid="vendor-expense-filter-close-click-icon"
             onClick={handleCloseClick}
             className="text-[#FF0000] text-[22px] cursor-pointer"
           />
@@ -245,7 +245,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
                 color="#9CA3AF"
                 className="absolute left-[8px] top-[15px]"
               />
-              <input
+              <input data-testid="vendor-expense-filter-search-input"
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -258,7 +258,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
           <div className="flex gap-[16px] mb-[16px]">
             <div className="flex-1 min-w-0">
               <label className={labelClass}>From</label>
-              <DatePicker
+              <DatePicker data-testid="vendor-expense-filter-from-date"
                 className={datePickerClass}
                 format={DATE_FORMAT}
                 placeholder="DD-MM-YYYY"
@@ -279,7 +279,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
             </div>
             <div className="flex-1 min-w-0">
               <label className={labelClass}>To</label>
-              <DatePicker
+              <DatePicker data-testid="vendor-expense-filter-to-date"
                 className={datePickerClass}
                 format={DATE_FORMAT}
                 placeholder="DD-MM-YYYY"
@@ -303,7 +303,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
 
           <div className="mb-[16px]">
             <label className={labelClass}>Payment Status</label>
-            <Select
+            <div data-testid="vendor-expense-filter-payment-status-select" className="contents"><Select
               options={paymentStatusOptions}
               value={status}
               onChange={setStatus}
@@ -311,12 +311,12 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
               placeholder="Select"
               isClearable
               menuPlacement="auto"
-            />
+            /></div>
           </div>
 
           <div className="mb-[16px]">
             <label className={labelClass}>Expense Category</label>
-            <Select
+            <div data-testid="vendor-expense-filter-expense-category-select" className="contents"><Select
               options={categoryOptions}
               value={category}
               onChange={setCategory}
@@ -325,14 +325,14 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
               isClearable
               menuPlacement="auto"
               noOptionsMessage={() => "No categories"}
-            />
+            /></div>
           </div>
 
           <div className="mb-[16px]">
             <label className={labelClass}>Amount Range</label>
             <div className="flex gap-[10px]">
               <div className="flex-1 min-w-0">
-                <input
+                <input data-testid="vendor-expense-filter-amount-range-input"
                   type="number"
                   min="0"
                   placeholder="Min"
@@ -348,7 +348,7 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <input
+                <input data-testid="vendor-expense-filter-amount-range-input-2"
                   type="number"
                   min={minAmount || "0"}
                   placeholder="Max"
@@ -368,14 +368,14 @@ function VendorExpenseFilter({ show, handleClose, size, selectedVendorId }) {
         </div>
 
         <div className="flex-shrink-0 flex gap-[16px] px-[20px] py-[20px] bg-white">
-          <button
+          <button data-testid="vendor-expense-filter-reset-all-btn"
             type="button"
             onClick={handleReset}
             className="flex-1 h-[50px] rounded-[7px] bg-[#EFF2FF] text-[#1E45E1] font-gilroy text-[14px] font-medium"
           >
             Reset All
           </button>
-          <button
+          <button data-testid="vendor-expense-filter-apply-btn"
             type="button"
             onClick={handleApply}
             className="flex-1 h-[50px] rounded-[7px] bg-[#1E45E1] text-white font-gilroy text-[14px] font-medium hover:bg-[#1638B5] transition-colors"

@@ -424,7 +424,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
-      <div
+      <div data-testid="settlement-payment-vendor-balance-payable-if-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy border border-gray-50"
       >
@@ -435,7 +435,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             {isBanking ? "Vendor Payment" : "Settle Payment"}
           </h1>
-          <Add
+          <Add data-testid="settlement-payment-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -449,7 +449,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 Vendor <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="settlement-payment-vendor-input"
                   disabled
                   type="text"
                   value={selectedVendor}
@@ -479,7 +479,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 </p>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="settlement-payment-paid-amount-inr-due-amount-input"
                   type="number"
                   ref={paidAmountRef}
                   value={paidAmount}
@@ -488,7 +488,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   onWheel={(e) => e.target.blur()}
                   className={fieldClass(!!paidAmountError)}
                 />
-                <button
+                <button data-testid="settlement-payment-set-btn"
                   onClick={handleSetAmount}
                   className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                 >
@@ -506,7 +506,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 Balance payable If (Outstanding){" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <input
+              <input data-testid="settlement-payment-balance-payable-if-outstanding-input"
                 type="text"
                 value={finalOutstanding}
                 readOnly
@@ -519,17 +519,17 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 Paid Date <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <DatePicker
+                <div data-testid="settlement-payment-paid-date" className="contents"><DatePicker
                   // ref={paidDateRef}
                   wrapperClassName="w-full"
                   selected={paidDate}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
-                  customInput={<input ref={paidDateRef} />}
+                  customInput={<input data-testid="settlement-payment-paid-date-input" ref={paidDateRef} />}
                   maxDate={new Date()}
                   className={datePickerInputClass(!!paidDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -547,7 +547,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 Payment method{" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="settlement-payment-payment-method-select" className="contents"><Select
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={(selected) => {
@@ -565,7 +565,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymentMethodError && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -576,7 +576,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
               <label className={fieldLabelClass}>
                 Transaction ID
               </label>
-              <input
+              <input data-testid="settlement-payment-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -584,7 +584,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 className={fieldClass()}
               />
             </div>
-            <input
+            <input data-testid="settlement-payment-file-change-file"
               ref={fileInputRef}
               type="file"
               multiple
@@ -599,7 +599,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   Attachments/Proofs (If any)
                 </label>
 
-                <div
+                <div data-testid="settlement-payment-image-to-upload-jpg-action"
                   onClick={() => fileInputRef.current?.click()}
                   className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
                 >
@@ -642,7 +642,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                               {selectedImageName?.name}
                             </p>
 
-                            <button
+                            <button data-testid="settlement-payment-btn"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setPreviewImage(null);
@@ -672,7 +672,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                     key={index}
                     className="relative border rounded-lg w-full"
                   >
-                    <img
+                    <img data-testid={`settlement-payment-preview-img-${index}`}
                       src={item.preview}
                       alt="preview"
                       className="h-[100px]  w-[200px] object-cover cursor-pointer rounded-lg"
@@ -702,7 +702,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
             )}
 
             {attachments?.length > 0 && (
-              <div
+              <div data-testid="settlement-payment-add-more-files-action"
                 className="flex justify-end my-2"
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -716,7 +716,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
               <label className={fieldLabelClass}>
                 Description
               </label>
-              <textarea
+              <textarea data-testid="settlement-payment-description-textarea"
                 rows={4}
                 value={description}
                 onChange={handleDescriptionChange}
@@ -777,7 +777,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                           </td>
 
                           <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
-                            <input
+                            <input data-testid={`settlement-payment-amount-apply-change-input-${item.expenseId}`}
                               type="number"
                               value={item.amountToApply || ""}
                               onChange={(e) =>
@@ -845,7 +845,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
           </div>
         </div>
         <div className="flex justify-end gap-4 my-4 mr-4">
-          <button
+          <button data-testid="settlement-payment-cancel-btn"
             onClick={handleClose}
             type="button"
             className="text-[#4B4B4B] text-sm font-medium"
@@ -853,7 +853,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="settlement-payment-submit-btn"
             type="submit"
             disabled={formLoading}
             onClick={handleSubmit}

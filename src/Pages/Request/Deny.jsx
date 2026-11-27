@@ -29,7 +29,7 @@ function Deny({ show, handleClose, heading }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
 
-      <div
+      <div data-testid="deny-status-commands-cancel-notify-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-[9999] flex flex-col font-gilroy border border-gray-50"
       >
@@ -40,7 +40,7 @@ function Deny({ show, handleClose, heading }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             {heading}
           </h1>
-          <Add
+          <Add data-testid="deny-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -54,18 +54,18 @@ function Deny({ show, handleClose, heading }) {
               Status <span className={fieldRequiredClass}>*</span>
             </label>
 
-            <Select
+            <div data-testid="deny-status-select" className="contents"><Select
               placeholder="Select Status"
               styles={fieldSelectStyles()}
               options={statusOptions}
-            />
+            /></div>
           </div>
 
           <div>
             <label className={fieldLabelClass}>
               Commands
             </label>
-            <textarea
+            <textarea data-testid="deny-commands-textarea"
               placeholder="Enter Commands"
               rows={4}
               className={fieldTextareaClass()}
@@ -74,14 +74,14 @@ function Deny({ show, handleClose, heading }) {
         </div>
 
         <div className="flex justify-end gap-4 m-4">
-          <button
+          <button data-testid="deny-cancel-btn"
             onClick={handleClose}
             className="flex-1 border rounded-lg py-2"
           >
             Cancel
           </button>
 
-          <button className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
+          <button data-testid="deny-notify-btn" className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
             Notify{" "}
           </button>
         </div>

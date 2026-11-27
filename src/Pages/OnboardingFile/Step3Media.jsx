@@ -28,7 +28,7 @@ function Step3Media({ onNext, onBack, onFinish }) {
   };
 
   return (
-    <form
+    <form data-testid="step3-media-form"
       noValidate
       onSubmit={handleSubmit(() => {
         if (!isLast) onNext();

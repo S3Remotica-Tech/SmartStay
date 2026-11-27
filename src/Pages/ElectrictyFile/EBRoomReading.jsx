@@ -555,38 +555,38 @@ function EBRoomReading(props) {
                     }}>
                       <tr>
                         <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-hoatel-name-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-hoatel-name-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
                         </div>  Paying Guest</div>  </th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-floor-name-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-floor-name-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
                         </div> Floor</div></th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-room-id-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-room-id-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
                         </div> Room no </div> </th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-reading-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-reading-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
                         </div> Reading </div></th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-date-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-date-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
                         </div>  Date </div></th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-total-reading-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-total-reading-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
                         </div> Units</div></th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                          <ArrowUp2 data-testid="ebroom-reading-sort-total-amount-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 data-testid="ebroom-reading-sort-total-amount-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
                         </div>  Amount </div></th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
@@ -767,7 +767,7 @@ function EBRoomReading(props) {
                                   verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                                 }}>
 
-                                  <div
+                                  <div data-testid={`ebroom-reading-show-dots-action-${v.id}`}
                                     style={{
                                       cursor: "pointer",
                                       height: 35,
@@ -806,7 +806,7 @@ function EBRoomReading(props) {
                                           }}
                                         >
 
-                                          <div
+                                          <div data-testid={`ebroom-reading-edit-action-${v.id}`}
                                             className="d-flex justify-content-start align-items-center gap-2 "
                                             style={{
                                               cursor: props.ebEditPermission ? "not-allowed" : "pointer",
@@ -852,7 +852,7 @@ function EBRoomReading(props) {
                                           </div>
 
 
-                                          <div
+                                          <div data-testid={`ebroom-reading-delete-action-${v.id}`}
                                             className="d-flex justify-content-start align-items-center gap-2"
                                             style={{
                                               cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
@@ -1004,7 +1004,7 @@ function EBRoomReading(props) {
               >
 
                 <div>
-                  <Select
+                  <div data-testid="ebroom-reading-items-per-page-select" className="contents"><Select
                     options={electricityPageOptions}
                     value={
                       electricityrowsPerPage
@@ -1064,7 +1064,7 @@ function EBRoomReading(props) {
                         color: state.isFocused ? "#fff" : "#000",
                       }),
                     }}
-                  />
+                  /></div>
                 </div>
 
                 <ul
@@ -1078,7 +1078,7 @@ function EBRoomReading(props) {
                 >
 
                   <li style={{ margin: "0 10px" }}>
-                    <button
+                    <button data-testid="ebroom-reading-page-change-btn"
                       style={{
                         padding: "5px",
                         textDecoration: "none",
@@ -1105,7 +1105,7 @@ function EBRoomReading(props) {
 
 
                   <li style={{ margin: "0 10px" }}>
-                    <button
+                    <button data-testid="ebroom-reading-page-change-btn-2"
                       style={{
                         padding: "5px",
                         textDecoration: "none",
@@ -1134,7 +1134,7 @@ function EBRoomReading(props) {
       }
 
 
-      <Modal
+      <Modal data-testid="ebroom-reading-edit-room-reading-floor-modal"
         show={ebEditShow}
         onHide={() => handleClose()}
         backdrop="static"
@@ -1153,7 +1153,7 @@ function EBRoomReading(props) {
             Edit Room Reading
           </div>
 
-          <CloseCircle size="24" color="#000" onClick={handleClose}
+          <CloseCircle data-testid="ebroom-reading-close-icon" size="24" color="#000" onClick={handleClose}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
         <Modal.Body style={{ marginTop: "-10px" }}>
@@ -1173,7 +1173,7 @@ function EBRoomReading(props) {
               </Form.Label>
 
 
-              <Select
+              <div data-testid="ebroom-reading-floor-select" className="contents"><Select
                 options={
                   state?.UsersList?.hosteldetailslist?.map((item) => ({
                     value: item.floor_id,
@@ -1245,7 +1245,7 @@ function EBRoomReading(props) {
                     display: "none",
                   }),
                 }}
-              />
+              /></div>
 
 
               {floorError && (
@@ -1266,7 +1266,7 @@ function EBRoomReading(props) {
               </Form.Label>
 
 
-              <Select
+              <div data-testid="ebroom-reading-room-select" className="contents"><Select
                 options={
                   state?.UsersList?.roomdetails?.map((item) => ({
                     value: item.Room_Id,
@@ -1338,7 +1338,7 @@ function EBRoomReading(props) {
                     display: "none",
                   }),
                 }}
-              />
+              /></div>
 
 
               {roomError && (
@@ -1359,7 +1359,7 @@ function EBRoomReading(props) {
                   Reading {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="ebroom-reading-reading-input"
                   type="text"
                   id="form-controls"
                   placeholder="6542310"
@@ -1395,7 +1395,7 @@ function EBRoomReading(props) {
                 </Form.Label>
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
 
-                  <DatePicker
+                  <DatePicker data-testid="ebroom-reading-date"
                     style={{ height: 48, width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -1459,7 +1459,7 @@ function EBRoomReading(props) {
           ></div>
         </div>}
         <Modal.Footer className="d-flex justify-content-center " style={{ borderTop: "none" }}>
-          <Button
+          <Button data-testid="ebroom-reading-save-changes-btn"
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -1478,7 +1478,7 @@ function EBRoomReading(props) {
         </Modal.Footer>
       </Modal>
 
-      <Modal
+      <Modal data-testid="ebroom-reading-delete-reading-are-you-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         centered
@@ -1523,7 +1523,7 @@ function EBRoomReading(props) {
             marginTop: "-10px",
           }}
         >
-          <Button
+          <Button data-testid="ebroom-reading-cancel-btn"
             className="me-2"
             style={{
               width: "100%",
@@ -1542,7 +1542,7 @@ function EBRoomReading(props) {
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="ebroom-reading-delete-btn"
             style={{
               width: "100%",
               maxWidth: 160,

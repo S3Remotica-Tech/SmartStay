@@ -312,7 +312,7 @@ function CheckOut() {
                               <tr
                                 key={checkout.customerId}
                               >
-                                <td
+                                <td data-testid={`userlist-checkout-customer-profile-page-action-${checkout.customerId}`}
                                   onClick={() =>
                                     handleCustomerProfilePage(checkout)
                                   }

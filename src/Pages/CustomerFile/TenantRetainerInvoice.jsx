@@ -211,7 +211,7 @@ function TenantRetainerInvoice() {
   return (
     <div className="my-6">
       <div className="flex justify-end w-full lg:-mt-[65px] mb-6 ">
-        <button
+        <button data-testid="tenant-retainer-invoice-retainer-btn"
           disabled={isDisabledButton}
           onClick={handleShow}
           className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -355,7 +355,7 @@ function TenantRetainerInvoice() {
                             })()}
                           </td>
                           <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
-                            <button
+                            <button data-testid={`tenant-retainer-invoice-more-options-btn-${i}`}
                               type="button"
                               aria-label="More options"
                               onClick={(e) => {
@@ -393,7 +393,7 @@ function TenantRetainerInvoice() {
                               >
                                 {row?.invoiceType === "ADVANCE" ||
                                   row?.invoiceType === "BOOKING" ? (
-                                  <button
+                                  <button data-testid={`tenant-retainer-invoice-apply-to-invoice-btn-${i}`}
                                     disabled={isDisabledButtonForApply}
                                     onClick={() => {
                                       handleApplyInvoices(row);
@@ -405,7 +405,7 @@ function TenantRetainerInvoice() {
                                     Apply to Invoice
                                   </button>
                                 ) : (
-                                  <button
+                                  <button data-testid={`tenant-retainer-invoice-apply-to-invoice-btn-2-${i}`}
                                     disabled={
                                       row.status === "Fully Adjusted" ||
                                       isDisabledButtonForApply

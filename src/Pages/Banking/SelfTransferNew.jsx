@@ -150,7 +150,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
             Self Transfer
           </div>
 
-          <Add
+          <Add data-testid="self-transfer-new-close-icon"
             size="24"
             color="#FF0000"
             className="cursor-pointer rotate-45"
@@ -223,7 +223,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
 
             {bankDetails?.toBanks?.length > 0 ? (
               bankDetails?.toBanks?.map((bank, index) => (
-                <div
+                <div data-testid={`self-transfer-new-avl-bal-action-${bank.index}`}
                   key={bank.index}
                   onClick={() => handleSelect(bank, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
@@ -290,7 +290,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                       </div>
                     </div>
                   </div>
-                  <input
+                  <input data-testid={`self-transfer-new-selected-bank-radio-${bank.index}`}
                     type="radio"
                     name="selectedBank"
                     className="w-5 h-5 accent-[#1E45E1] cursor-pointer"
@@ -321,7 +321,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   ₹
                 </span>
 
-                <input
+                <input data-testid="self-transfer-new-amount-to-transfer-input"
                   type="number"
                   placeholder="Enter amount"
                   value={amount}
@@ -339,7 +339,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
               </label>
 
               <div className="relative">
-                <DatePicker
+                <div data-testid="self-transfer-new-date" className="contents"><DatePicker
                   wrapperClassName="w-full"
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
@@ -347,7 +347,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   className={datePickerInputClass()}
                   placeholderText="Select date"
                   maxDate={new Date()}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -363,7 +363,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
               Notes
             </label>
 
-            <textarea
+            <textarea data-testid="self-transfer-new-notes-textarea"
               rows={4}
               placeholder="Describe the notes..."
               value={notes}
@@ -382,7 +382,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
 
         <div className="flex justify-end m-4">
           <div className="flex justify-end mt-4">
-            <button
+            <button data-testid="self-transfer-new-transfer-btn"
               onClick={handleTransfer}
               disabled={isTransferDisabled}
               className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"

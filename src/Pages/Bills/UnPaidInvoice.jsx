@@ -38,7 +38,7 @@ function UnPaidInvoice({ show, handleClose, selectedInvoice }) {
   }, [state.InvoiceList?.unPaidError]);
 
   return (
-    <Modal
+    <Modal data-testid="un-paid-invoice-mark-invoice-as-unpaid-modal"
       show={show}
       onHide={handleClose}
       centered
@@ -62,14 +62,14 @@ function UnPaidInvoice({ show, handleClose, selectedInvoice }) {
       )}
 
       <Modal.Footer className="!flex !justify-center !gap-4 !mb-2 !border-0">
-        <Button
+        <Button data-testid="un-paid-invoice-cancel-btn"
           onClick={handleClose}
           className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
         >
           Cancel
         </Button>
 
-        <Button
+        <Button data-testid="un-paid-invoice-confirm-btn"
           disabled={formLoading}
           className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
           onClick={confirmUnpaid}

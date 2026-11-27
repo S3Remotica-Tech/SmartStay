@@ -29,7 +29,7 @@ function TenantAddedSuccess({ name, flow, onClose }) {
             ? "has been booked and now appears in the bookings list."
             : "has been checked in and now appears in the tenants list."}
         </p>
-        <button
+        <button data-testid="tenant-added-success-done-btn"
           type="button"
           autoFocus
           onClick={onClose}

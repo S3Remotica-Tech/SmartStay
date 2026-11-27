@@ -289,7 +289,7 @@ function SmartstayDemo() {
                     Name <span className="text-red-500">*</span>
                   </label>
 
-                  <input
+                  <input data-testid="smartstay-demo-name-input"
                     ref={nameRef}
                     type="text"
                     value={name}
@@ -317,7 +317,7 @@ function SmartstayDemo() {
 
                   <div className="w-full mt-1 flex items-center border border-[#DCDCDC] rounded-md">
                     <div className="w-[120px]">
-                      <Select
+                      <div data-testid="smartstay-demo-contact-number-select" className="contents"><Select
                         ref={countryCodeRef}
                         options={countryOptions}
                         // defaultValue={countryOptions[0]}
@@ -364,10 +364,10 @@ function SmartstayDemo() {
                             display: "none",
                           }),
                         }}
-                      />
+                      /></div>
                     </div>
 
-                    <input
+                    <input data-testid="smartstay-demo-contact-number-input"
                       ref={mobileRef}
                       type="text"
                       value={contactNumber}
@@ -409,7 +409,7 @@ function SmartstayDemo() {
                 <div className="mb-3">
                   <label className="text-sm font-normal">Mail ID</label>
 
-                  <input
+                  <input data-testid="smartstay-demo-mail-id-input"
                     ref={emailRef}
                     type="email"
                     placeholder="Enter Mail ID"
@@ -429,7 +429,7 @@ function SmartstayDemo() {
                     Organization Name
                   </label>
 
-                  <input
+                  <input data-testid="smartstay-demo-organization-name-input"
                     type="text"
                     placeholder="Eg: Royal Homes"
                     value={organizationName}
@@ -445,7 +445,7 @@ function SmartstayDemo() {
                     Number of Properties
                   </label>
 
-                  <input
+                  <input data-testid="smartstay-demo-number-of-properties-input"
                     type="number"
                     value={noOfProperties}
                     onChange={(e) => setNoOfProperties(e.target.value)}
@@ -460,7 +460,7 @@ function SmartstayDemo() {
                     No. of Tenants Managing
                   </label>
 
-                  <input
+                  <input data-testid="smartstay-demo-no-of-tenants-managing-input"
                     type="number"
                     value={tenants}
                     onChange={(e) => setTenants(e.target.value)}
@@ -477,7 +477,7 @@ function SmartstayDemo() {
                       City <span className="text-red-500">*</span>
                     </label>
 
-                    <input
+                    <input data-testid="smartstay-demo-city-input"
                       ref={cityRef}
                       type="text"
                       placeholder="Enter City"
@@ -500,7 +500,7 @@ function SmartstayDemo() {
                   <div>
                     <label className="text-sm font-normal">Country</label>
 
-                    <input
+                    <input data-testid="smartstay-demo-country-input"
                       type="text"
                       placeholder="Enter Country"
                       value={country}
@@ -519,7 +519,7 @@ function SmartstayDemo() {
                 <div className="mb-3">
                   <label className="text-sm font-normal">State</label>
 
-                  <Select
+                  <div data-testid="smartstay-demo-state-select" className="contents"><Select
                     options={stateOptions}
                     onChange={(option) => setStateName(option.value)}
                     placeholder="Select state"
@@ -569,7 +569,7 @@ function SmartstayDemo() {
                         cursor: "pointer",
                       }),
                     }}
-                  />
+                  /></div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-3">
                   <div>
@@ -578,7 +578,7 @@ function SmartstayDemo() {
                     </label>
 
                     <div className="datepicker-wrapper relative w-full mt-px">
-                      <DatePicker
+                      <DatePicker data-testid="smartstay-demo-demo-date"
                         ref={demoDateRef}
                         wrapperClassName="w-full"
                         className={`w-full mt-1 h-10 text-xs border border-[#DCDCDC] text-black rounded-md font-gilroy 
@@ -608,7 +608,7 @@ function SmartstayDemo() {
                   <div>
                     <label className="text-sm font-normal">Demo Time</label>
 
-                    <input
+                    <input data-testid="smartstay-demo-demo-time-input"
                       type="time"
                       value={demoTime}
                       onChange={(e) => setDemoTime(e.target.value)}
@@ -619,7 +619,7 @@ function SmartstayDemo() {
                   </div>
                 </div>
               </div>
-              <button
+              <button data-testid="smartstay-demo-submit-btn"
                 onClick={handleDemoReuquest}
                 className="w-full bg-[#1E45E1] text-white py-2 rounded-md font-medium hover:opacity-90"
               >
