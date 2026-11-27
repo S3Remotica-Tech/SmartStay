@@ -1,0 +1,100 @@
+/*
+ * SmartStay Design System v2 — tokens.
+ * Source: Figma "New design System" (iYflViMrr1kQSivg9hlBsy).
+ *
+ * Every token is scoped to `.ds` so nothing leaks into the existing screens.
+ * Wrap a v2 screen in <DsRoot> (or any element with class "ds") and use the
+ * tokens from Tailwind arbitrary values, e.g. bg-[var(--ds-bg-surface)].
+ *
+ * Brand blue (#1e45e1) and radius 8/12 intentionally match tailwind.config.js
+ * (primary-500, rounded-small/medium); change both together.
+ *
+ * Font: the Figma kit uses Inter/Geist; SmartStay ships Gilroy only (Inter
+ * files are not bundled), so --ds-font stays on Gilroy. Swap it here once.
+ */
+.ds {
+  /* Font */
+  --ds-font: "Gilroy", sans-serif;
+
+  /* Background */
+  --ds-bg-canvas: #f9fafb;
+  --ds-bg-surface: #ffffff;
+  --ds-bg-surface-subtle: #f9fafb;
+  --ds-bg-surface-muted: #f3f4f6;
+  --ds-bg-surface-hover: #f3f4f6;
+  --ds-bg-primary: #1e45e1;
+  --ds-bg-primary-hover: #2c3ed3;
+  --ds-bg-primary-pressed: #2031bb;
+  --ds-bg-primary-subtle: #eef2ff;
+  --ds-bg-info-subtle: #eff6ff;
+
+  /* Border */
+  --ds-border-default: #e5e7eb;
+  --ds-border-strong: #d1d5db;
+  --ds-border-focus: #0485f7;
+  --ds-border-avatar: rgba(0, 0, 0, 0.08);
+
+  /* Text */
+  --ds-text-default: #111827;
+  --ds-text-secondary: #4b5563;
+  --ds-text-placeholder: #6b7280;
+  --ds-text-primary: #1e45e1;
+  --ds-text-link: #1e45e1;
+  --ds-text-danger: #dc2626;
+  --ds-text-danger-hover: #b91c1c;
+  --ds-text-success: #15803d;
+  --ds-text-info: #1d4ed8;
+  --ds-text-on-primary: #ffffff;
+
+  /* Status */
+  --ds-success-50: #f0fdf4;
+  --ds-success-600: #16a34a;
+  --ds-warning-50: #fefce8;
+  --ds-warning-800: #854d0e;
+  --ds-neutral-100: #f3f4f6;
+  --ds-neutral-700: #374151;
+  --ds-danger-50: #fef2f2;
+
+  /* Radius */
+  --ds-radius-sm: 8px;
+  --ds-radius-md: 12px;
+  --ds-radius-full: 999px;
+
+  /* Effects */
+  --ds-shadow-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  --ds-shadow-overlay: 0px 12px 32px -4px rgba(16, 24, 40, 0.12),
+    0px 4px 8px -2px rgba(16, 24, 40, 0.06);
+  --ds-focus-ring: 0 0 0 2px #0485f7;
+
+  /* Plan card gradient */
+  --ds-gradient-plan: linear-gradient(121deg, #f4fcff 2.3%, #fff6fc 100.84%);
+
+  font-family: var(--ds-font);
+  color: var(--ds-text-default);
+}
+
+/* Bootstrap gives <p>/<label>/headings default margins; v2 owns its spacing. */
+.ds p,
+.ds label,
+.ds h1,
+.ds h2,
+.ds h3,
+.ds h4,
+.ds h5,
+.ds h6 {
+  margin: 0;
+}
+
+.ds :focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring);
+}
+
+/* Text inputs never draw this ring themselves: a single field gets its ring
+   from FieldStyles (focus:!shadow), and an input inside a field group (+91
+   mobile, search box, react-select) from the wrapper (focus-within).
+   Otherwise the inner input shows a second box inside the field. */
+.ds input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+.ds textarea:focus-visible {
+  box-shadow: none;
+}

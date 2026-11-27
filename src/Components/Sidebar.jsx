@@ -120,6 +120,9 @@ import AddTemplate from "../Pages/Settings/Agreement/AddTemplate";
 import NewInvoice from "../Pages/Bills/NewInvoice";
 import BillTemplates from "../Pages/Settings/BillTemplates/BillTemplates";
 import CustomTooltip from "../Utils/CustomTooltip";
+import { SETTINGS_V2 } from "../DesignSystem/flags";
+import SettingsShellV2 from "../Pages/Settings/V2/SettingsShellV2";
+import MyProfileV2 from "../Pages/Settings/V2/MyProfileV2";
 
 function Sidebar() {
   // Laptop density (index.css): only the logged-in product, not login/landing.
@@ -764,6 +767,9 @@ function Sidebar() {
               path="/settings/:hostelId?/*"
               element={
                 <div>
+                  {SETTINGS_V2 ? (
+                    <SettingsShellV2 />
+                  ) : (
                   <SettingAllPages
                     allPageHostel_Id={allPageHostel_Id}
                     setAllPageHostel_Id={setAllPageHostel_Id}
@@ -772,13 +778,14 @@ function Sidebar() {
                     onhandleShowsettingsPG={handleShowsettingsPG}
                     isVisibleSidebar={isVisibleSidebar}
                   />
+                  )}
                 </div>
               }
             >
 
 
               <Route index element={<Navigate to="general" replace />} />
-              <Route path="general" element={<SettingGeneral />} />
+              <Route path="general" element={SETTINGS_V2 ? <MyProfileV2 /> : <SettingGeneral />} />
               <Route path="manage-pg" element={<SettingManage />} />
               <Route path="manage-pg-new" element={<ManagePg />} />
               <Route path="security" element={<SettingSecurity />} />
