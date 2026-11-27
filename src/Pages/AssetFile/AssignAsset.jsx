@@ -278,7 +278,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
   return (
     <div className="modal show block static font-gilroy">
-      <Modal show={show} onHide={handleClose} backdrop="static" centered>
+      <Modal data-testid="assign-asset-modal" show={show} onHide={handleClose} backdrop="static" centered>
         <Modal.Dialog className="w-full max-w-full m-0 p-0">
           <Modal.Header>
             <Modal.Title className="!text-lg text-neutral-800 !font-gilroy !font-semibold">
@@ -287,7 +287,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 : "Assign asset"}
             </Modal.Title>
 
-            <CloseCircle
+            <CloseCircle data-testid="assign-asset-close-icon"
               size="24"
               color="#000"
               onClick={handleClose}
@@ -309,7 +309,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                   Floor <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="assign-asset-floor-select" className="contents"><Select
                   options={
                     state.UsersList.floorList?.map((u) => ({
                       value: u.id,
@@ -335,7 +335,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     ...fieldSelectStyles(!!floorError),
                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
-                />
+                /></div>
 
                 {floorError && (
                   <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
@@ -347,7 +347,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                   Select a Room <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="assign-asset-room-select" className="contents"><Select
                   options={roomOptions}
                   onChange={(selectedOption) =>
                     handleRooms(selectedOption?.value)
@@ -370,7 +370,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     ...fieldSelectStyles(!!roomError),
                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "130px" }),
                   }}
-                />
+                /></div>
 
                 {roomError && <ErrorMessage className="mt-[6px]" message={roomError} type="error" />}
               </div>
@@ -381,7 +381,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Label>
 
                 <div className="relative w-full cursor-pointer">
-                  <DatePicker className={datePickerClass(!!dateError)}
+                  <DatePicker data-testid="assign-asset-date" className={datePickerClass(!!dateError)}
                    
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -438,7 +438,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             </div>
           )}
           <Modal.Footer className="mt-1 pt-1 border-0">
-            <Button
+            <Button data-testid="assign-asset-add-assign-asset-btn"
               onClick={handleAddAssignAsset}
               className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy p-3"
             >

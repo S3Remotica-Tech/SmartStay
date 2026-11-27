@@ -200,7 +200,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
                       );
                     })()}
 
-                  <img
+                  <img data-testid={`bed-view-handleclick-bed-for-change-bed-img-${`${bed.roomId}-${bed.id}`}`}
                     className={`mt-1 h-10 w-9  cursor-pointer`}
                     src={bed.isOccupied ? Green : White}
                     alt="bedd"
@@ -242,7 +242,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
             </div>
 
             <div className="ml-[200px]">
-              <button
+              <button data-testid="bed-view-continue-btn"
                 className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
                 onClick={handleShowConfirmChangeBed}
               >
@@ -264,7 +264,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
               </div>
             </div>
             <div>
-              <button
+              <button data-testid="bed-view-notify-btn"
                 className="rounded-xl flex items-center gap-2 bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
                 onClick={handleDeny}
               >

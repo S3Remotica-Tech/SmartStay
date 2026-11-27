@@ -129,6 +129,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
             <div className=" z-10">
               <Add
+                data-testid="pg-empty-bed-close"
                 size="24"
                 color="#99A1AF"
                 onClick={handleClose}
@@ -154,11 +155,12 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
                   </div>
                 </div>
-                <button className='px-2 py-1 bg-[#038C3D] text-white font-gilroy rounded text-xs '>Available </button>
+                <button data-testid="empty-bed-available-btn" className='px-2 py-1 bg-[#038C3D] text-white font-gilroy rounded text-xs '>Available </button>
               </div>
               <div className='flex items-center gap-2 my-2'>
 
                 <button
+                  data-testid="pg-assign-tenant-btn"
                   onClick={handleShowAssignTenant}
                   disabled={!canWriteCustomers}
                   className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-xs font-medium whitespace-nowrap
@@ -173,6 +175,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
 
                 <button
+                  data-testid="pg-add-tenant-btn"
                   onClick={handleShowAddCustomer}
                   disabled={!canWriteWalkin}
                   className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border-1 text-xs font-medium whitespace-nowrap
@@ -188,6 +191,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
                 <div className="relative shrink-0" >
                   <button
+                    data-testid="pg-empty-bed-more"
                     type="button"
                     onClick={() => setShowMore((prev) => !prev)}
                     className="w-10 h-10 flex items-center justify-center border-1 border-[#EFEFEF] rounded "
@@ -200,6 +204,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
 
                       <button
+                        data-testid="pg-empty-bed-edit"
                         type="button"
                         disabled={!canUpdatePayingGuests}
                         onClick={() => {
@@ -217,6 +222,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
 
                       <button
+                        data-testid="pg-empty-bed-delete"
                         type="button"
                         disabled={!canDeletePayingGuests}
                         onClick={() => {
@@ -251,6 +257,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
               {["overview", "activity"].map((tab) => (
                 <button
                   key={tab}
+                  data-testid={`pg-empty-bed-tab-${tab}`}
                   type="button"
                   onClick={() => setActiveTab(tab)}
                   className={`flex-1 pb-3 text-sm font-medium capitalize transition-all duration-200 border-b-2

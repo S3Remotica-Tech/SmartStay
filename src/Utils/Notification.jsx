@@ -155,7 +155,7 @@ function Notification({ show, handleClose, handleShowChangeBed, handleMoveToNoti
   }
   return (
     <>
-      <Offcanvas
+      <Offcanvas data-testid="notification-v-drawer"
         show={show}
         onHide={handleClose}
         placement="end"
@@ -183,7 +183,7 @@ function Notification({ show, handleClose, handleShowChangeBed, handleMoveToNoti
               </div>
             </div>
 
-            <CloseCircle
+            <CloseCircle data-testid="notification-close-icon"
               size={24}
               color="#FF0000"
               onClick={handleClose}
@@ -235,7 +235,7 @@ function Notification({ show, handleClose, handleShowChangeBed, handleMoveToNoti
                           )}
 
                           {item.typeCode === 4 ? (
-                            <button
+                            <button data-testid={`notification-review-btn-${item.notificationId}`}
                               onClick={() =>
                                 handleNavigateComplaintsView(item.requestId)
                               }
@@ -244,18 +244,18 @@ function Notification({ show, handleClose, handleShowChangeBed, handleMoveToNoti
                               Review
                             </button>
                           ) : item.typeCode === 1 ? (
-                            <button
+                            <button data-testid={`notification-amenities-btn-${item.notificationId}`}
                               onClick={() => handleNavigateAmenitiesView(item)}
                               className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white"
                             >
                               Amenities
                             </button>
                           ) : item.typeCode === 2 ? (
-                            <button onClick={() => handleNavigateChangeBedView(item?.userId)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
+                            <button data-testid={`notification-change-bed-btn-${item.notificationId}`} onClick={() => handleNavigateChangeBedView(item?.userId)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
                               Change Bed
                             </button>
                           ) : item.typeCode === 8 ? (
-                            <button onClick={() => handleNavigateNoticeView(item)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
+                            <button data-testid={`notification-move-to-notice-btn-${item.notificationId}`} onClick={() => handleNavigateNoticeView(item)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
                               Move to Notice
                             </button>
                           ) : (

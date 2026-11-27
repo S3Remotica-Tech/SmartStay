@@ -70,7 +70,7 @@ function MobileApp() {
                 </div>
               ))}
             </div>
-            <button className="w-full mt-4 font-dmsans flex items-center justify-center  gap-2 px-6 py-2 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
+            <button data-testid="mobile-app-download-app-btn" className="w-full mt-4 font-dmsans flex items-center justify-center  gap-2 px-6 py-2 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
               Download App
             </button>
           </div>
@@ -120,7 +120,7 @@ function MobileApp() {
               ))}
             </div>
 
-            <button className="w-full mt-4 font-dmsans flex items-center justify-center  gap-2 px-6 py-2 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
+            <button data-testid="mobile-app-download-app-btn-2" className="w-full mt-4 font-dmsans flex items-center justify-center  gap-2 px-6 py-2 bg-[#1E45E1] text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-md">
               Download App
             </button>
           </div>

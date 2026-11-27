@@ -29,7 +29,7 @@ function ResetNotify({ show, handleClose }) {
         </div>
 
         <div className="mt-2 flex justify-center gap-3">
-          <button
+          <button data-testid="reset-notify-cancel-btn"
             type="button"
             onClick={handleClose}
             className="rounded-md border-1 border-[#D9D9D9] px-4 py-2.5 text-sm font-semibold font-gilroy text-[#4B4B4B]"

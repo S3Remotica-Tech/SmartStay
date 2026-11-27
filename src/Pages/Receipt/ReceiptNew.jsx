@@ -726,7 +726,7 @@ function ReceiptNew() {
                     : "border-gray-200 opacity-60 cursor-not-allowed"
                   }`}
               >
-                <input
+                <input data-testid="receipt-new-input-change-input"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -799,7 +799,7 @@ function ReceiptNew() {
                       : "bg-white"
                       }`}
                   >
-                    <Select
+                    <div data-testid="receipt-new-type-select" className="contents"><Select
                       styles={CustomStyles}
                       isDisabled={!canReadReceipt}
                       menuPlacement="auto"
@@ -813,13 +813,13 @@ function ReceiptNew() {
                       }
                       placeholder="Select  Type"
                       onChange={(option) => setReceiptType(option || "")}
-                    />
+                    /></div>
                   </div>
                   <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
                     <div
                       className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                     >
-                      <Filter
+                      <Filter data-testid="receipt-new-icon"
                         size={16}
                         onClick={(e) => {
                           if (canReadReceipt) {
@@ -875,7 +875,7 @@ function ReceiptNew() {
                       </span>
                     ))}
                   </div>
-                  <span
+                  <span data-testid="receipt-new-reset-action"
                     className="text-blue-600 text-sm font-medium cursor-pointer"
                     onClick={handleReset}
                   >
@@ -922,7 +922,7 @@ function ReceiptNew() {
                           formattedData?.length > 0 &&
                           formattedData?.map((user, index) => {
                             return (
-                              <tr
+                              <tr data-testid={`receipt-new-action-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
@@ -946,7 +946,7 @@ function ReceiptNew() {
                                   switch (col.key) {
                                     case "receiptNo":
                                       value = (
-                                        <span
+                                        <span data-testid={`receipt-new-action-2-${index}`}
                                           className="text-[#1E45E1] cursor-pointer font-semibold hover:underline"
                                           onClick={(e) => {
                                             e.stopPropagation();
@@ -960,7 +960,7 @@ function ReceiptNew() {
 
                                     case "name":
                                       value = (
-                                        <div
+                                        <div data-testid={`receipt-new-action-3-${index}`}
                                           className="flex items-center gap-2 cursor-pointer py-1"
                                           onClick={(e) => {
                                             e.stopPropagation();
@@ -1028,7 +1028,7 @@ function ReceiptNew() {
                                     } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   {" "}
-                                  <div
+                                  <div data-testid={`receipt-new-action-4-${index}`}
                                     className="relative flex cursor-pointer items-center justify-center"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1058,7 +1058,7 @@ function ReceiptNew() {
                                         }}
                                       >
                                         <div className="flex flex-col gap-1">
-                                          <button
+                                          <button data-testid={`receipt-new-delete-btn-${index}`}
                                             type="button"
                                             disabled={!canDeleteReceipt}
                                             onClick={() =>
@@ -1079,7 +1079,7 @@ function ReceiptNew() {
                                             </span>
                                           </button>
 
-                                          <button
+                                          <button data-testid={`receipt-new-download-btn-${index}`}
                                             type="button"
                                             disabled={!isExportAllow}
                                             onClick={() =>
@@ -1278,7 +1278,7 @@ function ReceiptNew() {
             </div>
 
             <div className="flex justify-center gap-4 px-6 pb-6">
-              <button
+              <button data-testid="receipt-new-cancel-btn"
                 type="button"
                 onClick={handleCloseDelete}
                 className="w-full max-w-[160px] h-[52px] rounded-lg border border-[#1E45E1] bg-white text-[#1E45E1] font-semibold font-gilroy text-[14px] transition hover:bg-[#F5F8FF]"
@@ -1286,7 +1286,7 @@ function ReceiptNew() {
                 Cancel
               </button>
 
-              <button
+              <button data-testid="receipt-new-delete-btn-2"
                 type="button"
                 onClick={handleDelete}
                 disabled={deleteLoading}

@@ -76,7 +76,7 @@ function HowItsWorking() {
       <div className="flex justify-center">
         <div className="bg-[#333333] rounded-full w-fit p-1">
           {howItWorksData.map((tab, index) => (
-            <button
+            <button data-testid={`how-its-working-tab-click-btn-${tab.id}`}
               key={tab.id}
               onClick={() => handleTabClick(tab.id, index)}
               className={`px-12 py-1.5 rounded-full capitalize transition text-base font-semibold font-tasa

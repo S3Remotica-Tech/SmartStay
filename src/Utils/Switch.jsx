@@ -19,6 +19,7 @@ function Switch({
   description,
   id,
   className = "",
+  "data-testid": testId,
 }) {
   const s = SIZES[size] || SIZES.md;
   return (
@@ -28,6 +29,7 @@ function Switch({
     >
       <span className="relative flex shrink-0">
         <input
+          data-testid={testId}
           id={id}
           type="checkbox"
           role="switch"
@@ -64,6 +66,7 @@ function Switch({
 }
 
 Switch.propTypes = {
+  "data-testid": PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,

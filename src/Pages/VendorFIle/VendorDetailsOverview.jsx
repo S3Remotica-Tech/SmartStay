@@ -151,7 +151,7 @@ function VendorDetailsOverview({ handleSelected }) {
     <div className="bg-white rounded-xl px-4 h-full my-3">
       <div className="grid grid-cols-[300px_1fr] gap-4 h-full">
         <div className="pr-1 overflow-y-auto show-scrolls h-[500px] mb-[50px] ">
-          <div
+          <div data-testid="vendor-details-overview-vendor-information-action"
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setShowVendorInfo(!showVendorInfo)}
           >
@@ -160,7 +160,7 @@ function VendorDetailsOverview({ handleSelected }) {
               Vendor Information
             </h5>
 
-            <button>
+            <button data-testid="vendor-details-overview-btn">
               <ArrowUp2
                 className={`cursor-pointer transition-transform duration-200 ${
                   !showVendorInfo ? "rotate-180" : ""
@@ -196,7 +196,7 @@ function VendorDetailsOverview({ handleSelected }) {
             </div>
           )}
 
-          <div
+          <div data-testid="vendor-details-overview-address-details-action"
             className="flex items-center justify-between  my-4 cursor-pointer "
             onClick={() => setShowAddressInfo(!showAddressInfo)}
           >
@@ -205,7 +205,7 @@ function VendorDetailsOverview({ handleSelected }) {
               Address Details
             </h5>
 
-            <button>
+            <button data-testid="vendor-details-overview-btn-2">
               <ArrowUp2
                 className={`cursor-pointer transition-transform duration-200 ${
                   !showAddressInfo ? "rotate-180" : ""
@@ -226,7 +226,7 @@ function VendorDetailsOverview({ handleSelected }) {
               ))}
             </div>
           )}
-          <div
+          <div data-testid="vendor-details-overview-business-details-action"
             className="flex items-center justify-between my-4 cursor-pointer"
             onClick={() => setShowBusinessInfo(!showBusinessInfo)}
           >
@@ -235,7 +235,7 @@ function VendorDetailsOverview({ handleSelected }) {
               Business Details
             </h5>
 
-            <button>
+            <button data-testid="vendor-details-overview-btn-3">
               <ArrowUp2
                 className={`cursor-pointer transition-transform duration-200 ${
                   !showBusinessInfo ? "rotate-180" : ""
@@ -274,7 +274,7 @@ function VendorDetailsOverview({ handleSelected }) {
             </div>
 
             <div className="relative">
-              <button
+              <button data-testid="vendor-details-overview-show-period-dropdown-btn"
                 onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
                 className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]"
               >
@@ -289,7 +289,7 @@ function VendorDetailsOverview({ handleSelected }) {
                     { type: "", name: "All" },
                     ...(VendorOverView?.filterOptions?.periods || []),
                   ].map((period) => (
-                    <button
+                    <button data-testid={`vendor-details-overview-selected-period-btn-${period.type}`}
                       key={period.type}
                       onClick={() => {
                         setSelectedPeriod(period);

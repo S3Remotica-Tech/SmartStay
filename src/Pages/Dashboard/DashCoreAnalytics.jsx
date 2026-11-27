@@ -140,7 +140,7 @@ function DashCoreAnalytics() {
 
             <div className="relative inline-block">
               {/* Button */}
-              <button
+              <button data-testid="dash-core-analytics-open-btn"
                 disabled
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
@@ -157,7 +157,7 @@ function DashCoreAnalytics() {
                   className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50"
                 >
                   {dateOptions.map((option) => (
-                    <button
+                    <button data-testid={`dash-core-analytics-selected-btn-${option.value}`}
                       key={option.value}
                       onClick={() => {
                         setSelected(option.value);

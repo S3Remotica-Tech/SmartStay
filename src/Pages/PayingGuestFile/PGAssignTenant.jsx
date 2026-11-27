@@ -996,6 +996,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
               </div>
 
               <CloseCircle
+                data-testid="pg-assign-close"
                 size={24}
                 color="#000"
                 onClick={handleClose}
@@ -1006,6 +1007,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
             <div className="bg-blue-50 rounded-md w-full p-1 mt-2">
               <div className="flex justify-between gap-2 w-full">
                 <button
+                  data-testid="pg-assign-tab-checkin"
                   onClick={() => setActiveTab("CHECKIN")}
                   className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${activeTab === "CHECKIN"
                     ? "bg-blue-700 text-white"
@@ -1016,6 +1018,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 </button>
 
                 <button
+                  data-testid="pg-assign-tab-booking"
                   onClick={() => setActiveTab("BOOKING")}
                   className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${activeTab === "BOOKING"
                     ? "bg-blue-700 text-white"
@@ -1041,7 +1044,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         <Form.Label className={fieldLabelClass}>
                           Tenant <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
-                        <Select
+                        <div data-testid="pg-booking-tenant-select">
+                        <div data-testid="pgassign-tenant-tenant-select" className="contents"><Select
                           options={tenantOptions}
                           onChange={(selected) =>
                             handleBookingCustomerName(selected?.value)
@@ -1055,7 +1059,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           menuPlacement="auto"
                           noOptionsMessage={() => "No Tenants available"}
                           styles={fieldSelectStyles(!!booking_customererrmsg)}
-                        />
+                        /></div>
+                        </div>
                         {booking_customererrmsg.trim() !== "" && (
                           <ErrorMessage className="mt-[6px]"
                             message={booking_customererrmsg}
@@ -1071,8 +1076,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           Booking Date{" "}
                           <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
-                        <div className="datepicker-wrapper relative w-full">
-                          <DatePicker
+                        <div className="datepicker-wrapper relative w-full" data-testid="pg-booking-date">
+                          <DatePicker data-testid="pgassign-tenant-booking-date"
                             ref={bookingDateRef}
                             className={datePickerClass(!!dateError)}
                             format="DD/MM/YYYY"
@@ -1113,6 +1118,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           type="text"
                           ref={amountRef}
                           id="form-controls"
+                          data-testid="pg-booking-amount-input"
                           placeholder="Enter Booking Amount"
                           value={amount}
                           onChange={(e) => handleAmount(e)}
@@ -1130,8 +1136,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
 
-                        <div className="datepicker-wrapper relative w-full mt-0">
-                          <DatePicker
+                        <div className="datepicker-wrapper relative w-full mt-0" data-testid="pg-booking-joining-date">
+                          <DatePicker data-testid="pgassign-tenant-joining-date-tentative-date"
                             className={datePickerClass(!!dateError)}
                             format="DD/MM/YYYY"
                             placeholder="DD/MM/YYYY"
@@ -1175,7 +1181,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           Mode Of Transaction{" "}
                           <span className={fieldRequiredClass}>*</span>
                         </Form.Label>
-                        <Select
+                        <div data-testid="pg-booking-payment-select">
+                        <div data-testid="pgassign-tenant-mode-of-transaction-select" className="contents"><Select
                           options={paymentOptionsV1}
                           onChange={(selectedOption) =>
                             handleModeOfPaymentChange(selectedOption?.value)
@@ -1200,7 +1207,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                             GroupHeading,
                             IndicatorSeparator: () => null,
                           }}
-                        />
+                        /></div>
+                        </div>
                       </Form.Group>
                       {paymentError && (
                         <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
@@ -1216,6 +1224,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         <FormControl
                           type="text"
                           id="form-controls"
+                          data-testid="pg-booking-transaction-id"
                           placeholder="Enter Transaction ID"
                           value={transactionId}
                           onChange={(e) => handleTransactionId(e)}
@@ -1237,6 +1246,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                 <div className="flex justify-end p-4 ">
                   <Button
+                    data-testid="pg-booking-cancel"
                     className="bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-700 border border-white"
                     onClick={handleClose}
                   >
@@ -1244,6 +1254,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   </Button>
 
                   <Button
+                    data-testid="pg-booking-submit"
                     disabled={formLoading || !canWriteBooking}
                     className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
                     onClick={handleSubmitBooking}
@@ -1273,7 +1284,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       <Form.Label className={fieldLabelClass}>
                         Tenant <span className={fieldRequiredClass}>*</span>
                       </Form.Label>
-                      <Select
+                      <div data-testid="pg-checkin-tenant-select">
+                      <div data-testid="pgassign-tenant-tenant-select-2" className="contents"><Select
                         options={tenantOptions}
                         onChange={handleCheckinCustomerName}
                         value={
@@ -1301,7 +1313,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         menuPlacement="auto"
                         noOptionsMessage={() => "No Tenants available"}
                         styles={fieldSelectStyles(!!checkin_customererrmsg)}
-                      />
+                      /></div>
+                      </div>
                       {checkin_customererrmsg.trim() !== "" && (
                         <ErrorMessage className="mt-[6px]"
                           message={checkin_customererrmsg}
@@ -1316,14 +1329,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       Stay Type <span className={fieldRequiredClass}>*</span>
                     </label>
 
-                    <Select
+                    <div data-testid="pg-checkin-stay-type-select">
+                    <div data-testid="pgassign-tenant-stay-type-select" className="contents"><Select
                       options={longStayOnly}
                       onChange={handleStayTypeChange}
                       placeholder="Select a type"
                       menuPlacement="auto"
                       noOptionsMessage={() => "No stay types available"}
                       styles={fieldSelectStyles(!!stay_typenameErrmsg)}
-                    />
+                    /></div>
+                    </div>
 
                     {stay_typenameErrmsg.trim() !== "" && (
                       <ErrorMessage className="mt-[6px]"
@@ -1339,8 +1354,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         <span className={fieldRequiredClass}>*</span>
                       </Form.Label>
 
-                      <div className="datepicker-wrapper relative w-full mt-2">
-                        <DatePicker
+                      <div className="datepicker-wrapper relative w-full mt-2" data-testid="pg-checkin-joining-date">
+                        <DatePicker data-testid="pgassign-tenant-joining-date"
                           className={datePickerClass(!!Checkin_joiningDateErrmsg)}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -1385,6 +1400,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                     </span>
 
                     <button
+                      data-testid="pg-checkin-refuse-advance-toggle"
                       type="button"
                       onClick={() => {
                         setIsAdvanceRefused(!isAdvanceRefused);
@@ -1418,6 +1434,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         </div>
                         <FormControl
                           type="text"
+                          data-testid="pg-checkin-advance-amount"
                           placeholder="Enter Amount"
                           value={AdvanceAmount}
                           disabled={isAdvanceRefused}
@@ -1441,6 +1458,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           </div>
                           <div className="flex w-full ">
                             <button
+                              data-testid="pg-checkin-add-deduction"
                               disabled={isAdvanceRefused}
                               onClick={handleAddField}
                               className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF]
@@ -1474,7 +1492,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                               <div className="row px-2 mb-3" key={index}>
                                 <div className="col-md-6">
                                   {!item.showInput ? (
-                                    <Select
+                                    <div data-testid={`pgassign-tenant-select-${index}`} className="contents"><Select
                                       menuPlacement="top"
                                       // menuPosition="fixed"
                                       options={filteredOptions}
@@ -1507,10 +1525,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                         ...fieldSelectStyles(),
                                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                                       }}
-                                    />
+                                    /></div>
                                   ) : (
                                     <>
-                                      <input
+                                      <input data-testid={`pgassign-tenant-custom-reason-input-${index}`}
                                         type="text"
                                         className={fieldClass(!!errors[index]?.reason)}
                                         placeholder="Enter custom reason"
@@ -1535,7 +1553,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                 </div>
 
                                 <div className="col-md-5">
-                                  <input
+                                  <input data-testid={`pgassign-tenant-input-change-amount-input-${index}`}
                                     type="text"
                                     placeholder="Enter amount"
                                     value={item.amount}
@@ -1558,7 +1576,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                 </div>
 
                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-                                  <Trash
+                                  <Trash data-testid={`pgassign-tenant-remove-field-icon-${index}`}
                                     size="20"
                                     color="red"
                                     variant="Bold"
@@ -1585,6 +1603,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
                     <FormControl
+                      data-testid="pg-checkin-rent-amount"
                       type="text"
                       placeholder={
                         placeHolderRoomRent
@@ -1606,7 +1625,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       <div>
                         <div className="flex items-center gap-2 px-1 py-3">
                           <div className="flex items-center gap-2 ">
-                            <input
+                            <input data-testid="pgassign-tenant-checkbox-change-checkbox"
                               type="checkbox"
                               checked={collectFullRent}
                               onChange={handleCheckboxChange}
@@ -1626,7 +1645,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           </div>
                           {collectFullRent && (
                             <div>
-                              <button
+                              <button data-testid="pgassign-tenant-custom-rent-enable-btn"
                                 onClick={() => {
                                   setCustomRentEnable(!customRentEnable);
                                   setCustomRent("");
@@ -1666,7 +1685,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                             <div className="relative min-w-[220px]">
                               {customRentEditMode ? (
                                 <>
-                                  <input
+                                  <input data-testid="pgassign-tenant-custom-rent-change-input"
                                     type="number"
                                     value={customRent}
                                     onChange={handleCustomRentChange}
@@ -1674,7 +1693,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                     className={fieldClass()}
                                   />
 
-                                  <button
+                                  <button data-testid="pgassign-tenant-set-btn"
                                     onClick={() => setCustomRentEditMode(false)}
                                     className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                                   >
@@ -1687,7 +1706,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                     ₹ {customRent || 0}
                                   </span>
 
-                                  <button
+                                  <button data-testid="pgassign-tenant-custom-rent-edit-mode-btn"
                                     onClick={() => setCustomRentEditMode(true)}
                                     className="text-[#1E45E1]"
                                   >
@@ -1955,7 +1974,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                     </div> */}
 
                 {isDev && (
-                  <TenantAmenitiesSection
+                  <TenantAmenitiesSection data-testid="pgassign-tenant-selected-amenities-input"
                     selected={selectedAmenities}
                     onChange={setSelectedAmenities}
                     proRate={amenityProRate}
@@ -1975,6 +1994,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
               <div className="flex justify-end p-4">
                 <Button
+                  data-testid="pg-checkin-cancel"
                   className="!bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-600 !border !border-white"
                   onClick={handleClose}
                 >
@@ -1982,6 +2002,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 </Button>
 
                 <Button
+                  data-testid="pg-checkin-submit"
                   disabled={formLoading}
                   className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
                   onClick={handleSaveCheckin}

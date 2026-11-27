@@ -312,7 +312,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
       <div className="flex flex-wrap items-center justify-between  bg-white min-h-[60px] sticky top-0 z-[50]">
         <div className="flex flex-wrap items-center gap-3">
           <div className="border border-gray-300 rounded-lg w-36">
-            <Select
+            <div data-testid="vendor-expense-history-statusselect-select" className="contents"><Select
               options={selectOptions}
               styles={CustomStyles}
               isDisabled={!canReadExpense}
@@ -323,11 +323,11 @@ function VendorExpenseHistory({ selectedVendorId }) {
                 selectOptions.find((opt) => opt.value === statusfilter) || selectOptions[0]
               }
               id="statusselect"
-            />
+            /></div>
           </div>
 
           <div className="border border-gray-300 rounded-lg w-36">
-            <Select
+            <div data-testid="vendor-expense-history-categoryselect-select" className="contents"><Select
               options={categoryOptions}
               styles={CustomStyles}
               isDisabled={!canReadExpense}
@@ -339,10 +339,10 @@ function VendorExpenseHistory({ selectedVendorId }) {
                 categoryOptions[0]
               }
               id="categoryselect"
-            />
+            /></div>
           </div>
 
-          <div onClick={() => {
+          <div data-testid="vendor-expense-history-action" onClick={() => {
             if (canReadExpense) {
               setIsFilterOpen(true);
             }
@@ -376,7 +376,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                   : "border-gray-200 opacity-60 cursor-not-allowed"
                 }`}
             >
-              <input
+              <input data-testid="vendor-expense-history-search-by-title-input"
                 type="text"
                 placeholder="Search by title..."
                 value={searchQuery}
@@ -418,7 +418,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
               </span>
             ))}
           </div>
-          <span
+          <span data-testid="vendor-expense-history-reset-action"
             className="text-blue-600 text-sm font-medium cursor-pointer"
             onClick={handleReset}
           >
@@ -510,7 +510,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                       </td>
 
                       <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
-                        <button
+                        <button data-testid={`vendor-expense-history-toggle-expense-btn-${expense.expenseId}`}
                           onClick={() => handleToggleExpense(expense?.expenseId)}
                           className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"
                         >

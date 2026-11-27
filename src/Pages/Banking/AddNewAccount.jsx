@@ -552,7 +552,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
     <>
       {" "}
       <div className="fixed inset-0 bg-black/40 z-[40]" />
-      <div
+      <div data-testid="add-new-account-type-bank-account-cash-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[620px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy
          border border-gray-50"
@@ -565,7 +565,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             {editBankDetails ? "Edit Account" : "Add New Account"}
           </h1>
-          <Add
+          <Add data-testid="add-new-account-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -580,7 +580,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
 
           <div className="flex gap-14 mt-2">
             <label className="flex items-center gap-3 cursor-pointer">
-              <input disabled={editBankDetails}
+              <input data-testid="add-new-account-type-radio" disabled={editBankDetails}
                 type="radio"
                 checked={accountMode === "BANK"}
                 onChange={() => setAccountMode("BANK")}
@@ -591,7 +591,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
             </label>
 
             <label className="flex items-center gap-3 cursor-pointer">
-              <input disabled={editBankDetails}
+              <input data-testid="add-new-account-bank-account-radio" disabled={editBankDetails}
                 type="radio"
                 checked={accountMode === "CASH"}
                 onChange={() => setAccountMode("CASH")}
@@ -601,7 +601,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
               <span className="text-[15px]">Cash Account</span>
             </label>
             <label className="flex items-center gap-3 cursor-pointer">
-              <input disabled={editBankDetails}
+              <input data-testid="add-new-account-cash-account-radio" disabled={editBankDetails}
                 type="radio"
                 checked={accountMode === "CARD"}
                 onChange={() => setAccountMode("CARD")}
@@ -623,7 +623,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                     </label>
 
                     <div className="relative">
-                      <input
+                      <input data-testid="add-new-account-account-name-display-name-input"
                         type="text"
                         ref={bankDisplayNameRef}
                         value={bankDisplayName}
@@ -655,7 +655,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Bank Name <span className={fieldRequiredClass}>*</span>
                     </label>
 
-                    <input
+                    <input data-testid="add-new-account-bank-name-input"
                       type="text"
                       ref={bankNameRef}
                       value={bankName}
@@ -673,7 +673,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Acc Holder Name <span className={fieldRequiredClass}>*</span>
                     </label>
 
-                    <input
+                    <input data-testid="add-new-account-acc-holder-name-input"
                       type="text"
                       ref={holderNameRef}
                       value={holderName}
@@ -695,7 +695,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Account Number
                     </label>
 
-                    <input
+                    <input data-testid="add-new-account-account-number-input"
                       type="number"
                       ref={accountNumberRef}
                       value={accountNumber}
@@ -713,7 +713,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Bank Branch Name
                     </label>
 
-                    <input
+                    <input data-testid="add-new-account-bank-branch-name-input"
                       type="text"
                       ref={branchNameRef}
                       value={branchName}
@@ -734,7 +734,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       IFSC Code
                     </label>
 
-                    <input disabled={editBankDetails}
+                    <input data-testid="add-new-account-ifsc-code-input" disabled={editBankDetails}
                       type="text"
                       ref={ifscCodeRef}
                       value={ifscCode}
@@ -753,14 +753,14 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Account Type
                     </label>
 
-                    <Select
+                    <div data-testid="add-new-account-account-type-select" className="contents"><Select
                       value={accountType}
                       ref={accountTypeRef}
                       onChange={handleAccountType}
                       options={accountTypeOptions}
                       placeholder="Select Account Type"
                       styles={fieldSelectStyles(!!accountTypeError)}
-                    />
+                    /></div>
                     {accountTypeError && (
                       <ErrorMessage className="mt-[6px]" message={accountTypeError} type="error" />
                     )}
@@ -796,7 +796,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       ₹
                     </span>
 
-                    <input disabled={editBankDetails}
+                    <input data-testid="add-new-account-current-opening-balance-input" disabled={editBankDetails}
                       type="number"
                       ref={bankOpeningBalanceRef}
                       value={bankOpeningBalance}
@@ -824,7 +824,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                     Description / Remarks
                   </label>
 
-                  <textarea
+                  <textarea data-testid="add-new-account-description-remarks-textarea"
                     rows={5}
                     value={bankDescription}
                     onChange={handleBankDescription}
@@ -904,7 +904,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                 </div>
               )}
               <div className="flex justify-end gap-4 my-2 mr-4">
-                <button
+                <button data-testid="add-new-account-cancel-btn"
                   onClick={handleClose}
                   type="button"
                   className="text-[#4B4B4B] text-sm font-medium"
@@ -912,7 +912,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                   Cancel
                 </button>
 
-                <button
+                <button data-testid="add-new-account-submit-bank-btn"
                   type="submit"
                   disabled={formLoading}
                   onClick={handleSubmitBank}
@@ -944,7 +944,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       <span className={fieldRequiredClass}>*</span>
                     </label>
                     <div className="relative">
-                      <input
+                      <input data-testid="add-new-account-account-name-display-name-input-2"
                         type="text"
                         value={cashDisplayName}
                         onChange={handleCashDisplayName}
@@ -975,14 +975,14 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Cash Account Type <span className={fieldRequiredClass}>*</span>
                     </label>
 
-                    <Select
+                    <div data-testid="add-new-account-cash-account-type-select" className="contents"><Select
                       value={cashType}
                       onChange={handleCashType}
                       options={cashOptions}
                       placeholder="Select Cash Type"
                       styles={fieldSelectStyles(!!cashTypeError)}
                       ref={cashTypeRef}
-                    />
+                    /></div>
                     {cashTypeError && (
                       <ErrorMessage className="mt-[6px]" message={cashTypeError} type="error" />
                     )}
@@ -995,14 +995,14 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       Responsible Person
                     </label>
 
-                    <Select
+                    <div data-testid="add-new-account-responsible-person-select" className="contents"><Select
                       value={responsiblePerson}
                       onChange={handleResponsiblePerson}
                       options={userOptions}
                       placeholder="Select Responsible Person"
                       styles={fieldSelectStyles(!!responsiblePersonError)}
                       ref={responsiblePersonRef}
-                    />
+                    /></div>
                     {responsiblePersonError && (
                       <ErrorMessage className="mt-[6px]"
                         message={responsiblePersonError}
@@ -1021,7 +1021,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                         ₹
                       </span>
 
-                      <input disabled={editBankDetails}
+                      <input data-testid="add-new-account-current-opening-balance-cash-input" disabled={editBankDetails}
                         type="number"
                         value={cashOpeningBalance}
                         ref={cashOpeningBalanceRef}
@@ -1050,7 +1050,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                     Description
                   </label>
 
-                  <textarea
+                  <textarea data-testid="add-new-account-description-textarea"
                     rows={5}
                     value={cashDescription}
                     onChange={handleCashDescription}
@@ -1127,7 +1127,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                 </div>
               )}
               <div className="flex justify-end gap-4 my-2 mr-4">
-                <button
+                <button data-testid="add-new-account-cancel-btn-2"
                   onClick={handleClose}
                   type="button"
                   className="text-[#4B4B4B] text-sm font-medium"
@@ -1135,7 +1135,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                   Cancel
                 </button>
 
-                <button
+                <button data-testid="add-new-account-submit-cash-btn"
                   type="submit"
                   disabled={formLoading}
                   onClick={handleSubmitCash}

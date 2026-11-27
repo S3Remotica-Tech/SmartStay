@@ -1118,7 +1118,7 @@ function SettingGeneral() {
           </div>
 
           <div className="w-full flex justify-center md:justify-end mt-0">
-            <button
+            <button data-testid="setting-general-create-master-btn"
               disabled={!canWriteProfile}
               onClick={handleShowFormGreneral}
               className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${canWriteProfile
@@ -1174,7 +1174,7 @@ function SettingGeneral() {
                         </div>
 
                         <div className="relative -mt-4">
-                          <div
+                          <div data-testid="setting-general-open-menu-action"
                             onClick={() => setOpenMenu(!openMenu)}
                             className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
                               }`}
@@ -1185,7 +1185,7 @@ function SettingGeneral() {
                                 ref={menuRef}
                                 className="absolute top-11 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-sm z-50 px-2 py-2"
                               >
-                                <div
+                                <div data-testid="setting-general-edit-action"
                                   onClick={() => {
                                     if (canUpdateProfile) {
                                       handleAdminEdit();
@@ -1213,7 +1213,7 @@ function SettingGeneral() {
                                   </label>
                                 </div>
 
-                                <div
+                                <div data-testid="setting-general-change-password-action"
                                   onClick={() => {
                                     if (canUpdateProfile) {
                                       handleOpenAdminProfile(account);
@@ -1241,7 +1241,7 @@ function SettingGeneral() {
                                   </label>
                                 </div>
                                 {isDev && (
-                                  <div
+                                  <div data-testid="setting-general-reset-m-pin-action"
                                     onClick={() => {
                                       if (canUpdateProfile) {
                                         handleResetPin(account);
@@ -1314,7 +1314,7 @@ function SettingGeneral() {
                     </div>
 
                     <div className="relative group mt-3 lg:mt-2 w-full lg:w-fit flex justify-start lg:justify-end">
-                      <button
+                      <button data-testid="setting-general-logout-btn"
                         onClick={handleShowLogout}
                         className="inline-flex items-center justify-center gap-1 text-sm !text-[#FF0000] font-semibold bg-red-50 !border !border-red-200 rounded-md px-2.5 py-1.5 cursor-pointer"
                       >
@@ -1337,7 +1337,7 @@ function SettingGeneral() {
 
               <div className="flex border-b border-gray-200 h-fit gap-8 font-gilroy">
                 {tabs.map((tab) => (
-                  <div
+                  <div data-testid={`setting-general-active-tab-action-${tab.key}`}
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
                     className={`relative px-1 py-3 text-sm cursor-pointer ${activeTab === tab.key
@@ -1390,7 +1390,7 @@ function SettingGeneral() {
                                     {item.firstName} {item.lastName}
                                   </div>
 
-                                  <div
+                                  <div data-testid={`setting-general-handlegeneralform-action-${item.userId}`}
                                     className={`ml-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${generalEdit === item.userId
                                       ? "z-[1000]"
                                       : ""
@@ -1410,7 +1410,7 @@ function SettingGeneral() {
                                           } flex flex-col items-start bg-[#F9F9F9] border border-[#EBEBEB] rounded-lg p-0 z-[1050]`}
                                       >
                                         <div className="w-full rounded-lg bg-[#F9F9F9]">
-                                          <div
+                                          <div data-testid={`setting-general-edit-action-2-${item.userId}`}
                                             onClick={() =>
                                               canUpdateProfile &&
                                               handleEditGeneralUser(item)
@@ -1449,7 +1449,7 @@ function SettingGeneral() {
 
                                           <div className="h-px bg-[#F0F0F0] m-0" />
 
-                                          <div
+                                          <div data-testid={`setting-general-delete-action-${item.userId}`}
                                             onClick={() =>
                                               canDeleteProfile &&
                                               handleDelete(item)
@@ -1543,7 +1543,7 @@ function SettingGeneral() {
                                     : "filter grayscale brightness-[70%]"
                                 }
                               />
-                              <p
+                              <p data-testid={`setting-general-change-password-action-2-${item.userId}`}
                                 onClick={() =>
                                   canWriteProfile &&
                                   handleChangePassword(item)
@@ -1580,7 +1580,7 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <Modal
+      <Modal data-testid="setting-general-delete-general-are-you-modal"
         show={deleteForm}
         onHide={handleCloseDeleteFormShow}
         centered
@@ -1604,14 +1604,14 @@ function SettingGeneral() {
         )}
 
         <Modal.Footer className="!flex !justify-center !border-t-0 !-mt-2">
-          <Button
+          <Button data-testid="setting-general-cancel-btn"
             onClick={handleCloseDeleteFormShow}
             className="!mr-2 !w-full !max-w-40 !h-13 !rounded-lg !py-3 !px-5 !bg-white !text-blue-700 !border !border-blue-700 !font-semibold !font-gilroy !text-sm"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="setting-general-conform-delete-btn"
             disabled={deleteLoading}
             onClick={handleConformDelete}
             className={`
@@ -1655,7 +1655,7 @@ function SettingGeneral() {
                 Change Password
               </div>
 
-              <CloseCircle
+              <CloseCircle data-testid="setting-general-close-changepassword-icon"
                 size="24"
                 color="#000"
                 onClick={handleCloseChangepassword}
@@ -1670,7 +1670,7 @@ function SettingGeneral() {
                 </Form.Label>
 
                 <InputGroup>
-                  <FormControl
+                  <FormControl data-testid="setting-general-new-password-input"
                     id="form-controls"
                     placeholder="Enter password"
                     type={showPassword ? "text" : "password"}
@@ -1679,7 +1679,7 @@ function SettingGeneral() {
                     className={fieldClass(!!passError)}
                   />
 
-                  <InputGroup.Text
+                  <InputGroup.Text data-testid="setting-general-show-password-icon"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={
                       showPassword ? "Hide Password" : "Show Password"
@@ -1715,7 +1715,7 @@ function SettingGeneral() {
             </div>
 
             <div className="flex justify-end gap-4 p-4">
-              <Button
+              <Button data-testid="setting-general-update-btn"
                 onClick={() => handleCheckPasswordChange()}
                 className="w-full mt-1 h-12 !rounded-xl !bg-[#1E45E1] text-sm !font-semibold font-gilroy"
               >
@@ -1726,7 +1726,7 @@ function SettingGeneral() {
         </div>
       )}
 
-      <Modal
+      <Modal data-testid="setting-general-confirm-password-new-password-modal"
         show={confirmPass}
         onHide={() => handleCloseConfirmPass()}
         backdrop="static"
@@ -1743,7 +1743,7 @@ function SettingGeneral() {
             Confirm Password
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="setting-general-close-confirm-pass-icon"
             size="24"
             color="#000"
             onClick={handleCloseConfirmPass}
@@ -1763,7 +1763,7 @@ function SettingGeneral() {
                 <span className={fieldRequiredClass}> * </span>
               </Form.Label>
               <InputGroup>
-                <FormControl
+                <FormControl data-testid="setting-general-new-password-input-2"
                   id="form-controls"
                   placeholder="Enter password"
                   type={showPassword ? "text" : "password"}
@@ -1772,7 +1772,7 @@ function SettingGeneral() {
                   className={fieldClass(!!newPassError)}
                  
                 />
-                <InputGroup.Text
+                <InputGroup.Text data-testid="setting-general-show-password-icon-2"
                   className="border-start-0"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide Password" : "Show Password"}
@@ -1813,7 +1813,7 @@ function SettingGeneral() {
                 <span className={fieldRequiredClass}> * </span>
               </Form.Label>
               <InputGroup>
-                <FormControl className={fieldClass(!!conformPasswordError)}
+                <FormControl data-testid="setting-general-confirm-password-input" className={fieldClass(!!conformPasswordError)}
                   id="form-controls"
                   placeholder="Enter password"
                   type={conformShowPassword ? "text" : "password"}
@@ -1821,7 +1821,7 @@ function SettingGeneral() {
                   onChange={(e) => handleConfirmPassword(e)}
                  
                 />
-                <InputGroup.Text
+                <InputGroup.Text data-testid="setting-general-con-form-show-password-icon"
                   className="border-start-0"
                   onClick={() => setConFormShowPassword(!conformShowPassword)}
                   aria-label={
@@ -1884,7 +1884,7 @@ function SettingGeneral() {
           className="d-flex justify-content-center "
           style={{ border: "done" }}
         >
-          <Button
+          <Button data-testid="setting-general-save-password-btn"
             className="col-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -1910,7 +1910,7 @@ function SettingGeneral() {
                 {edit ? "Edit General" : "Add General"}
               </div>
 
-              <CloseCircle
+              <CloseCircle data-testid="setting-general-close-icon"
                 size="24"
                 color="#000"
                 onClick={handleClose}
@@ -1938,7 +1938,7 @@ function SettingGeneral() {
                 >
                   <Image src={Plus} roundedCircle className="h-5 w-5" />
 
-                  <input
+                  <input data-testid="setting-general-image-input-file"
                     type="file"
                     accept="image/*"
                     multiple
@@ -1972,7 +1972,7 @@ function SettingGeneral() {
                       First Name{" "}
                       <span className={fieldRequiredClass}> *</span>
                     </Form.Label>
-                    <FormControl
+                    <FormControl data-testid="setting-general-first-name-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter First Name"
@@ -1991,7 +1991,7 @@ function SettingGeneral() {
                     <Form.Label className={fieldLabelClass}>
                       Last Name <span className="invisible text-xl"> *</span>
                     </Form.Label>
-                    <FormControl
+                    <FormControl data-testid="setting-general-last-name-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter Last Name"
@@ -2010,7 +2010,7 @@ function SettingGeneral() {
                     </Form.Label>
 
                     <InputGroup className="flex">
-                      <Form.Select
+                      <Form.Select data-testid="setting-general-mobile-number-select"
                         value={countryCode}
                         id="vendor-select-pg"
                         className={`${fieldClass()} !w-[88px] !flex-none !rounded-r-none`}
@@ -2018,7 +2018,7 @@ function SettingGeneral() {
                         <option>+{countryCode}</option>
                       </Form.Select>
 
-                      <Form.Control
+                      <Form.Control data-testid="setting-general-mobile-number-input"
                         value={Phone}
                         onChange={handlePhone}
                         type="text"
@@ -2051,7 +2051,7 @@ function SettingGeneral() {
                       Email ID <span className={fieldRequiredClass}> *</span>
                     </Form.Label>
 
-                    <FormControl
+                    <FormControl data-testid="setting-general-email-id-input"
                       type="text"
                       id="form-controls"
                       autoComplete="off"
@@ -2087,7 +2087,7 @@ function SettingGeneral() {
                         Password <span className={fieldRequiredClass}>*</span>
                       </Form.Label>
                       <InputGroup>
-                        <FormControl
+                        <FormControl data-testid="setting-general-password-input"
                           autoComplete="new-password"
                           autoCorrect="off"
                           id="form-controls"
@@ -2097,7 +2097,7 @@ function SettingGeneral() {
                           onChange={(e) => handlePassword(e)}
                           className={fieldClass(!!passwordError)}
                         />
-                        <InputGroup.Text
+                        <InputGroup.Text data-testid="setting-general-show-password-icon-3"
                           onClick={() => setShowPassword(!showPassword)}
                           aria-label={
                             showPassword ? "Hide Password" : "Show Password"
@@ -2133,7 +2133,7 @@ function SettingGeneral() {
                     <Form.Label className={fieldLabelClass}>
                       Flat , House no , Building , Company , Apartment
                     </Form.Label>
-                    <FormControl
+                    <FormControl data-testid="setting-general-flat-house-no-building-company-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter House No"
@@ -2153,7 +2153,7 @@ function SettingGeneral() {
                       Area , Street , Sector , Village
                     </Form.Label>
 
-                    <FormControl
+                    <FormControl data-testid="setting-general-area-street-sector-village-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter Street"
@@ -2173,7 +2173,7 @@ function SettingGeneral() {
                       Landmark
                     </Form.Label>
 
-                    <FormControl
+                    <FormControl data-testid="setting-general-landmark-input"
                       type="text"
                       id="form-controls"
                       placeholder="E.g , near appollo hospital"
@@ -2194,7 +2194,7 @@ function SettingGeneral() {
                       Pincode <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Form.Control
+                    <Form.Control data-testid="setting-general-pincode-input"
                       value={pincode}
                       onChange={handlePinCodeChange}
                       type="tel"
@@ -2218,7 +2218,7 @@ function SettingGeneral() {
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <FormControl
+                    <FormControl data-testid="setting-general-town-city-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter City"
@@ -2239,7 +2239,7 @@ function SettingGeneral() {
                       State <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select
+                    <div data-testid="setting-general-state-select" className="contents"><Select
                       options={indianStates}
                       onChange={(selectedOption) => {
                         setStateName(selectedOption?.value);
@@ -2263,7 +2263,7 @@ function SettingGeneral() {
                         ...fieldSelectStyles(),
                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
-                    />
+                    /></div>
                   </Form.Group>
 
                   {!state_name && state_nameError && (
@@ -2285,7 +2285,7 @@ function SettingGeneral() {
             )}
 
             <div className="flex justify-end border-0 px-4 py-1">
-              <Button
+              <Button data-testid="setting-general-save-btn"
                 disabled={formLoading}
                 className=" !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"
                 onClick={handleSave}

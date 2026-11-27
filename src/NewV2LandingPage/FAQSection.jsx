@@ -89,7 +89,7 @@ function FAQSection() {
               const isOpen = openIndex === actualIndex;
 
               return (
-                <div
+                <div data-testid={`faqsection-toggle-faq-action-${actualIndex}`}
                   key={actualIndex}
                   className="bg-white rounded-lg p-4 shadow-sm cursor-pointer"
                   onClick={() => toggleFAQ(actualIndex)}
@@ -131,7 +131,7 @@ function FAQSection() {
               const isOpen = openIndex === actualIndex;
 
               return (
-                <div
+                <div data-testid={`faqsection-toggle-faq-action-2-${actualIndex}`}
                   key={actualIndex}
                   className="bg-white rounded-lg p-4 shadow-sm cursor-pointer"
                   onClick={() => toggleFAQ(actualIndex)}

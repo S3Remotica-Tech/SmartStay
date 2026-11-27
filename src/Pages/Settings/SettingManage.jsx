@@ -588,7 +588,7 @@ function SettingManage() {
             </div>
 
             <div className="w-full flex justify-center md:justify-end mt-0 md:mt-0">
-              <button
+              <button data-testid="setting-manage-pg-btn"
                 onClick={handleShowAddPg}
                 disabled={!isEnable}
                 className={`mt-[5px] h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy
@@ -657,7 +657,7 @@ function SettingManage() {
             }}
           >
             <div className="w-100 d-flex justify-content-start">
-              <ArrowLeft
+              <ArrowLeft data-testid="setting-manage-handleback-to-pg-icon"
                 size="32"
                 color="#222222"
                 onClick={handlebackToPG}
@@ -682,7 +682,7 @@ function SettingManage() {
 
             <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
               <div className="d-flex justify-content-center justify-content-md-end w-100 mt-4 mt-md-0">
-                <Button
+                <Button data-testid="setting-manage-floor-btn"
                   style={{
                     fontSize: 14,
                     backgroundColor: "#1E45E1",
@@ -713,7 +713,7 @@ function SettingManage() {
                   <Col xs={12} md={1} className="mb-3 mb-md-0">
                     <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
                       <div className="d-flex justify-content-center mb-2">
-                        <div
+                        <div data-testid="setting-manage-prev-action"
                           onClick={handlePrev}
                           disabled={visibleRange[0] === 0}
                           style={{
@@ -743,7 +743,7 @@ function SettingManage() {
                         {floorList?.map((floor, index) =>
                           index >= visibleRange[0] &&
                             index <= visibleRange[1] ? (
-                            <Nav.Item
+                            <Nav.Item data-testid={`setting-manage-floor-click-icon-${floor.id}`}
                               key={floor.id}
                               onClick={() =>
                                 handleFloorClick(floor.id, floor.name)
@@ -760,7 +760,7 @@ function SettingManage() {
                                 overflowY: "auto",
                               }}
                             >
-                              <Nav.Link
+                              <Nav.Link data-testid={`setting-manage-link-${floor.id}`}
                                 className="text-center Paying-Guest"
                                 style={{ padding: "unset" }}
                               >
@@ -814,7 +814,7 @@ function SettingManage() {
                       </Nav>
 
                       <div className="d-flex justify-content-center mt-2">
-                        <div
+                        <div data-testid="setting-manage-next-action"
                           onClick={handleNext}
                           disabled={visibleRange[1] === numberOfFloors - 1}
                           style={{
@@ -934,7 +934,7 @@ function SettingManage() {
                             </p>
                           </div>
 
-                          <div
+                          <div data-testid="setting-manage-show-dots-action"
                             style={{
                               cursor: "pointer",
                               height: 40,
@@ -970,7 +970,7 @@ function SettingManage() {
                                 }}
                               >
                                 <div>
-                                  <div
+                                  <div data-testid="setting-manage-edit-action"
                                     className="d-flex gap-2 align-items-center"
                                     onClick={
                                       canUpdatePayingGuests
@@ -1024,7 +1024,7 @@ function SettingManage() {
                                     }}
                                   />
 
-                                  <div
+                                  <div data-testid="setting-manage-delete-action"
                                     className="d-flex gap-2 align-items-center"
                                     onClick={
                                       canDeletePayingGuests

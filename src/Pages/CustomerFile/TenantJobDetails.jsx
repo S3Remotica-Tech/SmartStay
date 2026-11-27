@@ -62,7 +62,7 @@ function TenantJobDetails() {
 
         {!isDisabledButton && hasJobDetails && (
           <div>
-            <Edit size="16" className="cursor-pointer" onClick={handleEdit} />
+            <Edit data-testid="tenant-job-details-edit-icon" size="16" className="cursor-pointer" onClick={handleEdit} />
           </div>
         )}
       </div>
@@ -78,7 +78,7 @@ function TenantJobDetails() {
               Job Details aren’t added yet!
             </p>
 
-            <button
+            <button data-testid="tenant-job-details-add-now-btn"
               disabled={isDisabledButton}
               onClick={() => {
                 setShowJobModal(true);

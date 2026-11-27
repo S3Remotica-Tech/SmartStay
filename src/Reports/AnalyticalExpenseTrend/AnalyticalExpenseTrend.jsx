@@ -190,12 +190,12 @@ const reportCards = [
     
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
             <div className='flex items-center gap-2'>
-              <ArrowLeft onClick={handleNavigateReports}
+              <ArrowLeft data-testid="analytical-expense-trend-navigate-reports-icon" onClick={handleNavigateReports}
                 size="20"
                 color="#4A5565" className='cursor-pointer'
               />
               <div>
-                <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
+                <div data-testid="analytical-expense-trend-monthly-expense-trend-action" className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
                   <h1 className="text-lg font-semibold my-0 text-[#222222]">Monthly Expense Trend</h1>
                   <div className='rounded-none border-0'>
                     <ArrowDown2
@@ -211,7 +211,7 @@ const reportCards = [
                           const isLast = index === reportCards.length - 1;
     
                           return (
-                            <div
+                            <div data-testid={`analytical-expense-trend-navigate-register-action-${index}`}
                               key={index}
                               onClick={() => {
                                 handleNavigateRegister(item)
@@ -353,7 +353,7 @@ const reportCards = [
                 <div className='flex gap-2 items-center'>
                   <div className="relative " ref={dropdownRef}>
     
-                    <button
+                    <button data-testid="analytical-expense-trend-open-btn"
                       onClick={() => setOpen(!open)}
                       className="flex items-center gap-2 text-xs border rounded-md px-3 py-2.5 bg-white font-[Gilroy] whitespace-nowrap "
                     >
@@ -371,7 +371,7 @@ const reportCards = [
                     {open && (
                       <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
                         {dateOptions.map((option) => (
-                          <button
+                          <button data-testid={`analytical-expense-trend-selected-btn-${option}`}
                             key={option}
                             onClick={() => {
                               setSelected(option);
@@ -391,7 +391,7 @@ const reportCards = [
     
     
                   </div>
-                  <button
+                  <button data-testid="analytical-expense-trend-export-btn"
                     className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
                   >
     

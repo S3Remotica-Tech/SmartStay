@@ -30,7 +30,7 @@ function BillTemplates() {
       <div className="shrink-0 bg-white">
         <div className="my-2 flex flex-col md:flex-row justify-between items-center px-1.5 whitespace-nowrap">
           <div className="w-full flex justify-center md:justify-start items-center gap-1">
-            <ArrowLeft className="w-5 h-5 mr-2 cursor-pointer " onClick={() => navigate(-1)} color="#222222"
+            <ArrowLeft data-testid="bill-templates-navigate-icon" className="w-5 h-5 mr-2 cursor-pointer " onClick={() => navigate(-1)} color="#222222"
               size="24" />
             <label className="text-black font-semibold text-[18px] font-gilroy">
 
@@ -39,7 +39,7 @@ function BillTemplates() {
           </div>
 
           <div className="flex items-center bg-[#F8F8F8] border border-[#F8F8F8] rounded-lg p-1">
-            <button
+            <button data-testid="bill-templates-invoice-btn"
               type="button"
               onClick={() => setSelectedType("invoice")}
               className={`h-[38px] px-4 rounded-lg flex items-center gap-2 text-[14px] font-semibold transition-all ${selectedType === "invoice"
@@ -50,7 +50,7 @@ function BillTemplates() {
               Invoice
             </button>
 
-            <button
+            <button data-testid="bill-templates-receipt-btn"
               type="button"
               onClick={() => setSelectedType("receipt")}
               className={`h-[38px] px-4 rounded-lg flex items-center gap-2 text-[14px] font-semibold transition-all ${selectedType === "receipt"

@@ -182,7 +182,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
             Apply Retainer to Invoice
           </h5>
 
-          <button
+          <button data-testid="retainer-apply-invoice-close-btn"
             onClick={handleClose}
             className="text-red-500 text-lg font-bold hover:scale-110 transition"
           >
@@ -340,7 +340,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
                           </td>
 
                           <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
-                            <input
+                            <input data-testid={`retainer-apply-invoice-apply-amount-change-input-${index}`}
                               onWheel={(e) => e.target.blur()}
                               type="number"
                               value={
@@ -403,14 +403,14 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
             </div>
           </div>
           <div className="mt-6 flex justify-end gap-3">
-            <button
+            <button data-testid="retainer-apply-invoice-cancel-btn"
               onClick={handleClose}
               className="px-4 py-2 bg-gray-100 rounded-md text-sm"
             >
               Cancel
             </button>
 
-            <button
+            <button data-testid="retainer-apply-invoice-apply-submit-btn"
               disabled={formLoading}
               onClick={handleApplySubmit}
               className="bg-[#1E45E1] flex items-center justify-center gap-2 text-white px-4 py-2 rounded-md text-sm disabled:opacity-60 disabled:cursor-not-allowed"

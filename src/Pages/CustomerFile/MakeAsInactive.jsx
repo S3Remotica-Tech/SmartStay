@@ -270,7 +270,7 @@ function MakeAsInactive({
             </label>
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="make-as-inactive-close-in-active-icon"
             size="24"
             color="#000"
             onClick={handleCloseInActive}
@@ -330,7 +330,7 @@ function MakeAsInactive({
               </Form.Label>
 
               <div className="relative w-full">
-                <DatePicker
+                <DatePicker data-testid="make-as-inactive-date"
                   className={datePickerClass(!!isActiveDateError)}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
@@ -368,7 +368,7 @@ function MakeAsInactive({
                 Refund From <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
-              <Select
+              <div data-testid="make-as-inactive-refund-from-select" className="contents"><Select
                 options={paymentOptionsV1}
                 onChange={(selectedOption) =>
                   handleModeOfPaymentChange(selectedOption?.value)
@@ -391,7 +391,7 @@ function MakeAsInactive({
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
             </Form.Group>
             {paymentError && (
               <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
@@ -403,7 +403,7 @@ function MakeAsInactive({
               <Form.Label className={fieldLabelClass}>
                 Transaction ID{" "}
               </Form.Label>
-              <FormControl
+              <FormControl data-testid="make-as-inactive-transaction-id-input"
                 type="text"
                 id="form-controls"
                 placeholder="Enter Transaction ID"
@@ -420,7 +420,7 @@ function MakeAsInactive({
                 Reason (Comments)
               </Form.Label>
 
-              <Form.Control
+              <Form.Control data-testid="make-as-inactive-reason-comments-textarea"
                 as="textarea"
                 rows={5}
                 placeholder="Enter reason here"
@@ -447,14 +447,14 @@ function MakeAsInactive({
         </div>
         <div className="border-0 p-4">
           <div className="flex w-full gap-3">
-            <Button
+            <Button data-testid="make-as-inactive-cancel-btn"
               onClick={handleCloseInActive}
               className="w-full bg-white !border !border-gray-300 !text-gray-600 !font-semibold rounded-lg !text-base !font-gilroy py-2"
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="make-as-inactive-confirm-btn"
               disabled={formLoading}
               onClick={SubmitInActiveForm}
               className="w-full !bg-blue-700 text-white !font-semibold rounded-lg !text-base !font-gilroy py-2"

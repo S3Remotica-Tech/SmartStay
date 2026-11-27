@@ -254,7 +254,7 @@ function NoticeBedStatusDetails({
   return (
     <>
       <div className="modal show block static font-gilroy">
-        <Modal show={show} onHide={handleCloseBed} centered>
+        <Modal data-testid="bed-status-notice-period-modal" show={show} onHide={handleCloseBed} centered>
           <Modal.Dialog className="w-full max-w-full rounded-2xl m-0 p-0">
             <Modal.Header className="pb-0 border border-gray-200">
               <div className="flex justify-between w-full pr-2.5 pb-2 pl-1">
@@ -322,7 +322,7 @@ function NoticeBedStatusDetails({
                             </div>
                             <div className="mt-2">
                               <div>
-                                <label
+                                <label data-testid={`bed-status-navigate-tenant-profile-action-${tenant.tenetId || index}`}
                                   className="text-base text-blue-600 font-gilroy font-bold underline cursor-pointer"
                                   onClick={() =>
                                     handleNavigateTenantProfile(tenant)
@@ -342,7 +342,7 @@ function NoticeBedStatusDetails({
                           </div>
                         </div>
 
-                        <div
+                        <div data-testid={`bed-status-show-dots-action-${tenant.tenetId || index}`}
                           onClick={() => handleShowDots(index, tenant)}
                           className={`cursor-pointer h-10 w-10 flex justify-center items-center relative rounded-full ${activeMenu === index ? "bg-blue-100" : "bg-white"
                             }`}
@@ -357,7 +357,7 @@ function NoticeBedStatusDetails({
                                 matchedDataStatus ===
                                 "SETTLEMENT_GENERATED") && (
                                   <>
-                                    <div
+                                    <div data-testid={`bed-status-new-booking-action-${tenant.tenetId || index}`}
                                       onClick={
                                         canWriteBooking
                                           ? () => handleNewBooking(tenant)
@@ -400,7 +400,7 @@ function NoticeBedStatusDetails({
 
                               {matchedDataStatus === "NOTICE" && (
                                 <div>
-                                  <div
+                                  <div data-testid={`bed-status-cancel-checkout-action-${tenant.tenetId || index}`}
                                     onMouseEnter={() => {
                                       if (hasCheckinAndNotice)
                                         setShowTooltip(true);
@@ -451,7 +451,7 @@ function NoticeBedStatusDetails({
                                   )}
 
                                   <div className="h-px bg-gray-300" />
-                                  <div
+                                  <div data-testid={`bed-status-generate-action-${tenant.tenetId || index}`}
                                     onClick={() =>
                                       canWriteCheckout &&
                                       handleFinalsettelmentGenerate(tenant)
@@ -535,7 +535,7 @@ function NoticeBedStatusDetails({
 
                               {matchedDataStatus === "CHECK_IN" && (
                                 <div>
-                                  <div
+                                  <div data-testid={`bed-status-change-bed-action-${tenant.tenetId || index}`}
                                     className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canUpdateBooking
                                       ? "cursor-pointer opacity-100"
                                       : "cursor-not-allowed opacity-60"
@@ -572,7 +572,7 @@ function NoticeBedStatusDetails({
                                   </div>
 
                                   <div className="h-px bg-gray-300" />
-                                  <div
+                                  <div data-testid={`bed-status-move-to-notice-period-action-${tenant.tenetId || index}`}
                                     className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canUpdateCheckout
                                       ? "cursor-pointer opacity-100"
                                       : "cursor-not-allowed opacity-60"
@@ -612,7 +612,7 @@ function NoticeBedStatusDetails({
                               )}
 
                               {matchedDataStatus === "SETTLEMENT_GENERATED" && (
-                                <div
+                                <div data-testid={`bed-status-check-out-action-${tenant.tenetId || index}`}
                                   className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canWriteCheckout
                                     ? "cursor-pointer opacity-100"
                                     : "cursor-not-allowed opacity-50"
@@ -653,7 +653,7 @@ function NoticeBedStatusDetails({
 
                               <div className="h-px bg-gray-300" />
 
-                              <div
+                              <div data-testid={`bed-status-edit-action-${tenant.tenetId || index}`}
                                 className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canUpdatePayingGuests
                                   ? "cursor-pointer opacity-100"
                                   : "cursor-not-allowed opacity-60"
@@ -787,7 +787,7 @@ function NoticeBedStatusDetails({
                             </div>
                             <div className="mt-2">
                               <div>
-                                <label
+                                <label data-testid={`bed-status-navigate-reserved-tenant-profile-action-${index}`}
                                   className="text-base text-blue-600 font-gilroy font-bold underline cursor-pointer"
                                   onClick={() =>
                                     handleNavigateReservedTenantProfile(tenant)
@@ -805,7 +805,7 @@ function NoticeBedStatusDetails({
                               </div>
                             </div>
                           </div>
-                          <div
+                          <div data-testid={`bed-status-show-dots-for-reserved-action-${index}`}
                             onClick={() =>
                               handleShowDotsForReserved(index, tenant)
                             }
@@ -928,7 +928,7 @@ function NoticeBedStatusDetails({
                                   </label>
                                 </div>
 
-                                <div
+                                <div data-testid={`bed-status-make-as-inactive-action-${index}`}
                                   className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canUpdateBooking
                                     ? "cursor-pointer opacity-100"
                                     : "cursor-not-allowed opacity-50"
@@ -969,7 +969,7 @@ function NoticeBedStatusDetails({
                                   </label>
                                 </div>
 
-                                <div
+                                <div data-testid={`bed-status-edit-action-2-${index}`}
                                   className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canUpdatePayingGuests
                                     ? "cursor-pointer opacity-100"
                                     : "cursor-not-allowed opacity-60"

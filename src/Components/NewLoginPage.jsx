@@ -186,7 +186,7 @@ function NewLoginPage() {
       }
     >
 
-      <form
+      <form data-testid="new-login-page-sign-in-form"
         noValidate
         onSubmit={handleLogin}
         className="flex w-full flex-col gap-[clamp(12px,2.4vh,23px)]"
@@ -208,7 +208,7 @@ function NewLoginPage() {
             hasError={emailHasError}
             errors={[emailError, state.login.errorEmail]}
           >
-            <input
+            <input data-testid="new-login-page-email-input"
               id="new-login-email"
               type="email"
               inputMode="email"
@@ -231,7 +231,7 @@ function NewLoginPage() {
               hasError={passwordHasError}
               errors={[passwordError, state.login.errorPassword]}
               action={
-                <button
+                <button data-testid="new-login-page-forgot-password-btn"
                   type="button"
                   onClick={() => navigate("/forget-password")}
                   className="border-0 bg-transparent p-0 font-tasa text-[14px] font-medium leading-[24px] text-primary-500 hover:underline"
@@ -240,7 +240,7 @@ function NewLoginPage() {
                 </button>
               }
             >
-              <input
+              <input data-testid="new-login-page-password-input"
                 id="new-login-password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
@@ -260,7 +260,7 @@ function NewLoginPage() {
               )}
             </AuthField>
 
-            <Checkbox
+            <Checkbox data-testid="new-login-page-new-login-remember-checkbox"
               id="new-login-remember"
               checked={checked}
               onChange={(e) => setChecked(e.target.checked)}
@@ -298,7 +298,7 @@ function NewLoginPage() {
       <div className="flex w-full flex-col items-center gap-[clamp(2px,0.8vh,10px)] text-center">
         <p className="mb-0 font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A]">
           Don&apos;t Have an Account?{"  "}
-          <button
+          <button data-testid="new-login-page-create-account-btn"
             type="button"
             onClick={() => navigate("/hostel-management-signup")}
             className={authInlineLink}

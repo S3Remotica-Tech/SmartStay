@@ -276,7 +276,7 @@ function BookingsFilter({ show, handleClose, size }) {
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
+      <Offcanvas data-testid="bookings-filter-filter-system-filter-status-drawer" show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{
@@ -293,7 +293,7 @@ function BookingsFilter({ show, handleClose, size }) {
             Filter
           </Offcanvas.Title>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="bookings-filter-close-icon"
             onClick={handleClose}
             style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
           />
@@ -318,7 +318,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Form.Control className={fieldClass()}
+              <Form.Control data-testid="bookings-filter-tenant-name-input" className={fieldClass()}
                
                 type="text"
                 placeholder="Enter Tenant Name"
@@ -338,7 +338,7 @@ function BookingsFilter({ show, handleClose, size }) {
               <Form.Label className={fieldLabelClass}>
                 Status
               </Form.Label>
-              <Select
+              <div data-testid="bookings-filter-status-select" className="contents"><Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={paymentStatusOptions}
@@ -358,19 +358,19 @@ function BookingsFilter({ show, handleClose, size }) {
                     },
                   )
                 }
-              />
+              /></div>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className={fieldLabelClass}>
                 Period
               </Form.Label>
-              <Select
+              <div data-testid="bookings-filter-period-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 placeholder="Select"
                 value={period}
                 onChange={setPeriod}
                 options={periodOptions}
-              />
+              /></div>
             </Form.Group>
 
             {/* <Form.Group className="mb-3">
@@ -394,7 +394,7 @@ function BookingsFilter({ show, handleClose, size }) {
             <Form.Group className="mb-3">
               <Form.Label className={fieldLabelClass}>Floor</Form.Label>
 
-              <Select
+              <div data-testid="bookings-filter-floor-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -403,13 +403,13 @@ function BookingsFilter({ show, handleClose, size }) {
                 value={floor}
                 onChange={setFloor}
                 options={floorOptions}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group>
               <Form.Label className={fieldLabelClass}>Room</Form.Label>
 
-              <Select
+              <div data-testid="bookings-filter-room-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -418,7 +418,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 value={room}
                 onChange={setRoom}
                 options={roomOptions}
-              />
+              /></div>
             </Form.Group>
             <div className="my-3">
               <label
@@ -434,14 +434,14 @@ function BookingsFilter({ show, handleClose, size }) {
               </label>
 
               <div className="flex gap-2">
-                <input
+                <input data-testid="bookings-filter-paid-amount-range-input"
                   type="number"
                   placeholder="₹Min"
                   value={paidAmountMin}
                   onChange={handlePaidMinChange}
                   className={fieldClass()}
                 />
-                <input
+                <input data-testid="bookings-filter-paid-amount-range-input-2"
                   type="number"
                   placeholder="₹Max"
                   value={paidAmountMax}
@@ -501,7 +501,7 @@ function BookingsFilter({ show, handleClose, size }) {
             zIndex: 10,
           }}
         >
-          <Button
+          <Button data-testid="bookings-filter-reset-btn"
             onClick={() => {
               setSelectedBillStatus("");
               setPeriod(null);
@@ -521,7 +521,7 @@ function BookingsFilter({ show, handleClose, size }) {
           >
             Reset
           </Button>
-          <Button
+          <Button data-testid="bookings-filter-apply-btn"
             onClick={handleFilterBills}
             style={{
               backgroundColor: "#1E45E1",

@@ -110,7 +110,7 @@ function ReceiptPdfDetails() {
               <SearchNormal1 size="18" color="#888" />
             </div>
 
-            <input
+            <input data-testid="receipt-pdf-details-search-input"
               disabled
               type="text"
               value={search}
@@ -123,7 +123,7 @@ function ReceiptPdfDetails() {
 
         <div className="p-2 mt-2 h-[90vh] overflow-y-auto show-scrolls">
           {state.InvoiceList.ReceiptList?.map((item) => (
-            <div
+            <div data-testid={`receipt-pdf-details-selected-invoice-id-action-${item.transactionId}`}
               onClick={() => {
                 setSelectedInvoiceId(item.transactionId);
                 handleDisplayInvoiceDownload(item);

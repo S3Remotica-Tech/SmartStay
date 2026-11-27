@@ -51,7 +51,7 @@ export function AuthLayout({ card, header, footer, children }) {
   const bookDemo = (
     <>
       New to Smartstay?{"  "}
-      <button
+      <button data-testid="auth-parts-book-demo-btn"
         type="button"
         onClick={() => navigate("/demo")}
         className={authInlineLink}
@@ -112,7 +112,7 @@ AuthLayout.propTypes = {
 export function AuthLogo() {
   const navigate = useNavigate();
   return (
-    <button
+    <button data-testid="auth-parts-smartstay-home-btn"
       type="button"
       onClick={() => navigate("/")}
       aria-label="Smartstay home"
@@ -191,7 +191,7 @@ AuthField.propTypes = {
 /** Eye / eye-slash toggle shown inside a password field. */
 export function PasswordToggle({ shown, onToggle }) {
   return (
-    <button
+    <button data-testid="auth-parts-toggle-btn"
       type="button"
       onClick={onToggle}
       aria-label={shown ? "Hide password" : "Show password"}
@@ -225,7 +225,7 @@ export function AuthSubmitButton({
   else if (dimmed) state = "opacity-40";
   if (loading) state = "cursor-not-allowed opacity-70";
   return (
-    <button
+    <button data-testid="auth-parts-btn"
       type="submit"
       form={form}
       disabled={loading || disabled}
@@ -261,7 +261,7 @@ export function GoogleAuthButton({ label }) {
   return (
     // TODO(auth): enable when Google sign-in API is ready
     <span title="Coming soon" className="block w-full">
-      <button
+      <button data-testid="auth-parts-btn-2"
         type="button"
         disabled
         aria-disabled="true"
@@ -288,7 +288,7 @@ const PLAY_STORE_URL =
 export function StoreBadges() {
   return (
     <div className="flex min-h-[92px] w-full flex-wrap items-center justify-center gap-[10px]">
-      <a
+      <a data-testid="auth-parts-link"
         href={PLAY_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
@@ -303,7 +303,7 @@ export function StoreBadges() {
       </a>
       {/* TODO(auth): enable when the App Store app link is ready */}
       <span title="Coming soon">
-        <button
+        <button data-testid="auth-parts-btn-3"
           type="button"
           disabled
           aria-disabled="true"

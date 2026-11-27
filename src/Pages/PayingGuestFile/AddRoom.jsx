@@ -149,7 +149,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   return (
     <div
       className="modal show block static font-gilroy">
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal show={show} onHide={handleClose} centered backdrop="static" data-testid="pg-add-room-modal">
         <Modal.Dialog className="m-0 p-0  w-full max-w-full" >
           <Modal.Header className="m-0 border border-[#E7E7E7]">
             <Modal.Title className="!text-lg !font-gilroy !font-semibold !text-[#222222]" >
@@ -157,6 +157,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </Modal.Title>
 
             <CloseCircle
+              data-testid="pg-add-room-close"
               size="24"
               color="#000"
               onClick={handleClose}
@@ -174,6 +175,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control ref={roomRef}
+                    data-testid="pg-room-name-input"
                     value={room}
                     onChange={handleRoomChange}
                     type="text"
@@ -212,6 +214,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
           <Modal.Footer className="border-0 p-3 mt-1">
             <Button
+             data-testid="pg-add-room-submit"
              disabled={formLoading}
               onClick={handleCreateRoom}
              className="w-100 m-0 !bg-[#1e45e1] !font-semibold !rounded-xl !py-3 !font-gilroy"

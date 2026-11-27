@@ -118,7 +118,7 @@ function AddCategory({ show, onClose, updateDetails }) {
             {updateDetails ? "Edit Category" : "Add Category"}
           </h2>
 
-          <button
+          <button data-testid="add-category-close-btn"
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
           >
@@ -132,7 +132,7 @@ function AddCategory({ show, onClose, updateDetails }) {
             Category Name <span className={fieldRequiredClass}>*</span>
           </label>
 
-          <input
+          <input data-testid="add-category-category-name-input"
             ref={categoryRef}
             type="text"
             value={categoryName}
@@ -152,7 +152,7 @@ function AddCategory({ show, onClose, updateDetails }) {
           )}
         </div>
         <div className="flex justify-end  gap-3 px-3 my-2">
-          <button
+          <button data-testid="add-category-submit-btn"
             onClick={handleSubmit}
             disabled={loading}
             className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

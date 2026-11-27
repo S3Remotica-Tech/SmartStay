@@ -18,7 +18,7 @@ function WriteOffForm(props) {
 
   return (
     <>
-      <Modal show={props.WriteoffForm} onHide={props.handleCloseWriteOffForm} centered >
+      <Modal data-testid="invoice-write-off-write-off-use-when-modal" show={props.WriteoffForm} onHide={props.handleCloseWriteOffForm} centered >
 
         <Modal.Header
           style={{ marginBottom: "10px", position: "relative", borderBottom: "none" }}
@@ -48,7 +48,7 @@ function WriteOffForm(props) {
             </div>
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="invoice-write-off-close-write-off-form-icon"
             size="24"
             color="#000"
             onClick={props.handleCloseWriteOffForm}
@@ -104,7 +104,7 @@ function WriteOffForm(props) {
 
           <Form.Group >
             <Form.Label className={fieldLabelClass}>Reason/Write-off Note</Form.Label>
-            <Form.Control className={fieldTextareaClass()}
+            <Form.Control data-testid="invoice-write-off-reason-write-off-note-textarea" className={fieldTextareaClass()}
              
               as="textarea"
               placeholder="Please Enter Comments"
@@ -117,12 +117,12 @@ function WriteOffForm(props) {
 
         </Modal.Body>
         <Modal.Footer style={{ borderTop: "none", marginTop: "-10px" }}>
-          <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light"
+          <Button data-testid="invoice-write-off-cancel-btn" style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light"
           //  onClick={handleClose}
           >
             Cancel
           </Button>
-          <Button disabled style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">
+          <Button data-testid="invoice-write-off-coming-soon-btn" disabled style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">
             {/* Conform */}
             Coming Soon
             </Button>

@@ -61,7 +61,7 @@ function TenantAppControls() {
               <div className="flex items-center">
                 <span className="mr-2 text-sm">{isEnabled ? "On" : "Off"}</span>
 
-                <button
+                <button data-testid="tenant-app-controls-is-enabled-btn"
                   type="button"
                   onClick={() => setIsEnabled((prev) => !prev)}
                   className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
@@ -83,7 +83,7 @@ function TenantAppControls() {
                   Helper text <span className={fieldRequiredClass}>*</span>
                 </label>
 
-                <input
+                <input data-testid="tenant-app-controls-helper-text-input"
                   type="text"
                   defaultValue="Tenants must request bed change at least 3 days in advance"
                   className={fieldClass()}
@@ -111,7 +111,7 @@ function TenantAppControls() {
                   {noticeEnabled ? "On" : "Off"}
                 </span>
 
-                <button
+                <button data-testid="tenant-app-controls-notice-enabled-btn"
                   type="button"
                   onClick={() => setNoticeEnabled((prev) => !prev)}
                   className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
@@ -133,7 +133,7 @@ function TenantAppControls() {
                   Notice period Days <span className={fieldRequiredClass}>*</span>
                 </label>
 
-                <Select
+                <div data-testid="tenant-app-controls-notice-period-days-select" className="contents"><Select
                   options={noticeDaysOptions}
                   value={noticeDaysOptions.find(
                     (option) => option.value === noticeDays,
@@ -144,13 +144,13 @@ function TenantAppControls() {
                   placeholder="Select Days"
                   className="w-full"
                   styles={fieldSelectStyles()}
-                />
+                /></div>
 
                 <label className={fieldLabelClass}>
                   Description <span className={fieldRequiredClass}>*</span>
                 </label>
 
-                <textarea
+                <textarea data-testid="tenant-app-controls-description-textarea"
                   rows={3}
                   defaultValue="Tenants must submit a move-out request as per the mentioned days before leaving."
                   className={fieldTextareaClass()}

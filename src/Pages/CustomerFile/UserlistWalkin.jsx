@@ -434,7 +434,7 @@ function UserlistWalkin() {
                             </td>
 
                             <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
-                              <div
+                              <div data-testid={`userlist-walkin-dots-click-action-${v.customerId}`}
                                 className={`relative inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${dotsButton === v.customerId
                                   ? "border-[#1E45E1] bg-[#EFF6FF]"
                                   : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
@@ -487,7 +487,7 @@ function UserlistWalkin() {
                                     </div> */}
 
                                     {/* {isDev && ( */}
-                                    <div
+                                    <div data-testid={`userlist-walkin-check-in-action-${v.customerId}`}
                                       onClick={() =>
                                         canWriteTenant && handleCheckInNew(v)
                                       }
@@ -512,7 +512,7 @@ function UserlistWalkin() {
                                     </div>
                                     {/* )} */}
 
-                                    <div
+                                    <div data-testid={`userlist-walkin-add-booking-action-${v.customerId}`}
                                       onClick={() =>
                                         canWriteBooking && handleBooking(v)
                                       }
@@ -536,7 +536,7 @@ function UserlistWalkin() {
                                       </label>
                                     </div>
 
-                                    <div
+                                    <div data-testid={`userlist-walkin-delete-action-${v.customerId}`}
                                       onClick={() =>
                                         canDeleteWalkin && handleDeleteShow(v)
                                       }
@@ -606,7 +606,7 @@ function UserlistWalkin() {
         />
       )}
 
-      <Modal
+      <Modal data-testid="userlist-walkin-delete-tenant-are-you-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         backdrop="static"
@@ -654,7 +654,7 @@ function UserlistWalkin() {
           className="d-flex justify-content-center"
           style={{ borderTop: "none", marginTop: "-10px" }}
         >
-          <Button
+          <Button data-testid="userlist-walkin-cancel-btn"
             className="me-2"
             style={{
               width: "100%",
@@ -673,7 +673,7 @@ function UserlistWalkin() {
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="userlist-walkin-delete-customer-btn"
             className={`
    !w-full 
     !max-w-[160px] 

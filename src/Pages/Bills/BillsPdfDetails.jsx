@@ -183,7 +183,7 @@ function BillsPdfDetails() {
                 </div>
               </CustomTooltip>
               <CustomTooltip text="Create Bill" direction="top-full" usePortal={true}>
-                <button
+                <button data-testid="bills-pdf-details-manual-show-btn"
                   disabled={!canWriteInvoice}
                   onClick={handleManualShow}
                   className="bg-[#1E45E1] text-white px-1 py-1 rounded-md me-2"
@@ -207,7 +207,7 @@ function BillsPdfDetails() {
                 <SearchNormal1 size="18" color="#888" />
               </div>
 
-              <input
+              <input data-testid="bills-pdf-details-search-change-input"
                 type="text"
                 value={search}
                 onChange={handleSearchChange}
@@ -221,7 +221,7 @@ function BillsPdfDetails() {
         <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto  overflow-x-visible">
           {state.InvoiceList?.getAllBillsList?.length > 0 ? (
             state.InvoiceList?.getAllBillsList?.map((item) => (
-              <div
+              <div data-testid={`bills-pdf-details-selected-invoice-id-action-${item.invoiceId}`}
                 onClick={() => {
                   setSelectedInvoiceId(item.invoiceId);
                   handleDisplayInvoicePDF(item);

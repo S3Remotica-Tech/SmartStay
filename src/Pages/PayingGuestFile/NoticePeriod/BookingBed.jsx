@@ -532,7 +532,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
           <div className="w-100 flex justify-between items-center">
             <div className="!text-lg !font-semibold !font-gilroy">Booking   </div>
 
-            <CloseCircle
+            <CloseCircle data-testid="booking-bed-close-icon"
               size="24"
               color="#000"
               onClick={handleClose}
@@ -557,7 +557,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                     <span className="text-red-500 text-xl">*</span>
                   </Form.Label>
 
-                  <Select
+                  <div data-testid="booking-bed-tenant-select" className="contents"><Select
                     ref={bookingcustomerRef}
                     options={tenantOptions}
                     onChange={handleBookingCustomerName}
@@ -582,7 +582,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                     menuPlacement="auto"
                     noOptionsMessage={() => "No customers available"}
                     styles={CustomStyles}
-                  />
+                  /></div>
                   {booking_customererrmsg.trim() !== "" && (
                     <ErrorMessage
                       message={booking_customererrmsg}
@@ -599,7 +599,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                     </Form.Label>
 
                     <div className="datepicker-wrapper relative w-full">
-                      <DatePicker
+                      <DatePicker data-testid="booking-bed-booking-date"
                         ref={bookingDateRef}
                         className="w-full h-12 cursor-pointer font-gilroy"
                         format="DD/MM/YYYY"
@@ -641,7 +641,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                     </Form.Label>
 
                     <div className="relative">
-                      <FormControl
+                      <FormControl data-testid="booking-bed-booking-amount-input"
                         type="text"
                         ref={amountRef}
                         id="form-controls"
@@ -667,7 +667,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                     </Form.Label>
 
                     <div className="datepicker-wrapper relative w-full">
-                      <DatePicker
+                      <DatePicker data-testid="booking-bed-joining-date-tentative-date"
                         ref={dateRef}
                         className="w-full h-12 cursor-pointer font-gilroy px-3 py-1.5"
                         format="DD/MM/YYYY"
@@ -707,7 +707,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                       Mode Of Transaction{" "}
                       <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
-                    <Select isDisabled={!joiningDate}
+                    <div data-testid="booking-bed-mode-of-transaction-select" className="contents"><Select isDisabled={!joiningDate}
                       ref={modeOfPaymentRef}
                       options={paymentOptionsV1}
                       onChange={(selectedOption) =>
@@ -730,7 +730,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                         GroupHeading,
                         IndicatorSeparator: () => null,
                       }}
-                    />
+                    /></div>
                   </Form.Group>
                   {paymentError && (
                     <ErrorMessage message={paymentError} type="error" />
@@ -743,7 +743,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                       Transaction ID{" "}
                       <span className="invisible text-xl">*</span>
                     </Form.Label>
-                    <FormControl
+                    <FormControl data-testid="booking-bed-transaction-id-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter Transaction ID"
@@ -801,7 +801,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
               </div>
             )}
             <div className="flex items-center justify-end gap-4 mt-2 !border-t-0 m-4">
-              <button
+              <button data-testid="booking-bed-cancel-btn"
                 type="button"
                 className="bg-transparent border-none text-gray-800 text-sm font-semibold font-gilroy cursor-pointer"
                 onClick={handleClose}
@@ -809,7 +809,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                 Cancel
               </button>
 
-              <button
+              <button data-testid="booking-bed-book-btn"
                 type="button"
                 className="bg-blue-700 text-white font-semibold h-10 rounded-md text-sm font-gilroy px-6 border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmitBooking}

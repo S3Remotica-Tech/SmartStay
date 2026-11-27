@@ -120,7 +120,7 @@ const ManagePg = () => {
               Manage PG
             </label>
           </div>
-          <button
+          <button data-testid="manage-pg-add-new-pg-btn"
             onClick={handleAddNewPG}
             disabled={!isEnable}
             className={`mt-[5px]  px-4 py-2 rounded-lg text-sm font-semibold font-gilroy flex items-center gap-2
@@ -144,7 +144,7 @@ const ManagePg = () => {
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#03219675]/95 via-[#03219675]/80 to-[#010F44]/40" />
 
-        <button
+        <button data-testid="manage-pg-more-btn"
           type="button"
           onClick={handleMore}
           className="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all"
@@ -194,7 +194,7 @@ const ManagePg = () => {
           </div>
 
           <div className="flex flex-wrap justify-end gap-2 sm:gap-3">
-            <button
+            <button data-testid="manage-pg-switch-property-btn"
               type="button"
               onClick={handleSwitchProperty}
               className="h-10 sm:h-11 px-4 sm:px-5 rounded-lg border border-white/70 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white flex items-center justify-center gap-2 text-[12px] sm:text-[13px] font-medium transition-all"
@@ -214,7 +214,7 @@ const ManagePg = () => {
               const isActive = activeTab === tab.label;
 
               return (
-                <button
+                <button data-testid={`manage-pg-tab-click-btn-${tab.label}`}
                   key={tab.label}
                   type="button"
                   onClick={() => handleTabClick(tab.label)}

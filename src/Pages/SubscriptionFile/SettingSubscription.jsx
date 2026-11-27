@@ -171,7 +171,7 @@ function SettingSubscription() {
                     </div>
 
                     <div className="flex justify-end">
-                      <button
+                      <button data-testid="setting-subscription-upgrade-to-premium-btn"
                         disabled
                         className="mt-3 px-6 py-2.5 text-sm rounded-lg font-normal border-none
           bg-[#1E45E1] 

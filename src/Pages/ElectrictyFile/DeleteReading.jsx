@@ -49,7 +49,7 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
 
   return (
     <div>
-      <Modal
+      <Modal data-testid="delete-reading-delete-reading-are-you-modal"
         show={show}
         onHide={handleDeleteReading}
         centered
@@ -66,14 +66,14 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
           Are you sure you want to delete the reading?
         </Modal.Body>
         <Modal.Footer className="!justify-center !border-t-0 !mt-[-10px]">
-          <Button
+          <Button data-testid="delete-reading-cancel-btn"
             onClick={handleDeleteReading}
             className="!rounded-lg !px-10 !py-3.5 !border !border-blue-700 !bg-white !text-blue-700 !font-gilroy"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="delete-reading-delete-confirm-btn"
             disabled={deleteLoading}
             onClick={handleDeleteConfirm}
             className={`

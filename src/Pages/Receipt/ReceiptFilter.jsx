@@ -271,7 +271,7 @@ function ReceiptFilter({ show, handleClose, size }) {
 
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-black/40" onClick={handleFilterClose} />
+      <div data-testid="receipt-filter-filter-close-action" className="fixed inset-0 z-40 bg-black/40" onClick={handleFilterClose} />
       <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white shadow-2xl flex flex-col font-gilroy">
         <div className="flex items-center justify-between border-b px-4 py-3">
           <div className="flex items-center gap-2">
@@ -281,7 +281,7 @@ function ReceiptFilter({ show, handleClose, size }) {
             </h2>
           </div>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="receipt-filter-close-icon"
             size={24}
             color="#FF0000"
             className="cursor-pointer"
@@ -296,27 +296,27 @@ function ReceiptFilter({ show, handleClose, size }) {
                 Invoice Type
               </label>
 
-              <Select
+              <div data-testid="receipt-filter-invoice-type-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 placeholder="Select Type"
                 value={selectedTypeOption}
                 onChange={handleInvoiceTypeChange}
                 options={typeOptions}
-              />
+              /></div>
             </div>
 
             <div className="mb-4">
               <label className={fieldLabelClass}>
                 Period
               </label>
-              <Select
+              <div data-testid="receipt-filter-period-select" className="contents"><Select
                 // isDisabled={selectedPeriod?.value === "CUSTOM"}
                 styles={fieldSelectStyles()}
                 placeholder="Select Period"
                 value={selectedPeriod}
                 onChange={handlePeriodChange}
                 options={periodOptions}
-              />
+              /></div>
 
               {selectedPeriod?.value === "CUSTOM" && (
                 <div className="grid grid-cols-2 gap-2 my-3">
@@ -325,7 +325,7 @@ function ReceiptFilter({ show, handleClose, size }) {
                       Start Date
                     </label>
 
-                    <DatePicker
+                    <DatePicker data-testid="receipt-filter-start-date"
                       className={datePickerClass()}
                      
                       format="DD/MM/YYYY"
@@ -350,7 +350,7 @@ function ReceiptFilter({ show, handleClose, size }) {
                       End Date
                     </label>
 
-                    <DatePicker
+                    <DatePicker data-testid="receipt-filter-end-date"
                       className={datePickerClass(!!dateError)}
                      
                       format="DD/MM/YYYY"
@@ -379,7 +379,7 @@ function ReceiptFilter({ show, handleClose, size }) {
               <label className={fieldLabelClass}>
                 Payment Mode
               </label>
-              <Select
+              <div data-testid="receipt-filter-payment-mode-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -389,14 +389,14 @@ function ReceiptFilter({ show, handleClose, size }) {
                 styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Payment Mode"
-              />
+              /></div>
             </div>
 
             <div className="mb-4">
               <label className={fieldLabelClass}>
                 Collected By
               </label>
-              <Select
+              <div data-testid="receipt-filter-collected-by-select" className="contents"><Select
                 isMulti
                 hideSelectedOptions={false}
                 closeMenuOnSelect={false}
@@ -406,7 +406,7 @@ function ReceiptFilter({ show, handleClose, size }) {
                 styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Collected By"
-              />
+              /></div>
             </div>
 
             <div className="mb-3">
@@ -423,14 +423,14 @@ function ReceiptFilter({ show, handleClose, size }) {
               </label>
 
               <div className="flex gap-2">
-                <input
+                <input data-testid="receipt-filter-paid-amount-range-input"
                   type="number"
                   placeholder="₹Min"
                   className={fieldClass()}
                   value={minAmount}
                   onChange={(e) => setMinAmount(e.target.value)}
                 />
-                <input
+                <input data-testid="receipt-filter-paid-amount-range-input-2"
                   type="number"
                   placeholder="₹Max"
                   value={maxAmount}
@@ -456,7 +456,7 @@ function ReceiptFilter({ show, handleClose, size }) {
           </div>
         )}
         <div className="sticky bottom-0 z-10 flex justify-between gap-4 border-t border-[#E0E0E0] bg-white px-5 py-[15px]">
-          <button
+          <button data-testid="receipt-filter-reset-btn"
             type="button"
             onClick={() => {
               setSelectedInvoiceType([]);
@@ -471,7 +471,7 @@ function ReceiptFilter({ show, handleClose, size }) {
             Reset
           </button>
 
-          <button
+          <button data-testid="receipt-filter-apply-btn"
             type="button"
             onClick={handleFilterBills}
             className="w-[48%] font-gilroy rounded-md bg-[#1E45E1] py-2 text-sm font-medium text-white transition-colors hover:bg-[#1738C9]"

@@ -97,7 +97,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleInternalClose} backdrop="static">
+    <Modal data-testid="forgot-otp-otp-verification-enter-6-modal" show={show} onHide={handleInternalClose} backdrop="static">
       <Modal.Header>
         <Modal.Title
           style={{
@@ -110,7 +110,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
           OTP Verification
         </Modal.Title>
 
-        <CloseCircle size="24" color="#000" onClick={handleModalClose} />
+        <CloseCircle data-testid="forgot-otp-modal-close-icon" size="24" color="#000" onClick={handleModalClose} />
       </Modal.Header>
       <Modal.Body style={{ position: "relative" }}>
         <div className="d-flex justify-content-start mb-3">
@@ -132,7 +132,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
         >
           {inputRefs.map((ref, index) => (
             <div key={index}>
-              <input
+              <input data-testid={`forgot-otp-form-control-lg-example-input-${index}`}
                 style={{
                   fontSize: 14,
                   color: "#222222",
@@ -192,7 +192,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
       ) : null}
 
       <Modal.Footer>
-        <Button
+        <Button data-testid="forgot-otp-resend-otp-btn"
           onClick={handleSendOtp}
           style={{
             padding: "10px 15px",
@@ -208,7 +208,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
         >
           Resend Otp
         </Button>
-        <Button
+        <Button data-testid="forgot-otp-verify-btn"
           onClick={handleOtpVerify}
           style={{
             padding: "10px 15px",

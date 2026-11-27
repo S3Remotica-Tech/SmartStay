@@ -118,7 +118,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                 display: 'block', position: 'initial'
             }}
         >
-            <Modal show={show} onHide={handleCloseRecurring} centered backdrop="static" >
+            <Modal data-testid="recurring-enable-recurring-enable-add-amenities-modal" show={show} onHide={handleCloseRecurring} centered backdrop="static" >
                 <Modal.Dialog style={{
                     maxWidth: 850,
                     width: '100%',
@@ -126,7 +126,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                 }} className='m-0 p-0'>
                     <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Recurring Enable</Modal.Title>
-                        <CloseCircle cursor="pointer" size="24" color="#000" onClick={handleCloseRecurring} />
+                        <CloseCircle data-testid="recurring-enable-close-recurring-icon" cursor="pointer" size="24" color="#000" onClick={handleCloseRecurring} />
                     </Modal.Header>
 
 
@@ -147,14 +147,14 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Select
+                                <div data-testid="recurring-enable-start-day-select" className="contents"><Select
                                     options={dayOptions}
                                     value={dayOptions.find((option) => option.value === startDate) || null}
                                     onChange={handleStartDateChange}
                                     placeholder="Start Day"
                                     styles={fieldSelectStyles(!!errorEndDate)}
 
-                                />
+                                /></div>
                             </div>
 
 
@@ -173,14 +173,14 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Select
+                                <div data-testid="recurring-enable-end-day-select" className="contents"><Select
                                     options={dayOptionsEnd}
                                     value={dayOptionsEnd.find((option) => option.value === endDate) || null}
                                     onChange={handleEndDateChange}
                                     placeholder="End Day"
                                     styles={fieldSelectStyles()}
 
-                                />
+                                /></div>
                             </div>
 
 
@@ -192,7 +192,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Form.Select className={fieldClass()}
+                                <Form.Select data-testid="recurring-enable-vendor-select" className={fieldClass()}
                                     id="vendor-select"
                                   
                                     value={recurringDay}
@@ -237,7 +237,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                     }
                     <Modal.Footer style={{ border: "none" }}>
 
-                        <Button
+                        <Button data-testid="recurring-enable-add-amenities-btn"
                             onClick={handleSubmit}
                             className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
                             Add Amenities

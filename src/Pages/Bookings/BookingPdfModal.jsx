@@ -370,7 +370,7 @@ const InvoiceCard = ({ rowData }) => {
             <div>
               <div className="flex gap-2">
                 <CustomTooltip text="Download" direction="top-full" usePortal={false}>
-                  <div
+                  <div data-testid="booking-pdf-modal-download-action"
                     className="flex justify-center items-center border rounded-[8px] cursor-pointer h-[30px] w-[30px]"
                     onClick={handleDownload}
                   >
@@ -384,7 +384,7 @@ const InvoiceCard = ({ rowData }) => {
 
                 <div className="relative inline-block">
                   <CustomTooltip text="Share" direction="top-full" usePortal={false}>
-                    <div
+                    <div data-testid="booking-pdf-modal-share-action"
                       className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
                       onClick={handleShareClick}
                     >
@@ -405,7 +405,7 @@ const InvoiceCard = ({ rowData }) => {
                         const isDisabled = !isExportAllow;
 
                         return (
-                          <div
+                          <div data-testid={`booking-pdf-modal-action-${item.key}`}
                             ref={modalRef}
                             key={item.key}
                             className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
@@ -453,7 +453,7 @@ const InvoiceCard = ({ rowData }) => {
                 </div>
 
                 <CustomTooltip text="Close" direction="top-full" usePortal={false}>
-                  <IoClose
+                  <IoClose data-testid="booking-pdf-modal-back-invoice-icon"
                     className="h-[20px] w-[20px] cursor-pointer text-red-500"
                     onClick={handleBackInvoice}
                   />
@@ -898,7 +898,7 @@ const InvoiceCard = ({ rowData }) => {
                       Description / Notes
                     </label>
 
-                    <textarea
+                    <textarea data-testid="booking-pdf-modal-description-notes-textarea"
                       rows={4}
                       placeholder=""
                       className="w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] font-medium text-[#4B4B4B] outline-none resize-none focus:ring-0 focus:border-[#1E45E1]"
@@ -926,7 +926,7 @@ const InvoiceCard = ({ rowData }) => {
       <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
         <div className="flex justify-between items-center px-4 py-2 !cursor-pointer ">
           <div className="flex  gap-4 cursor-pointer">
-            <div
+            <div data-testid="booking-pdf-modal-payments-made-action"
               onClick={() => {
                 setIsOpenPayment(true);
                 setActiveTab("payments");
@@ -939,7 +939,7 @@ const InvoiceCard = ({ rowData }) => {
               Payments Made
             </div>
 
-            <div
+            <div data-testid="booking-pdf-modal-retainer-adjusted-invoices-action"
               onClick={() => {
                 setIsOpenPayment(true);
                 setActiveTab("invoices");
@@ -956,7 +956,7 @@ const InvoiceCard = ({ rowData }) => {
           <div className="flex items-center gap-2">
             <div className="relative inline-flex">
               {pdfDetails?.invoiceInfo?.invoiceType === "ADVANCE" ? (
-                <button
+                <button data-testid="booking-pdf-modal-apply-to-invoices-btn"
                   disabled={!canUpdateInvoice || !isRedeemAvailable}
                   onClick={() => handleApplyInvoices()}
                   className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
@@ -984,7 +984,7 @@ const InvoiceCard = ({ rowData }) => {
                   </span>
                 </button>
               ) : (
-                <button
+                <button data-testid="booking-pdf-modal-apply-to-invoices-btn-2"
                   disabled={!canUpdateInvoice || !isRedeemAvailable}
                   onClick={() => handleApplyInvoicesRetainer(pdfDetails)}
                   className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
@@ -1015,7 +1015,7 @@ const InvoiceCard = ({ rowData }) => {
             </div>
 
             {isOpenPayment ? (
-              <ArrowUp2
+              <ArrowUp2 data-testid="booking-pdf-modal-is-open-payment-icon"
                 size="18"
                 variant="Bold"
                 color="#1E45E1"
@@ -1026,7 +1026,7 @@ const InvoiceCard = ({ rowData }) => {
                 }}
               />
             ) : (
-              <ArrowDown2
+              <ArrowDown2 data-testid="booking-pdf-modal-is-open-payment-icon-2"
                 size="18"
                 variant="Bold"
                 color="#1E45E1"

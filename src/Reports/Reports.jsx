@@ -437,7 +437,7 @@ function Reports() {
       <div className="sticky top-0 z-20 bg-white  flex justify-between">
         <div className="px-2 flex gap-6">
           {tabs.map((tab) => (
-            <button
+            <button data-testid={`reports-active-tab-btn-${tab.id}`}
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`pb-2 text-base font-semibold transition ${
@@ -451,7 +451,7 @@ function Reports() {
           ))}
         </div>
         <div className="datepicker-wrapper" style={{ position: "relative" }}>
-          <RangePicker
+          <RangePicker data-testid="reports-date-change-input"
             disabled={!canReadReports}
             style={{
               width: "100%",
@@ -569,7 +569,7 @@ function Reports() {
                         <div className="mt-2 h-6" />
                       )}
                       <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
-                      <div
+                      <div data-testid={`reports-action-${idx}`}
                         className={`mt-3 flex items-center justify-between gap-1 group
     ${isClickable ? "cursor-pointer" : "cursor-not-allowed opacity-60"}
   `}
@@ -632,7 +632,7 @@ function Reports() {
                     )}
                     <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
 
-                    <div
+                    <div data-testid={`reports-view-analytics-action-${idx}`}
                       className="mt-3 flex items-center justify-between gap-1 group cursor-pointer"
                       onClick={() => handleNavigateAnalyTics(item)}
                     >

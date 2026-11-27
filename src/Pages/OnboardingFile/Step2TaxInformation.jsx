@@ -49,7 +49,7 @@ function Step2TaxInformation({ onNext, onBack }) {
   });
 
   return (
-    <form noValidate onSubmit={handleSubmit(onNext)} className="flex flex-col gap-[16px] sm:px-[4px]">
+    <form data-testid="step2-tax-information-does-this-property-collect-form" noValidate onSubmit={handleSubmit(onNext)} className="flex flex-col gap-[16px] sm:px-[4px]">
       <fieldset
         className="m-0 flex flex-col gap-[16px] border-0 p-0"
         aria-describedby={errorFor("taxType") ? errorId("ob-tax") : undefined}
@@ -60,7 +60,7 @@ function Step2TaxInformation({ onNext, onBack }) {
           <span className="sr-only"> (required)</span>
         </legend>
         <div className="flex flex-wrap items-center gap-[17px]">
-          <Radio
+          <Radio data-testid="step2-tax-information-ob-tax-type-radio"
             id={FIELD_IDS.taxType}
             name="ob-tax-type"
             value={TAX_TYPES.NONE}
@@ -73,7 +73,7 @@ function Step2TaxInformation({ onNext, onBack }) {
             label="No tax"
             className="min-w-[110px]"
           />
-          <Radio
+          <Radio data-testid="step2-tax-information-ob-tax-type-radio-2"
             id="ob-tax-gst"
             name="ob-tax-type"
             value={TAX_TYPES.GST}
@@ -92,7 +92,7 @@ function Step2TaxInformation({ onNext, onBack }) {
       {isGst && (
         <>
           <FormField id={FIELD_IDS.gstin} label="GSTIN" required error={errorFor("gstin")}>
-            <input
+            <input data-testid="step2-tax-information-property-gst-no-input"
               type="text"
               autoComplete="off"
               placeholder="Enter your property GST No"
@@ -112,7 +112,7 @@ function Step2TaxInformation({ onNext, onBack }) {
               required
               error={errorFor("legalBusinessName")}
             >
-              <input
+              <input data-testid="step2-tax-information-property-name-as-per-the-proof-input"
                 type="text"
                 autoComplete="organization"
                 placeholder="Enter your property Name as per the proof"
@@ -123,7 +123,7 @@ function Step2TaxInformation({ onNext, onBack }) {
               />
             </FormField>
             <FormField id="ob-trade-name" label="Trade name (Optional)">
-              <input
+              <input data-testid="step2-tax-information-trade-name-input"
                 id="ob-trade-name"
                 type="text"
                 placeholder="Enter trade name"
@@ -138,7 +138,7 @@ function Step2TaxInformation({ onNext, onBack }) {
           <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2">
             <FormField id={FIELD_IDS.taxPercent} label="TAX percent you collected" error={errorFor("taxPercent")}>
               <div className={fieldGroupClass(Boolean(errorFor("taxPercent")))}>
-                <input
+                <input data-testid="step2-tax-information-tax-percent-input"
                   type="text"
                   inputMode="decimal"
                   placeholder="Enter the tax percent"
@@ -162,7 +162,7 @@ function Step2TaxInformation({ onNext, onBack }) {
             required
             error={errorFor("principalPlace")}
             action={
-              <Checkbox
+              <Checkbox data-testid="step2-tax-information-ob-same-address-checkbox"
                 id="ob-same-address"
                 checked={tax.sameAsPropertyAddress}
                 disabled={!propertyAddress}
@@ -184,7 +184,7 @@ function Step2TaxInformation({ onNext, onBack }) {
               />
             }
           >
-            <textarea
+            <textarea data-testid="step2-tax-information-e-g-flat-no-10-eden-homes-omr-textarea"
               rows={3}
               placeholder="e.g. Flat No 10, Eden homes, OMR Road"
               maxLength={300}

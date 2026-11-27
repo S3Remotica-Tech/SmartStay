@@ -244,12 +244,12 @@ function CreateBill() {
 
   const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
-      <div
+      <div data-testid="create-bill-click-action"
         className="date-input-container w-100"
         onClick={onClick}
         style={{ position: "relative" }}
       >
-        <FormControl
+        <FormControl data-testid="create-bill-input"
           type="text"
           className={fieldClass()}
           value={value || "DD/MM/YYYY"}
@@ -257,7 +257,7 @@ function CreateBill() {
           ref={ref}
          
         />
-        <img
+        <img data-testid="create-bill-calendar-img"
           src={Calendars}
           style={{
             height: 24,
@@ -283,12 +283,12 @@ function CreateBill() {
 
   const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
-      <div
+      <div data-testid="create-bill-click-action-2"
         className="date-input-container w-100"
         onClick={onClick}
         style={{ position: "relative" }}
       >
-        <FormControl
+        <FormControl data-testid="create-bill-input-2"
           type="text"
           className={fieldClass()}
           value={value || "DD/MM/YYYY"}
@@ -296,7 +296,7 @@ function CreateBill() {
           ref={ref}
          
         />
-        <img
+        <img data-testid="create-bill-calendar-img-2"
           src={Calendars}
           style={{
             height: 24,
@@ -323,12 +323,12 @@ function CreateBill() {
 
   const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
-      <div
+      <div data-testid="create-bill-click-action-3"
         className="date-input-container w-100"
         onClick={onClick}
         style={{ position: "relative" }}
       >
-        <FormControl
+        <FormControl data-testid="create-bill-input-3"
           type="text"
           className={fieldClass()}
           value={value || "DD/MM/YYYY"}
@@ -336,7 +336,7 @@ function CreateBill() {
           ref={ref}
          
         />
-        <img
+        <img data-testid="create-bill-calendar-img-3"
           src={Calendars}
           style={{
             height: 24,
@@ -363,12 +363,12 @@ function CreateBill() {
   const CustomInvoiceDueDateInput = React.forwardRef(
     ({ value, onClick }, ref) => {
       return (
-        <div
+        <div data-testid="create-bill-click-action-4"
           className="date-input-container w-100"
           onClick={onClick}
           style={{ position: "relative" }}
         >
-          <FormControl
+          <FormControl data-testid="create-bill-input-4"
             type="text"
             className={fieldClass()}
             value={value || "DD/MM/YYYY"}
@@ -376,7 +376,7 @@ function CreateBill() {
             ref={ref}
            
           />
-          <img
+          <img data-testid="create-bill-calendar-img-4"
             src={Calendars}
             style={{
               height: 24,
@@ -759,7 +759,7 @@ function CreateBill() {
     <div className="mt-4 pl-[5px] relative">
       <div className="sticky top-0 left-0 z-[1000] w-full h-[50px] bg-white px-[5px] py-[5px] flex items-start justify-start whitespace-nowrap">
         <div className="fixed flex items-center gap-2">
-          <img
+          <img data-testid="create-bill-leftarrow-img"
             src={leftarrow}
             alt="leftarrow"
             className="w-5 h-5 cursor-pointer"
@@ -779,7 +779,7 @@ function CreateBill() {
               Select Tenant <span className={fieldRequiredClass}>*</span>
             </label>
 
-            <Select
+            <div data-testid="create-bill-tenant-select" className="contents"><Select
               options={customerOptions}
               onChange={handleCustomerName}
               value={
@@ -794,7 +794,7 @@ function CreateBill() {
                 ...fieldSelectStyles(!!customererrmsg),
                 menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
               }}
-            />
+            /></div>
 
             {customererrmsg.trim() !== "" && (
               <ErrorMessage className="mt-[6px]" message={customererrmsg} type="error" />
@@ -808,7 +808,7 @@ function CreateBill() {
               Invoice Number
             </label>
 
-            <input
+            <input data-testid="create-bill-invoice-number-input"
               disabled={billData}
               type="text"
               placeholder="Enter Invoice Number"
@@ -831,7 +831,7 @@ function CreateBill() {
           </p>
 
           <div className="relative w-full datepicker-wrapper">
-            <DatePicker
+            <DatePicker data-testid="create-bill-invoice-date"
               disabled={billData}
               className={datePickerClass(!!invoicedateerrmsg)}
               format="DD/MM/YYYY"
@@ -867,7 +867,7 @@ function CreateBill() {
             Select Type{" "}
             {/* <span className={`${fieldRequiredClass} hidden`}>*</span> */}
           </p>
-          <Select
+          <div data-testid="create-bill-item-type-select" className="contents"><Select
             value={
               dropdownValue
                 ? { value: dropdownValue, label: dropdownValue }
@@ -888,7 +888,7 @@ function CreateBill() {
             ]}
             isSearchable={false}
             styles={fieldSelectStyles()}
-          />
+          /></div>
         </div>
       </div>
 
@@ -911,7 +911,7 @@ function CreateBill() {
                     <div className="col-span-1 text-center">{index + 1}</div>
 
                     <div className="col-span-5">
-                      <input
+                      <input data-testid={`create-bill-description-input-${index}`}
                         type="text"
                         disabled={u.isFromApi}
                         value={u.am_name}
@@ -929,7 +929,7 @@ function CreateBill() {
                     </div>
 
                     <div className="col-span-3">
-                      <input
+                      <input data-testid={`create-bill-row-errors-input-${index}`}
                         type="text"
                         // disabled={u.isRent}
                         value={u.amount !== "0" ? u.amount : ""}
@@ -950,7 +950,7 @@ function CreateBill() {
                     </div>
 
                     <div className="col-span-1 flex justify-start">
-                      <CloseCircle
+                      <CloseCircle data-testid={`create-bill-icon-${index}`}
                         onClick={() =>
                           !u.isFromApi && handleDeleteNewRow(index)
                         }
@@ -1016,7 +1016,7 @@ function CreateBill() {
 
       <div className="grid grid-cols-12 mt-1">
         <div className="col-span-2 md:col-span-4 md:col-start-8">
-          <button
+          <button data-testid="create-bill-btn"
             disabled={formLoading}
             onClick={billData ? handleEditBill : handleCreateBill}
             className="w-fit  bg-[#1E45E1] text-white px-5 font-medium h-[40px] 

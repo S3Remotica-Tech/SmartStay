@@ -35,7 +35,7 @@ function NoDataMessage({
 
         <div className="flex">
           {isSearching && isClearSearch && (
-            <button
+            <button data-testid="no-data-message-clear-search-btn"
               onClick={handleClear}
               className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
                             !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7]"

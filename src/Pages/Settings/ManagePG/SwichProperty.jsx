@@ -66,7 +66,7 @@ const SwichProperty = ({ isOpen, onClose }) => {
             </p>
           </div>
 
-          <button
+          <button data-testid="swich-property-close-btn"
             type="button"
             onClick={onClose}
             className="flex h-6 w-6 items-center justify-center text-[#FF3838] transition hover:opacity-70"
@@ -125,7 +125,7 @@ const SwichProperty = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  <button
+                  <button data-testid={`swich-property-switch-hostel-btn-${hostel.hostelId}`}
                     type="button"
                     onClick={() => handleSwitchHostel(hostel?.hostelId)}
                     disabled={switchingHostelId === hostel?.hostelId}

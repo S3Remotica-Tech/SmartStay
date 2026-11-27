@@ -164,7 +164,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
             Apply {label} to Invoice
           </h5>
 
-          <button
+          <button data-testid="apply-advance-close-btn"
             onClick={handleClose}
             className="text-red-500 text-lg font-bold hover:scale-110 transition"
           >
@@ -268,7 +268,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
                         </td>
 
                         <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
-                          <input
+                          <input data-testid={`apply-advance-apply-amount-change-input-${initializeDetails?.currentInvoiceInfo?.invoiceId}`}
                             type="number"
                             value={
                               applyAmountForInvoice.find(
@@ -334,14 +334,14 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
         </div>
 
         <div className="m-6 flex justify-end gap-3">
-          <button
+          <button data-testid="apply-advance-cancel-btn"
             onClick={handleClose}
             className="px-4 py-2 bg-gray-100 rounded-md text-sm"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="apply-advance-apply-submit-btn"
             type="button"
             disabled={formLoading}
             onClick={handleApplySubmit}

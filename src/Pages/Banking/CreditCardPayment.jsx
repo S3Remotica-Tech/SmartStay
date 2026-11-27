@@ -316,7 +316,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
-      <div
+      <div data-testid="credit-card-payment-credit-card-payment-credit-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-fit bg-white rounded-lg shadow-xl border-2 border-gray-100 z-50 flex flex-col"
       >
@@ -329,7 +329,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
           </h1>
           <div className="flex gap-2">
             <div className="relative">
-              <MessageQuestion
+              <MessageQuestion data-testid="credit-card-payment-show-works-icon"
                 className="cursor-pointer"
                 onClick={() => setShowWorks(!showWorks)}
               />
@@ -343,7 +343,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 </div>
               )}
             </div>
-            <Add
+            <Add data-testid="credit-card-payment-close-icon"
               size={24}
               color="#FF0000"
               onClick={handleClose}
@@ -359,7 +359,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <Select isDisabled={!isBank && !!bankId}
+                <div data-testid="credit-card-payment-credit-card-account-select" className="contents"><Select isDisabled={!isBank && !!bankId}
                   ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
@@ -367,7 +367,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   placeholder="Select Credit Card"
                   className="text-sm"
                   styles={fieldSelectStyles(!!creditCardAccountError)}
-                />
+                /></div>
               </div>
 
               {creditCardAccountError && (
@@ -381,7 +381,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 Payment method{" "}
                 <span className={fieldRequiredClass}>*</span>
               </label>
-              <Select
+              <div data-testid="credit-card-payment-payment-method-select" className="contents"><Select
                 isDisabled={!creditCardAccount?.value}
                 ref={paymentMethodRef}
                 value={paymentMethod}
@@ -397,7 +397,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
 
               {paymentMethodError && (
                 <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -410,7 +410,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   *
                 </span>
               </label>
-              <input
+              <input data-testid="credit-card-payment-transaction-id-input"
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
@@ -426,7 +426,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 Amount (INR) <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative">
-                <input
+                <input data-testid="credit-card-payment-amount-inr-input"
                   onWheel={(e) => e.target.blur()}
                   type="number"
                   value={amount}
@@ -446,7 +446,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                 <span className={fieldRequiredClass}>*</span>
               </label>
               <div className="relative" ref={paymentDateRef}>
-                <DatePicker
+                <div data-testid="credit-card-payment-settlement-date" className="contents"><DatePicker
                   wrapperClassName="w-full"
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
@@ -454,7 +454,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   placeholderText="Select Date"
                   maxDate={new Date()}
                   className={datePickerInputClass(!!paymentDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -472,7 +472,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
               <label className={fieldLabelClass}>
                 Notes
               </label>
-              <textarea
+              <textarea data-testid="credit-card-payment-notes-textarea"
                 rows={4}
                 value={description}
                 onChange={handleDescriptionChange}
@@ -483,7 +483,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
           </div>
         </div>
         <div className="flex justify-end gap-4 m-3">
-          <button
+          <button data-testid="credit-card-payment-cancel-btn"
             onClick={handleClose}
             type="button"
             className="text-[#4B4B4B] text-sm font-medium"
@@ -491,7 +491,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
             Cancel
           </button>
 
-          <button
+          <button data-testid="credit-card-payment-submit-btn"
             onClick={handleSubmit}
             disabled={loading}
             className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"

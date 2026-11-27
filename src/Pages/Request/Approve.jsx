@@ -20,7 +20,7 @@ function Approve({ show, handleClose }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
 
-      <div
+      <div data-testid="approve-assign-amenity-raised-by-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-[9999] flex flex-col font-gilroy border border-gray-50"
       >
@@ -31,7 +31,7 @@ function Approve({ show, handleClose }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             Assign Amenity
           </h1>
-          <Add
+          <Add data-testid="approve-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -98,7 +98,7 @@ function Approve({ show, handleClose }) {
               className="relative"
               //  ref={dateRef}
             >
-              <DatePicker
+              <div data-testid="approve-activate-from-date" className="contents"><DatePicker
                 // selected={date}
                 // onChange={(value) => {
                 //   setDate(value);
@@ -109,7 +109,7 @@ function Approve({ show, handleClose }) {
                 minDate={new Date()}
                 placeholderText="Select Date"
                 className={datePickerInputClass()}
-              />
+              /></div>
 
               <Calendar
                 size={18}
@@ -122,14 +122,14 @@ function Approve({ show, handleClose }) {
         </div>
 
         <div className="flex justify-end gap-4 m-4">
-          <button
+          <button data-testid="approve-cancel-btn"
             onClick={handleClose}
             className="flex-1 border rounded-lg py-2"
           >
             Cancel
           </button>
 
-          <button className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
+          <button data-testid="approve-approve-btn" className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
             Approve{" "}
           </button>
         </div>

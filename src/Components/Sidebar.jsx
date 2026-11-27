@@ -824,7 +824,7 @@ function Sidebar() {
             {/* Mobile top bar (<md): menu, logo, quick add, notifications, profile */}
             <header className="md:hidden flex items-center justify-between h-14 shrink-0 px-[12px] bg-white border-b border-[#E2E8F0] shadow-sm z-[1020]">
               <div className="flex items-center gap-[10px] min-w-0">
-                <button
+                <button data-testid="sidebar-open-menu-btn"
                   type="button"
                   aria-label="Open menu"
                   aria-expanded={isSidebarOpen}
@@ -833,7 +833,7 @@ function Sidebar() {
                 >
                   <HambergerMenu size="24" color="#222222" />
                 </button>
-                <img
+                <img data-testid="sidebar-smartstay-img"
                   src={Smartstay}
                   alt="smartstay"
                   className="h-6 w-auto max-w-[130px] cursor-pointer"
@@ -842,7 +842,7 @@ function Sidebar() {
               </div>
 
               <div className="flex items-center gap-[12px]">
-                <button
+                <button data-testid="sidebar-quick-actions-btn"
                   type="button"
                   aria-label="Quick actions"
                   onClick={() => setShowMenuModal(true)}
@@ -851,7 +851,7 @@ function Sidebar() {
                   +
                 </button>
 
-                <button
+                <button data-testid="sidebar-notifications-btn"
                   type="button"
                   aria-label="Notifications"
                   onClick={handleShowNotification}
@@ -865,7 +865,7 @@ function Sidebar() {
                   )}
                 </button>
 
-                <button
+                <button data-testid="sidebar-profile-btn"
                   type="button"
                   aria-label="Profile"
                   onClick={() => setShowProfileCard((s) => !s)}
@@ -889,7 +889,7 @@ function Sidebar() {
 
             {/* Mobile drawer backdrop */}
             {isSidebarOpen && (
-              <div
+              <div data-testid="sidebar-is-sidebar-open-action"
                 className="md:hidden fixed inset-0 bg-black/40 z-[1030]"
                 onClick={() => setIsSidebarOpen(false)}
                 aria-hidden="true"
@@ -902,14 +902,14 @@ function Sidebar() {
             >
               <div className="shrink-0 px-[12px] pt-[14px] pb-[8px]">
                 <div className="flex items-center justify-between min-h-[24px]">
-                  <img
+                  <img data-testid="sidebar-smartstay-img-2"
                     src={Smartstay}
                     alt="smartstay"
                     className={`${logoClass} w-36 h-6 cursor-pointer`}
                     onClick={() => handlePageClick("dashboard")}
                   />
 
-                  <button
+                  <button data-testid="sidebar-close-menu-btn"
                     type="button"
                     aria-label="Close menu"
                     onClick={closeSidebar}
@@ -934,7 +934,7 @@ function Sidebar() {
                 </div>
 
                 {hostelListDetail && hostelListDetail?.length > 0 && (
-                  <div
+                  <div data-testid="sidebar-toggle-dropdown-action"
                     ref={dropdownRef}
                     onClick={toggleDropdown}
                     role="button"
@@ -1021,7 +1021,7 @@ function Sidebar() {
                               variant="Linear"
                               className="absolute left-2 top-1/2 -translate-y-1/2"
                             />
-                            <input
+                            <input data-testid="sidebar-search-hostel-input"
                               type="text"
                               value={hostelSearch}
                               onChange={handleSearchChange}
@@ -1035,7 +1035,7 @@ function Sidebar() {
                           <ul className="m-0 p-0 py-1 list-none">
                             {filteredHostels?.length > 0 ? (
                               filteredHostels?.map((item) => (
-                                <li
+                                <li data-testid={`sidebar-hostel-id-action-${item.id}`}
                                   key={item.id}
                                   className="flex items-center gap-2 py-2 mx-1 px-2 rounded-[6px] cursor-pointer text-[#1E45E1] hover:bg-gray-100"
                                   onClick={() =>
@@ -1096,7 +1096,7 @@ function Sidebar() {
                 )}
 
                 {!(hostelListDetail ?? []).length && (
-                  <NavLink
+                  <NavLink data-testid="sidebar-add-pg-link"
                     to={RoleAccess ? settingsPath : "#"}
                     className={`flex items-center justify-center mt-[12px] font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm py-2 px-2 rounded-[8px] no-underline whitespace-nowrap ${RoleAccess
                       ? "cursor-pointer"
@@ -1121,7 +1121,7 @@ function Sidebar() {
               <nav className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-[8px] pb-[12px] [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-[#CBD5E1] [&::-webkit-scrollbar-thumb]:rounded-[8px]">
                 <ul className="flex flex-col gap-[4px] list-none p-0 mb-0 mt-[4px] w-full">
                   <li>
-                    <NavLink
+                    <NavLink data-testid="sidebar-home-link"
                       to={withHostel("/dashboard")}
                       className={({ isActive }) => navItemClass(isActive)}
                       onClick={() => handlePageClick("dashboard")}
@@ -1132,7 +1132,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <button
+                    <button data-testid="sidebar-manage-btn"
                       type="button"
                       aria-expanded={manageOpen}
                       className={groupHeaderClass(manageOpen)}
@@ -1158,7 +1158,7 @@ function Sidebar() {
                     {manageOpen && (
                       <ul className={submenuClass}>
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-paying-guest-link"
                             to={withHostel("/paying-guest")}
                             className={({ isActive }) => navItemClass(isActive)}
                             onClick={() => handlePageClick("pg-list")}
@@ -1169,7 +1169,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-tenant-link"
                             to={withHostel("/tenant")}
                             className={({ isActive }) =>
                               navItemClass(
@@ -1184,7 +1184,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-assets-link"
                             to={withHostel("/asset")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "asset")
@@ -1197,7 +1197,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-vendor-link"
                             to={withHostel("/vendor")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "vendor")
@@ -1213,7 +1213,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <NavLink
+                    <NavLink data-testid="sidebar-banking-link"
                       to={withHostel("/banking")}
                       className={({ isActive }) =>
                         navItemClass(isActive || currentPage === "banking-new")
@@ -1226,7 +1226,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <button
+                    <button data-testid="sidebar-billing-payments-btn"
                       type="button"
                       aria-expanded={billingOpen}
                       className={groupHeaderClass(billingOpen)}
@@ -1253,7 +1253,7 @@ function Sidebar() {
                     {billingOpen && (
                       <ul className={submenuClass}>
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-bills-link"
                             to={withHostel("/invoice")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "invoice")
@@ -1266,7 +1266,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-retainer-invoice-link"
                             to={withHostel("/retainer-invoice")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "booking")
@@ -1279,7 +1279,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-recurring-bills-link"
                             to={withHostel("/recurring")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "recurring")
@@ -1292,7 +1292,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-receipts-link"
                             to={withHostel("/receipts")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "receipts")
@@ -1308,7 +1308,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <NavLink
+                    <NavLink data-testid="sidebar-electricity-link"
                       to={withHostel("/electricity")}
                       className={({ isActive }) =>
                         navItemClass(isActive || currentPage === "eb")
@@ -1321,7 +1321,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <button
+                    <button data-testid="sidebar-service-desk-btn"
                       type="button"
                       aria-expanded={serviceDesk}
                       className={groupHeaderClass(serviceDesk)}
@@ -1346,7 +1346,7 @@ function Sidebar() {
                     {serviceDesk && (
                       <ul className={submenuClass}>
                         <li>
-                          <NavLink
+                          <NavLink data-testid="sidebar-compliants-link"
                             to={withHostel("/compliance")}
                             className={({ isActive }) =>
                               navItemClass(isActive || currentPage === "compliance")
@@ -1359,7 +1359,7 @@ function Sidebar() {
                         </li>
                         {isDevelopment && (
                           <li>
-                            <NavLink
+                            <NavLink data-testid="sidebar-requests-link"
                               to={withHostel("/requests")}
                               className={({ isActive }) =>
                                 navItemClass(isActive || currentPage === "requests")
@@ -1376,7 +1376,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <NavLink
+                    <NavLink data-testid="sidebar-expenses-link"
                       to={withHostel("/expense")}
                       className={({ isActive }) =>
                         navItemClass(isActive || currentPage === "expenses")
@@ -1389,7 +1389,7 @@ function Sidebar() {
                   </li>
 
                   <li>
-                    <NavLink
+                    <NavLink data-testid="sidebar-reports-link"
                       to={withHostel("/reports")}
                       className={({ isActive }) =>
                         navItemClass(isActive || currentPage === "reports")
@@ -1403,7 +1403,7 @@ function Sidebar() {
 
                   {/* Settings + Help live in the right panel on md+; show them in the mobile drawer */}
                   <li className="md:hidden mt-[8px] pt-[8px] border-t border-[#E2E8F0]">
-                    <NavLink
+                    <NavLink data-testid="sidebar-settings-link"
                       to={settingsPath}
                       className={({ isActive }) => navItemClass(isActive)}
                       onClick={() => {
@@ -1857,7 +1857,7 @@ function Sidebar() {
             {/* Right utility panel (md+). On mobile these actions live in the top bar / drawer. */}
             <aside className="hidden md:flex w-14 shrink-0 flex-col items-center h-screen overflow-y-auto bg-slate-50 border-l border-slate-200 shadow-sm">
               <CustomTooltip text="profile" direction="right-full" usePortal={true}>
-                <div
+                <div data-testid="sidebar-show-profile-card-action"
                   ref={profileAreaRef}
                   onClick={() => setShowProfileCard((s) => !s)}
                   role="button"
@@ -1880,7 +1880,7 @@ function Sidebar() {
               </CustomTooltip>
 
               <CustomTooltip text="Quick" direction="right-full" usePortal={true}>
-                <button
+                <button data-testid="sidebar-show-menu-modal-btn"
                   type="button"
                   onClick={() => setShowMenuModal(true)}
                   className="w-8 h-8 rounded-[8px] bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-[16px] transition-colors leading-none pb-0.5"
@@ -1897,7 +1897,7 @@ function Sidebar() {
                 </CustomTooltip>
 
                 <CustomTooltip text="Notify" direction="right-full" usePortal={true}>
-                  <div
+                  <div data-testid="sidebar-show-notification-action"
                     onClick={handleShowNotification}
                     onMouseEnter={() => handleMouseEnter("notification")}
                     onMouseLeave={handleMouseLeave}
@@ -1920,7 +1920,7 @@ function Sidebar() {
                 </CustomTooltip>
 
                 <CustomTooltip text="Settings" direction="right-full" usePortal={true}>
-                  <NavLink
+                  <NavLink data-testid="sidebar-page-click-setting-new-design-link"
                     to={settingsPath}
                     onMouseEnter={() => handleMouseEnter("settings")}
                     onMouseLeave={handleMouseLeave}

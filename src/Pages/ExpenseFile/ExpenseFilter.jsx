@@ -404,7 +404,7 @@ function ExpenseFilter({ show, handleClose, size }) {
   return (
     <div>
       {show && (
-        <div
+        <div data-testid="expense-filter-filter-close-action"
           className="fixed inset-0 bg-black/30 z-[1040]"
           onClick={handleFilterClose}
         />
@@ -425,7 +425,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             Filter
           </div>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="expense-filter-close-icon"
             onClick={handleClose}
             className="text-[#FF0000] text-[20px] cursor-pointer"
           />
@@ -438,7 +438,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Vendor
               </label>
 
-              <Select
+              <div data-testid="expense-filter-vendor-select" className="contents"><Select
                 // isDisabled
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
@@ -447,7 +447,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 placeholder="Select Vendor"
                 value={selectedVendor}
                 onChange={(selected) => setSelectedVendor(selected)}
-              />
+              /></div>
             </div>
 
             <div className="mb-2">
@@ -455,7 +455,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Payment Status
               </label>
 
-              <Select
+              <div data-testid="expense-filter-payment-status-select" className="contents"><Select
                 // isDisabled
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
@@ -464,7 +464,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 placeholder="Select Status"
                 value={selectedBillStatus}
                 onChange={(selected) => setSelectedBillStatus(selected)}
-              />
+              /></div>
             </div>
 
             <div className="mb-2">
@@ -472,7 +472,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Category
               </label>
 
-              <Select
+              <div data-testid="expense-filter-category-select" className="contents"><Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={categoryOptions}
@@ -480,7 +480,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 onChange={handleCategoryChange}
                 styles={fieldSelectStyles()}
                 placeholder="Select Category"
-              />
+              /></div>
             </div>
 
             <div className="mb-2">
@@ -488,7 +488,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Sub Category
               </label>
 
-              <Select
+              <div data-testid="expense-filter-sub-category-select" className="contents"><Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={subCategoryOptions}
@@ -496,7 +496,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 onChange={handleSubCategoryChange}
                 styles={fieldSelectStyles()}
                 placeholder="Select Sub Category"
-              />
+              /></div>
             </div>
 
             <div className="mb-2">
@@ -504,13 +504,13 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Period
               </label>
 
-              <Select
+              <div data-testid="expense-filter-period-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 value={selectedPeriodOption}
                 onChange={handlePeriodChange}
                 options={periodOptions}
                 placeholder="Select Period"
-              />
+              /></div>
 
               {period?.value === "CUSTOM" && (
                 <div className="flex flex-col sm:flex-row gap-3 mt-4">
@@ -520,7 +520,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                     </label>
 
                     <div className="datepicker-wrapper relative w-full text-[12px]">
-                      <DatePicker
+                      <DatePicker data-testid="expense-filter-start-date"
                         className={datePickerClass(!!startDateError)}
                         format="DD/MM/YYYY"
                         placeholder="Start Date"
@@ -550,7 +550,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                     </label>
 
                     <div className="datepicker-wrapper relative w-full">
-                      <DatePicker
+                      <DatePicker data-testid="expense-filter-end-date"
                         className={datePickerClass(!!endDateError)}
                         format="DD/MM/YYYY"
                         placeholder="End Date"
@@ -586,7 +586,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Payment Mode
               </label>
 
-              <Select
+              <div data-testid="expense-filter-payment-mode-select" className="contents"><Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={paymentModeOptions}
@@ -594,7 +594,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 onChange={handlePaymentMode}
                 styles={fieldSelectStyles()}
                 placeholder="Select Payment Mode"
-              />
+              /></div>
             </div>
 
             <div className="mb-2">
@@ -602,7 +602,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 Created By
               </label>
 
-              <Select
+              <div data-testid="expense-filter-created-by-select" className="contents"><Select
                 closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 styles={fieldSelectStyles()}
@@ -610,7 +610,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 onChange={handleCreatedByChange}
                 options={createdByOptions}
                 placeholder="Select"
-              />
+              /></div>
             </div>
 
             <div className="mb-2">
@@ -622,7 +622,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             <div className="mt-1 mb-3">
               <div className="flex gap-2">
                 <div className="w-1/2">
-                  <input
+                  <input data-testid="expense-filter-min-input"
                     type="number"
                     placeholder="₹Min"
                     min="0"
@@ -642,7 +642,7 @@ function ExpenseFilter({ show, handleClose, size }) {
                 </div>
 
                 <div className="w-1/2">
-                  <input
+                  <input data-testid="expense-filter-max-input"
                     type="number"
                     placeholder="₹Max"
                     min={minAmount || "0"}
@@ -680,7 +680,7 @@ function ExpenseFilter({ show, handleClose, size }) {
         )}
 
         <div className="flex-shrink-0 flex items-center justify-between gap-3 px-5 py-[15px] border-t border-[#E0E0E0] bg-white z-10">
-          <button
+          <button data-testid="expense-filter-reset-btn"
             type="button"
             onClick={handleReset}
             className="
@@ -700,7 +700,7 @@ function ExpenseFilter({ show, handleClose, size }) {
             Reset
           </button>
 
-          <button
+          <button data-testid="expense-filter-apply-btn"
             type="button"
             onClick={handleFilterBills}
             className="

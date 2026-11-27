@@ -189,7 +189,7 @@ function PayingGuestMap(props) {
             </div>
 
             <div>
-              <div
+              <div data-testid={`paying-guest-map-dots-click-action-${props.hostel && props.hostel.hostelId}`}
                 className={`h-[40px] w-[40px] rounded-full border border-[#EFEFEF] flex justify-center items-center relative cursor-pointer ${
                   showDots ? "bg-[#E7F1FF] z-[1000]" : "bg-white"
                 }`}
@@ -214,7 +214,7 @@ function PayingGuestMap(props) {
                         left: window.innerWidth <= 331 ? 10 : "auto",
                       }}
                     >
-                      <div
+                      <div data-testid={`paying-guest-map-edit-action-${props.hostel && props.hostel.hostelId}`}
                         className={`flex gap-2 items-center w-full px-3 py-2 rounded-tl-[10px] rounded-tr-[10px] transition-colors duration-200 ease-in-out ${
                           !canUpdatePayingGuests
                             ? "opacity-50 cursor-not-allowed"
@@ -251,7 +251,7 @@ function PayingGuestMap(props) {
 
                       <div className="h-[1px] bg-[#F0F0F0] w-full" />
 
-                      <div
+                      <div data-testid={`paying-guest-map-delete-action-${props.hostel && props.hostel.hostelId}`}
                         className={`flex gap-2 items-center w-full px-3 py-2 rounded-bl-[10px] rounded-br-[10px] transition-colors duration-200 ease-in-out ${
                           !canDeletePayingGuests
                             ? "opacity-50 cursor-not-allowed"
@@ -446,7 +446,7 @@ function PayingGuestMap(props) {
       </Card>
 
       {show && (
-        <Modal
+        <Modal data-testid="paying-guest-map-delete-paying-guest-are-modal"
           show={show}
           onHide={handleClose}
           centered
@@ -469,14 +469,14 @@ function PayingGuestMap(props) {
           )} */}
 
           <Modal.Footer className="!flex !justify-center !border-t-0 !gap-1 !w-full flex-nowrap">
-            <Button
+            <Button data-testid="paying-guest-map-cancel-btn"
               onClick={handleClose}
               className="!px-14 !py-3.5 !rounded-md !border !border-[#1E45E1] !bg-[white] !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="paying-guest-map-delete-pg-btn"
               disabled={deleteLoading}
               onClick={() => handleDeletePG(props.hostel)}
               className={`

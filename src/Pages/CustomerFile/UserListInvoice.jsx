@@ -337,7 +337,7 @@ function UserListInvoice() {
         billId={deleteId}
       />
       <div className="flex justify-end w-full lg:-mt-[65px] ">
-        <Button
+        <Button data-testid="user-list-invoice-create-bill-btn"
           onClick={handleAddBill}
           disabled={isDisabledButton}
           className="!font-gilroy text-sm text-white !font-semibold disabled:cursor-not-allowed rounded-md px-4 w-36 whitespace-nowrap !bg-[#1E45E1]"
@@ -398,7 +398,7 @@ function UserListInvoice() {
                           key={view.invoiceId}
                           className="hover:bg-gray-100"
                         >
-                          <td
+                          <td data-testid={`user-list-invoice-navigate-pdf-action-${view.invoiceId}`}
                             className={`${TABLE_BODY_CELL} w-[230px] text-[#1E45E1] hover:underline cursor-pointer`}
                             onClick={() => handleNavigatePDF(view)}
                           >
@@ -520,7 +520,7 @@ function UserListInvoice() {
                             ?.customerCurrentStatus !== "VACATED" && (
                               <td className={`${TABLE_BODY_CELL} text-left align-middle sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                                 <div className="flex flex-wrap gap-2 py-2">
-                                  <div
+                                  <div data-testid={`user-list-invoice-action-${view.invoiceId}`}
                                     className={`flex justify-center items-center relative cursor-pointer  
         ${activeId === view.id ? "z-[1000]" : ""}`}
                                     onClick={(e) => {
@@ -542,7 +542,7 @@ function UserListInvoice() {
                                       >
                                         <div className="flex flex-col gap-1 divide-y divide-gray-300">
                                           {view?.canEdit && (
-                                            <button
+                                            <button data-testid={`user-list-invoice-edit-btn-${view.invoiceId}`}
                                               onClick={() =>
                                                 canUpdateInvoice &&
                                                 handleEdit(view)
@@ -561,7 +561,7 @@ function UserListInvoice() {
                                           )}
 
                                           {view.canUnpaid && (
-                                            <button
+                                            <button data-testid={`user-list-invoice-unpaid-btn-${view.invoiceId}`}
                                               disabled={!canUpdateInvoice}
                                               onClick={() =>
                                                 canUpdateInvoice &&
@@ -584,7 +584,7 @@ function UserListInvoice() {
                                               "Settlement" ||
                                               view?.invoiceType ===
                                               "Reassign Rent") && (
-                                              <button
+                                              <button data-testid={`user-list-invoice-make-discount-btn-${view.invoiceId}`}
                                                 disabled={!canUpdateInvoice}
                                                 onClick={() =>
                                                   canUpdateInvoice &&
@@ -601,7 +601,7 @@ function UserListInvoice() {
                                               </button>
                                             )}
 
-                                          <button
+                                          <button data-testid={`user-list-invoice-download-btn-${view.invoiceId}`}
                                             onClick={() =>
                                               isExportAllow &&
                                               handleInvoicepdf(view)
@@ -622,7 +622,7 @@ function UserListInvoice() {
                                           {view?.totalAmount > 0 &&
                                             view?.paymentStatus !== "Cancelled" &&
                                             view?.paymentStatus !== "Paid" && (
-                                              <button
+                                              <button data-testid={`user-list-invoice-record-payment-btn-${view.invoiceId}`}
                                                 onClick={() => {
                                                   if (canWriteInvoice) {
                                                     handleRecordPayment(view);
@@ -645,7 +645,7 @@ function UserListInvoice() {
                                             view?.paymentStatus !== "Refunded" &&
                                             view?.paymentStatus !==
                                             "Cancelled" && (
-                                              <button
+                                              <button data-testid={`user-list-invoice-refund-amount-btn-${view.invoiceId}`}
                                                 onClick={() =>
                                                   canWriteInvoice &&
                                                   handleRefundAmount(view)
@@ -664,7 +664,7 @@ function UserListInvoice() {
 
                                           {view?.paymentStatus !== "Cancelled" &&
                                             view?.paymentStatus !== "Paid" && (
-                                              <button onClick={() => handleDeleteInvoice(view)}
+                                              <button data-testid={`user-list-invoice-delete-btn-${view.invoiceId}`} onClick={() => handleDeleteInvoice(view)}
 
                                                 className={`flex items-center gap-2 cursor-pointer w-full px-3 py-2 text-sm rounded-b-[10px]
       ${canDeleteInvoice

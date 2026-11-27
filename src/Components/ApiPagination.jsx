@@ -38,7 +38,7 @@ function ApiPagination({
     <>
       <div className="font-gilroy">
         <div className="flex items-stretch border border-[#E5E7EB] rounded-md ">
-          <Select
+          <div data-testid="api-pagination-select" className="contents"><Select
             menuPlacement="auto"
             menuPosition="absolute"
             value={sizeOptions
@@ -94,10 +94,10 @@ function ApiPagination({
                 cursor: "pointer",
               }),
             }}
-          />
+          /></div>
 
           <div className="flex items-center px-2 py-0.5">
-            <button
+            <button data-testid="api-pagination-change-page-btn"
               onClick={() => handleChangePage(uiPage - 1)}
               disabled={uiPage === 1}
               className={`w-7 h-7 flex items-center justify-center rounded-full
@@ -116,7 +116,7 @@ function ApiPagination({
                 : `${uiPage} - ${Math.min(size, totalRecords - startIndex)}`} */}
               {`${startIndex} - ${endIndex}`}
             </span>
-            <button
+            <button data-testid="api-pagination-change-page-btn-2"
               onClick={() => handleChangePage(uiPage + 1)}
               disabled={uiPage === totalPages || totalPages === 0}
               className={`w-7 h-7 flex items-center justify-center rounded-full

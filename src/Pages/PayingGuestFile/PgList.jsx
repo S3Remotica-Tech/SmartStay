@@ -661,7 +661,7 @@ function PgList() {
         {state.login.isTrigger && (
           <>
             <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
-              <FaArrowLeftLong
+              <FaArrowLeftLong data-testid="pg-list-close-change-bed-icon"
                 onClick={handleCloseChangeBed}
                 className="cursor-pointer"
               />
@@ -724,6 +724,7 @@ function PgList() {
                 </label>
 
                 <button
+                  data-testid="pg-add-floor-btn"
                   className="font-gilroy text-sm font-semibold bg-blue-700 text-white rounded-lg px-3 py-2 w-[146px] disabled:opacity-50"
                   disabled={!canWritePayingGuests}
                   onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
@@ -742,6 +743,7 @@ function PgList() {
                 <div className="sticky top-0 self-start z-10 bg-white p-2 shrink-0">
                   <div className="flex justify-center mb-2">
                     <div
+                      data-testid="pg-floors-prev"
                       onClick={handlePrev}
                       className="border border-gray-200 rounded-full  cursor-pointer"
                     >
@@ -758,6 +760,7 @@ function PgList() {
                       index >= visibleRange[0] && index <= visibleRange[1] ? (
                         <div
                           key={floor.id}
+                          data-testid={`pg-floor-${floor.name}`}
                           onClick={() => handleFloorClick(floor.id, floor.name)}
                           className={`mb-3 flex flex-col justify-center items-center rounded-xl h-24 w-24 cursor-pointer
                     ${Number(floorClick) === Number(floor.id) ? "bg-blue-50 border-2 border-[#1E45E1]" : "bg-white border-1 border-gray-300"}`}
@@ -788,6 +791,7 @@ function PgList() {
 
                   <div className="flex justify-center mt-2">
                     <div
+                      data-testid="pg-floors-next"
                       onClick={handleNext}
                       className="border border-gray-200 rounded-full cursor-pointer"
                     >
@@ -813,7 +817,7 @@ function PgList() {
                       </div>
 
                       {!state.login.isTrigger && (
-                        <div
+                        <div data-testid="pg-list-show-dots-action"
                           className={`lg:hidden md:mt-3 cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
                             }`}
                           onClick={handleShowDots}
@@ -825,7 +829,7 @@ function PgList() {
                               className="bg-gray-50 absolute right-10 top-28 border border-gray-300 rounded-lg shadow-md w-36 z-50"
                             >
                               <div>
-                                <div
+                                <div data-testid="pg-list-edit-action"
                                   onClick={
                                     canUpdatePayingGuests
                                       ? () =>
@@ -854,7 +858,7 @@ function PgList() {
                                 </div>
                                 <div className="h-px bg-gray-200 my-1" />
 
-                                <div
+                                <div data-testid="pg-list-delete-action"
                                   onClick={
                                     canDeletePayingGuests
                                       ? () =>
@@ -896,7 +900,7 @@ function PgList() {
 
 
                       {!state.login.isTrigger && (
-                        <div
+                        <div data-testid="pg-list-show-dots-action-2"
                           className={`hidden  lg:flex cursor-pointer h-7 w-7  items-center justify-center ${showDots ? "z-[1000] bg-white" : "bg-white"
                             }`}
                           onClick={handleShowDots}
@@ -908,7 +912,7 @@ function PgList() {
                               className="bg-gray-50 absolute right-32 top-28 border border-gray-300 rounded-lg shadow-md w-36 z-50"
                             >
                               <div>
-                                <div
+                                <div data-testid="pg-list-edit-action-2"
                                   onClick={
                                     canUpdatePayingGuests
                                       ? () =>
@@ -937,7 +941,7 @@ function PgList() {
                                 </div>
                                 <div className="h-px bg-gray-200 my-1" />
 
-                                <div
+                                <div data-testid="pg-list-delete-action-2"
                                   onClick={
                                     canDeletePayingGuests
                                       ? () =>
@@ -1032,7 +1036,7 @@ function PgList() {
                               : "bg-white"
                               }`}
                           >
-                            <Select
+                            <div data-testid="pg-list-statusselect-select" className="contents"><Select
                               options={selectOptions}
                               styles={CustomStyles}
                               isDisabled={!canReadPayingGuests}
@@ -1045,11 +1049,11 @@ function PgList() {
                                 ) || null
                               }
                               id="statusselect"
-                            />
+                            /></div>
                           </div>
 
                           <div className="flex items-center gap-3">
-                            <Select
+                            <div data-testid="pg-list-month-select" className="contents"><Select
                               isDisabled={!canReadPayingGuests}
                               options={monthOptions}
                               value={selectedMonth}
@@ -1060,14 +1064,14 @@ function PgList() {
                               placeholder="Select Month"
                               noOptionsMessage={() => "No options"}
                               styles={CustomStyles}
-                            />
+                            /></div>
                           </div>
 
                           <div
                             className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                           >
                             <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
-                              <Filter
+                              <Filter data-testid="pg-list-icon"
                                 size={16}
                                 onClick={() => {
                                   if (canReadPayingGuests) {

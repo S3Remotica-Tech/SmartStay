@@ -130,7 +130,7 @@ function AllPlans() {
               ))}
             </div>
 
-            <button
+            <button data-testid={`all-plans-plan-btn-${idx}`}
               onClick={() => handleUpgradePlan(plan)}
               className="mt-3 w-full bg-[#1E45E1] text-white py-2 rounded-lg flex items-center justify-center gap-1"
             >

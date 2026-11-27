@@ -30,7 +30,7 @@ function TenantStepper({ steps, current, onSelect }) {
                 <div className="h-full w-[2px] bg-[#EAECF0]" />
               </div>
             )}
-            <div
+            <div data-testid={`tenant-stepper-step-action-${item.id}`}
               role={canGoBack ? "button" : undefined}
               tabIndex={canGoBack ? 0 : undefined}
               onClick={canGoBack ? () => onSelect(item.id) : undefined}

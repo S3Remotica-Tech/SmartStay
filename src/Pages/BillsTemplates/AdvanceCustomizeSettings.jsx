@@ -692,7 +692,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
                 <div className="border rounded-[10px] p-2.5 pt-2 pb-3 mb-3 col-span-12 overflow-y-auto">
                   <div className="flex justify-end">
-                    <img
+                    <img data-testid="advance-customize-settings-editicon-img"
                       src={EditICon}
                       onClick={handleShowContactNumberForm}
                       className="cursor-pointer"
@@ -745,7 +745,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                             {logoPreview && (
                               <>
                                 <div className="qr-overlay absolute inset-0 hidden bg-black/40 rounded-md" />
-                                <div
+                                <div data-testid="advance-customize-settings-action"
                                   className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
                                   onClick={() => {
                                     const isLocal =
@@ -771,7 +771,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                               }`}
                           >
                             Choose file
-                            <input
+                            <input data-testid="advance-customize-settings-file-upload-hostel-file"
                               type="file"
                               accept="image/*"
                               className="hidden"
@@ -803,7 +803,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                             </div>
 
                             <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
-                              <select
+                              <select data-testid="advance-customize-settings-select"
                                 className={`border-none bg-transparent font-inherit text-inherit font-medium pr-4 appearance-none cursor-pointer outline-none
     bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%23666" stroke-width="2"/%3E%3C/svg%3E')]
     bg-no-repeat bg-right-center bg-[length:10px]`}
@@ -814,7 +814,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                 <option value="+44">+44</option>
                                 <option value="+971">+971</option>
                               </select>
-                              <input
+                              <input data-testid="advance-customize-settings-9876543210-input"
                                 type="tel"
                                 placeholder="9876543210"
                                 className="border-none bg-transparent outline-none ml-2 font-inherit text-inherit font-medium flex-1"
@@ -846,7 +846,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                             </div>
 
                             <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
-                              <input
+                              <input data-testid="advance-customize-settings-abc-gmail-com-input"
                                 type="email"
                                 placeholder="abc@gmail.com"
                                 className="ml-2 flex-1 border-none bg-transparent outline-none font-inherit text-inherit font-medium"
@@ -910,7 +910,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                 {signaturePreview && (
                                   <>
                                     <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                    <div
+                                    <div data-testid="advance-customize-settings-action-2"
                                       className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer hidden"
                                       onClick={() => {
                                         const isLocal =
@@ -939,7 +939,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                                       }`}
                                   >
                                     Choose file
-                                    <input
+                                    <input data-testid="advance-customize-settings-file-signature-change-file"
                                       type="file"
                                       accept="image/*"
                                       className="hidden"
@@ -967,7 +967,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                     </div>
                   )}
 
-                  <Modal
+                  <Modal data-testid="advance-customize-settings-override-global-value-you-modal"
                     show={contactnumberform}
                     onHide={handleCloseContactNumberForm}
                     centered
@@ -987,13 +987,13 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                     </Modal.Body>
 
                     <Modal.Footer className="!justify-center !border-t-0 !pb-5">
-                      <Button
+                      <Button data-testid="advance-customize-settings-cancel-btn"
                         className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[rgba(111,108,143,1)] !font-gilroy !font-semibold !border !border-gray-500 !mr-2.5"
                         onClick={handleCloseContactNumberForm}
                       >
                         Cancel
                       </Button>
-                      <Button
+                      <Button data-testid="advance-customize-settings-edit-anyway-btn"
                         className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold"
                         onClick={handleEditAnyway}
                       >
@@ -1025,7 +1025,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                 <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                   Prefix
                 </label>
-                <input
+                <input data-testid="advance-customize-settings-prefix-input"
                   type="text"
                   placeholder="prefix"
                   value={prefix}
@@ -1041,7 +1041,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                 <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                   Suffix
                 </label>
-                <input
+                <input data-testid="advance-customize-settings-suffix-input"
                   type="text"
                   placeholder="suffix"
                   value={suffix}
@@ -1058,7 +1058,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
               <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                 Preview
               </label>
-              <input
+              <input data-testid="advance-customize-settings-preview-input"
                 type="text"
                 placeholder="preview"
                 value={`${prefix}-${suffix}`}
@@ -1081,7 +1081,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                 <label className="font-gilroy text-sm font-normal text-[#222222] block mb-2">
                   Add the Tax payable GST in Percentage %
                 </label>
-                <input
+                <input data-testid="advance-customize-settings-add-the-tax-payable-gst-in-input"
                   type="text"
                   placeholder="12%"
                   value={tax}
@@ -1101,7 +1101,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                 Account Details
               </p>
               {banking && banking.length > 0 && (
-                <button
+                <button data-testid="advance-customize-settings-add-btn"
                   onClick={handleAddBankAccount}
                   className="text-sm font-normal text-white !bg-[#1E45E1] !border !border-[#1E45E1] rounded-lg w-[106px] h-[35px] hover:bg-blue-700"
                 >
@@ -1115,13 +1115,13 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
             <div className="max-h-[180px] overflow-y-auto space-y-3 show-scrolls">
               {banking && banking.length > 0 ? (
                 banking.map((bank) => (
-                  <div
+                  <div data-testid={`advance-customize-settings-savings-a-c-action-${bank.bankingId}`}
                     key={bank.bankingId}
                     className="cursor-pointer"
                     onClick={() => handleBankClick(bank.bankingId)}
                   >
                     <div className="flex items-center gap-3">
-                      <input
+                      <input data-testid={`advance-customize-settings-bank-radio-${bank.bankingId}`}
                         type="radio"
                         name="bank"
                         checked={selectedBankId === bank.bankingId}
@@ -1155,7 +1155,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                   <p className="text-sm font-normal text-gray-500">
                     No Bank accounts are there!
                   </p>
-                  <button
+                  <button data-testid="advance-customize-settings-add-btn-2"
                     onClick={handleAddBankAccount}
                     className="text-sm font-normal text-white bg-[#1E45E1] border border-[#1E45E1] rounded-lg w-[106px] h-[35px] hover:bg-blue-700"
                   >
@@ -1203,7 +1203,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                         className="w-full h-full object-contain rounded-lg bg-white mb-2 z-10"
                       />
                       <div className="qr-overlay hidden absolute inset-0 bg-black/15 rounded-lg z-20 pointer-events-none" />
-                      <div
+                      <div data-testid="advance-customize-settings-action-3"
                         className="qr-trash hidden absolute flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer z-30"
                         onClick={() => {
                           const isLocal =
@@ -1229,7 +1229,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
                   <div>
                     <label className="cursor-pointer text-xs font-normal text-[#1E45E1]">
                       Choose file
-                      <input
+                      <input data-testid="advance-customize-settings-qr-image-change-file"
                         type="file"
                         accept="image/*"
                         className="hidden"
@@ -1259,7 +1259,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
             </label>
 
             <div className="relative">
-              <textarea
+              <textarea data-testid="advance-customize-settings-add-notes-textarea"
                 rows={4}
                 placeholder="Add any message..."
                 value={notes}
@@ -1289,7 +1289,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
             </label>
 
             <div className="relative">
-              <textarea
+              <textarea data-testid="advance-customize-settings-add-t-c-textarea"
                 rows={4}
                 placeholder="Add any message..."
                 value={terms}
@@ -1314,7 +1314,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
             </h6>
 
             <div className="w-full">
-              <RgbaColorPicker
+              <RgbaColorPicker data-testid="advance-customize-settings-color-change-input"
                 color={color}
                 onChange={handleColorChange}
                 style={{ width: "100%" }}
@@ -1322,27 +1322,27 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
             </div>
 
             <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-between">
-              <input
+              <input data-testid="advance-customize-settings-input"
                 value={hexValue}
                 readOnly
                 className="w-20 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="advance-customize-settings-input-2"
                 value={color.r}
                 readOnly
                 className="w-10 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="advance-customize-settings-input-3"
                 value={color.g}
                 readOnly
                 className="w-10 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="advance-customize-settings-input-4"
                 value={color.b}
                 readOnly
                 className="w-10 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="advance-customize-settings-input-5"
                 value={alphaValue}
                 readOnly
                 className="w-10 text-center border border-gray-300 rounded"
@@ -1359,7 +1359,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
             <div className="flex flex-wrap gap-2 justify-center">
               {presetColors.map((preset, index) => (
-                <div
+                <div data-testid={`advance-customize-settings-color-action-${index}`}
                   key={index}
                   onClick={() => {
                     const r = parseInt(preset.substr(1, 2), 16);
@@ -1385,7 +1385,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
           )}
 
           <div className="flex justify-end mt-4 lg:col-span-10">
-            <button
+            <button data-testid="advance-customize-settings-save-template-btn"
               disabled={!canWriteInvoice}
               onClick={handleSaveTemplate}
               className={`w-40 h-10 px-4 rounded-lg font-gilroy font-semibold text-sm

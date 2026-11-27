@@ -277,7 +277,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
             {editMode ? "Edit Job Details" : "Add Job Details"}
           </h3>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-and-update-job-details-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -296,7 +296,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                 </h4>
 
                 {jobDetails.length > 1 && (
-                  <button
+                  <button data-testid={`add-and-update-job-details-delete-job-btn-${index}`}
                     type="button"
                     onClick={() => handleDeleteJob(index)}
                     className="flex items-center gap-1 text-red-500 text-sm font-medium"
@@ -312,7 +312,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     Employment Status
                   </label>
 
-                  <Select
+                  <div data-testid={`add-and-update-job-details-employment-status-select-${index}`} className="contents"><Select
                     options={jobOptions}
                     value={
                       job.employmentStatus
@@ -331,7 +331,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     }
                     placeholder="Employment Status"
                     styles={fieldSelectStyles()}
-                  />
+                  /></div>
                 </div>
 
                 <div>
@@ -339,7 +339,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     Company / College
                   </label>
 
-                  <input
+                  <input data-testid={`add-and-update-job-details-company-college-input-${index}`}
                     value={job.organizationName}
                     onChange={(e) =>
                       handleJobChange(index, "organizationName", e.target.value)
@@ -354,7 +354,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     Job Role
                   </label>
 
-                  <Select
+                  <div data-testid={`add-and-update-job-details-job-role-select-${index}`} className="contents"><Select
                     options={jobRoleOptions}
                     value={
                       job.role
@@ -369,7 +369,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     }
                     placeholder="Job Role"
                     styles={fieldSelectStyles()}
-                  />
+                  /></div>
                 </div>
 
                 <div>
@@ -377,7 +377,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     Work Location
                   </label>
 
-                  <input
+                  <input data-testid={`add-and-update-job-details-work-location-input-${index}`}
                     value={job.workLocation}
                     onChange={(e) =>
                       handleJobChange(index, "workLocation", e.target.value)
@@ -392,7 +392,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     Shift Type
                   </label>
 
-                  <Select
+                  <div data-testid={`add-and-update-job-details-shift-type-select-${index}`} className="contents"><Select
                     options={shiftTypeOptions}
                     value={
                       job.shiftType
@@ -407,7 +407,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     }
                     placeholder="Shift Type"
                     styles={fieldSelectStyles()}
-                  />
+                  /></div>
                 </div>
 
                 <div>
@@ -415,7 +415,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     From Time
                   </label>
 
-                  <input
+                  <input data-testid={`add-and-update-job-details-from-time-input-${index}`}
                     type="time"
                     value={job.shiftStartsFrom}
                     onChange={(e) =>
@@ -430,7 +430,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
                     To Time
                   </label>
 
-                  <input
+                  <input data-testid={`add-and-update-job-details-to-time-input-${index}`}
                     type="time"
                     value={job.shiftEndsAt}
                     onChange={(e) =>
@@ -443,7 +443,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
             </div>
           ))}
           <div className="flex justify-end gap-3  px-6 py-4">
-            <button
+            <button data-testid="add-and-update-job-details-add-job-details-btn"
               type="button"
               onClick={handleAddJob}
               className="border-1 px-4 py-2  border-[#1E45E1] text-white bg-[#1E45E1] hover:bg-[#1739b8] rounded-lg   text-sm font-medium "
@@ -454,11 +454,11 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
         </div>
         {noChanges && <ErrorMessage className="mt-[6px]" message={noChanges} type="error" />}
         <div className="flex justify-end gap-3 border-t px-6 py-4">
-          <button onClick={handleClose} className="px-5 py-2 border rounded-lg">
+          <button data-testid="add-and-update-job-details-cancel-btn" onClick={handleClose} className="px-5 py-2 border rounded-lg">
             Cancel
           </button>
 
-          <button
+          <button data-testid="add-and-update-job-details-save-btn"
             onClick={handleSave}
             disabled={saveLoading}
             className={`px-5 py-2 rounded-lg text-white flex items-center justify-center gap-2 min-w-[100px]

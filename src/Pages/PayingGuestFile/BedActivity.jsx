@@ -188,7 +188,7 @@ function BedActivity() {
 
 
                     <div className="relative flex justify-end" >
-                        <button
+                        <button data-testid="bed-activity-show-period-dropdown-btn"
                             onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
                             className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]"
                         >
@@ -200,7 +200,7 @@ function BedActivity() {
                         {showPeriodDropdown && (
                             <div ref={periodDropdownRef} className="absolute right-0 top-10 mt-2 w-48 bg-white border-1 border-[#E5E7EB] rounded-lg shadow-lg z-20">
                                 {periodOptions.map((period) => (
-                                    <button
+                                    <button data-testid={`bed-activity-selected-period-btn-${period.id}`}
                                         key={period.id}
                                         onClick={() => {
                                             setSelectedPeriod(period);

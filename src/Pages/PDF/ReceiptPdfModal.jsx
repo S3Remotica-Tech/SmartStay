@@ -322,7 +322,7 @@ const InvoiceCard = ({ rowData }) => {
           <div>
             <div className="flex gap-2 mr-3 items-center">
               <CustomTooltip text="Download" direction="top-full" usePortal={false}>
-                <div
+                <div data-testid="receipt-pdf-modal-action"
                   className={`flex justify-center items-center border rounded-[8px] h-[30px] w-[30px]
           ${isExportAllow ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                   onClick={() => {
@@ -338,7 +338,7 @@ const InvoiceCard = ({ rowData }) => {
 
               <div className="relative inline-block">
                 <CustomTooltip text="Share" direction="top-full" usePortal={false}>
-                  <div
+                  <div data-testid="receipt-pdf-modal-share-action"
                     className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
                     onClick={handleShareClick}
                   >
@@ -359,7 +359,7 @@ const InvoiceCard = ({ rowData }) => {
                       const isDisabled = !isExportAllow;
 
                       return (
-                        <div
+                        <div data-testid={`receipt-pdf-modal-action-2-${item.key}`}
                           key={item.key}
                           className={`flex items-center mb-2 p-1 rounded z-[9999]
                     ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
@@ -400,7 +400,7 @@ const InvoiceCard = ({ rowData }) => {
               </div>
 
               <CustomTooltip text="Close" direction="top-full" usePortal={false}>
-                <IoClose
+                <IoClose data-testid="receipt-pdf-modal-back-invoice-icon"
                   className="h-[20px] w-[20px] cursor-pointer text-red-500"
                   onClick={handleBackInvoice}
                 />

@@ -41,7 +41,7 @@ function DeleteTenantDocument({
 
   return (
     <div>
-      <Modal
+      <Modal data-testid="delete-tenant-document-delete-document-are-you-modal"
         show={showDeleteDoc}
         onHide={handleDeleteDocumentClose}
         centered
@@ -81,7 +81,7 @@ function DeleteTenantDocument({
             marginTop: "-10px",
           }}
         >
-          <Button
+          <Button data-testid="delete-tenant-document-cancel-btn"
             onClick={handleDeleteDocumentClose}
             style={{
               borderRadius: 8,
@@ -97,7 +97,7 @@ function DeleteTenantDocument({
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="delete-tenant-document-delete-btn"
             onClick={handleDeleteDocumentConfirm}
             style={{
               borderRadius: 8,

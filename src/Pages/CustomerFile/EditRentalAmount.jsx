@@ -196,7 +196,7 @@ function EditRentalAmount({ show, handleClose }) {
             Edit Rental Amount
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="edit-rental-amount-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -225,7 +225,7 @@ function EditRentalAmount({ show, handleClose }) {
                   Type <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="edit-rental-amount-type-select" className="contents"><Select
                   value={type.find((opt) => opt.value === types) || null}
                   onChange={handleTypeChange}
                   options={type}
@@ -235,7 +235,7 @@ function EditRentalAmount({ show, handleClose }) {
                     ...fieldSelectStyles(!!typeError),
                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "150px" }),
                   }}
-                />
+                /></div>
 
                 {typeError && <ErrorMessage className="mt-[6px]" message={typeError} type="error" />}
               </Form.Group>
@@ -250,7 +250,7 @@ function EditRentalAmount({ show, handleClose }) {
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
-                  <FormControl
+                  <FormControl data-testid="edit-rental-amount-new-monthly-rent-input"
                     type="text"
                     ref={rentInputRef}
                     value={monthlyRent}
@@ -276,7 +276,7 @@ function EditRentalAmount({ show, handleClose }) {
                   </Form.Label>
 
                   <div className="relative w-full">
-                    <DatePicker className={datePickerClass(!!effectiveFromError)}
+                    <DatePicker data-testid="edit-rental-amount-effective-from-date" className={datePickerClass(!!effectiveFromError)}
                       ref={dateRef}
                       picker="month"
                       format="MM/YYYY"
@@ -311,7 +311,7 @@ function EditRentalAmount({ show, handleClose }) {
                     Reason
                   </Form.Label>
 
-                  <FormControl
+                  <FormControl data-testid="edit-rental-amount-reason-input"
                     type="text"
                     placeholder="Enter your reason"
                     value={reason}
@@ -350,14 +350,14 @@ function EditRentalAmount({ show, handleClose }) {
         )}
 
         <div className="flex justify-end gap-3 p-4">
-          <Button
+          <Button data-testid="edit-rental-amount-cancel-btn"
             onClick={handleClose}
             className="mt-1 w-full bg-white !text-[#1E45E1] !font-gilroy !font-semibold rounded-xl px-10 py-2 !border-none"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="edit-rental-amount-update-btn"
             disabled={loading}
             onClick={handleSubmit}
             className="mt-1 w-full !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-xl px-10 py-2"

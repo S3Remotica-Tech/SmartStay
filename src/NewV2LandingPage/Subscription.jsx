@@ -292,7 +292,7 @@ const SubscriptionPlan = () => {
                     >
                       ₹ {plan.price}
                     </h3>
-                    <Button
+                    <Button data-testid={`subscription-btn-${index}`}
                       className="mt-3 rounded px-4 py-2 w-100"
                       style={{
                         fontSize: "15px",

@@ -196,14 +196,14 @@ const bedRef = useRef(null);
   return (
 
     <div className="modal show block static font-gilroy">
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal show={show} onHide={handleClose} centered backdrop="static" data-testid="pg-add-bed-modal">
           <Modal.Dialog className="m-0 p-0 w-full max-w-full">
           <Modal.Header className="m-0 border border-[#E7E7E7]">
             <Modal.Title className="!text-lg !font-gilroy !font-semibold !text-[#222222]">
               {editBedMode ? 'Edit bed' : 'Add bed'}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
+            <CloseCircle data-testid="pg-add-bed-close" size="24" color="#000" onClick={handleClose} className="cursor-pointer" />
           </Modal.Header>
 
           <Modal.Body className="px-3.5 py-2" >
@@ -218,6 +218,7 @@ const bedRef = useRef(null);
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control
+                    data-testid="pg-bed-name-input"
                     value={bedNo}
                     ref={bedRef}
                     onChange={handleBedNoChange}
@@ -242,6 +243,7 @@ const bedRef = useRef(null);
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
                   <Form.Control
+                    data-testid="pg-bed-amount-input"
                     value={amount}
                     onChange={handleAmountChange}
                     type="text"
@@ -276,6 +278,7 @@ const bedRef = useRef(null);
 
           <Modal.Footer className="border-0 p-3">
             <Button
+              data-testid="pg-add-bed-submit"
               disabled={formLoading}
               onClick={() => { handleSubmit() }}
                className="w-100 m-0 !bg-[#1e45e1] !font-semibold !rounded-xl !py-3 !font-gilroy"

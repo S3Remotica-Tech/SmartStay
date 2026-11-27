@@ -62,11 +62,11 @@ function FeaturesKey() {
                     </p>
 
                     <div className="flex flex-wrap gap-4">
-                        <button onClick={handleSignUp} className="bg-[#FF9D00] text-white text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
+                        <button data-testid="features-key-30-day-free-trial-btn" onClick={handleSignUp} className="bg-[#FF9D00] text-white text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
                             30 Day Free Trial <ArrowRight size="16" />
                         </button>
 
-                        <button onClick={handleNavigateDemo} className="bg-white text-[#222222] text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
+                        <button data-testid="features-key-book-demo-btn" onClick={handleNavigateDemo} className="bg-white text-[#222222] text-sm md:text-[16px] px-6 py-3 rounded-lg flex items-center gap-2">
                             Book Demo <ArrowRight size="16" color="#222222" />
                         </button>
                     </div>

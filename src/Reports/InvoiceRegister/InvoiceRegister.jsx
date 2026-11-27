@@ -393,7 +393,7 @@ function InvoiceRegister() {
 
   const viewSwitcher = (
     <div ref={viewMenuRef} className="relative w-fit font-gilroy">
-      <button
+      <button data-testid="invoice-register-view-menu-open-btn"
         type="button"
         onClick={() => setViewMenuOpen((prev) => !prev)}
         aria-haspopup="listbox"
@@ -414,7 +414,7 @@ function InvoiceRegister() {
           className="absolute left-0 z-40 mt-1 w-max min-w-full bg-white rounded-2xl shadow-lg overflow-hidden border-[1px] border-[#E5E7EB] p-0 m-0 list-none"
         >
           {VIEW_OPTIONS.map((option, index) => (
-            <li
+            <li data-testid={`invoice-register-select-view-action-${option?.value}`}
               key={option?.value}
               role="option"
               aria-selected={option?.value === viewMode}
@@ -1137,14 +1137,14 @@ function InvoiceRegister() {
           the toolbar takes its own full-width row so it never wraps unevenly. */}
       <div className="shrink-0 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-[12px] xl:gap-4 py-[8px] xl:py-0 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
         <div className="flex items-center gap-2 shrink-0">
-          <ArrowLeft
+          <ArrowLeft data-testid="invoice-register-navigate-reports-icon"
             onClick={handleNavigateReports}
             size="20"
             color="#4A5565"
             className="cursor-pointer"
           />
           <div>
-            <div
+            <div data-testid="invoice-register-invoice-register-action"
               className="flex items-center gap-2 relative w-fit"
               onClick={() => setRegister(!register)}
             >
@@ -1168,7 +1168,7 @@ function InvoiceRegister() {
                       const isLast = index === reportCards?.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`invoice-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item);
@@ -1203,7 +1203,7 @@ function InvoiceRegister() {
             className="datepicker-wrapper h-[36px] w-full sm:w-[260px]"
             style={{ position: "relative" }}
           >
-            <RangePicker
+            <RangePicker data-testid="invoice-register-date-change-input"
               allowClear={false}
               style={{
                 width: "100%",
@@ -1231,7 +1231,7 @@ function InvoiceRegister() {
             />
           </div>
 
-          <button
+          <button data-testid="invoice-register-filter-btn"
             onClick={
               isConsolidated
                 ? () => setShowConsolidatedFilter(true)
@@ -1242,7 +1242,7 @@ function InvoiceRegister() {
             <Filter size="16" />
             Filter
           </button>
-          <button
+          <button data-testid="invoice-register-export-btn"
             onClick={() => {
               if (!isExportAllow) return;
               // List View keeps its direct export; Consolidated opens settings.
@@ -1280,7 +1280,7 @@ function InvoiceRegister() {
               ))}
             </div>
 
-            <span
+            <span data-testid="invoice-register-reset-action"
               onClick={
                 isConsolidated ? handleResetConsolidatedFilters : handleReset
               }
@@ -1334,7 +1334,7 @@ function InvoiceRegister() {
                   </h2>
                 </div>
                 {item?.link && (
-                  <p
+                  <p data-testid={`invoice-register-click-to-filter-action-${i}`}
                     className="text-xs text-[#155DFC] w-fit cursor-pointer"
                     onClick={handleClickFilter}
                   >
@@ -1452,7 +1452,7 @@ function InvoiceRegister() {
                     invoiceRegister?.invoiceList?.map((row, i) => (
                       <tr key={i}>
                         <td className={`${LIST_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}></td>
-                        <td
+                        <td data-testid={`invoice-register-navigate-bills-pdf-action-${i}`}
                           onClick={() => handleNavigateBillsPdf(row)}
                           className={`${LIST_BODY_CELL} cursor-pointer text-[#1E45E1] font-semibold truncate sticky left-[48px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
                           title={row?.invoiceNumber}
@@ -1581,7 +1581,7 @@ function InvoiceRegister() {
 
             {open && (
               <>
-                <div
+                <div data-testid="invoice-register-open-action"
                   className="fixed inset-0 bg-black/20 z-40 "
                   onClick={() => setOpen(false)}
                 />
@@ -1599,7 +1599,7 @@ function InvoiceRegister() {
                   <div className="p-3 border-b">
                     <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                       <SearchNormal1 size={16} color="#98A2B3" />
-                      <input
+                      <input data-testid="invoice-register-search-input"
                         placeholder="Search"
                         className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
                       />
@@ -1612,7 +1612,7 @@ function InvoiceRegister() {
                         key={item?.key}
                         className="flex items-center gap-3 text-sm cursor-pointer"
                       >
-                        <input
+                        <input data-testid={`invoice-register-checkbox-${item?.key}`}
                           type="checkbox"
                           defaultChecked={item?.checked}
                           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -1623,10 +1623,10 @@ function InvoiceRegister() {
                   </div>
 
                   <div className="p-3 border-t flex gap-2">
-                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                    <button data-testid="invoice-register-reset-btn" className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                       Reset
                     </button>
-                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                    <button data-testid="invoice-register-apply-filters-btn" className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                       Apply Filters
                     </button>
                   </div>

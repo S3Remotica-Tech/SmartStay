@@ -128,7 +128,7 @@ function EditJoiningDate({ show, handleClose }) {
             Edit Joining Date
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="edit-joining-date-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -146,7 +146,7 @@ function EditJoiningDate({ show, handleClose }) {
                 </Form.Label>
 
                 <div className="relative w-full">
-                  <DatePicker
+                  <DatePicker data-testid="edit-joining-date-edit-joining-date"
                     ref={dateRef}
                     className={datePickerClass(!!effectiveFromError)}
                     format="DD/MM/YYYY"
@@ -175,7 +175,7 @@ function EditJoiningDate({ show, handleClose }) {
                   Reason
                 </Form.Label>
 
-                <FormControl
+                <FormControl data-testid="edit-joining-date-reason-input"
                   type="text"
                   placeholder="Enter your reason"
                   value={reason}
@@ -207,14 +207,14 @@ function EditJoiningDate({ show, handleClose }) {
         )}
 
         <div className="flex justify-end gap-3 p-4">
-          <Button
+          <Button data-testid="edit-joining-date-cancel-btn"
             onClick={handleClose}
             className="w-full mt-1 bg-white border-0 !text-[#1E45E1] !font-bold !text-base !font-gilroy rounded-xl py-2 px-10"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="edit-joining-date-update-btn"
             disabled={loading}
             onClick={handleSubmit}
             className="w-full mt-1 !bg-[#1E45E1] !font-semibold !text-base !font-gilroy rounded-xl py-2 px-10 text-white"

@@ -71,7 +71,7 @@ function OtherHostel() {
                   </div>
                 </div>
 
-                <button
+                <button data-testid={`other-hostel-switch-btn-${hostel.hostelId}`}
                   type="button"
                   //   onClick={() => handleSwitchHostel(hostel)}
                   className="flex-shrink-0 h-7 px-3 rounded-md bg-[#1E45E1] text-white text-[12px] font-medium flex items-center gap-1.5"

@@ -132,14 +132,14 @@ function EditAdvanceAmount({ show, handleClose }) {
 
   return (
     <div className="modal show block static">
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal data-testid="edit-advance-amount-edit-advance-amount-cancel-modal" show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog className="m-0 p-0 w-full max-w-4xl pt-1.5 pb-2.5 px-2.5">
           <Modal.Header className="border border-gray-200 flex items-center justify-between">
             <Modal.Title className="!text-lg !font-semibold !font-gilroy">
               Edit Advance Amount
             </Modal.Title>
 
-            <CloseCircle
+            <CloseCircle data-testid="edit-advance-amount-close-icon"
               size="24"
               color="#000"
               onClick={handleClose}
@@ -156,7 +156,7 @@ function EditAdvanceAmount({ show, handleClose }) {
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
-                  <FormControl
+                  <FormControl data-testid="edit-advance-amount-new-advance-amount-input"
                     type="text"
                     ref={rentInputRef}
                     value={monthlyRent}
@@ -177,7 +177,7 @@ function EditAdvanceAmount({ show, handleClose }) {
                     Reason
                   </Form.Label>
 
-                  <FormControl
+                  <FormControl data-testid="edit-advance-amount-reason-input"
                     type="text"
                     placeholder="Enter your reason"
                     value={reason}
@@ -209,14 +209,14 @@ function EditAdvanceAmount({ show, handleClose }) {
           )}
 
           <div className="flex justify-end items-center gap-6 px-6 py-4">
-            <button
+            <button data-testid="edit-advance-amount-cancel-btn"
               onClick={handleClose}
               className="!text-blue-600 !text-base !font-semibold !font-gilroy"
             >
               Cancel
             </button>
 
-            <button
+            <button data-testid="edit-advance-amount-update-btn"
               onClick={handleSubmit}
               className="!bg-blue-600 text-white !font-semibold !font-gilroy px-8 py-2 rounded-xl"
             >

@@ -151,7 +151,7 @@ function LongStayold({ handleClose, show }) {
     return (
         <>
 
-            <Modal
+            <Modal data-testid="long-stay-old-long-stay-recurring-billing-modal"
                 show={show}
                 onHide={handleClose}
                 centered
@@ -171,7 +171,7 @@ function LongStayold({ handleClose, show }) {
                         Long Stay Recurring
                     </Modal.Title>
 
-                    <CloseCircle
+                    <CloseCircle data-testid="long-stay-old-close-icon"
                         size="24"
                         color="#000"
                         onClick={handleClose}
@@ -192,7 +192,7 @@ function LongStayold({ handleClose, show }) {
                     <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Billing Date"
+                        <div data-testid="long-stay-old-billing-date-of-month-select" className="contents"><Select options={dayOptions} styles={selectStyle} placeholder="Select Billing Date"
                             value={billingDate}
                             onChange={(selected) => {
                                 setBillingDate(selected);
@@ -201,7 +201,7 @@ function LongStayold({ handleClose, show }) {
                             }}
 
 
-                        />
+                        /></div>
 
                         {errors.billingDate && (
                             <ErrorMessage message={errors.billingDate} type="error" />
@@ -220,13 +220,13 @@ function LongStayold({ handleClose, show }) {
                     <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Days"
+                        <div data-testid="long-stay-old-due-days-select" className="contents"><Select options={dayOptions} styles={selectStyle} placeholder="Select Due Days"
                             value={dueDate}
                             onChange={(selected) => {
                                 setDueDate(selected);
                                 setErrors((prev) => ({ ...prev, dueDate: "" }));
                                  dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
-                            }} />
+                            }} /></div>
                         {errors.dueDate && (
                             <ErrorMessage message={errors.dueDate} type="error" />
                         )}
@@ -243,7 +243,7 @@ function LongStayold({ handleClose, show }) {
                     <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Notice Period"
+                        <div data-testid="long-stay-old-notice-period-select" className="contents"><Select options={dayOptions} styles={selectStyle} placeholder="Select Notice Period"
                             value={noticePeriod}
                             onChange={(selected) => {
                                 setNoticePeriod(selected)
@@ -251,7 +251,7 @@ function LongStayold({ handleClose, show }) {
                                  dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
                             }}
 
-                        />
+                        /></div>
                          {errors.notice && (
                             <ErrorMessage message={errors.notice} type="error" />
                         )}
@@ -269,7 +269,7 @@ function LongStayold({ handleClose, show }) {
                             marginRight: 2
                         }}
                     >
-                        <Button
+                        <Button data-testid="long-stay-old-cancel-btn"
                             onClick={handleClose}
                             style={{
                                 backgroundColor: "#fff",
@@ -283,7 +283,7 @@ function LongStayold({ handleClose, show }) {
                         >
                             Cancel
                         </Button>
-                        <Button
+                        <Button data-testid="long-stay-old-save-btn"
                             onClick={handleSave}
                             style={{
                                 backgroundColor: "#1E45E1",

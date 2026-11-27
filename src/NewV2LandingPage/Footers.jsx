@@ -96,14 +96,14 @@ const Footers = (props) => {
                 <div className="fade-in">
                   <h5 className="text-xl font-medium mb-3">Company</h5>
 
-                  <Link to="firstPage" smooth duration={500}>
+                  <Link data-testid="footers-about-link" to="firstPage" smooth duration={500}>
                     <p className="text-base font-light cursor-pointer">
                       About
                     </p>
                   </Link>
 
-                  <Link to="pricing" smooth duration={500}>
-                    <p
+                  <Link data-testid="footers-product-link" to="pricing" smooth duration={500}>
+                    <p data-testid="footers-product-action"
                       className="text-base font-light cursor-pointer"
                       onClick={() => handleLink("Pricing")}
                     >
@@ -116,7 +116,7 @@ const Footers = (props) => {
                 <div className="fade-in">
                   <h5 className="text-xl font-medium mb-3">Resources</h5>
 
-                  <p
+                  <p data-testid="footers-contact-us-action"
                     className="text-base font-light cursor-pointer"
                     onClick={() => handleLink("Contact_us")}
                   >
@@ -128,28 +128,28 @@ const Footers = (props) => {
                 <div className="fade-in">
                   <h5 className="text-xl font-medium mb-3">Help</h5>
 
-                  <p
+                  <p data-testid="footers-terms-of-use-action"
                     className="text-base font-light cursor-pointer"
                     onClick={() => handleLink("terms_use")}
                   >
                     Terms of use
                   </p>
 
-                  <p
+                  <p data-testid="footers-cookies-action"
                     className="text-base font-light cursor-pointer"
                     onClick={() => handleLink("cookies")}
                   >
                     Cookies
                   </p>
 
-                  <p
+                  <p data-testid="footers-privacy-policy-action"
                     className="text-base font-light cursor-pointer"
                     onClick={() => handleLink("privacy_policy")}
                   >
                     Privacy policy
                   </p>
 
-                  <p
+                  <p data-testid="footers-refund-policy-action"
                     className="text-base font-light cursor-pointer"
                     onClick={() => handleLink("refund_policy")}
                   >
@@ -230,7 +230,7 @@ const Footers = (props) => {
 
             <div className="flex items-center gap-2">
 
-              <a
+              <a data-testid="footers-link"
                 href="https://www.facebook.com/profile.php?id=61583256096108"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -238,7 +238,7 @@ const Footers = (props) => {
                 <img src={Facebook} alt="facebook" className="h-6 w-6" />
               </a>
 
-              <a
+              <a data-testid="footers-link-2"
                 href="https://www.instagram.com/smartstayapp/"
                 target="_blank"
                 rel="noopener noreferrer"

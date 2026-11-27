@@ -114,7 +114,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
             {editCategory ? "Edit Category" : "Add Category"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-category-close-form-icon"
             size={24}
             color="#000"
             onClick={handleCloseForm}
@@ -130,7 +130,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                   Category <span className={fieldRequiredClass}>*</span>
                 </label>
 
-                <input
+                <input data-testid="add-category-category-input"
                   ref={inputRef}
                   type="text"
                   placeholder="Enter Category"
@@ -154,7 +154,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
           </div>
         </div>
         <div className="flex justify-end gap-4 p-4">
-          <button
+          <button data-testid="add-category-submit-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

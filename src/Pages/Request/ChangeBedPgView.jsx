@@ -117,7 +117,7 @@ function ChangeBedPgView() {
   return (
     <div className="">
       <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
-        <FaArrowLeftLong
+        <FaArrowLeftLong data-testid="change-bed-pg-view-close-change-bed-icon"
           onClick={handleCloseChangeBed}
           className="cursor-pointer"
         />
@@ -173,7 +173,7 @@ function ChangeBedPgView() {
         <div className="flex flex-col md:flex-row gap-0 h-[550px] overflow-y-auto ml-2 md:ml-0 relative">
           <div className="sticky top-24 z-10">
             <div className="flex justify-center mb-2">
-              <div
+              <div data-testid="change-bed-pg-view-prev-action"
                 onClick={handlePrev}
                 className="border border-gray-200 rounded-full  cursor-pointer"
               >
@@ -188,7 +188,7 @@ function ChangeBedPgView() {
             <div className="flex flex-col items-center">
               {floorList?.map((floor, index) =>
                 index >= visibleRange[0] && index <= visibleRange[1] ? (
-                  <div
+                  <div data-testid={`change-bed-pg-view-floor-click-action-${floor.id}`}
                     key={floor.id}
                     onClick={() => handleFloorClick(floor.id, floor.name)}
                     className={`mb-3 flex flex-col justify-center items-center rounded-xl h-24 w-24 cursor-pointer
@@ -219,7 +219,7 @@ function ChangeBedPgView() {
             </div>
 
             <div className="flex justify-center mt-2">
-              <div
+              <div data-testid="change-bed-pg-view-next-action"
                 onClick={handleNext}
                 className="border border-gray-200 rounded-full cursor-pointer"
               >

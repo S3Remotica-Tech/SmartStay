@@ -763,7 +763,7 @@ const Compliance = () => {
                   <span className="input-group-text bg-white border-end-0">
                     <Image src={searchteam} className="h-5 w-5" />
                   </span>
-                  <input
+                  <input data-testid="compliance-handlefilter-input"
                     type="text"
                     placeholder="Search"
                     className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2.5 w-full w-12 font-gilroy"
@@ -780,7 +780,7 @@ const Compliance = () => {
 
 
               <div className="mr-3 w-36 border border-gray-300 rounded-lg">
-                <Select
+                <div data-testid="compliance-status-select" className="contents"><Select
                   isDisabled={!canReadComplaints}
                   options={statusOptions}
                   value={statusOptions.find(
@@ -791,12 +791,12 @@ const Compliance = () => {
                   placeholder="Select Status"
                   className="text-sm font-gilroy"
                   styles={CustomStyles}
-                />
+                /></div>
               </div>
 
               {statusfilter?.value === "date" && (
                 <div style={{ paddingRight: 30 }}>
-                  <RangePicker
+                  <RangePicker data-testid="compliance-date-change-input"
                     value={selectedDateRange}
                     onChange={handleDateChange}
                     format="DD-MM-YYYY"
@@ -820,7 +820,7 @@ const Compliance = () => {
               </div> */}
 
               <div className="me-2 pr-1">
-                <Button
+                <Button data-testid="compliance-complaint-btn"
                   disabled={
                     !canWriteComplaints || state?.login?.planStatus === 0
                   }
@@ -848,7 +848,7 @@ const Compliance = () => {
                 </span>
               ))}
             </div>
-            <span
+            <span data-testid="compliance-reset-action"
               className="text-blue-600 text-sm font-medium cursor-pointer"
               onClick={handleReset}
             >

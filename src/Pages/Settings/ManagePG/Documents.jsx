@@ -247,7 +247,7 @@ const Documents = () => {
               <div className="ml-2 flex shrink-0 items-center gap-3">
                 {!isMissing ? (
                   <>
-                    <button
+                    <button data-testid={`documents-view-btn-${document.id}`}
                       type="button"
                       onClick={() => handleView(document)}
                       className="flex h-7 w-7 items-center justify-center rounded-md text-[#374151] transition hover:bg-[#F5F7FA]"
@@ -256,7 +256,7 @@ const Documents = () => {
                       <Eye size="18" variant="Linear" />
                     </button>
 
-                    <button
+                    <button data-testid={`documents-download-btn-${document.id}`}
                       type="button"
                       onClick={() => handleDownload(document)}
                       className="flex h-7 w-7 items-center justify-center rounded-md text-[#374151] transition hover:bg-[#F5F7FA]"
@@ -266,7 +266,7 @@ const Documents = () => {
                     </button>
                   </>
                 ) : (
-                  <button
+                  <button data-testid={`documents-upload-click-btn-${document.id}`}
                     type="button"
                     onClick={() => handleUploadClick(document)}
                     className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#315BEA] text-white transition hover:bg-[#244BD0]"
@@ -281,7 +281,7 @@ const Documents = () => {
         })}
       </div>
 
-      <div
+      <div data-testid="documents-drop-files-here-or-action"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={() => {
@@ -306,7 +306,7 @@ const Documents = () => {
         </p>
       </div>
 
-      <input
+      <input data-testid="documents-file-change-file"
         ref={fileInputRef}
         type="file"
         accept=".pdf,.jpg,.jpeg,.png"

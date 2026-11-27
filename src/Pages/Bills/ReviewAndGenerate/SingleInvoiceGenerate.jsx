@@ -42,7 +42,7 @@ function SingleInvoiceGenerate({
       <div className="fixed font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col">
         <div className="h-[58px] px-6 border-b border-[#EAECF0] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="single-invoice-generate-close-btn"
               type="button"
               onClick={onClose}
               className="text-[#667085] hover:text-[#344054]"
@@ -56,7 +56,7 @@ function SingleInvoiceGenerate({
             </span>
           </div>
 
-          <button
+          <button data-testid="single-invoice-generate-close-btn-2"
             type="button"
             onClick={onClose}
             className="text-[#667085] hover:text-[#344054]"
@@ -122,7 +122,7 @@ function SingleInvoiceGenerate({
           </div>
 
           <label className="flex items-center gap-2.5 mt-4 cursor-pointer">
-            <input
+            <input data-testid="single-invoice-generate-reviewed-invoice-checkbox"
               type="checkbox"
               checked={reviewedInvoice}
               onChange={(e) => setReviewedInvoice(e.target.checked)}
@@ -136,7 +136,7 @@ function SingleInvoiceGenerate({
         </div>
 
         <div className="border-t border-[#EAECF0] px-6 py-4 flex items-center gap-3">
-          <button
+          <button data-testid="single-invoice-generate-cancel-btn"
             type="button"
             onClick={onClose}
             className="flex-1 h-[36px] rounded-lg border border-[#D0D5DD] bg-white text-[12px] font-semibold text-[#344054]"
@@ -144,7 +144,7 @@ function SingleInvoiceGenerate({
             Cancel
           </button>
 
-          <button
+          <button data-testid="single-invoice-generate-generate-invoice-btn"
             type="button"
             disabled={!reviewedInvoice}
             onClick={handleConfirmGenerate}

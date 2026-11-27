@@ -190,7 +190,7 @@ function AssetListTable(props) {
 
         <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
           <div className="w-full flex justify-center">
-            <div
+            <div data-testid={`asset-list-table-show-dots-action-${props.item.id}`}
               onClick={(e) => handleShowDots(props.item.id, e)}
               className={`relative inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${showDots ? "border-[#1E45E1] bg-[#EFF6FF]" : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"}`}
             >
@@ -214,7 +214,7 @@ function AssetListTable(props) {
                     left: popupPosition.left,
                   }}
                 >
-                  <div
+                  <div data-testid={`asset-list-table-action-${props.item.id}`}
                     onClick={() =>
                       canWriteAssets && handleAssignAsset(props.item)
                     }
@@ -234,7 +234,7 @@ function AssetListTable(props) {
 
                   <div className="h-px bg-[#F0F0F0]" />
 
-                  <div
+                  <div data-testid={`asset-list-table-edit-action-${props.item.id}`}
                     onClick={() => canUpdateAsset && handleEdit(props.item)}
                     className={`flex items-center gap-2 px-3 py-2
                 ${canUpdateAsset
@@ -250,7 +250,7 @@ function AssetListTable(props) {
 
                   <div className="h-px bg-[#F0F0F0]" />
 
-                  <div
+                  <div data-testid={`asset-list-table-delete-action-${props.item.id}`}
                     onClick={() =>
                       canDeleteAsset &&
                       props.item.assignmentStatus === "Unassigned" &&
@@ -285,7 +285,7 @@ function AssetListTable(props) {
       )}
 
       <div>
-        <Modal
+        <Modal data-testid="asset-list-table-delete-asset-are-you-modal"
           show={showDeleteAsset}
           onHide={handleCloseForDeleteAsset}
           centered
@@ -303,14 +303,14 @@ function AssetListTable(props) {
           </Modal.Body>
 
           <Modal.Footer className="flex justify-center border-0 -mt-2">
-            <Button
+            <Button data-testid="asset-list-table-cancel-btn"
               className="w-full max-w-[160px] h-[52px] rounded-[8px] px-5 bg-white !text-[#1E45E1] !border-[#1E45E1] !font-gilroy !font-semibold !text-[15px] me-2"
               onClick={handleCloseForDeleteAsset}
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="asset-list-table-delete-btn"
               disabled={deleteLoading}
               className={`
    !w-full 

@@ -404,7 +404,7 @@ function Booking() {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="booking-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -412,7 +412,7 @@ function Booking() {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="booking-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -973,7 +973,7 @@ function Booking() {
         <div className="flex items-center gap-2">
           <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
             <div className="flex items-center h-10 border border-[#CFD5DB] rounded-xl bg-white">
-              <input
+              <input data-testid="booking-handlefilter-input"
                 type="text"
                 placeholder="Search"
                 value={filterInput}
@@ -994,7 +994,7 @@ function Booking() {
             </div>
           </div>
           <div>
-            <button
+            <button data-testid="booking-retainer-btn"
               disabled={!canUpdateInvoice}
               onClick={handleShow}
               className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -1054,7 +1054,7 @@ function Booking() {
           <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
             <div className="flex flex-wrap items-center gap-3">
               <div className="w-[150px]">
-                <Select
+                <div data-testid="booking-selected-bill-status-select" className="contents"><Select
                   // isDisabled
                   closeMenuOnSelect={true}
                   hideSelectedOptions={false}
@@ -1087,10 +1087,10 @@ function Booking() {
                     });
                     setPage(1);
                   }}
-                />
+                /></div>
               </div>
 
-              <Select
+              <div data-testid="booking-month-change-select" className="contents"><Select
                 menuPlacement="auto"
                 // isDisabled={isComingSoon}
                 options={monthOptions}
@@ -1099,9 +1099,9 @@ function Booking() {
                 styles={CustomStyles}
                 classNamePrefix="custom"
                 noOptionsMessage={() => "No options"}
-              />
+              /></div>
               <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
-                <button
+                <button data-testid="booking-btn"
                   onClick={() => canReadInvoice && handleShowFilterBills()}
                   disabled={!canReadInvoice}
                   className={`border border-slate-300 rounded-full p-2
@@ -1114,7 +1114,7 @@ function Booking() {
 
             <div className="flex  items-center gap-3">
               <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
-                <Setting3
+                <Setting3 data-testid="booking-open-icon"
                   onClick={() => setOpen(!open)}
                   className="cursor-pointer"
                   size="22"
@@ -1153,7 +1153,7 @@ function Booking() {
                         ))}
                       </div>
 
-                      <span
+                      <span data-testid="booking-reset-action"
                         onClick={handleReset}
                         className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
                       >
@@ -1211,7 +1211,7 @@ function Booking() {
                         <tbody>
                           {formattedData?.length > 0 ? (
                             formattedData?.map((item, index) => (
-                              <tr
+                              <tr data-testid={`booking-action-2-${item?.apiCall?.invoiceId}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleNavigatePdf(item?.apiCall?.invoiceId);
@@ -1272,7 +1272,7 @@ function Booking() {
                                           key={col.key}
                                           className={`${finalClass} text-[#111928]`}
                                         >
-                                          <div
+                                          <div data-testid={`booking-action-3-${col.key}`}
                                             className="relative group w-[100px] "
                                             onClick={(e) => {
                                               e.stopPropagation();
@@ -1462,7 +1462,7 @@ function Booking() {
                                     } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
-                                    <PiDotsThreeOutlineVerticalFill
+                                    <PiDotsThreeOutlineVerticalFill data-testid={`booking-icon-${item?.apiCall?.invoiceId}`}
                                       className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-[#314158]"}`}
                                       onClick={(e) => {
                                         e.stopPropagation();
@@ -1490,7 +1490,7 @@ function Booking() {
                                           "ADVANCE" ||
                                           item?.apiCall?.invoiceType ===
                                           "BOOKING" ? (
-                                          <button
+                                          <button data-testid={`booking-apply-invoices-btn-${item?.apiCall?.invoiceId}`}
                                             disabled={
                                               !canUpdateInvoice ||
                                               !item.apiCall?.canApply
@@ -1528,7 +1528,7 @@ function Booking() {
                                             </span>
                                           </button>
                                         ) : (
-                                          <button
+                                          <button data-testid={`booking-apply-to-invoices-btn-${item?.apiCall?.invoiceId}`}
                                             disabled={
                                               !canUpdateInvoice ||
                                               !item.apiCall?.canApply
@@ -1588,7 +1588,7 @@ function Booking() {
                       </table>
                       {open && (
                         <>
-                          <div
+                          <div data-testid="booking-open-action"
                             className="fixed inset-0 bg-black/20 z-50 "
                             onClick={() => setOpen(false)}
                           />
@@ -1609,7 +1609,7 @@ function Booking() {
                                   <div className="text-[16px] text-[#333333] font-semibold ">
                                     Customize Tabs{" "}
                                   </div>
-                                  <div
+                                  <div data-testid="booking-customize-items-action"
                                     onClick={() => {
                                       setCustomizeItems((prev) =>
                                         prev.map((i) => ({
@@ -1634,7 +1634,7 @@ function Booking() {
 
                                 <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                                   <SearchNormal1 size={16} color="#98A2B3" />
-                                  <input
+                                  <input data-testid="booking-search-text-input"
                                     value={searchText}
                                     onChange={(e) =>
                                       setSearchText(e.target.value)
@@ -1696,13 +1696,13 @@ function Booking() {
                             )}
 
                             <div className="p-3 border-t flex gap-2">
-                              <button
+                              <button data-testid="booking-reset-btn"
                                 onClick={handleResetCustomize}
                                 className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
                               >
                                 Reset
                               </button>
-                              <button
+                              <button data-testid="booking-save-btn"
                                 onClick={handleSave}
                                 disabled={customizeLoading}
                                 className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70"

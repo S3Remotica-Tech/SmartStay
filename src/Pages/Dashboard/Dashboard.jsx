@@ -374,7 +374,7 @@ function Dashboard() {
                 )}
               </div>
 
-              <button
+              <button data-testid="dashboard-ok-btn"
                 className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
                   ? "bg-yellow-400 hover:bg-yellow-500"
                   : "bg-red-500 hover:bg-red-600"
@@ -392,7 +392,7 @@ function Dashboard() {
             className={`flex ${isSmallScreen ? "flex-col items-center" : "items-center"
               } gap-3 w-1/2`}
           >
-            <button
+            <button data-testid="dashboard-dashboard-btn"
               onClick={() => handleTabChange("1")}
               className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
         ${activeTab === "1"
@@ -403,7 +403,7 @@ function Dashboard() {
               Dashboard
             </button>
 
-            <button
+            <button data-testid="dashboard-announcement-btn"
               onClick={() => handleTabChange("2")}
               className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
         ${activeTab === "2"
@@ -414,7 +414,7 @@ function Dashboard() {
               Announcement
             </button>
 
-            <button
+            <button data-testid="dashboard-updates-btn"
               onClick={() => handleTabChange("3")}
               className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
         ${activeTab === "3"
@@ -471,7 +471,7 @@ function Dashboard() {
                               "Advance Holding",
                             ].includes(card.title) && (
                               <div className="relative">
-                                <span
+                                <span data-testid={`dashboard-action-${card.id}`}
                                   onClick={() =>
                                     !isDisabled && toggleCard(card.id)
                                   }
@@ -583,7 +583,7 @@ function Dashboard() {
                                 <div className="relative">
                                   {card.title === "Rooms & Beds" && (
                                     <CustomTooltip text="View Sharing Details" direction="top-full" usePortal={false}>
-                                      <InfoCircle
+                                      <InfoCircle data-testid={`dashboard-icon-${card.id}`}
                                         size="18"
                                         className="text-gray-400 cursor-pointer"
                                         variant="Outline"

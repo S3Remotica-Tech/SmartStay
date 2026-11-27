@@ -208,7 +208,7 @@ function LedgerFilter({ show, handleClose, size }) {
   if (!show) return null;
   return (
     <div>
-      <div className="fixed inset-0 bg-black/40 z-40" onClick={handleFilterClose} />
+      <div data-testid="ledger-filter-filter-close-action" className="fixed inset-0 bg-black/40 z-40" onClick={handleFilterClose} />
 
       <div className="fixed top-0 right-0 h-full w-[420px] bg-white shadow-xl z-50 flex flex-col">
         <div className="flex items-center justify-between p-2 border-b">
@@ -217,7 +217,7 @@ function LedgerFilter({ show, handleClose, size }) {
             Filter
           </h2>
 
-          <Add
+          <Add data-testid="ledger-filter-close-icon"
             onClick={handleClose}
             size="22"
             className="rotate-45 text-red-500 cursor-pointer"
@@ -230,13 +230,13 @@ function LedgerFilter({ show, handleClose, size }) {
               Period
             </label>
 
-            <Select
+            <div data-testid="ledger-filter-period-select" className="contents"><Select
               styles={fieldSelectStyles()}
               placeholder="Select Period"
               options={periodOptions}
               value={period}
               onChange={handlePeriodChange}
-            />
+            /></div>
           </div>
 
           {period?.value === "CUSTOM" && (<>
@@ -246,7 +246,7 @@ function LedgerFilter({ show, handleClose, size }) {
               </label>
 
               <div className="relative">
-                <DatePicker
+                <div data-testid="ledger-filter-from-date" className="contents"><DatePicker
                   selected={fromDate}
                   onChange={handleFromDateChange}
                   dateFormat="dd/MM/yyyy"
@@ -254,7 +254,7 @@ function LedgerFilter({ show, handleClose, size }) {
                   wrapperClassName="w-full"
                   maxDate={new Date()}
                   className={datePickerInputClass(!!fromDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="18"
@@ -273,7 +273,7 @@ function LedgerFilter({ show, handleClose, size }) {
               </label>
 
               <div className="relative">
-                <DatePicker
+                <div data-testid="ledger-filter-to-date" className="contents"><DatePicker
                   selected={toDate}
                   onChange={handleToDateChange}
                   dateFormat="dd/MM/yyyy"
@@ -282,7 +282,7 @@ function LedgerFilter({ show, handleClose, size }) {
                   minDate={fromDate}
                   maxDate={new Date()}
                   className={datePickerInputClass(!!toDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="18"
@@ -301,19 +301,19 @@ function LedgerFilter({ show, handleClose, size }) {
               Source
             </label>
 
-            <Select
+            <div data-testid="ledger-filter-source-select" className="contents"><Select
               styles={fieldSelectStyles()}
               placeholder="Select Source"
               options={sourceOptions}
               value={source}
               onChange={handleSourceChange}
-            />
+            /></div>
           </div>
 
         </div>
 
         <div className="flex items-center justify-between gap-3 m-4">
-          <button
+          <button data-testid="ledger-filter-reset-btn"
             type="button"
             onClick={() => handleReset()}
             className="w-1/2 h-10 rounded-lg border border-[#D9D9D9] bg-transparent text-[#222222] font-gilroy font-medium hover:bg-gray-50 transition-colors"
@@ -321,7 +321,7 @@ function LedgerFilter({ show, handleClose, size }) {
             Reset
           </button>
 
-          <button
+          <button data-testid="ledger-filter-filter-bills-btn"
             type="submit"
             disabled={formLoading}
             onClick={handleFilterBills}

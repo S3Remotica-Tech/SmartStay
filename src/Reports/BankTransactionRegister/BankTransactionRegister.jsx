@@ -163,14 +163,14 @@ function BankTransactionRegister() {
     <div className="h-screen flex flex-col font-gilroy">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white min-h-[60px]">
         <div className="flex items-center gap-2">
-          <ArrowLeft
+          <ArrowLeft data-testid="bank-transaction-register-navigate-reports-icon"
             onClick={handleNavigateReports}
             size="20"
             color="#4A5565"
             className="cursor-pointer"
           />
           <div>
-            <div
+            <div data-testid="bank-transaction-register-bank-transaction-register-action"
               className="flex items-center gap-2 relative w-fit"
               onClick={() => setRegister(!register)}
             >
@@ -195,7 +195,7 @@ function BankTransactionRegister() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`bank-transaction-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item);
@@ -225,7 +225,7 @@ function BankTransactionRegister() {
 
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="datepicker-wrapper" style={{ position: "relative" }}>
-            <RangePicker
+            <RangePicker data-testid="bank-transaction-register-input"
               style={{
                 width: "100%",
                 height: "100%",
@@ -262,14 +262,14 @@ function BankTransactionRegister() {
             />
           </div>
 
-          <button
+          <button data-testid="bank-transaction-register-filter-btn"
             onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
             <Filter size="16" />
             Filter
           </button>
-          <button className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy">
+          <button data-testid="bank-transaction-register-export-btn" className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy">
             <Export size="16" />
             Export
           </button>
@@ -319,7 +319,7 @@ function BankTransactionRegister() {
               <thead className="sticky top-0 z-30">
                 <tr>
                   <th className={`${TABLE_HEADER_CELL} text-left sticky left-0 z-40 w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}>
-                    <Setting3
+                    <Setting3 data-testid="bank-transaction-register-open-icon"
                       onClick={() => setOpen(!open)}
                       className="cursor-pointer"
                       size="18"
@@ -425,7 +425,7 @@ function BankTransactionRegister() {
           </div>
           {open && (
             <>
-              <div
+              <div data-testid="bank-transaction-register-open-action"
                 className="fixed inset-0 bg-black/20 z-40 "
                 onClick={() => setOpen(false)}
               />
@@ -443,7 +443,7 @@ function BankTransactionRegister() {
                 <div className="p-3 border-b">
                   <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                     <SearchNormal1 size={16} color="#98A2B3" />
-                    <input
+                    <input data-testid="bank-transaction-register-search-input"
                       placeholder="Search"
                       className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
                     />
@@ -456,7 +456,7 @@ function BankTransactionRegister() {
                       key={item.key}
                       className="flex items-center gap-3 text-sm cursor-pointer"
                     >
-                      <input
+                      <input data-testid={`bank-transaction-register-checkbox-${item.key}`}
                         type="checkbox"
                         defaultChecked={item.checked}
                         className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -467,10 +467,10 @@ function BankTransactionRegister() {
                 </div>
 
                 <div className="p-3 border-t flex gap-2">
-                  <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                  <button data-testid="bank-transaction-register-reset-btn" className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                     Reset
                   </button>
-                  <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                  <button data-testid="bank-transaction-register-apply-filters-btn" className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                     Apply Filters
                   </button>
                 </div>

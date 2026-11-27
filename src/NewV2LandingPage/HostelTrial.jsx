@@ -58,14 +58,14 @@ function HostelTrial() {
             </h2>
 
             <div className="flex gap-4 mt-6">
-              <button
+              <button data-testid="hostel-trial-request-demo-btn"
                 onClick={handleNavigateDemo}
                 className="bg-white text-[#222222] flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium hover:shadow font-dmsans"
               >
                 Request Demo <ArrowRight size="18" />
               </button>
 
-              <button
+              <button data-testid="hostel-trial-signup-for-free-trial-btn"
                 onClick={handleSignUp}
                 className="bg-[#1E45E1] text-[#FFFFFF] flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#1736b6] font-dmsans"
               >

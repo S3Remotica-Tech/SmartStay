@@ -534,30 +534,30 @@ function EBHostelReading(props) {
                         }}>
                           <tr>
                             <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="eb-hostel-based-sort-hoatel-name-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="eb-hostel-based-sort-hoatel-name-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
                             </div>  Paying Guest</div>  </th>
 
 
 
                             <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="eb-hostel-based-sort-reading-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="eb-hostel-based-sort-reading-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
                             </div> Reading </div></th>
 
                             <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="eb-hostel-based-sort-date-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="eb-hostel-based-sort-date-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
                             </div>  Date </div></th>
 
                             <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="eb-hostel-based-sort-total-reading-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="eb-hostel-based-sort-total-reading-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
                             </div> Units</div></th>
 
                             <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="eb-hostel-based-sort-total-amount-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="eb-hostel-based-sort-total-amount-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
                             </div>  Amount </div></th>
 
                             <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
@@ -714,7 +714,7 @@ function EBHostelReading(props) {
                                     }}
 
                                     >
-                                      <div
+                                      <div data-testid={`eb-hostel-based-show-active-action-${v.eb_Id}`}
                                         style={{
                                           cursor: "pointer",
                                           height: 35,
@@ -755,7 +755,7 @@ function EBHostelReading(props) {
 
                                           >
                                             <div style={{ width: "100%", }}>
-                                              <div
+                                              <div data-testid={`eb-hostel-based-edit-action-${v.eb_Id}`}
                                                 className="d-flex justify-content-start align-items-center gap-2"
                                                 style={{
                                                   cursor: props.ebEditPermission ? "not-allowed":"pointer",
@@ -789,7 +789,7 @@ function EBHostelReading(props) {
                                                 </label>
                                               </div>
 
-                                              <div
+                                              <div data-testid={`eb-hostel-based-delete-action-${v.eb_Id}`}
                                                 className="d-flex justify-content-start align-items-center gap-2"
                                                 style={{
                                                   cursor: props.ebDeletePermission  ? "not-allowed":"pointer",
@@ -932,7 +932,7 @@ function EBHostelReading(props) {
         >
 
           <div>
-            <Select
+            <div data-testid="eb-hostel-based-items-per-page-select" className="contents"><Select
               options={electricityPageOptions}
               value={
                 electricityrowsPerPage
@@ -992,7 +992,7 @@ function EBHostelReading(props) {
                   color: state.isFocused ? "#fff" : "#000",
                 }),
               }}
-            />
+            /></div>
           </div>
 
 
@@ -1007,7 +1007,7 @@ function EBHostelReading(props) {
           >
 
             <li style={{ margin: "0 10px" }}>
-              <button
+              <button data-testid="eb-hostel-based-page-change-btn"
                 style={{
                   padding: "5px",
                   textDecoration: "none",
@@ -1034,7 +1034,7 @@ function EBHostelReading(props) {
 
 
             <li style={{ margin: "0 10px" }}>
-              <button
+              <button data-testid="eb-hostel-based-page-change-btn-2"
                 style={{
                   padding: "5px",
                   textDecoration: "none",
@@ -1060,7 +1060,7 @@ function EBHostelReading(props) {
         </nav>
       }
 
-      <Modal
+      <Modal data-testid="eb-hostel-based-modal"
         show={props.hostelBasedForm}
         onHide={() => handleCloseHostel()}
         backdrop="static"
@@ -1080,7 +1080,7 @@ function EBHostelReading(props) {
             {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
 
-          <CloseCircle size="24" color="#000" onClick={handleCloseHostel}
+          <CloseCircle data-testid="eb-hostel-based-close-hostel-icon" size="24" color="#000" onClick={handleCloseHostel}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
         <Modal.Body className="pt-2">
@@ -1100,7 +1100,7 @@ function EBHostelReading(props) {
                   Hostel Name{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="eb-hostel-based-hostel-name-input"
                   type="text"
                   id="form-controls"
                   placeholder="6542310"
@@ -1138,7 +1138,7 @@ function EBHostelReading(props) {
                   Reading{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="eb-hostel-based-reading-input"
                   type="text"
                   id="form-controls"
                   placeholder="6542310"
@@ -1178,7 +1178,7 @@ function EBHostelReading(props) {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker
+                  <DatePicker data-testid="eb-hostel-based-date"
                     style={{ height: 48, width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -1244,7 +1244,7 @@ function EBHostelReading(props) {
         </div>}
 
         <Modal.Footer className="d-flex justify-content-center" style={{ border: "none" }}>
-          <Button
+          <Button data-testid="eb-hostel-based-save-eb-btn"
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12 w-100"
             style={{
               backgroundColor: "#1E45E1",
@@ -1265,7 +1265,7 @@ function EBHostelReading(props) {
       </Modal>
 
 
-      <Modal
+      <Modal data-testid="eb-hostel-based-delete-reading-are-you-modal"
         show={deleteForm}
         onHide={handleCloseDelete}
         centered
@@ -1310,7 +1310,7 @@ function EBHostelReading(props) {
             marginTop: "-10px",
           }}
         >
-          <Button
+          <Button data-testid="eb-hostel-based-cancel-btn"
             className="me-2"
             style={{
               width: "100%",
@@ -1329,7 +1329,7 @@ function EBHostelReading(props) {
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="eb-hostel-based-delete-btn"
             style={{
               width: "100%",
               maxWidth: 160,

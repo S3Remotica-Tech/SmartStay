@@ -284,7 +284,7 @@ function Receipt() {
         : "border-gray-200 opacity-60 cursor-not-allowed"
     }`}
                 >
-                  <input
+                  <input data-testid="receipt-handlefilter-input"
                     type="text"
                     className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
                     placeholder="Search"
@@ -306,7 +306,7 @@ function Receipt() {
 
         <div className={` flex items-center justify-end gap-2 mr-2 `}>
           <div>
-            <Setting3
+            <Setting3 data-testid="receipt-open-icon"
               onClick={() => setOpen(!open)}
               className="cursor-not-allowed"
               size="22"

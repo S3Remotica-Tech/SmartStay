@@ -305,7 +305,7 @@ function DiscountInvoice({
             {editData ? "Edit Discount Invoice" : "Discount Invoice"}
           </h2>
 
-          <button onClick={handleClose} className="text-red-500 text-xl">
+          <button data-testid="discount-invoice-close-btn" onClick={handleClose} className="text-red-500 text-xl">
             <CloseCircle />
           </button>
         </div>
@@ -365,7 +365,7 @@ function DiscountInvoice({
 
                 {selectedReason?.value === "other" ? (
                   <div className="relative w-full">
-                    <input
+                    <input data-testid="discount-invoice-reason-for-discount-input"
                       type="text"
                       value={customReason}
                       onChange={(e) => {
@@ -381,7 +381,7 @@ function DiscountInvoice({
                       className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
                     />
 
-                    <button
+                    <button data-testid="discount-invoice-selected-reason-btn"
                       type="button"
                       onClick={() => {
                         setSelectedReason(null);
@@ -394,7 +394,7 @@ function DiscountInvoice({
                     </button>
                   </div>
                 ) : (
-                  <Select
+                  <div data-testid="discount-invoice-reason-for-discount-select" className="contents"><Select
                     options={reasonOptions}
                     value={selectedReason}
                     onChange={(option) => {
@@ -453,7 +453,7 @@ function DiscountInvoice({
                     }}
                     placeholder="Select Reason"
                     className="text-sm  rounded-md"
-                  />
+                  /></div>
                 )}
               </div>
             </div>
@@ -504,7 +504,7 @@ function DiscountInvoice({
 
                     <td className="px-3 py-2">
                       <div className="flex items-center border rounded-md overflow-hidden w-full">
-                        <input
+                        <input data-testid="discount-invoice-discount-change-input"
                           type="number"
                           value={discountInput}
                           onChange={handleDiscountChange}
@@ -515,7 +515,7 @@ function DiscountInvoice({
                         />
 
                         <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
-                          <button
+                          <button data-testid="discount-invoice-type-change-amount-btn"
                             type="button"
                             onClick={() => handleTypeChange("amount")}
                             className={`px-3 py-1 text-sm rounded ${
@@ -527,7 +527,7 @@ function DiscountInvoice({
                             ₹
                           </button>
 
-                          <button
+                          <button data-testid="discount-invoice-type-change-percent-btn"
                             type="button"
                             onClick={() => handleTypeChange("percent")}
                             className={`px-3 text-sm rounded ${
@@ -602,14 +602,14 @@ function DiscountInvoice({
           </div>
 
           <div className="flex gap-3">
-            <button
+            <button data-testid="discount-invoice-cancel-btn"
               onClick={handleClose}
               className="px-4 py-2 text-sm border rounded-md bg-gray-100 hover:bg-gray-200"
             >
               Cancel
             </button>
 
-            <button
+            <button data-testid="discount-invoice-apply-invoices-btn"
               type="button"
               disabled={formLoading}
               onClick={handleApplyInvoices}

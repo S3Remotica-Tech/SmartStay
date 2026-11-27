@@ -338,7 +338,7 @@ function SettingAmenities() {
         </div>
 
         <div className="w-full flex justify-center md:justify-end  md:mt-0">
-          <button
+          <button data-testid="setting-amenities-amenities-btn"
             onClick={handleOpenAmenities}
             disabled={showPopup || !canWriteAmenities}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
@@ -412,7 +412,7 @@ function SettingAmenities() {
                         </div>
 
                         <div className="flex items-center gap-1">
-                          <img
+                          <img data-testid={`setting-amenities-link2-img-${index}`}
                             src={link2}
                             alt="link2"
                             onClick={() =>
@@ -425,7 +425,7 @@ function SettingAmenities() {
                               }`}
                           />
 
-                          <div
+                          <div data-testid={`setting-amenities-dots-click-action-${index}`}
                             onClick={() => handleDotsClick(index)}
                             className={`relative flex items-center justify-center w-10 h-10 rounded-full ${showDots === index ? "bg-blue-100" : "bg-white"
                               } cursor-pointer`}
@@ -437,7 +437,7 @@ function SettingAmenities() {
                                 ref={popupRef}
                                 className="absolute top-8 right-12 w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col z-50 text-sm"
                               >
-                                <div
+                                <div data-testid={`setting-amenities-edit-action-${index}`}
                                   onClick={() =>
                                     canUpdateAmenities &&
                                     handleEditAmenities(amenity)
@@ -468,7 +468,7 @@ function SettingAmenities() {
                                 <div className="h-px bg-gray-200" />
 
                                 {isDev &&
-                                  <div
+                                  <div data-testid={`setting-amenities-duplicate-action-${index}`}
                                     onClick={() =>
                                       canWriteAmenities &&
                                       handleDuplicateAmenity(amenity)
@@ -509,7 +509,7 @@ function SettingAmenities() {
 
                                 <div className="h-px bg-gray-200" />
 
-                                <div
+                                <div data-testid={`setting-amenities-delete-action-${index}`}
                                   onClick={() =>
                                     canDeleteAmenities &&
                                     handleDeleteAmenities(amenity)
@@ -559,7 +559,7 @@ function SettingAmenities() {
                                 <span className="rounded-full bg-[#EEF1FD] px-[10px] py-[4px] font-gilroy text-[12px] font-medium leading-[16px] text-[#1E45E1]">
                                   {plans.length} {plans.length === 1 ? "Plan" : "Plans"}
                                 </span>
-                                <button
+                                <button data-testid={`setting-amenities-toggle-plans-btn-${index}`}
                                   type="button"
                                   aria-expanded={isOpen}
                                   onClick={() => handleTogglePlans(amenity.amenityId)}
@@ -601,7 +601,7 @@ function SettingAmenities() {
                           <p className="font-gilroy text-gray-700 text-xs font-normal">
                             Pro-Rate
                           </p>
-                          <Form.Check
+                          <Form.Check data-testid={`setting-amenities-check-${index}`}
                             disabled={!canWriteAmenities}
                             type="switch"
                             checked={switchStates[amenity.amenityId] || false}
@@ -662,7 +662,7 @@ function SettingAmenities() {
       )}
 
       {deleteAmenities && (
-        <Modal
+        <Modal data-testid="setting-amenities-delete-amenities-are-you-modal"
           show={deleteAmenities}
           onHide={handleCloseDeleteFormAmenities}
           centered
@@ -681,13 +681,13 @@ function SettingAmenities() {
 
           <Modal.Footer className="!flex !justify-center !gap-4 !border-t-0 !mt-2">
             <div className="!flex !gap-4 w-full max-w-md">
-              <button
+              <button data-testid="setting-amenities-cancel-btn"
                 onClick={handleCloseDeleteFormAmenities}
                 className="!flex-1 !h-14 !rounded-lg !bg-white !text-blue-700 !border !border-blue-700 !font-gilroy !font-semibold !text-sm"
               >
                 Cancel
               </button>
-              <button
+              <button data-testid="setting-amenities-delete-amenities-confirm-btn"
                 disabled={deleteLoading}
                 onClick={handleDeleteAmenitiesConfirm}
                 className={`

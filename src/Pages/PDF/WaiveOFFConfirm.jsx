@@ -11,7 +11,7 @@ function WaiveOFFConfirm({ show, handleClose }) {
   //   const [formLoading, setFormLoading] = useState(false);
 
   return (
-    <Modal
+    <Modal data-testid="waive-offconfirm-confirm-waive-off-are-modal"
       show={show}
       onHide={handleClose}
       centered
@@ -29,14 +29,14 @@ function WaiveOFFConfirm({ show, handleClose }) {
       </Modal.Body>
 
       <Modal.Footer className="!flex !justify-center !gap-4 !mb-2 !border-0">
-        <Button
+        <Button data-testid="waive-offconfirm-cancel-btn"
           onClick={handleClose}
           className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
         >
           Cancel
         </Button>
 
-        <Button
+        <Button data-testid="waive-offconfirm-confirm-btn"
           className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy"
           // onClick={confirmUnpaid}
         >

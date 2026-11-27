@@ -38,7 +38,7 @@ function KYCDocuments({ documents }) {
                 <div className="flex items-center gap-3 w-full">
                   <div className="flex items-center justify-center rounded-lg shadow-md border border-gray-300 bg-gray-50 p-2 w-full h-20 overflow-hidden">
                     {doc.type === "IMAGE" ? (
-                      <img
+                      <img data-testid={`kycdocuments-preview-img-${index}`}
                         src={doc.url}
                         alt={doc.documentId}
                         className="w-full h-full object-cover rounded cursor-pointer"
@@ -74,14 +74,14 @@ function KYCDocuments({ documents }) {
 
                 <div className="flex gap-2 shrink-0">
                   {doc.type === "IMAGE" ? (
-                    <Eye
+                    <Eye data-testid={`kycdocuments-preview-img-icon-${index}`}
                       size="20"
                       color="#5f5d5c"
                       className="cursor-pointer"
                       onClick={() => setPreviewImg(doc.url)}
                     />
                   ) : (
-                    <a href={doc.url} target="_blank" rel="noreferrer">
+                    <a data-testid={`kycdocuments-link-${index}`} href={doc.url} target="_blank" rel="noreferrer">
                       <DocumentDownload
                         size="20"
                         color="#1E45E1"
@@ -90,7 +90,7 @@ function KYCDocuments({ documents }) {
                     </a>
                   )}
 
-                  <Trash
+                  <Trash data-testid={`kycdocuments-icon-${index}`}
                     size="22"
                     onClick={() => {
                       if (!isDisabledButton && doc?.canDelete) {
@@ -117,7 +117,7 @@ function KYCDocuments({ documents }) {
       {previewImg && (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-[9999]">
           <div className="relative bg-white rounded-lg p-3 max-w-[90%] max-h-[90%]">
-            <button
+            <button data-testid="kycdocuments-preview-img-btn"
               className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center"
               onClick={() => setPreviewImg(null)}
             >

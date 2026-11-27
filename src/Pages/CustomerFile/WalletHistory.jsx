@@ -42,7 +42,7 @@ function WalletHistory({ show, handleClose }) {
                       </h2>
                     </div>
 
-                    <CloseCircle
+                    <CloseCircle data-testid="wallet-history-close-icon"
                       size="24"
                       color="#000"
                       onClick={handleClose}
@@ -138,7 +138,7 @@ function WalletHistory({ show, handleClose }) {
             </span>
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="wallet-history-close-icon-2"
             size="24"
             color="#000"
             onClick={handleClose}

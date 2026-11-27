@@ -59,7 +59,7 @@ const SettingsNotifications = () => {
         {import.meta.env.MODE === "development" ? (
           !showWhatsAppSettings ? (
             <>
-              <div
+              <div data-testid="settings-notifications-whatsapp-manage-and-automate-action"
                 onClick={() => setShowWhatsAppSettings(true)}
                 className="mt-3 cursor-pointer rounded-md border border-gray-300 bg-white mr-2"
               >
@@ -83,7 +83,7 @@ const SettingsNotifications = () => {
           ) : (
             <>
               <div className="mt-3 mb-4 flex items-center gap-2">
-                <ArrowLeft
+                <ArrowLeft data-testid="settings-notifications-show-whats-app-settings-icon"
                   size={18}
                   className="cursor-pointer text-blue-700"
                   onClick={() => setShowWhatsAppSettings(false)}
@@ -121,7 +121,7 @@ const SettingsNotifications = () => {
                       </span>
 
                       <label className="relative inline-flex cursor-pointer items-center">
-                        <input
+                        <input data-testid={`settings-notifications-toggle-checkbox-${item.id}`}
                           type="checkbox"
                           checked={toggleStatus[item.id]}
                           onChange={() => handleToggle(item.id)}

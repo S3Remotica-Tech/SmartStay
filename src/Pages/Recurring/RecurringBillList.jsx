@@ -94,7 +94,7 @@ const RecurringBillList = (props) => {
         </td> */}
         <td className={`${TABLE_BODY_CELL} w-[230px] sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
           <div className="w-full flex justify-start">
-            <div
+            <div data-testid={`recurring-bill-list-show-dots-action-${props.item.customerId}`}
               className="flex items-center relative rounded-full cursor-pointer"
               onClick={(e) => handleShowDots(e)}
             >
@@ -112,7 +112,7 @@ const RecurringBillList = (props) => {
                   }}
                 >
                   <div className="w-full rounded-lg">
-                    <div
+                    <div data-testid={`recurring-bill-list-delete-action-${props.item.customerId}`}
                       className={`flex items-center gap-2 p-2 rounded-lg ${
                         canDeleteRecurring
                           ? "cursor-pointer opacity-100"
@@ -139,7 +139,7 @@ const RecurringBillList = (props) => {
         </td>
       </tr>
 
-      <Modal
+      <Modal data-testid="recurring-bill-list-delete-recurring-bill-are-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         centered
@@ -157,14 +157,14 @@ const RecurringBillList = (props) => {
         </Modal.Body>
 
         <Modal.Footer className="flex justify-center !border-0 -mt-2">
-          <Button
+          <Button data-testid="recurring-bill-list-cancel-btn"
             onClick={handleCloseDelete}
             className="w-full max-w-40 h-13 rounded-lg px-5 py-3 bg-white !text-blue-700 !border !border-blue-700 !font-semibold !text-sm !font-gilroy mr-2"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="recurring-bill-list-coming-soon-btn"
             disabled
             onClick={handleDelete}
             className="w-full max-w-40 h-13 rounded-lg px-5 py-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !font-gilroy disabled:opacity-60 disabled:cursor-not-allowed"

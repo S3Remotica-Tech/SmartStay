@@ -315,7 +315,7 @@ function RecurringBills() {
                         className="h-5 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
                       />
                     </span>
-                    <input
+                    <input data-testid="recurring-bills-handlefilter-input"
                       type="text"
                       className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 font-gilroy"
                       placeholder="Search"
@@ -324,7 +324,7 @@ function RecurringBills() {
                       disabled
                     />
                     <span className="input-group-text bg-white border-start-0">
-                      <img
+                      <img data-testid="recurring-bills-close-search-img"
                         src={closecircle}
                         alt="close"
                         onClick={() => handleCloseSearch()}
@@ -337,7 +337,7 @@ function RecurringBills() {
             ) : (
               <>
                 <div className="mt-2 border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
-                  <FiSearch
+                  <FiSearch data-testid="recurring-bills-search-icon"
                     className="h-6 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
                     onClick={handleSearch}
                   />
@@ -371,7 +371,7 @@ function RecurringBills() {
         <>
           <div className="flex items-center justify-between mt-1 mb-0  sticky top-[60px] z-40">
             <div className="flex items-center gap-3">
-              <button
+              <button data-testid="recurring-bills-long-stay-btn"
                 onClick={() => handleClick("long_stay")}
                 className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
                   ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
@@ -381,7 +381,7 @@ function RecurringBills() {
                 Long Stay
               </button>
 
-              <button
+              <button data-testid="recurring-bills-short-stay-btn"
                 onClick={() => handleClick("short_stay")}
                 className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
                   ? "bg-[#1E45E1] text-white border border-[#1E45E1]"

@@ -275,13 +275,13 @@ function TenantAmenities({ show, handleClose }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleFormClose} backdrop="static" centered>
+      <Modal data-testid="tenant-assign-amenities-assign-amenities-amenities-modal" show={show} onHide={handleFormClose} backdrop="static" centered>
         <Modal.Header className="relative flex items-center justify-between">
           <div className="text-[18px] font-semibold font-gilroy text-start">
             Assign Amenities
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="tenant-assign-amenities-form-close-icon"
             size="24"
             color="#000"
             onClick={handleFormClose}
@@ -337,7 +337,7 @@ function TenantAmenities({ show, handleClose }) {
                 Amenities <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
-              <Select
+              <div data-testid="tenant-assign-amenities-amenities-select" className="contents"><Select
                 isDisabled={
                   !canWriteAmenities ||
                   state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
@@ -359,7 +359,7 @@ function TenantAmenities({ show, handleClose }) {
                 options={amenityOptions}
                 menuPlacement="auto"
                 styles={fieldSelectStyles(!!amnityError)}
-              />
+              /></div>
               {amnityError && (
                 <ErrorMessage className="mt-[6px]" message={amnityError} type="error" />
               )}
@@ -369,7 +369,7 @@ function TenantAmenities({ show, handleClose }) {
               <label className={fieldLabelClass}>
                 Amount
               </label>
-              <Form.Control
+              <Form.Control data-testid="tenant-assign-amenities-recipient-s-username-input"
                 placeholder="Amount"
                 aria-label="Recipient's username"
                 className={fieldClass()}
@@ -386,7 +386,7 @@ function TenantAmenities({ show, handleClose }) {
                   <span className={fieldRequiredClass}>*</span>
                 </label>
 
-                <Form.Select
+                <Form.Select data-testid="tenant-assign-amenities-default-select-example-select"
                   aria-label="Default select example"
                   value={statusAmni}
                   onChange={(e) => handleStatusAmnities(e)}
@@ -427,13 +427,13 @@ function TenantAmenities({ show, handleClose }) {
           className="d-flex justify-content-end pt-0"
           style={{ borderTop: "none" }}
         >
-          <Button
+          <Button data-testid="tenant-assign-amenities-cancel-btn"
             className="bg-white border border-white rounded-[10px] h-[40px] text-[16px] !font-semibold !font-gilroy !text-[#1E45E1]"
             onClick={handleFormClose}
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="tenant-assign-amenities-assign-btn"
             disabled={
               formLoading ||
               !canWriteAmenities ||

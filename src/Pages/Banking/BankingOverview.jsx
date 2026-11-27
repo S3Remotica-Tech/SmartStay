@@ -376,7 +376,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
 
           <div className="flex items-center gap-3">
             <div className="relative ">
-              <button disabled={bankingOverviewDetails?.isDeleted}
+              <button data-testid="banking-overview-add-transaction-btn" disabled={bankingOverviewDetails?.isDeleted}
                 onClick={() => setShowTransactionMenu((prev) => !prev)}
                 className=" disabled:opacity-50 disabled:cursor-not-allowed   flex items-center justify-between gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF] 
                                text-[#1E45E1] !font-semibold rounded-[8px] px-3 py-2  w-[170px] whitespace-nowrap"
@@ -395,7 +395,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
                   className="absolute top-full  right-[20px] mt-1 bg-white 
                                border border-[#E5E7EB] rounded-[8px] shadow-lg z-50 min-w-[220px] "
                 >
-                  <button
+                  <button data-testid="banking-overview-add-expense-btn"
                     disabled={!canWriteExpense}
                     onClick={() => handleAddExpense()}
                     className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
@@ -403,7 +403,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
                     Add Expense
                   </button>
 
-                  <button
+                  <button data-testid="banking-overview-tenant-payment-btn"
                     disabled
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
@@ -412,7 +412,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
                     Tenant Payment
                   </button>
 
-                  <button
+                  <button data-testid="banking-overview-vendor-payment-btn"
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={!canWriteVendor}
@@ -424,7 +424,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
                     Vendor Payment
                   </button>
 
-                  <button
+                  <button data-testid="banking-overview-credit-card-payment-btn"
                     disabled={!canWriteBanking || isDisabled}
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] 
                     disabled:opacity-60 disabled:cursor-not-allowed
@@ -434,7 +434,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
                     Credit Card Payment
                   </button>
 
-                  <button
+                  <button data-testid="banking-overview-investment-btn"
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={!canWriteBanking}
@@ -449,7 +449,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
               )}
             </div>
             {/* || OverviewDetails?.accountType === "CARD" */}
-            <button
+            <button data-testid="banking-overview-transfer-btn"
               disabled={!canWriteBanking || bankingOverviewDetails?.isDeleted}
               onClick={(e) => {
                 e.stopPropagation();
@@ -467,7 +467,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
                 className="cursor-pointer"
               />
 
-              <button
+              <button data-testid="banking-overview-close-btn"
                 onClick={onClose}
                 className="h-8 w-8 rounded bg-[#FFF3F3] flex items-center justify-center"
               >
@@ -484,7 +484,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
         <div className="flex items-center justify-between px-8 border-b shrink-0">
           <div className="flex items-center gap-10">
             {tabs.map((tab) => (
-              <button
+              <button data-testid={`banking-overview-active-tab-btn-${tab.id}`}
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`h-[52px] relative text-[14px] font-medium transition-all
@@ -500,7 +500,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
           </div>
           {activeTab === "overview" && (
             <div className="relative inline-block" ref={menuRef}>
-              <button
+              <button data-testid="banking-overview-show-menu-btn"
                 onClick={() => setShowMenu(!showMenu)}
                 className="flex items-center justify-between 
                gap-2 min-w-[220px] px-4 py-2 border border-gray-300 rounded-md bg-white text-sm"
@@ -524,7 +524,7 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
               {showMenu && (
                 <div className="absolute left-0 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-lg z-10">
                   {periodOptions.map((item) => (
-                    <div
+                    <div data-testid={`banking-overview-period-action-${item.value}`}
                       key={item.value}
                       onClick={() => {
                         setPeriod(item.value);

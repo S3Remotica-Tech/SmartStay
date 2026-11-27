@@ -343,7 +343,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
+      <Offcanvas data-testid="expense-filter-filter-vendor-payment-status-drawer" show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{
@@ -360,7 +360,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
             Filter
           </Offcanvas.Title>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="expense-filter-close-icon"
             onClick={handleClose}
             style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
           />
@@ -373,7 +373,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 Vendor
               </Form.Label>
 
-              <Select
+              <div data-testid="expense-filter-vendor-select" className="contents"><Select
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={vendorOptions}
@@ -381,7 +381,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 placeholder="Select Vendor"
                 value={selectedVendor}
                 onChange={(selected) => setSelectedVendor(selected)}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -389,7 +389,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 Payment Status
               </Form.Label>
 
-              <Select
+              <div data-testid="expense-filter-payment-status-select" className="contents"><Select
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={paymentStatus}
@@ -397,7 +397,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 placeholder="Select Status"
                 value={selectedBillStatus}
                 onChange={(selected) => setSelectedBillStatus(selected)}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -405,7 +405,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 Category
               </Form.Label>
 
-              <Select
+              <div data-testid="expense-filter-category-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -415,7 +415,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Category"
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -423,7 +423,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 Sub Category
               </Form.Label>
 
-              <Select
+              <div data-testid="expense-filter-sub-category-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -433,20 +433,20 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Sub Category"
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Period
               </Form.Label>
-              <Select
+              <div data-testid="expense-filter-period-select" className="contents"><Select
                 styles={selectStyles}
                 value={selectedPeriodOption}
                 onChange={handlePeriodChange}
                 options={periodOptions}
                 placeholder="Select Period "
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -454,7 +454,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 Payment Mode
               </Form.Label>
 
-              <Select
+              <div data-testid="expense-filter-payment-mode-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -464,14 +464,14 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Payment Mode"
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Created By
               </Form.Label>
-              <Select
+              <div data-testid="expense-filter-created-by-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -481,7 +481,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 options={createdByOptions}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select"
-              />
+              /></div>
             </Form.Group>
           </div>
         </Offcanvas.Body>
@@ -526,7 +526,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
             zIndex: 10,
           }}
         >
-          <Button
+          <Button data-testid="expense-filter-reset-btn"
             onClick={() => {
               setPeriod("");
               setPaymentMode([]);
@@ -546,7 +546,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
           >
             Reset
           </Button>
-          <Button
+          <Button data-testid="expense-filter-apply-btn"
             onClick={handleFilterBills}
             style={{
               backgroundColor: "#1E45E1",

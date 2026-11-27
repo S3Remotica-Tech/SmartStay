@@ -165,7 +165,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
             {label === "Advance" ? "Apply to Invoice" : "Apply  to Invoice"}
           </h5>
 
-          <button
+          <button data-testid="apply-invoices-close-btn"
             onClick={handleClose}
             className="text-red-500 text-lg font-bold hover:scale-110 transition"
           >
@@ -262,7 +262,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
                           </td>
 
                           <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
-                            <input
+                            <input data-testid={`apply-invoices-apply-amount-change-input-${index}`}
                               type="number"
                               value={
                                 applyAmountForInvoice.find(
@@ -326,14 +326,14 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
         </div>
 
         <div className="m-6 flex justify-end gap-3">
-          <button
+          <button data-testid="apply-invoices-cancel-btn"
             onClick={handleClose}
             className="px-4 py-2 bg-gray-100 rounded-md text-sm"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="apply-invoices-apply-submit-btn"
             type="button"
             disabled={formLoading}
             onClick={handleApplySubmit}

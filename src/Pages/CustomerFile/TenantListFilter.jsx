@@ -220,7 +220,7 @@ function TenantListFilter({ show, handleClose, size }) {
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
+      <Offcanvas data-testid="tenant-list-filter-filter-system-filter-tenant-drawer" show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{
@@ -237,7 +237,7 @@ function TenantListFilter({ show, handleClose, size }) {
             Filter
           </Offcanvas.Title>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="tenant-list-filter-close-icon"
             onClick={handleClose}
             style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
           />
@@ -262,7 +262,7 @@ function TenantListFilter({ show, handleClose, size }) {
                 </Form.Label>
               </div>
 
-              <Form.Control className={fieldClass()}
+              <Form.Control data-testid="tenant-list-filter-tenant-name-input" className={fieldClass()}
                
                 type="text"
                 placeholder="Enter Tenant Name"
@@ -282,7 +282,7 @@ function TenantListFilter({ show, handleClose, size }) {
               <Form.Label className={fieldLabelClass}>
                 Tenant Status
               </Form.Label>
-              <Select
+              <div data-testid="tenant-list-filter-tenant-status-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -292,33 +292,33 @@ function TenantListFilter({ show, handleClose, size }) {
                 styles={fieldSelectStyles()}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
-              />
+              /></div>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className={fieldLabelClass}>
                 Period
               </Form.Label>
-              <Select
+              <div data-testid="tenant-list-filter-period-select" className="contents"><Select
                 styles={fieldSelectStyles()}
                 placeholder="Select"
                 value={period}
                 onChange={setPeriod}
                 options={periodOptions}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className={fieldLabelClass}>
                 Sharing Type
               </Form.Label>
-              <Select
+              <div data-testid="tenant-list-filter-sharing-type-select" className="contents"><Select
                 // isDisabled
                 styles={fieldSelectStyles()}
                 placeholder="Select Share Type..."
                 value={selectedSharingOptions}
                 onChange={handleChangeSharingType}
                 options={SharingTypeOptions}
-              />
+              /></div>
             </Form.Group>
 
             {/* <Form.Group className="mb-3">
@@ -393,7 +393,7 @@ function TenantListFilter({ show, handleClose, size }) {
             zIndex: 10,
           }}
         >
-          <Button
+          <Button data-testid="tenant-list-filter-reset-btn"
             onClick={() => {
               // setTenantStatus([]);
               setPeriod(null);
@@ -413,7 +413,7 @@ function TenantListFilter({ show, handleClose, size }) {
           >
             Reset
           </Button>
-          <Button
+          <Button data-testid="tenant-list-filter-apply-btn"
             onClick={handleFilterBills}
             style={{
               backgroundColor: "#1E45E1",

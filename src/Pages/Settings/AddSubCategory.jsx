@@ -122,7 +122,7 @@ function AddSubCategory({
             {editSubCategory ? "Edit Sub Category" : "Add Sub Category"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-sub-category-close-form-icon"
             size="24"
             color="#000"
             onClick={handleCloseForm}
@@ -136,7 +136,7 @@ function AddSubCategory({
               Sub Category <span className={fieldRequiredClass}>*</span>
             </label>
 
-            <input
+            <input data-testid="add-sub-category-sub-category-input"
               ref={inputRef}
               type="text"
               placeholder="Enter Sub Category"
@@ -164,7 +164,7 @@ function AddSubCategory({
         )}
 
         <div className="flex justify-end gap-4 p-4">
-          <button
+          <button data-testid="add-sub-category-submit-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

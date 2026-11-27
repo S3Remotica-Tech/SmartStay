@@ -602,7 +602,7 @@ function BookingModal(props) {
             Tenant Booking
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="addbookingform-close-booking-icon"
             size="24"
             color="#222222"
             onClick={handleCloseBooking}
@@ -668,7 +668,7 @@ function BookingModal(props) {
                     </Form.Label>
 
                     <div className="datepicker-wrapper relative w-full mt-px">
-                      <DatePicker
+                      <DatePicker data-testid="addbookingform-booking-date"
                         className={datePickerClass(!!dateError)}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
@@ -704,7 +704,7 @@ function BookingModal(props) {
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <FormControl
+                    <FormControl data-testid="addbookingform-booking-amount-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter Booking Amount"
@@ -733,7 +733,7 @@ function BookingModal(props) {
 
                     <div className="datepicker-wrapper relative w-full mt-1">
                       <div className="datepicker-wrapper relative w-full">
-                        <DatePicker
+                        <DatePicker data-testid="addbookingform-joining-date-tentative-date"
                           className={datePickerClass(!!joiningDateError)}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -777,7 +777,7 @@ function BookingModal(props) {
                       <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select isDisabled={!joiningDate}
+                    <div data-testid="addbookingform-mode-of-transaction-select" className="contents"><Select isDisabled={!joiningDate}
                       options={paymentOptionsV1}
                       menuPlacement="bottom"
                       menuPosition="fixed"
@@ -802,7 +802,7 @@ function BookingModal(props) {
                         GroupHeading,
                         IndicatorSeparator: () => null,
                       }}
-                    />
+                    /></div>
                   </Form.Group>
                   {paymentError && (
                     <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
@@ -814,7 +814,7 @@ function BookingModal(props) {
                     <Form.Label className={fieldLabelClass}>
                       Transaction ID{" "}
                     </Form.Label>
-                    <FormControl
+                    <FormControl data-testid="addbookingform-transaction-id-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter Transaction ID"
@@ -831,7 +831,7 @@ function BookingModal(props) {
                       Floor <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select
+                    <div data-testid="addbookingform-floor-select" className="contents"><Select
                       isDisabled={!joiningDate}
                       options={
                         state.UsersList.floorList?.map((u) => ({
@@ -858,7 +858,7 @@ function BookingModal(props) {
                         ...fieldSelectStyles(!!floorError),
                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
-                    />
+                    /></div>
                   </Form.Group>
 
                   {floorError && (
@@ -872,7 +872,7 @@ function BookingModal(props) {
                       Room <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select
+                    <div data-testid="addbookingform-room-select" className="contents"><Select
                       isDisabled={!joiningDate || !Floor}
                       options={roomOptions}
                       onChange={(selectedOption) =>
@@ -896,7 +896,7 @@ function BookingModal(props) {
                         ...fieldSelectStyles(!!roomError),
                         menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                       }}
-                    />
+                    /></div>
                   </Form.Group>
                   {roomError && (
                     <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
@@ -908,7 +908,7 @@ function BookingModal(props) {
                     Bed <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
-                  <Select
+                  <div data-testid="addbookingform-bed-select" className="contents"><Select
                     isDisabled={!joiningDate}
                     options={
                       availableBed
@@ -949,7 +949,7 @@ function BookingModal(props) {
                       ...fieldSelectStyles(),
                       menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                     }}
-                  />
+                  /></div>
 
                   {state.Booking?.bookingBedError ? (
                     <ErrorMessage className="mt-[6px]"
@@ -976,14 +976,14 @@ function BookingModal(props) {
 
             <div className="px-4 py-1">
               <div className="flex justify-end">
-                <Button
+                <Button data-testid="addbookingform-cancel-btn"
                   onClick={handleCloseBooking}
                   className="bg-white !px-10 !py-1 !text-base font-normal !font-gilroy !text-[#4B4B4B] !border !border-white !rounded-lg"
                 >
                   Cancel
                 </Button>
 
-                <Button
+                <Button data-testid="addbookingform-book-btn"
                   disabled={formLoading}
                   onClick={handleBookingSubmit}
                   className="!bg-[#1E45E1] !px-10 !py-1 !text-base !font-medium !font-gilroy !text-white !rounded-lg !disabled:opacity-60"

@@ -85,7 +85,7 @@ function BedOverview({ isBed, tenant, complaintImages = [], outstandingAmount = 
                                 Outstanding Payable
                             </span>
 
-                            <button
+                            <button data-testid="bed-overview-view-invoices-btn"
 
                                 className="flex items-center gap-1 text-[11px] font-medium text-[#1E45E1] hover:text-blue-700"
                             >
@@ -144,7 +144,7 @@ function BedOverview({ isBed, tenant, complaintImages = [], outstandingAmount = 
                         </div>
 
                         <div className="mt-3 flex justify-end">
-                            <button
+                            <button data-testid="bed-overview-review-btn"
                                 // onClick={onReviewRequest}
                                 className="flex items-center gap-2 rounded-full bg-[#2447E8] px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-blue-700"
                             >

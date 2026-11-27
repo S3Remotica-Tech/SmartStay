@@ -178,7 +178,7 @@ function SettingAllPages({ isVisibleSidebar }) {
           <label className="font-gilroy text-lg font-semibold text-black whitespace-nowrap mb-0 flex items-center gap-2">
             <Setting2 /> Settings
           </label>
-          <button
+          <button data-testid="setting-all-pages-close-settings-btn"
             onClick={handleClose}
             className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 
                       items-center px-2 py-1 font-gilroy "
@@ -197,8 +197,8 @@ function SettingAllPages({ isVisibleSidebar }) {
             <div className="w-[200px] lg:w-[220px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
               <div className="p-3">
                 <div className="relative">
-                  <form autoComplete="off" role="search">
-                    <input
+                  <form data-testid="setting-all-pages-form" autoComplete="off" role="search">
+                    <input data-testid="setting-all-pages-settings-filter-input"
                       type="search"
                       name="settings-filter"
                       value={search}
@@ -225,7 +225,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                   const Icon = item.icon;
                   const isActive = activeMenu === item.id;
                   return (
-                    <button
+                    <button data-testid={`setting-all-pages-active-menu-btn-${item.id}`}
                       key={item.id}
                       type="button"
                       onClick={() => {
@@ -291,7 +291,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
                       return (
                         <div key={route}>
-                          <button
+                          <button data-testid={`setting-all-pages-settings-navigate-btn-${route}`}
                             type="button"
                             onClick={() =>
                               handleSettingsNavigate(route, pageKey)

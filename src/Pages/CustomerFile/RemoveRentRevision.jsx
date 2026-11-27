@@ -64,14 +64,14 @@ const RemoveRentRevision = ({ open, onClose }) => {
         </p>
 
         <div className="mt-8 flex justify-center gap-4">
-          <button
+          <button data-testid="remove-rent-revision-cancel-btn"
             onClick={onClose}
             className="w-full max-w-[160px] h-[52px] rounded-lg border border-[#1E45E1] bg-white text-[#1E45E1] text-[14px] font-semibold font-gilroy hover:bg-[#EEF2FF]"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="remove-rent-revision-confirm-delete-btn"
             disabled={deleteLoading}
             onClick={handleConfirmDelete}
             className={`w-full max-w-[160px] h-[52px] rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold font-gilroy flex items-center justify-center gap-2 ${

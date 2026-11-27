@@ -290,7 +290,7 @@ const BookingInvoice = ({ rowData, handleClosed }) => {
             <div>
 
               <div className="gap-2 d-flex me-3">
-                <div
+                <div data-testid="booking-invoice-download-action"
                   className="d-flex justify-content-center align-items-center border"
                   style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
                   onClick={handleDownload}
@@ -303,7 +303,7 @@ const BookingInvoice = ({ rowData, handleClosed }) => {
                 </div>
 
                 <div className="position-relative d-inline-block">
-                  <div
+                  <div data-testid="booking-invoice-share-action"
                     className="d-flex align-items-center justify-content-center gap-2"
                     onClick={handleShareClick}
                     style={{
@@ -350,7 +350,7 @@ const BookingInvoice = ({ rowData, handleClosed }) => {
                       }}
                     >
                       {menuItems.map((item) => (
-                        <div
+                        <div data-testid={`booking-invoice-menu-click-action-${item.key}`}
                           key={item.key}
                           className="d-flex align-items-center mb-2 hover-item p-1 rounded"
                           style={{
@@ -387,7 +387,7 @@ const BookingInvoice = ({ rowData, handleClosed }) => {
 
                 </div>
                 <div>
-                  <IoClose style={{ height: 20, width: 20, cursor: "pointer", color: "#FF0000" }} onClick={handleBackInvoice} />
+                  <IoClose data-testid="booking-invoice-back-invoice-icon" style={{ height: 20, width: 20, cursor: "pointer", color: "#FF0000" }} onClick={handleBackInvoice} />
 
                 </div>
 

@@ -1102,7 +1102,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
   const canDownload = Boolean(exportData?.request) && !downloading;
 
   return (
-    <Modal
+    <Modal data-testid="consolidated-export-settings-back-to-settings-preview-modal"
       show={show}
       onHide={onClose}
       fullscreen
@@ -1114,7 +1114,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
       <div className="flex flex-col h-full bg-[#F1F5F9] font-gilroy">
         {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-[12px] px-6 py-[12px] bg-white border-b border-[#E2E8F0]">
-          <button
+          <button data-testid="consolidated-export-settings-back-to-settings-btn"
             type="button"
             onClick={onBack}
             className="flex items-center gap-2 h-[36px] px-[12px] rounded-[10px] border-[1px] border-[#E2E8F0] bg-white text-[14px] font-semibold text-[#314158]"
@@ -1136,7 +1136,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
           {isReady && (
             <>
               <div className="flex items-center gap-2">
-                <button
+                <button data-testid="consolidated-export-settings-previous-page-btn"
                   type="button"
                   className={iconButton}
                   onClick={() => goTo(pageIndex - 1)}
@@ -1151,7 +1151,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
                 >
                   Page {pageIndex + 1} of {totalPages}
                 </span>
-                <button
+                <button data-testid="consolidated-export-settings-next-page-btn"
                   type="button"
                   className={iconButton}
                   onClick={() => goTo(pageIndex + 1)}
@@ -1163,7 +1163,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
               </div>
 
               <div className="flex items-center gap-2">
-                <button
+                <button data-testid="consolidated-export-settings-zoom-out-btn"
                   type="button"
                   className={iconButton}
                   onClick={() => changeZoom(-ZOOM_STEP)}
@@ -1178,7 +1178,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
                 >
                   {Math.round(scale * 100)}%
                 </span>
-                <button
+                <button data-testid="consolidated-export-settings-zoom-in-btn"
                   type="button"
                   className={iconButton}
                   onClick={() => changeZoom(ZOOM_STEP)}
@@ -1187,7 +1187,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
                 >
                   <SearchZoomIn size="16" color="#314158" />
                 </button>
-                <button
+                <button data-testid="consolidated-export-settings-fit-btn"
                   type="button"
                   onClick={() => setZoom(null)}
                   aria-pressed={zoom === null}
@@ -1203,7 +1203,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
             </>
           )}
 
-          <button
+          <button data-testid="consolidated-export-settings-download-btn"
             type="button"
             onClick={handleDownload}
             disabled={!canDownload}
@@ -1216,7 +1216,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
             )}
             {downloading ? "Downloading…" : "Download PDF"}
           </button>
-          <button
+          <button data-testid="consolidated-export-settings-close-preview-btn"
             type="button"
             onClick={onClose}
             aria-label="Close preview"
@@ -1268,7 +1268,7 @@ function ConsolidatedExportPreview({ show, exportData, onBack, onClose }) {
               <p className="mb-0 text-[12px] text-[#62748E]">
                 Try again, or go back and reduce the columns or rows.
               </p>
-              <button
+              <button data-testid="consolidated-export-settings-try-again-btn"
                 type="button"
                 onClick={() => setAttempt((prev) => prev + 1)}
                 className="px-[16px] py-2 rounded-[12px] bg-[#1E45E1] text-white text-[14px] font-semibold"
@@ -1394,7 +1394,7 @@ SectionTitle.propTypes = {
 
 function SettingToggle({ id, checked, onChange, disabled = false, label }) {
   return (
-    <button
+    <button data-testid="consolidated-export-settings-change-btn"
       id={id}
       type="button"
       role="switch"
@@ -1458,7 +1458,7 @@ function ScopeMultiSelect({
 
   return (
     <div ref={wrapperRef} className="relative">
-      <button
+      <button data-testid="consolidated-export-settings-is-open-btn"
         id={id}
         type="button"
         aria-haspopup="listbox"
@@ -1480,7 +1480,7 @@ function ScopeMultiSelect({
               key={option}
               className="flex items-center gap-2 px-[12px] py-1.5 mb-0 cursor-pointer text-[14px] text-[#314158] hover:bg-[#F1F5FF]"
             >
-              <input
+              <input data-testid={`consolidated-export-settings-toggle-option-checkbox-${option}`}
                 type="checkbox"
                 checked={selected?.includes(option)}
                 onChange={() => toggleOption(option)}
@@ -1791,7 +1791,7 @@ function ExportSettingsPanel({
             <label htmlFor="export-status" className={fieldLabel}>
               Collection Status
             </label>
-            <ScopeMultiSelect
+            <ScopeMultiSelect data-testid="consolidated-export-settings-collection-status-input"
               id="export-status"
               options={[...(statusOptions?.map((option) => option?.key) || []), OVERDUE_OPTION]}
               labels={statusLabels}
@@ -1804,7 +1804,7 @@ function ExportSettingsPanel({
             <label htmlFor="export-floor" className={fieldLabel}>
               Floor
             </label>
-            <ScopeMultiSelect
+            <ScopeMultiSelect data-testid="consolidated-export-settings-floor-input"
               id="export-floor"
               options={floorOptions}
               selected={floors}
@@ -1817,7 +1817,7 @@ function ExportSettingsPanel({
               <span className={fieldLabel}>Tenant Search</span>
               <div className={`${fieldBox} bg-[#F8FAFC]`}>
                 <span className="truncate">{search}</span>
-                <button
+                <button data-testid="consolidated-export-settings-remove-tenant-search-from-export-btn"
                   type="button"
                   onClick={() => setSearch("")}
                   aria-label="Remove tenant search from export"
@@ -1864,7 +1864,7 @@ function ExportSettingsPanel({
               Add matching tenant stays with no outstanding balance.
             </p>
           </div>
-          <SettingToggle
+          <SettingToggle data-testid="consolidated-export-settings-export-include-all-input"
             id="export-include-all"
             label="Include Fully Paid Tenants & Empty beds"
             checked={includeAllTenants}
@@ -1881,7 +1881,7 @@ function ExportSettingsPanel({
           description="Select the details you want to show in your collection sheet."
         >
           <div className="flex items-center gap-[12px] whitespace-nowrap">
-            <button
+            <button data-testid="consolidated-export-settings-all-btn"
               type="button"
               onClick={() =>
                 setColumnKeys(exportableColumns?.map((column) => column?.key))
@@ -1890,7 +1890,7 @@ function ExportSettingsPanel({
             >
               Select All
             </button>
-            <button
+            <button data-testid="consolidated-export-settings-reset-to-default-btn"
               type="button"
               onClick={() =>
                 setColumnKeys(getDefaultExportColumnKeys(columns))
@@ -1914,7 +1914,7 @@ function ExportSettingsPanel({
                   }`}
               >
                 <span className="flex items-center gap-[10px]">
-                  <input
+                  <input data-testid={`consolidated-export-settings-toggle-column-checkbox-${column?.key}`}
                     type="checkbox"
                     checked={checked}
                     disabled={locked}
@@ -1954,7 +1954,7 @@ function ExportSettingsPanel({
                 <label htmlFor="export-group-by" className={fieldLabel}>
                   Group By
                 </label>
-                <select
+                <select data-testid="consolidated-export-settings-group-by-select"
                   id="export-group-by"
                   value={pdfSettings?.groupBy}
                   onChange={(e) => updatePdf("groupBy", e?.target?.value)}
@@ -2011,7 +2011,7 @@ function ExportSettingsPanel({
                       </span>
                     )}
                   </span>
-                  <SettingToggle
+                  <SettingToggle data-testid={`consolidated-export-settings-update-pdf-input-${item?.field}`}
                     label={item?.label}
                     checked={Boolean(pdfSettings[item?.field]) && !item?.disabled}
                     disabled={item?.disabled}
@@ -2094,7 +2094,7 @@ function ExportSettingsPanel({
       <p className="mb-0 font-semibold text-[14px] text-[#1D293D]">
         We couldn&apos;t prepare the collection sheet.
       </p>
-      <button
+      <button data-testid="consolidated-export-settings-try-again-btn-2"
         type="button"
         onClick={handlePrepare}
         className="px-[16px] py-2 rounded-[12px] bg-[#1E45E1] text-white text-[14px] font-semibold"
@@ -2107,7 +2107,7 @@ function ExportSettingsPanel({
   const isPreparing = step === STEP.PREPARING;
 
   return (
-    <Offcanvas
+    <Offcanvas data-testid="consolidated-export-settings-cancel-drawer"
       show={show}
       onHide={isPreparing || isBehindPreview ? undefined : onClose}
       enforceFocus={!isBehindPreview}
@@ -2136,7 +2136,7 @@ function ExportSettingsPanel({
               </p>
             </div>
           </div>
-          <button
+          <button data-testid="consolidated-export-settings-close-export-btn"
             type="button"
             onClick={onClose}
             disabled={isPreparing}
@@ -2172,7 +2172,7 @@ function ExportSettingsPanel({
             </p>
           </div>
           <div className="flex gap-[10px]">
-            <button
+            <button data-testid="consolidated-export-settings-cancel-btn"
               type="button"
               onClick={onClose}
               disabled={isPreparing}
@@ -2180,7 +2180,7 @@ function ExportSettingsPanel({
             >
               Cancel
             </button>
-            <button
+            <button data-testid="consolidated-export-settings-prepare-btn"
               type="button"
               onClick={handlePrepare}
               disabled={isPreparing}

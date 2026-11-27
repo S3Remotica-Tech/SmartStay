@@ -1678,7 +1678,7 @@ function AddTenant({
                     </h5>
                   )}
 
-                  <Add
+                  <Add data-testid="add-tenant-request-close-icon"
                     size="24"
                     color="#FF0000"
                     onClick={requestClose}
@@ -1705,7 +1705,7 @@ function AddTenant({
                                   +91
                                 </span>
 
-                                <input
+                                <input data-testid="add-tenant-change-input"
                                   disabled={bookingOnly}
                                   type="text"
                                   inputMode="numeric"
@@ -1717,7 +1717,7 @@ function AddTenant({
                                   className={fieldInnerInputClass}
                                 />
 
-                                <div
+                                <div data-testid="add-tenant-action"
                                   onClick={
                                     !bookingOnly && !searchLoading
                                       ? handleSearch
@@ -1747,7 +1747,7 @@ function AddTenant({
                                     <div className="bg-white border-1 border-[#46464640] shadow rounded-lg  max-h-[300px] overflow-y-auto show-scrolls">
                                       {state?.UsersList?.searchTenant?.map(
                                         (user, index) => (
-                                          <div
+                                          <div data-testid={`add-tenant-draft-tenant-action-${user.id}`}
                                             onClick={() =>
                                               handleDraftTenant(
                                                 user?.customerId,
@@ -1871,7 +1871,7 @@ function AddTenant({
                                   />
                                 </div>
 
-                                <input
+                                <input data-testid="add-tenant-image-input-file"
                                   type="file"
                                   accept="image/*"
                                   id="imageInput"
@@ -1899,7 +1899,7 @@ function AddTenant({
                                   *
                                 </span>
                               </Form.Label>
-                              <FormControl
+                              <FormControl data-testid="add-tenant-first-name-input"
                                 id="form-controls"
                                 placeholder="Enter First Name"
                                 type="text"
@@ -1920,7 +1920,7 @@ function AddTenant({
                               <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
                                 Last Name
                               </Form.Label>
-                              <FormControl
+                              <FormControl data-testid="add-tenant-last-name-input"
                                 type="text"
                                 id="form-controls"
                                 placeholder="Enter Last Name"
@@ -1945,7 +1945,7 @@ function AddTenant({
                                     +{countryCode}
                                     <ArrowDown2 size="14" color="#18181B" />
                                   </span>
-                                  <input
+                                  <input data-testid="add-tenant-mobile-number-input"
                                     value={Phone}
                                     ref={phoneRef}
                                     onChange={handlePhone}
@@ -1982,7 +1982,7 @@ function AddTenant({
                               <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
                                 Email ID
                               </Form.Label>
-                              <FormControl
+                              <FormControl data-testid="add-tenant-email-id-input"
                                 type="text"
                                 id="form-controls"
                                 placeholder="Enter Email ID"
@@ -2018,13 +2018,13 @@ function AddTenant({
                                 ID Proof type
                               </label>
 
-                              <Select
+                              <div data-testid="add-tenant-id-proof-type-select" className="contents"><Select
                                 options={idProofOptions}
                                 value={idProofType}
                                 onChange={handleSelectChange}
                                 placeholder="Select"
                                 styles={fieldSelectStyles()}
-                              />
+                              /></div>
                             </div>
 
                             <div className="col-span-12 md:col-span-6">
@@ -2032,7 +2032,7 @@ function AddTenant({
                                 ID Proof no
                               </label>
 
-                              <input
+                              <input data-testid="add-tenant-id-proof-no-input"
                                 type="text"
                                 value={idProofNo}
                                 onChange={handleInputChange}
@@ -2050,7 +2050,7 @@ function AddTenant({
                             </h5>
 
                             <label className="flex items-center gap-2 text-sm text-[#64748B] font-gilroy font-medium cursor-pointer m-0">
-                              <input
+                              <input data-testid="add-tenant-address-later-checkbox"
                                 type="checkbox"
                                 checked={addressLater}
                                 onChange={(e) => {
@@ -2072,7 +2072,7 @@ function AddTenant({
                                       Flat , House no , Building , Company ,
                                       Apartment{" "}
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl data-testid="add-tenant-flat-house-no-building-company-input"
                                       type="text"
                                       id="form-controls"
                                       placeholder="Enter House No"
@@ -2095,7 +2095,7 @@ function AddTenant({
                                     <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                                       Area , Street , Sector , Village{" "}
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl data-testid="add-tenant-area-street-sector-village-input"
                                       type="text"
                                       id="form-controls"
                                       placeholder="Enter Street"
@@ -2117,7 +2117,7 @@ function AddTenant({
                                     <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                                       Landmark{" "}
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl data-testid="add-tenant-landmark-input"
                                       type="text"
                                       id="form-controls"
                                       placeholder="E.g , near appollo hospital"
@@ -2139,7 +2139,7 @@ function AddTenant({
                                     <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                                       Pincode
                                     </Form.Label>
-                                    <Form.Control
+                                    <Form.Control data-testid="add-tenant-pincode-input"
                                       value={pincode}
                                       ref={pincodeRef}
                                       onChange={(e) => handlePinCodeChange(e)}
@@ -2165,7 +2165,7 @@ function AddTenant({
                                     <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                                       Town/City{" "}
                                     </Form.Label>
-                                    <FormControl
+                                    <FormControl data-testid="add-tenant-town-city-input"
                                       type="text"
                                       id="form-controls"
                                       placeholder="Enter City"
@@ -2193,7 +2193,7 @@ function AddTenant({
                                     State{" "}
                                   </Form.Label>
 
-                                  <Select
+                                  <div data-testid="add-tenant-state-select" className="contents"><Select
                                     options={indianStates}
                                     ref={stateRef}
                                     onChange={(selectedOption) => {
@@ -2221,13 +2221,13 @@ function AddTenant({
                                     menuPlacement="auto"
                                     noOptionsMessage={() => "No state available"}
                                     styles={fieldSelectStyles()}
-                                  />
+                                  /></div>
                                 </Form.Group>
                               </div>
                             </>
                           )}
                           <div className={TENANT_FOOTER_CLASS}>
-                            <button
+                            <button data-testid="add-tenant-save-draft-btn"
                               type="button"
                               disabled={formLoading}
                               className={TENANT_BTN_SECONDARY}
@@ -2242,7 +2242,7 @@ function AddTenant({
                                 "Save Draft"
                               )}
                             </button>
-                            <button
+                            <button data-testid="add-tenant-next-btn"
                               type="button"
                               disabled={formLoading || state.UsersList?.draftClickError}
                               className={TENANT_BTN_PRIMARY}
@@ -2303,7 +2303,7 @@ function AddTenant({
                             Upload Document
                           </h5>
 
-                          <Add
+                          <Add data-testid="add-tenant-request-close-icon-2"
                             size="24"
                             color="#FF0000"
                             onClick={requestClose}
@@ -2339,7 +2339,7 @@ function AddTenant({
                             </p>
 
                             <label className="absolute inset-0 cursor-pointer">
-                              <input
+                              <input data-testid="add-tenant-aadhaar-file"
                                 type="file"
                                 accept="image/png, image/jpeg"
                                 onChange={(e) =>
@@ -2350,7 +2350,7 @@ function AddTenant({
                             </label>
 
                             {aadhaarFile && hovered === "aadhaar" && (
-                              <div
+                              <div data-testid="add-tenant-delete-aadhaar-action"
                                 onClick={handleDeleteAadhaar}
                                 className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md cursor-pointer"
                               >
@@ -2386,7 +2386,7 @@ function AddTenant({
                             </p>
 
                             <label className="absolute inset-0 cursor-pointer">
-                              <input
+                              <input data-testid="add-tenant-pan-file"
                                 type="file"
                                 accept="image/png, image/jpeg, application/pdf"
                                 onChange={(e) => setPanFile(e.target.files[0])}
@@ -2395,7 +2395,7 @@ function AddTenant({
                             </label>
 
                             {panFile && hovered === "pan" && (
-                              <div
+                              <div data-testid="add-tenant-delete-pan-action"
                                 onClick={handleDeletePan}
                                 className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md cursor-pointer"
                               >
@@ -2433,7 +2433,7 @@ function AddTenant({
                               </h6>
 
                               {guardians?.length > 1 && (
-                                <button
+                                <button data-testid={`add-tenant-remove-guardian-btn-${index}`}
                                   type="button"
                                   onClick={() => handleRemoveGuardian(index)}
                                   className="text-red-500 text-sm"
@@ -2449,7 +2449,7 @@ function AddTenant({
                                   Guardian Full Name
                                 </label>
 
-                                <input
+                                <input data-testid={`add-tenant-guardian-full-name-input-${index}`}
                                   ref={(el) =>
                                     (guardianNameRefs.current[index] = el)
                                   }
@@ -2475,7 +2475,7 @@ function AddTenant({
                                   Relationship to Tenant
                                 </label>
 
-                                <Select
+                                <div data-testid={`add-tenant-relationship-to-tenant-select-${index}`} className="contents"><Select
                                   options={relationOptions}
                                   value={guardian.relationshipToTenant}
                                   onChange={(value) =>
@@ -2487,7 +2487,7 @@ function AddTenant({
                                   }
                                   placeholder="Select Relationship"
                                   styles={fieldSelectStyles()}
-                                />
+                                /></div>
                               </div>
 
                               <div className="col-span-6">
@@ -2495,7 +2495,7 @@ function AddTenant({
                                   Guardian Occupation
                                 </label>
 
-                                <Select
+                                <div data-testid={`add-tenant-guardian-occupation-select-${index}`} className="contents"><Select
                                   options={jobOptions}
                                   value={guardian.guardianOccupation}
                                   onChange={(value) =>
@@ -2507,7 +2507,7 @@ function AddTenant({
                                   }
                                   placeholder="Select Occupation"
                                   styles={fieldSelectStyles()}
-                                />
+                                /></div>
                               </div>
 
                               <div className="col-span-12">
@@ -2515,7 +2515,7 @@ function AddTenant({
                                   Mobile No
                                 </label>
 
-                                <input
+                                <input data-testid={`add-tenant-mobile-no-input-${index}`}
                                   ref={(el) =>
                                     (guardianMobileRefs.current[index] = el)
                                   }
@@ -2552,7 +2552,7 @@ function AddTenant({
                         ))}
 
                         <div className="flex justify-end mt-2">
-                          <button
+                          <button data-testid="add-tenant-additional-btn"
                             onClick={handleAddGuardian}
                             className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 
                           px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center gap-2 disabled:opacity-50"
@@ -2580,7 +2580,7 @@ function AddTenant({
                                 </h6>
 
                                 {jobDetails.length > 1 && (
-                                  <button
+                                  <button data-testid={`add-tenant-job-details-btn-${index}`}
                                     type="button"
                                     onClick={() =>
                                       setJobDetails((prev) =>
@@ -2600,7 +2600,7 @@ function AddTenant({
                                     Employment Status
                                   </label>
 
-                                  <Select
+                                  <div data-testid={`add-tenant-employment-status-select-${index}`} className="contents"><Select
                                     options={jobOptions}
                                     value={job.employmentStatus}
                                     onChange={(value) =>
@@ -2612,7 +2612,7 @@ function AddTenant({
                                     }
                                     placeholder="Employment Status"
                                     styles={fieldSelectStyles()}
-                                  />
+                                  /></div>
                                 </div>
 
                                 <div className="col-span-12">
@@ -2620,7 +2620,7 @@ function AddTenant({
                                     Company/College Name
                                   </label>
 
-                                  <input
+                                  <input data-testid={`add-tenant-company-college-name-input-${index}`}
                                     value={job.organizationName}
                                     onChange={(e) =>
                                       handleJobChange(
@@ -2639,7 +2639,7 @@ function AddTenant({
                                     Job Role
                                   </label>
 
-                                  <Select
+                                  <div data-testid={`add-tenant-job-role-select-${index}`} className="contents"><Select
                                     options={jobRoleOptions}
                                     value={job.role}
                                     onChange={(value) =>
@@ -2647,7 +2647,7 @@ function AddTenant({
                                     }
                                     placeholder="Job Role"
                                     styles={fieldSelectStyles()}
-                                  />
+                                  /></div>
                                 </div>
 
                                 <div className="col-span-6">
@@ -2655,7 +2655,7 @@ function AddTenant({
                                     Work Location
                                   </label>
 
-                                  <input
+                                  <input data-testid={`add-tenant-work-location-input-${index}`}
                                     value={job.workLocation}
                                     onChange={(e) =>
                                       handleJobChange(
@@ -2674,7 +2674,7 @@ function AddTenant({
                                     Shift Type
                                   </label>
 
-                                  <Select
+                                  <div data-testid={`add-tenant-shift-type-select-${index}`} className="contents"><Select
                                     options={shiftTypeOptions}
                                     value={job.shiftType}
                                     onChange={(value) =>
@@ -2682,7 +2682,7 @@ function AddTenant({
                                     }
                                     placeholder="Shift Type"
                                     styles={fieldSelectStyles()}
-                                  />
+                                  /></div>
                                 </div>
 
                                 <div className="col-span-6">
@@ -2690,7 +2690,7 @@ function AddTenant({
                                     Shift From
                                   </label>
 
-                                  <input
+                                  <input data-testid={`add-tenant-shift-from-input-${index}`}
                                     type="time"
                                     value={job.fromTime}
                                     onChange={(e) =>
@@ -2709,7 +2709,7 @@ function AddTenant({
                                     To
                                   </label>
 
-                                  <input
+                                  <input data-testid={`add-tenant-to-input-${index}`}
                                     type="time"
                                     value={job.toTime}
                                     onChange={(e) =>
@@ -2727,7 +2727,7 @@ function AddTenant({
                           ))}
 
                           <div className="flex justify-end mt-2">
-                            <button
+                            <button data-testid="add-tenant-additional-job-btn"
                               type="button"
                               onClick={() =>
                                 setJobDetails((prev) => [
@@ -2837,7 +2837,7 @@ function AddTenant({
                       </div> */}
 
                       <div className={TENANT_FOOTER_CLASS}>
-                        <button
+                        <button data-testid="add-tenant-save-draft-btn-2"
                           type="button"
                           disabled={formLoading || nextSaving}
                           onClick={handleSaveDraft}
@@ -2853,7 +2853,7 @@ function AddTenant({
                           )}
                         </button>
                         <div className="flex items-center gap-[12px]">
-                          <button
+                          <button data-testid="add-tenant-skip-for-now-btn"
                             type="button"
                             disabled={nextSaving}
                             onClick={handleSkipStepThree}
@@ -2861,7 +2861,7 @@ function AddTenant({
                           >
                             Skip for now
                           </button>
-                          <button
+                          <button data-testid="add-tenant-next-from-step-three-btn"
                             type="button"
                             disabled={nextSaving || formLoading}
                             onClick={handleNextFromStepThree}

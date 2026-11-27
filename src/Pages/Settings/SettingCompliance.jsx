@@ -395,7 +395,7 @@ function SettingCompliance() {
         </div>
 
         <div className="w-full flex justify-center md:justify-end">
-          <button
+          <button data-testid="setting-compliance-complaint-type-btn"
             disabled={!canWriteComplaints}
             onClick={handleShowForm}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
@@ -444,7 +444,7 @@ function SettingCompliance() {
                         </div>
                       </div>
 
-                      <button
+                      <button data-testid={`setting-compliance-show-dots-btn-${i}`}
                         onClick={(e) => handleShowDots(e, u, i)}
                         className={`flex items-center justify-center h-[35px] w-[35px] rounded-full border border-[#EFEFEF] relative cursor-pointer ${showDots === i ? "bg-[#E7F1FF]" : "bg-white"
                           }`}
@@ -463,7 +463,7 @@ function SettingCompliance() {
                           width: "120px",
                         }}
                       >
-                        <div
+                        <div data-testid={`setting-compliance-edit-action-${i}`}
                           onClick={() => canUpdateComplaints && handleEdit(u)}
                           className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ${canUpdateComplaints
                             ? "cursor-pointer"
@@ -496,7 +496,7 @@ function SettingCompliance() {
 
                         <div className="w-full h-[1px] bg-[#E6E6E6]" />
 
-                        <div
+                        <div data-testid={`setting-compliance-delete-action-${i}`}
                           onClick={() =>
                             canDeleteComplaints && handleDeleteClick()
                           }
@@ -561,7 +561,7 @@ function SettingCompliance() {
               <div className="text-lg md:text-xl font-gilroy font-semibold">
                 {id ? "Edit  Complaint Type " : "Add Complaint Type"}
               </div>
-              <CloseCircle
+              <CloseCircle data-testid="setting-compliance-close-icon"
                 size={24}
                 color="#000"
                 onClick={handleClose}
@@ -577,7 +577,7 @@ function SettingCompliance() {
                       Complaint Type{" "}
                       <span className={fieldRequiredClass}>*</span>
                     </label>
-                    <input
+                    <input data-testid="setting-compliance-complaint-type-input"
                       type="text"
                       id="form-controls"
                       placeholder="Enter Complaint Type"
@@ -615,7 +615,7 @@ function SettingCompliance() {
             )}
 
             <div className="!flex !justify-end m-4">
-              <button
+              <button data-testid="setting-compliance-add-complaint-type-btn"
                 disabled={formLoading}
                 onClick={handleAddComplaintType}
                 className="h-12 px-4 py-3 rounded-lg bg-[#1E45E1] text-white font-montserrat font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
@@ -636,7 +636,7 @@ function SettingCompliance() {
         </div>
       )}
 
-      <Modal
+      <Modal data-testid="setting-compliance-delete-complaint-type-are-modal"
         show={showPopup}
         centered
         backdrop="static"
@@ -665,14 +665,14 @@ function SettingCompliance() {
         )}
 
         <Modal.Footer className="!flex !justify-center !gap-2 !border-t-0 !-mt-2">
-          <button
+          <button data-testid="setting-compliance-cancel-btn"
             onClick={handleCancel}
             className="!flex-1 !h-13 !px-5 !py-3.5 !rounded-md !bg-white !text-blue-700 !border !border-blue-700 !font-gilroy !font-semibold !text-sm"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="setting-compliance-confirm-delete-btn"
             disabled={deleteLoading}
             onClick={handleConfirmDelete}
             className={`

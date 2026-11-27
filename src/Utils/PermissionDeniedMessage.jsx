@@ -30,7 +30,7 @@ function PermissionDeniedMessage({ isHeightChanged }) {
           Your permission is restricted for this module
         </p>
 
-        <button
+        <button data-testid="permission-denied-message-contact-admin-btn"
           disabled
           className="mt-2 flex items-center justify-center rounded-lg font-gilroy bg-[#1E45E1] disabled:bg-gray-100 disabled:text-gray-400 px-5 py-2 min-w-[140px] disabled:cursor-not-allowed"
         >

@@ -44,18 +44,18 @@ function FrontPage() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="navbar12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Nav.Link href="#action1" className="mainNavbar">Home</Nav.Link>
-              <Nav.Link href="#action2" className="mainNavbar">Why smart stay?</Nav.Link>
-              <Nav.Link href="#action3" className="mainNavbar">About Smartstay</Nav.Link>
-              <Nav.Link href="#action4" className="mainNavbar">FAQ</Nav.Link>
-              <Nav.Link href="#action5" className="mainNavbar">Contact</Nav.Link>
+              <Nav.Link data-testid="front-page-home-link" href="#action1" className="mainNavbar">Home</Nav.Link>
+              <Nav.Link data-testid="front-page-why-smart-stay-link" href="#action2" className="mainNavbar">Why smart stay?</Nav.Link>
+              <Nav.Link data-testid="front-page-about-smartstay-link" href="#action3" className="mainNavbar">About Smartstay</Nav.Link>
+              <Nav.Link data-testid="front-page-faq-link" href="#action4" className="mainNavbar">FAQ</Nav.Link>
+              <Nav.Link data-testid="front-page-contact-link" href="#action5" className="mainNavbar">Contact</Nav.Link>
 
 
-              <Nav.Link  className="sign-in d-flex justify-content-center align-items-center" onClick={() => handleSignIn()}>
+              <Nav.Link data-testid="front-page-sign-in-link"  className="sign-in d-flex justify-content-center align-items-center" onClick={() => handleSignIn()}>
                 <img src={Lock}  style={{ height: "15px", width: "15px" }} alt='Lock'/> <label className="ms-1" style={{cursor:"pointer",fontSize:14}}>Sign-In</label>
               </Nav.Link>
-              <Nav.Link >
-                <button type="button"
+              <Nav.Link data-testid="front-page-sign-up-link" >
+                <button data-testid="front-page-sign-up-btn" type="button"
                   className="btn btn-primary btn-sm rounded-pill bg-primary signup ps-4 pe-4 ms-4"
                   onClick={() => handleSignUp()} style={{cursor:"pointer",fontSize:14}}>
                   Sign-Up
@@ -73,7 +73,7 @@ function FrontPage() {
               Smartstay hostels and homes. Be a part of Smartstay
               Circle, an invite-only, global community of social
               media influencers and affiliate networks.
-              <button type="button" className="btn btn-primary rounded-pill bg-primary startNow d-flex justify-content-center align-items-center" style={{ fontSize: "13px", width: 200, height: 35 }} onClick={handleStartNow}>
+              <button data-testid="front-page-start-now-btn" type="button" className="btn btn-primary rounded-pill bg-primary startNow d-flex justify-content-center align-items-center" style={{ fontSize: "13px", width: 200, height: 35 }} onClick={handleStartNow}>
                 Start Now
               </button>
             </p>

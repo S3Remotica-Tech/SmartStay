@@ -194,7 +194,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
             Adjust with Retainer Invoice
           </h5>
 
-          <button
+          <button data-testid="apply-retainer-to-invoice-close-btn"
             onClick={handleClose}
             className="text-red-500 text-lg font-bold hover:scale-110 transition"
           >
@@ -294,7 +294,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                           }`}
                         >
                           <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
-                            <input
+                            <input data-testid={`apply-retainer-to-invoice-checkbox-change-checkbox-${item.invoiceId}`}
                               className="rounded-md accent-blue-800 cursor-pointer"
                               type="checkbox"
                               checked={selectedInvoices.includes(
@@ -326,7 +326,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                           </td>
 
                           <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
-                            <input
+                            <input data-testid={`apply-retainer-to-invoice-apply-amount-change-input-${item.invoiceId}`}
                               onWheel={(e) => e.target.blur()}
                               type="number"
                               disabled={
@@ -397,14 +397,14 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
         </div>
 
         <div className="m-6 flex justify-end gap-3">
-          <button
+          <button data-testid="apply-retainer-to-invoice-cancel-btn"
             onClick={handleClose}
             className="px-4 py-2 bg-gray-100 rounded-md text-sm"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="apply-retainer-to-invoice-apply-submit-btn"
             type="button"
             disabled={formLoading}
             onClick={handleApplySubmit}

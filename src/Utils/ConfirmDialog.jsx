@@ -48,10 +48,10 @@ function ConfirmDialog({
           </div>
         </div>
         <div className="flex items-center justify-end gap-[12px] px-[20px] pb-[20px]">
-          <button type="button" onClick={onCancel} disabled={loading} className={BTN_TERTIARY}>
+          <button data-testid="confirm-dialog-cancel-btn" type="button" onClick={onCancel} disabled={loading} className={BTN_TERTIARY}>
             {cancelLabel}
           </button>
-          <button
+          <button data-testid="confirm-dialog-confirm-btn"
             type="button"
             onClick={onConfirm}
             disabled={loading}

@@ -14,7 +14,7 @@ function BedChangeRequestOverview({ show, handleClose }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
 
-      <div
+      <div data-testid="bed-change-request-overview-bed-change-request-overview-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-[9999] flex flex-col font-gilroy border border-gray-50"
       >
@@ -25,7 +25,7 @@ function BedChangeRequestOverview({ show, handleClose }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             Bed change Request Overview
           </h1>
-          <Add
+          <Add data-testid="bed-change-request-overview-close-icon"
             size={24}
             color="#FF0000"
             onClick={handleClose}
@@ -101,7 +101,7 @@ function BedChangeRequestOverview({ show, handleClose }) {
               </p>
             </div>
 
-            <button className="flex items-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg whitespace-nowrap">
+            <button data-testid="bed-change-request-overview-notify-btn" className="flex items-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg whitespace-nowrap">
               <MessageMinus size={18} />
               Notify
             </button>
@@ -109,14 +109,14 @@ function BedChangeRequestOverview({ show, handleClose }) {
         </div>
 
         <div className="flex justify-end gap-4 m-4">
-          <button
+          <button data-testid="bed-change-request-overview-cancel-btn"
             onClick={handleClose}
             className="flex-1 border rounded-lg py-2"
           >
             Cancel
           </button>
 
-          <button className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
+          <button data-testid="bed-change-request-overview-check-availability-btn" className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
             Check Availability{" "}
           </button>
         </div>

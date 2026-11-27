@@ -332,7 +332,7 @@ function UPI({ handleClose }) {
                 Linked Bank
               </label>
 
-              <input
+              <input data-testid="upi-linked-bank-input"
                 value={OverviewDetails?.bankName}
                 disabled
                 // onChange={handleLinkedBankChange}
@@ -350,7 +350,7 @@ function UPI({ handleClose }) {
                 UPI APP <span className="text-red-500">*</span>
               </label>
 
-              <Select
+              <div data-testid="upi-upi-app-select" className="contents"><Select
                 ref={upiAppRef}
                 options={upiOptions}
                 value={upiApp}
@@ -358,7 +358,7 @@ function UPI({ handleClose }) {
                 placeholder="Select UPI App"
                 className="mt-2"
                 styles={CustomStyles}
-              />
+              /></div>
 
               {upiAppError && (
                 <ErrorMessage message={upiAppError} type="error" />
@@ -371,7 +371,7 @@ function UPI({ handleClose }) {
               UPI ID <span className="text-red-500">*</span>
             </label>
 
-            <input
+            <input data-testid="upi-upi-id-input"
               value={upiId}
               ref={upiIdRef}
               onChange={handleUpiIdChange}
@@ -386,7 +386,7 @@ function UPI({ handleClose }) {
               Display Name <span className="text-red-500">*</span>
             </label>
 
-            <input
+            <input data-testid="upi-display-name-input"
               ref={displayNameRef}
               value={displayName}
               onChange={handleDisplayNameChange}
@@ -404,7 +404,7 @@ function UPI({ handleClose }) {
               Add QR Image
             </label>
 
-            <input
+            <input data-testid="upi-add-qr-image-file"
               ref={fileInputRef}
               type="file"
               accept="image/jpeg,image/jpg,image/png"
@@ -412,7 +412,7 @@ function UPI({ handleClose }) {
               onChange={handleQrImageChange}
             />
 
-            <div
+            <div data-testid="upi-image-to-upload-jpg-action"
               onClick={() => fileInputRef.current?.click()}
               className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
             >
@@ -458,7 +458,7 @@ function UPI({ handleClose }) {
                         {qrImageName}
                       </p>
 
-                      <button
+                      <button data-testid="upi-btn"
                         onClick={(e) => {
                           e.stopPropagation();
                           setQrImagePreview(null);
@@ -480,7 +480,7 @@ function UPI({ handleClose }) {
               Description
             </label>
 
-            <textarea
+            <textarea data-testid="upi-description-textarea"
               rows={4}
               value={description}
               onChange={handleDescriptionChange}
@@ -501,14 +501,14 @@ function UPI({ handleClose }) {
         )}
       </div>
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button
+        <button data-testid="upi-cancel-btn"
           onClick={handleClose}
           className="px-6 py-2 text-[#6B7280] text-sm font-medium"
         >
           Cancel
         </button>
 
-        <button
+        <button data-testid="upi-save-upi-btn"
           disabled={isSaving}
           onClick={handleSaveUPI}
           className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

@@ -431,11 +431,15 @@ function ParticularHostelDetails(props) {
           <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
             {roomList.map((room, index) => (
               <div key={room.id || index} className="flex justify-center ">
-                <div className="w-full h-full fade-in border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white">
+                <div
+                  data-testid={`pg-room-card-${room.name}`}
+                  className="w-full h-full fade-in border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white"
+                >
 
                   <div className="flex justify-between items-start bg-white border border-[#E6E6E6] rounded-t-xl p-2.5">
                     <div className="w-[110px] flex items-center gap-2">
                       <div
+                        data-testid="pg-room-name"
                         className="text-[14px] font-semibold text-[#222222] truncate"
                         title={room.name}
                       >
@@ -451,6 +455,7 @@ function ParticularHostelDetails(props) {
 
 
                     <div
+                      data-testid="pg-room-menu"
                       onClick={() => {
                         if (!state.login.isTrigger) {
                           handleShowDots(room.id);
@@ -466,6 +471,7 @@ function ParticularHostelDetails(props) {
                           className="absolute right-0 top-7 w-[140px] flex flex-col rounded-lg bg-[#f9f9f9] border border-[#EBEBEB] shadow-md z-50"
                         >
                           <div
+                            data-testid="pg-room-edit"
                             onClick={() => {
                               if (canUpdatePayingGuests) {
                                 handleEditRoom(
@@ -501,6 +507,7 @@ function ParticularHostelDetails(props) {
                           <div className="h-px bg-[#E0E0E0]" />
 
                           <div
+                            data-testid="pg-room-delete"
                             onClick={() => {
                               if (canDeletePayingGuests) {
                                 handleDeleteRoom(
@@ -564,6 +571,7 @@ function ParticularHostelDetails(props) {
       {!state.login.isTrigger && roomList?.length > 0 && (
         <div className="shrink-0 bg-[#F8FAFC] border-t border-gray-100 px-3 py-3">
           <label
+            data-testid="pg-add-room-btn"
             className={`text-[14px] font-semibold font-gilroy ${!canWritePayingGuests
               ? "text-gray-400 cursor-not-allowed opacity-70"
               : "text-[#1E45E1] cursor-pointer"

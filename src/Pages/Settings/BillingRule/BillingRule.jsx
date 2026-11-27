@@ -131,7 +131,7 @@ function BillingRule() {
         ) : (
           <div className="space-y-4">
             <div className="grid grid-cols-12 gap-3">
-              <div
+              <div data-testid="billing-rule-action"
                 className={`col-span-12 md:col-span-12 cursor-pointer`}
                 onClick={() => {
                   if (canUpdateBills) handleShowLongStay("long-stay-recurring");
@@ -158,7 +158,7 @@ function BillingRule() {
                     <div className="flex gap-4 items-center">
                       <div className="flex items-center">
                         <label className="relative inline-flex items-center cursor-pointer">
-                          <input
+                          <input data-testid="billing-rule-checked-checkbox"
                             type="checkbox"
                             checked={checked}
                             onChange={(e) => setChecked(e.target.checked)}
@@ -210,7 +210,7 @@ function BillingRule() {
 
                     <div className="flex gap-4 items-center">
                       <div>
-                        <button
+                        <button data-testid="billing-rule-coming-soon-btn"
                           disabled
                           className="w-full sm:w-auto sm:min-w-[140px] h-10 rounded-lg bg-blue-600 text-white font-semibold border-0 font-gilroy
                disabled:bg-blue-300 disabled:text-gray-500 disabled:cursor-not-allowed"

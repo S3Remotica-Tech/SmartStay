@@ -247,7 +247,7 @@ function Asset() {
                     : "border-gray-200 opacity-60 cursor-not-allowed"
                   }`}
               >
-                <input
+                <input data-testid="asset-handlefilter-input"
                   type="text"
                   className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] disabled:bg-gray-500  disabled:cursor-not-allowed"
                   placeholder="Search"
@@ -280,7 +280,7 @@ function Asset() {
               </div>
 
               <div style={{}}>
-                <Button
+                <Button data-testid="asset-asset-btn"
                   disabled={!canWriteAssets}
                   onClick={handleShow}
                   className="font-gilroy !text-[14px] !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-[8px] p-2 w-[146px] whitespace-nowrap"
