@@ -64,15 +64,9 @@ export const toIsoDate = (value) => {
   return match ? `${match[3]}-${match[2]}-${match[1]}` : value;
 };
 
-// Backend status text -> the labels used by badges and filters.
-const toRowStatus = (status, fallback = ROW_STATUS.PENDING) => {
-  const text = String(status || "").toLowerCase();
-  if (!text) return fallback;
-  if (text.includes("partial")) return ROW_STATUS.PARTIALLY_PAID;
-  if (text.includes("vacant") || text.includes("empty")) return ROW_STATUS.VACANT;
-  if (text.includes("paid")) return ROW_STATUS.PAID;
-  return ROW_STATUS.PENDING;
-};
+// Statuses are shown exactly as the API sends them (bed.status /
+// invoice.status) — never derived or relabelled here.
+const apiStatus = (status) => (status === null || status === undefined ? "" : String(status).trim());
 
 // Which charge column an invoice's due amount lines up under in the
 // expanded sub-rows. Types not listed (Booking, Other, Settlement, ...)
@@ -91,48 +85,44 @@ const CHARGE_KEY_BY_INVOICE_TYPE = {
 };
 
 const mapInvoice = (invoice, index) => {
-  const amount = toNumber(invoice.invoiceAmount);
-  const paid = toNumber(invoice.paidAmount);
+  const amount = toNumber(invoice?.invoiceAmount);
+  const paid = toNumber(invoice?.paidAmount);
   const totalPending =
-    invoice.dueAmount !== null && invoice.dueAmount !== undefined
-      ? toNumber(invoice.dueAmount)
+    invoice?.dueAmount !== null && invoice?.dueAmount !== undefined
+      ? toNumber(invoice?.dueAmount)
       : Math.max(amount - paid, 0);
   const chargeKey =
-    CHARGE_KEY_BY_INVOICE_TYPE[String(invoice.invoiceType || "").toLowerCase()];
+    CHARGE_KEY_BY_INVOICE_TYPE[String(invoice?.invoiceType || "").toLowerCase()];
   const pending = { rent: 0, eb: 0, advance: 0, nonRefundable: 0 };
   if (chargeKey) pending[chargeKey] = totalPending;
 
-  let derivedStatus = ROW_STATUS.PENDING;
-  if (totalPending <= 0) derivedStatus = ROW_STATUS.PAID;
-  else if (paid > 0) derivedStatus = ROW_STATUS.PARTIALLY_PAID;
-
   return {
-    invoiceId: invoice.invoiceNumber || `invoice-${index}`,
-    invoiceNo: invoice.invoiceNumber || "—",
-    invoiceType: invoice.invoiceType || "",
-    invoiceDate: toIsoDate(invoice.invoiceDate),
-    dueDate: toIsoDate(invoice.dueDate),
-    invoiceUrl: invoice.invoiceUrl || null,
+    invoiceId: invoice?.invoiceNumber || `invoice-${index}`,
+    invoiceNo: invoice?.invoiceNumber || "—",
+    invoiceType: invoice?.invoiceType || "",
+    invoiceDate: toIsoDate(invoice?.invoiceDate),
+    dueDate: toIsoDate(invoice?.dueDate),
+    invoiceUrl: invoice?.invoiceUrl || null,
     amount,
     paid,
     pending,
     totalPending,
-    status: toRowStatus(invoice.status, derivedStatus),
+    status: apiStatus(invoice?.status),
   };
 };
 
 const mapBed = (bed, room, floorName, floorOrder) => {
   const base = {
-    bedId: bed.bedId ?? `${room.roomId}-${bed.bedName}`,
-    floorId: room.floorId ?? null,
+    bedId: bed?.bedId ?? `${room?.roomId}-${bed?.bedName}`,
+    floorId: room?.floorId ?? null,
     floor: floorName || "—",
     floorOrder,
-    roomId: room.roomId ?? null,
-    room: room.roomName || "—",
-    bed: bed.bedName || "—",
+    roomId: room?.roomId ?? null,
+    room: room?.roomName || "—",
+    bed: bed?.bedName || "—",
   };
 
-  if (!bed.tenantName) {
+  if (!bed?.tenantName) {
     return {
       ...base,
       isVacant: true,
@@ -145,33 +135,34 @@ const mapBed = (bed, room, floorName, floorOrder) => {
       totalPending: 0,
       pendingInvoiceCount: 0,
       pendingInvoices: [],
-      status: ROW_STATUS.VACANT,
+      invoices: [],
+      status: apiStatus(bed?.status),
     };
   }
 
-  const invoices = (bed.invoices || []).filter(Boolean).map(mapInvoice);
-  const pendingInvoices = invoices.filter((inv) => inv.totalPending > 0);
-  const totalPending = toNumber(bed.totalPendingAmount);
-  const phone = [bed.tenantCountryCode, bed.tenantMobile]
+  const invoices = (bed?.invoices || []).filter(Boolean).map(mapInvoice);
+  const pendingInvoices = invoices?.filter((inv) => inv?.totalPending > 0);
+  const totalPending = toNumber(bed?.totalPendingAmount);
+  const phone = [bed?.tenantCountryCode, bed?.tenantMobile]
     .filter(Boolean)
     .join(" ");
 
   return {
     ...base,
     isVacant: false,
-    tenant: { id: bed.bedId, name: bed.tenantName, phone: phone || "—" },
-    actualRent: toNumber(bed.actualRent),
-    pendingRent: toNumber(bed.pendingRent),
-    pendingEb: toNumber(bed.ebAmount),
-    pendingAdvance: toNumber(bed.pendingAdvance),
-    pendingNonRefundable: toNumber(bed.pendingNonRefundable),
+    tenant: { id: bed?.bedId, name: bed?.tenantName, phone: phone || "—" },
+    actualRent: toNumber(bed?.actualRent),
+    pendingRent: toNumber(bed?.pendingRent),
+    pendingEb: toNumber(bed?.ebAmount),
+    pendingAdvance: toNumber(bed?.pendingAdvance),
+    pendingNonRefundable: toNumber(bed?.pendingNonRefundable),
     totalPending,
-    pendingInvoiceCount: pendingInvoices.length,
+    pendingInvoiceCount: pendingInvoices?.length,
     pendingInvoices,
-    status: toRowStatus(
-      bed.status,
-      totalPending > 0 ? ROW_STATUS.PENDING : ROW_STATUS.PAID,
-    ),
+    // Every invoice (paid ones included) for the expanded sub-rows; the
+    // Invoices count column still counts pending ones only.
+    invoices,
+    status: apiStatus(bed?.status),
   };
 };
 
@@ -181,14 +172,14 @@ const compareText = (a, b) =>
 // API response -> one row per bed, sorted Floor -> Room -> Bed.
 export const normaliseConsolidatedBeds = (response) => {
   const rows = [];
-  const floors = Array.isArray(response?.floors) ? response.floors : [];
+  const floors = Array.isArray(response?.floors) ? response?.floors : [];
 
-  floors.forEach((floor, floorIndex) => {
+  floors?.forEach((floor, floorIndex) => {
     (floor?.rooms || []).forEach((room) => {
       (room?.beds || []).forEach((bed) => {
         if (bed) {
-          rows.push(
-            mapBed(bed, room, floor.floorName || room.floorName, floorIndex),
+          rows?.push(
+            mapBed(bed, room, floor?.floorName || room?.floorName, floorIndex),
           );
         }
       });
@@ -196,15 +187,15 @@ export const normaliseConsolidatedBeds = (response) => {
   });
 
   // Rooms sent without a floor wrapper go after the floors.
-  (Array.isArray(response?.rooms) ? response.rooms : []).forEach((room) => {
+  (Array.isArray(response?.rooms) ? response?.rooms : [])?.forEach((room) => {
     (room?.beds || []).forEach((bed) => {
-      if (bed) rows.push(mapBed(bed, room, room.floorName, floors.length));
+      if (bed) rows?.push(mapBed(bed, room, room?.floorName, floors?.length));
     });
   });
 
-  return rows.sort((a, b) => {
-    if (a.floorOrder !== b.floorOrder) return a.floorOrder - b.floorOrder;
-    return compareText(a.room, b.room) || compareText(a.bed, b.bed);
+  return rows?.sort((a, b) => {
+    if (a?.floorOrder !== b?.floorOrder) return a?.floorOrder - b?.floorOrder;
+    return compareText(a?.room, b?.room) || compareText(a?.bed, b?.bed);
   });
 };
 
@@ -213,39 +204,39 @@ export const getConsolidatedHeader = (response) => {
   const header = response?.invoiceHeader;
   if (!header) return null;
   return {
-    totalInvoices: toNumber(header.totalInvoices),
-    totalAmount: toNumber(header.totalAmount),
-    paidAmount: toNumber(header.paidAmount),
-    outstandingAmount: toNumber(header.outstandingAmount),
-    bookingAmount: toNumber(header.bookingAmount),
-    refundedBookingAmount: toNumber(header.refundedBookingAmount),
-    cancelledAmount: toNumber(header.cancelledAmount),
+    totalInvoices: toNumber(header?.totalInvoices),
+    totalAmount: toNumber(header?.totalAmount),
+    paidAmount: toNumber(header?.paidAmount),
+    outstandingAmount: toNumber(header?.outstandingAmount),
+    bookingAmount: toNumber(header?.bookingAmount),
+    refundedBookingAmount: toNumber(header?.refundedBookingAmount),
+    cancelledAmount: toNumber(header?.cancelledAmount),
   };
 };
 
 // All Tenants toggle. OFF: only rows with an outstanding balance.
 // ON: every occupied bed (paid tenants included) plus vacant beds.
 export const filterRowsByAllTenants = (rows = [], includeAllTenants = false) =>
-  includeAllTenants ? rows : rows.filter((row) => row.totalPending > 0);
+  includeAllTenants ? rows : rows?.filter((row) => row?.totalPending > 0);
 
 // Collection totals computed from rows (fallback when the API header is
 // missing). Vacant beds are always excluded.
 export const getCollectionSummary = (rows = []) => {
-  const occupiedRows = rows.filter((row) => !row.isVacant);
-  const outstandingInvoices = occupiedRows.flatMap(
-    (row) => row.pendingInvoices,
+  const occupiedRows = rows?.filter((row) => !row?.isVacant);
+  const outstandingInvoices = occupiedRows?.flatMap(
+    (row) => row?.pendingInvoices,
   );
 
   return {
-    totalInvoices: outstandingInvoices.length,
-    totalAmount: outstandingInvoices.reduce((sum, inv) => sum + inv.amount, 0),
-    paidAmount: outstandingInvoices.reduce((sum, inv) => sum + inv.paid, 0),
-    outstandingAmount: occupiedRows.reduce(
-      (sum, row) => sum + row.totalPending,
+    totalInvoices: outstandingInvoices?.length,
+    totalAmount: outstandingInvoices?.reduce((sum, inv) => sum + inv?.amount, 0),
+    paidAmount: outstandingInvoices?.reduce((sum, inv) => sum + inv?.paid, 0),
+    outstandingAmount: occupiedRows?.reduce(
+      (sum, row) => sum + row?.totalPending,
       0,
     ),
-    occupiedCount: occupiedRows.length,
-    vacantCount: rows.length - occupiedRows.length,
+    occupiedCount: occupiedRows?.length,
+    vacantCount: rows?.length - occupiedRows?.length,
   };
 };
 
@@ -268,11 +259,11 @@ export const DEFAULT_CONSOLIDATED_FILTERS = {
 export const getConsolidatedStatusOptions = (response) =>
   (response?.filters?.paymentStatus || [])
     .filter((option) => option?.key)
-    .map((option) => ({ key: option.key, label: option.label || option.key }));
+    .map((option) => ({ key: option?.key, label: option?.label || option?.key }));
 
 // key -> label, for chips and the export summary.
 export const getStatusLabelMap = (statusOptions = []) =>
-  Object.fromEntries(statusOptions.map((option) => [option.key, option.label]));
+  Object.fromEntries(statusOptions?.map((option) => [option?.key, option?.label]));
 
 // Row status (badge label) -> paymentStatus key, for filtering loaded rows.
 const ROW_STATUS_KEY = {
@@ -286,18 +277,18 @@ const ROW_LEVEL_STATUS_KEYS = Object.values(ROW_STATUS_KEY);
 // the invoice still has an outstanding balance and its due date has passed.
 export const isInvoiceOverdue = (invoice, today = dayjs()) => {
   if (!invoice?.dueDate) return false;
-  if (toNumber(invoice.totalPending) <= 0) return false;
-  return dayjs(invoice.dueDate).isBefore(dayjs(today), "day");
+  if (toNumber(invoice?.totalPending) <= 0) return false;
+  return dayjs(invoice?.dueDate).isBefore(dayjs(today), "day");
 };
 
 // { from, to } period -> [dayjs, dayjs] for the antd RangePicker (or null).
 export const periodToRange = (period) =>
-  period?.from && period?.to ? [dayjs(period.from), dayjs(period.to)] : null;
+  period?.from && period?.to ? [dayjs(period?.from), dayjs(period?.to)] : null;
 
 // Row-level filters on normalised rows. The period is applied by the API
 // (startDate/endDate), so rows are not re-scoped by date here; the third
 // argument is kept so existing callers do not change. Overdue keeps only rows
-// with an overdue invoice and lists just those invoices when expanded; row
+// with an overdue invoice (expanding a row still lists all its invoices); row
 // totals stay the backend figures.
 export const applyConsolidatedFilters = (
   rows = [],
@@ -309,41 +300,41 @@ export const applyConsolidatedFilters = (
   const active = { ...DEFAULT_CONSOLIDATED_FILTERS, ...filters };
   let result = rows;
 
-  if (active.overdueOnly) {
+  if (active?.overdueOnly) {
     result = result
-      .map((row) => {
-        const overdue = row.pendingInvoices.filter((inv) =>
+      ?.map((row) => {
+        const overdue = row?.pendingInvoices?.filter((inv) =>
           isInvoiceOverdue(inv, today),
         );
         return {
           ...row,
           pendingInvoices: overdue,
-          pendingInvoiceCount: overdue.length,
+          pendingInvoiceCount: overdue?.length,
         };
       })
-      .filter((row) => row.pendingInvoiceCount > 0);
+      ?.filter((row) => row?.pendingInvoiceCount > 0);
   }
 
-  const search = active.search.trim().toLowerCase();
+  const search = active?.search?.trim()?.toLowerCase();
   if (search) {
-    result = result.filter((row) =>
-      row.tenant?.name?.toLowerCase().includes(search),
+    result = result?.filter((row) =>
+      row?.tenant?.name?.toLowerCase()?.includes(search),
     );
   }
 
-  if (active.floors.length > 0) {
-    result = result.filter((row) => active.floors.includes(row.floor));
+  if (active?.floors?.length > 0) {
+    result = result?.filter((row) => active?.floors?.includes(row?.floor));
   }
 
   // Statuses are paymentStatus keys. Rows can only be re-checked for the three
   // row-level ones (Paid / Pending / Partial Payment); if any other key is
   // selected (Advance in hand, Refunded, …) the API's result is used as-is.
   if (
-    active.statuses.length > 0 &&
-    active.statuses.every((key) => ROW_LEVEL_STATUS_KEYS.includes(key))
+    active?.statuses?.length > 0 &&
+    active?.statuses?.every((key) => ROW_LEVEL_STATUS_KEYS.includes(key))
   ) {
-    result = result.filter((row) =>
-      active.statuses.includes(ROW_STATUS_KEY[row.status]),
+    result = result?.filter((row) =>
+      active?.statuses?.includes(ROW_STATUS_KEY[row?.status]),
     );
   }
 
@@ -351,10 +342,10 @@ export const applyConsolidatedFilters = (
 };
 
 export const countActiveFilters = (filters = DEFAULT_CONSOLIDATED_FILTERS) =>
-  (filters.search?.trim() ? 1 : 0) +
-  (filters.statuses?.length > 0 ? 1 : 0) +
-  (filters.overdueOnly ? 1 : 0) +
-  (filters.floors?.length > 0 ? 1 : 0);
+  (filters?.search?.trim() ? 1 : 0) +
+  (filters?.statuses?.length > 0 ? 1 : 0) +
+  (filters?.overdueOnly ? 1 : 0) +
+  (filters?.floors?.length > 0 ? 1 : 0);
 
 // Chips use the same { key, label, value } shape as the List View chips.
 export const getConsolidatedFilterChips = (
@@ -362,22 +353,22 @@ export const getConsolidatedFilterChips = (
   statusOptions = [],
 ) => {
   const chips = [];
-  if (filters.search?.trim()) {
-    chips.push({ key: "search", label: "Tenant", value: filters.search.trim() });
+  if (filters?.search?.trim()) {
+    chips?.push({ key: "search", label: "Tenant", value: filters?.search?.trim() });
   }
-  if (filters.statuses?.length > 0) {
+  if (filters?.statuses?.length > 0) {
     const labels = getStatusLabelMap(statusOptions);
-    chips.push({
+    chips?.push({
       key: "statuses",
       label: "Status is",
-      value: filters.statuses.map((key) => labels[key] || key).join(", "),
+      value: filters?.statuses?.map((key) => labels[key] || key)?.join(", "),
     });
   }
-  if (filters.overdueOnly) {
-    chips.push({ key: "overdue", label: "Overdue", value: "Yes" });
+  if (filters?.overdueOnly) {
+    chips?.push({ key: "overdue", label: "Overdue", value: "Yes" });
   }
-  if (filters.floors?.length > 0) {
-    chips.push({ key: "floors", label: "Floor is", value: filters.floors.join(", ") });
+  if (filters?.floors?.length > 0) {
+    chips?.push({ key: "floors", label: "Floor is", value: filters?.floors?.join(", ") });
   }
   return chips;
 };
@@ -385,10 +376,10 @@ export const getConsolidatedFilterChips = (
 // Unique floors in Floor -> Room -> Bed order, for the filter drawer.
 export const getFloorOptions = (beds = []) => {
   const floors = new Map();
-  beds.forEach((bed) => {
-    if (!floors.has(bed.floor)) floors.set(bed.floor, bed.floorOrder);
+  beds?.forEach((bed) => {
+    if (!floors?.has(bed?.floor)) floors?.set(bed?.floor, bed?.floorOrder);
   });
-  return [...floors.entries()]
+  return [...(floors?.entries() || [])]
     .sort((a, b) => a[1] - b[1])
     .map(([floor]) => floor);
 };
@@ -399,21 +390,21 @@ export const getConsolidatedFloorOptions = (response, beds = []) => {
   const apiFloors = (response?.filters?.floors || [])
     .map((floor) => floor?.floorName)
     .filter(Boolean);
-  return apiFloors.length > 0 ? [...new Set(apiFloors)] : getFloorOptions(beds);
+  return apiFloors?.length > 0 ? [...new Set(apiFloors)] : getFloorOptions(beds);
 };
 
 
 export const formatAmount = (value) =>
-  toNumber(value).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+  toNumber(value)?.toLocaleString("en-IN", { maximumFractionDigits: 2 });
 
 export const getInitials = (name = "") =>
   name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join("");
+    ?.trim()
+    ?.split(/\s+/)
+    ?.filter(Boolean)
+    ?.slice(0, 2)
+    ?.map((part) => part[0]?.toUpperCase())
+    ?.join("");
 
 // ---------------------------------------------------------------------------
 // Table columns. They come from the API (`tableColumns`: fieldName, order,
@@ -459,24 +450,24 @@ const FALLBACK_TABLE_COLUMNS = Object.keys(FIELD_MAP).map((fieldName, index) => 
 // the list (so saving keeps them) but are never rendered.
 export const buildConsolidatedColumns = (tableColumns) => {
   const source =
-    Array.isArray(tableColumns) && tableColumns.length > 0
+    Array.isArray(tableColumns) && tableColumns?.length > 0
       ? tableColumns
       : FALLBACK_TABLE_COLUMNS;
 
   return [...source]
     .filter((col) => col?.fieldName)
-    .sort((a, b) => toNumber(a.order) - toNumber(b.order))
+    .sort((a, b) => toNumber(a?.order) - toNumber(b?.order))
     .map((col) => {
-      const mapped = FIELD_MAP[col.fieldName];
-      const locked = Boolean(col.isLocked);
+      const mapped = FIELD_MAP[col?.fieldName];
+      const locked = Boolean(col?.isLocked);
       return {
-        fieldName: col.fieldName,
-        key: mapped?.key || col.fieldName,
-        label: col.fieldName,
+        fieldName: col?.fieldName,
+        key: mapped?.key || col?.fieldName,
+        label: col?.fieldName,
         align: mapped?.align || "left",
         chargeKey: mapped?.chargeKey,
         locked,
-        selected: locked || Boolean(col.isSelected),
+        selected: locked || Boolean(col?.isSelected),
         known: Boolean(mapped),
       };
     });
@@ -484,14 +475,14 @@ export const buildConsolidatedColumns = (tableColumns) => {
 
 // Columns the table renders, in API order.
 export const getVisibleColumns = (columns = []) =>
-  columns.filter((column) => column.known && column.selected);
+  columns?.filter((column) => column?.known && column?.selected);
 
 
 // Body for CONSOLIDATED_INVOICE_CUSTOMIZE_SAGA (same shape as UserList).
 export const buildColumnCustomizePayload = (columns = []) =>
-  columns.map((column, index) => ({
-    fieldName: column.fieldName,
-    isSelected: column.locked || column.selected,
+  columns?.map((column, index) => ({
+    fieldName: column?.fieldName,
+    isSelected: column?.locked || column?.selected,
     order: index + 1,
   }));
 
@@ -505,7 +496,7 @@ export const buildColumnCustomizePayload = (columns = []) =>
 function SortableColumnItem({ item, onToggle }) {
   // Locked columns (isLocked: true) can't be dragged or dropped onto.
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.fieldName, disabled: Boolean(item.locked) });
+    useSortable({ id: item?.fieldName, disabled: Boolean(item?.locked) });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -516,16 +507,16 @@ function SortableColumnItem({ item, onToggle }) {
     <label
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-3 text-sm mb-0 bg-white ${item.locked ? "cursor-not-allowed" : "cursor-pointer"
+      className={`flex items-center gap-3 text-sm mb-0 bg-white ${item?.locked ? "cursor-not-allowed" : "cursor-pointer"
         }`}
     >
       <span
         {...attributes}
         {...listeners}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => e?.stopPropagation()}
       >
         <IoMdMenu
-          className={`text-xl ${item.locked
+          className={`text-xl ${item?.locked
             ? "text-[#D0D5DD] cursor-not-allowed"
             : "text-[#28303F] cursor-grab"
             }`}
@@ -534,19 +525,19 @@ function SortableColumnItem({ item, onToggle }) {
 
       <input
         type="checkbox"
-        checked={item.locked || item.selected}
-        disabled={item.locked}
-        onChange={() => onToggle(item.fieldName)}
+        checked={item?.locked || item?.selected}
+        disabled={item?.locked}
+        onChange={() => onToggle(item?.fieldName)}
         className="w-4 h-4 accent-[#1E45E1] rounded"
       />
 
       <span
-        className={`flex-1 text-base ${item.locked ? "text-[#6B7280]" : "text-[#101828]"
+        className={`flex-1 text-base ${item?.locked ? "text-[#6B7280]" : "text-[#101828]"
           }`}
       >
-        {item.fieldName}
+        {item?.fieldName}
       </span>
-      {item.locked && (
+      {item?.locked && (
         <span title="Always shown" className="inline-flex">
           <Lock1 size="14" color="#98A2B3" aria-hidden="true" />
         </span>
@@ -588,8 +579,8 @@ function ConsolidatedColumnCustomizer({
   // Same rule as UserList: at least one column must stay visible.
   const handleSave = () => {
     setError("");
-    const hasSelected = customizeItems.some(
-      (item) => item.known && (item.locked || item.selected),
+    const hasSelected = customizeItems?.some(
+      (item) => item?.known && (item?.locked || item?.selected),
     );
     if (!hasSelected) {
       setError("Please select at least one column");
@@ -600,7 +591,7 @@ function ConsolidatedColumnCustomizer({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      if (wrapperRef?.current && !wrapperRef?.current?.contains(event?.target)) {
         onOpenChange(false);
       }
     };
@@ -612,22 +603,22 @@ function ConsolidatedColumnCustomizer({
     };
   }, [isOpen, onOpenChange]);
 
-  const allSelected = customizeItems.every((i) => i.locked || i.selected);
+  const allSelected = customizeItems?.every((i) => i?.locked || i?.selected);
 
-  const filteredCustomizeItems = customizeItems.filter((item) =>
-    item.fieldName.toLowerCase().includes(searchText.trim().toLowerCase()),
+  const filteredCustomizeItems = customizeItems?.filter((item) =>
+    item?.fieldName?.toLowerCase()?.includes(searchText?.trim()?.toLowerCase()),
   );
 
-  const hiddenCount = columns.filter(
-    (column) => column.known && !column.selected,
-  ).length;
+  const hiddenCount = columns?.filter(
+    (column) => column?.known && !column?.selected,
+  )?.length;
 
   const handleToggle = (fieldName) => {
     setError("");
     setCustomizeItems((prev) =>
-      prev.map((i) =>
-        i.fieldName === fieldName && !i.locked
-          ? { ...i, selected: !i.selected }
+      prev?.map((i) =>
+        i?.fieldName === fieldName && !i?.locked
+          ? { ...i, selected: !i?.selected }
           : i,
       ),
     );
@@ -636,21 +627,21 @@ function ConsolidatedColumnCustomizer({
   const handleSelectAll = () => {
     setError("");
     setCustomizeItems((prev) =>
-      prev.map((i) => ({ ...i, selected: i.locked ? true : !allSelected })),
+      prev?.map((i) => ({ ...i, selected: i?.locked ? true : !allSelected })),
     );
   };
 
   const handleDragEnd = ({ active, over }) => {
-    if (!over || active.id === over.id) return;
+    if (!over || active?.id === over?.id) return;
     // Reorder only the unlocked columns; locked ones keep their positions.
-    const unlocked = customizeItems.filter((i) => !i.locked);
-    const oldIndex = unlocked.findIndex((i) => i.fieldName === active.id);
-    const newIndex = unlocked.findIndex((i) => i.fieldName === over.id);
+    const unlocked = customizeItems?.filter((i) => !i?.locked);
+    const oldIndex = unlocked?.findIndex((i) => i?.fieldName === active?.id);
+    const newIndex = unlocked?.findIndex((i) => i?.fieldName === over?.id);
     if (oldIndex === -1 || newIndex === -1) return;
     const moved = arrayMove(unlocked, oldIndex, newIndex);
     let next = 0;
     setCustomizeItems(
-      customizeItems.map((i) => (i.locked ? i : moved[next++])),
+      customizeItems?.map((i) => (i?.locked ? i : moved[next++])),
     );
   };
 
@@ -699,7 +690,7 @@ function ConsolidatedColumnCustomizer({
               <SearchNormal1 size={16} color="#98A2B3" />
               <input
                 value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => setSearchText(e?.target?.value)}
                 placeholder="Search"
                 aria-label="Search columns"
                 className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
@@ -709,18 +700,18 @@ function ConsolidatedColumnCustomizer({
 
           <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext
-              items={customizeItems.map((i) => i.fieldName)}
+              items={customizeItems?.map((i) => i?.fieldName)}
               strategy={verticalListSortingStrategy}
             >
               <div className="max-h-[260px] overflow-y-auto px-[12px] py-2 space-y-2 show-scrolls">
-                {filteredCustomizeItems.length === 0 ? (
+                {filteredCustomizeItems?.length === 0 ? (
                   <div className="text-sm text-gray-400 text-center py-3">
                     No results found
                   </div>
                 ) : (
-                  filteredCustomizeItems.map((item) => (
+                  filteredCustomizeItems?.map((item) => (
                     <SortableColumnItem
-                      key={item.fieldName}
+                      key={item?.fieldName}
                       item={item}
                       onToggle={handleToggle}
                     />
@@ -813,20 +804,24 @@ const SKELETON_ROWS = 5;
 
 const formatDate = (value) => (value ? dayjs(value).format("DD MMM YYYY") : "—");
 
+// Any other API status (e.g. "Refund") gets a neutral badge.
+const neutralBadgeStyle = { bg: "bg-[#F1F5F9]", dot: "bg-[#64748B]" };
+
 function StatusBadge({ status }) {
-  const style = statusBadgeStyles[status] || statusBadgeStyles[ROW_STATUS.PENDING];
+  if (!status) return <span className="text-[#6B7280]">—</span>;
+  const style = statusBadgeStyles[status] || neutralBadgeStyle;
   return (
     <span
-      className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${style.bg}`}
+      className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${style?.bg}`}
     >
-      <span className={`w-[6px] h-[6px] rounded-full ${style.dot}`} />
+      <span className={`w-[6px] h-[6px] rounded-full ${style?.dot}`} />
       {status}
     </span>
   );
 }
 
 StatusBadge.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: PropTypes.string,
 };
 
 function ConsolidatedInvoiceTable({
@@ -856,20 +851,20 @@ function ConsolidatedInvoiceTable({
   const [pendingColumns, setPendingColumns] = useState(null);
 
   const handleSaveColumns = (draftColumns) => {
-    if (!state.login?.selectedHostel_Id) return;
+    if (!state?.login?.selectedHostel_Id) return;
     setPendingColumns(draftColumns);
     setColumnsSaving(true);
     dispatch({
       type: "CONSOLIDATED_INVOICE_CUSTOMIZE_SAGA",
       payload: {
-        hostelId: state.login.selectedHostel_Id,
+        hostelId: state?.login?.selectedHostel_Id,
         customize: buildColumnCustomizePayload(draftColumns),
       },
     });
   };
 
   useEffect(() => {
-    if (state.reports.consolidatedInvoiceCustomizeSuccess === 200) {
+    if (state?.reports?.consolidatedInvoiceCustomizeSuccess === 200) {
       setColumnsSaving(false);
       if (pendingColumns && onColumnsSaved) onColumnsSaved(pendingColumns);
       setPendingColumns(null);
@@ -878,15 +873,15 @@ function ConsolidatedInvoiceTable({
         dispatch({ type: "REMOVE_CONSOLIDATED_INVOICE_CUSTOMIZE_REDUCER" });
       }, 100);
     }
-  }, [state.reports.consolidatedInvoiceCustomizeSuccess]);
+  }, [state?.reports?.consolidatedInvoiceCustomizeSuccess]);
 
   useEffect(() => {
-    if (state.reports.consolidatedInvoiceCustomizeError) {
+    if (state?.reports?.consolidatedInvoiceCustomizeError) {
       setColumnsSaving(false);
       setPendingColumns(null);
       dispatch({ type: "REMOVE_CONSOLIDATED_INVOICE_CUSTOMIZE_ERROR" });
     }
-  }, [state.reports.consolidatedInvoiceCustomizeError]);
+  }, [state?.reports?.consolidatedInvoiceCustomizeError]);
 
   // The parent can control the toggle (needed by the export settings).
   // Without that prop the table manages it itself.
@@ -906,7 +901,7 @@ function ConsolidatedInvoiceTable({
     () => applyConsolidatedFilters(beds, filters, period),
     [beds, filters, period],
   );
-
+  console.log("filteredRows", filteredRows)
   const rows = useMemo(
     () => filterRowsByAllTenants(filteredRows, includeAllTenants),
     [filteredRows, includeAllTenants],
@@ -919,8 +914,8 @@ function ConsolidatedInvoiceTable({
     ? "Showing all tenants, including fully paid tenants and empty beds."
     : "Only pending and unpaid tenants are listed in this view.";
 
-  const occupiedCount = rows.filter((row) => !row.isVacant).length;
-  const vacantCount = rows.length - occupiedCount;
+  const occupiedCount = rows?.filter((row) => !row?.isVacant)?.length;
+  const vacantCount = rows?.length - occupiedCount;
 
   const footerText = includeAllTenants
     ? `Showing ${occupiedCount} tenant stays and ${vacantCount} vacant beds`
@@ -928,72 +923,72 @@ function ConsolidatedInvoiceTable({
 
   const toggleExpanded = (bedId) => {
     setExpandedBedIds((prev) =>
-      prev.includes(bedId)
-        ? prev.filter((id) => id !== bedId)
+      prev?.includes(bedId)
+        ? prev?.filter((id) => id !== bedId)
         : [...prev, bedId],
     );
   };
 
   const renderRowCell = (column, row, isExpanded) => {
-    switch (column.key) {
+    switch (column?.key) {
       case "floor":
       case "room":
       case "bed":
         return (
-          <span className="font-semibold text-[#111928]">{row[column.key]}</span>
+          <span className="font-semibold text-[#111928]">{row[column?.key]}</span>
         );
       case "tenant":
-        if (row.isVacant) return <span className="text-[#6B7280]">—</span>;
+        if (row?.isVacant) return <span className="text-[#6B7280]">—</span>;
         return (
           <div className="flex items-center gap-[13px]">
             <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
-              {getInitials(row.tenant.name)}
+              {getInitials(row?.tenant?.name)}
             </div>
             <span className="font-semibold text-[#111928]">
-              {row.tenant.name}
+              {row?.tenant?.name}
             </span>
           </div>
         );
       case "status":
-        return <StatusBadge status={row.status} />;
+        return <StatusBadge status={row?.status} />;
       case "contact":
         return (
           <span className="text-[#314158]">
-            {row.isVacant ? "—" : row.tenant.phone}
+            {row?.isVacant ? "—" : row?.tenant?.phone}
           </span>
         );
       case "actualRent":
         return (
           <span className="font-medium text-[#111928]">
-            {row.isVacant ? "—" : `₹${formatAmount(row.actualRent)}`}
+            {row?.isVacant ? "—" : `₹${formatAmount(row?.actualRent)}`}
           </span>
         );
       case "totalPending":
         return (
           <span className="font-bold text-[#111928]">
-            ₹{formatAmount(row.totalPending)}
+            ₹{formatAmount(row?.totalPending)}
           </span>
         );
       case "pendingInvoiceCount":
-        if (row.isVacant) return <span className="text-[#6B7280]">—</span>;
-        if (row.pendingInvoiceCount === 0) {
+        if (row?.isVacant) return <span className="text-[#6B7280]">—</span>;
+        if (row?.pendingInvoiceCount === 0) {
           return <span className="font-semibold text-[#6B7280]">0</span>;
         }
         return (
           <button
             type="button"
-            onClick={() => toggleExpanded(row.bedId)}
+            onClick={() => toggleExpanded(row?.bedId)}
             aria-expanded={isExpanded}
-            aria-label={`${row.pendingInvoiceCount} pending invoices for ${row.tenant.name}`}
+            aria-label={`${row?.pendingInvoiceCount} pending invoices for ${row?.tenant?.name}`}
             className="font-semibold text-[#1E45E1] hover:underline bg-transparent border-0 px-2"
           >
-            {row.pendingInvoiceCount}
+            {row?.pendingInvoiceCount}
           </button>
         );
       default:
         return (
           <span className="font-medium text-[#111928]">
-            ₹{formatAmount(row[column.key])}
+            ₹{formatAmount(row[column?.key])}
           </span>
         );
     }
@@ -1002,27 +997,28 @@ function ConsolidatedInvoiceTable({
   // Invoice sub-rows share the parent's columns so each charge lines up
   // under the tenant total it adds up to.
   const renderInvoiceCell = (column, invoice) => {
-    if (column.chargeKey) {
+
+    if (column?.chargeKey) {
       return (
         <span className="font-medium text-[#314158]">
-          ₹{formatAmount(invoice.pending[column.chargeKey])}
+          ₹{formatAmount(invoice?.pending[column?.chargeKey])}
         </span>
       );
     }
-    switch (column.key) {
+    switch (column?.key) {
       case "tenant":
         return (
           <div className="flex flex-col pl-[43px]">
             <span className="font-semibold text-[#111928]">
-              {invoice.invoiceNo}
+              {invoice?.invoiceNo}
             </span>
             <span className="text-[12px] leading-[16px] text-[#62748E]">
-              {invoice.invoiceType} · {formatDate(invoice.invoiceDate)}
+              {invoice?.invoiceType} · {formatDate(invoice?.invoiceDate)}
             </span>
           </div>
         );
       case "status":
-        return <StatusBadge status={invoice.status} />;
+        return <StatusBadge status={invoice?.status} />;
       case "contact":
         return (
           <div className="flex flex-col">
@@ -1033,18 +1029,18 @@ function ConsolidatedInvoiceTable({
                   : "text-[#314158]"
               }
             >
-              Due {formatDate(invoice.dueDate)}
+              Due {formatDate(invoice?.dueDate)}
               {isInvoiceOverdue(invoice) ? " · Overdue" : ""}
             </span>
             <span className="text-[12px] leading-[16px] text-[#62748E]">
-              Paid ₹{formatAmount(invoice.paid)} of ₹{formatAmount(invoice.amount)}
+              Paid ₹{formatAmount(invoice?.paid)} of ₹{formatAmount(invoice?.amount)}
             </span>
           </div>
         );
       case "totalPending":
         return (
           <span className="font-semibold text-[#111928]">
-            ₹{formatAmount(invoice.totalPending)}
+            ₹{formatAmount(invoice?.totalPending)}
           </span>
         );
       default:
@@ -1055,10 +1051,10 @@ function ConsolidatedInvoiceTable({
   const renderSkeleton = () =>
     Array.from({ length: SKELETON_ROWS }).map((_, rowIndex) => (
       <tr key={`skeleton-${rowIndex}`} aria-hidden="true">
-        {columns.map((column) => (
-          <td key={column.key} className={`${bodyCell} ${alignClass[column.align]}`}>
+        {columns?.map((column) => (
+          <td key={column?.key} className={`${bodyCell} ${alignClass[column?.align]}`}>
             <span
-              className={`inline-block h-3 rounded bg-[#E5E7EB] animate-pulse ${column.key === "tenant" ? "w-[120px]" : "w-[56px]"
+              className={`inline-block h-3 rounded bg-[#E5E7EB] animate-pulse ${column?.key === "tenant" ? "w-[120px]" : "w-[56px]"
                 }`}
             />
           </td>
@@ -1070,21 +1066,22 @@ function ConsolidatedInvoiceTable({
     ));
 
   const renderRows = () =>
-    rows.map((row, index) => {
+    rows?.map((row, index) => {
+      console.log("row", row)
       const isNewFloor =
-        index > 0 && row.floorOrder !== rows[index - 1].floorOrder;
+        index > 0 && row?.floorOrder !== rows[index - 1]?.floorOrder;
       const floorBorder = isNewFloor ? "border-t-2 border-t-[#CAD5E2]" : "";
-      const canViewDetails = row.pendingInvoiceCount > 0;
-      const isExpanded = canViewDetails && expandedBedIds.includes(row.bedId);
+      const canViewDetails = (row?.invoices || []).length > 0;
+      const isExpanded = canViewDetails && expandedBedIds?.includes(row?.bedId);
       const rowBg = isExpanded ? "bg-[#F8F9FF]" : "bg-white";
 
       return (
-        <Fragment key={row.bedId}>
-          <tr data-testid={`consolidated-row-${row.bedId}`}>
-            {columns.map((column) => (
+        <Fragment key={row?.bedId}>
+          <tr data-testid={`consolidated-row-${row?.bedId}`}>
+            {columns?.map((column) => (
               <td
-                key={column.key}
-                className={`${bodyCell} ${floorBorder} ${rowBg} ${alignClass[column.align]} ${column.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
+                key={column?.key}
+                className={`${bodyCell} ${floorBorder} ${rowBg} ${alignClass[column?.align]} ${column?.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
                   }`}
               >
                 {renderRowCell(column, row, isExpanded)}
@@ -1096,13 +1093,13 @@ function ConsolidatedInvoiceTable({
               <button
                 type="button"
                 aria-label={
-                  row.isVacant
+                  row?.isVacant
                     ? "No invoices for vacant bed"
-                    : `${isExpanded ? "Hide" : "View"} pending invoices for ${row.tenant.name}`
+                    : `${isExpanded ? "Hide" : "View"} invoices for ${row?.tenant?.name}`
                 }
                 aria-expanded={isExpanded}
                 disabled={!canViewDetails}
-                onClick={() => toggleExpanded(row.bedId)}
+                onClick={() => toggleExpanded(row?.bedId)}
                 className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${isExpanded
                   ? "border-[#1E45E1] bg-[#EFF6FF]"
                   : "border-[#E2E8F0] bg-white"
@@ -1121,15 +1118,15 @@ function ConsolidatedInvoiceTable({
           </tr>
 
           {isExpanded &&
-            row.pendingInvoices.map((invoice) => (
+            (row?.invoices || []).map((invoice) => (
               <tr
-                key={`${row.bedId}-${invoice.invoiceId}`}
-                data-testid={`invoice-row-${invoice.invoiceId}`}
+                key={`${row?.bedId}-${invoice?.invoiceId}`}
+                data-testid={`invoice-row-${invoice?.invoiceId}`}
               >
-                {columns.map((column) => (
+                {columns?.map((column) => (
                   <td
-                    key={column.key}
-                    className={`${childCell} bg-[#F8FAFC] ${alignClass[column.align]} ${column.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
+                    key={column?.key}
+                    className={`${childCell} bg-[#F8FAFC] ${alignClass[column?.align]} ${column?.key === "room" ? "border-l border-l-[#F1F5F9]" : ""
                       }`}
                   >
                     {renderInvoiceCell(column, invoice)}
@@ -1142,7 +1139,7 @@ function ConsolidatedInvoiceTable({
       );
     });
 
-  const showEmpty = !isLoading && rows.length === 0;
+  const showEmpty = !isLoading && rows?.length === 0;
 
   return (
     // Fills the space the page leaves (md+); only the table body scrolls.
@@ -1213,12 +1210,12 @@ function ConsolidatedInvoiceTable({
               {/* Column headers stay visible while the rows scroll. */}
               <thead className="sticky top-0 z-[3]">
                 <tr>
-                  {columns.map((column) => (
+                  {columns?.map((column) => (
                     <th
-                      key={column.key}
-                      className={`${headerCell} ${alignClass[column.align]}`}
+                      key={column?.key}
+                      className={`${headerCell} ${alignClass[column?.align]}`}
                     >
-                      {column.label}
+                      {column?.label}
                     </th>
                   ))}
                   <th className={`${headerCell} ${stickyCell} z-[2] text-center`}>

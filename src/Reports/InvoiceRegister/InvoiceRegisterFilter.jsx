@@ -80,7 +80,7 @@ const CustomStyles = {
   option: (base, state) => ({
     ...base,
     cursor: "pointer",
-    backgroundColor: state.isFocused ? "" : "white",
+    backgroundColor: state?.isFocused ? "" : "white",
     color: "#000",
   }),
   dropdownIndicator: (base) => ({
@@ -136,26 +136,26 @@ function InvoiceRegisterFilter({
       value: "ALL",
     },
     ...(filterOptionsData?.paymentStatus?.map((item) => ({
-      label: item.name,
-      value: item.type,
+      label: item?.name,
+      value: item?.type,
     })) || []),
   ];
   const typeOptions =
     filterOptionsData?.invoiceTypes?.map((item) => ({
-      label: item.name,
-      value: item.type,
+      label: item?.name,
+      value: item?.type,
     })) || [];
 
   const modeOptions =
     filterOptionsData?.invoiceModes?.map((item) => ({
-      label: item.name,
-      value: item.type,
+      label: item?.name,
+      value: item?.type,
     })) || [];
 
   const createdByOptions =
     filterOptionsData?.createdBy?.map((item) => ({
-      label: item.name,
-      value: item.userId,
+      label: item?.name,
+      value: item?.userId,
     })) || [];
 
   const periodOptions =
@@ -164,74 +164,74 @@ function InvoiceRegisterFilter({
       value: item,
     })) || [];
 
-  const invoiceFilters = state.reports?.invoiceRegisterFilters;
+  const invoiceFilters = state?.reports?.invoiceRegisterFilters;
 
   useEffect(() => {
     if (show && invoiceFilters) {
-      setTenantName(invoiceFilters.search);
+      setTenantName(invoiceFilters?.search);
 
-      setBillStatus(invoiceFilters.paymentStatus || []);
-      const selectedPaymentOptions = billStatusOptions.filter((option) =>
-        invoiceFilters.paymentStatus?.includes(option.value),
+      setBillStatus(invoiceFilters?.paymentStatus || []);
+      const selectedPaymentOptions = billStatusOptions?.filter((option) =>
+        invoiceFilters?.paymentStatus?.includes(option?.value),
       );
       setSelectedBillStatusOptions(selectedPaymentOptions);
 
-      const selectedInvoiceTypeValues = invoiceFilters.invoiceTypes || [];
+      const selectedInvoiceTypeValues = invoiceFilters?.invoiceTypes || [];
 
       setInvoiceType(selectedInvoiceTypeValues);
 
       const selectedInvoiceModeOptions = invoiceFilters?.invoiceModes || [];
       setInvoiceMode(selectedInvoiceModeOptions);
 
-      const selectedCreatedByOptions = createdByOptions.filter((option) =>
-        invoiceFilters.createdBy?.includes(option.value),
+      const selectedCreatedByOptions = createdByOptions?.filter((option) =>
+        invoiceFilters?.createdBy?.includes(option?.value),
       );
 
       setCreatedBy(selectedCreatedByOptions);
 
-      const selectedPeriod = periodOptions.find(
-        (option) => option.value === invoiceFilters.period,
+      const selectedPeriod = periodOptions?.find(
+        (option) => option?.value === invoiceFilters?.period,
       );
       setPeriod(selectedPeriod || null);
-      setPaidAmountMin(invoiceFilters.minPaidAmount || "");
-      setPaidAmountMax(invoiceFilters.maxPaidAmount || "");
+      setPaidAmountMin(invoiceFilters?.minPaidAmount || "");
+      setPaidAmountMax(invoiceFilters?.maxPaidAmount || "");
 
-      setOutstandingMin(invoiceFilters.minOutstandingAmount || "");
-      setOutstandingMax(invoiceFilters.maxOutstandingAmount || "");
+      setOutstandingMin(invoiceFilters?.minOutstandingAmount || "");
+      setOutstandingMax(invoiceFilters?.maxOutstandingAmount || "");
     }
   }, [show]);
 
   const handlePaidMinChange = (e) => {
-    setPaidAmountMin(e.target.value);
+    setPaidAmountMin(e?.target?.value);
   };
 
   const handlePaidMaxChange = (e) => {
-    setPaidAmountMax(e.target.value);
+    setPaidAmountMax(e?.target?.value);
   };
 
   const handleOutstandingMinChange = (e) => {
-    setOutstandingMin(e.target.value);
+    setOutstandingMin(e?.target?.value);
   };
 
   const handleOutstandingMaxChange = (e) => {
-    setOutstandingMax(e.target.value);
+    setOutstandingMax(e?.target?.value);
   };
 
   const handleBillStatusChange = (selectedOptions, actionIs) => {
-    const allOption = billStatusOptions.find(
-      (option) => option.value === "ALL",
+    const allOption = billStatusOptions?.find(
+      (option) => option?.value === "ALL",
     );
 
-    const individualOptions = billStatusOptions.filter(
-      (option) => option.value !== "ALL",
+    const individualOptions = billStatusOptions?.filter(
+      (option) => option?.value !== "ALL",
     );
 
-    const individualValues = individualOptions.map((option) => option.value);
+    const individualValues = individualOptions?.map((option) => option?.value);
 
-    if (actionIs.option?.value === "ALL") {
-      if (actionIs.action === "select-option") {
+    if (actionIs?.option?.value === "ALL") {
+      if (actionIs?.action === "select-option") {
         setBillStatus(individualValues);
-        setBillStatusLabel(individualOptions.map((option) => option.label));
+        setBillStatusLabel(individualOptions?.map((option) => option?.label));
 
         setSelectedBillStatusOptions([allOption, ...individualOptions]);
       } else {
@@ -244,18 +244,18 @@ function InvoiceRegisterFilter({
     }
 
     const selectedWithoutAll = (selectedOptions || []).filter(
-      (option) => option.value !== "ALL",
+      (option) => option?.value !== "ALL",
     );
 
-    const selectedValues = selectedWithoutAll.map((option) => option.value);
+    const selectedValues = selectedWithoutAll?.map((option) => option?.value);
 
-    const selectedLabels = selectedWithoutAll.map((option) => option.label);
+    const selectedLabels = selectedWithoutAll?.map((option) => option?.label);
 
-    const isAllSelected = selectedValues.length === individualOptions.length;
+    const isAllSelected = selectedValues?.length === individualOptions?.length;
 
     if (isAllSelected) {
       setBillStatus(individualValues);
-      setBillStatusLabel(individualOptions.map((option) => option.label));
+      setBillStatusLabel(individualOptions?.map((option) => option?.label));
 
       setSelectedBillStatusOptions([allOption, ...individualOptions]);
     } else {
@@ -268,39 +268,39 @@ function InvoiceRegisterFilter({
 
   useEffect(() => {
     if (
-      state.InvoiceList.billsListStatusCode === 200 ||
-      state.reports.getInvoiceRegisterSuccess === 200
+      state?.InvoiceList?.billsListStatusCode === 200 ||
+      state?.reports?.getInvoiceRegisterSuccess === 200
     ) {
       setFormLoading(false);
     }
   }, [
-    state.InvoiceList.billsListStatusCode,
-    state.reports.getInvoiceRegisterSuccess,
+    state?.InvoiceList?.billsListStatusCode,
+    state?.reports?.getInvoiceRegisterSuccess,
   ]);
 
   useEffect(() => {
-    const selectedOptions = billStatusOptions.filter((opt) =>
-      billStatus.includes(opt.value),
+    const selectedOptions = billStatusOptions?.filter((opt) =>
+      billStatus?.includes(opt?.value),
     );
     setSelectedBillStatusOptions(selectedOptions);
   }, [billStatus]);
 
   const handleInvoiceTypeChange = (selected) => {
-    setInvoiceType(selected.map((opt) => opt.value));
-    setInvoiceTypeLabel(selected?.map((opt) => opt.label) || []);
+    setInvoiceType(selected?.map((opt) => opt?.value));
+    setInvoiceTypeLabel(selected?.map((opt) => opt?.label) || []);
   };
 
-  const selectedTypeOptions = typeOptions.filter((opt) =>
-    invoiceType.includes(opt.value),
+  const selectedTypeOptions = typeOptions?.filter((opt) =>
+    invoiceType?.includes(opt?.value),
   );
 
   const handleInvoiceModeChange = (selected) => {
-    setInvoiceMode(selected.map((opt) => opt.value));
-    setInvoiceModeLabel(selected?.map((opt) => opt.label) || []);
+    setInvoiceMode(selected?.map((opt) => opt?.value));
+    setInvoiceModeLabel(selected?.map((opt) => opt?.label) || []);
   };
 
-  const selectedModeOptions = modeOptions.filter((opt) =>
-    invoiceMode?.includes(opt.value),
+  const selectedModeOptions = modeOptions?.filter((opt) =>
+    invoiceMode?.includes(opt?.value),
   );
 
   const handleCreatedByChange = (selected) => {
@@ -310,7 +310,7 @@ function InvoiceRegisterFilter({
   const selectedCreatedByOptions = createdBy;
 
   const handleTenantChange = (e) => {
-    setTenantName(e.target.value);
+    setTenantName(e?.target?.value);
   };
 
   const CheckboxOption = (props) => {
@@ -355,7 +355,7 @@ function InvoiceRegisterFilter({
   };
 
   const handleFilterBills = () => {
-    if (!state.login?.selectedHostel_Id) return;
+    if (!state?.login?.selectedHostel_Id) return;
     if (
       outstandingMin &&
       outstandingMax &&
@@ -386,9 +386,9 @@ function InvoiceRegisterFilter({
       invoiceTypeLabels: invoiceTypeLabel?.length
         ? invoiceTypeLabel
         : undefined,
-      createdBy: createdBy?.length ? createdBy.map((c) => c.value) : undefined,
+      createdBy: createdBy?.length ? createdBy?.map((c) => c?.value) : undefined,
       createdByLabels: createdBy?.length
-        ? createdBy.map((c) => c.label)
+        ? createdBy?.map((c) => c?.label)
         : undefined,
       period: period?.value || "",
       periodLabel: period?.label || "",
@@ -423,13 +423,13 @@ function InvoiceRegisterFilter({
 
     const isOnlyAllStatus =
       Array.isArray(billStatus) &&
-      billStatus.length === 1 &&
+      billStatus?.length === 1 &&
       billStatus[0] === "ALL";
 
     dispatch({
       type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
       payload: {
-        hostelId: state.login.selectedHostel_Id,
+        hostelId: state?.login?.selectedHostel_Id,
         filters: isOnlyAllStatus ? { page: 1, size: size } : InvoiceFilter,
       },
     });
@@ -438,13 +438,13 @@ function InvoiceRegisterFilter({
   };
 
   useEffect(() => {
-    if (state.createAccount?.networkError) {
+    if (state?.createAccount?.networkError) {
       setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
-  }, [state.createAccount?.networkError]);
+  }, [state?.createAccount?.networkError]);
 
   const inputClass =
     "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
@@ -575,11 +575,11 @@ function InvoiceRegisterFilter({
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
                 isOptionSelected={(option) => {
-                  if (option.value === "ALL") {
-                    return billStatus.length === billStatusOptions.length - 1;
+                  if (option?.value === "ALL") {
+                    return billStatus?.length === billStatusOptions?.length - 1;
                   }
 
-                  return billStatus.includes(option.value);
+                  return billStatus?.includes(option?.value);
                 }}
               />
             </Form.Group>
