@@ -34,6 +34,15 @@ The active integration branch is **`version_2`** (recent PRs merge there as merg
 - Tailwind classes must appear literally in source (`content: ./src/**`); a template like `` `!${SHADOW}` `` is never generated.
 - The running dev server's Tailwind keeps an in-memory list of files under `src/`. Creating then deleting a temporary file there makes it fail with `[postcss] ENOENT … <deleted file>` until restarted — put scratch/harness files outside `src/` (only `./index.html` and `src/**` are scanned).
 
+## Design System v2 / Settings V2 (`src/DesignSystem/`, `src/Pages/Settings/V2/`)
+
+- Opt-in behind `VITE_SETTINGS_V2=true` (`DesignSystem/flags.js`, set it in `.env.development.local`). `Sidebar.jsx` swaps the settings shell for `SettingsShellV2` and the `general` route for `MyProfileV2`; unset, the old Settings screens render unchanged. Each further screen moving to v2 gets its own flag there.
+- v2 screens render inside `<DsRoot>`, which scopes `DesignSystem/tokens.css` (`--ds-*` CSS variables, used as `bg-[var(--ds-…)]` / `text-[color:var(--ds-…)]`; no hex). Import components only from `src/DesignSystem` (`index.js`): `DsButton` (primary/secondary/danger/destructive), `DsDialog` (modal with Cancel/Confirm pair), `DsDrawer`, `DsDataTable` (loading/error/empty/no-results + `ApiPagination` built in), `DsActionMenu`, `DsFilterDropdown`, `DsBadge`, `DsDescriptionItem` (`copyValue` = copy-on-hover), etc. Reuse or extend these before creating feature-local UI.
+- Icons are `@heroicons/react/24/outline` rendered via `<DsIcon src={Icon} size={16|20|24} />` (scales the stroke to the kit's 1.1px). `DsBadge`'s `dot` takes a component (`DsDot`), never a boolean — a boolean crashes the error boundary. `@heroicons/react` is the one dependency added for v2.
+- Form fields inside v2 still use the v1 `Utils/FieldStyles.js` anatomy below. `tokens.css` removes the global `.ds :focus-visible` ring from text inputs so fields don't get a double focus stroke.
+- Bootstrap's `!important` utilities also hit v2: `opacity-0`/`opacity-100` lose to Bootstrap — use `opacity-[0]`/`opacity-[1]`.
+- My profile (`Settings/V2/MyProfile/`) layout: `tabs/` (Masters, Staff, Properties), `people/` (person drawer, dialogs, invite, manage access), `properties/`, `profile/`, `hooks/`, `lib/`. All API calls go through `lib/myProfileService.js`; endpoints the backend doesn't have yet are dummies marked `DUMMY: replace with API` and gated by its `DUMMY_ACTIONS`. Permissions in `lib/myProfilePermissions.js` only hide UI — the server must enforce them. Staff roles are per property (`roleIdByProperty` / `roleNameByProperty`); the highest role decides what the viewer may do.
+
 ## Form field anatomy (Figma input anatomy — use for all new/updated forms)
 
 Tokens live in `tailwind.config.js` (`primary-*`, `ink-*`, `success|warning|danger-*`, `field-*`, `rounded-small|medium|large`, `text-h1…c3`) — use them instead of hex for new code. Full token/component reference and decisions: **`docs/SmartStay-Design-System.md`** (Figma "Mobile UI component" `MeZzgNAFFUwdfEEjh0y0dB`).
