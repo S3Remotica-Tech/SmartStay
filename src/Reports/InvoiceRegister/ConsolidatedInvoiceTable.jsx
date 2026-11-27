@@ -997,6 +997,7 @@ function ConsolidatedInvoiceTable({
   // Invoice sub-rows share the parent's columns so each charge lines up
   // under the tenant total it adds up to.
   const renderInvoiceCell = (column, invoice) => {
+
     if (column?.chargeKey) {
       return (
         <span className="font-medium text-[#314158]">
