@@ -1,4 +1,4 @@
-// Record one Playwright test per screen, each into its own e2e/<name>.spec.js.
+// Record one Playwright test per screen, each into its own src/__test__/e2e/<name>.spec.js.
 //
 //   npm run e2e:codegen -- <name> [start-path]
 //   npm run e2e:codegen -- banking /banking
@@ -8,7 +8,7 @@
 // - Starts already logged in (saved session). If the session is missing or the
 //   token has expired, it first opens the login page: log in, then CLOSE that
 //   browser window, and recording starts automatically.
-// - Never overwrites: if e2e/<name>.spec.js exists it writes <name>-2.spec.js, …
+// - Never overwrites: if src/__test__/e2e/<name>.spec.js exists it writes <name>-2.spec.js, …
 // - Needs the dev server running (npm start).
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -31,8 +31,8 @@ function toFileName(name) {
 }
 
 function uniqueSpecPath(base) {
-  let path = `e2e/${base}.spec.js`;
-  for (let i = 2; existsSync(path); i++) path = `e2e/${base}-${i}.spec.js`;
+  let path = `src/__test__/e2e/${base}.spec.js`;
+  for (let i = 2; existsSync(path); i++) path = `src/__test__/e2e/${base}-${i}.spec.js`;
   return path;
 }
 

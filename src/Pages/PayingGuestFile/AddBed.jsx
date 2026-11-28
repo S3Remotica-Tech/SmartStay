@@ -236,7 +236,7 @@ const bedRef = useRef(null);
               <div className="md:col-span-1">
                 <Form.Group
                   className="mb-2"
-                  controlId="exampleForm.ControlInput1"
+                  controlId="exampleForm.BedAmountInput"
                 >
                   <Form.Label className={fieldLabelClass} >
                     Amount{" "}
@@ -292,7 +292,7 @@ const bedRef = useRef(null);
   );
 }
 AddBed.propTypes = {
-  currentItem: PropTypes.func.isRequired,
+  currentItem: PropTypes.any,
   setShowBed: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   editBedMode: PropTypes.bool,

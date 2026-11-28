@@ -1347,8 +1347,6 @@ ConsolidatedExportPreview.propTypes = {
 // Used by the Date Range field, which is commented out in the Report Scope.
 // const { RangePicker } = DatePicker;
 
-const OVERDUE_OPTION = "Overdue";
-
 const STEP = {
   CONFIGURE: "configure",
   PREPARING: "preparing",
@@ -1539,7 +1537,7 @@ function ExportSettingsPanel({
     [register],
   );
   const statusLabels = useMemo(
-    () => ({ ...getStatusLabelMap(statusOptions), [OVERDUE_OPTION]: OVERDUE_OPTION }),
+    () => getStatusLabelMap(statusOptions),
     [statusOptions],
   );
   const [range, setRange] = useState(null);
@@ -1560,11 +1558,7 @@ function ExportSettingsPanel({
     if (!show) return;
     const filters = { ...DEFAULT_CONSOLIDATED_FILTERS, ...scope?.filters };
     setRange(periodToRange(scope?.period));
-    setStatuses(
-      filters?.overdueOnly
-        ? [...(filters?.statuses || []), OVERDUE_OPTION]
-        : [...(filters?.statuses || [])],
-    );
+    setStatuses([...(filters?.statuses || [])]);
     setFloors([...(filters?.floors || [])]);
     setSearch(filters?.search || "");
     setIncludeAllTenants(Boolean(scope?.includeAllTenants));
@@ -1586,8 +1580,8 @@ function ExportSettingsPanel({
   const exportFilters = useMemo(
     () => ({
       search,
-      statuses: statuses?.filter((status) => status !== OVERDUE_OPTION),
-      overdueOnly: statuses?.includes(OVERDUE_OPTION),
+      statuses,
+      overdueOnly: false,
       floors,
     }),
     [search, statuses, floors],
@@ -1796,7 +1790,7 @@ function ExportSettingsPanel({
             </label>
             <ScopeMultiSelect data-testid="consolidated-export-settings-collection-status"
               id="export-status"
-              options={[...(statusOptions?.map((option) => option?.key) || []), OVERDUE_OPTION]}
+              options={statusOptions?.map((option) => option?.key) || []}
               labels={statusLabels}
               selected={statuses}
               onChange={setStatuses}

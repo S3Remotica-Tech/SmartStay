@@ -166,7 +166,9 @@ function ReceiptFilter({ show, handleClose, size }) {
     };
 
     const hasFilters = Object.values(filterPayload).some((value) =>
-      Array.isArray(value) ? value.length > 0 : value !== "" && value !== null,
+      Array.isArray(value)
+        ? value.length > 0
+        : value !== "" && value !== null && value !== undefined,
     );
 
     if (!hasFilters) {

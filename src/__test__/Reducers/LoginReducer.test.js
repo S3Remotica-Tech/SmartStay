@@ -1,4 +1,4 @@
-import SmartStayReducer, { initialState } from "../../Redux/Reducer/smartStayReducer"
+import SmartStayReducer, { initialState } from "../../Redux/Reducer/LoginReducer"
 
 describe('it should check login reducers', () => {
 
@@ -303,7 +303,8 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
             ...initialState,
             isLoggedIn: false,
-            selectedHostel_Id: null
+            selectedHostel_Id: null,
+            apiResponseHostelId: null,
         })
     })
 
@@ -363,7 +364,7 @@ describe('it should check login reducers', () => {
             ...initialState,
             sendOtpValue: [],
             OtpVerifyStatusCode: 200,
-            JWTtoken: 'token',
+            JWTtokenV2: { Data: [], token: 'token' },
         })
     })
 
@@ -398,6 +399,7 @@ describe('it should check login reducers', () => {
 
 
 
+    // UpdateNotificationMessage handlers were removed from the reducer; these actions are now no-ops.
     it('it should check for UPDATE_NOTIFICATION', () => {
         const action = {
             type: 'UPDATE_NOTIFICATION',
@@ -409,7 +411,6 @@ describe('it should check login reducers', () => {
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            UpdateNotificationMessage: 'some notification',
         })
     })
 
@@ -421,7 +422,6 @@ describe('it should check login reducers', () => {
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            UpdateNotificationMessage: 'some notification',
         })
     })
 

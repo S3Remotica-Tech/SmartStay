@@ -16,3 +16,5 @@ dist
 /blob-report/
 /playwright/.auth/
 .env.e2e
+/e2e/
+/src/__test__/

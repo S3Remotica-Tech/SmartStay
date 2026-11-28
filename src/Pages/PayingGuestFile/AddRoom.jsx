@@ -228,10 +228,10 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   );
 }
 AddRoom.propTypes = {
-  show: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  hostelDetails: PropTypes.func.isRequired,
-  editRoom: PropTypes.func.isRequired,
+  hostelDetails: PropTypes.any,
+  editRoom: PropTypes.any,
 };
 
 export default AddRoom;

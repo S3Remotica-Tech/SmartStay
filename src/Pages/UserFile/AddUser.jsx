@@ -324,7 +324,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     if (state.Settings.StatusForaddSettingUser === 201) {
       setFormLoading(false);
       handleCloseForm();
-      dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
+      dispatch({ type: "GETUSERSTAFF", payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_STAFF_USER" });
       }, 200);
@@ -335,7 +335,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     if (state.Settings.StatusForEditSettingUser === 200) {
       setFormLoading(false);
       handleCloseForm();
-      dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
+      dispatch({ type: "GETUSERSTAFF", payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_STAFF_USER" });
       }, 200);

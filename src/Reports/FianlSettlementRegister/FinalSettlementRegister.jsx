@@ -119,7 +119,7 @@ function FinalSettlementRegister() {
           />
           <div>
             <div data-testid="final-settlement-register-final-settlement-register-action" className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
-              <h1 className="text-lg font-semibold my-0 text-[#222222]">FinalSettlement Register</h1>
+              <h1 className="text-lg font-semibold my-0 text-[#222222]">Final Settlement Register</h1>
               <div className='rounded-none border-0'>
                 <ArrowDown2
                   size="18"
@@ -158,7 +158,7 @@ function FinalSettlementRegister() {
             </div>
 
             <label className="text-sm font-normal text-[#4A5565]">
-              Reports / FinalSettlement Register
+              Reports / Final Settlement Register
             </label>
           </div>
         </div>

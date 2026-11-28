@@ -1,4 +1,4 @@
-// Playwright end-to-end tests (e2e/).
+// Playwright end-to-end tests (src/__test__/e2e/).
 // Record a test:  npm run e2e:codegen   (clicks become code)
 // Run tests:      npm run e2e
 import { defineConfig, devices } from "@playwright/test";
@@ -13,7 +13,7 @@ try {
 const PORT = 5173; // Vite's default port (npm start)
 
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: "./src/__test__/e2e",
   timeout: 60_000,
   expect: { timeout: 15_000 },
   retries: 0,

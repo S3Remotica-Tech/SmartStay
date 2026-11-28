@@ -100,9 +100,14 @@ const mapInvoice = (invoice, index) => {
     invoiceId: invoice?.invoiceNumber || `invoice-${index}`,
     invoiceNo: invoice?.invoiceNumber || "—",
     invoiceType: invoice?.invoiceType || "",
+    isRentInvoice:
+      chargeKey === "rent" ||
+      String(invoice?.invoiceType || "").toLowerCase() === "other",
     invoiceDate: toIsoDate(invoice?.invoiceDate),
     dueDate: toIsoDate(invoice?.dueDate),
     invoiceUrl: invoice?.invoiceUrl || null,
+    // Backend's own overdue flag; null when the API doesn't send it.
+    isOverdue: typeof invoice?.isOverdue === "boolean" ? invoice.isOverdue : null,
     amount,
     paid,
     pending,
@@ -276,6 +281,8 @@ const ROW_LEVEL_STATUS_KEYS = Object.values(ROW_STATUS_KEY);
 // Overdue is an invoice-level condition, not a row status:
 // the invoice still has an outstanding balance and its due date has passed.
 export const isInvoiceOverdue = (invoice, today = dayjs()) => {
+  // Use the API's isOverdue flag when present; otherwise compute from dates.
+  if (typeof invoice?.isOverdue === "boolean") return invoice.isOverdue;
   if (!invoice?.dueDate) return false;
   if (toNumber(invoice?.totalPending) <= 0) return false;
   return dayjs(invoice?.dueDate).isBefore(dayjs(today), "day");
@@ -1018,11 +1025,14 @@ function ConsolidatedInvoiceTable({
           </div>
         );
       case "actualRent":
-        // Invoice row: the invoice's full amount (invoiceAmount), not a pending figure.
-        return (
+        // Invoice row: only Rent invoices show their full amount here;
+        // EB, advance and other invoice types stay blank.
+        return invoice?.isRentInvoice ? (
           <span className="font-medium text-[#314158]">
             ₹{formatAmount(invoice?.amount)}
           </span>
+        ) : (
+          <span className="text-[#62748E]">—</span>
         );
       case "status":
         return <StatusBadge status={invoice?.status} />;

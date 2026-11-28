@@ -190,6 +190,8 @@ function AddRoomReading({
     };
   }, [show]);
 
+  if (!show) return null;
+
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
@@ -332,8 +334,8 @@ function AddRoomReading({
 AddRoomReading.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  selectedRowDetails: PropTypes.object.isRequired,
-  editRoomReading: PropTypes.object.isRequired,
+  selectedRowDetails: PropTypes.object,
+  editRoomReading: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   finalSettlementWay: PropTypes.bool.isRequired,
 };
 
