@@ -291,12 +291,11 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
   const formatDateForPayload = (date) => {
     if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    const localDate = new Date(date.getTime() - offset * 60 * 1000);
-
-    const day = String(localDate.getDate()).padStart(2, "0");
-    const month = String(localDate.getMonth() + 1).padStart(2, "0");
-    const year = localDate.getFullYear();
+    // The picker returns a local date; read its local parts directly.
+    // (Shifting by the timezone offset first gave the previous day west of UTC.)
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
 
     return `${year}-${month}-${day}`;
   };

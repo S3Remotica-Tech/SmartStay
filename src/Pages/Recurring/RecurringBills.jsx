@@ -197,7 +197,7 @@ function RecurringBills() {
         type: "RECURRING-BILLS-LIST",
         payload: state.login?.selectedHostel_Id,
       });
-      setRecurringBills(state.InvoiceList.RecurringBills);
+      setRecurringBills(state.InvoiceList.RecurringBills?.customers);
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_ADD" });

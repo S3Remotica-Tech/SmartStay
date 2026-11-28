@@ -148,8 +148,8 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   );
 }
 DeleteBed.propTypes = {
-  show: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  deleteBedDetails: PropTypes.func.isRequired,
+  deleteBedDetails: PropTypes.object,
 };
 export default DeleteBed;

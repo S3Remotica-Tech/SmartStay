@@ -106,13 +106,15 @@ describe('It should check forgot reducer', () => {
         const action = {
             type: 'OTP_SEND',
             payload: {
-                statusCode: 200
+                statusCode: 200,
+                userId: 'user-1'
             }
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             statusCode: 200,
+            userId: 'user-1',
         })
     })
 
@@ -132,18 +134,11 @@ describe('It should check forgot reducer', () => {
     it('It should check for   EMAIL_ERROR', () => {
         const action = {
             type: 'EMAIL_ERROR',
-            payload: {
-                response: "",
-                statusCode: 201
-
-            }
-
+            payload: "email error"
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            emailError: '',
-            EmailErrorStatusCode: 201,
-
+            emailError: 'email error',
         })
     })
 
@@ -153,42 +148,27 @@ describe('It should check forgot reducer', () => {
 
 
         }
-        expect(ForgetReducer({ ...initialState, EmailErrorStatusCode: 201 }, action)).toStrictEqual({
+        expect(ForgetReducer({ ...initialState, emailError: 'email error' }, action)).toStrictEqual({
             ...initialState,
-            EmailErrorStatusCode: 0,
+            emailError: '',
         })
     })
 
-    it('It should check for  OTP_ERROR', () => {
-        const action = {
-            type: 'OTP_ERROR',
-            payload: "otp error"
-
-
-        }
-        expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
-            ...initialState,
-            OtpError: 'otp error',
-
-        })
+    it('It should check for  FORGOT_CHANGE_ERROR and REMOVE_FORGOT_CHANGE_ERROR', () => {
+        const withError = ForgetReducer({ ...initialState }, { type: 'FORGOT_CHANGE_ERROR', payload: 'change error' })
+        expect(withError).toStrictEqual({ ...initialState, forgotPasswordError: 'change error' })
+        expect(ForgetReducer(withError, { type: 'REMOVE_FORGOT_CHANGE_ERROR' })).toStrictEqual({ ...initialState })
     })
 
 
     it('It should check for  SEND_EMAIL_ERROR', () => {
         const action = {
             type: 'SEND_EMAIL_ERROR',
-            payload: {
-                response: '',
-                statusCode: 200
-            }
-
-
+            payload: 'send email error'
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            sendEmailError: '',
-            sendEmailStatusCode: 200,
-
+            sendEmailError: 'send email error',
         })
     })
 
@@ -199,9 +179,9 @@ describe('It should check forgot reducer', () => {
 
 
         }
-        expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
+        expect(ForgetReducer({ ...initialState, sendEmailError: 'send email error' }, action)).toStrictEqual({
             ...initialState,
-            sendEmailStatusCode: 0,
+            sendEmailError: '',
 
         })
     })
@@ -210,15 +190,14 @@ describe('It should check forgot reducer', () => {
         const action = {
             type: 'OTPVERIFY_FORGOT_PASSWORD',
             payload: {
-                statusCode: 200
+                statusCode: 200,
+                Otp: '1234'
             }
-
-
-
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             statusCodeForgotOtp: 200,
+            Otp: '1234',
 
         })
     })

@@ -59,6 +59,7 @@ describe('it should check banking reducers', () => {
 
 
 
+    // bankingError was removed from the reducer on purpose (nothing reads it); the action is now a no-op.
     it('it should check for  ERROR_BOOKING', () => {
         const action = {
             type: 'ERROR_BOOKING',
@@ -66,8 +67,7 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            ...initialState,
-            bankingError: 'error booking'
+            ...initialState
         })
     })
 
@@ -79,8 +79,7 @@ describe('it should check banking reducers', () => {
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
-            ...initialState,
-            bankingError: ''
+            ...initialState
         })
 
 

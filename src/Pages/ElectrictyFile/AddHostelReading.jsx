@@ -215,7 +215,7 @@ function AddHostelReading({
                   Last Reading :{" "}
                   <span className="text-[#1E45E1] font-gilroy">
                     {
-                      state.UsersList?.getRoomReadingList?.hostelReadings[0]
+                      state.UsersList?.getRoomReadingList?.hostelReadings?.[0]
                         ?.lastReading
                     }
                   </span>
@@ -269,7 +269,7 @@ function AddHostelReading({
 AddHostelReading.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  editHostelReading: PropTypes.func.isRequired,
+  editHostelReading: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 };
 
 export default AddHostelReading;

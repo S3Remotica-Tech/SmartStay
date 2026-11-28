@@ -488,9 +488,9 @@ function UserListInvoice() {
 
                             {view?.paymentStatus === "Paid" && (
                               <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(179,229,187,0.3)] cursor-pointer">
-                                  <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
-                                  {view?.paymentStatus}
-                                </span>
+                                <span className="w-[6px] h-[6px] rounded-full bg-[#22C55E]" />
+                                {view?.paymentStatus}
+                              </span>
                             )}
 
                             {(view?.paymentStatus === "Refunded" ||
@@ -503,16 +503,16 @@ function UserListInvoice() {
 
                             {view?.paymentStatus === "Pending Refund" && (
                               <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[rgba(255,237,202,0.6)]">
-                                  <span className="w-[6px] h-[6px] rounded-full bg-[#F59E0B]" />
-                                  {view?.paymentStatus}
-                                </span>
+                                <span className="w-[6px] h-[6px] rounded-full bg-[#F59E0B]" />
+                                {view?.paymentStatus}
+                              </span>
                             )}
 
                             {view?.paymentStatus === "Cancelled" && (
                               <span className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap bg-[#E5E7EB]">
-                                  <span className="w-[6px] h-[6px] rounded-full bg-[#6B7280]" />
-                                  Cancelled
-                                </span>
+                                <span className="w-[6px] h-[6px] rounded-full bg-[#6B7280]" />
+                                Cancelled
+                              </span>
                             )}
                           </td>
 
@@ -532,154 +532,154 @@ function UserListInvoice() {
 
                                     {activeId === view.invoiceId && (
                                       createPortal(
-                                      <div
-                                        ref={popupRef}
-                                        className="font-gilroy fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
-                                        style={{
-                                          top: popupPosition.top,
-                                          left: popupPosition.left - 50,
-                                        }}
-                                      >
-                                        <div className="flex flex-col gap-1 divide-y divide-gray-300">
-                                          {view?.canEdit && (
-                                            <button data-testid={`user-list-invoice-edit-btn-${view.invoiceId}`}
-                                              onClick={() =>
-                                                canUpdateInvoice &&
-                                                handleEdit(view)
-                                              }
-                                              // disabled
-                                              disabled={!canUpdateInvoice}
-                                              className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
+                                        <div
+                                          ref={popupRef}
+                                          className="font-gilroy fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
+                                          style={{
+                                            top: popupPosition.top,
+                                            left: popupPosition.left - 50,
+                                          }}
+                                        >
+                                          <div className="flex flex-col gap-1 divide-y divide-gray-300 shrink-0">
+                                            {view?.canEdit && (
+                                              <button data-testid={`user-list-invoice-edit-btn-${view.invoiceId}`}
+                                                onClick={() =>
+                                                  canUpdateInvoice &&
+                                                  handleEdit(view)
+                                                }
+                                                // disabled
+                                                disabled={!canUpdateInvoice}
+                                                className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
       ${canUpdateInvoice
-                                                  ? "cursor-pointer hover:bg-[#EDF2FF]"
-                                                  : "cursor-not-allowed opacity-50"
-                                                }`}
-                                            >
-                                              <Edit size="16" color="#1E45E1" />
-                                              Edit
-                                            </button>
-                                          )}
+                                                    ? "cursor-pointer hover:bg-[#EDF2FF]"
+                                                    : "cursor-not-allowed opacity-50"
+                                                  }`}
+                                              >
+                                                <Edit size="16" color="#1E45E1" />
+                                                Edit
+                                              </button>
+                                            )}
 
-                                          {view.canUnpaid && (
-                                            <button data-testid={`user-list-invoice-unpaid-btn-${view.invoiceId}`}
-                                              disabled={!canUpdateInvoice}
-                                              onClick={() =>
-                                                canUpdateInvoice &&
-                                                handleUnpaid(view)
-                                              }
-                                              className={`flex items-center gap-2 w-full px-3 py-2 text-left 
-        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
-                                            >
-                                              <Edit size="16" color="#1E45E1" />
-                                              Unpaid
-                                            </button>
-                                          )}
-                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
-
-                                          {view?.totalAmount > 0 &&
-                                            view?.paymentStatus === "Pending" &&
-                                            !view?.isDiscounted &&
-                                            (view?.invoiceType === "Rent" ||
-                                              view?.invoiceType ===
-                                              "Settlement" ||
-                                              view?.invoiceType ===
-                                              "Reassign Rent") && (
-                                              <button data-testid={`user-list-invoice-make-discount-btn-${view.invoiceId}`}
+                                            {view.canUnpaid && (
+                                              <button data-testid={`user-list-invoice-unpaid-btn-${view.invoiceId}`}
                                                 disabled={!canUpdateInvoice}
                                                 onClick={() =>
                                                   canUpdateInvoice &&
-                                                  handleMakeDiscount(view)
+                                                  handleUnpaid(view)
                                                 }
-                                                className={`flex items-center gap-2 w-full px-3 py-2 text-left  
+                                                className={`flex items-center gap-2 w-full px-3 py-2 text-left 
         ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                               >
-                                                <DiscountCircle
-                                                  size="16"
-                                                  color="#ec400c"
-                                                />
-                                                Make Discount
+                                                <Edit size="16" color="#1E45E1" />
+                                                Unpaid
                                               </button>
                                             )}
+                                            {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
-                                          <button data-testid={`user-list-invoice-download-btn-${view.invoiceId}`}
-                                            onClick={() =>
-                                              isExportAllow &&
-                                              handleInvoicepdf(view)
-                                            }
-                                            disabled={!isExportAllow}
-                                            className={`flex items-center gap-2 px-3 py-2   
+                                            {view?.totalAmount > 0 &&
+                                              view?.paymentStatus === "Pending" &&
+                                              !view?.isDiscounted &&
+                                              (view?.invoiceType === "Rent" ||
+                                                view?.invoiceType ===
+                                                "Settlement" ||
+                                                view?.invoiceType ===
+                                                "Reassign Rent") && (
+                                                <button data-testid={`user-list-invoice-make-discount-btn-${view.invoiceId}`}
+                                                  disabled={!canUpdateInvoice}
+                                                  onClick={() =>
+                                                    canUpdateInvoice &&
+                                                    handleMakeDiscount(view)
+                                                  }
+                                                  className={`flex items-center whitespace-nowrap gap-2 w-full px-3 py-2 text-left  
+        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                                                >
+                                                  <DiscountCircle
+                                                    size="16"
+                                                    color="#ec400c"
+                                                  />
+                                                  Make Discount
+                                                </button>
+                                              )}
+
+                                            <button data-testid={`user-list-invoice-download-btn-${view.invoiceId}`}
+                                              onClick={() =>
+                                                isExportAllow &&
+                                                handleInvoicepdf(view)
+                                              }
+                                              disabled={!isExportAllow}
+                                              className={`flex items-center gap-2 px-3 py-2   
       ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                          >
-                                            <DocumentDownload
-                                              size="16"
-                                              color="#1E45E1"
-                                            />
-                                            Download
-                                          </button>
-                                          {/* 
+                                            >
+                                              <DocumentDownload
+                                                size="16"
+                                                color="#1E45E1"
+                                              />
+                                              Download
+                                            </button>
+                                            {/* 
                                           <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
-                                          {view?.totalAmount > 0 &&
-                                            view?.paymentStatus !== "Cancelled" &&
-                                            view?.paymentStatus !== "Paid" && (
-                                              <button data-testid={`user-list-invoice-record-payment-btn-${view.invoiceId}`}
-                                                onClick={() => {
-                                                  if (canWriteInvoice) {
-                                                    handleRecordPayment(view);
+                                            {view?.totalAmount > 0 &&
+                                              view?.paymentStatus !== "Cancelled" &&
+                                              view?.paymentStatus !== "Paid" && (
+                                                <button data-testid={`user-list-invoice-record-payment-btn-${view.invoiceId}`}
+                                                  onClick={() => {
+                                                    if (canWriteInvoice) {
+                                                      handleRecordPayment(view);
+                                                    }
+                                                  }}
+                                                  disabled={!canWriteInvoice}
+                                                  className={`flex items-center shrink-0 whitespace-nowrap gap-2 px-3 py-2 
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+                                                >
+                                                  <ReceiptEdit
+                                                    size="16"
+                                                    color="#1E45E1" className="shrink-0"
+                                                  />
+                                                  Record Payment
+                                                </button>
+                                              )}
+
+                                            {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
+                                            {view?.totalAmount < 0 &&
+                                              view?.paymentStatus !== "Refunded" &&
+                                              view?.paymentStatus !==
+                                              "Cancelled" && (
+                                                <button data-testid={`user-list-invoice-refund-amount-btn-${view.invoiceId}`}
+                                                  onClick={() =>
+                                                    canWriteInvoice &&
+                                                    handleRefundAmount(view)
                                                   }
-                                                }}
-                                                disabled={!canWriteInvoice}
-                                                className={`flex items-center gap-2 px-3 py-2 
+                                                  disabled={!canWriteInvoice}
+                                                  className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                              >
-                                                <ReceiptEdit
-                                                  size="16"
-                                                  color="#1E45E1"
-                                                />
-                                                Record Payment
-                                              </button>
-                                            )}
+                                                >
+                                                  <MoneySend
+                                                    size="16"
+                                                    color="#1E45E1"
+                                                  />
+                                                  Refund Amount
+                                                </button>
+                                              )}
 
-                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
-                                          {view?.totalAmount < 0 &&
-                                            view?.paymentStatus !== "Refunded" &&
-                                            view?.paymentStatus !==
-                                            "Cancelled" && (
-                                              <button data-testid={`user-list-invoice-refund-amount-btn-${view.invoiceId}`}
-                                                onClick={() =>
-                                                  canWriteInvoice &&
-                                                  handleRefundAmount(view)
-                                                }
-                                                disabled={!canWriteInvoice}
-                                                className={`flex items-center gap-2 px-3 py-2 
-        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                              >
-                                                <MoneySend
-                                                  size="16"
-                                                  color="#1E45E1"
-                                                />
-                                                Refund Amount
-                                              </button>
-                                            )}
+                                            {view?.paymentStatus !== "Cancelled" &&
+                                              view?.paymentStatus !== "Paid" && (
+                                                <button data-testid={`user-list-invoice-delete-btn-${view.invoiceId}`} onClick={() => handleDeleteInvoice(view)}
 
-                                          {view?.paymentStatus !== "Cancelled" &&
-                                            view?.paymentStatus !== "Paid" && (
-                                              <button data-testid={`user-list-invoice-delete-btn-${view.invoiceId}`} onClick={() => handleDeleteInvoice(view)}
-
-                                                className={`flex items-center gap-2 cursor-pointer w-full px-3 py-2 text-sm rounded-b-[10px]
+                                                  className={`flex items-center gap-2 cursor-pointer w-full px-3 py-2 text-sm rounded-b-[10px]
       ${canDeleteInvoice
-                                                    ? "hover:bg-[#FFF0F0] text-red-500 "
-                                                    : "opacity-50 cursor-not-allowed text-[#ccc]"
-                                                  }`}
-                                              >
-                                                <Trash size="16" />
-                                                Delete
-                                              </button>
-                                            )}
-                                        </div>
-                                      </div>,
-                                      document.body,
-                                    )
+                                                      ? "hover:bg-[#FFF0F0] text-red-500 "
+                                                      : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                                    }`}
+                                                >
+                                                  <Trash size="16" />
+                                                  Delete
+                                                </button>
+                                              )}
+                                          </div>
+                                        </div>,
+                                        document.body,
+                                      )
                                     )}
                                   </div>
                                 </div>

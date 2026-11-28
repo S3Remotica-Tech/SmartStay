@@ -82,6 +82,7 @@ export function OtpInput({
   autoFocus = false,
   disabled = false,
   describedBy,
+  "data-testid": testId = "otp-parts-change-input",
 }) {
   const refs = useRef([]);
   const [focused, setFocused] = useState(-1);
@@ -178,7 +179,7 @@ export function OtpInput({
           {!lg && i === OTP_LENGTH / 2 && (
             <span aria-hidden="true" className="h-[2px] w-[8px] shrink-0 bg-[#D1D5DB]" />
           )}
-          <input data-testid={`otp-parts-change-input-${i}`}
+          <input data-testid={`${testId}-${i}`}
             ref={(el) => {
               refs.current[i] = el;
             }}
@@ -207,6 +208,7 @@ export function OtpInput({
 }
 
 OtpInput.propTypes = {
+  "data-testid": PropTypes.string,
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -315,7 +317,7 @@ export function OtpVerifyPanel({
         Resend code in 00:{String(left).padStart(2, "0")}
       </p>
 
-      <AuthSubmitButton loading={loading} dimmed={!complete} loadingText={loadingText}>
+      <AuthSubmitButton data-testid="otp-verify-btn" loading={loading} dimmed={!complete} loadingText={loadingText}>
         {submitText}
       </AuthSubmitButton>
 

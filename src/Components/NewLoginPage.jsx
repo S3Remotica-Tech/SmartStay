@@ -276,6 +276,7 @@ function NewLoginPage() {
 
         <div className="flex w-full flex-col items-center gap-[clamp(8px,1.6vh,16px)]">
           <AuthSubmitButton
+            data-testid="login-sign-in-btn"
             loading={loading}
             dimmed={!isFilled}
             loadingText="Signing in..."
@@ -289,7 +290,7 @@ function NewLoginPage() {
                 OR
               </span>
 
-              <GoogleAuthButton label="Continue with Google" />
+              <GoogleAuthButton data-testid="login-google-btn" label="Continue with Google" />
             </>
           )}
         </div>

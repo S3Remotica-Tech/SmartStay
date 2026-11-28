@@ -298,17 +298,7 @@ describe('it should check assets reducers', () => {
             payload: 'already here'
         }
         expect(AssetReducer({ ...initialState}, action )).toStrictEqual({
-            assetList: [],
-            getAssetStatusCode: 0,
-            addAssetStatusCode: 0,
-            deleteAssetStatusCode: 0,
-            GetRoomList: [],
-            addAssignAssetStatusCode: 0,
-            alreadySerialNumberHere: '',
-            alreadyAssetNameHere: '',
-            NoDataAssetStatusCode: 0,
-            getRoomStatusCode: 0,
-            bankAmountError: '',
+            ...initialState,
             assetError: 'already here'
         })
     })
@@ -319,17 +309,7 @@ describe('it should check assets reducers', () => {
             payload: ''
         }
         expect(AssetReducer({ ...initialState }, action)).toStrictEqual({
-            assetList: [],
-            getAssetStatusCode: 0,
-            addAssetStatusCode: 0,
-            deleteAssetStatusCode: 0,
-            GetRoomList: [],
-            addAssignAssetStatusCode: 0,
-            alreadySerialNumberHere: '',
-            alreadyAssetNameHere: '',
-            NoDataAssetStatusCode: 0,
-            getRoomStatusCode: 0,
-            bankAmountError: '',
+            ...initialState,
             assetError: ''
         })
     })

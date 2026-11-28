@@ -11,9 +11,9 @@ import { isRecurringUnit, useHostelAmenities } from "./tenantAmenityUtils";
 // state.InvoiceList.AmenitiesList); nothing is hardcoded. Each ticked amenity
 // gets exactly one plan, and the plan decides the billing frequency.
 
-function Checkbox({ checked, onChange, label }) {
+function Checkbox({ checked, onChange, label, "data-testid": testId = "tenant-amenities-section-change-btn" }) {
   return (
-    <button data-testid="tenant-amenities-section-change-btn"
+    <button data-testid={testId}
       type="button"
       role="checkbox"
       aria-checked={checked}
@@ -34,6 +34,7 @@ Checkbox.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
+  "data-testid": PropTypes.string,
 };
 
 function Radio({ selected }) {

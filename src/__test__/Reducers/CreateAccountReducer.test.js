@@ -185,13 +185,13 @@ describe('It should check create account reducer', () => {
         const action = {
             type: 'PASSWORD-UPDATE',
             payload: {
-                message: "some text message"
+                statusCode: 200
             }
 
         }
         expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            message: 'some text message',
+            statusCodeForPasswordUpdateSuccess: 200,
 
         })
     })
@@ -243,7 +243,7 @@ describe('It should check create account reducer', () => {
         }
         expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            accountList: [[]],
+            accountList: [],
             statusCodeForAccountList: 200,
             statuscodeforUpdateprofile: 0,
         })

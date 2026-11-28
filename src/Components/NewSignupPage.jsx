@@ -427,6 +427,7 @@ function NewSignupPage() {
           ) : null}
 
           <AuthSubmitButton
+            data-testid="signup-create-account-btn"
             form="signup-form"
             loading={loading}
             disabled={!agreed}
@@ -450,7 +451,7 @@ function NewSignupPage() {
     >
       {isDev && (
         <div className="flex w-full flex-col gap-[clamp(4px,1vh,10px)]">
-          <GoogleAuthButton label="Sign up with Google" />
+          <GoogleAuthButton data-testid="signup-google-btn" label="Sign up with Google" />
 
           <p className="mb-0 text-center font-tasa text-[16px] leading-[18px] tracking-[0.08px] text-[#222222]">
             or

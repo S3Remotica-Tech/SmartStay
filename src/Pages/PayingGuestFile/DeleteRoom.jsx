@@ -111,8 +111,8 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   );
 }
 DeleteRoom.propTypes = {
-  show: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  deleteRoomDetails: PropTypes.func.isRequired,
+  deleteRoomDetails: PropTypes.object,
 };
 export default DeleteRoom;

@@ -253,7 +253,7 @@ function Asset() {
                   placeholder="Search"
                   value={filterInput}
                   onChange={(e) => handlefilterInput(e)}
-                  disabled={canReadAssets}
+                  disabled={!canReadAssets}
                 />
 
                 <SearchNormal1

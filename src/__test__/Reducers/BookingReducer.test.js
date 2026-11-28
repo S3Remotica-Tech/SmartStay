@@ -126,7 +126,7 @@ describe('It should be check booking reducer', () => {
         }
         expect(BookingReducer(initialState, action)).toStrictEqual({
             ...initialState,
-            CustomerBookingList: [],
+            tenantBookingList: [],
             statusCodeGetBooking: 200,
 
         })
@@ -308,9 +308,9 @@ it('it should check for  REMOVE_ALREADY_MOBILE_ERROR', () => {
 
  it('it should check for  BOOKING_InActive', () => {
         const action = {
-            type: 'BOOKING_InActive',
+            type: 'BOOKING_INACTIVE',
             payload: {
-                StatusCodeInactiveCode: 200
+                statusCode: 200
             }
 
         }

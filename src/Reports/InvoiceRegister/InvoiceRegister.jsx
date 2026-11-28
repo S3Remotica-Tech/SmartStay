@@ -1246,8 +1246,10 @@ function InvoiceRegister() {
             onClick={() => {
               if (!isExportAllow) return;
               // List View keeps its direct export; Consolidated opens settings.
-              if (isConsolidated) setShowExportSettings(true);
-              else handleDownload();
+              if (isConsolidated) {
+                handleResetConsolidatedFilters();
+                setShowExportSettings(true);
+              } else handleDownload();
             }}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center justify-center gap-2 px-4 rounded-lg text-sm font-gilroy flex-1 sm:flex-none

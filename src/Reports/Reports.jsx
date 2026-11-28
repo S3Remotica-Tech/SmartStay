@@ -548,7 +548,7 @@ function Reports() {
                       </div>
                       <div className="flex items-start gap-4">
                         <div className="flex-1">
-                          <h3 className="text-sm font-semibold text-[#101828">
+                          <h3 className="text-sm font-semibold text-[#101828]">
                             {item.title}
                           </h3>
                           <p className="text-xs text-[#4A5565] mt-1">
@@ -616,7 +616,7 @@ function Reports() {
                     </div>
                     <div className="flex items-start gap-4 h-[70px]">
                       <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-[#101828">
+                        <h3 className="text-sm font-semibold text-[#101828]">
                           {item.title}
                         </h3>
                         <p className="text-xs text-[#4A5565] mt-1">

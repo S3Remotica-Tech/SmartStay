@@ -244,9 +244,9 @@ function StaticExample({
 }
 StaticExample.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  show: PropTypes.func.isRequired,
-  editFloor: PropTypes.func.isRequired,
-  updateFloor: PropTypes.func.isRequired,
-  hostelFloor: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+  editFloor: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.bool]),
+  updateFloor: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  hostelFloor: PropTypes.any,
 };
 export default StaticExample;

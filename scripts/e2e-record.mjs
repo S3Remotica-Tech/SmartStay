@@ -1,4 +1,4 @@
-// Record one Playwright test per screen, each into its own e2e/<name>.spec.js.
+// Record one Playwright test per screen, each into its own src/__test__/e2e/<name>.spec.js.
 //
 //   npm run e2e:codegen -- <name> [start-path]
 //   npm run e2e:codegen -- banking /banking
@@ -8,7 +8,7 @@
 // - Starts already logged in (saved session). If the session is missing or the
 //   token has expired, it first opens the login page: log in, then CLOSE that
 //   browser window, and recording starts automatically.
-// - Never overwrites: if e2e/<name>.spec.js exists it writes <name>-2.spec.js, …
+// - Never overwrites: if src/__test__/e2e/<name>.spec.js exists it writes <name>-2.spec.js, …
 // - Needs the dev server running (npm start).
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -31,8 +31,8 @@ function toFileName(name) {
 }
 
 function uniqueSpecPath(base) {
-  let path = `e2e/${base}.spec.js`;
-  for (let i = 2; existsSync(path); i++) path = `e2e/${base}-${i}.spec.js`;
+  let path = `src/__test__/e2e/${base}.spec.js`;
+  for (let i = 2; existsSync(path); i++) path = `src/__test__/e2e/${base}-${i}.spec.js`;
   return path;
 }
 
@@ -65,7 +65,7 @@ async function main() {
   // 2. Make sure we have a valid login session.
   if (sessionMinutesLeft() < MIN_TOKEN_MINUTES) {
     console.log("\nLogin session missing or expired.");
-    console.log("→ Log in in the browser that opens, then CLOSE the browser window to continue.\n");
+    console.log("-> Log in in the browser that opens, then CLOSE the browser window to continue.\n");
     codegen([`--save-storage=${AUTH_FILE}`, `--viewport-size=${VIEWPORT}`, `${BASE_URL}/hostel-management-login`]);
     if (sessionMinutesLeft() < MIN_TOKEN_MINUTES) {
       console.error("\nStill not logged in (no valid token saved). Run again and complete the login before closing the window.\n");
@@ -78,7 +78,7 @@ async function main() {
   const specPath = uniqueSpecPath(name);
   const startPath = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
 
-  console.log(`\nRecording → ${specPath} (starting at ${startPath}). Close the browser window when done.\n`);
+  console.log(`\nRecording -> ${specPath} (starting at ${startPath}). Close the browser window when done.\n`);
   codegen([
     `--load-storage=${AUTH_FILE}`,
     `--output=${specPath}`,
@@ -91,12 +91,21 @@ async function main() {
     return;
   }
 
-  // 4. Tidy the generated file: relative URLs (baseURL from playwright.config.js)
-  //    and a test title matching the file name.
-  const code = readFileSync(specPath, "utf8")
+  // 4. Tidy the generated file: relative URLs (baseURL from playwright.config.js),
+  //    a test title matching the file name, the session from the config (not
+  //    test.use), and the first page.goto → openApp() so the test re-logs in and
+  //    picks the E2E hostel when the saved session was ended.
+  let code = readFileSync(specPath, "utf8")
     .replaceAll(`'${BASE_URL}/`, "'/")
     .replaceAll(`'${BASE_URL}'`, "'/'")
-    .replace("test('test',", `test('${name}',`);
+    .replace("test('test',", `test('${name}',`)
+    .replace(/^\s*storageState: '[^']*',\r?\n/m, "");
+  const firstGoto = /await page\.goto\('([^']*)'\);/;
+  if (firstGoto.test(code)) {
+    code = code
+      .replace(firstGoto, (_, p) => `await openApp(page${p && p !== "/" ? `, '${p}'` : ""}); // logged in, on E2E_HOSTEL`)
+      .replace(/(import \{ test, expect \} from '@playwright\/test';)/, "$1\nimport { openApp } from './helpers/auth';");
+  }
   writeFileSync(specPath, code);
 
   console.log(`\nSaved ${specPath}`);

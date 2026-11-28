@@ -268,12 +268,13 @@ describe('It should check compliance reducer', () => {
     it('it should check for ALREADY_VENDOR_ERROR', () => {
         const action = {
             type: 'ALREADY_VENDOR_ERROR',
-            payload: 'already vendor exist'
+            payload: { emailError: 'email already exist', mobileError: 'mobile already exist' }
 
         }
         expect(ComplianceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            alreadyVendorHere: 'already vendor exist',
+            vendorEmailError: 'email already exist',
+            vendorMobileError: 'mobile already exist',
         })
     })
 

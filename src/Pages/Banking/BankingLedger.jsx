@@ -411,7 +411,7 @@ function BankingLedger() {
       setLoader(false);
       dispatch({ type: "REMOVE_GET_BANKING_LEDGER_REDUCER" });
     }
-  }, [state.bankingDetails.getBankingLedgerListSuccessStatus, state.bankingDetails?.getBankingLedgerList.transactions]);
+  }, [state.bankingDetails.getBankingLedgerListSuccessStatus, state.bankingDetails?.getBankingLedgerList?.transactions]);
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionError) {

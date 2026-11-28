@@ -99,8 +99,8 @@ function DeleteFloor({ show, handleClose, currentItem }) {
   );
 }
 DeleteFloor.propTypes = {
-  show: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  currentItem: PropTypes.func.isRequired,
+  currentItem: PropTypes.object,
 };
 export default DeleteFloor;

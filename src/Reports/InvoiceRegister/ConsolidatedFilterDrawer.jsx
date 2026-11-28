@@ -152,17 +152,6 @@ function ConsolidatedFilterDrawer({
                   {status?.label}
                 </label>
               ))}
-              <label className={optionLabel}>
-                <input data-testid="consolidated-filter-drawer-draft-checkbox"
-                  type="checkbox"
-                  checked={draft?.overdueOnly}
-                  onChange={() =>
-                    setDraft((prev) => ({ ...prev, overdueOnly: !prev?.overdueOnly }))
-                  }
-                  className="w-4 h-4 accent-[#1E45E1]"
-                />
-                Overdue
-              </label>
             </div>
           </fieldset>
 

@@ -100,9 +100,14 @@ const mapInvoice = (invoice, index) => {
     invoiceId: invoice?.invoiceNumber || `invoice-${index}`,
     invoiceNo: invoice?.invoiceNumber || "—",
     invoiceType: invoice?.invoiceType || "",
+    isRentInvoice:
+      chargeKey === "rent" ||
+      String(invoice?.invoiceType || "").toLowerCase() === "other",
     invoiceDate: toIsoDate(invoice?.invoiceDate),
     dueDate: toIsoDate(invoice?.dueDate),
     invoiceUrl: invoice?.invoiceUrl || null,
+    // Backend's own overdue flag; null when the API doesn't send it.
+    isOverdue: typeof invoice?.isOverdue === "boolean" ? invoice.isOverdue : null,
     amount,
     paid,
     pending,
@@ -276,6 +281,8 @@ const ROW_LEVEL_STATUS_KEYS = Object.values(ROW_STATUS_KEY);
 // Overdue is an invoice-level condition, not a row status:
 // the invoice still has an outstanding balance and its due date has passed.
 export const isInvoiceOverdue = (invoice, today = dayjs()) => {
+  // Use the API's isOverdue flag when present; otherwise compute from dates.
+  if (typeof invoice?.isOverdue === "boolean") return invoice.isOverdue;
   if (!invoice?.dueDate) return false;
   if (toNumber(invoice?.totalPending) <= 0) return false;
   return dayjs(invoice?.dueDate).isBefore(dayjs(today), "day");
@@ -1017,6 +1024,16 @@ function ConsolidatedInvoiceTable({
             </span>
           </div>
         );
+      case "actualRent":
+        // Invoice row: only Rent invoices show their full amount here;
+        // EB, advance and other invoice types stay blank.
+        return invoice?.isRentInvoice ? (
+          <span className="font-medium text-[#314158]">
+            ₹{formatAmount(invoice?.amount)}
+          </span>
+        ) : (
+          <span className="text-[#62748E]">—</span>
+        );
       case "status":
         return <StatusBadge status={invoice?.status} />;
       case "contact":
@@ -1074,6 +1091,10 @@ function ConsolidatedInvoiceTable({
       const canViewDetails = (row?.invoices || []).length > 0;
       const isExpanded = canViewDetails && expandedBedIds?.includes(row?.bedId);
       const rowBg = isExpanded ? "bg-[#F8F9FF]" : "bg-white";
+      // Why the Details (eye) button is disabled, shown on hover.
+      const detailsDisabledReason = row?.isVacant
+        ? "Vacant bed – no tenant, so no invoices"
+        : "No pending invoices for this tenant";
 
       return (
         <Fragment key={row?.bedId}>
@@ -1090,30 +1111,47 @@ function ConsolidatedInvoiceTable({
             <td
               className={`${bodyCell} ${floorBorder} ${stickyCell} z-[1] ${rowBg} text-center`}
             >
-              <button data-testid={`consolidated-invoice-table-toggle-expanded-btn-2-${row?.bedId}`}
-                type="button"
-                aria-label={
-                  row?.isVacant
-                    ? "No invoices for vacant bed"
-                    : `${isExpanded ? "Hide" : "View"} invoices for ${row?.tenant?.name}`
-                }
-                aria-expanded={isExpanded}
-                disabled={!canViewDetails}
-                onClick={() => toggleExpanded(row?.bedId)}
-                className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${isExpanded
-                  ? "border-[#1E45E1] bg-[#EFF6FF]"
-                  : "border-[#E2E8F0] bg-white"
-                  } ${canViewDetails
-                    ? "cursor-pointer hover:bg-[#F1F5FF]"
-                    : "cursor-not-allowed opacity-40"
-                  }`}
-              >
-                <Eye
-                  size="16"
-                  color={isExpanded ? "#1E45E1" : "#4A5565"}
-                  variant={isExpanded ? "Bold" : "Linear"}
-                />
-              </button>
+              {(() => {
+                const detailsButton = (
+                  <button data-testid={`consolidated-invoice-table-toggle-expanded-btn-2-${row?.bedId}`}
+                    type="button"
+                    aria-label={
+                      canViewDetails
+                        ? `${isExpanded ? "Hide" : "View"} invoices for ${row?.tenant?.name}`
+                        : detailsDisabledReason
+                    }
+                    aria-expanded={isExpanded}
+                    disabled={!canViewDetails}
+                    onClick={() => toggleExpanded(row?.bedId)}
+                    className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] ${isExpanded
+                      ? "border-[#1E45E1] bg-[#EFF6FF]"
+                      : "border-[#E2E8F0] bg-white"
+                      } ${canViewDetails
+                        ? "cursor-pointer hover:bg-[#F1F5FF]"
+                        : "pointer-events-none opacity-40"
+                      }`}
+                  >
+                    <Eye
+                      size="16"
+                      color={isExpanded ? "#1E45E1" : "#4A5565"}
+                      variant={isExpanded ? "Bold" : "Linear"}
+                    />
+                  </button>
+                );
+                if (canViewDetails) return detailsButton;
+                // A disabled <button> gets no hover events, so the wrapper owns the
+                // hover (button is pointer-events-none) and shows the reason.
+                return (
+                  <CustomTooltip text={detailsDisabledReason} direction="right-full" usePortal={true}>
+                    <span
+                      data-testid={`consolidated-invoice-table-details-disabled-${row?.bedId}`}
+                      className="inline-flex cursor-not-allowed"
+                    >
+                      {detailsButton}
+                    </span>
+                  </CustomTooltip>
+                );
+              })()}
             </td>
           </tr>
 

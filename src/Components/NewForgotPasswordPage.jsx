@@ -331,6 +331,7 @@ function NewForgotPasswordPage() {
               />
             </AuthField>
             <AuthSubmitButton
+              data-testid="forgot-password-send-code-btn"
               loading={sending}
               dimmed={!contact}
               loadingText="Sending code..."
@@ -449,7 +450,7 @@ function NewForgotPasswordPage() {
             <ErrorMessage message={serverResetError} type="error" className="mt-0" />
           ) : null}
 
-          <AuthSubmitButton loading={saving} dimmed={!canReset} loadingText="Saving...">
+          <AuthSubmitButton data-testid="forgot-password-reset-btn" loading={saving} dimmed={!canReset} loadingText="Saving...">
             Reset password
           </AuthSubmitButton>
         </form>

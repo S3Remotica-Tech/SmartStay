@@ -13,7 +13,7 @@ export default [
   {
     // Playwright (e2e tests, config, reports) is not part of the app lint
     ignores: [
-      "e2e/**",
+      "src/__test__/e2e/**",
       "playwright/**",
       "playwright-report/**",
       "test-results/**",

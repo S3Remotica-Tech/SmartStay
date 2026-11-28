@@ -257,11 +257,15 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
       //   setAssign(ComplaintData.Assign);
       setDescription(ComplaintData.description);
       // setSelectedDate(Complaintdata.complaintDate);
-      setSelectedDate(
-        ComplaintData.complaintDate
-          ? dayjs(ComplaintData.complaintDate, "DD/MM/YYYY")
-          : null,
-      );
+      const complaintDate = ComplaintData.complaintDate
+        ? dayjs(ComplaintData.complaintDate, "DD/MM/YYYY")
+        : null;
+      setSelectedDate(complaintDate);
+      // Remember the loaded values so "No changes detected" can work on edit.
+      initialValuesRef.current = {
+        selectedDate: complaintDate,
+        description: ComplaintData.description,
+      };
       setBeds(ComplaintData.bedId);
       setBedName(ComplaintData.bedName);
       setFloor(ComplaintData.Floor_id);

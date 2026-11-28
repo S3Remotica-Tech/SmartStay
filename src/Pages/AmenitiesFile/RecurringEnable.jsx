@@ -152,7 +152,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                                     value={dayOptions.find((option) => option.value === startDate) || null}
                                     onChange={handleStartDateChange}
                                     placeholder="Start Day"
-                                    styles={fieldSelectStyles(!!errorEndDate)}
+                                    styles={fieldSelectStyles(!!errorStartDate)}
 
                                 /></div>
                             </div>
