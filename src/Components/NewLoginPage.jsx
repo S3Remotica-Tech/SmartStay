@@ -22,14 +22,19 @@ import {
   GoogleAuthButton,
   PasswordToggle,
   StoreBadges,
+  useAuthLaptopDensity,
 } from "./NewAuth/AuthParts";
 import { LoginPromoCard } from "./NewAuth/AuthPromoCards";
 import { authFieldInput, authInlineLink } from "./NewAuth/authStyles";
 import WaveEmoji from "../Assets/Images/NewLogin/wave.svg";
 
+// Google sign-in is shown only in development until the API is ready.
+const isDev = import.meta.env.MODE === "development";
+
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
 function NewLoginPage() {
+  useAuthLaptopDensity();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -164,26 +169,28 @@ function NewLoginPage() {
     <AuthLayout
       card={<LoginPromoCard />}
       header={
-        <div className="flex flex-col gap-[20px] pb-[21px]">
+        <div className="flex flex-col gap-[clamp(6px,1.4vh,20px)]">
           <AuthLogo />
-          <div className="flex items-center gap-[10px]">
-            <h1 className="mb-0 font-tasa text-[26px] font-semibold leading-[25px] tracking-[0.15px] text-[#49475A] sm:text-[30px]">
-              Welcome Back
-            </h1>
-            <img src={WaveEmoji} alt="" width="25" height="25" />
+          <div className="flex flex-col gap-[clamp(4px,1vh,12px)]">
+            <div className="flex items-center gap-[10px]">
+              <h1 className="mb-0 font-tasa text-[26px] font-semibold leading-[32px] tracking-[0.15px] text-[#49475A] sm:text-[30px]">
+                Welcome Back
+              </h1>
+              <img src={WaveEmoji} alt="" width="25" height="25" />
+            </div>
+            <p className="mb-0 font-tasa text-[16px] font-normal leading-[22px] tracking-[0.1px] text-[#686677] sm:text-[18px]">
+              Sign in to your SmartStay account
+            </p>
           </div>
         </div>
       }
     >
 
-      <form
+      <form data-testid="new-login-page-sign-in-form"
         noValidate
         onSubmit={handleLogin}
-        className="flex w-full flex-col gap-[23px]"
+        className="flex w-full flex-col gap-[clamp(12px,2.4vh,23px)]"
       >
-        <p className="mb-0 font-tasa text-[18px] font-normal leading-[25px] tracking-[0.1px] text-[#49475A] sm:text-[20px]">
-          Sign in to your SmartStay account
-        </p>
 
         {state.login.invalidCredential ? (
           <ErrorMessage
@@ -193,14 +200,15 @@ function NewLoginPage() {
           />
         ) : null}
 
-        <div className="flex w-full flex-col gap-[20px]">
+        <div className="flex w-full flex-col gap-[clamp(10px,2vh,20px)]">
           <AuthField
             id="new-login-email"
             label="Email Address"
+            heightClass="h-[clamp(44px,6.5vh,54px)]"
             hasError={emailHasError}
             errors={[emailError, state.login.errorEmail]}
           >
-            <input
+            <input data-testid="new-login-page-email-input"
               id="new-login-email"
               type="email"
               inputMode="email"
@@ -215,14 +223,15 @@ function NewLoginPage() {
             />
           </AuthField>
 
-          <div className="flex w-full flex-col gap-[12px]">
+          <div className="flex w-full flex-col gap-[clamp(8px,1.4vh,12px)]">
             <AuthField
               id="new-login-password"
               label="Password"
+              heightClass="h-[clamp(44px,6.5vh,54px)]"
               hasError={passwordHasError}
               errors={[passwordError, state.login.errorPassword]}
               action={
-                <button
+                <button data-testid="new-login-page-forgot-password-btn"
                   type="button"
                   onClick={() => navigate("/forget-password")}
                   className="border-0 bg-transparent p-0 font-tasa text-[14px] font-medium leading-[24px] text-primary-500 hover:underline"
@@ -231,7 +240,7 @@ function NewLoginPage() {
                 </button>
               }
             >
-              <input
+              <input data-testid="new-login-page-password-input"
                 id="new-login-password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
@@ -251,13 +260,13 @@ function NewLoginPage() {
               )}
             </AuthField>
 
-            <Checkbox
+            <Checkbox data-testid="new-login-page-new-login-remember-checkbox"
               id="new-login-remember"
               checked={checked}
               onChange={(e) => setChecked(e.target.checked)}
               className="!items-center !gap-[6px]"
               label={
-                <span className="font-tasa text-[16px] font-normal leading-[25px] tracking-[0.08px] text-[#49475A]">
+                <span className="font-tasa text-[16px] font-normal leading-[20px] tracking-[0.08px] text-[#49475A]">
                   Remember me
                 </span>
               }
@@ -265,7 +274,7 @@ function NewLoginPage() {
           </div>
         </div>
 
-        <div className="flex w-full flex-col items-center gap-[16px]">
+        <div className="flex w-full flex-col items-center gap-[clamp(8px,1.6vh,16px)]">
           <AuthSubmitButton
             loading={loading}
             dimmed={!isFilled}
@@ -274,18 +283,22 @@ function NewLoginPage() {
             Sign in
           </AuthSubmitButton>
 
-          <span className="font-tasa text-[16px] font-medium leading-[26px] text-[#686677]">
-            OR
-          </span>
+          {isDev && (
+            <>
+              <span className="font-tasa text-[16px] font-medium leading-[20px] text-[#686677]">
+                OR
+              </span>
 
-          <GoogleAuthButton label="Continue with Google" />
+              <GoogleAuthButton label="Continue with Google" />
+            </>
+          )}
         </div>
       </form>
 
-      <div className="flex w-full flex-col items-center gap-[10px] text-center">
+      <div className="flex w-full flex-col items-center gap-[clamp(2px,0.8vh,10px)] text-center">
         <p className="mb-0 font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A]">
           Don&apos;t Have an Account?{"  "}
-          <button
+          <button data-testid="new-login-page-create-account-btn"
             type="button"
             onClick={() => navigate("/hostel-management-signup")}
             className={authInlineLink}
@@ -298,7 +311,10 @@ function NewLoginPage() {
         </p>
       </div>
 
-      <StoreBadges />
+      {/* Badges shrink on short screens so the whole login fits without scroll. */}
+      <div className="[&>div]:!min-h-0 [&_img]:h-[clamp(32px,5vh,47px)] [&_img]:w-auto">
+        <StoreBadges />
+      </div>
 
       <OtpVerificationModal
         show={showOtpVerification}

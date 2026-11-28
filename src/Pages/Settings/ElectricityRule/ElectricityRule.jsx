@@ -208,7 +208,7 @@ function ElectricityRule() {
           Electricity Rule
         </label>
 
-        <Add
+        <Add data-testid="electricity-rule-close-electricity-icon"
           onClick={() => handleClose("electricity")}
           size="20"
           color="#EF4444"
@@ -231,7 +231,7 @@ function ElectricityRule() {
                 const isActive = selected === item.id;
 
                 return (
-                  <div
+                  <div data-testid={`electricity-rule-selected-action-${item.id}`}
                     key={item.id}
                     onClick={() => {
                       setSelected(item.id);
@@ -244,7 +244,7 @@ function ElectricityRule() {
                           : "border-gray-200 bg-white hover:bg-gray-50"
                       }`}
                   >
-                    <input
+                    <input data-testid={`electricity-rule-how-electricity-charges-should-radio-${item.id}`}
                       type="radio"
                       name="electricityType"
                       checked={selected === item.id}
@@ -327,7 +327,7 @@ function ElectricityRule() {
                   Cost per Unit (₹)
                 </label>
 
-                <input
+                <input data-testid="electricity-rule-cost-per-unit-input"
                   type="text"
                   value={costPerUnit}
                   onChange={handleChange}
@@ -365,7 +365,7 @@ function ElectricityRule() {
 
               <div className="mt-2  space-y-2 px-3 pt-2 rounded  relative">
                 <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#1E45E1] rounded-r-md "></div>
-                <div
+                <div data-testid="electricity-rule-included-in-rent-no-action"
                   onClick={() => handleTypeChange("included")}
                   className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition 
             ${
@@ -374,7 +374,7 @@ function ElectricityRule() {
                 : "border-gray-200 bg-white hover:bg-gray-50"
             }`}
                 >
-                  <input
+                  <input data-testid="electricity-rule-type-change-included-radio"
                     type="radio"
                     checked={selectedType === "included"}
                     onChange={() => handleTypeChange("included")}
@@ -391,7 +391,7 @@ function ElectricityRule() {
                   </div>
                 </div>
 
-                <div
+                <div data-testid="electricity-rule-fixed-monthly-charge-apply-action"
                   onClick={() => handleTypeChange("fixed")}
                   className={`border-1 shadow-[0_4px_10px_#AEBEFF4D] rounded-lg p-3 flex gap-3 cursor-pointer transition 
             ${
@@ -400,7 +400,7 @@ function ElectricityRule() {
                 : "border-gray-200 bg-white hover:bg-gray-50"
             }`}
                 >
-                  <input
+                  <input data-testid="electricity-rule-type-change-fixed-radio"
                     type="radio"
                     checked={selectedType === "fixed"}
                     onChange={() => handleTypeChange("fixed")}
@@ -424,7 +424,7 @@ function ElectricityRule() {
                     Monthly Electricity Charge (₹)
                   </label>
 
-                  <input
+                  <input data-testid="electricity-rule-monthly-electricity-charge-input"
                     type="text"
                     placeholder="Eg : 500"
                     value={amount}
@@ -467,14 +467,14 @@ function ElectricityRule() {
         )}
 
         <div className="flex justify-end gap-3 mt-6">
-          <button
+          <button data-testid="electricity-rule-cancel-btn"
             onClick={() => handleClose("electricity")}
             className="px-4 py-2 text-sm border rounded-lg bg-white hover:bg-gray-50"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="electricity-rule-save-changes-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 flex items-center gap-2 px-4 py-2 text-sm text-white bg-[#1E45E1] rounded-lg hover:bg-[#1639c9]"

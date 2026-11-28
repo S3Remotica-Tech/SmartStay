@@ -369,7 +369,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
             {edit ? "Edit Staff" : "Add Staff"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-user-close-form-icon"
             size="24"
             color="#000"
             onClick={handleCloseForm}
@@ -384,7 +384,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 <Form.Label className={fieldLabelClass}>
                   Name <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-user-name-input"
                   value={name}
                   onChange={(e) => handleNameChange(e)}
                   type="text"
@@ -400,7 +400,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 <Form.Label className={fieldLabelClass}>
                   Email ID <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-user-email-id-input"
                   value={email}
                   onChange={(e) => handleEmailChange(e)}
                   type="text"
@@ -428,7 +428,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 </Form.Label>
 
                 <InputGroup className={`${fieldGroupClass(!!mobileError)} !px-0 overflow-hidden`}>
-                  <Form.Select
+                  <Form.Select data-testid="add-user-mobile-no-select"
                     value={countryCode}
                     autoComplete="off"
                     autoCorrect="off"
@@ -439,7 +439,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     <option>+{countryCode}</option>
                   </Form.Select>
 
-                  <Form.Control
+                  <Form.Control data-testid="add-user-mobile-no-input"
                     value={mobile}
                     onChange={handleMobileChange}
                     type="text"
@@ -476,7 +476,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     Password <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
                   <InputGroup className={`${fieldGroupClass(!!passwordError)} !px-0 overflow-hidden`}>
-                    <FormControl
+                    <FormControl data-testid="add-user-password-input"
                       id="form-controls"
                       autoComplete="new-password"
                       autoCorrect="off"
@@ -487,7 +487,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       className="border-0 text-[16px] text-[#4B4B4B] font-gilroy focus:outline-none shadow-none"
                     />
 
-                    <InputGroup.Text
+                    <InputGroup.Text data-testid="add-user-show-password-icon"
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={
                         showPassword ? "Hide Password" : "Show Password"
@@ -519,7 +519,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   Role <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="add-user-role-select" className="contents"><Select
                   options={
                     state.Settings?.getsettingRoleList?.map((u) => ({
                       value: u.id,
@@ -545,7 +545,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     ...fieldSelectStyles(!!roleError),
                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
-                />
+                /></div>
               </Form.Group>
 
               {roleError && <ErrorMessage className="mt-[6px]" message={roleError} type="error" />}
@@ -559,7 +559,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 <Form.Label className={fieldLabelClass}>
                   Description{" "}
                 </Form.Label>
-                <Form.Control className={fieldClass(!!error)}
+                <Form.Control data-testid="add-user-description-input" className={fieldClass(!!error)}
                   value={description}
                   onChange={handleDescriptionChange}
                   type="text"
@@ -577,7 +577,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
         </div>
 
         <div className="flex justify-end p-2">
-          <button
+          <button data-testid="add-user-submit-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="!bg-[#1E45E1] !font-semibold !px-6 !py-3 !rounded-lg !text-sm !font-gilroy !text-white

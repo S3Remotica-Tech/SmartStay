@@ -20,6 +20,7 @@ import {
   AuthSubmitButton,
   GoogleAuthButton,
   PasswordToggle,
+  useAuthLaptopDensity,
 } from "./NewAuth/AuthParts";
 import { SignupPromoCard } from "./NewAuth/AuthPromoCards";
 // passwordRuleErrors: same rules and wording as CreateAccount.jsx, shared
@@ -42,7 +43,31 @@ import ChevronDown from "../Assets/Images/NewLogin/chevron-down.svg";
 import GlobeIcon from "../Assets/Images/NewLogin/globe.svg";
 import LocationIcon from "../Assets/Images/NewLogin/location.svg";
 
-const FIELD_H = "h-[50px]";
+// Google sign-up and Region are shown only in development for now.
+const isDev = import.meta.env.MODE === "development";
+
+// Fields shrink a little on short screens so the form fits without scroll.
+const FIELD_H = "h-[clamp(42px,5.8vh,50px)]";
+const FIELD_H_CSS = "clamp(42px, 5.8vh, 50px)";
+
+// State select sized like the other fields (authSelectStyles is fixed 50px).
+const stateSelectStyles = (() => {
+  const base = authSelectStyles(false, 47);
+  return {
+    ...base,
+    control: (b, s) => ({
+      ...base.control(b, s),
+      minHeight: FIELD_H_CSS,
+      height: FIELD_H_CSS,
+    }),
+    // Show about 5 states at a time; the rest scroll inside the list.
+    menuList: (b, s) => ({
+      ...(base.menuList ? base.menuList(b, s) : b),
+      maxHeight: "150px",
+      overflowY: "auto",
+    }),
+  };
+})();
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 const PHONE_REGEX = /^(?!0{10})[1-9][0-9]{9}$/;
 
@@ -70,6 +95,7 @@ const chevron = (
 );
 
 function NewSignupPage() {
+  useAuthLaptopDensity();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -331,7 +357,7 @@ function NewSignupPage() {
             className="mt-0"
           />
         ) : null}
-        <OtpVerifyPanel
+        <OtpVerifyPanel data-testid="new-signup-page-signup-otp-icon"
           id="signup-otp"
           label="Enter OTP"
           size="lg"
@@ -371,20 +397,20 @@ function NewSignupPage() {
     <AuthLayout
       card={<SignupPromoCard />}
       header={
-        <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[clamp(6px,1.4vh,20px)]">
           <AuthLogo />
-          <div className="flex flex-col gap-[18px] py-[6px]">
-            <h1 className="mb-0 font-tasa text-[28px] font-medium leading-[25px] tracking-[0.16px] text-[#222222] sm:text-[32px]">
+          <div className="flex flex-col gap-[clamp(4px,1vh,12px)]">
+            <h1 className="mb-0 font-tasa text-[28px] font-medium leading-[34px] tracking-[0.16px] text-[#222222] sm:text-[32px]">
               Let&apos;s get started
             </h1>
-            <p className="mb-0 font-tasa text-[18px] font-normal leading-[25px] tracking-[0.09px] text-[#64748B]">
+            <p className="mb-0 font-tasa text-[16px] font-normal leading-[22px] tracking-[0.09px] text-[#64748B] sm:text-[18px]">
               Start your 30-Day free trial
             </p>
           </div>
         </div>
       }
       footer={
-        <div className="flex w-full flex-col items-center gap-[14px]">
+        <div className="flex w-full flex-col items-center gap-[clamp(6px,1.2vh,14px)]">
           {state.createAccount?.passwordDoesnotMatchError ? (
             <ErrorMessage
               message={state.createAccount.passwordDoesnotMatchError}
@@ -411,7 +437,7 @@ function NewSignupPage() {
 
           <p className="mb-0 text-center font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A]">
             Already Have an Account?{"  "}
-            <button
+            <button data-testid="new-signup-page-sign-in-btn"
               type="button"
               onClick={() => navigate("/hostel-management-login")}
               className={authInlineLink}
@@ -422,19 +448,23 @@ function NewSignupPage() {
         </div>
       }
     >
-      <GoogleAuthButton label="Sign up with Google" />
+      {isDev && (
+        <div className="flex w-full flex-col gap-[clamp(4px,1vh,10px)]">
+          <GoogleAuthButton label="Sign up with Google" />
 
-      <p className="mb-0 text-center font-tasa text-[16px] leading-[18px] tracking-[0.08px] text-[#222222]">
-        or
-      </p>
+          <p className="mb-0 text-center font-tasa text-[16px] leading-[18px] tracking-[0.08px] text-[#222222]">
+            or
+          </p>
+        </div>
+      )}
 
-      <form
+      <form data-testid="new-signup-page-signup-form"
         id="signup-form"
         noValidate
         onSubmit={handleCreateAccount}
         className="flex w-full flex-col"
       >
-        <div className="flex w-full flex-col gap-[16px]">
+        <div className="flex w-full flex-col gap-[clamp(8px,1.4vh,16px)]">
           <AuthField
             id="signup-full-name"
             label="Full Name"
@@ -443,7 +473,7 @@ function NewSignupPage() {
             hasError={Boolean(fullNameError)}
             errors={[fullNameError]}
           >
-            <input
+            <input data-testid="new-signup-page-your-name-input"
               id="signup-full-name"
               type="text"
               autoComplete="name"
@@ -466,7 +496,7 @@ function NewSignupPage() {
           >
             {/* TODO(auth): enable when other country codes are supported by the API (+91 only today) */}
             <span title="Coming soon" className="flex shrink-0">
-              <button
+              <button data-testid="new-signup-page-country-code-91-btn"
                 type="button"
                 disabled
                 aria-disabled="true"
@@ -478,7 +508,7 @@ function NewSignupPage() {
                 {chevron}
               </button>
             </span>
-            <input
+            <input data-testid="new-signup-page-78654-98732-input"
               id="signup-mobile"
               type="tel"
               inputMode="numeric"
@@ -494,46 +524,44 @@ function NewSignupPage() {
             />
           </AuthField>
 
-          <div className="flex w-full flex-col gap-[10px]">
-            <AuthField
+          <AuthField
+            id="signup-email"
+            label="Email"
+            required
+            heightClass={FIELD_H}
+            hasError={Boolean(emailError || serverEmailError)}
+            errors={[emailError, serverEmailError]}
+          >
+            <input data-testid="new-signup-page-email-input"
               id="signup-email"
-              label="Email"
-              required
+              type="email"
+              autoComplete="email"
+              placeholder="Enter your Email"
+              value={emailID}
+              onChange={handleEmailID}
+              aria-invalid={
+                Boolean(emailError || serverEmailError) || undefined
+              }
+              className={authFieldInput}
+            />
+          </AuthField>
+
+          {/* TODO(auth): enable when the organization-name API field is ready */}
+          <div title="Coming soon">
+            <AuthField
+              id="signup-organization"
+              label="Organization Name"
               heightClass={FIELD_H}
-              hasError={Boolean(emailError || serverEmailError)}
-              errors={[emailError, serverEmailError]}
             >
-              <input
-                id="signup-email"
-                type="email"
-                autoComplete="email"
-                placeholder="Enter your Email"
-                value={emailID}
-                onChange={handleEmailID}
-                aria-invalid={
-                  Boolean(emailError || serverEmailError) || undefined
-                }
-                className={authFieldInput}
+              <input data-testid="new-signup-page-property-organization-name-input"
+                id="signup-organization"
+                type="text"
+                disabled
+                aria-disabled="true"
+                placeholder="Property/Organization Name"
+                className={`${authFieldInput} !text-[15px]`}
               />
             </AuthField>
-
-            {/* TODO(auth): enable when the organization-name API field is ready */}
-            <div title="Coming soon">
-              <AuthField
-                id="signup-organization"
-                label="Organization Name"
-                heightClass={FIELD_H}
-              >
-                <input
-                  id="signup-organization"
-                  type="text"
-                  disabled
-                  aria-disabled="true"
-                  placeholder="Property/Organization Name"
-                  className={`${authFieldInput} !text-[15px]`}
-                />
-              </AuthField>
-            </div>
           </div>
 
           <AuthField
@@ -544,7 +572,7 @@ function NewSignupPage() {
             hasError={passwordHasError}
             errors={[passwordEmptyError, passwordRules.length ? passwordRules : ""]}
           >
-            <input
+            <input data-testid="new-signup-page-minimum-8-characters-input"
               id="signup-password"
               type={showPassword ? "text" : "password"}
               autoComplete="new-password"
@@ -562,47 +590,54 @@ function NewSignupPage() {
             )}
           </AuthField>
 
-          {/* Region (optional): country is India only; state uses the Add
-              Tenant address list. Leaving it empty is fine. */}
-          <div className="flex w-full flex-col gap-[12px]">
-            <label htmlFor="signup-state" className={authLabelText}>
-              Region
-            </label>
-            <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-              <div
-                aria-label="Country: India"
-                className={`${authFieldShell(false, FIELD_H)} cursor-default hover:bg-white`}
-              >
-                <img src={GlobeIcon} alt="" width="21" height="21" />
-                <span className="font-tasa text-[16px] text-[#222222]">India</span>
-              </div>
-              <div className="relative">
-                <img
-                  src={LocationIcon}
-                  alt=""
-                  width="21"
-                  height="21"
-                  className="pointer-events-none absolute left-[16px] top-1/2 z-[1] -translate-y-1/2"
-                />
-                <Select isDisabled
-                  inputId="signup-state"
-                  options={indianStates}
-                  value={stateName ? { value: stateName, label: stateName } : null}
-                  onChange={(option) => setStateName(option?.value || "")}
-                  onInputChange={(inputValue, { action }) =>
-                    action === "input-change"
-                      ? inputValue.replace(/[^a-zA-Z\s]/g, "")
-                      : inputValue
-                  }
-                  placeholder="Select state"
-                  isClearable
-                  styles={authSelectStyles(false, 47)}
-                />
+          {/* Region (optional, dev only): country is India only; state uses
+              the Add Tenant address list. Leaving it empty is fine. */}
+          {isDev && (
+            <div className="flex w-full flex-col gap-[clamp(6px,1.2vh,12px)]">
+              <label htmlFor="signup-state" className={authLabelText}>
+                Region
+              </label>
+              <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
+                <div
+                  aria-label="Country: India"
+                  className={`${authFieldShell(false, FIELD_H)} cursor-default hover:bg-white`}
+                >
+                  <img src={GlobeIcon} alt="" width="21" height="21" />
+                  <span className="font-tasa text-[16px] text-[#222222]">India</span>
+                </div>
+                <div className="relative">
+                  <img
+                    src={LocationIcon}
+                    alt=""
+                    width="21"
+                    height="21"
+                    className="pointer-events-none absolute left-[16px] top-1/2 z-[1] -translate-y-1/2"
+                  />
+                  <div data-testid="new-signup-page-region-select" className="contents"><Select
+                    inputId="signup-state"
+                    options={indianStates}
+                    value={stateName ? { value: stateName, label: stateName } : null}
+                    onChange={(option) => setStateName(option?.value || "")}
+                    onInputChange={(inputValue, { action }) =>
+                      action === "input-change"
+                        ? inputValue.replace(/[^a-zA-Z\s]/g, "")
+                        : inputValue
+                    }
+                    placeholder="Select state"
+                    isClearable
+                    styles={stateSelectStyles}
+                    // The fields sit in a scroll box (overflow hidden on lg) that
+                    // clipped the open list: render the menu on <body> instead.
+                    menuPortalTarget={document.body}
+                    menuPosition="fixed"
+                    menuPlacement="auto"
+                  /></div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
-          <Checkbox
+          <Checkbox data-testid="new-signup-page-signup-agree-checkbox"
             id="signup-agree"
             checked={agreed}
             onChange={(e) => setAgreed(e.target.checked)}
@@ -611,7 +646,7 @@ function NewSignupPage() {
               <span className="font-tasa text-[16px] font-normal leading-[20px] tracking-[-0.02px] text-[#0A090B]">
                 I Agree all the{" "}
                 {/* TODO(auth): enable when a Terms of Service page exists */}
-                <button
+                <button data-testid="new-signup-page-coming-soon-btn"
                   type="button"
                   disabled
                   aria-disabled="true"
@@ -622,7 +657,7 @@ function NewSignupPage() {
                   Terms of Service
                 </button>{" "}
                 and{" "}
-                <a
+                <a data-testid="new-signup-page-privacy-policy-link"
                   href="/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"

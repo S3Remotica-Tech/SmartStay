@@ -33,3 +33,12 @@ input[type=number] {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Product density: at laptop widths (Windows 125% => ~1280-1536 CSS px) the
+   product renders at 90% via the root font size (all CSS px are rem, see
+   postcss.config.js). Class is set by Sidebar.jsx only while logged in. */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  html.app-density {
+    font-size: 90%;
+  }
+}

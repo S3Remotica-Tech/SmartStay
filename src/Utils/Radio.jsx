@@ -15,6 +15,7 @@ function Radio({
   description,
   id,
   className = "",
+  "data-testid": testId,
 }) {
   const dot = [
     "flex h-[16px] w-[16px] shrink-0 items-center justify-center rounded-full border-[1px] border-solid transition-colors",
@@ -35,6 +36,7 @@ function Radio({
     >
       <span className="relative mt-[2px] flex">
         <input
+          data-testid={testId}
           id={id}
           type="radio"
           name={name}
@@ -64,6 +66,7 @@ function Radio({
 }
 
 Radio.propTypes = {
+  "data-testid": PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   name: PropTypes.string,

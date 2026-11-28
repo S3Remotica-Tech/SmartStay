@@ -878,7 +878,7 @@ function NewInvoice() {
           {billData ? "Edit Invoice" : "New Invoice"}
         </div>
 
-        <button
+        <button data-testid="new-invoice-close-btn"
           onClick={handleBackBill}
           className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 
                       items-center px-2 py-1 font-gilroy "
@@ -896,7 +896,7 @@ function NewInvoice() {
                 <span className={fieldRequiredClass}>*</span>
               </label>
 
-              <Select
+              <div data-testid="new-invoice-tenant-select" className="contents"><Select
                 options={customerOptions}
                 onChange={handleCustomerName}
                 value={
@@ -909,7 +909,7 @@ function NewInvoice() {
                 noOptionsMessage={() => "No customers available"}
                 styles={fieldSelectStyles(!!customererrmsg)}
                 formatOptionLabel={formatOptionLabel}
-              />
+              /></div>
 
               {customererrmsg.trim() !== "" && (
                 <ErrorMessage className="mt-[6px]" message={customererrmsg} type="error" />
@@ -1014,7 +1014,7 @@ function NewInvoice() {
               </span>
             </label>
 
-            <input
+            <input data-testid="new-invoice-invoice-number-input"
               disabled={billData}
               type="text"
               placeholder="Enter Invoice Number"
@@ -1033,7 +1033,7 @@ function NewInvoice() {
             </label>
 
             <div className="relative w-full datepicker-wrapper">
-              <DatePicker
+              <DatePicker data-testid="new-invoice-invoice-date"
                 disabled={billData}
                 className={datePickerClass(!!invoicedateerrmsg)}
                 format="DD/MM/YYYY"
@@ -1080,7 +1080,7 @@ function NewInvoice() {
                         <td className="px-1 py-1">
                           {u.itemType === "OTHER" ? (
                             <div className="flex items-center gap-1">
-                              <input
+                              <input data-testid={`new-invoice-item-name-input-${index}`}
                                 type="text"
                                 autoFocus
                                 disabled={u.isFromApi}
@@ -1106,7 +1106,7 @@ function NewInvoice() {
                                 className={fieldClass()}
                               />
 
-                              <button
+                              <button data-testid={`new-invoice-new-row-change-item-type-btn-${index}`}
                                 disabled={u.isFromApi}
                                 type="button"
                                 onClick={() => {
@@ -1125,7 +1125,7 @@ function NewInvoice() {
                             </div>
                           ) : (
                             <div className="flex flex-col gap-1">
-                              <Select
+                              <div data-testid={`new-invoice-or-search-the-item-select-${index}`} className="contents"><Select
                                 value={
                                   u.itemType
                                     ? {
@@ -1170,13 +1170,13 @@ function NewInvoice() {
                                 menuPlacement="auto"
                                 menuPortalTarget={document.body}
                                 styles={CustomStylesTable}
-                              />
+                              /></div>
                             </div>
                           )}
                         </td>
 
                         <td className="px-1 py-3 border-l border-[#EEEEEE] align-top">
-                          <input
+                          <input data-testid={`new-invoice-row-errors-input-${index}`}
                             type="number"
                             onWheel={(e) => e.target.blur()}
                             value={u.amount !== "0" ? u.amount : ""}
@@ -1198,13 +1198,13 @@ function NewInvoice() {
                                 return updated;
                               });
                             }}
-                            className={fieldClass(!!rowErrors[index].itemType)}
+                            className={fieldClass(!!rowErrors[index]?.amount)}
                           />
                         </td>
 
                         <td className="px-1 py-3 border-l border-[#EEEEEE]  align-top">
                           <div className="flex items-center justify-center gap-2">
-                            <CloseCircle
+                            <CloseCircle data-testid={`new-invoice-icon-${index}`}
                               onClick={() =>
                                 !u.isFromApi && handleDeleteNewRow(index)
                               }
@@ -1217,7 +1217,7 @@ function NewInvoice() {
                             />
 
                             <span>
-                              <More
+                              <More data-testid={`new-invoice-icon-2-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleDuplicateRow(index);
@@ -1262,7 +1262,7 @@ function NewInvoice() {
 
         <div className="grid grid-cols-1 md:grid-cols-10 mt-2 gap-4">
           <div className="col-span-4 relative">
-            <button
+            <button data-testid="new-invoice-add-new-row-btn"
               type="button"
               onClick={handleAddNewRow}
               className="
@@ -1326,7 +1326,7 @@ function NewInvoice() {
 
                 <div className="flex items-center gap-1">
                   <div className="flex shrink-0 overflow-hidden rounded border border-[#DCDCDC]">
-                    <button
+                    <button data-testid="new-invoice-discount-type-btn"
                       disabled={billData}
                       type="button"
                       onClick={() => setDiscountType("₹")}
@@ -1343,7 +1343,7 @@ function NewInvoice() {
                       ₹
                     </button>
 
-                    <button
+                    <button data-testid="new-invoice-discount-type-btn-2"
                       disabled={billData}
                       type="button"
                       onClick={() => setDiscountType("%")}
@@ -1360,7 +1360,7 @@ function NewInvoice() {
                       %
                     </button>
                   </div>
-                  <input
+                  <input data-testid="new-invoice-discount-input"
                     disabled={billData}
                     type="number"
                     onWheel={(e) => e.target.blur()}
@@ -1404,7 +1404,7 @@ function NewInvoice() {
               Terms & Conditions
             </label>
 
-            <textarea
+            <textarea data-testid="new-invoice-terms-conditions-textarea"
               disabled={billData}
               value={termsAndConditions}
               onChange={(e) => setTermsAndConditions(e.target.value)}
@@ -1449,7 +1449,7 @@ function NewInvoice() {
         </p>
 
         <div className="flex items-center gap-5">
-          <button
+          <button data-testid="new-invoice-cancel-btn"
             onClick={handleBackBill}
             type="button"
             className="
@@ -1461,7 +1461,7 @@ function NewInvoice() {
             Cancel
           </button>
 
-          <button
+          <button data-testid="new-invoice-btn"
             type="button"
             disabled={formLoading}
             onClick={billData ? handleEditBill : handleCreateBill}

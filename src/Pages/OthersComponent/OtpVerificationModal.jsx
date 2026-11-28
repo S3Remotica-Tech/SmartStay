@@ -119,11 +119,11 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
   }, [state.NewPass?.statusCode])
 
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static">
+    <Modal data-testid="otp-verification-modal-otp-verification-enter-6-modal" show={show} onHide={handleClose} backdrop="static">
       <Modal.Header >
         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>OTP Verification</Modal.Title>
 
-        <CloseCircle size="24" color="#000" onClick={handleClose} />
+        <CloseCircle data-testid="otp-verification-modal-close-icon" size="24" color="#000" onClick={handleClose} />
       </Modal.Header>
       <Modal.Body>
         <div className='d-flex justify-content-start mb-3'>
@@ -132,7 +132,7 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
         <div className='d-flex justify-content-evenly mt-2'>
           {inputRefs.map((ref, index) => (
             <div key={index}>
-              <input
+              <input data-testid={`otp-verification-modal-form-control-lg-example-input-${index}`}
                 style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
                 id="Bottom-border"
                 type="text"
@@ -181,10 +181,10 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
         : null}
 
       <Modal.Footer>
-        <Button onClick={handleSendOtp} style={{ padding:"10px 15px",width:130,backgroundColor: "#DCDCDC", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", border: "1px solid  #DCDCDC", color: "#222" }}>
+        <Button data-testid="otp-verification-modal-resend-otp-btn" onClick={handleSendOtp} style={{ padding:"10px 15px",width:130,backgroundColor: "#DCDCDC", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", border: "1px solid  #DCDCDC", color: "#222" }}>
           Resend Otp
         </Button>
-        <Button onClick={handleOtpVerify} style={{  padding:"10px 15px",width:130 ,backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
+        <Button data-testid="otp-verification-modal-verify-btn" onClick={handleOtpVerify} style={{  padding:"10px 15px",width:130 ,backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
           Verify
         </Button>
       </Modal.Footer>

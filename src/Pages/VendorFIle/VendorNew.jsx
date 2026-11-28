@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
@@ -40,6 +41,13 @@ import ApiPagination from "../../Components/ApiPagination";
 import PropTypes from "prop-types";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import CustomTooltip from "../../Utils/CustomTooltip";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function Vendor() {
   const state = useSelector((state) => state);
@@ -687,20 +695,6 @@ function Vendor() {
 
 
 
-  const columnStyles = {
-    "Profile Pic": "px-4 whitespace-nowrap",
-    "Full Name": "px-4 whitespace-nowrap",
-    "Joining Date": "px-4 whitespace-nowrap",
-    "Mobile No": "px-4 whitespace-nowrap",
-    "Email ID": "px-4 whitespace-nowrap",
-    "Vendor Code": "px-4 whitespace-nowrap",
-    "Vendor Category": "px-4 whitespace-nowrap",
-    "Credit Limit": "px-4 whitespace-nowrap",
-    "Credit Period": "px-4 whitespace-nowrap",
-    Outstanding: "px-4 whitespace-nowrap",
-    "Last Transaction": "px-4 whitespace-nowrap",
-    "Payment Status": "px-4 whitespace-nowrap",
-  };
 
   useEffect(() => {
     const cols = filteredData?.columnList || [];
@@ -737,7 +731,7 @@ function Vendor() {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="vendor-new-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -745,7 +739,7 @@ function Vendor() {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="vendor-new-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -802,7 +796,7 @@ function Vendor() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap font-gilroy min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Vendor
@@ -818,7 +812,7 @@ function Vendor() {
                     : "border-gray-200 opacity-60 cursor-not-allowed"
                   }`}
               >
-                <input
+                <input data-testid="vendor-new-input-change-input"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -835,7 +829,7 @@ function Vendor() {
             </div>
 
             <div>
-              <button
+              <button data-testid="vendor-new-add-vendor-btn"
                 disabled={!canWriteVendor}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -882,7 +876,7 @@ function Vendor() {
                       {item.label !== "Total Paid" && (
                         <div className="relative group w-fit">
                           <CustomTooltip text="Click to Filter" direction="top-full" usePortal={true}>
-                            <Filter
+                            <Filter data-testid={`vendor-new-payment-status-icon-${index}`}
                               onClick={() => setPaymentStatus(item.search)}
                               size="14"
                               color="#9CA3AF"
@@ -907,7 +901,7 @@ function Vendor() {
                   className={`border border-gray-300 rounded-lg w-36 ${categoryFilter ? "bg-gray-100 text-gray-700" : "bg-white"
                     }`}
                 >
-                  <Select
+                  <div data-testid="vendor-new-statusselect-select" className="contents"><Select
                     options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadVendor}
@@ -916,11 +910,11 @@ function Vendor() {
                     onChange={handleCategoryFilter}
                     value={selectedCategoryOption}
                     id="statusselect"
-                  />
+                  /></div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Select
+                  <div data-testid="vendor-new-statusselect-select-2" className="contents"><Select
                     options={paymentStatusOptions}
                     isDisabled={!canReadVendor}
                     classNamePrefix="custom"
@@ -934,14 +928,14 @@ function Vendor() {
                         (opt) => opt.value === paymentStatus,
                       ) || null
                     }
-                  />
+                  /></div>
                 </div>
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                 >
                   <CustomTooltip text="Filter" direction="top-full" usePortal={true}>
-                    <Filter
+                    <Filter data-testid="vendor-new-icon"
                       size={16}
                       onClick={() => {
                         if (canReadVendor) {
@@ -959,7 +953,7 @@ function Vendor() {
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
                 <CustomTooltip text="Customize" direction="top-full" usePortal={true}>
-                  <Setting3
+                  <Setting3 data-testid="vendor-new-open-icon"
                     onClick={() => setOpen(!open)}
                     className="cursor-pointer"
                     size="22"
@@ -995,7 +989,7 @@ function Vendor() {
                     </span>
                   ))}
                 </div>
-                <span
+                <span data-testid="vendor-new-reset-action"
                   className="text-blue-600 text-sm font-medium cursor-pointer"
                   onClick={handleReset}
                 >
@@ -1005,21 +999,21 @@ function Vendor() {
             )}
 
             {formattedData?.length > 0 ? (
-              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                  className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy ">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                      <tr className="h-9">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-30">
+                      <tr>
                         {selectedColumns?.map((col, index) => {
                           let stickyClass = "";
 
                           if (index === 0) {
                             stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                              "sticky left-[0px] z-40 w-[80px]";
                           }
                           //  else if (index === 1) {
                           //   stickyClass =
@@ -1029,14 +1023,14 @@ function Vendor() {
                           return (
                             <th
                               key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                              className={`${TABLE_HEADER_CELL} text-start ${stickyClass}`}
                             >
                               {col.fieldName}
                             </th>
                           );
                         })}
 
-                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                        <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                           Action
                         </th>
                       </tr>
@@ -1046,21 +1040,17 @@ function Vendor() {
                         formattedData?.length > 0 &&
                         formattedData?.map((user, index) => {
                           return (
-                            <tr
+                            <tr data-testid={`vendor-new-action-2-${index}`}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowOverview(true);
                                 setSelectedVendorId(user.apiCall.vendorId);
                               }}
                               key={index}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
-                                    cursor-pointer group  hover:!bg-gray-50"
+                              className="cursor-pointer group hover:!bg-gray-50"
                             >
                               {selectedColumns?.map((col, index) => {
-                                const baseClass = `
-  ${columnStyles[col.fieldName] || "px-4"}
-  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-`;
+                                const baseClass = `${TABLE_BODY_CELL} hover:!bg-gray-50 group-hover:!bg-gray-50`;
 
                                 let stickyClass = "";
 
@@ -1076,17 +1066,17 @@ function Vendor() {
                                     return (
                                       <td
                                         key={col.fieldName}
-                                        className={`px-4 ${finalClass}`}
+                                        className={`${finalClass} text-[#111928]`}
                                       >
                                         {typeof user?.profilePic === "string" &&
                                           user.profilePic.startsWith("http") ? (
                                           <img
                                             src={user.profilePic}
-                                            className="w-8 h-8 rounded-full"
+                                            className="w-[30px] h-[30px] rounded-full"
                                             alt="profile"
                                           />
                                         ) : (
-                                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                          <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center text-xs">
                                             {typeof user?.profilePic ===
                                               "string"
                                               ? user.profilePic
@@ -1098,7 +1088,7 @@ function Vendor() {
 
                                   case "Full Name":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <div className="relative group w-[100px] ">
                                           <span className="block w-full truncate text-sm text-[#111928] ">
                                             {user.fullName}
@@ -1118,9 +1108,9 @@ function Vendor() {
 
                                   case "Payment Status":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <span
-                                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                          className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                           style={{
                                             backgroundColor:
                                               statusStyles[user.paymentStatus]
@@ -1128,7 +1118,7 @@ function Vendor() {
                                           }}
                                         >
                                           <span
-                                            className="h-2 w-2 rounded-full"
+                                            className="w-[6px] h-[6px] rounded-full"
                                             style={{
                                               backgroundColor:
                                                 statusStyles[user.paymentStatus]
@@ -1145,7 +1135,7 @@ function Vendor() {
                                     return (
                                       <td
                                         key={col.key}
-                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                        className={`${finalClass} truncate text-[#314158] font-medium`}
                                       >
                                         {user.joiningDate}
                                       </td>
@@ -1153,14 +1143,14 @@ function Vendor() {
 
                                   case "Mobile No":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.mobile}
                                       </td>
                                     );
 
                                   case "Email ID":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.email}
                                       </td>
                                     );
@@ -1222,13 +1212,13 @@ function Vendor() {
                                     );
                                   case "Address":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {getAddress(user)}
                                       </td>
                                     );
                                   default:
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {typeof user[
                                           headerKeyMap[col.fieldName]
                                         ] === "object"
@@ -1243,10 +1233,10 @@ function Vendor() {
 
                               <td
                                 className={`${isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
-                                <div
+                                <div data-testid={`vendor-new-action-3-${index}`}
                                   className="relative mt-1 flex cursor-pointer items-center justify-center"
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -1256,14 +1246,15 @@ function Vendor() {
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90 ${activeRow === user.apiCall.vendorId
                                       ? "text-[#1E45E1]"
-                                      : "text-gray-500"
+                                      : "text-[#314158]"
                                       }`}
                                   />
 
                                   {activeRow === user.apiCall.vendorId && (
+                                    createPortal(
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
+                                      className="font-gilroy rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -1275,7 +1266,7 @@ function Vendor() {
                                         position: "fixed",
                                       }}
                                     >
-                                      <button
+                                      <button data-testid={`vendor-new-edit-btn-${index}`}
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setActiveRow(null);
@@ -1301,7 +1292,7 @@ function Vendor() {
                                         Edit
                                       </button>
 
-                                      <button
+                                      <button data-testid={`vendor-new-delete-btn-${index}`}
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setActiveRow(null);
@@ -1326,7 +1317,9 @@ function Vendor() {
                                         />
                                         Delete
                                       </button>
-                                    </div>
+                                    </div>,
+                                    document.body,
+                                  )
                                   )}
                                 </div>
                               </td>
@@ -1338,7 +1331,7 @@ function Vendor() {
 
                   {open && (
                     <>
-                      <div
+                      <div data-testid="vendor-new-open-action"
                         className="fixed inset-0 bg-black/20 z-50 "
                         onClick={() => setOpen(false)}
                       />
@@ -1359,7 +1352,7 @@ function Vendor() {
                               <div className="text-[16px] text-[#333333] font-semibold ">
                                 Customize Tabs{" "}
                               </div>
-                              <div
+                              <div data-testid="vendor-new-customize-items-action"
                                 onClick={() => {
                                   setCustomizeItems((prev) =>
                                     prev.map((i) => ({
@@ -1382,7 +1375,7 @@ function Vendor() {
 
                             <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                               <SearchNormal1 size={16} color="#98A2B3" />
-                              <input
+                              <input data-testid="vendor-new-search-text-input"
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                                 placeholder="Search"
@@ -1435,13 +1428,13 @@ function Vendor() {
                         )}
 
                         <div className="p-3 border-t flex gap-2">
-                          <button
+                          <button data-testid="vendor-new-reset-btn"
                             onClick={handleResetCustomize}
                             className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
                           >
                             Reset
                           </button>
-                          <button
+                          <button data-testid="vendor-new-save-btn"
                             onClick={handleSave}
                             disabled={customizeLoading}
                             className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
@@ -1506,7 +1499,7 @@ function Vendor() {
           />
         )}
 
-        <Modal
+        <Modal data-testid="vendor-new-delete-vendor-are-you-modal"
           show={showDeleteVendor}
           onHide={handleCloseForDeleteVendor}
           centered
@@ -1524,14 +1517,14 @@ function Vendor() {
           </Modal.Body>
 
           <Modal.Footer className="flex justify-center border-0 -mt-2">
-            <Button
+            <Button data-testid="vendor-new-cancel-btn"
               onClick={handleCloseForDeleteVendor}
               className="me-2 w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="vendor-new-confirm-delete-vendor-btn"
               disabled={deleteLoading}
               onClick={ConfirmDeleteVendor}
               className={`

@@ -224,7 +224,7 @@ function AdminProfileEdit({ show, handleClose }) {
             </h2>
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="admin-profile-edit-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -258,7 +258,7 @@ function AdminProfileEdit({ show, handleClose }) {
                   <Camera size="16" color="#000000" />
                 </div>
 
-                <input
+                <input data-testid="admin-profile-edit-image-upload-file"
                   type="file"
                   hidden
                   accept="image/*"
@@ -272,7 +272,7 @@ function AdminProfileEdit({ show, handleClose }) {
             <label className={fieldLabelClass}>
               First Name <span className="text-red-500 text-base">*</span>
             </label>
-            <input
+            <input data-testid="admin-profile-edit-first-name-input"
               type="text"
               value={firstName}
               onChange={handleFirstNameChange}
@@ -286,7 +286,7 @@ function AdminProfileEdit({ show, handleClose }) {
 
           <div className="mb-2">
             <label className={fieldLabelClass}>Last Name</label>
-            <input
+            <input data-testid="admin-profile-edit-last-name-input"
               type="text"
               value={lastName}
               placeholder="Please Enter Last Name"
@@ -303,7 +303,7 @@ function AdminProfileEdit({ show, handleClose }) {
               <span className="flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-[14px]">
                 +91
               </span>
-              <input
+              <input data-testid="admin-profile-edit-mobile-no-input"
                 type="text"
                 value={mobile}
                 placeholder="Please Enter Mobile Number"
@@ -326,7 +326,7 @@ function AdminProfileEdit({ show, handleClose }) {
             <label className={fieldLabelClass}>
               Email ID <span className="text-red-500 text-base">*</span>
             </label>
-            <input
+            <input data-testid="admin-profile-edit-email-id-input"
               type="email"
               value={email}
               onChange={handleEmailChange}
@@ -356,14 +356,14 @@ function AdminProfileEdit({ show, handleClose }) {
           )}
         </div>
         <div className="flex justify-end gap-4 p-4">
-          <button
+          <button data-testid="admin-profile-edit-cancel-btn"
             onClick={handleClose}
             className="h-[44px] px-6 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-medium hover:bg-gray-100 transition"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="admin-profile-edit-save-btn"
             disabled={formLoading}
             onClick={handleSubmit}
             className="h-[44px] px-6 rounded-lg bg-[#1E45E1] text-white text-[14px] font-medium hover:bg-blue-700 transition  disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"

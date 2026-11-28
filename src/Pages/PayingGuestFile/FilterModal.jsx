@@ -93,7 +93,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
                     const isSelected = filters[filterKey].includes(option);
 
                     return (
-                        <button
+                        <button data-testid={`filter-modal-filter-change-btn-${option}`}
                             key={option}
                             type="button"
                             onClick={() => handleFilterChange(filterKey, option)}
@@ -121,7 +121,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
                     </h3>
 
                     <div className="flex items-center gap-4">
-                        <button
+                        <button data-testid="filter-modal-clear-all-btn"
                             type="button"
                             onClick={handleClearAll}
                             className="text-[10px] font-medium text-gray-500 hover:text-[#1E45E1]"
@@ -129,7 +129,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
                             Clear All
                         </button>
 
-                        <button
+                        <button data-testid="filter-modal-close-btn"
                             type="button"
                             onClick={onClose}
                             className="flex items-center justify-center text-red-500 hover:text-red-600"
@@ -148,7 +148,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
 
 
                 <div className="flex shrink-0 justify-end border-t border-gray-100 px-5 py-3">
-                    <button
+                    <button data-testid="filter-modal-apply-filters-btn"
                         type="button"
                         onClick={handleApply}
                         className="h-[36px] w-[133px] rounded-xl bg-[#1E45E1] text-xs font-medium text-white transition hover:bg-blue-700 active:scale-95"

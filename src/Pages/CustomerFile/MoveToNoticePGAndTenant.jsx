@@ -190,7 +190,7 @@ function MoveToNoticePGAndTenant(props) {
               </div>
             )}
           </div>
-          <CloseCircle
+          <CloseCircle data-testid="move-to-notice-pgand-tenant-close-checkout-icon"
             size="24"
             color="#000"
             onClick={handleCloseCheckout}
@@ -255,7 +255,7 @@ function MoveToNoticePGAndTenant(props) {
                   Request Date <span className={fieldRequiredClass}>*</span>
                 </label>
                 <div className="relative w-full mt-1">
-                  <DatePicker
+                  <DatePicker data-testid="move-to-notice-pgand-tenant-request-date"
                     className={datePickerClass(!!checkoUtrequestDateError)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -298,7 +298,7 @@ function MoveToNoticePGAndTenant(props) {
                   Check-Out Date <span className={fieldRequiredClass}>*</span>
                 </label>
                 <div className="relative w-full mt-1">
-                  <DatePicker
+                  <DatePicker data-testid="move-to-notice-pgand-tenant-check-out-date"
                     className={datePickerClass(!!checkoUtDateError)}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -341,7 +341,7 @@ function MoveToNoticePGAndTenant(props) {
               >
                 Reason (Comments)
               </label>
-              <input
+              <input data-testid="move-to-notice-pgand-tenant-reason-comments-input"
                 type="text"
                 name="comments"
                 id="comments"
@@ -362,13 +362,13 @@ function MoveToNoticePGAndTenant(props) {
           </div>
         </div>
         <div className=" flex justify-end gap-3 mt-3 p-4">
-          <button
+          <button data-testid="move-to-notice-pgand-tenant-cancel-btn"
             onClick={handleCloseCheckout}
             className="h-10 px-4 rounded-lg bg-white text-gray-700 font-gilroy font-medium border border-white"
           >
             Cancel
           </button>
-          <button
+          <button data-testid="move-to-notice-pgand-tenant-save-changes-btn"
             disabled={formLoading}
             onClick={handleCheckOutCustomer}
             className="h-10 px-4 rounded-lg !bg-blue-700 text-white font-gilroy font-medium"

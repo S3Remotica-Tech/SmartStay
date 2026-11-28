@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
@@ -122,6 +123,13 @@ const CustomStyles = {
     display: "none",
   }),
 };
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function Request() {
   const state = useSelector((state) => state);
@@ -454,7 +462,7 @@ function Request() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-50 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap font-gilroy min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Request
@@ -471,7 +479,7 @@ function Request() {
           : "border-gray-200 opacity-60 cursor-not-allowed"
       }`}
               >
-                <input
+                <input data-testid="request-input-change-input"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -488,7 +496,7 @@ function Request() {
             </div>
 
             <div>
-              <button
+              <button data-testid="request-add-btn"
                 disabled={!canWriteComplaints}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -577,7 +585,7 @@ function Request() {
 
             <div className="flex items-center justify-between mt-2">
               <div className="flex ">
-                <button
+                <button data-testid="request-current-btn"
                   onClick={() => setActiveTab("current")}
                   className={`px-6 py-3 text-sm font-medium transition-all ${
                     activeTab === "current"
@@ -588,7 +596,7 @@ function Request() {
                   Current
                 </button>
 
-                <button
+                <button data-testid="request-completed-btn"
                   onClick={() => setActiveTab("completed")}
                   className={`px-6 py-3 text-sm font-medium transition-all ${
                     activeTab === "completed"
@@ -605,7 +613,7 @@ function Request() {
                   <div
                     className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                   >
-                    <Filter
+                    <Filter data-testid="request-icon"
                       size={16}
                       onClick={() => {
                         if (canReadComplaints) {
@@ -620,17 +628,17 @@ function Request() {
                     />
                   </div>
                   <div className={`border border-gray-300 rounded-lg w-36 `}>
-                    <Select
+                    <div data-testid="request-statusselect-select" className="contents"><Select
                       styles={CustomStyles}
                       isDisabled={!canReadComplaints}
                       menuPlacement="auto"
                       classNamePrefix="custom"
                       id="statusselect"
-                    />
+                    /></div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Select
+                    <div data-testid="request-statusselect-select-2" className="contents"><Select
                       //   options={paymentStatusOptions}
                       isDisabled={!canReadComplaints}
                       classNamePrefix="custom"
@@ -638,7 +646,7 @@ function Request() {
                       noOptionsMessage={() => "No options"}
                       styles={CustomStyles}
                       id="statusselect"
-                    />
+                    /></div>
                   </div>
                 </div>
 
@@ -646,7 +654,7 @@ function Request() {
                   className={` flex items-center justify-end gap-2 mx-3 mr-2 `}
                 >
                   <div>
-                    <Setting3
+                    <Setting3 data-testid="request-open-icon"
                       onClick={() => setOpen(!open)}
                       className="cursor-pointer"
                       size="22"
@@ -672,34 +680,34 @@ function Request() {
               {activeTab === "current" && (
                 <div>
                   {formattedData?.length > 0 ? (
-                    <div className="bg-white rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className="w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                            <tr className="h-9">
-                              <th className="sticky left-0 z-40 bg-[#F9FAFB] px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-30">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} sticky left-0 z-40 text-start`}>
                                 Request Type
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Description
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised By
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Status
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised On
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Stay Area
                               </th>
-                              <th className="sticky right-0 z-20 bg-[#F9FAFB] px-4 py-2.5 text-center uppercase">
+                              <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                                 Action
                               </th>
                             </tr>
@@ -707,7 +715,7 @@ function Request() {
 
                           <tbody>
                             {data.map((user, index) => (
-                              <tr
+                              <tr data-testid={`request-action-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (user.requestType === "Bed Change") {
@@ -718,9 +726,9 @@ function Request() {
                                 className="text-sm border-b border-[#E8E8E8] h-10 cursor-pointer group hover:bg-gray-50 "
                               >
                                 <td
-                                  className={`sticky left-0 px-4   hover:!bg-gray-50 group-hover:!bg-gray-50  ${
+                                  className={`${TABLE_BODY_CELL} sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 ${
                                     isScrolling ? "!bg-white" : "!bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
                                   <div className="relative group w-[120px]">
                                     <span className="block truncate whitespace-nowrap ">
@@ -733,11 +741,11 @@ function Request() {
                                   </div>
                                 </td>
 
-                                <td className="px-4 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {user.description}
                                 </td>
 
-                                <td className="px-4">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="flex items-center gap-3">
                                     {user.profilePic ? (
                                       <img
@@ -760,16 +768,16 @@ function Request() {
                                     </span>
                                   </div>
                                 </td>
-                                <td className="px-4">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <span
-                                    className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
+                                    className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                     style={{
                                       backgroundColor:
                                         statusStyles[user.status]?.bg || "#EEE",
                                     }}
                                   >
                                     <span
-                                      className="h-2 w-2 rounded-full whitespace-nowrap"
+                                      className="w-[6px] h-[6px] rounded-full"
                                       style={{
                                         backgroundColor:
                                           statusStyles[user.status]?.text ||
@@ -780,24 +788,24 @@ function Request() {
                                   </span>
                                 </td>
 
-                                <td className="px-4">{user.raisedOn}</td>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{user.raisedOn}</td>
 
-                                <td className="px-4">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="text-[#111928] text-sm whitespace-nowrap">
                                     {user.floor}
                                   </div>
 
-                                  <span className="text-[#64748B] text-xs whitespace-nowrap">
+                                  <span className="text-[#314158] text-xs whitespace-nowrap">
                                     {user.room} - {user.bed}
                                   </span>
                                 </td>
 
                                 <td
-                                  className={`sticky  left-0 z-20  hover:!bg-gray-50 group-hover:!bg-gray-50  right-0 px-4 text-center ${
+                                  className={`${TABLE_BODY_CELL} sticky right-0 z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] ${
                                     isScrolling ? "!bg-white" : "bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
-                                  <PiDotsThreeOutlineVerticalFill
+                                  <PiDotsThreeOutlineVerticalFill data-testid={`request-icon-2-${index}`}
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -806,9 +814,10 @@ function Request() {
                                   />
 
                                   {activeRow === index && (
+                                    createPortal(
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
+                                      className="font-gilroy rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -822,7 +831,7 @@ function Request() {
                                     >
                                       {user.requestType === "Amenity" && (
                                         <>
-                                          <button
+                                          <button data-testid={`request-approve-btn-${index}`}
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               handleApprove();
@@ -836,7 +845,7 @@ function Request() {
                                             Approve
                                           </button>
 
-                                          <button
+                                          <button data-testid={`request-deny-btn-${index}`}
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               handleDeny();
@@ -853,7 +862,7 @@ function Request() {
                                       )}
 
                                       {user.requestType === "Bed Change" && (
-                                        <button
+                                        <button data-testid={`request-check-availability-btn-${index}`}
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             setActiveRow(null);
@@ -868,7 +877,9 @@ function Request() {
                                           Check Availability
                                         </button>
                                       )}
-                                    </div>
+                                    </div>,
+                                    document.body,
+                                  )
                                   )}
                                 </td>
                               </tr>
@@ -893,34 +904,34 @@ function Request() {
               {activeTab === "completed" && (
                 <div>
                   {formattedData?.length > 0 ? (
-                    <div className="bg-white rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                        className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className="w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                            <tr className="h-9">
-                              <th className="sticky left-0 z-40 bg-[#F9FAFB] px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-30">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} sticky left-0 z-40 text-start`}>
                                 Request Type
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Description
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised By
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Status
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Raised On
                               </th>
-                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-start`}>
                                 Stay Area
                               </th>
-                              <th className="sticky right-0 z-20 bg-[#F9FAFB] px-4 py-2.5 text-center uppercase">
+                              <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                                 Action
                               </th>
                             </tr>
@@ -928,7 +939,7 @@ function Request() {
 
                           <tbody>
                             {data.map((user, index) => (
-                              <tr
+                              <tr data-testid={`request-action-2-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (user.requestType === "Bed Change") {
@@ -939,9 +950,9 @@ function Request() {
                                 className="text-sm border-b border-[#E8E8E8] h-10 cursor-pointer group hover:bg-gray-50 "
                               >
                                 <td
-                                  className={`sticky left-0 px-4   hover:!bg-gray-50 group-hover:!bg-gray-50  ${
+                                  className={`${TABLE_BODY_CELL} sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 ${
                                     isScrolling ? "!bg-white" : "!bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
                                   <div className="relative group w-[120px]">
                                     <span className="block truncate whitespace-nowrap ">
@@ -954,11 +965,11 @@ function Request() {
                                   </div>
                                 </td>
 
-                                <td className="px-4 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   {user.description}
                                 </td>
 
-                                <td className="px-4">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="flex items-center gap-3">
                                     {user.profilePic ? (
                                       <img
@@ -981,16 +992,16 @@ function Request() {
                                     </span>
                                   </div>
                                 </td>
-                                <td className="px-4">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <span
-                                    className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
+                                    className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                     style={{
                                       backgroundColor:
                                         statusStyles[user.status]?.bg || "#EEE",
                                     }}
                                   >
                                     <span
-                                      className="h-2 w-2 rounded-full whitespace-nowrap"
+                                      className="w-[6px] h-[6px] rounded-full"
                                       style={{
                                         backgroundColor:
                                           statusStyles[user.status]?.text ||
@@ -1001,24 +1012,24 @@ function Request() {
                                   </span>
                                 </td>
 
-                                <td className="px-4">{user.raisedOn}</td>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{user.raisedOn}</td>
 
-                                <td className="px-4">
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                   <div className="text-[#111928] text-sm whitespace-nowrap">
                                     {user.floor}
                                   </div>
 
-                                  <span className="text-[#64748B] text-xs whitespace-nowrap">
+                                  <span className="text-[#314158] text-xs whitespace-nowrap">
                                     {user.room} - {user.bed}
                                   </span>
                                 </td>
 
                                 <td
-                                  className={`sticky  left-0 z-20  hover:!bg-gray-50 group-hover:!bg-gray-50  right-0 px-4 text-center ${
+                                  className={`${TABLE_BODY_CELL} sticky right-0 z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] ${
                                     isScrolling ? "!bg-white" : "bg-white"
-                                  }`}
+                                  } text-[#111928]`}
                                 >
-                                  <PiDotsThreeOutlineVerticalFill
+                                  <PiDotsThreeOutlineVerticalFill data-testid={`request-icon-3-${index}`}
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1027,9 +1038,10 @@ function Request() {
                                   />
 
                                   {activeRow === index && (
+                                    createPortal(
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
+                                      className="font-gilroy rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -1041,7 +1053,7 @@ function Request() {
                                         position: "fixed",
                                       }}
                                     >
-                                      <button
+                                      <button data-testid={`request-delete-btn-${index}`}
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           handleDeleteRequest();
@@ -1051,7 +1063,9 @@ function Request() {
                                         <Trash size="18" color="#FF0000" />
                                         Delete
                                       </button>
-                                    </div>
+                                    </div>,
+                                    document.body,
+                                  )
                                   )}
                                 </td>
                               </tr>

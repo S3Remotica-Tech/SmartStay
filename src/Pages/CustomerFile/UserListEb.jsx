@@ -7,6 +7,13 @@ import PaginationList from "../../Components/PaginationList";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function UserEb(props) {
   const state = useSelector((state) => state);
 
@@ -105,31 +112,31 @@ function UserEb(props) {
             </>
           ) : formattedTenantReadings?.length > 0 ? (
             <div className="relative flex flex-col h-[calc(100vh-245px)]">
-              <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-0 ">
-                <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                  <thead className="bg-blue-100 sticky top-0 z-20">
-                    <tr className="h-9">
-                      <th className="w-[230px] px-2 whitespace-nowrap">
+              <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-0 font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)]">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                  <thead className="sticky top-0 z-20">
+                    <tr>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Billing month
                       </th>
-                      <th className="w-[230px] px-2">From</th>
-                      <th className="w-[230px] px-2">To</th>
-                      <th className="w-[230px] px-2">Floor</th>
-                      <th className="w-[230px] px-2">Room</th>
-                      <th className="w-[230px] px-2">Bed</th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>From</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>To</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Floor</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Room</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Bed</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                         Total units
                       </th>
-                      <th className="w-[230px] px-2">Amount</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     {formattedTenantReadings?.map((row, i) => (
                       <tr
                         key={i}
-                        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 align-middle"
+                        className="align-middle"
                       >
-                        <td className="py-1 px-2">
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[150px] truncate"
                             title={row.billingMonth}
@@ -138,11 +145,11 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className="py-1 px-2">{row.from}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.from}</td>
 
-                        <td className="py-1 px-2">{row.to}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.to}</td>
 
-                        <td className="py-1 px-2">
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[120px] truncate"
                             title={row.floor}
@@ -151,7 +158,7 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className="py-1 px-2">
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[120px] truncate"
                             title={row.room}
@@ -160,7 +167,7 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className="py-1 px-2">
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                           <div
                             className="max-w-[120px] truncate"
                             title={row.bed}
@@ -169,9 +176,9 @@ function UserEb(props) {
                           </div>
                         </td>
 
-                        <td className="py-1 px-2">{row.totalUnits}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.totalUnits}</td>
 
-                        <td className="py-1 px-2">{row.amount}</td>
+                        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.amount}</td>
                       </tr>
                     ))}
                   </tbody>

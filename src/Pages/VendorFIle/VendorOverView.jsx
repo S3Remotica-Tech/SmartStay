@@ -167,7 +167,7 @@ function VendorOverView({
                 className="cursor-pointer"
               />
 
-              <button
+              <button data-testid="vendor-over-view-close-btn"
                 onClick={onClose}
                 className="h-8 w-8 rounded bg-[#FFF3F3] flex items-center justify-center"
               >
@@ -237,7 +237,7 @@ function VendorOverView({
           <div className=" mt-4">
             <div className="flex items-center justify-between border-b    ">
               <div className="flex gap-8 ">
-                <button
+                <button data-testid="vendor-over-view-overview-btn"
                   onClick={() => setActiveTab("overview")}
                   className={`pb-3  ${activeTab === "overview"
                     ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
@@ -246,7 +246,7 @@ function VendorOverView({
                 >
                   Overview
                 </button>
-                <button
+                <button data-testid="vendor-over-view-payments-made-btn"
                   onClick={() => setActiveTab("payments")}
                   className={`pb-3  ${activeTab === "payments"
                     ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
@@ -256,7 +256,7 @@ function VendorOverView({
                   Payments Made
                 </button>
 
-                <button
+                <button data-testid="vendor-over-view-expenses-btn"
                   onClick={() => setActiveTab("expenses")}
                   className={`pb-3  ${activeTab === "expenses"
                     ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
@@ -266,7 +266,7 @@ function VendorOverView({
                   Expenses
                 </button>
 
-                <button
+                <button data-testid="vendor-over-view-comments-btn"
                   onClick={() => setActiveTab("comments")}
                   className={`pb-3  ${activeTab === "comments"
                     ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
@@ -278,7 +278,7 @@ function VendorOverView({
               </div>
 
               {activeTab === "payments" && (
-                <button
+                <button data-testid="vendor-over-view-settle-payment-btn"
                   disabled={
                     VendorOverView?.summary?.outstanding <= 0 || !canWriteVendor
                   }
@@ -293,7 +293,7 @@ function VendorOverView({
               )}
 
               {activeTab === "expenses" && (
-                <button
+                <button data-testid="vendor-over-view-add-expense-btn"
                   disabled={!canWriteExpense}
                   // disabled
                   onClick={handleShow}

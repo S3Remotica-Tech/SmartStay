@@ -118,7 +118,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
           <div className="flex justify-between items-start gap-3 px-3 py-4 sticky top-0 z-10 bg-white w-full border-[#eee] rounded-[20px]">
             <div className="flex gap-3 overflow-auto no-scrollbar show-scrolls py-2">
               {floorList?.map((floor) => (
-                <div
+                <div data-testid={`pg-layout-view-floor-click-action-${floor.id}`}
                   key={floor.id}
                   onClick={() => handleFloorClick(floor.id, floor.name)}
                   className={`flex-shrink-0 flex flex-col justify-center items-center rounded-xl h-24 w-24 cursor-pointer
@@ -158,7 +158,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                 </div>
               ))}
             </div>
-            <button
+            <button data-testid="pg-layout-view-close-btn"
               className="px-2 py-2 bg-gray-200 rounded flex gap-1 "
               onClick={handleClose}
             >
@@ -179,7 +179,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
             )}
           </div>
           <div className="max-h-[400px] overflow-y-auto show-scrolls px-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
               {roomList?.length > 0
                 ? roomList?.map((room) => {
                     // const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
@@ -318,7 +318,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                                         );
                                       })()}
 
-                                    <img
+                                    <img data-testid={`pg-layout-view-select-bed-img-${`${bed.roomId}-${bed.bedId}`}`}
                                       onClick={() => handleSelectBed(bed)}
                                       className={`mt-1 h-10 w-9 cursor-pointer `}
                                       src={bed.isOccupied ? Green : White}
@@ -366,7 +366,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                 </div>
               </div>
               <div className="ml-[200px]">
-                <button
+                <button data-testid="pg-layout-view-select-btn"
                   onClick={handleConfirmSelected}
                   className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
                 >

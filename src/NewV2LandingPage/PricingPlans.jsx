@@ -122,7 +122,7 @@ function PricingPlans() {
 
         <div className="flex justify-center items-center font-tasa mt-[100px] mb-4">
           <div className="flex bg-white border border-[#A9A9A9] rounded-full p-1 w-fit">
-            <button
+            <button data-testid="pricing-plans-monthly-btn"
               // onClick={() => setBilling("monthly")}
               className={`px-5 py-1 font-tasa text-sm transition-all duration-200
           ${
@@ -134,7 +134,7 @@ function PricingPlans() {
               Monthly
             </button>
 
-            <button
+            <button data-testid="pricing-plans-yearly-btn"
               // onClick={() => setBilling("yearly")}
               className={`px-5 py-1 font-tasa text-sm  transition-all duration-200
           ${
@@ -183,7 +183,7 @@ function PricingPlans() {
                 </p>
               </div>
 
-              <button
+              <button data-testid={`pricing-plans-btn-${index}`}
                 className={`w-full mt-3 py-1.5 rounded-lg font-medium ${plan.buttonStyle}`}
               >
                 {plan.button}

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 import Delete from "../../Assets/Images/Delete_red.png";
@@ -18,6 +19,40 @@ import { Edit, Link21 } from "iconsax-react";
 import ApplyBookingModal from "../Bookings/ApplyInvoices";
 import ApplyAdvance from "./ApplyAdvance";
 import ApplyRetainerToInvoice from "./ApplyRetainerToInvoice";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
+// Row background lives on the cells so the sticky Action column stays opaque.
+const ROW_BG = "bg-white group-hover:bg-[#F8F9FF]";
+
+// Status badge — soft background + dot, same as the Consolidated table.
+const STATUS_BADGE = {
+  Pending: { bg: "bg-[rgba(255,189,189,0.4)]", dot: "bg-[#EF4444]" },
+  "Partial Payment": { bg: "bg-[rgba(255,237,202,0.6)]", dot: "bg-[#F59E0B]" },
+  Paid: { bg: "bg-[rgba(179,229,187,0.3)]", dot: "bg-[#22C55E]" },
+  Refunded: { bg: "bg-[#E7F1FF]", dot: "bg-[#3B82F6]" },
+  "Partially Refunded": { bg: "bg-[#E7F1FF]", dot: "bg-[#3B82F6]" },
+  "Pending Refund": { bg: "bg-[rgba(255,237,202,0.6)]", dot: "bg-[#F59E0B]" },
+  Cancelled: { bg: "bg-[#E5E7EB]", dot: "bg-[#6B7280]" },
+};
+
+function StatusBadge({ status }) {
+  const style = STATUS_BADGE[status] || STATUS_BADGE.Pending;
+  return (
+    <span
+      className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${style.bg}`}
+    >
+      <span className={`w-[6px] h-[6px] rounded-full ${style.dot}`} />
+      {status}
+    </span>
+  );
+}
+
+StatusBadge.propTypes = {
+  status: PropTypes.string.isRequired,
+};
 
 const InvoiceTable = (props) => {
   const state = useSelector((state) => state);
@@ -125,6 +160,17 @@ const InvoiceTable = (props) => {
       dispatch({ type: "REMOVE_CREATE_REFUND" });
     }
   }, [state.InvoiceList.createRefundStatusCode]);
+
+  useEffect(() => {
+    if (!showDots) return undefined;
+    const close = () => setShowDots(false);
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
+    return () => {
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
+    };
+  }, [showDots]);
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -279,63 +325,28 @@ const InvoiceTable = (props) => {
 
   return (
     <>
-      <tr
-        key={props.item.invoiceId}
-        className={`text-sm font-gilroy border-b border-[#E8E8E8] hover:bg-gray-50
-   `}
-      >
+      <tr key={props.item.invoiceId} className="group">
         <td
-          className={`px-2 py-1   w-[80px]    ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle"
-            }`}
+          className={`${TABLE_BODY_CELL} ${ROW_BG} text-left font-semibold text-[#1E45E1] cursor-pointer`}
         >
-          {/* <div className="flex items-center justify-end">
-            <input
-              type="checkbox"
-              className="rounded cursor-pointer"
-              checked={selectedRows.includes(item.invoiceId)}
-              onClick={(e) => e.stopPropagation()}
-              onChange={() => handleRowSelect(item.invoiceId)}
-            />
-          </div> */}
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
-        </td>
-        <td
-          className={`w-[230px]    px-2 py-1 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
-             ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
-            }`}
-        >
-          <div
+          <div data-testid={`invoicelist-table-action-${props.item.invoiceId}`}
             onClick={(e) => {
               e.stopPropagation();
               handleNavigatePDF(props.item);
               setNavigation(false);
             }}
-            className="Invoice_Name"
+            className="Invoice_Name hover:underline"
           >
             {props.item?.invoiceNumber === null ||
               props.item?.invoiceNumber === ""
               ? "0.00"
               : props.item?.invoiceNumber}
           </div>
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
         </td>
 
-        <td
-          className={`w-[250px]  px-2 py-1 relative ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle "
-            }`}
-        >
-          <div
-            className={`flex items-center gap-2 cursor-pointer w-fit group `}
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left text-[#111928]`}>
+          <div data-testid={`invoicelist-table-action-2-${props.item.invoiceId}`}
+            className="flex items-center gap-[13px] cursor-pointer w-fit group/name"
             onClick={(e) => {
               e.stopPropagation();
               handleNavigateTenantProfile(props.item);
@@ -345,190 +356,99 @@ const InvoiceTable = (props) => {
               <img
                 src={props.item.profilePic}
                 alt="profile"
-                className="w-9 h-9 rounded-full"
+                className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold text-[#44536A]">
+              <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
                 {props.item?.initials || "-"}
               </div>
             )}
 
-            <div className="truncate w-[120px] text-[#1E45E1] hover:underline  ">
+            <span className="truncate max-w-[160px] font-semibold text-[#111928] hover:underline">
               {props.item?.fullName}
-            </div>
+            </span>
             <span
-              className="absolute hidden group-hover:block left-full left-[140px] mt-1
-      bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
+              className="absolute hidden group-hover/name:block left-[200px] mt-1
+      bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
       z-50"
             >
               {props.item?.fullName}
             </span>
           </div>
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
         </td>
 
-        <td
-          className={`w-[230px]    px-2 py-1 relative  ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle "
-            }`}
-        >
-          <div className="flex items-center gap-2 group w-fit">
-            <span className="truncate max-w-[150px]">
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} relative text-left text-[#111928]`}>
+          <div className="flex items-center gap-2 group/type w-fit">
+            <span className="truncate max-w-[150px] font-medium text-[#111928]">
               {props.item.invoiceType}
             </span>
 
             {props.item.invoiceMode === "Manual" && (
-              <ReceiptEdit size="14" className="text-gray-700" />
+              <ReceiptEdit size="14" className="text-[#314158]" />
             )}
 
             <span
-              className="absolute hidden group-hover:block left-full left-0 mt-1
-      bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap 
-      z-50 "
+              className="absolute hidden group-hover/type:block left-0 top-full -mt-2
+      bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
+      z-50"
             >
               {props.item.invoiceMode}
             </span>
           </div>
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
         </td>
 
-        <td
-          className={`w-[230px]    px-2 py-1 whitespace-nowrap  ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle"
-            }`}
-        >
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-left text-[#314158]`}>
           {props.item?.invoiceDate}
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
         </td>
 
-        <td
-          className={`w-[230px] px-2 py-1 whitespace-nowrap  ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle"
-            }`}
-        >
-          {props.item?.dueDate}{" "}
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-left text-[#314158]`}>
+          {props.item?.dueDate}
         </td>
 
-        <td
-          className={`w-[230px] px-2 py-1 relative align-middle whitespace-nowrap ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle "
-            }`}
-        >
-          <div className="relative inline-block">
-            <span className="leading-5">
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-right text-[#111928]`}>
+          <div className="flex flex-col items-end">
+            <span className="font-medium text-[#111928]">
               ₹{Number(props.item?.invoiceAmount || 0).toLocaleString("en-IN")}
             </span>
 
-            {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-              <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
-                {props.item.isDiscounted && (
-                  <span>
-                    Discount Applied : ₹
-                    <span className="text-[11px] font-semibold">
-                      {Number(props.item?.discountAmount || 0).toLocaleString(
-                        "en-IN",
-                      )}
-                    </span>
-                  </span>
-                )}
+            {props.item.isDiscounted && (
+              <span className="text-[12px] leading-[16px] text-[#62748E]">
+                Discount ₹
+                {Number(props.item?.discountAmount || 0).toLocaleString("en-IN")}
+              </span>
+            )}
 
-                {props.item.isInvoicesApplied && (
-                  <span className="">
-                    Adjusted Amount : ₹
-                    <span className="text-[11px] font-semibold">
-                      {Number(
-                        props.item?.invoicesApplied?.amountApplied || 0,
-                      ).toLocaleString("en-IN")}
-                    </span>
-                  </span>
-                )}
-              </div>
+            {props.item.isInvoicesApplied && (
+              <span className="text-[12px] leading-[16px] text-[#62748E]">
+                Adjusted ₹
+                {Number(
+                  props.item?.invoicesApplied?.amountApplied || 0,
+                ).toLocaleString("en-IN")}
+              </span>
             )}
           </div>
         </td>
 
-        <td
-          className={`w-[230px]  px-2 py-1 whitespace-nowrap  ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle "
-            }`}
-        >
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-right font-bold text-[#111928]`}>
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
+        </td>
+
+        <td className={`${TABLE_BODY_CELL} ${ROW_BG} text-left text-[#111928]`}>
+          <div className="flex items-center gap-2">
+            {STATUS_BADGE[props.item?.paymentStatus] && (
+              <StatusBadge status={props.item.paymentStatus} />
+            )}
+            {/* {props.item?.isCancelled && <StatusBadge status="Cancelled" />} */}
+          </div>
         </td>
 
         <td
-          className={`w-[270px] px-2 py-1 whitespace-nowrap overflow-hidden  ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle "
-            }`}
+          className={`${TABLE_BODY_CELL} ${ROW_BG} sticky right-0 z-[1] text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] text-[#111928]`}
         >
-          {(props.item?.paymentStatus === "Pending" ||
-            props.item?.paymentStatus === "Partial Payment") && (
-              <span className="inline-flex items-center gap-2 bg-[#FFD9D9] rounded-[13px] px-3 py-1 text-xs">
-                <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                {props.item?.paymentStatus}
-              </span>
-            )}
-
-          {props.item?.paymentStatus === "Paid" && (
-            <span className="inline-flex items-center gap-2 cursor-pointer bg-green-100 rounded-[14px] px-3 py-1 text-xs">
-              <span className="w-2 h-2 rounded-full bg-green-600"></span>
-              {props.item?.paymentStatus}
-            </span>
-          )}
-
-          {(props.item?.paymentStatus === "Refunded" ||
-            props.item?.paymentStatus === "Partially Refunded") && (
-              <span className="inline-flex items-center gap-2 bg-[#FFF3CD] rounded-[14px] px-3 py-1 text-xs">
-                <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-                {props.item?.paymentStatus}
-              </span>
-            )}
-
-          {props.item?.paymentStatus === "Pending Refund" && (
-            <span className="inline-flex items-center gap-2 bg-[#FFE6B3] rounded-[14px] px-3 py-1 text-xs">
-              <span className="w-2 h-2 rounded-full bg-orange-500"></span>
-              {props.item?.paymentStatus}
-            </span>
-          )}
-
-          {props.item?.isCancelled && (
-            <span className="inline-flex items-center gap-2 bg-[#FFE6B3] rounded-[14px] px-3 py-1 text-xs">
-              <span className="w-2 h-2 rounded-full bg-gray-500"></span>
-              Cancelled
-            </span>
-          )}
-          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
-            <div className="h-4"></div>
-          )}
-        </td>
-
-        <td
-          className={`w-[230px] py-1   px-2  ${props.item.isDiscounted || props.item.isInvoicesApplied
-            ? ""
-            : "align-middle "
-            }`}
-        >
-          <div className="w-full flex justify-start">
-            <div className="cursor-pointer flex justify-center items-center relative">
-              <PiDotsThreeOutlineVerticalFill
-                className={`h-5 w-5 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-gray-500"}`}
+          <div className="w-full flex justify-center">
+            <div className={`cursor-pointer flex justify-center items-center relative w-[34px] h-[34px] rounded-[12px] border-[1px] ${showDots ? "border-[#1E45E1] bg-[#EFF6FF]" : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"}`}>
+              <PiDotsThreeOutlineVerticalFill data-testid={`invoicelist-table-icon-${props.item.invoiceId}`}
+                className={`h-4 w-4 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-[#4A5565]"}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleShowDots(e);
@@ -536,21 +456,24 @@ const InvoiceTable = (props) => {
                 }}
               />
 
-              {showDots && (
+              {showDots && createPortal(
                 <div
                   ref={popupRef}
-                  className="fixed max-w-[250px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                  className="fixed max-w-[250px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000] font-gilroy shadow-[0px_8px_24px_rgba(0,0,0,0.12)]"
                   style={{
-                    top: showAbove
-                      ? popupPosition.top -
-                      (popupRef.current?.offsetHeight || 100) -
-                      20
-                      : popupPosition.top - 35,
-                    left: popupPosition.left,
+                    top: Math.max(
+                      8,
+                      showAbove
+                        ? popupPosition.top -
+                        (popupRef.current?.offsetHeight || 100) -
+                        20
+                        : popupPosition.top - 35,
+                    ),
+                    left: Math.max(8, popupPosition.left),
                   }}
                 >
                   {props.item.canEdit && (
-                    <button
+                    <button data-testid={`invoicelist-table-edit-btn-${props.item.invoiceId}`}
                       type="button"
                       onClick={() => canUpdateInvoice && handleEdit(props)}
                       disabled={!canUpdateInvoice}
@@ -575,7 +498,7 @@ const InvoiceTable = (props) => {
                   )}
 
                   {props.item.canRedeem ? (
-                    <button
+                    <button data-testid={`invoicelist-table-apply-to-invoices-btn-${props.item.invoiceId}`}
                       disabled={!canUpdateInvoice}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -642,7 +565,7 @@ const InvoiceTable = (props) => {
                         </span>
                       </button> */}
 
-                      <button
+                      <button data-testid={`invoicelist-table-adjust-with-retainer-btn-${props.item.invoiceId}`}
                         disabled={
                           !canUpdateInvoice || !props.item?.canApplyFromAdvance
                         }
@@ -717,7 +640,7 @@ const InvoiceTable = (props) => {
                   </button> */}
 
                   {props.item.canUnpaid && (
-                    <button
+                    <button data-testid={`invoicelist-table-unpaid-btn-${props.item.invoiceId}`}
                       disabled={!canUpdateInvoice}
                       onClick={() =>
                         canUpdateInvoice && handleUnpaid(props.item)
@@ -742,7 +665,7 @@ const InvoiceTable = (props) => {
                     (props.item?.invoiceType === "Rent" ||
                       props.item?.invoiceType === "Settlement" ||
                       props.item?.invoiceType === "Reassign-Rent") && (
-                      <button
+                      <button data-testid={`invoicelist-table-make-discount-btn-${props.item.invoiceId}`}
                         disabled={!canUpdateInvoice}
                         onClick={() =>
                           canUpdateInvoice && handleMakeDiscount(props.item)
@@ -757,7 +680,7 @@ const InvoiceTable = (props) => {
                       </button>
                     )}
 
-                  <div
+                  <div data-testid={`invoicelist-table-download-action-${props.item.invoiceId}`}
                     onClick={() =>
                       isExportAllow && handleInvoicepdf(props.item)
                     }
@@ -774,7 +697,7 @@ const InvoiceTable = (props) => {
                     props.item?.invoiceAmount > 0 &&
                     props.item?.paymentStatus !== "Cancelled" &&
                     props.item?.paymentStatus !== "Paid" && (
-                      <div
+                      <div data-testid={`invoicelist-table-record-payment-action-${props.item.invoiceId}`}
                         onClick={() => canWriteInvoice && handleShowform(props)}
                         className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
@@ -793,7 +716,7 @@ const InvoiceTable = (props) => {
                   {props.item?.invoiceAmount < 0 &&
                     props.item?.paymentStatus !== "Refunded" &&
                     props.item?.paymentStatus !== "Cancelled" && (
-                      <div
+                      <div data-testid={`invoicelist-table-refund-amount-action-${props.item.invoiceId}`}
                         onClick={() =>
                           canWriteInvoice && handleRefundAmount(props)
                         }
@@ -813,7 +736,7 @@ const InvoiceTable = (props) => {
 
                   {props.item?.paymentStatus !== "Cancelled" &&
                     props.item?.paymentStatus !== "Paid" && (
-                      <div
+                      <div data-testid={`invoicelist-table-delete-action-${props.item.invoiceId}`}
                         onClick={() =>
                           canDeleteInvoice && handleBillDelete(props)
                         }
@@ -830,7 +753,8 @@ const InvoiceTable = (props) => {
                         </span>
                       </div>
                     )}
-                </div>
+                </div>,
+                document.body,
               )}
             </div>
           </div>

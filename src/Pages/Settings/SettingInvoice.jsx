@@ -1357,7 +1357,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 </h4>
 
                 <div className="flex items-start gap-2 my-2">
-                  <img
+                  <img data-testid="setting-invoice-leftarrow-img"
                     src={leftarrow}
                     alt="leftarrow"
                     width={20}
@@ -1395,7 +1395,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 {/* <div className="bg-white flex justify-center gap-3 mb-4"> */}
                 <div className="bg-white flex flex-wrap justify-center md:justify-start gap-2 md:gap-3 mb-4">
                   {PdfOptions.map((option) => (
-                    <button
+                    <button data-testid={`setting-invoice-selected-tab-btn-${option.value}`}
                       key={option.value}
                       onClick={() => {
                         setSelectedTab(option.value);
@@ -1433,7 +1433,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                               <div className="border rounded-[10px] p-2.5 pb-3 mb-3 col-span-12 overflow-y-auto">
                                 <div className="flex justify-end">
-                                  <img
+                                  <img data-testid="setting-invoice-editicon-img"
                                     src={EditICon}
                                     onClick={handleShowContactNumberForm}
                                     alt="editicon"
@@ -1501,7 +1501,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                             <>
                                               <div className="qr-overlay absolute inset-0 hidden h-[60px] bg-black/40 rounded-md" />
 
-                                              <div
+                                              <div data-testid="setting-invoice-action"
                                                 className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
                                                 onClick={() => {
                                                   if (
@@ -1535,7 +1535,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                             } font-gilroy text-[12px] font-normal`}
                                         >
                                           Choose file
-                                          <input
+                                          <input data-testid="setting-invoice-file-upload-hostel-file"
                                             type="file"
                                             accept="image/*"
                                             className="hidden"
@@ -1567,7 +1567,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                             </label>
                                           </div>
                                           <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
-                                            <select
+                                            <select data-testid="setting-invoice-select"
                                               className={`appearance-none bg-transparent border-none pr-4 cursor-pointer outline-none`}
                                               disabled={!allowEditFields.contact}
                                               style={{
@@ -1588,7 +1588,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                               <option value="+971">+971</option>
                                             </select>
 
-                                            <input
+                                            <input data-testid="setting-invoice-9876543210-input"
                                               type="tel"
                                               placeholder="9876543210"
                                               value={paymentmobilenum}
@@ -1629,7 +1629,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                             </label>
                                           </div>
                                           <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
-                                            <input
+                                            <input data-testid="setting-invoice-abc-gmail-com-input"
                                               type="email"
                                               placeholder="abc@gmail.com"
                                               className="ml-2 bg-transparent border-none outline-none w-full"
@@ -1712,7 +1712,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                                 <>
                                                   <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
 
-                                                  <div
+                                                  <div data-testid="setting-invoice-action-2"
                                                     className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer hidden"
                                                     onClick={() => {
                                                       const isLocal =
@@ -1746,7 +1746,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                                     }`}
                                                 >
                                                   Choose file
-                                                  <input
+                                                  <input data-testid="setting-invoice-rental-signature-change-file"
                                                     type="file"
                                                     accept="image/*"
                                                     className="hidden"
@@ -1778,7 +1778,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   </div>
                                 )}
 
-                                <Modal
+                                <Modal data-testid="setting-invoice-override-global-value-you-modal"
                                   show={contactnumberform}
                                   onHide={handleCloseContactNumberForm}
                                   centered
@@ -1802,13 +1802,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   </Modal.Body>
 
                                   <Modal.Footer className="!justify-center !border-t-0 !pb-5 -mt-5">
-                                    <Button
+                                    <Button data-testid="setting-invoice-cancel-btn"
                                       className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[rgba(111,108,143,1)] !font-gilroy !font-semibold !border !border-gray-500 !mr-2.5"
                                       onClick={handleCloseContactNumberForm}
                                     >
                                       Cancel
                                     </Button>
-                                    <Button
+                                    <Button data-testid="setting-invoice-edit-anyway-btn"
                                       className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold"
                                       onClick={handleEditAnyway}
                                     >
@@ -1846,7 +1846,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 <label className={fieldLabelClass}>
                                   Prefix
                                 </label>
-                                <input
+                                <input data-testid="setting-invoice-prefix-input"
                                   type="text"
                                   placeholder="prefix"
                                   value={prefix}
@@ -1867,7 +1867,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 <label className={fieldLabelClass}>
                                   Suffix
                                 </label>
-                                <input
+                                <input data-testid="setting-invoice-suffix-input"
                                   type="text"
                                   placeholder="suffix"
                                   value={suffix}
@@ -1889,7 +1889,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                               <label className={fieldLabelClass}>
                                 Preview
                               </label>
-                              <input
+                              <input data-testid="setting-invoice-preview-input"
                                 type="text"
                                 placeholder="preview"
                                 value={`${prefix}-${suffix}`}
@@ -1914,7 +1914,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 <label className={fieldLabelClass}>
                                   Add the Tax payable GST in Percentage %
                                 </label>
-                                <input
+                                <input data-testid="setting-invoice-add-the-tax-payable-gst-in-input"
                                   type="text"
                                   placeholder="12%"
                                   value={tax}
@@ -1939,7 +1939,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             </p>
 
                             {banking && banking.length > 0 && (
-                              <button
+                              <button data-testid="setting-invoice-add-btn"
                                 onClick={handleAddBankAccount}
                                 className="text-[14px] font-normal text-white rounded-[10px] w-[106px] h-[35px] border border-[#1E45E1] bg-[#1E45E1]"
                               >
@@ -1956,7 +1956,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <div className="  flex  flex-col gap-3 justify-center pt-2">
                             <div className="w-full">
                               <label className={fieldLabelClass}> Select Bank</label>
-                              <Select
+                              <div data-testid="setting-invoice-bank-select" className="contents"><Select
                                 options={bankOptions}
                                 value={selectedBank}
                                 onChange={setSelectedBank}
@@ -1971,12 +1971,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   GroupHeading,
                                   IndicatorSeparator: () => null,
                                 }}
-                              />
+                              /></div>
                             </div>
 
                             <div className="w-full">
                               <label className={fieldLabelClass}> Select Payment Method</label>
-                              <Select
+                              <div data-testid="setting-invoice-payment-method-select" className="contents"><Select
                                 options={paymentOptions}
                                 value={selectedPayment}
                                 onChange={setSelectedPayment}
@@ -1991,7 +1991,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   GroupHeading,
                                   IndicatorSeparator: () => null,
                                 }}
-                              />
+                              /></div>
                             </div>
                           </div>
 
@@ -2049,7 +2049,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                       <>
                                         <div className="qr-overlay hidden absolute inset-0 bg-black/15 rounded-lg z-[2] pointer-events-none" />
 
-                                        <div
+                                        <div data-testid="setting-invoice-action-3"
                                           className="qr-trash hidden absolute flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer z-[3]"
                                           onClick={() => {
                                             const isLocal =
@@ -2079,7 +2079,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 <div>
                                   <label className="cursor-pointer text-[14px] font-normal font-gilroy text-[#1E45E1]">
                                     Choose file
-                                    <input
+                                    <input data-testid="setting-invoice-qr-image-change-file"
                                       type="file"
                                       accept="image/*"
                                       className="hidden"
@@ -2110,7 +2110,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </label>
 
                           <div className="relative">
-                            <textarea
+                            <textarea data-testid="setting-invoice-add-notes-textarea"
                               className={fieldTextareaClass(!!notes_errmsg)}
                               rows={4}
                               placeholder="Add any message..."
@@ -2141,7 +2141,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </label>
 
                           <div className="relative">
-                            <textarea
+                            <textarea data-testid="setting-invoice-add-t-c-textarea"
                               rows={4}
                               placeholder="Add any message..."
                               value={terms}
@@ -2167,7 +2167,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </h6>
 
                           <div className="w-full">
-                            <RgbaColorPicker
+                            <RgbaColorPicker data-testid="setting-invoice-color-change-input"
                               color={color}
                               onChange={handleColorChange}
                               style={{ width: "100%" }}
@@ -2175,27 +2175,27 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           <div className="flex flex-wrap justify-center gap-2 mt-3">
-                            <input
+                            <input data-testid="setting-invoice-input"
                               value={hexValue}
                               readOnly
                               className="w-20 text-center border border-gray-300 rounded"
                             />
-                            <input
+                            <input data-testid="setting-invoice-input-2"
                               value={color.r}
                               readOnly
                               className="w-10 text-center border border-gray-300 rounded"
                             />
-                            <input
+                            <input data-testid="setting-invoice-input-3"
                               value={color.g}
                               readOnly
                               className="w-10 text-center border border-gray-300 rounded"
                             />
-                            <input
+                            <input data-testid="setting-invoice-input-4"
                               value={color.b}
                               readOnly
                               className="w-10 text-center border border-gray-300 rounded"
                             />
-                            <input
+                            <input data-testid="setting-invoice-input-5"
                               value={alphaValue}
                               readOnly
                               className="w-10 text-center border border-gray-300 rounded"
@@ -2211,7 +2211,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                           <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-9 gap-2 justify-center">
                             {presetColors.map((preset, index) => (
-                              <div
+                              <div data-testid={`setting-invoice-color-action-${index}`}
                                 key={index}
                                 onClick={() => {
                                   const r = parseInt(preset.substr(1, 2), 16);
@@ -2242,7 +2242,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         )}
 
                         <div className="flex justify-end mt-4 lg:col-span-10">
-                          <button
+                          <button data-testid="setting-invoice-save-template-btn"
                             disabled={!canWriteInvoice}
                             onClick={handleSaveRentalTemplate}
                             className={`w-[160px] h-[42px] rounded-[10px] px-4 py-2 font-gilroy text-[14px] font-semibold text-white ${!canWriteInvoice
@@ -2764,7 +2764,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                     </div>
 
                     <h5 className="flex items-start gap-2 font-gilroy text-[17px] font-semibold text-[rgba(34,34,34,1)]">
-                      <img
+                      <img data-testid="setting-invoice-leftarrow-img-2"
                         src={leftarrow}
                         alt="leftarrow"
                         width={20}
@@ -2797,7 +2797,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           <div className="flex items-start gap-2 mt-1">
-                            <input
+                            <input data-testid="setting-invoice-hostel-pg-logo-checkbox"
                               type="checkbox"
                               id="customizeLogo"
                               checked={isCheckedLogo}
@@ -2833,7 +2833,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                               {previewURL && isHovering && (
                                 <div className="absolute inset-0 flex items-center justify-center rounded bg-black/40">
-                                  <div
+                                  <div data-testid="setting-invoice-action-4"
                                     onClick={
                                       canDeleteInvoice
                                         ? handleDeleteLogoGlobal
@@ -2861,7 +2861,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 }`}
                             >
                               <div>
-                                <label
+                                <label data-testid="setting-invoice-file-action"
                                   className={`font-gilroy text-sm font-normal ${canWriteInvoice
                                     ? "text-[rgba(30,69,225,1)] cursor-pointer"
                                     : "text-gray-400 cursor-not-allowed"
@@ -2871,7 +2871,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   }}
                                 >
                                   Choose file
-                                  <input
+                                  <input data-testid="setting-invoice-file-change-file"
                                     type="file"
                                     accept="image/*"
                                     className="hidden"
@@ -2907,7 +2907,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </label>
 
                           <div className="flex items-start gap-2 md:mb-0">
-                            <input
+                            <input data-testid="setting-invoice-contact-number-checkbox"
                               type="checkbox"
                               id="customizeContact"
                               checked={isCheckedmobile}
@@ -2925,7 +2925,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                         <div className="w-full md:w-full lg:w-7/12">
                           <div className="flex items-center h-11 overflow-hidden rounded-md border border-gray-200">
-                            <select
+                            <select data-testid="setting-invoice-select-2"
                               defaultValue="+91"
                               className="bg-transparent font-gilroy text-xs font-normal text-gray-600 appearance-none focus:outline-none px-2"
                             >
@@ -2934,7 +2934,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                               <option value="+44">+44</option>
                             </select>
 
-                            <input
+                            <input data-testid="setting-invoice-9876543210-input-2"
                               type="text"
                               value={mobilenum}
                               onChange={handleMobile}
@@ -2960,7 +2960,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </label>
 
                           <div className="flex items-start gap-2">
-                            <input
+                            <input data-testid="setting-invoice-e-mail-address-checkbox"
                               type="checkbox"
                               id="customizeEmail"
                               checked={isCheckedEmail}
@@ -2977,7 +2977,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                         </div>
 
                         <div className="w-full md:w-full lg:w-7/12">
-                          <input
+                          <input data-testid="setting-invoice-example-email-com-input"
                             type="email"
                             placeholder="example@email.com"
                             value={email}
@@ -3002,7 +3002,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
 
                           <div className="mt-2 flex items-start gap-2">
-                            <input
+                            <input data-testid="setting-invoice-digital-signature-upload-checkbox"
                               type="checkbox"
                               id="customizeSignature"
                               checked={isCheckedSignature}
@@ -3038,7 +3038,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                                 {isHoveringSign && (
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                    <div
+                                    <div data-testid="setting-invoice-action-5"
                                       onClick={() => {
                                         if (canDeleteInvoice) {
                                           handleDeleteSignatureGlobal();
@@ -3065,7 +3065,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                           <div className="mt-2 flex items-center justify-between">
                             <div>
-                              <label
+                              <label data-testid="setting-invoice-file-action-2"
                                 className={`font-gilroy text-sm font-normal
       ${canWriteInvoice
                                     ? "text-[rgba(30,69,225,1)] cursor-pointer"
@@ -3076,7 +3076,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 }}
                               >
                                 Choose file
-                                <input
+                                <input data-testid="setting-invoice-file-signature-change-file"
                                   type="file"
                                   accept="image/*"
                                   className="hidden"
@@ -3092,13 +3092,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             </div>
 
                             <div className="flex gap-4">
-                              <button
+                              <button data-testid="setting-invoice-clear-btn"
                                 onClick={handleClear}
                                 className="font-gilroy text-base font-normal text-gray-600"
                               >
                                 Clear
                               </button>
-                              <button
+                              <button data-testid="setting-invoice-done-btn"
                                 onClick={handleSignatureDone}
                                 className="font-gilroy text-base font-semibold text-[rgba(30,69,225,1)]"
                               >
@@ -3126,7 +3126,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                     {savebuttonshow && (
                       <div className="flex justify-end mb-4">
-                        <button
+                        <button data-testid="setting-invoice-reset-btn"
                           disabled={!canWriteInvoice}
                           type="button"
                           onClick={handleReset}
@@ -3135,7 +3135,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           Reset
                         </button>
 
-                        <button
+                        <button data-testid="setting-invoice-save-template-btn-2"
                           disabled={!canWriteInvoice}
                           type="button"
                           onClick={handleSaveTemplate}
@@ -3178,7 +3178,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           </div>
                         </div>
 
-                        <button
+                        <button data-testid="setting-invoice-edit-btn"
                           onClick={handleEditChange}
                           className="flex items-center px-3 p-2 font-gilroy text-base font-semibold text-white bg-[#1E45E1] border border-[#1E45E1] rounded-xl font-gilroy"
                         >
@@ -3216,7 +3216,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             }
                           >
                             <span className="inline-block">
-                              <button
+                              <button data-testid="setting-invoice-go-to-templates-btn"
                                 onClick={handleShow}
                                 disabled
                                 className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] pointer-events-none font-gilroy"
@@ -3227,7 +3227,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             </span>
                           </OverlayTrigger>
                         ) : (
-                          <button
+                          <button data-testid="setting-invoice-go-to-templates-btn-2"
                             onClick={handleShow}
                             className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] font-gilroy"
                           >

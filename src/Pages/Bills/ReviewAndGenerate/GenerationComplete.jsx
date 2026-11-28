@@ -33,7 +33,7 @@ function GenerationComplete({
             Generation Complete
           </span>
 
-          <button
+          <button data-testid="generation-complete-done-btn"
             type="button"
             onClick={onDone}
             className="text-[#667085] hover:text-[#344054]"
@@ -84,7 +84,7 @@ function GenerationComplete({
         </div>
 
         <div className="border-t border-[#EAECF0] px-6 py-4 flex items-center justify-end  gap-3">
-          <button
+          <button data-testid="generation-complete-done-btn-2"
             type="button"
             onClick={onDone}
             className="px-12 py-2 rounded-lg bg-[#1E45E1] text-white text-[12px] font-semibold"

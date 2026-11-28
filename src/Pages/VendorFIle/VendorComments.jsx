@@ -214,7 +214,7 @@ function VendorComments() {
         </label>
 
         <div className=" rounded-lg mb-[50px] ">
-          <ReactQuill
+          <ReactQuill data-testid="vendor-comments-additional-comments-input"
             theme="snow"
             value={comment}
             onChange={(value) => {
@@ -232,7 +232,7 @@ function VendorComments() {
         {commentError && <ErrorMessage message={commentError} type="error" />}
 
         <div className="flex justify-end mt-3">
-          <button
+          <button data-testid="vendor-comments-add-comment-btn"
             onClick={handleAddComment}
             disabled={formLoading || !canWriteVendor}
             className={`disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium ${formLoading || !canWriteVendor
@@ -290,7 +290,7 @@ function VendorComments() {
 
                 <div className="flex-1 min-w-0 pb-8 relative">
                   <div className="absolute right-0 top-0 hidden group-hover:flex items-center gap-2">
-                    <button
+                    <button data-testid={`vendor-comments-btn-${item.id}`}
                       onClick={() => canUpdateVendor && handleEdit(item)}
                       disabled={!canUpdateVendor}
                       className={`p-1 rounded ${canUpdateVendor
@@ -304,7 +304,7 @@ function VendorComments() {
                       />
                     </button>
 
-                    <button
+                    <button data-testid={`vendor-comments-btn-2-${item.id}`}
                       onClick={() => canDeleteVendor && handleDelete(item.id)}
                       disabled={!canDeleteVendor}
                       className={`p-1 rounded ${canDeleteVendor

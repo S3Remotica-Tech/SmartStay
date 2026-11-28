@@ -306,7 +306,7 @@ function NewForgotPasswordPage() {
 
       {step === STEP_REQUEST && (
         <>
-          <form
+          <form data-testid="new-forgot-password-page-send-verification-code-form"
             noValidate
             onSubmit={handleSendCode}
             className="flex w-full flex-col gap-[23px]"
@@ -317,7 +317,7 @@ function NewForgotPasswordPage() {
               hasError={Boolean(contactError || serverContactError)}
               errors={[contactError, serverContactError]}
             >
-              <input
+              <input data-testid="new-forgot-password-page-registered-email-input"
                 id="forgot-contact"
                 type="email"
                 inputMode="email"
@@ -341,7 +341,7 @@ function NewForgotPasswordPage() {
 
           <p className="mb-0 text-center font-tasa text-[16px] leading-[25px] tracking-[0.08px] text-[#49475A]">
             Remember your password?{" "}
-            <button
+            <button data-testid="new-forgot-password-page-back-to-sign-in-btn"
               type="button"
               onClick={() => navigate("/hostel-management-login")}
               className="border-0 bg-transparent p-0 font-bold text-primary-500 hover:underline"
@@ -353,7 +353,7 @@ function NewForgotPasswordPage() {
       )}
 
       {step === STEP_VERIFY && (
-        <OtpVerifyPanel
+        <OtpVerifyPanel data-testid="new-forgot-password-page-forgot-otp-icon"
           id="forgot-otp"
           label="Enter the 6-digit code"
           submitText="Verify & Create new password"
@@ -371,7 +371,7 @@ function NewForgotPasswordPage() {
       )}
 
       {step === STEP_RESET && (
-        <form
+        <form data-testid="new-forgot-password-page-password-requirements-at-least-form"
           noValidate
           onSubmit={handleReset}
           className="flex w-full flex-col gap-[23px]"
@@ -382,7 +382,7 @@ function NewForgotPasswordPage() {
             hasError={Boolean(passwordError)}
             errors={[passwordError]}
           >
-            <input
+            <input data-testid="new-forgot-password-page-new-password-input"
               id="forgot-new-password"
               type={showNew ? "text" : "password"}
               autoComplete="new-password"
@@ -409,7 +409,7 @@ function NewForgotPasswordPage() {
             hasError={Boolean(confirmError)}
             errors={[confirmError]}
           >
-            <input
+            <input data-testid="new-forgot-password-page-re-enter-new-password-input"
               id="forgot-confirm-password"
               type={showConfirm ? "text" : "password"}
               autoComplete="new-password"

@@ -119,7 +119,7 @@ function OccupiedBedStatus({
   return (
     <>
       <div className="modal show block static font-gilroy">
-        <Modal show={show} onHide={handleCloseBed} centered>
+        <Modal data-testid="occupied-bed-status-occupied-modal" show={show} onHide={handleCloseBed} centered>
           <Modal.Dialog className="m-0 p-0 w-full max-w-full rounded-2xl">
             <Modal.Header className="pb-0 border border-gray-200">
               <div className="flex justify-between w-full p-2 pr-3">
@@ -182,7 +182,7 @@ function OccupiedBedStatus({
 
                           <div className="mt-2">
                             <div>
-                              <label
+                              <label data-testid={`occupied-bed-status-navigate-tenant-profile-action-${tenant.tenetId}`}
                                 onClick={() =>
                                   handleNavigateTenantProfile(tenant)
                                 }
@@ -203,7 +203,7 @@ function OccupiedBedStatus({
                           </div>
                         </div>
 
-                        <div
+                        <div data-testid={`occupied-bed-status-show-dots-action-${tenant.tenetId}`}
                           onClick={() => handleShowDots(index)}
                           className={`cursor-pointer h-[40px] w-[40px] rounded-full border border-[#EFEFEF] flex items-center justify-center relative
       ${activeRoomId === index ? "bg-[#E0ECFF]" : "bg-white"}
@@ -217,7 +217,7 @@ function OccupiedBedStatus({
                               ref={popupRef}
                               className="absolute right-12 -top-[20px] w-[190px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
                             >
-                              <div
+                              <div data-testid={`occupied-bed-status-change-bed-action-${tenant.tenetId}`}
                                 onClick={() =>
                                   canUpdateBooking && handleReAssignBed(tenant)
                                 }
@@ -243,7 +243,7 @@ function OccupiedBedStatus({
 
                               <div className="h-[1px] bg-[#E0E0E0]" />
 
-                              <div
+                              <div data-testid={`occupied-bed-status-move-to-notice-period-action-${tenant.tenetId}`}
                                 onClick={() =>
                                   canUpdateCheckout &&
                                   handleMoveToNoticePeriod(tenant)
@@ -269,7 +269,7 @@ function OccupiedBedStatus({
                               </div>
 
                               <div className="h-[1px] bg-[#E0E0E0]" />
-                              <div
+                              <div data-testid={`occupied-bed-status-edit-action-${tenant.tenetId}`}
                                 onClick={() =>
                                   canUpdatePayingGuests && handleEditBed()
                                 }
@@ -376,7 +376,7 @@ function OccupiedBedStatus({
                         </div>
 
                         <div className="mt-2">
-                          <label
+                          <label data-testid={`occupied-bed-status-navigate-tenant-profile-action-2-${index}`}
                             onClick={() => handleNavigateTenantProfile(tenant)}
                             className="block max-w-[200px] truncate text-[18px] font-gilroy font-semibold text-[#1E45E1] cursor-pointer underline"
                             title={tenant?.tenantFullName || "N/A"}
@@ -392,7 +392,7 @@ function OccupiedBedStatus({
                         </div>
                       </div>
 
-                      <div
+                      <div data-testid={`occupied-bed-status-show-dots-rerved-action-${index}`}
                         onClick={() => handleShowDotsRerved(index)}
                         className={`relative w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${activeRoomIdReserved === index
                           ? "bg-[#E0ECFF]"
@@ -406,7 +406,7 @@ function OccupiedBedStatus({
                             ref={popupRef}
                             className="absolute right-12 top-[25px] w-[220px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
                           >
-                            <div
+                            <div data-testid={`occupied-bed-status-check-in-action-${index}`}
                               onClick={() => handleCheckin(tenant)}
                               className={`flex gap-2 items-center p-2 rounded-t-lg ${canWriteCustomers
                                 ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]"
@@ -429,7 +429,7 @@ function OccupiedBedStatus({
 
                             <div className="h-px bg-gray-300" />
 
-                            <div
+                            <div data-testid={`occupied-bed-status-make-as-inactive-action-${index}`}
                               className={`flex gap-2 items-center p-2 rounded-b-lg ${canUpdateBooking
                                 ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
                                 : "cursor-not-allowed opacity-50"
@@ -452,7 +452,7 @@ function OccupiedBedStatus({
 
                             <div className="h-px bg-gray-300" />
 
-                            <div
+                            <div data-testid={`occupied-bed-status-edit-action-2-${index}`}
                               className={`flex gap-2 items-center p-2 rounded-b-lg ${canUpdatePayingGuests
                                 ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
                                 : "cursor-not-allowed opacity-60"

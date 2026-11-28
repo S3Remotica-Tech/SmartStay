@@ -474,7 +474,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                             Card Network <span className="text-red-500">*</span>
                         </label>
 
-                        <Select isDisabled={editBankDetails}
+                        <div data-testid="credit-card-global-card-network-select" className="contents"><Select isDisabled={editBankDetails}
                             ref={cardNetworkRef}
                             options={cardOptions}
                             value={cardNetwork}
@@ -482,7 +482,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                             placeholder="Ex : Visa, Master"
                             className="mt-2"
                             styles={CustomStyles}
-                        />
+                        /></div>
                         {cardNetworkError && (
                             <ErrorMessage message={cardNetworkError} type="error" />
                         )}
@@ -495,7 +495,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                         Card Holder Name <span className="text-red-500">*</span>
                     </label>
 
-                    <input
+                    <input data-testid="credit-card-global-card-holder-name-input"
                         ref={cardHolderNameRef}
                         value={cardHolderName}
                         onChange={handleCardHolderNameChange}
@@ -512,7 +512,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                         Card Number (Last 4 Digits ) <span className="text-red-500">*</span>
                     </label>
 
-                    <input
+                    <input data-testid="credit-card-global-card-number-last-4-digits-input"
                         ref={cardNumberRef}
                         value={cardNumber}
                         onChange={handleCardNumberChange}
@@ -529,7 +529,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                         Display Name <span className="text-red-500">*</span>
                     </label>
 
-                    <input
+                    <input data-testid="credit-card-global-display-name-input"
                         ref={displayNameRef}
                         value={displayName}
                         onChange={handleDisplayNameChange}
@@ -547,7 +547,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                             Credit Limit
                         </label>
 
-                        <input
+                        <input data-testid="credit-card-global-credit-limit-input"
                             ref={creditLimitRef}
                             value={creditLimit}
                             onChange={handleCreditLimitChange}
@@ -575,7 +575,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                   focus:outline-none`}
                             /> */}
 
-                            <Select
+                            <div data-testid="credit-card-global-billing-cycle-select" className="contents"><Select
                                 options={billingCycleOptions}
                                 value={
                                     billingCycleOptions.find(
@@ -586,7 +586,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                                 placeholder="Select Day"
                                 isSearchable={false}
                                 styles={CustomStyles}
-                            />
+                            /></div>
 
 
 
@@ -609,7 +609,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                                 </p>
                             </div>
 
-                            <input
+                            <input data-testid="credit-card-global-is-linked-checkbox"
                                 type="checkbox"
                                 checked={isLinked}
                                 onChange={(e) => {
@@ -639,14 +639,14 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                                 Select Linked Bank  {isLinked && <span className="text-red-500">*</span>}
                             </label>
 
-                            <Select ref={selectedBankRef}
+                            <div data-testid="credit-card-global-linked-bank-select" className="contents"><Select ref={selectedBankRef}
                                 options={bankOptions}
                                 value={selectedBank}
                                 onChange={handleBankChange}
                                 placeholder="Select a bank"
                                 className="mt-2"
                                 styles={CustomStyles}
-                            />
+                            /></div>
                             {selectedBankError && (
                                 <ErrorMessage message={selectedBankError} type="error" />
                             )}
@@ -681,7 +681,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                         Description
                     </label>
 
-                    <textarea
+                    <textarea data-testid="credit-card-global-description-textarea"
                         rows={4}
                         value={description}
                         onChange={handleDescriptionChange}
@@ -770,14 +770,14 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
             </div>
 
             <div className="flex justify-end gap-4 px-6 py-2 ">
-                <button
+                <button data-testid="credit-card-global-cancel-btn"
                     onClick={handleClose}
                     className="px-6 py-2 text-[#6B7280] text-sm font-medium"
                 >
                     Cancel
                 </button>
 
-                <button
+                <button data-testid="credit-card-global-save-credit-btn"
                     disabled={isSaving}
                     onClick={handleSaveCredit}
                     className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

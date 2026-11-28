@@ -216,12 +216,12 @@ function AnalyticalComplaintsResolved() {
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
         <div className='flex items-center gap-2'>
-          <ArrowLeft onClick={handleNavigateReports}
+          <ArrowLeft data-testid="analytical-complaints-resolved-navigate-reports-icon" onClick={handleNavigateReports}
             size="20"
             color="#4A5565" className='cursor-pointer'
           />
           <div>
-            <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
+            <div data-testid="analytical-complaints-resolved-complaints-resolved-action" className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
               <h1 className="text-lg font-semibold my-0 text-[#222222]">Complaints Resolved</h1>
               <div className='rounded-none border-0'>
                 <ArrowDown2
@@ -237,7 +237,7 @@ function AnalyticalComplaintsResolved() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`analytical-complaints-resolved-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item)
@@ -270,7 +270,7 @@ function AnalyticalComplaintsResolved() {
             className="datepicker-wrapper"
             style={{ position: "relative", }}
           >
-            <RangePicker
+            <RangePicker data-testid="analytical-complaints-resolved-input"
               style={{
                 width: "100%",
                 height: "100%",
@@ -311,13 +311,13 @@ function AnalyticalComplaintsResolved() {
             />
           </div>
 
-          <button onClick={handleClickFilter}
+          <button data-testid="analytical-complaints-resolved-filter-btn" onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
             <Filter size="16" />
             Filter
           </button>
-          <button
+          <button data-testid="analytical-complaints-resolved-export-btn"
             className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
           >
             <Export size="16" />
@@ -450,7 +450,7 @@ function AnalyticalComplaintsResolved() {
             <div className='flex gap-2 items-center'>
               <div className="relative " ref={dropdownRef}>
 
-                <button
+                <button data-testid="analytical-complaints-resolved-open-btn"
                   onClick={() => setOpen(!open)}
                   className="flex items-center gap-2 text-xs border rounded-md px-3 py-2.5 bg-white font-[Gilroy] whitespace-nowrap "
                 >
@@ -468,7 +468,7 @@ function AnalyticalComplaintsResolved() {
                 {open && (
                   <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
                     {dateOptions.map((option) => (
-                      <button
+                      <button data-testid={`analytical-complaints-resolved-selected-btn-${option}`}
                         key={option}
                         onClick={() => {
                           setSelected(option);
@@ -488,7 +488,7 @@ function AnalyticalComplaintsResolved() {
 
 
               </div>
-              <button
+              <button data-testid="analytical-complaints-resolved-export-btn-2"
                 className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
               >
 

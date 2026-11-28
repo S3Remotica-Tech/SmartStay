@@ -166,7 +166,7 @@ function AddHostelReading({
             {editHostelReading ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-hostel-reading-close-icon"
             size={26}
             color="black"
             className="cursor-pointer"
@@ -188,7 +188,7 @@ function AddHostelReading({
 
             <div className="datepicker-wrapper relative w-full mt-1">
               <div className="datepicker-wrapper  relative w-full">
-                <DatePicker
+                <DatePicker data-testid="add-hostel-reading-reading-date"
                   ref={readingDateRef}
                   className={datePickerClass(!!dateError)}
                   format="DD/MM/YYYY"
@@ -223,7 +223,7 @@ function AddHostelReading({
               )}
             </div>
 
-            <Form.Control
+            <Form.Control data-testid="add-hostel-reading-reading-input"
               className={fieldClass(!!readingError)}
               type="number"
               placeholder="Enter Reading"
@@ -248,13 +248,13 @@ function AddHostelReading({
         )}
 
         <div className="p-4 flex justify-end">
-          <Button
+          <Button data-testid="add-hostel-reading-cancel-btn"
             className="bg-transparent border-0 !text-black !font-gilroy"
             onClick={handleClose}
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="add-hostel-reading-submit-btn"
             disabled={loading}
             className="!bg-blue-700 w-[130px] !font-gilroy"
             onClick={handleSubmit}

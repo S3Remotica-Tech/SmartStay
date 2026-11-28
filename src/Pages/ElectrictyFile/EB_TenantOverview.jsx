@@ -13,6 +13,14 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Buildings, Building3 } from "iconsax-react";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
+
 const EBTenantOverview = ({ tenant, onBack }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -138,7 +146,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
       <div>
         <div className="mb-4 mx-2">
           <div className="flex items-center -ml-11 sticky top-1 z-[1000] bg-white px-5 py-3 h-[60px]">
-            <img
+            <img data-testid="eb-tenant-overview-leftarrow-img"
               src={leftarrow}
               alt="leftarrow"
               width={20}
@@ -206,7 +214,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
         <div className="flex items-center mb-3 mx-2">
           <div className="flex -mt-2.5">
-            <div
+            <div data-testid="eb-tenant-overview-current-reading-action"
               onClick={() => setActiveTab("customer")}
               className={`text-[17px] font-gilroy cursor-pointer mr-6 pb-1.5 
             ${activeTab === "customer" ? "text-black font-semibold border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] font-normal border-b-2 border-transparent"}`}
@@ -214,7 +222,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
               Current Reading
             </div>
 
-            <div
+            <div data-testid="eb-tenant-overview-previous-reading-action"
               onClick={() => setActiveTab("room")}
               className={`text-[16px] font-gilroy cursor-pointer pb-1.5 
             ${activeTab === "room" ? "text-black font-semibold border-b-2 border-[#1E45E1]" : "text-[#4B4B4B] font-normal border-b-2 border-transparent"}`}
@@ -233,37 +241,37 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             <NoDataMessage label={"Room reading"} />
           ) : (
             <>
-              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   // ref={tableContainerRef}
-                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                      <tr className="h-9">
-                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-40">
+                      <tr>
+                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           BILLING MONTH
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           FROM
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           TO
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           FLOOR
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           ROOM
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-left font-gilroy text-black font-bold`}>
                           BED
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-right font-gilroy text-black font-bold`}>
                           TOTAL UNITS
                         </th>
-                        <th className="font-gilroy text-black font-bold text-[14px] px-4 py-2">
+                        <th className={`${TABLE_HEADER_CELL} text-right font-gilroy text-black font-bold`}>
                           AMOUNT
                         </th>
                       </tr>
@@ -272,17 +280,16 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                     <tbody className="text-[14px] text-gray-800 font-gilroy">
                       {paginatedRoomData?.map((row, i) => (
                         <tr
-                          key={i}
-                          className="border-b border-gray-300 text-left"
+                          key={i} className="text-left"
                         >
-                          <td className="px-2 py-1">{row.billingMonth}</td>
-                          <td className="px-2 py-1">{row.from}</td>
-                          <td className="px-2 py-1">{row.to}</td>
-                          <td className="px-2 py-1">{row.floor}</td>
-                          <td className="px-2 py-1">{row.room}</td>
-                          <td className="px-2 py-1">{row.bed}</td>
-                          <td className="px-2 py-1">{row.units}</td>
-                          <td className="px-2 py-1">{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.billingMonth}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.from}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>{row.to}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.floor}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.room}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>{row.bed}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.units}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -314,55 +321,55 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             <NoDataMessage label={"No reading"} />
           ) : (
             <>
-              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   // ref={tableContainerRef}
-                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                      <tr className="h-9">
-                        <th className="px-2 whitespace-nowrap">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-40">
+                      <tr>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>
                           Billing month
                         </th>
-                        <th className="px-2">From</th>
-                        <th className="px-2">To</th>
-                        <th className="px-2">Floor</th>
-                        <th className="px-2">Room</th>
-                        <th className="px-2">Bed</th>
-                        <th className="px-2 whitespace-nowrap">Total units</th>
-                        <th className="px-2">Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>From</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>To</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Floor</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Room</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left`}>Bed</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Total units</th>
+                        <th className={`${TABLE_HEADER_CELL} text-right`}>Amount</th>
                       </tr>
                     </thead>
 
                     <tbody>
                       {paginatedCustomerData?.map((row, i) => (
-                        <tr key={i} className="border-b border-[#E8E8E8] h-10">
-                          <td className="px-2 py-1 whitespace-nowrap">
+                        <tr key={i}>
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.billingMonth}
                           </td>
-                          <td className="px-2 py-1 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.from}
                           </td>
-                          <td className="px-2 py-1 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {row.to}
                           </td>
 
-                          <td className="px-2 py-1 align-middle">
+                          <td className={`${TABLE_BODY_CELL} align-middle text-[#111928]`}>
                             <div className="truncate whitespace-nowrap overflow-hidden w-[120px]">
                               {row.floor}
                             </div>
                           </td>
 
-                          <td className="px-2 py-1 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             {row.room}
                           </td>
-                          <td className="px-2 py-1 whitespace-nowrap">
+                          <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                             {row.bed}
                           </td>
-                          <td className="px-2 py-1">{row.totalUnits}</td>
-                          <td className="px-2 py-1">{row.amount}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.totalUnits}</td>
+                          <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>

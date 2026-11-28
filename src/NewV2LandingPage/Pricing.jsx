@@ -139,7 +139,7 @@ function Pricing() {
                             <p className="text-sm  text-[#222222] font-normal">{plan.duration}</p>
                         </div>
 
-                        <button
+                        <button data-testid={`pricing-btn-${index}`}
                             className={`w-full mt-2 py-1.5 rounded-lg font-medium ${plan.buttonStyle}`}
                         >
                             {plan.button}

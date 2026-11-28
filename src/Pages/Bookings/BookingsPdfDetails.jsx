@@ -141,7 +141,7 @@ function BookingsPdfDetails() {
                 <SearchNormal1 size="18" color="#888" />
               </div>
 
-              <input
+              <input data-testid="bookings-pdf-details-search-change-input"
                 type="text"
                 value={search}
                 onChange={handleSearchChange}
@@ -155,7 +155,7 @@ function BookingsPdfDetails() {
         <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto overflow-x-visible">
           {state?.Booking?.getAllRetainerList?.length > 0 ? (
             state?.Booking?.getAllRetainerList?.map((item) => (
-              <div
+              <div data-testid={`bookings-pdf-details-selected-invoice-id-action-${item?.invoiceId}`}
                 onClick={() => {
                   setSelectedInvoiceId(item?.invoiceId);
                   handleDisplayInvoiceDownload(item?.invoiceId);

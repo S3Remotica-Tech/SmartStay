@@ -1,15 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Table
-} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function StayHistory({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -39,7 +43,7 @@ function StayHistory({ show, handleClose }) {
   return (
 
     <div className="modal show block static font-gilroy">
-      <Modal
+      <Modal data-testid="stay-history-stay-details-modal"
         show={show}
         onHide={handleClose}
         centered
@@ -52,7 +56,7 @@ function StayHistory({ show, handleClose }) {
               Stay Details
             </Modal.Title>
 
-            <CloseCircle
+            <CloseCircle data-testid="stay-history-close-icon"
               size="24"
               color="#000"
               onClick={handleClose}
@@ -61,20 +65,20 @@ function StayHistory({ show, handleClose }) {
           </Modal.Header>
 
           <Modal.Body className="show-scroll pt-1 ps-3 mt-2 me-0 overflow-x-visible max-h-none">
-            <div className="border border-blue-100 rounded-lg">
-              <Table responsive bordered={false} className="m-0">
-                <thead className="bg-blue-50">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden overflow-x-auto">
+              <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                <thead>
                   <tr>
-                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Room No / Bed
                     </th>
-                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Duration
                     </th>
-                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Reason
                     </th>
-                    <th className="text-sm font-semibold font-gilroy text-gray-900 py-3 px-4 whitespace-nowrap">
+                    <th className={`${TABLE_HEADER_CELL} text-left`}>
                       Segmental Rent
                     </th>
                   </tr>
@@ -83,12 +87,12 @@ function StayHistory({ show, handleClose }) {
                 <tbody>
                   {Array.isArray(data) &&
                     data.map((row, index) => (
-                      <tr key={index} className="border-b border-gray-300">
-                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap max-w-[150px] truncate">
+                      <tr key={index}>
+                        <td className={`${TABLE_BODY_CELL} font-medium text-[#111928] align-middle max-w-[150px] truncate`}>
                           {row.roomName}/{row.bedName}
                         </td>
 
-                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} font-medium text-[#111928] align-middle`}>
                           {`${row.startDate && row.startDate !== "NA"
                             ? dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")
                             : "N/A"
@@ -100,17 +104,17 @@ function StayHistory({ show, handleClose }) {
                             }`}
                         </td>
                       
-                       <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle max-w-[150px] truncate">
+                       <td className={`${TABLE_BODY_CELL} font-medium text-[#111928] align-middle max-w-[150px] truncate`}>
                         {row.reason ? row.reason : "N/A"}
                         </td>
 
-                        <td className="text-sm font-medium font-gilroy text-gray-900 py-3 px-4 align-middle whitespace-nowrap">
+                        <td className={`${TABLE_BODY_CELL} font-medium text-[#111928] align-middle`}>
                           {row.rentAmount}
                         </td>
                       </tr>
                     ))}
                 </tbody>
-              </Table>
+              </table>
             </div>
           </Modal.Body>
         </Modal.Dialog>

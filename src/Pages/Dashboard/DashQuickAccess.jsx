@@ -278,7 +278,7 @@ function DashQuickAccess() {
             </div>
 
             <div className="relative" ref={dropdownRef}>
-              <button
+              <button data-testid="dash-quick-access-open-btn"
                 disabled
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
@@ -298,7 +298,7 @@ function DashQuickAccess() {
               {open && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
                   {dateOptions?.map((option) => (
-                    <button
+                    <button data-testid={`dash-quick-access-handlefilterby-dates-btn-${option.value}`}
                       key={option.value}
                       onClick={() => {
                         handlefilterbyDates(option);
@@ -393,7 +393,7 @@ function DashQuickAccess() {
         <div className="bg-white rounded-xl border border-[#E5E7EB]  p-4 lg:col-span-7">
           <div className="flex border-b border-[#F3F3F3] justify-around mb-3 w-full">
             {tabs.map((tab) => (
-              <button
+              <button data-testid={`dash-quick-access-active-tab-dashboard-btn-${tab.id}`}
                 key={tab.id}
                 onClick={() => setActiveTabDashboard(tab.id)}
                 className={`px-4 py-2 text-sm font-medium ${
@@ -433,14 +433,14 @@ function DashQuickAccess() {
                     </div>
 
                     <div className="flex gap-2">
-                      <button
+                      <button data-testid={`dash-quick-access-view-btn-${item.customerId}`}
                         className="border rounded-md px-3 py-1 text-sm"
                         onClick={() => handleNavigateTenant(item.customerId)}
                       >
                         View
                       </button>
 
-                      <button
+                      <button data-testid={`dash-quick-access-check-in-btn-${item.customerId}`}
                         disabled={!canWriteTenant}
                         className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm
   disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-400"
@@ -507,7 +507,7 @@ function DashQuickAccess() {
                         <div className="text-xs text-gray-500">{item.date}</div>
                       </div>
 
-                      <button
+                      <button data-testid={`dash-quick-access-record-payment-btn-${item.invoiceId}`}
                         disabled={!canWriteInvoice}
                         className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm
   disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"

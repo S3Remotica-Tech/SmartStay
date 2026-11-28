@@ -175,7 +175,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
             Cancel Check-Out
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="back-to-check-in-close-icon"
             size="23"
             color="#000"
             onClick={handleClose}
@@ -220,7 +220,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         <div className="px-4">
           <div className="   px-1 py-1.5 w-full bg-indigo-50 rounded-lg">
             <div className="flex gap-2 w-full">
-              <button
+              <button data-testid="back-to-check-in-long-stay-btn"
                 onClick={() => setActiveTab("LONG")}
                 className={`flex-1 py-2 rounded-md font-semibold font-gilroy transition
         ${activeTab === "LONG"
@@ -231,7 +231,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                 Long Stay
               </button>
 
-              <button
+              <button data-testid="back-to-check-in-short-stay-btn"
                 onClick={() => setActiveTab("SHORT")}
                 className={`flex-1 py-2 rounded-md font-semibold font-gilroy transition
         ${activeTab === "SHORT"
@@ -254,7 +254,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <FormControl
+                <FormControl data-testid="back-to-check-in-reason-comments-input"
                   ref={reasonRef}
                   type="text"
                   placeholder="Enter Comments"
@@ -274,7 +274,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                 Re Check-In Date <span className={fieldRequiredClass}>*</span>
               </Form.Label>
 
-              <DatePicker
+              <DatePicker data-testid="back-to-check-in-re-check-in-date"
                 ref={dateRef}
                 className={datePickerClass(!!recheckinDateError)}
                 disabledDate={(current) => {
@@ -326,7 +326,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         )}
         {activeTab === "LONG" && (
           <div className="flex items-center justify-end gap-4 m-4">
-            <button
+            <button data-testid="back-to-check-in-cancel-btn"
               type="button"
               onClick={handleClose}
               className="bg-transparent border-0 text-gray-700 text-sm font-medium font-montserrat cursor-pointer"
@@ -334,7 +334,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               Cancel
             </button>
 
-            <button
+            <button data-testid="back-to-check-in-check-in-btn"
               type="button"
               disabled={
                 !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed

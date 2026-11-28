@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -21,6 +22,13 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Download from "../../Assets/Images/New_images/download.png";
 import ReceiptFilter from "./ReceiptFilter";
 import { CustomStyles } from "../../Utils/SelectStyles";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function ReceiptNew() {
   const state = useSelector((state) => state);
@@ -294,7 +302,6 @@ function ReceiptNew() {
 
   useEffect(() => {
     const receiptFilters = state.InvoiceList?.receiptFilters;
-
 
     const filterData = [];
 
@@ -637,16 +644,6 @@ function ReceiptNew() {
     { key: "amount", fieldName: "Amount" },
   ];
 
-  const columnStyles = {
-    "Receipt No": "px-4 whitespace-nowrap",
-    "Full Name": "px-4 whitespace-nowrap",
-    "Reference Id": "px-4 whitespace-nowrap",
-    "Invoice Number": "px-4 whitespace-nowrap",
-    " Payment Date": "px-4 whitespace-nowrap",
-    Type: "px-4 whitespace-nowrap",
-    "Payment Mode": "px-4 whitespace-nowrap",
-    Amount: "px-4 whitespace-nowrap",
-  };
   const handleClickFilter = () => {
     setReceiptFilter(true);
   };
@@ -713,7 +710,7 @@ function ReceiptNew() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-10 bg-white flex justify-between items-center flex-wrap font-gilroy min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Receipt
@@ -729,7 +726,7 @@ function ReceiptNew() {
                     : "border-gray-200 opacity-60 cursor-not-allowed"
                   }`}
               >
-                <input
+                <input data-testid="receipt-new-input-change-input"
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
@@ -802,7 +799,7 @@ function ReceiptNew() {
                       : "bg-white"
                       }`}
                   >
-                    <Select
+                    <div data-testid="receipt-new-type-select" className="contents"><Select
                       styles={CustomStyles}
                       isDisabled={!canReadReceipt}
                       menuPlacement="auto"
@@ -816,13 +813,13 @@ function ReceiptNew() {
                       }
                       placeholder="Select  Type"
                       onChange={(option) => setReceiptType(option || "")}
-                    />
+                    /></div>
                   </div>
                   <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
                     <div
                       className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                     >
-                      <Filter
+                      <Filter data-testid="receipt-new-icon"
                         size={16}
                         onClick={(e) => {
                           if (canReadReceipt) {
@@ -878,7 +875,7 @@ function ReceiptNew() {
                       </span>
                     ))}
                   </div>
-                  <span
+                  <span data-testid="receipt-new-reset-action"
                     className="text-blue-600 text-sm font-medium cursor-pointer"
                     onClick={handleReset}
                   >
@@ -888,34 +885,34 @@ function ReceiptNew() {
               )}
 
               {formattedData?.length > 0 ? (
-                <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                   <div
                     id="tableContainer"
                     ref={tableContainerRef}
-                    className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                    className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                   >
-                    <table className=" w-full font-gilroy ">
-                      <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                        <tr className="h-9">
+                    <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                      <thead className="sticky top-0 z-30">
+                        <tr>
                           {selectedColumns?.map((col, index) => {
                             let stickyClass = "";
 
                             if (index === 0) {
                               stickyClass =
-                                "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                                "sticky left-[0px] z-40 w-[80px]";
                             }
 
                             return (
                               <th
                                 key={col.key}
-                                className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                                className={`${TABLE_HEADER_CELL} text-start ${stickyClass}`}
                               >
                                 {col.fieldName}
                               </th>
                             );
                           })}
 
-                          <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                          <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                             Action
                           </th>
                         </tr>
@@ -925,19 +922,15 @@ function ReceiptNew() {
                           formattedData?.length > 0 &&
                           formattedData?.map((user, index) => {
                             return (
-                              <tr
+                              <tr data-testid={`receipt-new-action-${index}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
                                 key={index}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8]  
-                                        cursor-pointer group  hover:!bg-gray-50 !h-10"
+                                className="cursor-pointer group hover:!bg-gray-50"
                               >
                                 {selectedColumns?.map((col, index) => {
-                                  const baseClass = ` 
-    ${columnStyles[col.fieldName] || "px-4"}
-    hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-  `;
+                                  const baseClass = `${TABLE_BODY_CELL} hover:!bg-gray-50 group-hover:!bg-gray-50`;
 
                                   let stickyClass = "";
 
@@ -953,7 +946,7 @@ function ReceiptNew() {
                                   switch (col.key) {
                                     case "receiptNo":
                                       value = (
-                                        <span
+                                        <span data-testid={`receipt-new-action-2-${index}`}
                                           className="text-[#1E45E1] cursor-pointer font-semibold hover:underline"
                                           onClick={(e) => {
                                             e.stopPropagation();
@@ -967,7 +960,7 @@ function ReceiptNew() {
 
                                     case "name":
                                       value = (
-                                        <div
+                                        <div data-testid={`receipt-new-action-3-${index}`}
                                           className="flex items-center gap-2 cursor-pointer py-1"
                                           onClick={(e) => {
                                             e.stopPropagation();
@@ -978,10 +971,10 @@ function ReceiptNew() {
                                             <img
                                               src={user.profilePic}
                                               alt="profile"
-                                              className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                                              className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
                                             />
                                           ) : (
-                                            <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] flex-shrink-0">
+                                            <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex items-center justify-center text-xs font-semibold flex-shrink-0">
                                               {user?.initials || "-"}
                                             </div>
                                           )}
@@ -1023,7 +1016,7 @@ function ReceiptNew() {
                                   return (
                                     <td
                                       key={col.key}
-                                      className={`${finalClass} align-middle py-1`}
+                                      className={`${finalClass} align-middle text-[#111928]`}
                                     >
                                       {value}
                                     </td>
@@ -1031,11 +1024,11 @@ function ReceiptNew() {
                                 })}
 
                                 <td
-                                  className={`${isScrolling ? "!bg-white" : "bg-white"
-                                    } px-4  sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  className={`${TABLE_BODY_CELL} ${isScrolling ? "!bg-white" : "bg-white"
+                                    } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   {" "}
-                                  <div
+                                  <div data-testid={`receipt-new-action-4-${index}`}
                                     className="relative flex cursor-pointer items-center justify-center"
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1045,14 +1038,15 @@ function ReceiptNew() {
                                     <PiDotsThreeOutlineVerticalFill
                                       className={`h-5 w-5 rotate-90 ${activeRow === user.transactionId
                                         ? "text-[#1E45E1]"
-                                        : "text-gray-500"
+                                        : "text-[#314158]"
                                         }`}
                                     />
 
                                     {activeRow === user.transactionId && (
+                                      createPortal(
                                       <div
                                         ref={popupRef}
-                                        className="fixed z-[9999] w-fit rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 shadow-md"
+                                        className="font-gilroy fixed z-[9999] w-fit rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 shadow-md"
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
@@ -1064,7 +1058,7 @@ function ReceiptNew() {
                                         }}
                                       >
                                         <div className="flex flex-col gap-1">
-                                          <button
+                                          <button data-testid={`receipt-new-delete-btn-${index}`}
                                             type="button"
                                             disabled={!canDeleteReceipt}
                                             onClick={() =>
@@ -1085,7 +1079,7 @@ function ReceiptNew() {
                                             </span>
                                           </button>
 
-                                          <button
+                                          <button data-testid={`receipt-new-download-btn-${index}`}
                                             type="button"
                                             disabled={!isExportAllow}
                                             onClick={() =>
@@ -1106,7 +1100,9 @@ function ReceiptNew() {
                                             </span>
                                           </button>
                                         </div>
-                                      </div>
+                                      </div>,
+                                      document.body,
+                                    )
                                     )}
                                   </div>
                                 </td>
@@ -1282,7 +1278,7 @@ function ReceiptNew() {
             </div>
 
             <div className="flex justify-center gap-4 px-6 pb-6">
-              <button
+              <button data-testid="receipt-new-cancel-btn"
                 type="button"
                 onClick={handleCloseDelete}
                 className="w-full max-w-[160px] h-[52px] rounded-lg border border-[#1E45E1] bg-white text-[#1E45E1] font-semibold font-gilroy text-[14px] transition hover:bg-[#F5F8FF]"
@@ -1290,7 +1286,7 @@ function ReceiptNew() {
                 Cancel
               </button>
 
-              <button
+              <button data-testid="receipt-new-delete-btn-2"
                 type="button"
                 onClick={handleDelete}
                 disabled={deleteLoading}

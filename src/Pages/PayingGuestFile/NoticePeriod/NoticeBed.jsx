@@ -231,7 +231,7 @@ function NoticeBed({
         <>
 
             <div className="fixed inset-0 z-[9999]">
-                <div
+                <div data-testid="notice-bed-close-bed-action"
                     className="absolute inset-0 bg-black/50"
                     onClick={handleCloseBed}
                 />
@@ -244,7 +244,7 @@ function NoticeBed({
                             <div className="flex items-center gap-2 text-[18px] text-gray-900 font-semibold">
                                 Bed Status
 
-                                <button
+                                <button data-testid="notice-bed-edit-bed-btn"
                                     type="button"
                                     disabled={!canUpdatePayingGuests}
                                     onClick={handleEditBed}
@@ -269,7 +269,7 @@ function NoticeBed({
                         <div className="flex items-center gap-2">
 
 
-                            <Add
+                            <Add data-testid="notice-bed-close-bed-icon"
                                 size="24"
                                 color="#99A1AF"
                                 onClick={handleCloseBed}
@@ -291,7 +291,7 @@ function NoticeBed({
                                     <div key={tenantId} className="mb-2">
 
 
-                                        <div
+                                        <div data-testid={`notice-bed-notice-period-view-tenant-action-${tenantId}`}
                                             onClick={() => toggleOccupied(tenant)}
                                             className={`flex justify-between items-center px-2 py-1 cursor-pointer rounded transition-all duration-200 ${isExpanded
                                                 ? "border-1 border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
@@ -333,7 +333,7 @@ function NoticeBed({
                                                     Notice Period
                                                 </span>
 
-                                                <div
+                                                <div data-testid={`notice-bed-view-tenant-action-${tenantId}`}
                                                     className="flex items-center gap-1 text-[#1E45E1] text-xs"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
@@ -360,7 +360,7 @@ function NoticeBed({
                                     <div key={tenantId} className="mb-2">
 
 
-                                        <div
+                                        <div data-testid={`notice-bed-reserved-view-tenant-action-${tenantId}`}
                                             onClick={() => toggleReserved(tenant)}
                                             className={`flex justify-between items-center px-2 py-1 cursor-pointer rounded transition-all ${isExpanded
                                                 ? "border-1 border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
@@ -402,7 +402,7 @@ function NoticeBed({
                                                     Reserved
                                                 </span>
 
-                                                <div
+                                                <div data-testid={`notice-bed-view-tenant-action-2-${tenantId}`}
                                                     className="flex items-center gap-1 text-[#1E45E1] text-xs"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
@@ -427,7 +427,7 @@ function NoticeBed({
                                 <div className="w-full my-3 shrink-0 px-3 mt-4">
                                     <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB]">
                                         {["overview", "activity"].map((tab) => (
-                                            <button
+                                            <button data-testid={`notice-bed-active-tab-btn-${tab}`}
                                                 key={tab}
                                                 type="button"
                                                 onClick={() => setActiveTab(tab)}
@@ -461,7 +461,7 @@ function NoticeBed({
                                     <div className="flex flex-wrap items-center gap-2 mb-6 mt-3">
 
                                         {/* New Booking */}
-                                        <button
+                                        <button data-testid="notice-bed-new-booking-btn"
                                             type="button"
                                             disabled={!canWriteBooking}
                                             onClick={() => handleNewBooking(selectedOccupiedTenant)}
@@ -482,7 +482,7 @@ function NoticeBed({
                                         </button>
 
                                         {/* Cancel Checkout */}
-                                        <button
+                                        <button data-testid="notice-bed-cancel-checkout-btn"
                                             type="button"
                                             disabled={!canWriteCustomers || hasCheckinAndNotice}
                                             onClick={() => {
@@ -509,7 +509,7 @@ function NoticeBed({
                                         </button>
 
                                         {/* Generate Settlement */}
-                                        <button
+                                        <button data-testid="notice-bed-generate-btn"
                                             type="button"
                                             disabled={!canWriteCheckout}
                                             onClick={() =>
@@ -542,7 +542,7 @@ function NoticeBed({
                                 <div className="w-full my-3 shrink-0 px-3 mt-4">
                                     <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB]">
                                         {["overview", "activity"].map((tab) => (
-                                            <button
+                                            <button data-testid={`notice-bed-active-tab-btn-2-${tab}`}
                                                 key={tab}
                                                 type="button"
                                                 onClick={() => setActiveTab(tab)}
@@ -574,7 +574,7 @@ function NoticeBed({
                                 {activeTab === "overview" && (
                                     <div className="flex items-center gap-2 mb-6 mt-3">
 
-                                        <button
+                                        <button data-testid="notice-bed-check-in-btn"
                                             type="button"
                                             disabled
                                             // disabled={!canWriteCustomers}
@@ -593,7 +593,7 @@ function NoticeBed({
                                             </span>
                                         </button>
 
-                                        <button
+                                        <button data-testid="notice-bed-make-as-inactive-btn"
                                             type="button"
                                             disabled={!canUpdateBooking}
                                             onClick={() => handleMakeAsInActive(selectedReservedTenant)}

@@ -8,6 +8,13 @@ import {
   fieldClass,
 } from "../../Utils/FieldStyles";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -187,7 +194,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
             Adjust with Retainer Invoice
           </h5>
 
-          <button
+          <button data-testid="apply-retainer-to-invoice-close-btn"
             onClick={handleClose}
             className="text-red-500 text-lg font-bold hover:scale-110 transition"
           >
@@ -256,20 +263,20 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
           </div>
 
           <div className="">
-            <div className="bg-white rounded-xl border border-[#E8E8E8]">
+            <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden">
               <div className=" h-fit">
-                <table className="w-full text-sm">
-                  <thead className="bg-[#F9FAFB] text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
-                    <tr className="rounded-tl-xl rounded-tr-xl">
-                      <th className="text-left px-4 py-2"></th>
-                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                  <thead>
+                    <tr>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}></th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         RETAINER TYPE
                       </th>
-                      <th className="text-left px-4 py-2">INV NO</th>
-                      <th className="text-left px-4 py-2">DUE DATE</th>
-                      <th className="text-left px-4 py-2">RETAINER AMOUNT</th>
-                      <th className="text-left px-4 py-2">INVOICE BALANCE</th>
-                      <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>INV NO</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>DUE DATE</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>RETAINER AMOUNT</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>INVOICE BALANCE</th>
+                      <th className={`${TABLE_HEADER_CELL} text-left`}>
                         AMOUNT TO APPLY
                       </th>
                     </tr>
@@ -286,8 +293,8 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                               : "opacity-100"
                           }`}
                         >
-                          <td className="px-4 py-2 font-semibold">
-                            <input
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
+                            <input data-testid={`apply-retainer-to-invoice-checkbox-change-checkbox-${item.invoiceId}`}
                               className="rounded-md accent-blue-800 cursor-pointer"
                               type="checkbox"
                               checked={selectedInvoices.includes(
@@ -298,28 +305,28 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                               }
                             />
                           </td>
-                          <td className="px-4 py-2 font-semibold">
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             {item.invoiceType}
                           </td>
 
-                          <td className="text-blue-700 cursor-pointer px-4 py-2 font-semibold">
+                          <td className={`${TABLE_BODY_CELL} text-[#1E45E1] cursor-pointer font-semibold`}>
                             {item.invoiceNumber}
                           </td>
 
-                          <td className="px-4 py-2 text-gray-500">
+                          <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                             {item.dueDate}
                           </td>
 
-                          <td className="font-semibold px-4 py-2">
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             ₹{item.invoiceAmount}
                           </td>
 
-                          <td className="px-4 py-2 font-semibold">
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
                             ₹{item.availableBalance}
                           </td>
 
-                          <td className="px-4 py-2 font-semibold">
-                            <input
+                          <td className={`${TABLE_BODY_CELL} font-semibold text-[#111928]`}>
+                            <input data-testid={`apply-retainer-to-invoice-apply-amount-change-input-${item.invoiceId}`}
                               onWheel={(e) => e.target.blur()}
                               type="number"
                               disabled={
@@ -346,7 +353,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
                       <tr>
                         <td
                           colSpan={6}
-                          className="text-center text-red-600 py-5"
+                          className={`${TABLE_BODY_CELL} text-center text-red-600 py-5`}
                         >
                           No pending invoices found
                         </td>
@@ -390,14 +397,14 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
         </div>
 
         <div className="m-6 flex justify-end gap-3">
-          <button
+          <button data-testid="apply-retainer-to-invoice-cancel-btn"
             onClick={handleClose}
             className="px-4 py-2 bg-gray-100 rounded-md text-sm"
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="apply-retainer-to-invoice-apply-submit-btn"
             type="button"
             disabled={formLoading}
             onClick={handleApplySubmit}

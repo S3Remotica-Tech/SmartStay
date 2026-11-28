@@ -191,7 +191,7 @@ function BankingAddForm(props) {
       <components.MenuList {...props}>
         <div className="max-h-[150px] overflow-y-auto">{children}</div>
 
-        <div
+        <div data-testid="banking-add-form-add-bank-action"
           className="font-gilroy sticky bottom-0 inset-x-0 border-t bg-white hover:bg-blue-50 p-2 text-center cursor-pointer text-blue-600 font-semibold text-sm z-10"
           onClick={() => selectProps.onAddBank?.()}
           onMouseEnter={(e) =>
@@ -677,7 +677,7 @@ function BankingAddForm(props) {
 
   return (
     <div>
-      <Modal
+      <Modal data-testid="banking-add-form-modal"
         show={props.showForm}
         onHide={() => handleClose()}
         backdrop="static"
@@ -688,7 +688,7 @@ function BankingAddForm(props) {
             {props.edit ? "Edit Bank" : "Add Bank"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="banking-add-form-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -704,7 +704,7 @@ function BankingAddForm(props) {
               props.editAddBank.accountType !== tab;
 
             return (
-              <button
+              <button data-testid={`banking-add-form-active-tab-btn-${tab}`}
                 key={tab}
                 // type="button"
                 disabled={isDisabled}
@@ -746,7 +746,7 @@ function BankingAddForm(props) {
                     Benificiary Name{" "}
                     <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-benificiary-name-input"
                     type="text"
                     ref={accountNameRef}
                     id="form-controls"
@@ -766,7 +766,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Bank Name{" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-bank-name-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Bank Name"
@@ -785,7 +785,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Account No <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-account-no-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Account No"
@@ -805,7 +805,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     IFSC Code{" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-ifsc-code-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter IFSC Code"
@@ -823,7 +823,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-description-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Description"
@@ -857,7 +857,7 @@ function BankingAddForm(props) {
                 : null} */}
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
-                <Button
+                <Button data-testid="banking-add-form-submit-bank-btn"
                   disabled={formLoading}
                   className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitBank}
@@ -879,7 +879,7 @@ function BankingAddForm(props) {
                     Bank <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
 
-                  <Select
+                  <div data-testid="banking-add-form-bank-select" className="contents"><Select
                     inputRef={bankNameUPIRef}
                     options={paymentOptions}
                     value={
@@ -899,7 +899,7 @@ function BankingAddForm(props) {
                       ...fieldSelectStyles(!!bankaccountError),
                       menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                     }}
-                  />
+                  /></div>
                 </Form.Group>
                 {bankaccountError && (
                   <ErrorMessage className="mt-[6px]" message={bankaccountError} type="error" />
@@ -911,7 +911,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     UPI ID <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-upi-id-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Upi Id"
@@ -930,7 +930,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-description-input-2"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Description"
@@ -958,7 +958,7 @@ function BankingAddForm(props) {
 
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
-                <Button
+                <Button data-testid="banking-add-form-submit-upi-btn"
                   disabled={formLoading}
                   className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitUpi}
@@ -980,7 +980,7 @@ function BankingAddForm(props) {
                     Bank <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
 
-                  <Select
+                  <div data-testid="banking-add-form-bank-select-2" className="contents"><Select
                     inputRef={bankNameCardRef}
                     options={paymentOptions}
                     value={
@@ -1000,7 +1000,7 @@ function BankingAddForm(props) {
                       ...fieldSelectStyles(!!bankaccountError),
                       menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                     }}
-                  />
+                  /></div>
                 </Form.Group>
                 {bankaccountError && (
                   <ErrorMessage className="mt-[6px]" message={bankaccountError} type="error" />
@@ -1016,7 +1016,7 @@ function BankingAddForm(props) {
                     Card Type
                     <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <Select
+                  <div data-testid="banking-add-form-card-type-select" className="contents"><Select
                     options={[
                       { value: "CREDIT", label: "Credit" },
                       { value: "DEBIT", label: "Debit" },
@@ -1033,7 +1033,7 @@ function BankingAddForm(props) {
                     }}
                     placeholder="Select a Card Type"
                     styles={fieldSelectStyles(!!cardTypeError)}
-                  />
+                  /></div>
 
                   {cardTypeError && (
                     <ErrorMessage className="mt-[6px]" message={cardTypeError} type="error" />
@@ -1046,7 +1046,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Card Number
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-card-number-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Card No"
@@ -1062,7 +1062,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-description-input-3"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Description"
@@ -1090,7 +1090,7 @@ function BankingAddForm(props) {
               )}
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
-                <Button
+                <Button data-testid="banking-add-form-submit-card-btn"
                   disabled={formLoading}
                   className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitCard}
@@ -1108,7 +1108,7 @@ function BankingAddForm(props) {
                     Benificiary Name{" "}
                     <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-benificiary-name-input-2"
                     ref={benificiaryNameRef}
                     type="text"
                     id="form-controls"
@@ -1129,7 +1129,7 @@ function BankingAddForm(props) {
                   <Form.Label className={fieldLabelClass}>
                     Description{" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-add-form-description-input-4"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Description"
@@ -1157,7 +1157,7 @@ function BankingAddForm(props) {
               )}
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
-                <Button
+                <Button data-testid="banking-add-form-submit-cash-btn"
                   disabled={formLoading}
                   className="w-full h-[50px] !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy"
                   onClick={handleSubmitCash}

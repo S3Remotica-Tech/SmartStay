@@ -21,6 +21,10 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ComingSoon from "../../Utils/ComingSoon";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
 function RecurringBills() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -146,10 +150,6 @@ function RecurringBills() {
   //   }
   // }, [state.login?.selectedHostel_Id, activeStay]);
 
-
-
-
-
   const previousRecurringRequestRef = useRef(null);
 
   useEffect(() => {
@@ -175,13 +175,6 @@ function RecurringBills() {
       payload: hostelId,
     });
   }, [state.login?.selectedHostel_Id, activeStay]);
-
-
-
-
-
-
-
 
   useEffect(() => {
     if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
@@ -322,7 +315,7 @@ function RecurringBills() {
                         className="h-5 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
                       />
                     </span>
-                    <input
+                    <input data-testid="recurring-bills-handlefilter-input"
                       type="text"
                       className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 font-gilroy"
                       placeholder="Search"
@@ -331,7 +324,7 @@ function RecurringBills() {
                       disabled
                     />
                     <span className="input-group-text bg-white border-start-0">
-                      <img
+                      <img data-testid="recurring-bills-close-search-img"
                         src={closecircle}
                         alt="close"
                         onClick={() => handleCloseSearch()}
@@ -344,7 +337,7 @@ function RecurringBills() {
             ) : (
               <>
                 <div className="mt-2 border border-[#CBD5E1] rounded-full px-2 py-1.5 leading-normal h-fit">
-                  <FiSearch
+                  <FiSearch data-testid="recurring-bills-search-icon"
                     className="h-6 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
                     onClick={handleSearch}
                   />
@@ -378,7 +371,7 @@ function RecurringBills() {
         <>
           <div className="flex items-center justify-between mt-1 mb-0  sticky top-[60px] z-40">
             <div className="flex items-center gap-3">
-              <button
+              <button data-testid="recurring-bills-long-stay-btn"
                 onClick={() => handleClick("long_stay")}
                 className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
                   ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
@@ -388,7 +381,7 @@ function RecurringBills() {
                 Long Stay
               </button>
 
-              <button
+              <button data-testid="recurring-bills-short-stay-btn"
                 onClick={() => handleClick("short_stay")}
                 className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
                   ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
@@ -433,32 +426,32 @@ function RecurringBills() {
           {recurringbills &&
             recurringbills.length > 0 &&
             activeStay === "long_stay" && (
-              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   // ref={tableContainerRef}
-                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                      <tr className="h-9">
-                        <th className="w-[230px] px-2">Name</th>
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-40">
+                      <tr>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Name</th>
 
-                        <th className="w-[230px] px-2 whitespace-nowrap">
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           Last Invoice number
                         </th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           Last Invoice Date
                         </th>
-                        <th className="w-[230px] px-2 whitespace-nowrap">
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>
                           Next Invoice Date
                         </th>
-                        <th className="w-[230px] px-2">Amount</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
                         {/* <th
                       >
                        Recurring
                       </th> */}
-                        <th className="w-[230px] px-2">Action</th>
+                        <th className={`${TABLE_HEADER_CELL} text-left w-[230px] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                       </tr>
                     </thead>
 

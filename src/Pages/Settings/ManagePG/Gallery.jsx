@@ -88,7 +88,7 @@ const GalleryComponent = () => {
 
   return (
     <div className="w-full">
-      <input
+      <input data-testid="gallery-file-change-file"
         ref={fileInputRef}
         type="file"
         accept="image/*"
@@ -124,7 +124,7 @@ const GalleryComponent = () => {
                   isHovered || isDeleting ? "opacity-100" : "opacity-0"
                 }`}
               >
-                <button
+                <button data-testid={`gallery-delete-image-btn-${imageId}`}
                   type="button"
                   onClick={() => handleDelete(image)}
                   disabled={deletingId !== null}
@@ -146,7 +146,7 @@ const GalleryComponent = () => {
           );
         })}
 
-        <button
+        <button data-testid="gallery-upload-click-btn"
           type="button"
           onClick={handleUploadClick}
           disabled={isUploading}

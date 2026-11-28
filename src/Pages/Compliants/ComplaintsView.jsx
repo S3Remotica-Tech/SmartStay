@@ -199,7 +199,7 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
 
 
     return (
-        <Offcanvas
+        <Offcanvas data-testid="complaints-view-history-comments-drawer"
             show={show}
             onHide={handleClose}
             placement="end"
@@ -221,7 +221,7 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
                     </div>
                 </div>
 
-                <ArrowCircleRight
+                <ArrowCircleRight data-testid="complaints-view-close-icon"
                     size="26"
                     color="#28303F"
                     onClick={handleClose}
@@ -255,7 +255,7 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
 
 
 
-                        <textarea
+                        <textarea data-testid="complaints-view-add-new-comment-textarea"
                             placeholder="Add New comment..."
                             value={comments}
                             onChange={(e) => {
@@ -270,7 +270,7 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
 
                             </div>
                         )}
-                        <button
+                        <button data-testid="complaints-view-add-comment-btn"
                             onClick={handleAddComment}
                             disabled={commentsLoading}
                             className="mt-2 bg-blue-700 text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer">

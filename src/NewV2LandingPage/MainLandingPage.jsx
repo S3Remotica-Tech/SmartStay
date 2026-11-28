@@ -165,7 +165,7 @@ function FrontPage() {
         style={{ backgroundColor: "#FFFFFF" }}
       >
         <Container fluid className="px-lg-5 px-md-4 px-sm-3">
-          <Navbar.Brand onClick={handleBrandClick}>
+          <Navbar.Brand data-testid="main-landing-page-brand-click-icon" onClick={handleBrandClick}>
             <img
               src={Logo}
               alt="SmartStay hostel management software logo for PG and hostel booking platform"
@@ -175,7 +175,7 @@ function FrontPage() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mx-auto text-center">
-              <Nav.Link
+              <Nav.Link data-testid="main-landing-page-home-link"
                 className="custom-link"
                 as={Link}
                 style={linkStyle(activeSection === "firstPage")}
@@ -189,7 +189,7 @@ function FrontPage() {
               >
                 Home
               </Nav.Link>
-              <Nav.Link
+              <Nav.Link data-testid="main-landing-page-features-link"
                 as={Link}
                 to="keyFeature"
                 spy={true}
@@ -202,7 +202,7 @@ function FrontPage() {
               >
                 Features
               </Nav.Link>
-              <Nav.Link
+              <Nav.Link data-testid="main-landing-page-pricing-link"
                 as={Link}
                 to="Pricing"
                 spy={true}
@@ -215,7 +215,7 @@ function FrontPage() {
               >
                 Pricing
               </Nav.Link>
-              <Nav.Link
+              <Nav.Link data-testid="main-landing-page-contact-us-link"
                 as={Link}
                 to="Contact_us"
                 spy={true}
@@ -230,7 +230,7 @@ function FrontPage() {
               </Nav.Link>
             </Nav>
             <Nav className="d-flex align-items-center justify-content-center gap-3 mt-lg-0 mt-3">
-              <Nav.Link
+              <Nav.Link data-testid="main-landing-page-sign-in-link"
                 style={{
                   fontSize: 16,
                   fontWeight: 500,
@@ -242,7 +242,7 @@ function FrontPage() {
               >
                 Sign in
               </Nav.Link>
-              <Button
+              <Button data-testid="main-landing-page-get-started-btn"
                 onClick={handleSignUp}
                 variant=""
                 className="d-flex align-items-center gap-2"
@@ -425,7 +425,7 @@ function FrontPage() {
             Request Demo
           </div>
 
-          <div
+          <div data-testid="main-landing-page-active-demo-action"
             onClick={() => handleSetActive("demo")}
             className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
         transition-transform duration-300
@@ -437,7 +437,7 @@ function FrontPage() {
       )}
 
       <div className="fixed right-10 bottom-14 -translate-y-1/2 flex items-center flex-col gap-2 z-[9999]">
-        <div
+        <div data-testid="main-landing-page-scroll-to-action"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="bg-gradient-to-r from-[#1E45E1] to-[#05A7FF] hover:opacity-90 p-3 rounded-full shadow-md cursor-pointer transition-all duration-300 hover:scale-110"
         >
@@ -464,7 +464,7 @@ function FrontPage() {
               alt=""
             />
 
-            <button
+            <button data-testid="main-landing-page-show-promo-popup-btn"
               onClick={() => setShowPromoPopup(false)}
               className="absolute top-3 right-3 text-gray-500 hover:text-black"
             >
@@ -507,7 +507,7 @@ function FrontPage() {
 
               <div className="flex flex-col sm:flex-row gap-3 w-full">
                 {activeSection !== "demo" && (
-                  <button
+                  <button data-testid="main-landing-page-request-demo-btn"
                     onClick={() => handleSetActive("demo")}
                     className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium bg-white hover:bg-gray-100 transition w-full sm:w-auto"
                   >
@@ -515,7 +515,7 @@ function FrontPage() {
                     <ArrowRight size="18" />
                   </button>
                 )}
-                <button
+                <button data-testid="main-landing-page-30-day-free-trial-btn"
                   onClick={handleSignUp}
                   className="font-dmsans flex items-center z-20  justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
                 >

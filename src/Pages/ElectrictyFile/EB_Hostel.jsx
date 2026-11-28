@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
@@ -28,6 +29,14 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ResetReading from "./ResetReading";
 import ResetNotify from "./ResetNotify";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -325,10 +334,10 @@ const RoomReadingTable = () => {
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
-  const handleShowDotsRoomReading = (row, index) => {
+  const handleShowDotsRoomReading = (row, index, e) => {
     setShowDotsRoom(index);
 
-    const { top, left, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = e.currentTarget.getBoundingClientRect();
     const popupTop = top + height / 2;
     const popupLeft = left - 150;
 
@@ -477,8 +486,8 @@ const RoomReadingTable = () => {
   return (
     <>
       {!roomDetail && !tenantsDetail ? (
-        <div className="sticky top-0 bg-white font-gilroy p-1">
-          <div className="flex items-center justify-between mb-3">
+        <div className="sticky top-0 bg-white font-gilroy">
+          <div className="flex items-center justify-between min-h-[60px]">
             <div className="mb-0">
               <label className="text-lg text-black font-semibold">
                 Electricity
@@ -514,7 +523,7 @@ const RoomReadingTable = () => {
           </div>
 
           <div className="flex items-center gap-6 mb-2 ml-0.5 -mt-2">
-            <div
+            <div data-testid="eb-hostel-active-tab-room-action"
               onClick={() => setActiveTab("room")}
               className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "room"
                 ? "text-black font-semibold border-b-2 border-blue-700"
@@ -524,7 +533,7 @@ const RoomReadingTable = () => {
               {isEbBased ? "Hostel Reading" : "Room Reading"}
             </div>
 
-            <div
+            <div data-testid="eb-hostel-tenants-reading-action"
               onClick={() => setActiveTab("customer")}
               className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "customer"
                 ? "text-black font-semibold border-b-2 border-blue-700"
@@ -563,7 +572,7 @@ const RoomReadingTable = () => {
                         {item}
                       </span>
                     )}
-                    <span
+                    <span data-testid={`eb-hostel-remove-filter-action-${index}`}
                       className="flex items-center justify-center bg-gray-100 rounded-full w-4.5 h-4.5 ml-0.5 cursor-pointer"
                       onClick={() => removeFilter(item)}
                     >
@@ -590,7 +599,7 @@ const RoomReadingTable = () => {
                           (row, i) => (
                             <div
                               key={i}
-                              className="bg-white rounded-xl p-2.5 mb-3.5 flex items-center justify-between gap-2.5 border border-gray-300"
+                              className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy"
                             >
                               <div className="flex items-center">
                                 {state.UsersList.getRoomReadingList?.hostelInfo
@@ -601,21 +610,21 @@ const RoomReadingTable = () => {
                                         .hostelInfo.hostelImage
                                     }
                                     alt="hostel_logo"
-                                    className="h-25 w-25 rounded-full object-cover"
+                                    className="w-10 h-10 rounded-full object-cover shrink-0"
                                     onError={(e) => {
                                       e.target.onerror = null;
                                       e.target.style.display = "none";
                                     }}
                                   />
                                 ) : (
-                                  <div className="h-24 w-24 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-700 text-lg uppercase">
+                                  <div className="w-10 h-10 rounded-full bg-[#E7F1FF] flex items-center justify-center font-semibold text-[#1E45E1] text-sm uppercase shrink-0">
                                     {state.UsersList.getRoomReadingList
                                       ?.hostelInfo?.initials || "H"}
                                   </div>
                                 )}
                                 <div>
-                                  <div className="w-full ml-4">
-                                    <div className="font-semibold text-xl mb-3">
+                                  <div className="w-full ml-3">
+                                    <div className="text-lg font-semibold text-[#111827] mb-1">
                                       {
                                         state.UsersList.getRoomReadingList
                                           ?.hostelInfo?.hostelName
@@ -623,10 +632,10 @@ const RoomReadingTable = () => {
                                     </div>
 
                                     <div>
-                                      <div className="mb-1 text-xs text-gray-500">
+                                      <div className="text-xs text-[#6B7280] whitespace-nowrap">
                                         Occupants
                                       </div>
-                                      <div className="font-semibold">
+                                      <div className="text-lg font-semibold text-[#111827]">
                                         {state.UsersList.getRoomReadingList
                                           ?.hostelInfo?.noOfOccupants || "0"}
                                       </div>
@@ -634,13 +643,13 @@ const RoomReadingTable = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="w-7/12">
-                                <div className="flex items-center justify-between w-full mt-11">
+                              <div className="flex-1">
+                                <div className="flex items-center justify-between gap-x-6 w-full">
                                   <div>
-                                    <div className="mb-1 text-xs text-gray-500">
+                                    <div className="text-xs text-[#6B7280] whitespace-nowrap">
                                       Billing Month
                                     </div>
-                                    <div className="font-semibold">
+                                    <div className="text-lg font-semibold text-[#111827]">
                                       {
                                         state.UsersList.getRoomReadingList
                                           ?.hostelInfo?.billingMonth
@@ -649,20 +658,20 @@ const RoomReadingTable = () => {
                                   </div>
 
                                   <div>
-                                    <div className="mb-1 text-xs text-gray-500">
+                                    <div className="text-xs text-[#6B7280] whitespace-nowrap">
                                       Previous Unit
                                     </div>
-                                    <div className="font-semibold">
+                                    <div className="text-lg font-semibold text-[#111827]">
                                       {row?.lastReading}
                                     </div>
                                   </div>
 
                                   <div className="flex gap-5">
                                     <div>
-                                      <div className="mb-1 text-xs text-gray-500">
+                                      <div className="text-xs text-[#6B7280] whitespace-nowrap">
                                         Total Units
                                       </div>
-                                      <div className="font-semibold">
+                                      <div className="text-lg font-semibold text-[#111827]">
                                         {row?.consumption || "N/A"}
                                       </div>
                                     </div>
@@ -674,11 +683,11 @@ const RoomReadingTable = () => {
                                           : "not-allowed",
                                       }}
                                     >
-                                      <PiDotsThreeOutlineVerticalFill
+                                      <PiDotsThreeOutlineVerticalFill data-testid={`eb-hostel-show-dots-hostel-reading-icon-${i}`}
                                         size={20}
                                         className={`${showDots === i
-                                          ? "text-blue-700"
-                                          : "text-gray-500"
+                                          ? "text-[#1E45E1]"
+                                          : "text-[#4A5565]"
                                           }`}
                                         onClick={() =>
                                           handleShowDotsHostelReading(row, i)
@@ -702,7 +711,7 @@ const RoomReadingTable = () => {
                                             }}
                                           >
                                             <div className="w-full">
-                                              <div
+                                              <div data-testid={`eb-hostel-edit-action-${i}`}
                                                 className={`flex justify-start items-center gap-2 rounded-t-lg bg-gray-50 px-3 py-2 ${!canUpdateElectricity
                                                   ? "cursor-not-allowed opacity-50"
                                                   : "cursor-pointer opacity-100"
@@ -738,7 +747,7 @@ const RoomReadingTable = () => {
                                                 </label>
                                               </div>
 
-                                              <div
+                                              <div data-testid={`eb-hostel-delete-action-${i}`}
                                                 className={`flex justify-start items-center gap-2  px-3 py-2 ${!canDeleteElectricity
                                                   ? "cursor-not-allowed opacity-50"
                                                   : "cursor-pointer opacity-100"
@@ -781,14 +790,13 @@ const RoomReadingTable = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="bg-amber-50 p-4 rounded-lg font-medium text-center">
+                              <div className="shrink-0 text-right">
                                 <div>
-                                  <label className="text-sm text-gray-600">
+                                  <label className="text-xs text-[#6B7280] whitespace-nowrap">
                                     Total Amount
                                   </label>
                                 </div>
-                                <div className="text-base">
-                                  {" "}
+                                <div className="text-lg font-semibold text-[#111827]">
                                   ₹
                                   {state.UsersList.getRoomReadingList.hostelInfo
                                     ?.totalAmount || "0"}
@@ -834,38 +842,38 @@ const RoomReadingTable = () => {
                         />
                       </div>
 
-                      <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                         <div
                           id="tableContainer"
                           // ref={tableContainerRef}
-                          className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                          className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                         >
-                          <table className=" w-full font-gilroy">
-                            <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                              <tr className="h-9">
-                                <th className="w-[230px] px-4">
+                          <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                            <thead className="sticky top-0 z-40">
+                              <tr>
+                                <th className={`${TABLE_HEADER_CELL} text-left`}>
                                   <div className="flex items-center gap-1">
                                     Floor
                                     <img src={arrowSwap} alt="swap" />
                                   </div>
                                 </th>
-                                <th className="w-[230px] px-2">
+                                <th className={`${TABLE_HEADER_CELL} text-left`}>
                                   <div className="flex items-center gap-1">
                                     Room
                                     <img src={arrowSwap} alt="swap" />
                                   </div>
                                 </th>
 
-                                <th className="w-[230px] px-2">Occupants</th>
-                                <th className="w-[230px] px-2">
+                                <th className={`${TABLE_HEADER_CELL} text-left`}>Occupants</th>
+                                <th className={`${TABLE_HEADER_CELL} text-left`}>
                                   Billing month
                                 </th>
-                                <th className="w-[230px] px-2">From</th>
-                                <th className="w-[230px] px-2">To</th>
-                                <th className="w-[230px] px-2">Total units</th>
-                                <th className="w-[230px] px-2">Amount</th>
+                                <th className={`${TABLE_HEADER_CELL} text-left`}>From</th>
+                                <th className={`${TABLE_HEADER_CELL} text-left`}>To</th>
+                                <th className={`${TABLE_HEADER_CELL} text-right`}>Total units</th>
+                                <th className={`${TABLE_HEADER_CELL} text-right`}>Amount</th>
                                 {!isEbBased && (
-                                  <th className="w-[230px] px-2">Action</th>
+                                  <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                                 )}
                               </tr>
                             </thead>
@@ -873,14 +881,13 @@ const RoomReadingTable = () => {
                               {paginatedData?.map((row, i) => (
                                 <tr
                                   key={i}
-                                  className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                                 >
-                                  <td className="w-[230px] px-4 py-1 whitespace-nowrap">
+                                  <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                     {row?.floorName}
                                   </td>
 
-                                  <td
-                                    className={`${canReadElectricity ? "!text-blue-600" : "!text-gray-300"} cursor-pointer font-semibold px-2 py-1`}
+                                  <td data-testid={`eb-hostel-action-${i}`}
+                                    className={`${TABLE_BODY_CELL} ${canReadElectricity ? "!text-[#1E45E1]" : "!text-gray-300"} cursor-pointer font-semibold text-[#111928]`}
                                     onClick={() =>
                                       canReadElectricity &&
                                       handleRoomDetailsPage(row)
@@ -889,48 +896,58 @@ const RoomReadingTable = () => {
                                     {row?.roomName}
                                   </td>
 
-                                  <td className="w-[230px] px-2 py-1">
+                                  <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
                                     {row?.noOfTenants}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                                     {row.billingMonth || "N/A"}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                                     {row?.from || "N/A"}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                                     {row?.to || "N/A"}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1">
+                                  <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
                                     {row?.totalUnits}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1">
+                                  <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
                                     ₹{row?.totalPrice || "0"}
                                   </td>
                                   {!isEbBased && (
                                     <td
-                                      className="px-2 py-1"
+                                      className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}
                                       style={{
                                         cursor: canWriteElectricity
                                           ? "pointer"
                                           : "not-allowed",
                                       }}
                                     >
-                                      <PiDotsThreeOutlineVerticalFill
-                                        className={`w-5 h-5 cursor-pointer transition-transform ${showDotsRoom === i
-                                          ? "text-blue-700"
-                                          : "text-gray-500"
-                                          }`}
-                                        style={{ transform: "rotate(90deg)" }}
-                                        onClick={() =>
-                                          handleShowDotsRoomReading(row, i)
+                                      <button data-testid={`eb-hostel-more-options-btn-${i}`}
+                                        type="button"
+                                        aria-label="More options"
+                                        onClick={(e) =>
+                                          handleShowDotsRoomReading(row, i, e)
                                         }
-                                      />
+                                        className={`inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px]  ${showDotsRoom === i
+                                          ? "border-[#1E45E1] bg-[#EFF6FF]"
+                                          : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
+                                          }`}
+                                      >
+                                        <PiDotsThreeOutlineVerticalFill
+                                          className={`w-4 h-4 pointer-events-none ${showDotsRoom === i
+                                            ? "text-[#1E45E1]"
+                                            : "text-[#4A5565]"
+                                            }`}
+                                          style={{ transform: "rotate(90deg)" }}
+                                        />
+                                      </button>
                                       {showDotsRoom === i && (
                                         <>
+                                          {createPortal(
                                           <div
                                             ref={popupRef}
-                                            className={`cursor-pointer bg-gray-100 border px-2 mb-1 py-1
+                                            className={`font-gilroy cursor-pointer bg-gray-100 border px-2 mb-1 py-1
                                                border-gray-300 rounded-[10px] flex flex-col`}
                                             style={{
                                               position: "fixed",
@@ -950,7 +967,7 @@ const RoomReadingTable = () => {
                                             }}
                                           >
                                             <div className="w-full">
-                                              <button
+                                              <button data-testid={`eb-hostel-add-btn-${i}`}
                                                 type="button"
                                                 disabled={!canWriteElectricity}
                                                 onClick={() =>
@@ -974,7 +991,7 @@ const RoomReadingTable = () => {
                                               </button>
                                               {row?.currentReading ? (
                                                 <>
-                                                  <button
+                                                  <button data-testid={`eb-hostel-edit-btn-${i}`}
                                                     type="button"
                                                     disabled={
                                                       !canUpdateElectricity
@@ -998,7 +1015,7 @@ const RoomReadingTable = () => {
                                                       Edit
                                                     </span>
                                                   </button>
-                                                  <button
+                                                  <button data-testid={`eb-hostel-delete-btn-${i}`}
                                                     type="button"
                                                     disabled={
                                                       !canDeleteElectricity
@@ -1028,7 +1045,7 @@ const RoomReadingTable = () => {
                                                     </span>
                                                   </button>
 
-                                                  <button
+                                                  <button data-testid={`eb-hostel-reset-eb-reading-btn-${i}`}
                                                     type="button"
                                                     onClick={() =>
                                                       handleResetEBReading(row)
@@ -1057,7 +1074,9 @@ const RoomReadingTable = () => {
                                                 ""
                                               )}
                                             </div>
-                                          </div>
+                                          </div>,
+                                          document.body,
+                                        )}
                                         </>
                                       )}
                                     </td>
@@ -1101,25 +1120,25 @@ const RoomReadingTable = () => {
                       />
                     </div>
 
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         // ref={tableContainerRef}
-                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                            <tr className="h-9">
-                              <th className="text-left">
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-40">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 <div className="px-4">Name</div>
                               </th>
 
-                              <th className="w-[230px] px-2 whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 Billing month
                               </th>
-                              <th className="w-[230px] px-2">From</th>
-                              <th className="w-[230px] px-2">To</th>
-                              <th className="w-[230px] px-2">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>From</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>To</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 <div className="flex items-center gap-1 justify-start">
                                   <img
                                     src={arrowSwap}
@@ -1130,7 +1149,7 @@ const RoomReadingTable = () => {
                                 </div>
                               </th>
 
-                              <th className="w-[230px] px-2">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 <div className="flex items-center gap-1 justify-start">
                                   <img
                                     src={arrowSwap}
@@ -1140,62 +1159,63 @@ const RoomReadingTable = () => {
                                   <span>Room</span>
                                 </div>
                               </th>
-                              <th className="w-[230px] px-2">Bed</th>
-                              <th className="w-[230px] px-2 whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Bed</th>
+                              <th className={`${TABLE_HEADER_CELL} text-right`}>
                                 Total units
                               </th>
-                              <th className="w-[230px] px-2">Amount</th>
+                              <th className={`${TABLE_HEADER_CELL} text-right`}>Amount</th>
                             </tr>
                           </thead>
                           <tbody className="font-gilroy text-[13px]">
                             {paginatedTenantdData?.map((row, i) => (
                               <tr
                                 key={i}
-                                className="!border-b !border-gray-300"
                               >
-                                <td
-                                  className="flex items-center gap-2 p-2 text-left cursor-pointer"
+                                <td data-testid={`eb-hostel-tenants-details-page-action-${i}`}
+                                  className={`${TABLE_BODY_CELL} text-left cursor-pointer text-[#111928]`}
                                   onClick={() => handleTenantsDetailsPage(row)}
                                 >
+                                  <div className="flex items-center gap-[13px]">
                                   {row.profilePic ? (
                                     <img
                                       src={row.profilePic}
                                       alt="profilepic"
-                                      className="w-10 h-10 rounded-full flex-shrink-0"
+                                      className="w-[30px] h-[30px] rounded-full flex-shrink-0"
                                     />
                                   ) : (
-                                    <div className="w-10 h-10 rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center font-semibold font-gilroy flex-shrink-0">
+                                    <div className="w-[30px] h-[30px] rounded-full bg-gray-200 text-[#44536A] flex items-center justify-center font-semibold font-gilroy flex-shrink-0">
                                       {row?.initials || "-"}
                                     </div>
                                   )}
 
-                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-blue-700 underline">
+                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold font-gilroy text-[#1E45E1] underline">
                                     {row.fullName}
                                   </span>
+                                  </div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.billingMonth}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                                  <div>{row.billingMonth}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.from}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                                  <div>{row.from}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.to}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                                  <div>{row.to}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.floorName}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                                  <div>{row.floorName}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.roomName}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                                  <div>{row.roomName}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.bedName}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                                  <div>{row.bedName}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.totalUnits}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
+                                  <div>{row.totalUnits}</div>
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">₹{row.totalAmount}</div>
+                                <td className={`${TABLE_BODY_CELL} text-[#111928] text-right`}>
+                                  <div>₹{row.totalAmount}</div>
                                 </td>
                               </tr>
                             ))}

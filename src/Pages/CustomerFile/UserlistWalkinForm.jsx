@@ -545,12 +545,12 @@ function CustomerForm({ show, handleClose, initialData }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleFormClose} centered backdrop="static" dialogClassName='custom-modals-style'>
+      <Modal data-testid="userlist-walkin-form-modal" show={show} onHide={handleFormClose} centered backdrop="static" dialogClassName='custom-modals-style'>
         <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '5px', marginRight: '5px', }}>
           <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
             {initialData ? 'Edit Walk-In' : 'Add Walk-In'}
           </div>
-          <CloseCircle size="24" color="#222222" onClick={handleFormClose} style={{ cursor: 'pointer' }} />
+          <CloseCircle data-testid="userlist-walkin-form-form-close-icon" size="24" color="#222222" onClick={handleFormClose} style={{ cursor: 'pointer' }} />
         </Modal.Header>
 
 
@@ -568,7 +568,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
               <label htmlFor="imageInput" className='' >
                 <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)', cursor: "pointer" }} />
-                <input
+                <input data-testid="userlist-walkin-form-image-input-file"
                   type="file"
                   accept="image/*"
                   multiple
@@ -596,7 +596,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   First Name
                   <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                 </Form.Label>
-                <Form.Control className={fieldClass(!!nameError)}
+                <Form.Control data-testid="userlist-walkin-form-first-name-input" className={fieldClass(!!nameError)}
                   type="text"
                   placeholder="Enter First Name"
                   value={name}
@@ -615,7 +615,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   Last Name
 
                 </Form.Label>
-                <Form.Control className={fieldClass()}
+                <Form.Control data-testid="userlist-walkin-form-last-name-input" className={fieldClass()}
                   type="text"
                   placeholder="Enter Last Name"
                   value={lastname}
@@ -635,7 +635,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                 </Form.Label>
 
                 <InputGroup>
-                  <Form.Select className={fieldClass()}
+                  <Form.Select data-testid="userlist-walkin-form-mobile-number-select" className={fieldClass()}
                     value={countryCode}
                     ref={countryCodeRef}
                     id="vendor-select-pg"
@@ -643,7 +643,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>
-                  <Form.Control className={fieldClass(!!mobileError)}
+                  <Form.Control data-testid="userlist-walkin-form-mobile-number-input" className={fieldClass(!!mobileError)}
                     value={mobile}
                     ref={mobileRef}
                     onChange={handlePhone}
@@ -671,7 +671,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                 <Form.Label className={fieldLabelClass}>
                   Email ID
                 </Form.Label>
-                <Form.Control className={fieldClass(!!emailError)}
+                <Form.Control data-testid="userlist-walkin-form-email-id-input" className={fieldClass(!!emailError)}
                   type="email"
                   placeholder="Enter Email ID"
                   value={email}
@@ -698,7 +698,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   Flat , House no , Building , Company , Apartment {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl className={fieldClass(!!house_noError)}
+                <FormControl data-testid="userlist-walkin-form-flat-house-no-building-company-input" className={fieldClass(!!house_noError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter House No"
@@ -720,7 +720,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   Area , Street , Sector , Village{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl className={fieldClass(!!streetError)}
+                <FormControl data-testid="userlist-walkin-form-area-street-sector-village-input" className={fieldClass(!!streetError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter Street"
@@ -742,7 +742,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   Landmark{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl className={fieldClass(!!landmarkError)}
+                <FormControl data-testid="userlist-walkin-form-landmark-input" className={fieldClass(!!landmarkError)}
                   type="text"
                   id="form-controls"
                   placeholder="E.g , near appollo hospital"
@@ -766,7 +766,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   Pincode
                   <span style={{ color: "red", fontSize: "20px" }}></span>
                 </Form.Label>
-                <Form.Control className={fieldClass(!!pincodeError)}
+                <Form.Control data-testid="userlist-walkin-form-pincode-input" className={fieldClass(!!pincodeError)}
                   value={pincode}
                   onChange={(e) => handlePinCodeChange(e)}
                   type="tel"
@@ -792,7 +792,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   Town/City{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
-                <FormControl className={fieldClass(!!cityError)}
+                <FormControl data-testid="userlist-walkin-form-town-city-input" className={fieldClass(!!cityError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter City"
@@ -814,7 +814,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                   State
                 </Form.Label>
 
-                <Select
+                <div data-testid="userlist-walkin-form-state-select" className="contents"><Select
                   options={indianStates}
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
@@ -840,7 +840,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                     ...fieldSelectStyles(),
                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
-                />
+                /></div>
               </Form.Group>
 
               {state_nameError && (
@@ -857,7 +857,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", marginTop: "-2px" }}>
-                  <DatePicker className={datePickerClass(!!walkInDateError)}
+                  <DatePicker data-testid="userlist-walkin-form-walk-in-date" className={datePickerClass(!!walkInDateError)}
                     ref={walkInDateRef}
                    
                     format="DD/MM/YYYY"
@@ -929,7 +929,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
-          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12, marginBottom: "10px" }} >
+          <Button data-testid="userlist-walkin-form-submit-walk-in-btn" onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12, marginBottom: "10px" }} >
             {initialData ? 'Save Changes' : 'Add Walk-In'}
           </Button>
         </Modal.Footer>

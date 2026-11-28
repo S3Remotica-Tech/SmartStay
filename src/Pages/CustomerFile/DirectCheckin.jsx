@@ -772,7 +772,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
               Tenant Check-In
             </div>
 
-            <CloseCircle
+            <CloseCircle data-testid="direct-checkin-close-icon"
               size="24"
               color="#000"
               onClick={handleClose}
@@ -807,7 +807,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
           <div className="mt-1 p-1 w-full bg-[#F7F9FF] rounded-lg">
             <div className="flex gap-2 w-full">
-              <button
+              <button data-testid="direct-checkin-long-stay-btn"
                 onClick={() => setActiveTab("LONG")}
                 className={`flex-1 py-2 text-center rounded-md font-gilroy font-semibold ${activeTab === "LONG"
                   ? "!bg-[#1E45E1] text-white"
@@ -817,7 +817,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                 Long Stay
               </button>
 
-              <button
+              <button data-testid="direct-checkin-short-stay-btn"
                 onClick={() => setActiveTab("SHORT")}
                 className={`flex-1 py-2 text-center rounded font-gilroy font-semibold ${activeTab === "SHORT"
                   ? "!bg-[#1E45E1] text-white"
@@ -842,7 +842,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     </Form.Label>
 
                     <div className="datepicker-wrapper relative w-full">
-                      <DatePicker
+                      <DatePicker data-testid="direct-checkin-joining-date"
                         className={datePickerClass(!!dateError)}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
@@ -876,7 +876,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                   </div>
 
                   <div className="relative inline-block group">
-                    <button
+                    <button data-testid="direct-checkin-bed-layout-view-btn"
                       onClick={() => {
                         if (selectedDate) {
                           handleBedLayoutPreview();
@@ -906,7 +906,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       Floor <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select
+                    <div data-testid="direct-checkin-floor-select" className="contents"><Select
                       isDisabled={!selectedDate}
                       options={
                         floorOptions
@@ -923,7 +923,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       placeholder="Select a Floor"
                       menuPlacement="auto"
                       styles={fieldSelectStyles(!!floorError)}
-                    />
+                    /></div>
 
                     {floorError && (
                       <ErrorMessage className="mt-[6px]" message={floorError} type="error" />
@@ -934,7 +934,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       Room <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select
+                    <div data-testid="direct-checkin-room-select" className="contents"><Select
                       isDisabled={!selectedDate || !Floor}
                       options={roomOptions}
                       onChange={(selectedOption) =>
@@ -948,7 +948,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       placeholder="Select a Room"
                       menuPlacement="auto"
                       styles={fieldSelectStyles(!!roomError)}
-                    />
+                    /></div>
 
                     {roomError && (
                       <ErrorMessage className="mt-[6px]" message={roomError} type="error" />
@@ -959,7 +959,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       Bed <span className={fieldRequiredClass}>*</span>
                     </Form.Label>
 
-                    <Select
+                    <div data-testid="direct-checkin-bed-select" className="contents"><Select
                       isDisabled={!selectedDate}
                       options={
                         availableBed
@@ -997,7 +997,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       placeholder="Select a Bed"
                       menuPlacement="auto"
                       styles={fieldSelectStyles()}
-                    />
+                    /></div>
 
                     {state.UsersList?.bedAvailableError ? (
                       <ErrorMessage className="mt-[6px]"
@@ -1029,7 +1029,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     Do you want to refuse advance amount?
                   </span>
 
-                  <button
+                  <button data-testid="direct-checkin-is-advance-refused-btn"
                     type="button"
                     onClick={() => {
                       setIsAdvanceRefused(!isAdvanceRefused);
@@ -1061,7 +1061,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         </label>
                       </div>
 
-                      <FormControl
+                      <FormControl data-testid="direct-checkin-advance-amount-input"
                         type="text"
                         placeholder="Enter Amount"
                         value={AdvanceAmount}
@@ -1082,7 +1082,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         </label>
                       </div>
                       <div className="">
-                        <button
+                        <button data-testid="direct-checkin-add-btn"
                           disabled={isAdvanceRefused}
                           onClick={handleAddField}
                           className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]   border-1 border-[#EAEEFF]
@@ -1119,7 +1119,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           <div className="flex gap-3 mb-3 px-2" key={index}>
                             <div className="flex-1">
                               {!item.showInput ? (
-                                <Select
+                                <div data-testid={`direct-checkin-select-${index}`} className="contents"><Select
                                   options={filteredOptions}
                                   value={
                                     filteredOptions.find(
@@ -1149,10 +1149,10 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                     ...fieldSelectStyles(),
                                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                                   }}
-                                />
+                                /></div>
                               ) : (
                                 <>
-                                  <input
+                                  <input data-testid={`direct-checkin-custom-reason-input-${index}`}
                                     type="text"
                                     placeholder="Enter custom reason"
                                     value={item.customReason}
@@ -1176,7 +1176,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                             </div>
 
                             <div className="flex-1 relative">
-                              <input
+                              <input data-testid={`direct-checkin-input-change-amount-input-${index}`}
                                 type="text"
                                 placeholder="Enter amount"
                                 value={item.amount}
@@ -1200,7 +1200,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                   type="error"
                                 />
                               )}
-                              <CloseCircle
+                              <CloseCircle data-testid={`direct-checkin-remove-field-icon-${index}`}
                                 variant="Bold"
                                 size="20"
                                 className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
@@ -1224,7 +1224,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     Rental amount-Base ₹(INR){" "}
                     <span className={fieldRequiredClass}>*</span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="direct-checkin-rental-amount-base-inr-input"
                     type="text"
                     value={RoomRent}
                     placeholder={
@@ -1247,7 +1247,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     <div>
                       <div className="flex items-center gap-2 px-1 py-3">
                         <div className="flex items-center gap-2 ">
-                          <input
+                          <input data-testid="direct-checkin-checkbox-change-checkbox"
                             type="checkbox"
                             checked={collectFullRent}
                             onChange={handleCheckboxChange}
@@ -1266,7 +1266,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         </div>
                         {collectFullRent && (
                           <div>
-                            <button
+                            <button data-testid="direct-checkin-custom-rent-enable-btn"
                               onClick={() => {
                                 setCustomRentEnable(!customRentEnable);
                                 setCustomRent("");
@@ -1305,7 +1305,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           <div className="relative min-w-[220px]">
                             {customRentEditMode ? (
                               <>
-                                <input
+                                <input data-testid="direct-checkin-custom-rent-change-input"
                                   type="number"
                                   value={customRent}
                                   onChange={handleCustomRentChange}
@@ -1313,7 +1313,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                   className={fieldClass()}
                                 />
 
-                                <button
+                                <button data-testid="direct-checkin-set-btn"
                                   onClick={() => setCustomRentEditMode(false)}
                                   className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                                 >
@@ -1326,7 +1326,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                   ₹ {customRent || 0}
                                 </span>
 
-                                <button
+                                <button data-testid="direct-checkin-custom-rent-edit-mode-btn"
                                   onClick={() => setCustomRentEditMode(true)}
                                   className="text-[#1E45E1]"
                                 >
@@ -1585,7 +1585,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
               </div>
 
               {isDev && (
-                <TenantAmenitiesSection
+                <TenantAmenitiesSection data-testid="direct-checkin-selected-amenities-input"
                   selected={selectedAmenities}
                   onChange={setSelectedAmenities}
                   proRate={amenityProRate}
@@ -1594,7 +1594,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
               )}
             </div>
             <div className="flex items-center gap-2 my-1 px-4">
-              <input
+              <input data-testid="direct-checkin-is-confirmed-checkbox"
                 type="checkbox"
                 checked={isConfirmed}
                 onChange={(e) => setIsConfirmed(e.target.checked)}
@@ -1605,7 +1605,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
               </span>
             </div>
             <div className="border-0 p-2 flex justify-end">
-              <button
+              <button data-testid="direct-checkin-save-userlist-add-user-btn"
                 disabled={formLoading || !isConfirmed}
                 onClick={handleSaveUserlistAddUser}
                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

@@ -66,7 +66,7 @@ const handleSubmit = () => {
   
   return (
     <div style={{borderRadius:24}}>
-      <Modal
+      <Modal data-testid="user-list-kyc-submit-modal"
         show={props.kycdetailsForm}
         onHide={handleCloseyc}
         backdrop="static"
@@ -97,7 +97,7 @@ const handleSubmit = () => {
                     KYC Verify
                   </div>
                  
-                  <CloseCircle size="24" color="#000" onClick={handleCloseyc} 
+                  <CloseCircle data-testid="user-list-kyc-closeyc-icon" size="24" color="#000" onClick={handleCloseyc} 
             style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
 
@@ -120,7 +120,7 @@ const handleSubmit = () => {
                         <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
    
-                      <FormControl
+                      <FormControl data-testid="user-list-kyc-aadhar-number-input"
                         type="text"
                         id="form-controls"
                         placeholder="Enter Aadhar Number"
@@ -166,7 +166,7 @@ const handleSubmit = () => {
                         </Form.Label>
                         <div style={{ display: "flex", gap: "8px" }}>
                           {otp.map((value, index) => (
-                            <FormControl
+                            <FormControl data-testid={`user-list-kyc-otp-input-${index}`}
                               key={index}
                               type="text"
                               maxLength={1}
@@ -214,7 +214,7 @@ const handleSubmit = () => {
 
                 </div>
 
-                <Button
+                <Button data-testid="user-list-kyc-submit-btn"
                   className="w-100"
                   style={{
                     backgroundColor: "#1E45E1",

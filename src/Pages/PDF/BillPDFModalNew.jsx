@@ -674,7 +674,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           <div className="flex items-center gap-2">
             <CustomTooltip text={isExportAllow ? "Download" : "Export not allowed"} direction="top-full">
               <div className="">
-                <div
+                <div data-testid="bill-pdfmodal-new-action"
                   className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${isExportAllow
                     ? "cursor-pointer"
                     : "cursor-not-allowed opacity-50"
@@ -692,7 +692,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </div>
             </CustomTooltip>
 
-            <button
+            <button data-testid="bill-pdfmodal-new-btn"
               disabled
               className="flex items-center justify-center h-[30px] w-[30px] rounded-lg border
              disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
@@ -705,7 +705,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
             <div className=" inline-block">
               <CustomTooltip text="Share" direction="top-full">
-                <div
+                <div data-testid="bill-pdfmodal-new-share-action"
                   className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-lg cursor-pointer bg-[#1E45E1]"
                   onClick={handleShareClick}
                 >
@@ -728,7 +728,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     const isDisabled = !isExportAllow;
 
                     return (
-                      <div
+                      <div data-testid={`bill-pdfmodal-new-action-2-${item.key}`}
                         ref={modalRef}
                         key={item.key}
                         className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
@@ -772,7 +772,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             </div>
             <CustomTooltip text="Close" direction="top-full">
               <div className="mr-3 ">
-                <IoClose
+                <IoClose data-testid="bill-pdfmodal-new-back-invoice-icon"
                   className="h-5 w-5 text-red-500 cursor-pointer"
                   onClick={handleBackInvoice}
                 />
@@ -867,7 +867,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       </div>
                     </div>
 
-                    <PiDotsThreeOutlineVerticalFill
+                    <PiDotsThreeOutlineVerticalFill data-testid="bill-pdfmodal-new-icon"
                       className="cursor-pointer text-gray-600"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -876,11 +876,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     />
 
                     {openMenu && (
-                      <div
+                      <div data-testid="bill-pdfmodal-new-edit-refuse-with-invoice-action"
                         className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <button
+                        <button data-testid="bill-pdfmodal-new-edit-btn"
                           disabled={!canUpdateInvoice}
                           onClick={() => {
                             setIsEdit(true);
@@ -908,7 +908,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                         <div className="h-px bg-gray-200 mx-2" />
 
-                        <button
+                        <button data-testid="bill-pdfmodal-new-refuse-with-invoice-btn"
                           disabled={!canDeleteInvoice}
                           onClick={() => {
                             setShowRefuseModal(true);
@@ -947,7 +947,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
                         Credits Available :{" "}
                         {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
-                        <span
+                        <span data-testid="bill-pdfmodal-new-apply-now-action"
                           className={`font-semibold text-sm transition-all duration-150
     ${!canUpdateInvoice
                               ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
@@ -971,7 +971,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
             <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
               <div className="flex  gap-4">
-                <div
+                <div data-testid="bill-pdfmodal-new-active-tab-payments-action"
                   onClick={() => {
                     setActiveTab("payments");
                     setIsOpenPayment(true);
@@ -986,7 +986,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     : "Payments Made"}
                 </div>
 
-                <div
+                <div data-testid="bill-pdfmodal-new-deducted-from-action"
                   onClick={() => {
                     setActiveTab("invoices");
                     setIsOpenPayment(true);
@@ -1020,7 +1020,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               <div className="flex items-center gap-2">
                 {canShowRecordPayment && (
                   <div className="relative inline-flex">
-                    <button
+                    <button data-testid="bill-pdfmodal-new-record-payment-btn"
                       disabled={!canUpdateInvoice}
                       onClick={() => {
                         if (canUpdateInvoice)
@@ -1035,7 +1035,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     </button>
                     <div className="relative inline-flex" ref={menuRef}>
                       {showSplitButton && (
-                        <button
+                        <button data-testid="bill-pdfmodal-new-btn-2"
                           onClick={(e) => {
                             e.stopPropagation();
                             setOpen(!open);
@@ -1051,7 +1051,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       )}
                       {open && (
                         <div className="absolute bottom-14 right-0 font-gilroy  !w-fit px-2 py-2 bg-white flex flex-col border border-gray-200 rounded-lg shadow-xl z-50">
-                          <button
+                          <button data-testid="bill-pdfmodal-new-waive-off-btn"
                             disabled
                             onClick={handleWaiveOff}
                             className={`w-full text-left px-4 py-2 text-sm rounded-md whitespace-nowrap transition-all 
@@ -1092,7 +1092,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               Adjust with Advance
                             </button> */}
 
-                              <button
+                              <button data-testid="bill-pdfmodal-new-adjust-with-retainer-btn"
                                 onClick={(e) => {
                                   if (
                                     !canUpdateInvoice ||
@@ -1118,7 +1118,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               </button>
                             </>
                           ) : (
-                            <button
+                            <button data-testid="bill-pdfmodal-new-apply-to-invoice-btn"
                               onClick={(e) => {
                                 if (
                                   !canUpdateInvoice ||
@@ -1145,7 +1145,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             </button>
                           )}
                           {ShowMakeDiscount && (
-                            <button
+                            <button data-testid="bill-pdfmodal-new-make-discount-btn"
                               onClick={handleMakeDiscount}
                               disabled={!canUpdateInvoice}
                               className={`w-full text-left px-4 py-2 text-sm rounded-md  whitespace-nowrap 
@@ -1163,7 +1163,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                 {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" &&
                   (!isAdvanceInvoice ? (
-                    <button
+                    <button data-testid="bill-pdfmodal-new-adjust-with-advance-btn"
                       onClick={(e) => {
                         if (!canUpdateInvoice || !isAdvanceRedeemAvailable)
                           return;
@@ -1187,7 +1187,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       Adjust with Advance
                     </button>
                   ) : (
-                    <button
+                    <button data-testid="bill-pdfmodal-new-apply-to-invoice-btn-2"
                       onClick={(e) => {
                         if (!canUpdateInvoice || !isApplyInvoiceRedeemAvailable)
                           return;
@@ -1217,7 +1217,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   ))}
 
                 {canShowRefund && (
-                  <button
+                  <button data-testid="bill-pdfmodal-new-refund-amount-btn"
                     disabled={!canWriteInvoice}
                     onClick={() => handleNavigateRefund(pdfDetails)}
                     className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
@@ -1227,7 +1227,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 )}
 
                 {isOpenPayment ? (
-                  <ArrowUp2
+                  <ArrowUp2 data-testid="bill-pdfmodal-new-icon-2"
                     size="18"
                     variant="Bold"
                     color="#1E45E1"
@@ -1239,7 +1239,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     }}
                   />
                 ) : (
-                  <ArrowDown2
+                  <ArrowDown2 data-testid="bill-pdfmodal-new-icon-3"
                     size="18"
                     variant="Bold"
                     color="#1E45E1"
@@ -1524,14 +1524,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </p>
 
               <div className="flex justify-end gap-3">
-                <button
+                <button data-testid="bill-pdfmodal-new-cancel-btn"
                   onClick={() => setShowRefuseModal(false)}
                   className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3] font-gilroy"
                 >
                   Cancel
                 </button>
 
-                <button
+                <button data-testid="bill-pdfmodal-new-refuse-btn"
                   disabled={deleteLoading}
                   onClick={handleRefuse}
                   className={`

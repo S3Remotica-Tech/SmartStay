@@ -74,7 +74,7 @@ function OccupiedCustomer({ show, handleClose, currentItem }) {
                 display: 'block', position: 'initial'
             }}
         >
-            <Modal show={show} onHide={handleClose} centered size="sm" style={{ borderRadius: 24 }} backdrop="static" >
+            <Modal data-testid="occupied-customer-modal" show={show} onHide={handleClose} centered size="sm" style={{ borderRadius: 24 }} backdrop="static" >
 
                 <Modal.Dialog className="p-0 m-0" style={{ margin: '0 auto' }}>
                     {customer && customer.map((custom) => (
@@ -83,7 +83,7 @@ function OccupiedCustomer({ show, handleClose, currentItem }) {
                             <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                                 <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Bed {currentItem.bed.bed_no}</Modal.Title>
 
-                                <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
+                                <CloseCircle data-testid={`occupied-customer-close-icon-${custom.id}`} size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
 
                             </Modal.Header>
 

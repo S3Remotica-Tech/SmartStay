@@ -7,13 +7,15 @@ import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
 import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup, FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import {
   fieldClass,
+  fieldGroupClass,
+  fieldInnerInputClass,
   fieldLabelClass,
   fieldRequiredClass,
   fieldSelectStyles,
@@ -700,7 +702,7 @@ function AddPg({ show, handleClose, currentItem }) {
           <div className="!text-gray-900 !font-semibold !text-lg !font-gilroy">
             {currentItem ? "Edit Paying Guest" : "Add Paying Guest"}
           </div>
-          <CloseCircle
+          <CloseCircle data-testid="add-pg-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -730,7 +732,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   roundedCircle
                   className="h-5 w-5 absolute top-[85px] left-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
                 />
-                <input
+                <input data-testid="add-pg-image-input-file"
                   type="file"
                   accept="image/*"
                   multiple
@@ -764,7 +766,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   Paying Guest Name{" "}
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control className={fieldClass(!!pgNameError)}
+                <Form.Control data-testid="add-pg-paying-guest-name-input" className={fieldClass(!!pgNameError)}
                   value={pgName}
                   onChange={handlePgNameChange}
                   type="text"
@@ -788,25 +790,29 @@ function AddPg({ show, handleClose, currentItem }) {
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <InputGroup>
-                  <Form.Select className={fieldClass()}
+                <div className={`${fieldGroupClass(!!countryCodeError || !!mobileError)} !pl-[8px]`}>
+                  <select data-testid="add-pg-country-code-select"
                     value={countryCode}
                     ref={countryCodeRef}
-                    id="vendor-select-pg"
-                   
+                    aria-label="Country code"
+                    className="h-full w-[64px] shrink-0 cursor-pointer border-0 bg-transparent px-[4px] font-gilroy text-[14px] font-medium text-field-text outline-none"
+                    onChange={() => {}}
                   >
-                    <option>+{countryCode}</option>
-                  </Form.Select>
-                  <Form.Control className={fieldClass(!!countryCodeError)}
+                    <option value={countryCode}>+{countryCode}</option>
+                  </select>
+                  <span className="h-[20px] w-[1px] shrink-0 bg-[#E4E4E7]" aria-hidden />
+                  <input data-testid="add-pg-mobile-number-input"
+                    className={fieldInnerInputClass}
                     value={mobile}
                     ref={mobileRef}
                     onChange={handleMobileChange}
                     type="text"
+                    inputMode="numeric"
                     placeholder="9876543210"
                     maxLength={10}
-                   
+                    aria-label="Mobile number"
                   />
-                </InputGroup>
+                </div>
               </Form.Group>
 
               {countryCodeError && (
@@ -825,7 +831,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 >
                   Email ID
                 </Form.Label>
-                <Form.Control className={fieldClass(!!emailError)}
+                <Form.Control data-testid="add-pg-email-id-input" className={fieldClass(!!emailError)}
                   value={email}
                   onChange={handleEmailChange}
                   type="email"
@@ -844,7 +850,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 >
                   Flat , House no , Building , Company , Apartment{" "}
                 </Form.Label>
-                <FormControl className={fieldClass(!!house_noError)}
+                <FormControl data-testid="add-pg-flat-house-no-building-company-input" className={fieldClass(!!house_noError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter House No"
@@ -865,7 +871,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 >
                   Area , Street , Sector , Village{" "}
                 </Form.Label>
-                <FormControl className={fieldClass(!!streetError)}
+                <FormControl data-testid="add-pg-area-street-sector-village-input" className={fieldClass(!!streetError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter Street"
@@ -886,7 +892,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 >
                   Landmark{" "}
                 </Form.Label>
-                <FormControl className={fieldClass(!!landmarkError)}
+                <FormControl data-testid="add-pg-landmark-input" className={fieldClass(!!landmarkError)}
                   type="text"
                   id="form-controls"
                   placeholder="E.g , near appollo hospital"
@@ -910,7 +916,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   Pincode{" "}
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control className={fieldClass(!!pincodeError)}
+                <Form.Control data-testid="add-pg-pincode-input" className={fieldClass(!!pincodeError)}
                   value={pincode}
                   ref={pincodeRef}
                   onChange={(e) => handlePinCodeChange(e)}
@@ -935,7 +941,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   Town/City{" "}
                   <span className={fieldRequiredClass}> * </span>
                 </Form.Label>
-                <FormControl className={fieldClass(!!cityError)}
+                <FormControl data-testid="add-pg-town-city-input" className={fieldClass(!!cityError)}
                   type="text"
                   id="form-controls"
                   placeholder="Enter City"
@@ -960,7 +966,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   <span className={fieldRequiredClass}> * </span>
                 </Form.Label>
 
-                <Select
+                <div data-testid="add-pg-state-select" className="contents"><Select
                   options={indianStates}
                   ref={stateNameRef}
                   onChange={(selectedOption) => {
@@ -985,7 +991,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   menuPlacement="auto"
                   noOptionsMessage={() => "No state available"}
                   styles={fieldSelectStyles()}
-                />
+                /></div>
                 {state_nameError && (
                   <ErrorMessage className="mt-[6px]" message={state_nameError} type="error" />
                 )}
@@ -1039,7 +1045,7 @@ function AddPg({ show, handleClose, currentItem }) {
                                 />
                               </label>
                               <div className="w-[2px] bg-white border border-white" />
-                              <Trash
+                              <Trash data-testid={`add-pg-delete-images-icon-${index}`}
                                 size="24"
                                 color="#FFF"
                                 className="cursor-pointer"
@@ -1069,7 +1075,7 @@ function AddPg({ show, handleClose, currentItem }) {
                       </>
                     )}
                   </div>
-                  <input
+                  <input data-testid={`add-pg-images-file-${index}`}
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange(index)}
@@ -1096,7 +1102,7 @@ function AddPg({ show, handleClose, currentItem }) {
             </div>
           )}
 
-          <button
+          <button data-testid="add-pg-create-paying-guest-btn"
             disabled={formLoading}
             onClick={handleCreatePayingGuest}
             className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

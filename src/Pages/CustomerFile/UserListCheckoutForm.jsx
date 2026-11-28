@@ -426,7 +426,7 @@ const CheckOutForm = ({
 
   return (
     <>
-      <Modal
+      <Modal data-testid="user-list-checkout-form-add-check-out-add-modal"
         show={show}
         onHide={handlecloseform}
         centered
@@ -455,7 +455,7 @@ const CheckOutForm = ({
             >
               Add Check-Out
             </Modal.Title>
-            <CloseCircle
+            <CloseCircle data-testid="user-list-checkout-form-handlecloseform-icon"
               size="24"
               color="#000"
               onClick={handlecloseform}
@@ -481,7 +481,7 @@ const CheckOutForm = ({
                           *
                         </span>
                       </label>
-                      <Select
+                      <div data-testid="user-list-checkout-form-customer-select" className="contents"><Select
                         styles={fieldSelectStyles(!!customerWError)}
                         value={formatOptions().find(
                           (opt) => opt.value === selectedCustomer,
@@ -490,7 +490,7 @@ const CheckOutForm = ({
                         options={formatOptions()}
                         placeholder="Select a customer"
                         menuPlacement="auto"
-                      />
+                      /></div>
 
                       {customerWError && (
                         <ErrorMessage className="mt-[6px]" message={customerWError} type="error" />
@@ -505,7 +505,7 @@ const CheckOutForm = ({
                       >
                         Current Floor{" "}
                       </Form.Label>
-                      <FormControl className={fieldClass()}
+                      <FormControl data-testid="user-list-checkout-form-current-floor-input" className={fieldClass()}
                         id="form-controls"
                         placeholder="Current Floor"
                         type="text"
@@ -522,7 +522,7 @@ const CheckOutForm = ({
                       >
                         Current Bed{" "}
                       </Form.Label>
-                      <FormControl className={fieldClass()}
+                      <FormControl data-testid="user-list-checkout-form-current-bed-input" className={fieldClass()}
                         id="form-controls"
                         placeholder="Current Bed"
                         type="text"
@@ -547,7 +547,7 @@ const CheckOutForm = ({
                         className="datepicker-wrapper"
                         style={{ position: "relative", width: "100%" }}
                       >
-                        <DatePicker className={datePickerClass(!!checkoUtrequestDateError)}
+                        <DatePicker data-testid="user-list-checkout-form-request-date" className={datePickerClass(!!checkoUtrequestDateError)}
                          
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -591,7 +591,7 @@ const CheckOutForm = ({
                         className="datepicker-wrapper"
                         style={{ position: "relative", width: "100%" }}
                       >
-                        <DatePicker className={datePickerClass(!!checkoUtDateError)}
+                        <DatePicker data-testid="user-list-checkout-form-check-out-date" className={datePickerClass(!!checkoUtDateError)}
                          
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -624,7 +624,7 @@ const CheckOutForm = ({
                     >
                       Comments
                     </label>
-                    <input
+                    <input data-testid="user-list-checkout-form-comments-input"
                       type="text"
                       name="comments"
                       id="comments"
@@ -693,7 +693,7 @@ const CheckOutForm = ({
             className="d-flex align-items-center justify-content-center pt-0"
             style={{ border: "none" }}
           >
-            <Button
+            <Button data-testid="user-list-checkout-form-add-check-out-btn"
               className=""
               style={{
                 borderRadius: "8px",

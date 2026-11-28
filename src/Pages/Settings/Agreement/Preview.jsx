@@ -8,7 +8,7 @@ function Preview({ handleClose, content }) {
       <div className="w-full max-w-[620px] h-[90vh] bg-white rounded-xl shadow-xl overflow-hidden flex flex-col">
         <div className="flex-shrink-0 flex items-center justify-between px-5 py-3  bg-white">
           <div className="flex items-center gap-3">
-            <button
+            <button data-testid="preview-close-btn"
               type="button"
               onClick={() => handleClose()}
               className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"
@@ -22,7 +22,7 @@ function Preview({ handleClose, content }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
+            <button data-testid="preview-disclose-btn"
               type="button"
               className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white text-[13px] font-medium text-[#475467] hover:bg-gray-50"
             >
@@ -30,7 +30,7 @@ function Preview({ handleClose, content }) {
               Disclose
             </button>
 
-            <button
+            <button data-testid="preview-export-as-pdf-btn"
               type="button"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1E45E1] text-white text-[13px] font-medium hover:bg-[#24479F]"
             >

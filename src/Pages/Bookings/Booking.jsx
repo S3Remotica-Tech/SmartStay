@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
@@ -36,6 +37,13 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
 import PropTypes from "prop-types";
 import { CustomStyles } from "../../Utils/SelectStyles";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -301,22 +309,6 @@ function Booking() {
 
 
 
-  const columnStyles = {
-    "Profile Pic": "px-4 whitespace-nowrap",
-    "Inv No": "px-4 whitespace-nowrap",
-    "Booking Date": "px-4 whitespace-nowrap",
-    "Tenant Name": "px-4 whitespace-nowrap",
-    "Joining Date": "px-4 whitespace-nowrap",
-    "Mobile No": "px-4 whitespace-nowrap",
-    "Floor Name": "px-4",
-    "Room Name": "px-4",
-    "Bed Name": "px-4",
-    Amount: "px-4",
-    status: "px-4",
-    "Available Amount": "px-4 whitespace-nowrap",
-    "Invoice Date": "px-4 whitespace-nowrap",
-  };
-
   // const handleStatusFilter = (selectedOption) => {
   //   setStatusfilter(selectedOption);
   // };
@@ -412,7 +404,7 @@ function Booking() {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="booking-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -420,7 +412,7 @@ function Booking() {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="booking-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -981,7 +973,7 @@ function Booking() {
         <div className="flex items-center gap-2">
           <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
             <div className="flex items-center h-10 border border-[#CFD5DB] rounded-xl bg-white">
-              <input
+              <input data-testid="booking-handlefilter-input"
                 type="text"
                 placeholder="Search"
                 value={filterInput}
@@ -1002,7 +994,7 @@ function Booking() {
             </div>
           </div>
           <div>
-            <button
+            <button data-testid="booking-retainer-btn"
               disabled={!canUpdateInvoice}
               onClick={handleShow}
               className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -1062,7 +1054,7 @@ function Booking() {
           <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
             <div className="flex flex-wrap items-center gap-3">
               <div className="w-[150px]">
-                <Select
+                <div data-testid="booking-selected-bill-status-select" className="contents"><Select
                   // isDisabled
                   closeMenuOnSelect={true}
                   hideSelectedOptions={false}
@@ -1095,10 +1087,10 @@ function Booking() {
                     });
                     setPage(1);
                   }}
-                />
+                /></div>
               </div>
 
-              <Select
+              <div data-testid="booking-month-change-select" className="contents"><Select
                 menuPlacement="auto"
                 // isDisabled={isComingSoon}
                 options={monthOptions}
@@ -1107,9 +1099,9 @@ function Booking() {
                 styles={CustomStyles}
                 classNamePrefix="custom"
                 noOptionsMessage={() => "No options"}
-              />
+              /></div>
               <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
-                <button
+                <button data-testid="booking-btn"
                   onClick={() => canReadInvoice && handleShowFilterBills()}
                   disabled={!canReadInvoice}
                   className={`border border-slate-300 rounded-full p-2
@@ -1122,7 +1114,7 @@ function Booking() {
 
             <div className="flex  items-center gap-3">
               <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
-                <Setting3
+                <Setting3 data-testid="booking-open-icon"
                   onClick={() => setOpen(!open)}
                   className="cursor-pointer"
                   size="22"
@@ -1161,7 +1153,7 @@ function Booking() {
                         ))}
                       </div>
 
-                      <span
+                      <span data-testid="booking-reset-action"
                         onClick={handleReset}
                         className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
                       >
@@ -1171,15 +1163,15 @@ function Booking() {
                   </div>
                 )}
                 {formattedData?.length > 0 ? (
-                  <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
+                  <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                     <div
                       id="tableContainer"
                       ref={tableContainerRef}
-                      className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                      className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                     >
-                      <table className="w-full  font-gilroy">
-                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                          <tr className="h-9">
+                      <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                        <thead className="sticky top-0 z-40">
+                          <tr>
                             {/* <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
                           <input
                             disabled
@@ -1197,20 +1189,20 @@ function Booking() {
 
                               if (index === 0) {
                                 stickyClass =
-                                  "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                                  "sticky left-[0px] z-40 w-[80px]";
                               }
 
                               return (
                                 <th
                                   key={col.key}
-                                  className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                                  className={`${TABLE_HEADER_CELL} text-start ${stickyClass}`}
                                 >
                                   {col.fieldName}
                                 </th>
                               );
                             })}
 
-                            <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                            <th className={`${TABLE_HEADER_CELL} sticky right-0 z-50 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                               Action
                             </th>
                           </tr>
@@ -1219,14 +1211,13 @@ function Booking() {
                         <tbody>
                           {formattedData?.length > 0 ? (
                             formattedData?.map((item, index) => (
-                              <tr
+                              <tr data-testid={`booking-action-2-${item?.apiCall?.invoiceId}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleNavigatePdf(item?.apiCall?.invoiceId);
                                 }}
                                 key={item?.apiCall?.invoiceId}
-                                className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
-                                    cursor-pointer group  hover:!bg-gray-50"
+                                className="cursor-pointer group hover:!bg-gray-50"
                               >
                                 {/* <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
                               <input
@@ -1238,10 +1229,7 @@ function Booking() {
                             </td> */}
 
                                 {selectedColumns?.map((col, index) => {
-                                  const baseClass = `
-  ${columnStyles[col.fieldName] || "px-4"}
-  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-`;
+                                  const baseClass = `${TABLE_BODY_CELL} hover:!bg-gray-50 group-hover:!bg-gray-50`;
 
                                   let stickyClass = "";
 
@@ -1257,18 +1245,18 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.fieldName}
-                                          className={`px-4 ${finalClass}`}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {typeof item?.profilePic ===
                                             "string" &&
                                             item.profilePic.startsWith("http") ? (
                                             <img
                                               src={item.profilePic}
-                                              className="w-8 h-8 rounded-full"
+                                              className="w-[30px] h-[30px] rounded-full"
                                               alt="profile"
                                             />
                                           ) : (
-                                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                            <div className="w-[30px] h-[30px] rounded-full bg-gray-200 flex items-center justify-center text-xs">
                                               {typeof item?.profilePic ===
                                                 "string"
                                                 ? item.profilePic
@@ -1282,9 +1270,9 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
-                                          <div
+                                          <div data-testid={`booking-action-3-${col.key}`}
                                             className="relative group w-[100px] "
                                             onClick={(e) => {
                                               e.stopPropagation();
@@ -1313,7 +1301,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
                                             <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
@@ -1327,10 +1315,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                            <span className="block w-full truncate text-sm text-[#314158] font-medium ">
                                               {item.bookingDate}
                                             </span>
                                           </div>
@@ -1341,10 +1329,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                            <span className="block w-full truncate text-sm text-[#314158] font-medium ">
                                               {item.joiningDate}
                                             </span>
                                           </div>
@@ -1355,10 +1343,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                            <span className="block w-full truncate text-sm text-[#314158] font-medium ">
                                               {item.invoiceDate}
                                             </span>
                                           </div>
@@ -1369,7 +1357,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {item.mobile}
                                         </td>
@@ -1379,7 +1367,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {item.floorName}
                                         </td>
@@ -1408,7 +1396,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.fieldName}
-                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#222222] font-semibold`}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928] font-semibold`}
                                         >
                                           {item.amount}
                                         </td>
@@ -1417,10 +1405,10 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           <span
-                                            className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                            className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                             style={{
                                               backgroundColor:
                                                 statusStyles[item.status]?.bg ||
@@ -1428,7 +1416,7 @@ function Booking() {
                                             }}
                                           >
                                             <span
-                                              className="h-2 w-2 rounded-full"
+                                              className="w-[6px] h-[6px] rounded-full"
                                               style={{
                                                 backgroundColor:
                                                   statusStyles[item.status]
@@ -1455,7 +1443,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.key}
-                                          className={finalClass}
+                                          className={`${finalClass} text-[#111928]`}
                                         >
                                           {typeof item[
                                             headerKeyMap[col.fieldName]
@@ -1471,20 +1459,21 @@ function Booking() {
 
                                 <td
                                   className={`${isScrolling ? "!bg-white" : "bg-white"
-                                    } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                    } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
-                                    <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
+                                    <PiDotsThreeOutlineVerticalFill data-testid={`booking-icon-${item?.apiCall?.invoiceId}`}
+                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-[#314158]"}`}
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         handleShowDots(e, index);
                                       }}
                                     />
                                     {showDots === index && (
+                                      createPortal(
                                       <div
                                         ref={popupRef}
-                                        className="  rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        className="font-gilroy   rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
@@ -1501,7 +1490,7 @@ function Booking() {
                                           "ADVANCE" ||
                                           item?.apiCall?.invoiceType ===
                                           "BOOKING" ? (
-                                          <button
+                                          <button data-testid={`booking-apply-invoices-btn-${item?.apiCall?.invoiceId}`}
                                             disabled={
                                               !canUpdateInvoice ||
                                               !item.apiCall?.canApply
@@ -1539,7 +1528,7 @@ function Booking() {
                                             </span>
                                           </button>
                                         ) : (
-                                          <button
+                                          <button data-testid={`booking-apply-to-invoices-btn-${item?.apiCall?.invoiceId}`}
                                             disabled={
                                               !canUpdateInvoice ||
                                               !item.apiCall?.canApply
@@ -1577,7 +1566,9 @@ function Booking() {
                                             </span>
                                           </button>
                                         )}
-                                      </div>
+                                      </div>,
+                                      document.body,
+                                    )
                                     )}
                                   </div>
                                 </td>
@@ -1597,7 +1588,7 @@ function Booking() {
                       </table>
                       {open && (
                         <>
-                          <div
+                          <div data-testid="booking-open-action"
                             className="fixed inset-0 bg-black/20 z-50 "
                             onClick={() => setOpen(false)}
                           />
@@ -1618,7 +1609,7 @@ function Booking() {
                                   <div className="text-[16px] text-[#333333] font-semibold ">
                                     Customize Tabs{" "}
                                   </div>
-                                  <div
+                                  <div data-testid="booking-customize-items-action"
                                     onClick={() => {
                                       setCustomizeItems((prev) =>
                                         prev.map((i) => ({
@@ -1643,7 +1634,7 @@ function Booking() {
 
                                 <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                                   <SearchNormal1 size={16} color="#98A2B3" />
-                                  <input
+                                  <input data-testid="booking-search-text-input"
                                     value={searchText}
                                     onChange={(e) =>
                                       setSearchText(e.target.value)
@@ -1705,13 +1696,13 @@ function Booking() {
                             )}
 
                             <div className="p-3 border-t flex gap-2">
-                              <button
+                              <button data-testid="booking-reset-btn"
                                 onClick={handleResetCustomize}
                                 className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
                               >
                                 Reset
                               </button>
-                              <button
+                              <button data-testid="booking-save-btn"
                                 onClick={handleSave}
                                 disabled={customizeLoading}
                                 className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70"

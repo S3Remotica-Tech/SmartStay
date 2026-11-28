@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.jsx",
+    // Playwright specs in e2e/ run with `npm run e2e`, not Vitest.
     exclude: [...configDefaults.exclude, "e2e/**"],
     coverage: {
       reporter: ["text", "lcov"],

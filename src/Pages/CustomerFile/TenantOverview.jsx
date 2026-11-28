@@ -1110,7 +1110,7 @@ function TenantOverview(props) {
           <div className="flex items-center justify-between sticky top-0 z-40 bg-white py-3 px-4 h-14 w-full">
             <div className="flex items-center">
               <CustomTooltip text="Go Back" direction="top-full" usePortal={true}>
-                <ArrowLeft
+                <ArrowLeft data-testid={`tenant-overview-navigate-tenant-icon-${CustomerOverView?.customerId}`}
                   onClick={() => handleNavigateTenant()}
                   className="cursor-pointer"
                 />
@@ -1121,7 +1121,7 @@ function TenantOverview(props) {
             </div>
             <CustomTooltip text="Info" direction="top-full" usePortal={false}>
               <div className="relative">
-                <img
+                <img data-testid={`tenant-overview-is-popup-open-img-${CustomerOverView?.customerId}`}
                   src={icon}
                   alt="icon"
                   width={24}
@@ -1215,7 +1215,7 @@ function TenantOverview(props) {
                       className={`absolute inset-0 rounded-full flex items-center justify-center gap-[8px] bg-black/30 z-20 ${!canUpdateTenant ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     >
-                      <button
+                      <button data-testid={`tenant-overview-change-photo-btn-${CustomerOverView?.customerId}`}
                         type="button"
                         title="Change photo"
                         disabled={!canUpdateTenant}
@@ -1225,21 +1225,39 @@ function TenantOverview(props) {
                         <img alt="edit" src={EditImage} className="w-[14px] h-[14px]" />
                       </button>
 
-                      {imageUrl && (
-                        <button
-                          type="button"
-                          title="Delete photo"
-                          disabled={!canDeleteTenant}
-                          onClick={() => setShowDeleteConfirm(true)}
-                          className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center cursor-pointer "
-                        >
-                          <Trash size="14" color="#FF0000" />
-                        </button>
-                      )}
+                      {imageUrl &&
+                        (!CustomerOverView?.canRemoveProfilePic ? (
+                          <CustomTooltip
+                            text="This is the Aadhaar profile photo, it can't be removed"
+                            direction="top-full"
+                            usePortal={true}
+                          >
+                            <span className="inline-flex cursor-not-allowed">
+                              <button data-testid={`tenant-overview-aadhaar-profile-photo-can-t-be-btn-${CustomerOverView?.customerId}`}
+                                type="button"
+                                disabled
+                                aria-label="Aadhaar profile photo can't be removed"
+                                className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center pointer-events-none"
+                              >
+                                <Trash size="14" color="#FF0000" />
+                              </button>
+                            </span>
+                          </CustomTooltip>
+                        ) : (
+                          <button data-testid={`tenant-overview-delete-photo-btn-${CustomerOverView?.customerId}`}
+                            type="button"
+                            title="Delete photo"
+                            disabled={!canDeleteTenant}
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="w-[24px] h-[24px] rounded-full disabled:opacity-50 bg-white flex items-center justify-center cursor-pointer "
+                          >
+                            <Trash size="14" color="#FF0000" />
+                          </button>
+                        ))}
                     </div>
                   )}
 
-                  <input
+                  <input data-testid={`tenant-overview-file-${CustomerOverView?.customerId}`}
                     ref={fileInputRef}
                     type="file"
                     accept="image/*"
@@ -1263,7 +1281,7 @@ function TenantOverview(props) {
                         <div className="inline-flex items-center mb-1 ">
                           <Verify size={18} variant="Bold" color="#038c3d" />
                         </div>
-                        <div
+                        <div data-testid={`tenant-overview-kyc-info-action-${CustomerOverView?.customerId}`}
                           onClick={() => setShowKYCModal(true)}
                           className="inline-flex items-center gap-1 mb-1 text-[11px] text-[#1E45E1] cursor-pointer"
                         >
@@ -1313,7 +1331,7 @@ function TenantOverview(props) {
 
                       <div className="relative">
                         <CustomTooltip text="Click to Copy" direction="top-full" usePortal={false}>
-                          <button
+                          <button data-testid={`tenant-overview-copy-mobile-btn-${CustomerOverView?.customerId}`}
                             type="button"
                             onClick={handleCopyMobile}
                             className="text-gray-400 hover:text-blue-600 transition-colors"
@@ -1373,7 +1391,7 @@ function TenantOverview(props) {
                 </div> */}
                 </div>
 
-                <button
+                <button data-testid={`tenant-overview-add-pending-actions-btn-${CustomerOverView?.customerId}`}
                   disabled={isKYCDisabledButton}
                   onClick={handleShowActions}
                   className="
@@ -1440,7 +1458,7 @@ function TenantOverview(props) {
                 {state.UsersList.customerdetails?.customerCurrentStatus ===
                   "NOTICE" && (
                     <>
-                      <button
+                      <button data-testid={`tenant-overview-generate-settlement-btn-${CustomerOverView?.customerId}`}
                         disabled={!canWriteCheckout}
                         onClick={() => {
                           if (canWriteCheckout) {
@@ -1465,7 +1483,7 @@ function TenantOverview(props) {
                 {state.UsersList.customerdetails?.customerCurrentStatus ===
                   "SETTLEMENT_GENERATED" && (
                     <>
-                      <button
+                      <button data-testid={`tenant-overview-check-out-btn-${CustomerOverView?.customerId}`}
                         disabled={!canWriteCheckout}
                         onClick={() => {
                           if (canWriteCheckout) {
@@ -1495,7 +1513,7 @@ function TenantOverview(props) {
                 {state.UsersList.customerdetails?.customerCurrentStatus ===
                   "BOOKED" && (
                     <>
-                      <button
+                      <button data-testid={`tenant-overview-check-in-btn-${CustomerOverView?.customerId}`}
                         disabled={!canWriteTenant}
                         onClick={() => {
                           handleShowBookingToCheckin();
@@ -1520,7 +1538,7 @@ function TenantOverview(props) {
                 {state.UsersList.customerdetails?.customerCurrentStatus ===
                   "DRAFT" && (
                     <>
-                      <button
+                      <button data-testid={`tenant-overview-draft-continue-btn-${CustomerOverView?.customerId}`}
                         type="button"
                         onClick={() => {
                           if (canWriteTenant) {
@@ -1558,7 +1576,7 @@ function TenantOverview(props) {
 
               <div className="relative font-gilroy">
                 <CustomTooltip text="More Options" direction="top-full" usePortal={true}>
-                  <button onClick={() => setOpenMenu(!openMenu)} className="p-1 ">
+                  <button data-testid={`tenant-overview-open-menu-btn-${CustomerOverView?.customerId}`} onClick={() => setOpenMenu(!openMenu)} className="p-1 ">
                     <PiDotsThreeOutlineVerticalFill
                       size={18}
                       className="text-gray-500"
@@ -1573,7 +1591,7 @@ function TenantOverview(props) {
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "CHECK_IN" && (
                         <>
-                          <button
+                          <button data-testid={`tenant-overview-move-to-notice-period-btn-${CustomerOverView?.customerId}`}
                             disabled={!canUpdateCheckout}
                             onClick={() => {
                               if (canUpdateCheckout) {
@@ -1596,7 +1614,7 @@ function TenantOverview(props) {
                             Move to Notice Period
                           </button>
 
-                          <button
+                          <button data-testid={`tenant-overview-change-bed-btn-${CustomerOverView?.customerId}`}
                             disabled={!canUpdateBooking}
                             onClick={() => {
                               if (canUpdateBooking) {
@@ -1618,7 +1636,7 @@ function TenantOverview(props) {
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "NOTICE" && (
                         <>
-                          <button
+                          <button data-testid={`tenant-overview-generate-btn-${CustomerOverView?.customerId}`}
                             disabled={!canWriteCheckout}
                             onClick={() => {
                               if (canWriteCheckout) {
@@ -1635,7 +1653,7 @@ function TenantOverview(props) {
                             Generate
                           </button>
                           <div className="h-px bg-gray-300" />
-                          <button
+                          <button data-testid={`tenant-overview-cancel-check-out-btn-${CustomerOverView?.customerId}`}
                             disabled={!canWriteTenant}
                             onClick={() => {
                               if (canWriteTenant) {
@@ -1664,7 +1682,7 @@ function TenantOverview(props) {
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "SETTLEMENT_GENERATED" && (
                         <>
-                          <button
+                          <button data-testid={`tenant-overview-check-out-btn-2-${CustomerOverView?.customerId}`}
                             disabled={!canWriteCheckout}
                             onClick={() => {
                               if (canWriteCheckout) {
@@ -1694,7 +1712,7 @@ function TenantOverview(props) {
                       "BOOKED" &&
                       state.UsersList.customerdetails?.hostelInfo
                         ?.currentStatus !== "CANCELLED" && (
-                        <button
+                        <button data-testid={`tenant-overview-wallet-btn-${CustomerOverView?.customerId}`}
                           onClick={() => {
                             handleShowWalletHistory();
                             setOpenMenu(null);
@@ -1713,7 +1731,7 @@ function TenantOverview(props) {
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "BOOKED" && (
                         <>
-                          <button
+                          <button data-testid={`tenant-overview-check-in-btn-2-${CustomerOverView?.customerId}`}
                             disabled={!canWriteTenant}
                             onClick={() => {
                               handleShowBookingToCheckin();
@@ -1730,7 +1748,7 @@ function TenantOverview(props) {
                             Check-In
                           </button>
 
-                          <button
+                          <button data-testid={`tenant-overview-make-as-inactive-btn-${CustomerOverView?.customerId}`}
                             disabled={!canUpdateBooking}
                             onClick={() => {
                               if (canUpdateBooking) {
@@ -1758,7 +1776,7 @@ function TenantOverview(props) {
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "DRAFT" && (
                         <>
-                          <button
+                          <button data-testid={`tenant-overview-draft-continue-btn-2-${CustomerOverView?.customerId}`}
                             type="button"
                             onClick={() => {
                               if (canWriteTenant) {
@@ -1783,7 +1801,7 @@ function TenantOverview(props) {
                             </span>
                           </button>
 
-                          <button
+                          <button data-testid={`tenant-overview-delete-btn-${CustomerOverView?.customerId}`}
                             type="button"
                             disabled={!canDeleteTenant}
                             onClick={() => handleDeleteTenant(CustomerOverView)}
@@ -1818,7 +1836,7 @@ function TenantOverview(props) {
         <TabContext value={value}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full max-h-[80px]">
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-              <TabList
+              <TabList data-testid={`tenant-overview-lab-api-tabs-example-input-${CustomerOverView?.customerId}`}
                 orientation={isSmallScreen ? "vertical" : "horizontal"}
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
@@ -1874,7 +1892,7 @@ function TenantOverview(props) {
                             : "cursor-pointer"
                         }
                       >
-                        <div
+                        <div data-testid={`tenant-overview-action-${CustomerOverView?.customerId}`}
                           onClick={() => {
                             if (!isEditDisabled) {
                               handleEditBasicDetails(CustomerOverView);
@@ -1937,7 +1955,7 @@ function TenantOverview(props) {
 
                               <div className="relative">
                                 <CustomTooltip text="Click to Copy" direction="top-full" usePortal={false}>
-                                  <button
+                                  <button data-testid={`tenant-overview-copy-email-btn-${CustomerOverView?.customerId}`}
                                     type="button"
                                     onClick={handleCopyEmail}
                                     className="text-gray-400 hover:text-blue-600 transition-colors"
@@ -1977,7 +1995,7 @@ function TenantOverview(props) {
                             </span>
                             <div className="relative">
                               <CustomTooltip text="Click to Copy" direction="top-full" usePortal={false}>
-                                <button
+                                <button data-testid={`tenant-overview-copy-mobile-basic-btn-${CustomerOverView?.customerId}`}
                                   type="button"
                                   onClick={handleCopyMobileBasic}
                                   className="text-gray-400 hover:text-blue-600 transition-colors"
@@ -2025,7 +2043,7 @@ function TenantOverview(props) {
                     <div className="card-header flex justify-between items-center border-0 bg-transparent">
                       <div className="card-header p-0 border-0 bg-transparent w-full">
                         <div className="flex items-center justify-around gap-4 w-full border-0 -mt-2">
-                          <div
+                          <div data-testid={`tenant-overview-kyc-address-action-${CustomerOverView?.customerId}`}
                             onClick={() => setActiveTab("kyc")}
                             className={`flex items-center cursor-pointer px-3 py-1.5 font-semibold 
     ${activeTab === "kyc" ? "border-b-2 border-[#1E45E1] text-[#1E45E1]" : "border-b-2 border-transparent text-[#555]"} font-gilroy whitespace-nowrap`}
@@ -2033,7 +2051,7 @@ function TenantOverview(props) {
                             KYC Address
                           </div>
 
-                          <div
+                          <div data-testid={`tenant-overview-manual-address-action-${CustomerOverView?.customerId}`}
                             onClick={() => setActiveTab("manual")}
                             className={`flex items-center cursor-pointer px-3 py-1.5 font-semibold 
     ${activeTab === "manual" ? "border-b-2 border-[#1E45E1] text-[#1E45E1]" : "border-b-2 border-transparent text-[#555]"} font-gilroy whitespace-nowrap`}
@@ -2047,7 +2065,7 @@ function TenantOverview(props) {
                                     : "cursor-pointer"
                                 }
                               >
-                                <div
+                                <div data-testid={`tenant-overview-action-2-${CustomerOverView?.customerId}`}
                                   onClick={() => {
                                     if (!isEditDisabled) {
                                       handleEditAddressDetailsShow(
@@ -2317,7 +2335,7 @@ function TenantOverview(props) {
                               className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}
                             >
                               <CustomTooltip text="Stay history" direction="top-full" usePortal={true}>
-                                <Timer1
+                                <Timer1 data-testid={`tenant-overview-icon-${CustomerOverView?.customerId}`}
                                   size="18"
                                   className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
                                   onClick={() =>
@@ -2410,7 +2428,7 @@ function TenantOverview(props) {
                                 "NOTICE" &&
                                 CustomerOverView?.isJoiningDateEditable && (
                                   <CustomTooltip text="Edit" direction="top-full" usePortal={true}>
-                                    <img
+                                    <img data-testid={`tenant-overview-edit-image-img-${CustomerOverView?.customerId}`}
                                       onClick={handleUpdateJoiningChange}
                                       src={EditImage}
                                       alt="EditImage"
@@ -2467,7 +2485,7 @@ function TenantOverview(props) {
                                   CustomerOverView.hostelInfo?.currentStatus !==
                                   "VACATED" && (
                                     <CustomTooltip text="Edit" direction="top-full" usePortal={true}>
-                                      <button
+                                      <button data-testid={`tenant-overview-update-change-btn-${CustomerOverView?.customerId}`}
                                         type="button"
                                         onClick={handleUpdateChange}
                                         className="flex items-center"
@@ -2490,7 +2508,7 @@ function TenantOverview(props) {
                               py-2 flex flex-col items-start min-w-0   "
                               >
                                 {/* {isDevelopment && ( */}
-                                <button
+                                <button data-testid={`tenant-overview-show-delete-popup-btn-${CustomerOverView?.customerId}`}
                                   onClick={() => setShowDeletePopup(true)}
                                   className="absolute top-2 right-2 z-50 bg-white p-1 rounded
             hidden group-hover:!block
@@ -2532,7 +2550,7 @@ function TenantOverview(props) {
                                   CustomerOverView.advanceInfo
                                     ?.canEditAdvance && (
                                     <CustomTooltip text="Edit" direction="top-full" usePortal={true}>
-                                      <img
+                                      <img data-testid={`tenant-overview-edit-image-img-2-${CustomerOverView?.customerId}`}
                                         onClick={handleUpdateAdvanceChange}
                                         src={EditImage}
                                         alt="EditImage"
@@ -2612,7 +2630,7 @@ function TenantOverview(props) {
                 <div className=" bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
                   <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
                     <div className="flex justify-around w-full">
-                      <button
+                      <button data-testid={`tenant-overview-kyc-documents-btn-${CustomerOverView?.customerId}`}
                         onClick={() => setDocumentValue("1")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
         ${documentvalue === "1"
@@ -2623,7 +2641,7 @@ function TenantOverview(props) {
                         KYC Documents
                       </button>
 
-                      <button
+                      <button data-testid={`tenant-overview-manual-documents-btn-${CustomerOverView?.customerId}`}
                         onClick={() => setDocumentValue("2")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
         ${documentvalue === "2"
@@ -2638,7 +2656,7 @@ function TenantOverview(props) {
 
                   {documentvalue === "1" &&
                     CustomerOverView?.files?.kycDoc?.length > 0 && (
-                      <button
+                      <button data-testid={`tenant-overview-preview-kyc-btn-${CustomerOverView?.customerId}`}
                         disabled={isDisabledButtonForUpdate}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         onClick={handlePreviewKYC}
@@ -2649,7 +2667,7 @@ function TenantOverview(props) {
 
                   {documentvalue === "2" &&
                     CustomerOverView?.files?.otherDoc?.length > 0 && (
-                      <button
+                      <button data-testid={`tenant-overview-preview-btn-${CustomerOverView?.customerId}`}
                         disabled={isDisabledButtonForUpdate}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         onClick={handlePreview}
@@ -2673,7 +2691,7 @@ function TenantOverview(props) {
                                 No KYC Documents are there!
                               </p>
 
-                              <button
+                              <button data-testid={`tenant-overview-upload-document-btn-${CustomerOverView?.customerId}`}
                                 onClick={handlePreviewKYC}
                                 disabled={isDisabledButtonForUpdate}
                                 className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
@@ -2702,7 +2720,7 @@ function TenantOverview(props) {
                                 No Manual Documents are there!
                               </p>
 
-                              <button
+                              <button data-testid={`tenant-overview-upload-document-btn-2-${CustomerOverView?.customerId}`}
                                 onClick={handlePreview}
                                 disabled={isDisabledButtonForUpdate}
                                 className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
@@ -2727,7 +2745,7 @@ function TenantOverview(props) {
                       </div>
                       {additionalContact?.length > 0 && (
                         <div className="flex items-center gap-3">
-                          <button
+                          <button data-testid={`tenant-overview-additional-btn-${CustomerOverView?.customerId}`}
                             disabled={isDisabledButtonForUpdate}
                             type="button"
                             onClick={handleAdditionalForm}
@@ -2760,7 +2778,7 @@ function TenantOverview(props) {
                       ) : (
                         <div className="flex flex-col items-center justify-center text-center font-gilroy text-sm text-gray-700 min-h-[150px]">
                           <p className="mb-1">No Contact Details are there!</p>
-                          <button
+                          <button data-testid={`tenant-overview-add-btn-${CustomerOverView?.customerId}`}
                             type="button"
                             disabled={isDisabledButtonForUpdate}
                             onClick={handleAdditionalForm}
@@ -2788,7 +2806,7 @@ function TenantOverview(props) {
                       </div>
 
                       <div className="flex justify-start sm:justify-end ms-0 sm:ms-3 p-0 sm:p-2 w-full sm:w-auto">
-                        <button
+                        <button data-testid={`tenant-overview-assign-btn-${CustomerOverView?.customerId}`}
                           disabled={isDisabled}
                           onClick={() => handleShowAssignAmenities()}
                           className={`flex items-center gap-1.5 font-gilroy font-semibold text-[14px] h-[35px] rounded-[12px] px-3 text-white

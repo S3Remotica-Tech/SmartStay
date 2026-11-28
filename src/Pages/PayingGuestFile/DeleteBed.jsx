@@ -80,7 +80,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
   return (
     <div>
-      <Modal
+      <Modal data-testid="delete-bed-delete-bed-are-you-modal"
         show={show}
         onHide={handleClose}
         centered
@@ -98,14 +98,14 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
         </Modal.Body>
 
         <Modal.Footer className="!flex !justify-center !gap-4 !mb-2 !border-0">
-          <Button
+          <Button data-testid="delete-bed-cancel-btn"
             onClick={handleClose}
             className="!w-[130px] !h-[52px] !rounded-lg !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="delete-bed-delete-bed-btn"
             disabled={formLoading}
             onClick={handleDeleteBed}
             className={`

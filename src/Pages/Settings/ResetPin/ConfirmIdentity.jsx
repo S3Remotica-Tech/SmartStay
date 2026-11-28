@@ -24,7 +24,7 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-gilroy ">
         <div className="bg-white w-fit rounded-xl p-6 relative">
-          <Add
+          <Add data-testid="confirm-identity-close-icon"
             size="26"
             className="absolute right-4 top-4 cursor-pointer text-red-500 rotate-45"
             onClick={handleClose}
@@ -77,7 +77,7 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
               </span>
             </label>
 
-            <input
+            <input data-testid="confirm-identity-admin-password-of-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -87,13 +87,13 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
           </div>
 
           <div className="flex justify-end gap-3">
-            <button
+            <button data-testid="confirm-identity-cancel-btn"
               className="px-4 py-2 border rounded-lg"
               onClick={handleClose}
             >
               Cancel
             </button>
-            <button
+            <button data-testid="confirm-identity-verify-continue-btn"
               className="px-4 py-2 bg-[#1E45E1] text-white rounded-lg"
               onClick={handleSubmit}
             >

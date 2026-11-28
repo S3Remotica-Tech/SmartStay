@@ -3,6 +3,15 @@ export const initialState = {
   getSuccessReports: 0,
   getInvoiceRegister: [],
   getInvoiceRegisterSuccess: 0,
+  getConsolidatedInvoice: [],
+  getConsolidatedInvoiceSuccess: 0,
+  getConsolidatedInvoiceError: "",
+  consolidatedInvoiceExport: "",
+  consolidatedInvoiceExportSuccess: 0,
+  consolidatedInvoiceExportError: "",
+  consolidatedInvoiceCustomize: "",
+  consolidatedInvoiceCustomizeSuccess: 0,
+  consolidatedInvoiceCustomizeError: "",
   getExpenseRegister: [],
   getExpenseRegisterSuccess: 0,
   getReceiptRegister: [],
@@ -15,9 +24,20 @@ export const initialState = {
   reportsReceiptPdfSuccess: 0,
   reportsInvoicePdf: "",
   reportsInvoicePdfSuccess: 0,
+  reportsConsolidatedInvoicePdf: "",
+  reportsConsolidatedInvoicePdfSuccess: 0,
   reportsExpensePdf: "",
   reportsExpensePdfSuccess: 0,
   reportsPdfExportError: "",
+
+  // Invoice Register - Consolidated View selected filters
+  // (same shape as DEFAULT_CONSOLIDATED_FILTERS in ConsolidatedInvoiceTable.jsx).
+  consolidatedInvoiceFilters: {
+    search: "",
+    statuses: [], // paymentStatus keys (API filters.paymentStatus)
+    overdueOnly: false,
+    floors: [], // floor names (API filters.floors)
+  },
 
   invoiceRegisterFilters: {
     startDate: undefined,
@@ -114,6 +134,46 @@ const ReportsReducer = (state = initialState, action) => {
 
     case "REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER":
       return { ...state, getInvoiceRegisterSuccess: 0 };
+
+    case "GET_REPORTS_CONSOLIDATED_INVOICE_REDUCER":
+      return {
+        ...state,
+        getConsolidatedInvoice: action.payload.response,
+        getConsolidatedInvoiceSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_REDUCER":
+      return { ...state, getConsolidatedInvoiceSuccess: 0 };
+    case "GET_REPORTS_CONSOLIDATED_INVOICE_ERROR":
+      return { ...state, getConsolidatedInvoiceError: action.payload };
+    case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_ERROR":
+      return { ...state, getConsolidatedInvoiceError: "" };
+
+    case "GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER":
+      return {
+        ...state,
+        consolidatedInvoiceExport: action.payload.response,
+        consolidatedInvoiceExportSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_REDUCER":
+      return { ...state, consolidatedInvoiceExportSuccess: 0 };
+    case "GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR":
+      return { ...state, consolidatedInvoiceExportError: action.payload };
+    case "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_EXPORT_ERROR":
+      return { ...state, consolidatedInvoiceExportError: "" };
+
+    case "CONSOLIDATED_INVOICE_CUSTOMIZE_REDUCER":
+      return {
+        ...state,
+        consolidatedInvoiceCustomize: action.payload.response,
+        consolidatedInvoiceCustomizeSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_CONSOLIDATED_INVOICE_CUSTOMIZE_REDUCER":
+      return { ...state, consolidatedInvoiceCustomizeSuccess: 0 };
+    case "CONSOLIDATED_INVOICE_CUSTOMIZE_ERROR":
+      return { ...state, consolidatedInvoiceCustomizeError: action.payload };
+    case "REMOVE_CONSOLIDATED_INVOICE_CUSTOMIZE_ERROR":
+      return { ...state, consolidatedInvoiceCustomizeError: "" };
+
     case "GET_REPORTS_EXPENSE_REGISTER_REDUCER":
       return {
         ...state,
@@ -171,6 +231,15 @@ const ReportsReducer = (state = initialState, action) => {
 
     case "REMOVE_REPORTS_INVOICE_REGISTER_PDF_REDUCER":
       return { ...state, reportsInvoicePdfSuccess: 0 };
+
+    case "REPORTS_CONSOLIDATED_INVOICE_PDF_REDUCER":
+      return {
+        ...state,
+        reportsConsolidatedInvoicePdf: action.payload.response,
+        reportsConsolidatedInvoicePdfSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_REPORTS_CONSOLIDATED_INVOICE_PDF_REDUCER":
+      return { ...state, reportsConsolidatedInvoicePdfSuccess: 0 };
     case "REPORTS_EXPENSE_REGISTER_PDF_REDUCER":
       return {
         ...state,
@@ -208,6 +277,15 @@ const ReportsReducer = (state = initialState, action) => {
         ...state,
         receiptRegisterFilters: {
           ...state.receiptRegisterFilters,
+          ...action.payload,
+        },
+      };
+
+    case "SET_CONSOLIDATED_INVOICE_FILTERS":
+      return {
+        ...state,
+        consolidatedInvoiceFilters: {
+          ...state.consolidatedInvoiceFilters,
           ...action.payload,
         },
       };

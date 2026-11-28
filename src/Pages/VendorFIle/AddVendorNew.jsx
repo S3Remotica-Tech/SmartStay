@@ -915,7 +915,7 @@ function AddVendorNew() {
           </p>
         </div>
 
-        <button
+        <button data-testid="add-vendor-new-close-btn"
           type="button"
           onClick={handleClose}
           aria-label="Close"
@@ -935,7 +935,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-name" className={fieldLabelClass}>
                   Vendor Name {requiredMark}
                 </label>
-                <input
+                <input data-testid="add-vendor-new-vendor-name-input"
                   id="vendor-name"
                   value={vendorName}
                   onChange={handleVendorNameChange}
@@ -953,7 +953,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-business-name" className={fieldLabelClass}>
                   Business Name {requiredMark}
                 </label>
-                <input
+                <input data-testid="add-vendor-new-business-name-input"
                   id="vendor-business-name"
                   onChange={handleBusinessChange}
                   value={businessName}
@@ -973,7 +973,7 @@ function AddVendorNew() {
                 <label className={fieldLabelClass}>
                   Vendor Category {requiredMark}
                 </label>
-                <Select
+                <div data-testid="add-vendor-new-vendor-category-select" className="contents"><Select
                   ref={vendorCategoryRef}
                   options={vendorCategoryOptions}
                   value={
@@ -984,7 +984,7 @@ function AddVendorNew() {
                   onChange={handleVendorCategoryChange}
                   placeholder="Select category"
                   styles={fieldSelectStyles(!!vendorCategoryError)}
-                />
+                /></div>
                 {vendorCategoryError && (
                   <ErrorMessage message={vendorCategoryError} type="error" className="mt-[6px]" />
                 )}
@@ -996,7 +996,7 @@ function AddVendorNew() {
                 </label>
                 <div className={`${fieldGroupClass(!!vendorMobileError)} !pl-[8px]`}>
                   <div className="w-[76px] shrink-0">
-                    <Select
+                    <div data-testid="add-vendor-new-business-country-code-select" className="contents"><Select
                       ref={businessCountryCodeRef}
                       options={countryCodeOptions}
                       value={businessCountryCode}
@@ -1008,10 +1008,10 @@ function AddVendorNew() {
                       styles={fieldEmbeddedSelectStyles()}
                       placeholder="Code"
                       aria-label="Business country code"
-                    />
+                    /></div>
                   </div>
                   <span className="h-[20px] w-[1px] shrink-0 bg-[#E4E4E7]" aria-hidden />
-                  <input
+                  <input data-testid="add-vendor-new-business-mobile-number-input"
                     value={businessMobile}
                     onChange={handleBusinessMobileChange}
                     type="text"
@@ -1041,7 +1041,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-contact-name" className={fieldLabelClass}>
                   Contact Person Name
                 </label>
-                <input
+                <input data-testid="add-vendor-new-contact-person-name-input"
                   id="vendor-contact-name"
                   value={contactPersonName}
                   onChange={handleContactPersonNameChange}
@@ -1058,7 +1058,7 @@ function AddVendorNew() {
                 </label>
                 <div className={`${fieldGroupClass(!!contactMobileError)} !pl-[8px]`}>
                   <div className="w-[76px] shrink-0">
-                    <Select
+                    <div data-testid="add-vendor-new-contact-person-country-code-select" className="contents"><Select
                       ref={countryCodeRef}
                       options={countryCodeOptions}
                       value={countryCode}
@@ -1070,10 +1070,10 @@ function AddVendorNew() {
                       styles={fieldEmbeddedSelectStyles()}
                       placeholder="Code"
                       aria-label="Contact person country code"
-                    />
+                    /></div>
                   </div>
                   <span className="h-[20px] w-[1px] shrink-0 bg-[#E4E4E7]" aria-hidden />
-                  <input
+                  <input data-testid="add-vendor-new-contact-person-mobile-number-input"
                     value={vendor_Mobile}
                     ref={mobileRef}
                     onChange={handleMobileChange}
@@ -1095,7 +1095,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-email" className={fieldLabelClass}>
                   Email Address
                 </label>
-                <input
+                <input data-testid="add-vendor-new-email-address-input"
                   id="vendor-email"
                   ref={emailRef}
                   value={email_Id}
@@ -1117,7 +1117,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-description" className={fieldLabelClass}>
                   Description
                 </label>
-                <textarea
+                <textarea data-testid="add-vendor-new-description-textarea"
                   id="vendor-description"
                   value={description}
                   onChange={handleDescriptionChange}
@@ -1138,7 +1138,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-address" className={fieldLabelClass}>
                   Address (No, Area / Street, Sector) {requiredMark}
                 </label>
-                <textarea
+                <textarea data-testid="add-vendor-new-address-no-area-street-sector-textarea"
                   id="vendor-address"
                   ref={houseNoRef}
                   value={house_no}
@@ -1156,7 +1156,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-landmark" className={fieldLabelClass}>
                   Landmark
                 </label>
-                <input
+                <input data-testid="add-vendor-new-landmark-input"
                   id="vendor-landmark"
                   ref={landmarkRef}
                   type="text"
@@ -1171,7 +1171,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-city" className={fieldLabelClass}>
                   Town / City {requiredMark}
                 </label>
-                <input
+                <input data-testid="add-vendor-new-town-city-input"
                   id="vendor-city"
                   type="text"
                   placeholder="Enter city"
@@ -1185,7 +1185,7 @@ function AddVendorNew() {
 
               <div>
                 <label className={fieldLabelClass}>State {requiredMark}</label>
-                <Select
+                <div data-testid="add-vendor-new-state-select" className="contents"><Select
                   options={indianStates}
                   ref={stateRef}
                   value={
@@ -1196,7 +1196,7 @@ function AddVendorNew() {
                   }
                   placeholder="Select state"
                   styles={fieldSelectStyles(!state_name && !!state_nameError)}
-                />
+                /></div>
                 {!state_name && state_nameError && (
                   <ErrorMessage message={state_nameError} type="error" className="mt-[6px]" />
                 )}
@@ -1206,7 +1206,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-pincode" className={fieldLabelClass}>
                   Pincode {requiredMark}
                 </label>
-                <input
+                <input data-testid="add-vendor-new-pincode-input"
                   id="vendor-pincode"
                   value={pinCode}
                   ref={pinCodeRef}
@@ -1234,7 +1234,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-gst" className={fieldLabelClass}>
                   GST Number
                 </label>
-                <input
+                <input data-testid="add-vendor-new-gst-number-input"
                   id="vendor-gst"
                   type="text"
                   value={gstNumber}
@@ -1250,7 +1250,7 @@ function AddVendorNew() {
                 <label htmlFor="vendor-pan" className={fieldLabelClass}>
                   PAN Number
                 </label>
-                <input
+                <input data-testid="add-vendor-new-pan-number-input"
                   id="vendor-pan"
                   type="text"
                   value={panNumber}
@@ -1264,7 +1264,7 @@ function AddVendorNew() {
             </div>
 
             <div className="rounded-small bg-ink-50 px-[14px] py-[12px]">
-              <Checkbox
+              <Checkbox data-testid="add-vendor-new-vendor-allow-credit-checkbox"
                 id="vendor-allow-credit"
                 checked={allowCreditPurchase}
                 onChange={handleCreditPurchaseToggle}
@@ -1278,7 +1278,7 @@ function AddVendorNew() {
                 <div className="grid grid-cols-1 gap-x-[16px] gap-y-[16px] md:grid-cols-2">
                   <div>
                     <label className={fieldLabelClass}>Credit Limit</label>
-                    <AmountInput
+                    <AmountInput data-testid="add-vendor-new-credit-limit-input"
                       value={creditLimit}
                       onChange={handleCreditLimitChange}
                       placeholder="Enter credit limit"
@@ -1291,7 +1291,7 @@ function AddVendorNew() {
                       Credit Period
                     </label>
                     <div className={fieldGroupClass(false)}>
-                      <input
+                      <input data-testid="add-vendor-new-credit-period-input"
                         id="vendor-credit-period"
                         type="text"
                         inputMode="numeric"
@@ -1320,10 +1320,10 @@ function AddVendorNew() {
       <div className="sticky bottom-0 z-20 flex flex-col gap-[8px] border-t-[1px] border-solid border-[#F2F4F7] bg-white px-[24px] py-[16px]">
         {noChanges && <ErrorMessage message={noChanges} type="error" className="mt-[6px]" />}
         <div className="flex w-full max-w-[920px] items-center justify-end gap-[12px]">
-          <button type="button" onClick={handleClose} className={BTN_TERTIARY}>
+          <button data-testid="add-vendor-new-cancel-btn" type="button" onClick={handleClose} className={BTN_TERTIARY}>
             Cancel
           </button>
-          <button
+          <button data-testid="add-vendor-new-add-vendor-btn"
             type="submit"
             disabled={formLoading}
             onClick={handleAddVendor}

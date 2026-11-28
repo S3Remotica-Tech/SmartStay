@@ -33,6 +33,13 @@ import {
   fieldRequiredClass,
 } from "../../Utils/FieldStyles";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
+
 function Banking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -532,7 +539,7 @@ function Banking() {
         : "border-gray-200 opacity-60 cursor-not-allowed"
     }`}
                   >
-                    <input
+                    <input data-testid="banking-search-input"
                       disabled
                       // disabled={!canReadBanking}
                       type="text"
@@ -552,7 +559,7 @@ function Banking() {
               </div>
 
               <div className="pr-4">
-                <Image
+                <Image data-testid="banking-filterd-img"
                   src={Filters}
                   roundedCircle
                   className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
@@ -563,7 +570,7 @@ function Banking() {
 
               {filterStatus && (
                 <div className="mr-4 border border-[#D4D4D4] rounded-md w-30">
-                  <Form.Select
+                  <Form.Select data-testid="banking-price-range-select"
                     onChange={(e) => handleStatusFilter(e)}
                     value={statusfilter}
                     aria-label="Select Price Range"
@@ -579,7 +586,7 @@ function Banking() {
               )}
               {statusfilter === "date" && (
                 <div className="mr-4">
-                  <RangePicker
+                  <RangePicker data-testid="banking-date-range-change-input"
                     value={dateRange}
                     format="DD-MM-YYYY"
                     onChange={handleDateRangeChange}
@@ -589,7 +596,7 @@ function Banking() {
               )}
 
               <div className="mr-2">
-                <Button
+                <Button data-testid="banking-add-btn"
                   disabled={!canWriteBanking}
                   onClick={handleShowForm}
                   className="!font-gilroy text-[14px] !bg-[#1e45e1] text-white !font-semibold rounded-[8px] p-2 mb-2.5 w-[146px] whitespace-nowrap"
@@ -642,7 +649,7 @@ function Banking() {
                                 </p>
                               </div>
 
-                              <div
+                              <div data-testid={`banking-action-${item.id}`}
                                 className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
     ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
     ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
@@ -661,7 +668,7 @@ function Banking() {
                                   ref={popupRef}
                                   className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
                                 >
-                                  <button
+                                  <button data-testid={`banking-self-transfer-btn-${item.id}`}
                                     disabled={
                                       !(canWriteBanking && !item.isDeleted)
                                     }
@@ -683,7 +690,7 @@ function Banking() {
 
                                   <div className="h-px bg-gray-200" />
 
-                                  <button
+                                  <button data-testid={`banking-edit-btn-${item.id}`}
                                     disabled={
                                       !(canUpdateBanking && !item.isDeleted)
                                     }
@@ -703,7 +710,7 @@ function Banking() {
 
                                   <div className="h-px bg-gray-200" />
 
-                                  <button
+                                  <button data-testid={`banking-delete-btn-${item.id}`}
                                     disabled
                                     // disabled={!(canDeleteBanking && !item.isDeleted)}
                                     onClick={() => handleDeleteForm(item)}
@@ -742,7 +749,7 @@ function Banking() {
                                 </p>
 
                                 {item.isDefault === 0 && (
-                                  <p
+                                  <p data-testid={`banking-set-as-default-account-action-${item.id}`}
                                     className={`text-sm font-semibold font-gilroy ${
                                       canWriteBanking
                                         ? "text-blue-600 cursor-pointer"
@@ -770,7 +777,7 @@ function Banking() {
                               </span>
                             </div>
                             <div className="flex justify-end my-1">
-                              <span
+                              <span data-testid={`banking-add-amount-action-${item.id}`}
                                 className={`text-sm font-semibold font-gilroy ${
                                   canWriteBanking && !item.isDeleted
                                     ? "text-blue-600 cursor-pointer"
@@ -786,7 +793,7 @@ function Banking() {
                               </span>
                             </div>
                             {showAccountTypeOptions === item.bankingId && (
-                              <div
+                              <div data-testid={`banking-credit-a-c-debit-action-${item.id}`}
                                 className="
                   absolute top-16 left-12
                   bg-white
@@ -800,7 +807,7 @@ function Banking() {
                                 onMouseDown={(e) => e.stopPropagation()}
                               >
                                 <label className="block text-sm mb-1 font-gilroy font-medium">
-                                  <input
+                                  <input data-testid={`banking-account-type-selection-radio-${item.id}`}
                                     type="radio"
                                     name={`accountType-${item.bankingId}`}
                                     value={1}
@@ -811,7 +818,7 @@ function Banking() {
                                 </label>
 
                                 <label className="block text-sm mb-1 font-gilroy font-medium">
-                                  <input
+                                  <input data-testid={`banking-credit-a-c-radio-${item.id}`}
                                     type="radio"
                                     name={`accountType-${item.bankingId}`}
                                     value={2}
@@ -822,7 +829,7 @@ function Banking() {
                                 </label>
 
                                 <label className="block text-sm mb-1 font-gilroy font-medium">
-                                  <input
+                                  <input data-testid={`banking-debit-a-c-radio-${item.id}`}
                                     type="radio"
                                     name={`accountType-${item.bankingId}`}
                                     value={3}
@@ -876,20 +883,20 @@ function Banking() {
 
                 <div className="relative ">
                   {transactionFilterddata?.length > 0 ? (
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                            <tr className="h-9">
-                              <th className="w-[230px] px-2">Account Name</th>
-                              <th className="w-[230px] px-2">Date</th>
-                              <th className="w-[230px] px-2">Amount</th>
-                              <th className="w-[230px] px-2">Description</th>
-                              <th className="w-[230px] px-2">Transaction</th>
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-40">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Account Name</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Date</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Amount</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px]`}>Description</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left w-[230px] sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Transaction</th>
                             </tr>
                           </thead>
 
@@ -897,21 +904,20 @@ function Banking() {
                             {paginatedTransactions?.map((user) => (
                               <tr
                                 key={user.id}
-                                className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                               >
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.accountHolder}
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.createdAt}
                                 </td>
-                                <td className="w-[230px] px-2 py-1">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.amount}
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
                                   {user.source}
                                 </td>
-                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                <td className={`${TABLE_BODY_CELL} w-[230px] sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
                                   {user.type}
                                 </td>
                               </tr>
@@ -938,7 +944,7 @@ function Banking() {
             </>
           )}
 
-          <Modal
+          <Modal data-testid="banking-delete-banking-are-you-modal"
             show={deleteShow}
             onHide={handleCloseDelete}
             centered
@@ -956,14 +962,14 @@ function Banking() {
             </Modal.Body>
 
             <Modal.Footer className="flex content-center !border-t-0 -mt-2.5">
-              <Button
+              <Button data-testid="banking-cancel-btn"
                 className="me-2 w-full max-w-[160px] h-[52px] rounded-[8px] px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
                 onClick={handleCloseDelete}
               >
                 Cancel
               </Button>
 
-              <Button
+              <Button data-testid="banking-coming-soon-btn"
                 disabled
                 className="w-full max-w-[160px] h-[52px] rounded-[8px] px-3 py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold !text-[14px] !disabled:opacity-50 !disabled:cursor-not-allowed"
                 onClick={handleDeleteBank}
@@ -973,7 +979,7 @@ function Banking() {
             </Modal.Footer>
           </Modal>
 
-          <Modal
+          <Modal data-testid="banking-add-balance-account-balance-modal"
             show={showAddBalance}
             onHide={() => handleCloseAddBalance()}
             backdrop="static"
@@ -984,7 +990,7 @@ function Banking() {
               <div className="text-[1.25rem] font-semibold font-gilroy">
                 Add Balance
               </div>
-              <CloseCircle
+              <CloseCircle data-testid="banking-close-add-balance-icon"
                 size="24"
                 color="#000"
                 className="cursor pointer"
@@ -998,7 +1004,7 @@ function Banking() {
                     Account{" "}
                     <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-account-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Account"
@@ -1014,7 +1020,7 @@ function Banking() {
                     Balance {""}
                     <span className={fieldRequiredClass}> * </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="banking-balance-input"
                     type="text"
                     placeholder="Enter Amount"
                     value={AddBankAmount}
@@ -1032,7 +1038,7 @@ function Banking() {
                   </div>
                   : null} */}
 
-                <Button
+                <Button data-testid="banking-add-balance-btn"
                   className="w-full !bg-[#1E45E1] !font-semibold h-[50px] rounded-[12px] !text-[16px] !font-gilroy mt-2.5"
                   onClick={handleAddAmountSubmit}
                 >

@@ -228,7 +228,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
             Edit Basic Details
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="edit-basic-details-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -248,7 +248,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
 
-                <Form.Control
+                <Form.Control data-testid="edit-basic-details-first-name-input"
                   value={firstName}
                   onChange={handleFirstNameChange}
                   type="text"
@@ -271,7 +271,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   Last name
                 </Form.Label>
 
-                <Form.Control
+                <Form.Control data-testid="edit-basic-details-last-name-input"
                   value={lastName}
                   onChange={handleLastNameChange}
                   type="text"
@@ -290,7 +290,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                   Email
                 </Form.Label>
 
-                <Form.Control
+                <Form.Control data-testid="edit-basic-details-email-input"
                   value={email}
                   onChange={handleEmailChange}
                   type="text"
@@ -309,7 +309,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                 </Form.Label>
 
                 <InputGroup className="w-full">
-                  <Form.Select
+                  <Form.Select data-testid="edit-basic-details-mobile-number-select"
                     value={countryCode}
                     // id="vendor-select-pg"
                     className={`${fieldClass()} !w-[88px] !flex-none !rounded-r-none`}
@@ -317,7 +317,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                     <option value="91">+91</option>
                   </Form.Select>
 
-                  <Form.Control
+                  <Form.Control data-testid="edit-basic-details-mobile-number-input"
                     value={phone}
                     onChange={handlePhoneChange}
                     type="text"
@@ -352,14 +352,14 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         ) : null}
 
         <div className="flex justify-end p-4 gap-3">
-          <Button
+          <Button data-testid="edit-basic-details-cancel-btn"
             className="mt-1 bg-white border-0 !text-[#1E45E1] !font-bold !text-base !font-gilroy rounded-xl py-2 px-10"
             onClick={handleClose}
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="edit-basic-details-update-btn"
             disabled={loading}
             onClick={handleSubmit}
             className="!bg-[#1E45E1] !font-semibold !text-base !font-gilroy rounded-xl py-2 px-10  mt-1"

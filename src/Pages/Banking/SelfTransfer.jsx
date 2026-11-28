@@ -109,7 +109,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             Self Transfer
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="self-transfer-close-icon"
             size="24"
             color="#000"
             className="cursor-pointer"
@@ -164,7 +164,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             </h6>
 
             {bankDetails?.toBanks?.map((bank) => (
-              <div
+              <div data-testid={`self-transfer-select-action-${bank.bankingId}`}
                 key={bank.bankingId}
                 onClick={() => handleSelect(bank.bankingId)}
                 className={`flex items-center gap-2 mb-3 p-3 rounded-lg transition-all duration-200 cursor-pointer
@@ -214,7 +214,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
               ₹
             </span>
 
-            <input
+            <input data-testid="self-transfer-change-input"
               type="number"
               placeholder="Enter amount"
               value={amount}
@@ -231,7 +231,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
           )}
           <div className="flex justify-end mt-4">
             <div className="flex justify-end mt-4">
-              <button
+              <button data-testid="self-transfer-transfer-btn"
                 onClick={handleTransfer}
                 disabled={isTransferDisabled}
                 className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"

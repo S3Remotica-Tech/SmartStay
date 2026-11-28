@@ -531,7 +531,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               </p>
             </div>
 
-            <button
+            <button data-testid="review-generate-bills-drawer-close-btn"
               type="button"
               onClick={onClose}
               className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[#F2F4F7]"
@@ -580,7 +580,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                 className="absolute left-3 top-1/2 -translate-y-1/2"
               />
 
-              <input
+              <input data-testid="review-generate-bills-drawer-search-tenant-room-or-invoice-input"
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -636,7 +636,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               {selectedIds?.length > 0 ? (
                 <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <button
+                    <button data-testid="review-generate-bills-drawer-selected-ids-btn"
                       type="button"
                       onClick={() => setSelectedIds([])}
                       className="w-5 h-5 flex items-center justify-center text-[#667085] hover:text-[#344054]"
@@ -649,7 +649,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                     </span>
                   </div>
 
-                  <button
+                  <button data-testid="review-generate-bills-drawer-generate-selected-btn"
                     type="button"
                     onClick={handleGenerateSelectedOnly}
                     disabled={selectedIds?.length === 0 || !canWriteInvoice}
@@ -671,7 +671,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               ) : (
                 <div className="px-3 py-2 border-b border-[#EAECF0] flex items-center justify-between">
                   <label className="flex items-center gap-2 text-[12px] text-[#4B4B4B] cursor-pointer">
-                    <input
+                    <input data-testid="review-generate-bills-drawer-select-all-checkbox"
                       type="checkbox"
                       checked={allSelected}
                       onChange={(e) => handleSelectAll(e.target.checked)}
@@ -708,7 +708,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           isExpanded ? "bg-[#F8FAFF]" : "hover:bg-[#FAFBFC]"
                         }`}
                       >
-                        <input
+                        <input data-testid={`review-generate-bills-drawer-select-checkbox-${item.invoiceId}`}
                           type="checkbox"
                           checked={selectedIds?.includes(item.invoiceId)}
                           // disabled={isExcluded}
@@ -760,7 +760,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           {formatAmount(item.invoiceAmount)}
                         </div>
 
-                        <button
+                        <button data-testid={`review-generate-bills-drawer-view-btn-${item.invoiceId}`}
                           type="button"
                           onClick={() => handleExpand(item.invoiceId)}
                           className="h-7 px-2.5 rounded-lg border-1 border-[#A6F4C5] text-[#12B76A] text-[10px] flex items-center gap-1"
@@ -865,7 +865,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
                                       {invoiceItem?.isNew ? (
                                         <div className="flex items-center gap-2 w-full">
-                                          <input
+                                          <input data-testid={`review-generate-bills-drawer-description-input-${rowKey}`}
                                             type="text"
                                             value={
                                               invoiceItem.description || ""
@@ -913,7 +913,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               ₹
                                             </span>
 
-                                            <input
+                                            <input data-testid={`review-generate-bills-drawer-items-input-${rowKey}`}
                                               type="number"
                                               min="0"
                                               value={invoiceItem.amount ?? ""}
@@ -964,7 +964,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             />
                                           </div>
 
-                                          <button
+                                          <button data-testid={`review-generate-bills-drawer-new-save-invoice-item-btn-${rowKey}`}
                                             disabled={!canUpdateInvoice}
                                             type="button"
                                             onClick={() =>
@@ -978,7 +978,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             <TiTick className="text-[12px]" />{" "}
                                           </button>
 
-                                          <button
+                                          <button data-testid={`review-generate-bills-drawer-delete-btn-${rowKey}`}
                                             disabled={!canDeleteInvoice}
                                             type="button"
                                             onClick={() =>
@@ -997,7 +997,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                         </div>
                                       ) : isEditing ? (
                                         <div className="flex items-center gap-2 w-full">
-                                          <input
+                                          <input data-testid={`review-generate-bills-drawer-editing-value-input-${rowKey}`}
                                             disabled={isRentItem}
                                             type="text"
                                             value={editingValue.itemName}
@@ -1029,7 +1029,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               ₹
                                             </span>
 
-                                            <input
+                                            <input data-testid={`review-generate-bills-drawer-editing-value-input-2-${rowKey}`}
                                               onWheel={(e) => e.target.blur()}
                                               disabled={!canUpdateInvoice}
                                               type="number"
@@ -1081,7 +1081,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             />
                                           </div>
 
-                                          <button
+                                          <button data-testid={`review-generate-bills-drawer-save-invoice-item-btn-${rowKey}`}
                                             disabled={!canUpdateInvoice}
                                             type="button"
                                             onClick={() =>
@@ -1092,7 +1092,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             <TiTick className="text-[12px]" />
                                           </button>
 
-                                          <button
+                                          <button data-testid={`review-generate-bills-drawer-cancel-field-btn-${rowKey}`}
                                             type="button"
                                             onClick={handleCancelField}
                                             className="w-[24px] h-[24px] rounded-full bg-[#F2F4F7] text-[#667085] flex items-center justify-center"
@@ -1106,7 +1106,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                       ) : (
                                         <div className="flex items-center gap-3">
                                           <div className="absolute  inset-y-0 right-24 hidden group-hover:flex items-center gap-2">
-                                            <button
+                                            <button data-testid={`review-generate-bills-drawer-edit-btn-${rowKey}`}
                                               disabled={!canUpdateInvoice}
                                               type="button"
                                               onClick={() => {
@@ -1132,7 +1132,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               </span>
                                             </button>
 
-                                            <button
+                                            <button data-testid={`review-generate-bills-drawer-delete-btn-2-${rowKey}`}
                                               disabled={
                                                 !canDeleteInvoice || isRentItem
                                               }
@@ -1161,7 +1161,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                   );
                                 })}
                               <div className=" flex items-center justify-end">
-                                <button
+                                <button data-testid={`review-generate-bills-drawer-add-new-row-btn-${item.invoiceId}`}
                                   disabled={!canUpdateInvoice}
                                   type="button"
                                   onClick={() => handleAddInvoiceItem(item)}
@@ -1210,7 +1210,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                 </p>
               </div>
 
-              <button
+              <button data-testid="review-generate-bills-drawer-generate-all-eligible-btn"
                 type="button"
                 onClick={handleGenerateAll}
                 disabled={items?.length === 0 || !canWriteInvoice}

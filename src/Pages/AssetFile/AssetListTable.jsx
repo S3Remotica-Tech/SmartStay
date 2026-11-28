@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from "moment";
@@ -10,6 +11,10 @@ import { Edit, Trash, ProfileAdd } from "iconsax-react";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import { useHasPermission } from "../../Utils/Permission";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function AssetListTable(props) {
   const state = useSelector((state) => state);
@@ -124,42 +129,41 @@ function AssetListTable(props) {
     <>
       <tr
         key={props.item.id}
-        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
       >
         <td
           title={props.item.product_name || "-"}
-          className="w-[230px] py-1 whitespace-nowrap truncate px-2"
+          className={`${TABLE_BODY_CELL} truncate text-[#111928] font-semibold`}
         >
           {props.item.productName || "-"}
         </td>
 
         <td
           title={props.item.serial_number || "-"}
-          className="w-[230px] py-1 px-2 whitespace-nowrap px-2"
+          className={`${TABLE_BODY_CELL} text-[#314158]`}
         >
           {props.item.serialNumber || "-"}
         </td>
 
         <td
           title={props.item.brandName || "-"}
-          className="w-[230px] py-1 whitespace-nowrap truncate"
+          className={`${TABLE_BODY_CELL} truncate text-[#111928]`}
         >
           {props.item.brandName || "-"}
         </td>
 
-        <td className="w-[230px] py-1 px-2">
+        <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
           <div className="truncate" title={props.item.assetName || "-"}>
             {props.item.assetName || "-"}
           </div>
         </td>
-        <td className="w-[230px] py-1 px-2">
+        <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
           <div className="truncate" title={props.item.paymentMode || "-"}>
             {props.item.paymentMode || "-"}
           </div>
         </td>
         <td
           title={props.item.price}
-          className="w-[230px] py-1 whitespace-nowrap px-1.5"
+          className={`${TABLE_BODY_CELL} text-[#111928] text-right font-medium`}
         >
           ₹{props.item.price ? props.item.price.toLocaleString("en-IN") : "0"}
         </td>
@@ -168,14 +172,14 @@ function AssetListTable(props) {
           title={moment(props.item.purchaseDate)
             .format("DD MMM YYYY")
             .toUpperCase()}
-          className="w-[230px] py-1 whitespace-nowrap px-2"
+          className={`${TABLE_BODY_CELL} text-[#314158]`}
         >
           {props.item.purchaseDate}
         </td>
 
         <td
           title={props.item.hostelName || "-"}
-          className="w-[230px] py-1 px-2"
+          className={`${TABLE_BODY_CELL} text-[#111928]`}
         >
           <div className="truncate">
             {props.item.assignmentStatus === "Unassigned"
@@ -184,21 +188,22 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td className="py-1 px-2">
-          <div className="w-full flex justify-start">
-            <div
+        <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
+          <div className="w-full flex justify-center">
+            <div data-testid={`asset-list-table-show-dots-action-${props.item.id}`}
               onClick={(e) => handleShowDots(props.item.id, e)}
-              className="relative flex items-center justify-center rounded-full cursor-pointer"
+              className={`relative inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${showDots ? "border-[#1E45E1] bg-[#EFF6FF]" : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"}`}
             >
               <PiDotsThreeOutlineVerticalFill
                 className={`w-[15px] h-[15px] rotate-90
-            ${showDots ? "text-[#1E45E1]" : "text-gray-800"}`}
+            ${showDots ? "text-[#1E45E1]" : "text-[#4A5565]"}`}
               />
 
               {showDots && (
+                createPortal(
                 <div
                   ref={popupRef}
-                  className="fixed z-[1000] w-[160px] bg-[#F9F9F9]
+                  className="font-gilroy fixed z-[1000] w-[160px] bg-[#F9F9F9]
                        border border-[#EBEBEB] rounded-[10px]"
                   style={{
                     top: showAbove
@@ -209,7 +214,7 @@ function AssetListTable(props) {
                     left: popupPosition.left,
                   }}
                 >
-                  <div
+                  <div data-testid={`asset-list-table-action-${props.item.id}`}
                     onClick={() =>
                       canWriteAssets && handleAssignAsset(props.item)
                     }
@@ -229,7 +234,7 @@ function AssetListTable(props) {
 
                   <div className="h-px bg-[#F0F0F0]" />
 
-                  <div
+                  <div data-testid={`asset-list-table-edit-action-${props.item.id}`}
                     onClick={() => canUpdateAsset && handleEdit(props.item)}
                     className={`flex items-center gap-2 px-3 py-2
                 ${canUpdateAsset
@@ -245,7 +250,7 @@ function AssetListTable(props) {
 
                   <div className="h-px bg-[#F0F0F0]" />
 
-                  <div
+                  <div data-testid={`asset-list-table-delete-action-${props.item.id}`}
                     onClick={() =>
                       canDeleteAsset &&
                       props.item.assignmentStatus === "Unassigned" &&
@@ -262,7 +267,9 @@ function AssetListTable(props) {
                       Delete
                     </span>
                   </div>
-                </div>
+                </div>,
+                document.body,
+              )
               )}
             </div>
           </div>
@@ -278,7 +285,7 @@ function AssetListTable(props) {
       )}
 
       <div>
-        <Modal
+        <Modal data-testid="asset-list-table-delete-asset-are-you-modal"
           show={showDeleteAsset}
           onHide={handleCloseForDeleteAsset}
           centered
@@ -296,14 +303,14 @@ function AssetListTable(props) {
           </Modal.Body>
 
           <Modal.Footer className="flex justify-center border-0 -mt-2">
-            <Button
+            <Button data-testid="asset-list-table-cancel-btn"
               className="w-full max-w-[160px] h-[52px] rounded-[8px] px-5 bg-white !text-[#1E45E1] !border-[#1E45E1] !font-gilroy !font-semibold !text-[15px] me-2"
               onClick={handleCloseForDeleteAsset}
             >
               Cancel
             </Button>
 
-            <Button
+            <Button data-testid="asset-list-table-delete-btn"
               disabled={deleteLoading}
               className={`
    !w-full 

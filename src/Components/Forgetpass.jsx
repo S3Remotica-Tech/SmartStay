@@ -274,7 +274,7 @@ function ForgetPasswordPage() {
           <div className="ml-5 mb-5">
             <div className="grid grid-cols-2 gap-x-1 gap-y-4">
               <div className="p-20 relative">
-                <div
+                <div data-testid="forgetpass-smartstay-action"
                   className="flex items-center gap-1 mb-1 cursor-pointer"
                   onClick={hanldeBackToLogin}
                 >
@@ -341,7 +341,7 @@ function ForgetPasswordPage() {
                   </div>
 
                   <div className="w-full px-0 md:w-full mb-1 flex gap-5 items-center">
-                    <button
+                    <button data-testid="forgetpass-continue-btn"
                       onClick={handleAccountVerification}
                       className="w-full h-[50px] rounded-[12px] px-4 py-[10px] 
       bg-[#1E45E1] text-white font-montserrat 
@@ -357,7 +357,7 @@ function ForgetPasswordPage() {
                 <div className="mt-3 mb-2 text-[14px] font-normal font-montserrat">
                   <label>
                     Return to your account?
-                    <span
+                    <span data-testid="forgetpass-sign-in-action"
                       onClick={() => handleLogin()}
                       className="ms-2 text-[16px] font-semibold font-gilroy text-[#1E45E1] cursor-pointer hover:underline"
                     >
@@ -396,7 +396,7 @@ function ForgetPasswordPage() {
           <div className="ml-5 mb-5 relative">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-1">
               <div className="p-6 md:p-12 lg:p-[80px]">
-                <div
+                <div data-testid="forgetpass-smartstay-action-2"
                   className="flex items-center gap-1 mb-1 cursor-pointer"
                   onClick={hanldeBackToLoginPassword}
                 >
@@ -426,7 +426,7 @@ function ForgetPasswordPage() {
                       <span className="text-red-500 text-[22px]">*</span>
                     </Form.Label>
                     <InputGroup>
-                      <Form.Control
+                      <Form.Control data-testid="forgetpass-password-input"
                         size="lg"
                         value={password}
                         onChange={handlePassword}
@@ -438,7 +438,7 @@ function ForgetPasswordPage() {
   focus:outline-none`}
                       />
 
-                      <InputGroup.Text
+                      <InputGroup.Text data-testid="forgetpass-toggle-password-visibility-icon"
                         className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
                         onClick={togglePasswordVisibility}
                       >
@@ -457,7 +457,7 @@ function ForgetPasswordPage() {
                       <span className="text-red-500 text-[22px]">*</span>
                     </Form.Label>
                     <InputGroup>
-                      <Form.Control
+                      <Form.Control data-testid="forgetpass-confirm-password-input"
                         size="lg"
                         value={confirmpassword}
                         onChange={handleConfirmPassword}
@@ -468,7 +468,7 @@ function ForgetPasswordPage() {
   ${password ? "font-semibold" : "font-medium"}
   focus:outline-none`}
                       />
-                      <InputGroup.Text
+                      <InputGroup.Text data-testid="forgetpass-toggle-confirm-password-icon"
                         className="bg-transparent !border !border-[#E0ECFF] border-l-0 cursor-pointer flex items-center px-3"
                         onClick={toggleConfirmPasswordVisibility}
                       >
@@ -534,7 +534,7 @@ function ForgetPasswordPage() {
                   ) : null}
 
                   <div className="w-full lg:w-[91.666667%] mt-2 mb-1">
-                    <button
+                    <button data-testid="forgetpass-continue-btn-2"
                       onClick={handlePasswordReset}
                       className="w-full bg-blue-700 rounded-xl py-2.5 h-12 font-montserrat font-semibold text-base text-white"
                     >

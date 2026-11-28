@@ -110,16 +110,16 @@ function VendorRegister() {
   // }
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
+    <div className="h-screen flex flex-col font-gilroy">
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white min-h-[60px]">
         <div className='flex items-center gap-2'>
-          <ArrowLeft onClick={handleNavigateReports}
+          <ArrowLeft data-testid="vendor-register-navigate-reports-icon" onClick={handleNavigateReports}
             size="20"
             color="#4A5565" className='cursor-pointer'
           />
           <div>
-            <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
+            <div data-testid="vendor-register-vendor-register-action" className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
               <h1 className="text-lg font-semibold my-0 text-[#222222]">Vendor Register</h1>
               <div className='rounded-none border-0'>
                 <ArrowDown2
@@ -135,7 +135,7 @@ function VendorRegister() {
                       const isLast = index === reportCards.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`vendor-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item)
@@ -170,7 +170,7 @@ function VendorRegister() {
             className="datepicker-wrapper"
             style={{ position: "relative", }}
           >
-            <RangePicker
+            <RangePicker data-testid="vendor-register-input"
               style={{
                 width: "100%",
                 height: "100%",
@@ -210,13 +210,13 @@ function VendorRegister() {
             />
           </div>
 
-          <button onClick={handleClickFilter}
+          <button data-testid="vendor-register-filter-btn" onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
             <Filter size="16" />
             Filter
           </button>
-          <button
+          <button data-testid="vendor-register-export-btn"
             className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
           >
             <Export size="16" />

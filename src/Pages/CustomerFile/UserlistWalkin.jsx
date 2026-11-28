@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
@@ -19,6 +20,13 @@ import Addbooking from "./Addbookingform";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DirectCheckin from "./DirectCheckin";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function UserlistWalkin() {
   const state = useSelector((state) => state);
@@ -368,19 +376,19 @@ function UserlistWalkin() {
               </div>
 
               {paginatedData.length > 0 && (
-                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                   <div
                     id="tableContainer"
                     // ref={tableContainerRef}
-                    className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                    className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                   >
-                    <table className=" w-full font-gilroy">
-                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                        <tr className="h-9">
-                          <th className="w-[230px] px-2">Name</th>
-                          <th className="w-[230px] px-2">Email ID </th>
-                          <th className="w-[230px] px-2">Mobile No</th>
-                          <th className="w-[230px] px-2">Action</th>
+                    <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                      <thead className="sticky top-0 z-40">
+                        <tr>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Name</th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Email ID </th>
+                          <th className={`${TABLE_HEADER_CELL} text-left`}>Mobile No</th>
+                          <th className={`${TABLE_HEADER_CELL} text-center sticky right-0 z-[2] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                         </tr>
                       </thead>
 
@@ -388,53 +396,65 @@ function UserlistWalkin() {
                         {paginatedData.map((v) => (
                           <tr
                             key={v.customerId}
-                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                           >
-                            <td className="w-[230px] px-2 py-1">
-                              <div className="relative group w-[200px]">
-                                <span className="block truncate">
+                            <td className={`${TABLE_BODY_CELL} text-[#111928]`}>
+                              <div className="relative group flex items-center gap-[13px] max-w-[240px]">
+                                <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                  {(v.fullName || "")
+                                    .trim()
+                                    .split(/\s+/)
+                                    .slice(0, 2)
+                                    .map((w) => w[0])
+                                    .join("")
+                                    .toUpperCase() || "-"}
+                                </div>
+                                <span className="block truncate font-semibold">
                                   {v.fullName}
                                 </span>
 
-                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-blue-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
+                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
                                   {v.fullName}
                                 </div>
                               </div>
                             </td>
 
-                            <td className="w-[230px] px-2 py-1">
-                              <div className="relative group w-[200px]">
+                            <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
+                              <div className="relative group max-w-[240px]">
                                 <span className="block truncate">
                                   {v.emailId || "N/A"}
                                 </span>
 
-                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-blue-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
+                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
                                   {v.emailId || "N/A"}
                                 </div>
                               </div>
                             </td>
-                            <td className="w-[230px] px-2 py-1">
+                            <td className={`${TABLE_BODY_CELL} text-[#314158]`}>
                               {v && v.mobile}
                             </td>
 
-                            <td className="w-[230px] px-2 py-1">
-                              <div
-                                className="relative flex justify-start items-center cursor-pointer"
+                            <td className={`${TABLE_BODY_CELL} sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928] text-center`}>
+                              <div data-testid={`userlist-walkin-dots-click-action-${v.customerId}`}
+                                className={`relative inline-flex items-center justify-center w-[34px] h-[34px] rounded-[12px] border-[1px] cursor-pointer ${dotsButton === v.customerId
+                                  ? "border-[#1E45E1] bg-[#EFF6FF]"
+                                  : "border-[#E2E8F0] bg-white hover:bg-[#F1F5FF]"
+                                  }`}
                                 onClick={(e) =>
                                   handleDotsClick(v.customerId, e)
                                 }
                               >
                                 <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId
-                                    ? "text-blue-700"
-                                    : "text-gray-500"
+                                  className={`h-4 w-4 rotate-90 ${dotsButton === v.customerId
+                                    ? "text-[#1E45E1]"
+                                    : "text-[#4A5565]"
                                     }`}
                                 />
 
                                 {dotsButton === v.customerId && (
+                                  createPortal(
                                   <div
                                     ref={popupRef}
-                                    className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
+                                    className="font-gilroy fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-[1000]"
                                     style={{
                                       top: popupPosition.top - 15,
                                       left: popupPosition.left - 10,
@@ -467,7 +487,7 @@ function UserlistWalkin() {
                                     </div> */}
 
                                     {/* {isDev && ( */}
-                                    <div
+                                    <div data-testid={`userlist-walkin-check-in-action-${v.customerId}`}
                                       onClick={() =>
                                         canWriteTenant && handleCheckInNew(v)
                                       }
@@ -492,7 +512,7 @@ function UserlistWalkin() {
                                     </div>
                                     {/* )} */}
 
-                                    <div
+                                    <div data-testid={`userlist-walkin-add-booking-action-${v.customerId}`}
                                       onClick={() =>
                                         canWriteBooking && handleBooking(v)
                                       }
@@ -516,7 +536,7 @@ function UserlistWalkin() {
                                       </label>
                                     </div>
 
-                                    <div
+                                    <div data-testid={`userlist-walkin-delete-action-${v.customerId}`}
                                       onClick={() =>
                                         canDeleteWalkin && handleDeleteShow(v)
                                       }
@@ -540,7 +560,9 @@ function UserlistWalkin() {
                                         Delete
                                       </label>
                                     </div>
-                                  </div>
+                                  </div>,
+                                  document.body,
+                                )
                                 )}
                               </div>
                             </td>
@@ -584,7 +606,7 @@ function UserlistWalkin() {
         />
       )}
 
-      <Modal
+      <Modal data-testid="userlist-walkin-delete-tenant-are-you-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         backdrop="static"
@@ -632,7 +654,7 @@ function UserlistWalkin() {
           className="d-flex justify-content-center"
           style={{ borderTop: "none", marginTop: "-10px" }}
         >
-          <Button
+          <Button data-testid="userlist-walkin-cancel-btn"
             className="me-2"
             style={{
               width: "100%",
@@ -651,7 +673,7 @@ function UserlistWalkin() {
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="userlist-walkin-delete-customer-btn"
             className={`
    !w-full 
     !max-w-[160px] 

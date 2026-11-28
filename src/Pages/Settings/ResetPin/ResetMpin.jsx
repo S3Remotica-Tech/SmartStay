@@ -53,7 +53,7 @@ const ResetMpin = ({ show, handleClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-gilroy ">
       <div className="bg-white w-fit rounded-2xl p-6 relative shadow-lg">
-        <Add
+        <Add data-testid="reset-mpin-close-icon"
           size="26"
           className="absolute right-4 top-4 cursor-pointer text-red-500 rotate-45"
           onClick={handleClose}
@@ -75,7 +75,7 @@ const ResetMpin = ({ show, handleClose }) => {
           </p>
           <div className="flex gap-3">
             {mpin.map((digit, i) => (
-              <input
+              <input data-testid={`reset-mpin-create-a-new-m-pin-ensure-it-input-${i}`}
                 key={i}
                 ref={(el) => (mpinRefs.current[i] = el)}
                 type="password"
@@ -99,7 +99,7 @@ const ResetMpin = ({ show, handleClose }) => {
           </p>
           <div className="flex gap-3">
             {confirm.map((digit, i) => (
-              <input
+              <input data-testid={`reset-mpin-create-a-new-m-pin-ensure-it-input-2-${i}`}
                 key={i}
                 ref={(el) => (confirmRefs.current[i] = el)}
                 type="password"
@@ -117,14 +117,14 @@ const ResetMpin = ({ show, handleClose }) => {
         </div>
 
         <div className="flex justify-end gap-3 mt-4">
-          <button
+          <button data-testid="reset-mpin-cancel-btn"
             className="px-5 py-2 border rounded text-sm text-[#64748B]"
             onClick={handleClose}
           >
             Cancel
           </button>
 
-          <button
+          <button data-testid="reset-mpin-proceed-btn"
             className={`px-5 py-2 rounded text-sm text-white transition bg-[#1E45E1] cursor-pointer
             `}
           >

@@ -24,8 +24,8 @@ function OTPSend() {
       
         <div className='mb-5'>
           <h2>Enter your email to receive OTP</h2>
-          <input  className="form-control w-50" type="email" value={email} onChange={handleEmailChange} />
-          <button className='mt-5' onClick={sendOTP}>Send OTP</button>
+          <input data-testid="otp-send-email-change-input"  className="form-control w-50" type="email" value={email} onChange={handleEmailChange} />
+          <button data-testid="otp-send-send-otp-btn" className='mt-5' onClick={sendOTP}>Send OTP</button>
         </div>
        
         

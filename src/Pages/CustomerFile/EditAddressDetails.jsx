@@ -283,7 +283,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
             Edit Address Details
           </Modal.Title>
 
-          <CloseCircle
+          <CloseCircle data-testid="edit-address-details-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -298,7 +298,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 <Form.Label className={fieldLabelClass}>
                   Flat , House no , Building , Company , Apartment{" "}
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="edit-address-details-flat-house-no-building-company-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter House No"
@@ -314,7 +314,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 <Form.Label className={fieldLabelClass}>
                   Area , Street , Sector , Village{" "}
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="edit-address-details-area-street-sector-village-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter Street"
@@ -331,7 +331,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 <Form.Label className={fieldLabelClass}>
                   Landmark{" "}
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="edit-address-details-landmark-input"
                   type="text"
                   id="form-controls"
                   placeholder="E.g , near appollo hospital"
@@ -351,7 +351,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 <Form.Label className={fieldLabelClass}>
                   Pincode{" "}
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="edit-address-details-pincode-input"
                   ref={pincodeRef}
                   value={pincode}
                   onChange={handlePincodeChange}
@@ -373,7 +373,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                 <Form.Label className={fieldLabelClass}>
                   Town/City{" "}
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="edit-address-details-town-city-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter City"
@@ -393,7 +393,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                   State
                 </Form.Label>
 
-                <Select
+                <div data-testid="edit-address-details-state-select" className="contents"><Select
                   options={indianStates}
                   onChange={handleStateChange}
                   onInputChange={(inputValue, { action }) => {
@@ -416,7 +416,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                     ...fieldSelectStyles(),
                     menuList: (base) => ({ ...base, padding: 0, maxHeight: "120px" }),
                   }}
-                />
+                /></div>
               </Form.Group>
             </div>
           </div>
@@ -428,14 +428,14 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
         )}
 
         <div className="flex justify-center p-4 gap-3">
-          <Button
+          <Button data-testid="edit-address-details-cancel-btn"
             onClick={handleClose}
             className="w-100 mt-1 bg-white border-0 !text-[#1E45E1] !font-gilroy !font-semibold text-base rounded-xl py-2 px-10"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="edit-address-details-update-btn"
             onClick={handleSubmitAddress}
             className="w-100 mt-1 !bg-[#1E45E1] text-white !font-semibold  rounded-xl py-2 px-10"
           >

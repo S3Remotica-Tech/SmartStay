@@ -53,7 +53,7 @@ function PaginationList({
     <div className="font-gilroy">
       <div className="flex items-stretch border border-[#E5E7EB] rounded-md overflow-hidden">
         <div className="bg-[#ebeef9] flex items-center px-3">
-          <select
+          <select data-testid="pagination-list-select"
             value={itemsPerPage}
             onChange={(e) => {
               const newSize = Number(e.target.value);
@@ -71,7 +71,7 @@ function PaginationList({
         </div>
 
         <div className="flex items-center ">
-          <button
+          <button data-testid="pagination-list-change-page-btn"
             onClick={() => handleChangePage(currentPage - 1)}
             disabled={currentPage === 1}
             className={`w-7 h-7 flex items-center justify-center rounded-full
@@ -83,7 +83,7 @@ function PaginationList({
             {`${startIndex} - ${endIndex}`}
           </span>
 
-          <button
+          <button data-testid="pagination-list-change-page-btn-2"
             onClick={() => handleChangePage(currentPage + 1)}
             disabled={currentPage === totalPages}
             className={`w-7 h-7 flex items-center justify-center rounded-full

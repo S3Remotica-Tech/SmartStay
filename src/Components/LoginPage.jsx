@@ -188,14 +188,14 @@ const MyComponent = () => {
       <div className="flex flex-wrap h-full items-center 2xl:mt-36 w-full fade-in">
         <div className="w-full lg:w-1/2 relative lg:ml-0">
           <div className="flex gap-1 mb-1 mt-6 items-center">
-            <img
+            <img data-testid="login-page-logo-clicks-img"
               src={Logo}
               alt="logo"
               className="h-6 w-6 cursor-pointer"
               onClick={handleLogoClicks}
             />
 
-            <label
+            <label data-testid="login-page-smartstay-action"
               className="#1E45E1 font-extrabold font-gilroy cursor-pointer pt-1"
               onClick={handleLogoClicks}
             >
@@ -230,7 +230,7 @@ const MyComponent = () => {
                 Email ID
               </label>
 
-              <input
+              <input data-testid="login-page-email-id-input"
                 type="text"
                 placeholder="Enter Email ID"
                 autoFocus
@@ -253,7 +253,7 @@ const MyComponent = () => {
               </label>
 
               <div className="flex items-center mb-1">
-                <input
+                <input data-testid="login-page-password-input"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter Password"
                   disabled={showOtpVerification}
@@ -262,7 +262,7 @@ const MyComponent = () => {
                   className={`w-full h-[50px] px-3 rounded-l-lg border border-[#D9D9D9] border-r-0 focus:outline-none focus:ring-0 text-[16px] text-[#222222] ${password ? "font-semibold" : "font-medium"}`}
                 />
 
-                <div
+                <div data-testid="login-page-toggle-password-visibility-action"
                   onClick={togglePasswordVisibility}
                   className="h-[50px] px-3 flex items-center justify-center
       border border-[#D9D9D9] border-l-0
@@ -289,7 +289,7 @@ const MyComponent = () => {
 
               <div className="flex justify-between items-center mt-3 mb-3">
                 <label className="flex items-center gap-2 text-[14px] font-medium mt-0.5">
-                  <input
+                  <input data-testid="login-page-password-checkbox"
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => handleCheckboxChange(e)}
@@ -298,7 +298,7 @@ const MyComponent = () => {
                   <span className="leading-none">Stay signed in</span>
                 </label>
 
-                <span
+                <span data-testid="login-page-forgot-password-action"
                   onClick={() => handleForgetPassword()}
                   className="font-montserrat text-[14px] font-semibold leading-[17.07px] text-left text-[#1E45E1] cursor-pointer hover:underline"
                 >
@@ -309,7 +309,7 @@ const MyComponent = () => {
             </div>
 
             <div className="flex justify-center pt-2">
-              <button
+              <button data-testid="login-page-login-btn"
                 disabled={loading}
                 onClick={handleLogin}
                 className={`w-full h-[42px] rounded-[10px] text-[16px] font-semibold font-montserrat flex items-center justify-center gap-2
@@ -334,7 +334,7 @@ const MyComponent = () => {
             <p className="font-montserrat font-normal text-[16px] lg:ml-0 2xl:ml-0 text-center lg:text-left">
               Don&apos;t have an account?
             </p>
-            <span
+            <span data-testid="login-page-create-an-account-action"
               className="font-montserrat font-semibold text-[16px] text-[#1E45E1] cursor-pointer hover:underline"
               onClick={handleCreateAccount}
             >

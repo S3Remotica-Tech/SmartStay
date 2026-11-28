@@ -52,7 +52,7 @@ const MyComponent = () => {
                         <Form className="Form p-0">
 
                             <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Aadhaar card no.</Form.Label>
-                            <Form.Control
+                            <Form.Control data-testid="kyc-validation-recipient-s-username-input"
                                 placeholder="1234 5678 9101"
                                 aria-label="Recipient's username"
                                 className=' mb-3'
@@ -67,7 +67,7 @@ const MyComponent = () => {
 
                             <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Enter OTP</Form.Label>
                             <InputGroup className='mb-2'>
-                                <Form.Control
+                                <Form.Control data-testid="kyc-validation-otp-input"
                                     size="lg"
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Enter otp"
@@ -84,7 +84,7 @@ const MyComponent = () => {
                                     value={otp}
                                     onChange={(e) => { setOtp(e.target.value) }}
                                 />
-                                <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
+                                <InputGroup.Text data-testid="kyc-validation-toggle-password-visibility-icon" onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
                                     {showPassword ? (
                                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                                     ) : (
@@ -105,7 +105,7 @@ const MyComponent = () => {
                             <span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} >Resend Otp</span>
                         </div>
                         <div className="d-flex justify-content-center pt-2">
-                            <Button onClick={handleValidate} type="button" className="btn w-100" style={{ height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat" }} >
+                            <Button data-testid="kyc-validation-validate-kyc-btn" onClick={handleValidate} type="button" className="btn w-100" style={{ height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat" }} >
                                 Validate KYC
                             </Button>
 

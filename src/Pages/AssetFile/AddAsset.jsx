@@ -556,7 +556,7 @@ function StaticExample({ setShow, currentItem }) {
 
   return (
     <div className="fixed inset-0 z-[999] flex justify-end">
-      <div
+      <div data-testid="add-asset-action"
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-y-2 right-2 w-[720px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy
          border border-gray-50"
@@ -569,7 +569,7 @@ function StaticExample({ setShow, currentItem }) {
             {currentItem ? "Edit an Asset" : "Add Assets"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="add-asset-close-icon"
             size="24"
             color="#000"
             onClick={handleClose}
@@ -586,7 +586,7 @@ function StaticExample({ setShow, currentItem }) {
                 <Form.Label className={fieldLabelClass}>
                   Asset Name <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-asset-asset-name-input"
                   value={assetName}
                   ref={assetNameRef}
                   onChange={handleAssetNameChange}
@@ -610,7 +610,7 @@ function StaticExample({ setShow, currentItem }) {
                   Product Type{" "}
                   <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-asset-product-type-input"
                   value={productName}
                   ref={productNameRef}
                   onChange={handleProductNameChange}
@@ -634,7 +634,7 @@ function StaticExample({ setShow, currentItem }) {
                   Vendor Name
                 </Form.Label>
 
-                <Select
+                <div data-testid="add-asset-vendor-name-select" className="contents"><Select
                   options={
                     state.AssetList?.addAssetInitializeList?.listVendors?.length > 0
                       ? state.AssetList?.addAssetInitializeList?.listVendors?.map((view) => ({
@@ -660,7 +660,7 @@ function StaticExample({ setShow, currentItem }) {
                   menuPlacement="bottom"
                   noOptionsMessage={() => "No vendors available"}
                   styles={fieldSelectStyles()}
-                />
+                /></div>
               </Form.Group>
             </div>
 
@@ -672,7 +672,7 @@ function StaticExample({ setShow, currentItem }) {
                 <Form.Label className={fieldLabelClass}>
                   Brand Name{" "}
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-asset-brand-name-input"
                   value={brandName}
                   onChange={handleBrandNameChange}
                   type="text"
@@ -687,7 +687,7 @@ function StaticExample({ setShow, currentItem }) {
                 <Form.Label className={fieldLabelClass}>
                   Serial Number{" "}
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-asset-serial-number-input"
                   //  className={fieldClass(!!serialNumberError)}
                   value={serialNumber}
                   ref={serialNumberRef}
@@ -722,7 +722,7 @@ function StaticExample({ setShow, currentItem }) {
                   className="datepicker-wrapper -mt-1"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker className={datePickerClass(!!selectedDateError)}
+                  <DatePicker data-testid="add-asset-purchase-date" className={datePickerClass(!!selectedDateError)}
                     ref={dateRef}
                    
                     format="DD/MM/YYYY"
@@ -760,7 +760,7 @@ function StaticExample({ setShow, currentItem }) {
                 <Form.Label className={fieldLabelClass}>
                   Price <span className={fieldRequiredClass}>*</span>
                 </Form.Label>
-                <Form.Control
+                <Form.Control data-testid="add-asset-price-input"
                   value={price}
                   ref={priceRef}
                   onChange={handlePriceChange}
@@ -791,7 +791,7 @@ function StaticExample({ setShow, currentItem }) {
                     </span>
                   </Form.Label>
 
-                  <Select
+                  <div data-testid="add-asset-mode-of-payment-select" className="contents"><Select
                     options={paymentOptionsV1}
                     value={
                       paymentOptionsV1.find(
@@ -815,7 +815,7 @@ function StaticExample({ setShow, currentItem }) {
                       GroupHeading,
                       IndicatorSeparator: () => null,
                     }}
-                  />
+                  /></div>
                 </Form.Group>
                 {paymentError && (
                   <ErrorMessage className="mt-[6px]" message={paymentError} type="error" />
@@ -857,7 +857,7 @@ function StaticExample({ setShow, currentItem }) {
 
 
         <div className="flex justify-end m-4">
-          <button
+          <button data-testid="add-asset-add-asset-btn"
             disabled={formLoading}
             onClick={handleAddAsset}
             className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px]  text-white !text-[17px] !font-gilroy p-2 mt-2"

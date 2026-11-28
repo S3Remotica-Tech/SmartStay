@@ -330,7 +330,7 @@ function Debit({ handleClose }) {
               Linked Bank <span className="text-red-500">*</span>
             </label>
 
-            <input
+            <input data-testid="debit-linked-bank-input"
               value={OverviewDetails?.bankName}
               disabled
               placeholder=""
@@ -343,7 +343,7 @@ function Debit({ handleClose }) {
               Card Network <span className="text-red-500">*</span>
             </label>
 
-            <Select
+            <div data-testid="debit-card-network-select" className="contents"><Select
               ref={cardNetworkRef}
               options={cardOptions}
               value={cardNetwork}
@@ -351,7 +351,7 @@ function Debit({ handleClose }) {
               placeholder="Ex : Visa, Master"
               className="mt-2"
               styles={CustomStyles}
-            />
+            /></div>
             {cardNetworkError && (
               <ErrorMessage message={cardNetworkError} type="error" />
             )}
@@ -363,7 +363,7 @@ function Debit({ handleClose }) {
             Card Holder Name <span className="text-red-500">*</span>
           </label>
 
-          <input
+          <input data-testid="debit-card-holder-name-input"
             ref={cardHolderNameRef}
             value={cardHolderName}
             onChange={handleCardHolderNameChange}
@@ -380,7 +380,7 @@ function Debit({ handleClose }) {
             Card Number (Last 4 Digits ) <span className="text-red-500">*</span>
           </label>
 
-          <input
+          <input data-testid="debit-card-number-last-4-digits-input"
             ref={cardNumberRef}
             value={cardNumber}
             onChange={handleCardNumberChange}
@@ -397,7 +397,7 @@ function Debit({ handleClose }) {
             Display Name <span className="text-red-500">*</span>
           </label>
 
-          <input
+          <input data-testid="debit-display-name-input"
             ref={displayNameRef}
             value={displayName}
             onChange={handleDisplayNameChange}
@@ -415,7 +415,7 @@ function Debit({ handleClose }) {
             Description
           </label>
 
-          <textarea
+          <textarea data-testid="debit-description-textarea"
             rows={4}
             value={description}
             onChange={handleDescriptionChange}
@@ -436,14 +436,14 @@ function Debit({ handleClose }) {
       )}
 
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button
+        <button data-testid="debit-cancel-btn"
           onClick={handleClose}
           className="px-6 py-2 text-[#6B7280] text-sm font-medium"
         >
           Cancel
         </button>
 
-        <button
+        <button data-testid="debit-save-debit-btn"
           disabled={isSaving}
           onClick={handleSaveDebit}
           className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 

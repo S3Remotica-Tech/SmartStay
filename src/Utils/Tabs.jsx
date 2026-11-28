@@ -6,11 +6,12 @@ import PropTypes from "prop-types";
 // variant secondary = underline, brand primary-500 indicator (decision D2).
 // behavior hug (fit content) / fill (equal widths). States: default, hover,
 // selected, disabled. Controlled: pass `value` + `onChange(value)`.
-function Tabs({ tabs, value, onChange, variant = "primary", fill = false, className = "" }) {
+function Tabs({ tabs, value, onChange, variant = "primary", fill = false, className = "", "data-testid": testId }) {
   const primary = variant === "primary";
   return (
     <div
       role="tablist"
+      data-testid={testId}
       className={`${fill ? "flex w-full" : "inline-flex"} items-center font-gilroy ${
         primary
           ? "gap-[4px] rounded-full bg-ink-100 p-[4px]"
@@ -36,6 +37,7 @@ function Tabs({ tabs, value, onChange, variant = "primary", fill = false, classN
             key={tab.value}
             type="button"
             role="tab"
+            data-testid={testId ? `${testId}-${tab.value}` : undefined}
             aria-selected={selected}
             disabled={tab.disabled}
             onClick={() => onChange?.(tab.value)}
@@ -51,6 +53,7 @@ function Tabs({ tabs, value, onChange, variant = "primary", fill = false, classN
 }
 
 Tabs.propTypes = {
+  "data-testid": PropTypes.string,
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

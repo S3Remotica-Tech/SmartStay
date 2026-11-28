@@ -1047,8 +1047,8 @@ const EmailInputRef = useRef(null);
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="userlist-bookings-sort-first-name-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="userlist-bookings-sort-first-name-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
                             </div>
                             Name</div>
                         </th>
@@ -1067,8 +1067,8 @@ const EmailInputRef = useRef(null);
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="userlist-bookings-sort-email-id-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="userlist-bookings-sort-email-id-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'desc')} style={{ cursor: "pointer" }} />
                             </div>
                             Email ID</div>
                         </th>
@@ -1087,8 +1087,8 @@ const EmailInputRef = useRef(null);
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="userlist-bookings-sort-phone-number-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="userlist-bookings-sort-phone-number-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'desc')} style={{ cursor: "pointer" }} />
                             </div>
                             Mobile No</div>
                         </th>
@@ -1107,8 +1107,8 @@ const EmailInputRef = useRef(null);
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="userlist-bookings-sort-createdat-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="userlist-bookings-sort-createdat-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'desc')} style={{ cursor: "pointer" }} />
                             </div>
                             Booking Date</div>
                         </th>
@@ -1127,8 +1127,8 @@ const EmailInputRef = useRef(null);
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="userlist-bookings-sort-joining-date-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="userlist-bookings-sort-joining-date-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'desc')} style={{ cursor: "pointer" }} />
                             </div>
                             Joining Date</div>
                         </th>
@@ -1146,8 +1146,8 @@ const EmailInputRef = useRef(null);
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                              <ArrowUp2 data-testid="userlist-bookings-sort-amount-icon" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 data-testid="userlist-bookings-sort-amount-icon-2" size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
                             </div>
                             Amount</div>
                         </th>
@@ -1384,7 +1384,7 @@ const EmailInputRef = useRef(null);
                             </td>
 
                             <td style={{ borderBottom: "1px solid #E8E8E8" }}>
-                              <div
+                              <div data-testid={`userlist-bookings-dots-click-action-${customer.id}`}
                                 style={{
                                   cursor: "pointer",
                                   height: 40,
@@ -1425,7 +1425,7 @@ const EmailInputRef = useRef(null);
                                     }}
                                   >
 
-                                    <div
+                                    <div data-testid={`userlist-bookings-check-in-action-${customer.id}`}
                                       className="d-flex align-items-center"
                                       onClick={() => {
                                         if (!props.customerBookingAddPermission) {
@@ -1469,7 +1469,7 @@ const EmailInputRef = useRef(null);
 
                                     <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-                                    <div
+                                    <div data-testid={`userlist-bookings-edit-action-${customer.id}`}
                                       className="d-flex align-items-center"
                                       onClick={() => handleEdit(customer)}
                                       style={{
@@ -1503,7 +1503,7 @@ const EmailInputRef = useRef(null);
 
                                     <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-                                    <div
+                                    <div data-testid={`userlist-bookings-delete-action-${customer.id}`}
                                       className="d-flex align-items-center"
                                       onClick={() => {
                                         if (!bookingDeletePermissionError) {
@@ -1608,7 +1608,7 @@ const EmailInputRef = useRef(null);
               >
 
                 <div>
-                  <Select
+                  <div data-testid="userlist-bookings-items-per-page-change-select" className="contents"><Select
                     options={pageOptions}
                     value={
                       itemsPerPage
@@ -1665,7 +1665,7 @@ const EmailInputRef = useRef(null);
                         cursor: "pointer",
                       }),
                     }}
-                  />
+                  /></div>
                 </div>
 
 
@@ -1680,7 +1680,7 @@ const EmailInputRef = useRef(null);
                 >
 
                   <li style={{ margin: "0 10px" }}>
-                    <button
+                    <button data-testid="userlist-bookings-page-change-btn"
                       style={{
                         padding: "5px",
                         textDecoration: "none",
@@ -1717,7 +1717,7 @@ const EmailInputRef = useRef(null);
 
 
                   <li style={{ margin: "0 10px" }}>
-                    <button
+                    <button data-testid="userlist-bookings-page-change-btn-2"
                       style={{
                         padding: "5px",
                         textDecoration: "none",
@@ -1774,7 +1774,7 @@ const EmailInputRef = useRef(null);
         HostelID={props.uniqueostel_Id}
       />
 
-      <Modal
+      <Modal data-testid="userlist-bookings-edit-booking-save-changes-modal"
         show={formEdit}
         onHide={handleCloseForm}
         centered
@@ -1786,7 +1786,7 @@ const EmailInputRef = useRef(null);
           >
             Edit Booking
           </Modal.Title>
-          <CloseCircle
+          <CloseCircle data-testid="userlist-bookings-close-form-icon"
             size="24"
             color="#222222"
             onClick={handleCloseForm}
@@ -1827,7 +1827,7 @@ const EmailInputRef = useRef(null);
                       cursor: "pointer",
                     }}
                   />
-                  <input
+                  <input data-testid="userlist-bookings-image-input-file"
                     type="file"
                     accept="image/*"
                     multiple
@@ -1879,7 +1879,7 @@ const EmailInputRef = useRef(null);
                     First Name {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control data-testid="userlist-bookings-first-name-input"
                     type="text"
                     ref={firstNameRef}
                     placeholder="Enter First Name"
@@ -1913,7 +1913,7 @@ const EmailInputRef = useRef(null);
                     Last Name {" "}
 
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control data-testid="userlist-bookings-last-name-input"
                     type="text"
                     placeholder="Enter Last Name"
                     style={{
@@ -1946,7 +1946,7 @@ const EmailInputRef = useRef(null);
                   </Form.Label>
 
                   <InputGroup>
-                    <Form.Select
+                    <Form.Select data-testid="userlist-bookings-mobile-number-select"
                       value={countryCode}
                       id="vendor-select-pg"
                       style={{
@@ -1966,7 +1966,7 @@ const EmailInputRef = useRef(null);
                     >
                       <option>+{countryCode}</option>
                     </Form.Select>
-                    <Form.Control
+                    <Form.Control data-testid="userlist-bookings-mobile-number-input"
                       value={Phone}
                       onChange={handlePhone}
                       type="text"
@@ -2018,7 +2018,7 @@ const EmailInputRef = useRef(null);
                     Email ID {" "}
 
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control data-testid="userlist-bookings-email-id-input"
                     type="text"
                     placeholder="Enter Email"
                     style={{
@@ -2060,7 +2060,7 @@ const EmailInputRef = useRef(null);
                 >
                   Flat , House no , Building , Company , Apartment {" "}
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="userlist-bookings-flat-house-no-building-company-input"
                   type="text"
                   id="form-controls"
                   placeholder="Enter House No"
@@ -2098,7 +2098,7 @@ const EmailInputRef = useRef(null);
                   >
                     Area , Street , Sector , Village {" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="userlist-bookings-area-street-sector-village-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter Street"
@@ -2134,7 +2134,7 @@ const EmailInputRef = useRef(null);
                   >
                     Landmark {" "}
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="userlist-bookings-landmark-input"
                     type="text"
                     id="form-controls"
                     placeholder="E.g , near appollo hospital"
@@ -2177,7 +2177,7 @@ const EmailInputRef = useRef(null);
                     Pincode {" "}
                    
                   </Form.Label>
-                  <Form.Control
+                  <Form.Control data-testid="userlist-bookings-pincode-input"
                     value={pincode}
                     ref={pincodeRef}
                     onChange={(e) => handlePinCodeChange(e)}
@@ -2218,7 +2218,7 @@ const EmailInputRef = useRef(null);
                     Town/City {" "}
                    
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="userlist-bookings-town-city-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter City"
@@ -2265,7 +2265,7 @@ const EmailInputRef = useRef(null);
                  
                 </Form.Label>
 
-                <Select
+                <div data-testid="userlist-bookings-state-select" className="contents"><Select
                   ref={stateRef}
                   options={indianStates}
                   onChange={(selectedOption) => {
@@ -2335,7 +2335,7 @@ const EmailInputRef = useRef(null);
                       color: "#000",
                     }),
                   }}
-                />
+                /></div>
 
 
                 {!state_name && state_nameError && (
@@ -2365,7 +2365,7 @@ const EmailInputRef = useRef(null);
                   </Form.Label>
 
                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                    <DatePicker
+                    <DatePicker data-testid="userlist-bookings-expected-joining-date"
                       ref={joiningDateRef}
                       style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontSize: 16 }}
                       format="DD/MM/YYYY"
@@ -2418,7 +2418,7 @@ const EmailInputRef = useRef(null);
 
 
                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                    <DatePicker
+                    <DatePicker data-testid="userlist-bookings-booking-date"
                       ref={bookingDateRef}
                       style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                       format="DD/MM/YYYY"
@@ -2466,7 +2466,7 @@ const EmailInputRef = useRef(null);
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
 
                   </Form.Label>
-                  <FormControl
+                  <FormControl data-testid="userlist-bookings-booking-amount-input"
                     type="text"
                     id="form-controls"
                     placeholder="Enter amount"
@@ -2545,7 +2545,7 @@ const EmailInputRef = useRef(null);
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
           
-          <Button
+          <Button data-testid="userlist-bookings-save-changes-btn"
             variant="primary"
             type="submit"
             className="w-100"
@@ -2571,7 +2571,7 @@ const EmailInputRef = useRef(null);
       </Modal>
 
 
-      <Modal
+      <Modal data-testid="userlist-bookings-delete-booking-are-you-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         centered
@@ -2616,7 +2616,7 @@ const EmailInputRef = useRef(null);
             marginTop: "-10px",
           }}
         >
-          <Button
+          <Button data-testid="userlist-bookings-cancel-btn"
             className="me-2"
             style={{
               width: "100%",
@@ -2635,7 +2635,7 @@ const EmailInputRef = useRef(null);
           >
             Cancel
           </Button>
-          <Button
+          <Button data-testid="userlist-bookings-delete-btn"
             style={{
               width: "100%",
               maxWidth: 160,

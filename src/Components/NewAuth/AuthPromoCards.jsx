@@ -42,7 +42,7 @@ function CarouselDots({ count, index, onSelect, label, inactiveClass }) {
   return (
     <div className="flex items-center" role="group" aria-label={label}>
       {Array.from({ length: count }, (_, i) => (
-        <button
+        <button data-testid={`auth-promo-cards-select-btn-${i}`}
           key={i}
           type="button"
           onClick={() => onSelect(i)}

@@ -401,7 +401,7 @@ const SettingElectricity = () => {
 
         <div className="w-full flex justify-center md:justify-end  md:mt-0">
           {EbList ? (
-            <button
+            <button data-testid="setting-electricity-edit-btn"
               disabled={!canUpdateElectricity}
               onClick={() => handleEditElectricity(EbList)}
               className={`flex items-center justify-center gap-2 h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition ${
@@ -414,7 +414,7 @@ const SettingElectricity = () => {
               Edit
             </button>
           ) : (
-            <button
+            <button data-testid="setting-electricity-electricity-btn"
               onClick={handleShowFormElectricity}
               disabled={showPopup}
               className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex items-center justify-center ${
@@ -482,7 +482,7 @@ const SettingElectricity = () => {
 
                       <hr className="my-4" />
 
-                      <form>
+                      <form data-testid="setting-electricity-room-based-calculation-hostel-form">
                         <div className="grid grid-cols-12 gap-4 text-center">
                           <div className="col-span-12 sm:col-span-6">
                             <label className="block text-[12px] font-gilroy font-semibold text-black mb-3">
@@ -491,7 +491,7 @@ const SettingElectricity = () => {
 
                             <div className="flex justify-center">
                               <label className="relative inline-flex items-center cursor-pointer">
-                                <input
+                                <input data-testid="setting-electricity-room-based-calculation-checkbox"
                                   type="checkbox"
                                   disabled={!canUpdateElectricity}
                                   checked={roomBasedCalculation}
@@ -511,7 +511,7 @@ const SettingElectricity = () => {
 
                             <div className="flex justify-center">
                               <label className="relative inline-flex items-center cursor-pointer">
-                                <input
+                                <input data-testid="setting-electricity-hostel-based-calculation-checkbox"
                                   type="checkbox"
                                   disabled={!canUpdateElectricity}
                                   checked={hostelBasedCalculation}
@@ -548,7 +548,7 @@ const SettingElectricity = () => {
         )}
       </div>
 
-      <Modal
+      <Modal data-testid="setting-electricity-modal"
         show={showFormElectricity}
         onHide={() => handleClose()}
         backdrop="static"
@@ -563,7 +563,7 @@ const SettingElectricity = () => {
             {edit ? "Edit Electricity" : "Add Electricity"}
           </div>
 
-          <CloseCircle
+          <CloseCircle data-testid="setting-electricity-close-icon"
             size={24}
             color="#000"
             onClick={handleClose}
@@ -577,7 +577,7 @@ const SettingElectricity = () => {
                 <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                   Unit{" "}
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="setting-electricity-unit-input"
                   type="text"
                   id="form-controls"
                   placeholder="1 kW Unit"
@@ -592,7 +592,7 @@ const SettingElectricity = () => {
                 <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
                   Amount/Unit <span className="text-red-500 text-xl">*</span>
                 </Form.Label>
-                <FormControl
+                <FormControl data-testid="setting-electricity-amount-unit-input"
                   type="text"
                   id="form-controls"
                   placeholder="₹ 4,000"
@@ -623,7 +623,7 @@ const SettingElectricity = () => {
         )}
 
         <Modal.Footer className="flex justify-center border-0">
-          <Button
+          <Button data-testid="setting-electricity-add-electricity-btn"
             onClick={handleAddElectricity}
             className="w-full h-11 -mt-2 !bg-blue-700 !font-semibold !text-base font-gilroy !rounded-xl"
           >
@@ -641,7 +641,7 @@ const SettingElectricity = () => {
             fontFamily: "Gilroy,sans-serif",
           }}
         >
-          <Modal
+          <Modal data-testid="setting-electricity-recurring-enable-add-electricity-modal"
             show={recurringform}
             onHide={handleCloseRecurringForm}
             centered
@@ -659,7 +659,7 @@ const SettingElectricity = () => {
                 Recurring Enable
               </div>
 
-              <CloseCircle
+              <CloseCircle data-testid="setting-electricity-close-recurring-form-icon"
                 size="24"
                 color="#000"
                 onClick={handleCloseRecurringForm}
@@ -691,7 +691,7 @@ const SettingElectricity = () => {
                     </div>
 
                     <div className="col-lg-4">
-                      <Select
+                      <div data-testid="setting-electricity-start-date-change-select" className="contents"><Select
                         options={options}
                         onChange={handleStartDateChange}
                         placeholder="Select"
@@ -756,7 +756,7 @@ const SettingElectricity = () => {
                             display: "none",
                           }),
                         }}
-                      />
+                      /></div>
                     </div>
 
                     {calculatedstartdateerrmsg && (
@@ -783,7 +783,7 @@ const SettingElectricity = () => {
                     </div>
 
                     <div className="col-lg-4">
-                      <Select
+                      <div data-testid="setting-electricity-end-date-change-select" className="contents"><Select
                         options={options}
                         isDisabled
                         onChange={handleEndDateChange}
@@ -851,7 +851,7 @@ const SettingElectricity = () => {
                             cursor: "pointer",
                           }),
                         }}
-                      />
+                      /></div>
                     </div>
                     {calculatedenddateerrmsg && (
                       <ErrorMessage
@@ -872,7 +872,7 @@ const SettingElectricity = () => {
                       </label>
                     </div>
                     <div className="col-lg-4">
-                      <select
+                      <select data-testid="setting-electricity-start-day-dropdown-select"
                         className="form-select border"
                         id="startDayDropdown"
                         value={every_recurr}
@@ -917,7 +917,7 @@ const SettingElectricity = () => {
                 </div>
               )}
               <Modal.Footer style={{ borderTop: "none" }}>
-                <Button
+                <Button data-testid="setting-electricity-add-electricity-btn-2"
                   className="w-100"
                   style={{
                     backgroundColor: "#1E45E1",

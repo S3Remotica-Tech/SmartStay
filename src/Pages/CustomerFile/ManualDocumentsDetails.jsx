@@ -69,7 +69,7 @@ function ManualDocumentsDetails({ documents }) {
 
               <div className="flex gap-2 shrink-0">
                 {doc.type === "IMAGE" && (
-                  <Eye
+                  <Eye data-testid={`manual-documents-details-preview-img-icon-${doc?.documentId}`}
                     size="22"
                     color="#5f5d5c"
                     className=" cursor-pointer"
@@ -78,7 +78,7 @@ function ManualDocumentsDetails({ documents }) {
                 )}
 
                 {doc.type !== "IMAGE" && (
-                  <a href={doc.url} target="_blank" rel="noopener noreferrer">
+                  <a data-testid={`manual-documents-details-link-${doc?.documentId}`} href={doc.url} target="_blank" rel="noopener noreferrer">
                     <DocumentDownload
                       size="22"
                       color="#1E45E1"
@@ -86,7 +86,7 @@ function ManualDocumentsDetails({ documents }) {
                     />
                   </a>
                 )}
-                <Trash
+                <Trash data-testid={`manual-documents-details-icon-${doc?.documentId}`}
                   size="22"
                   onClick={() => {
                     if (!isDisabledButton) {
@@ -102,7 +102,7 @@ function ManualDocumentsDetails({ documents }) {
               {previewImg && (
                 <div className="fixed inset-0 bg-black/10 flex items-center justify-center  z-[9999]">
                   <div className="relative bg-white rounded-lg p-3 max-w-[90%] max-h-[90%]">
-                    <button
+                    <button data-testid={`manual-documents-details-preview-img-btn-${doc?.documentId}`}
                       className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center z-10"
                       onClick={() => setPreviewImg(null)}
                     >

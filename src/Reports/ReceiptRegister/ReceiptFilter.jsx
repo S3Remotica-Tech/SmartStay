@@ -307,7 +307,7 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
+      <Offcanvas data-testid="receipt-filter-filter-system-filter-invoice-drawer" show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{
@@ -324,7 +324,7 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
             Filter
           </Offcanvas.Title>
 
-          <IoCloseOutline
+          <IoCloseOutline data-testid="receipt-filter-close-icon"
             onClick={handleClose}
             style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
           />
@@ -344,7 +344,7 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Invoice Type
               </Form.Label>
-              <Select
+              <div data-testid="receipt-filter-invoice-type-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -354,27 +354,27 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Period
               </Form.Label>
-              <Select
+              <div data-testid="receipt-filter-period-select" className="contents"><Select
                 styles={selectStyles}
                 placeholder="Select Period"
                 value={selectedPeriod}
                 onChange={handlePeriodChange}
                 options={periodOptions}
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Payment Mode
               </Form.Label>
-              <Select
+              <div data-testid="receipt-filter-payment-mode-select" className="contents"><Select
                 isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -384,14 +384,14 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Payment Mode"
-              />
+              /></div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Collected By
               </Form.Label>
-              <Select
+              <div data-testid="receipt-filter-collected-by-select" className="contents"><Select
                 isMulti
                 hideSelectedOptions={false}
                 closeMenuOnSelect={false}
@@ -401,7 +401,7 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Collected By"
-              />
+              /></div>
             </Form.Group>
           </div>
         </Offcanvas.Body>
@@ -446,7 +446,7 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
             zIndex: 10,
           }}
         >
-          <Button
+          <Button data-testid="receipt-filter-reset-btn"
             onClick={() => {
               setSelectedInvoiceType([]);
               setSelectedPeriod(null);
@@ -463,7 +463,7 @@ function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
           >
             Reset
           </Button>
-          <Button
+          <Button data-testid="receipt-filter-apply-btn"
             onClick={handleFilterBills}
             style={{
               backgroundColor: "#1E45E1",

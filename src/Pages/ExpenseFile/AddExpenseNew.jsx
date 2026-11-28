@@ -922,7 +922,7 @@ function AddExpenseNew() {
             {currentItem ? "Edit Expense" : "Add Expense"}
           </h2>
 
-          <button
+          <button data-testid="add-expense-new-close-btn"
             onClick={handleClose}
             className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy "
           >
@@ -946,7 +946,7 @@ function AddExpenseNew() {
                 Expense Title{" "}
               </label>
 
-              <input
+              <input data-testid="add-expense-new-expense-title-input"
                 type="text"
                 ref={expenseTitleRef}
                 value={expenseTitle}
@@ -968,7 +968,7 @@ function AddExpenseNew() {
               </label>
 
               <div ref={categoryRef}>
-                <Select
+                <div data-testid="add-expense-new-category-select" className="contents"><Select
                   value={
                     category
                       ? expenseOptions?.find((opt) => opt.value === category) ||
@@ -979,7 +979,7 @@ function AddExpenseNew() {
                   options={expenseOptions}
                   placeholder="Select"
                   styles={fieldSelectStyles(!!categoryError)}
-                />
+                /></div>
               </div>
 
               {categoryError && (
@@ -996,7 +996,7 @@ function AddExpenseNew() {
                 )}
               </label>
 
-              <Select
+              <div data-testid="add-expense-new-sub-category-select" className="contents"><Select
                 options={subCategoryList}
                 value={
                   subCategory
@@ -1008,7 +1008,7 @@ function AddExpenseNew() {
                 onChange={handleSubCategory}
                 placeholder="Select"
                 styles={fieldSelectStyles(!!subCategoryError)}
-              />
+              /></div>
               {subCategoryError && (
                 <ErrorMessage className="mt-[6px]" message={subCategoryError} type="error" />
               )}
@@ -1023,7 +1023,7 @@ function AddExpenseNew() {
                   <span className={fieldRequiredClass}>*</span>
                 </label>
 
-                <input
+                <input data-testid="add-expense-new-total-amount-inr-input"
                   ref={amountRef}
                   value={amount}
                   onChange={handleAmount}
@@ -1045,7 +1045,7 @@ function AddExpenseNew() {
               </label>
 
               <div className="relative" ref={purchaseDateRef}>
-                <DatePicker
+                <div data-testid="add-expense-new-purchase-date" className="contents"><DatePicker
                   selected={purchaseDate}
                   onChange={(date) => {
                     setPurchaseDate(date);
@@ -1056,7 +1056,7 @@ function AddExpenseNew() {
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
                   className={datePickerInputClass(!!purchaseDateError)}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -1080,7 +1080,7 @@ function AddExpenseNew() {
 
               <div className="flex justify-center">
                 <div className="flex bg-[#F3F4F6] rounded-lg p-1">
-                  <button
+                  <button data-testid="add-expense-new-no-btn"
                     disabled={selectedVendorId}
                     type="button"
                     onClick={() => {
@@ -1095,7 +1095,7 @@ function AddExpenseNew() {
                     No
                   </button>
 
-                  <button
+                  <button data-testid="add-expense-new-yes-btn"
                     // disabled
                     type="button"
                     onClick={() => setLinkVendor(true)}
@@ -1121,14 +1121,14 @@ function AddExpenseNew() {
                       <span className={fieldRequiredClass}>*</span>
                     </label>
 
-                    <Select
+                    <div data-testid="add-expense-new-vendor-select" className="contents"><Select
                       options={disabledVendorOptions}
                       value={vendor}
                       ref={vendorRef}
                       onChange={handleVendorChange}
                       placeholder="Select"
                       styles={fieldSelectStyles(!!vendorError)}
-                    />
+                    /></div>
                     {vendorError && (
                       <ErrorMessage className="mt-[6px]" message={vendorError} type="error" />
                     )}
@@ -1148,7 +1148,7 @@ function AddExpenseNew() {
                           key={item}
                           className="flex items-center gap-2 text-[13px] text-[#4B5563]"
                         >
-                          <input
+                          <input data-testid={`add-expense-new-payment-status-radio-${item}`}
                             ref={paymentStatusRef}
                             type="radio"
                             name="paymentType"
@@ -1183,7 +1183,7 @@ function AddExpenseNew() {
                           <span className={fieldRequiredClass}>*</span>
                         </label>
 
-                        <input
+                        <input data-testid="add-expense-new-paid-amount-inr-input"
                           type="number"
                           ref={paidAmountRef}
                           value={paidAmount}
@@ -1217,7 +1217,7 @@ function AddExpenseNew() {
                           </span>
                         </label>
 
-                        <input
+                        <input data-testid="add-expense-new-balance-amount-outstanding-input"
                           disabled
                           type="number"
                           value={balanceAmount}
@@ -1252,7 +1252,7 @@ function AddExpenseNew() {
                       Credit Period (for this expense only)
                     </label>
 
-                    <input
+                    <input data-testid="add-expense-new-credit-period-for-this-expense-input"
                       type="number"
                       value={creditPeriod}
                       onChange={handleCreditPeriodChange}
@@ -1275,7 +1275,7 @@ function AddExpenseNew() {
                       <span className={fieldRequiredClass}>*</span>
                     </label>
 
-                    <Select
+                    <div data-testid="add-expense-new-payment-method-select" className="contents"><Select
                       // isDisabled={overviewDetails?.bankId}
                       ref={paymentMethodRef}
                       value={paymentMethod}
@@ -1293,7 +1293,7 @@ function AddExpenseNew() {
                         GroupHeading,
                         IndicatorSeparator: () => null,
                       }}
-                    />
+                    /></div>
 
                     {paymentMethodError && (
                       <ErrorMessage className="mt-[6px]" message={paymentMethodError} type="error" />
@@ -1305,7 +1305,7 @@ function AddExpenseNew() {
                     <label className={fieldLabelClass}>
                       Transaction ID
                     </label>
-                    <input
+                    <input data-testid="add-expense-new-transaction-id-input"
                       type="text"
                       placeholder="Enter Transaction ID"
                       value={transactionId}
@@ -1316,7 +1316,7 @@ function AddExpenseNew() {
                 </div>
               </>
             )}
-            <input
+            <input data-testid="add-expense-new-file-change-file"
               ref={fileInputRef}
               type="file"
               multiple
@@ -1333,7 +1333,7 @@ function AddExpenseNew() {
                       Attachments/Proofs (If any)
                     </label>
 
-                    <div
+                    <div data-testid="add-expense-new-image-to-upload-jpg-action"
                       onClick={() => fileInputRef.current?.click()}
                       className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
                     >
@@ -1380,7 +1380,7 @@ function AddExpenseNew() {
                                   {selectedImageName?.name}
                                 </p>
 
-                                <button
+                                <button data-testid="add-expense-new-btn"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     setPreviewImage(null);
@@ -1410,7 +1410,7 @@ function AddExpenseNew() {
                         key={index}
                         className="relative border rounded-lg w-full"
                       >
-                        <img
+                        <img data-testid={`add-expense-new-preview-img-${index}`}
                           src={item.preview}
                           alt="preview"
                           className="h-[100px]  w-full object-cover cursor-pointer rounded-lg"
@@ -1428,7 +1428,7 @@ function AddExpenseNew() {
                 )}
 
                 {attachments?.length > 0 && (
-                  <div
+                  <div data-testid="add-expense-new-add-more-files-action"
                     className="flex justify-end my-2"
                     onClick={() => fileInputRef.current?.click()}
                   >
@@ -1445,7 +1445,7 @@ function AddExpenseNew() {
                   Description
                 </label>
 
-                <textarea
+                <textarea data-testid="add-expense-new-description-textarea"
                   value={description}
                   onChange={handleDescription}
                   rows={4}
@@ -1505,7 +1505,7 @@ function AddExpenseNew() {
                         <React.Fragment key={index}>
                           <tr key={index} className="border border-[#F9FAFB]">
                             <td className="p-2  border border-[#F9FAFB]">
-                              <input
+                              <input data-testid={`add-expense-new-item-name-input-${index}`}
                                 value={item.itemName}
                                 onChange={(e) =>
                                   handleItemChange(
@@ -1520,7 +1520,7 @@ function AddExpenseNew() {
                             </td>
 
                             <td className="p-2 border border-[#F9FAFB]">
-                              <input
+                              <input data-testid={`add-expense-new-item-change-quantity-input-${index}`}
                                 type="number"
                                 value={item.quantity}
                                 placeholder="Enter "
@@ -1537,7 +1537,7 @@ function AddExpenseNew() {
                             </td>
 
                             <td className="p-2">
-                              <Select
+                              <div data-testid={`add-expense-new-item-change-unit-select-${index}`} className="contents"><Select
                                 value={item.unit}
                                 options={unitOptions}
                                 styles={{
@@ -1554,11 +1554,11 @@ function AddExpenseNew() {
                                 onChange={(selected) =>
                                   handleItemChange(index, "unit", selected)
                                 }
-                              />
+                              /></div>
                             </td>
 
                             <td className="p-2 border border-[#F9FAFB]">
-                              <input
+                              <input data-testid={`add-expense-new-item-change-price-input-${index}`}
                                 type="number"
                                 value={item.price}
                                 placeholder="₹0.00"
@@ -1579,14 +1579,14 @@ function AddExpenseNew() {
                             </td>
 
                             <td className="p-2 text-center ">
-                              <button onClick={() => removeRow(index)}>
+                              <button data-testid={`add-expense-new-remove-row-btn-${index}`} onClick={() => removeRow(index)}>
                                 <Add
                                   size="18"
                                   color="#EF4444"
                                   className="cursor-pointer rotate-45"
                                 />
                               </button>
-                              <button>
+                              <button data-testid={`add-expense-new-btn-2-${index}`}>
                                 <More
                                   color="#28303F"
                                   size="16"
@@ -1659,7 +1659,7 @@ function AddExpenseNew() {
             )}
             <div className="flex justify-between">
               <div>
-                <button
+                <button data-testid="add-expense-new-add-new-row-btn"
                   onClick={addNewRow}
                   className="mt-4 bg-[#EEF2FF] text-[#1E45E1] w-fit  whitespace-nowrap
                text-sm font-medium px-4 py-2 rounded-lg"
@@ -1681,7 +1681,7 @@ function AddExpenseNew() {
                       </div>
 
                       <div className="w-full flex flex-col items-end">
-                        <input
+                        <input data-testid="add-expense-new-errors-input"
                           onWheel={(e) => e.target.blur()}
                           type="number"
                           value={tax}
@@ -1708,7 +1708,7 @@ function AddExpenseNew() {
                         </span>
 
                         <div className="flex border border-[#D9D9D9] rounded-md overflow-hidden">
-                          <button
+                          <button data-testid="add-expense-new-discount-type-amount-btn"
                             type="button"
                             onClick={() => {
                               setDiscountType("amount");
@@ -1721,7 +1721,7 @@ function AddExpenseNew() {
                             ₹
                           </button>
 
-                          <button
+                          <button data-testid="add-expense-new-discount-type-percent-btn"
                             type="button"
                             onClick={() => setDiscountType("percent")}
                             className={`px-3 py-1 text-sm font-medium border-l  transition-all ${discountType === "percent"
@@ -1734,7 +1734,7 @@ function AddExpenseNew() {
                         </div>
                       </div>
                       <div className="flex flex-col items-end">
-                        <input
+                        <input data-testid="add-expense-new-errors-input-2"
                           onWheel={(e) => e.target.blur()}
                           type="number"
                           value={discount}
@@ -1778,14 +1778,14 @@ function AddExpenseNew() {
             </div>
           )}
           <div className="flex justify-end gap-4 my-10 mr-4">
-            <button
+            <button data-testid="add-expense-new-cancel-btn"
               onClick={handleClose}
               type="button"
               className="text-[#4B4B4B] text-sm font-medium"
             >
               Cancel
             </button>
-            <button
+            <button data-testid="add-expense-new-submit-btn"
               type="submit"
               disabled={formLoading}
               onClick={handleSubmit}

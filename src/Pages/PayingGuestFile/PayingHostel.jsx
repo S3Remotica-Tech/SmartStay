@@ -151,7 +151,7 @@ function PayingHostel(props) {
                     />
                   </div>
                   <div>
-                    <div
+                    <div data-testid="paying-hostel-selected-hostel-action"
                       className="pb-2"
                       onClick={() => handleSelectedHostel(props.filteredData[0]?.id)}
                     >
@@ -188,7 +188,7 @@ function PayingHostel(props) {
                 </div>
 
                 <div>
-                  <div
+                  <div data-testid="paying-hostel-dots-click-action"
                     style={{
                       cursor: "pointer",
                       height: 40,
@@ -222,7 +222,7 @@ function PayingHostel(props) {
                           zIndex: 1000,
                         }}
                       >
-                        <div
+                        <div data-testid="paying-hostel-edit-action"
                           className="d-flex gap-2 align-items-center"
                           onClick={
                             !props.editPermissionError
@@ -267,7 +267,7 @@ function PayingHostel(props) {
                           style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }}
                         />
 
-                        <div
+                        <div data-testid="paying-hostel-delete-action"
                           className="d-flex gap-2 align-items-center menu-option"
                           onClick={
                             !props.editPermissionError
@@ -581,7 +581,7 @@ function PayingHostel(props) {
       )}
 
       {show && (
-        <Modal
+        <Modal data-testid="paying-hostel-delete-paying-guest-are-modal"
           show={show}
           onHide={handleClose}
           centered
@@ -625,7 +625,7 @@ function PayingHostel(props) {
               marginTop: "-10px",
             }}
           >
-            <Button
+            <Button data-testid="paying-hostel-cancel-btn"
               onClick={handleClose}
               style={{
                 borderRadius: 8,
@@ -643,7 +643,7 @@ function PayingHostel(props) {
             >
               Cancel
             </Button>
-            <Button
+            <Button data-testid="paying-hostel-delete-btn"
               style={{
                 borderRadius: 8,
                 padding: "12px 20px",

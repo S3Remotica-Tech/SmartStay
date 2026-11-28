@@ -168,7 +168,7 @@ function SelfTransferGlobal({ show, handleClose }) {
             Self Transfer
           </div>
 
-          <Add
+          <Add data-testid="self-transfer-global-close-icon"
             size="24"
             color="#FF0000"
             className="cursor-pointer rotate-45"
@@ -183,7 +183,7 @@ function SelfTransferGlobal({ show, handleClose }) {
             </h6>
 
             {state?.bankingDetails?.newBankingList.length > 0 ? state?.bankingDetails?.newBankingList?.map((bank) => (
-              <div
+              <div data-testid={`self-transfer-global-account-avl-bal-action-${bank.bankId}`}
                 key={bank.bankId}
                 onClick={() => setSelectedFromBank(bank)}
                 className={`flex items-center justify-between gap-4 mb-2 p-2 rounded-lg  cursor-pointer ${selectedFromBank?.bankId === bank.bankId
@@ -247,7 +247,7 @@ function SelfTransferGlobal({ show, handleClose }) {
                       </div>
                     </div>
                   </div>
-                  <input
+                  <input data-testid={`self-transfer-global-selected-bank-radio-${bank.bankId}`}
                     type="radio"
                     name="selectedBank"
                     checked={selectedFromBank?.bankId === bank.bankId}
@@ -272,7 +272,7 @@ function SelfTransferGlobal({ show, handleClose }) {
 
             {bankDetails?.toBanks?.length > 0 ? (
               bankDetails?.toBanks?.map((bank, index) => (
-                <div
+                <div data-testid={`self-transfer-global-avl-bal-action-${bank.index}`}
                   key={bank.index}
                   onClick={() => handleSelect(bank, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
@@ -343,7 +343,7 @@ function SelfTransferGlobal({ show, handleClose }) {
                       </div>
                     </div>
                   </div>
-                  <input
+                  <input data-testid={`self-transfer-global-selected-bank-radio-2-${bank.index}`}
                     type="radio"
                     name="selectedBank"
                     className="w-5 h-5 accent-[#1E45E1] cursor-pointer"
@@ -372,7 +372,7 @@ function SelfTransferGlobal({ show, handleClose }) {
                   ₹
                 </span>
 
-                <input
+                <input data-testid="self-transfer-global-amount-to-transfer-input"
                   type="number"
                   placeholder="Enter amount"
                   value={amount}
@@ -390,7 +390,7 @@ function SelfTransferGlobal({ show, handleClose }) {
               </label>
 
               <div className="relative">
-                <DatePicker
+                <div data-testid="self-transfer-global-date" className="contents"><DatePicker
                   wrapperClassName="w-full"
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
@@ -398,7 +398,7 @@ function SelfTransferGlobal({ show, handleClose }) {
                   className={datePickerInputClass()}
                   placeholderText="Select date"
                   maxDate={new Date()}
-                />
+                /></div>
 
                 <Calendar
                   size="20"
@@ -414,7 +414,7 @@ function SelfTransferGlobal({ show, handleClose }) {
               Notes
             </label>
 
-            <textarea
+            <textarea data-testid="self-transfer-global-notes-textarea"
               rows={4}
               placeholder="Describe the notes..."
               value={notes}
@@ -433,7 +433,7 @@ function SelfTransferGlobal({ show, handleClose }) {
 
         <div className="flex justify-end m-4">
           <div className="flex justify-end mt-4">
-            <button
+            <button data-testid="self-transfer-global-transfer-btn"
               onClick={handleTransfer}
               disabled={isTransferDisabled}
               className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"

@@ -480,7 +480,7 @@ const RentalReceiptPdfTemplate = ({
                 </p>
                 <div className="border rounded-lg p-2.5 pb-3 mb-3 col-span-12 overflow-y-auto">
                   <div className="flex justify-end">
-                    <img
+                    <img data-testid="receipt-customize-editicon-img"
                       src={EditICon}
                       onClick={handleShowContactNumberForm}
                       className="cursor-pointer"
@@ -532,7 +532,7 @@ const RentalReceiptPdfTemplate = ({
                             {logoPreview && (
                               <>
                                 <div className="qr-overlay absolute inset-0 hidden bg-black/40 rounded-md" />
-                                <div
+                                <div data-testid="receipt-customize-action"
                                   className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
                                   onClick={() => {
                                     if (
@@ -562,7 +562,7 @@ const RentalReceiptPdfTemplate = ({
                               } font-gilroy text-[12px] font-normal`}
                           >
                             Choose file
-                            <input
+                            <input data-testid="receipt-customize-file-upload-hostel-file"
                               type="file"
                               accept="image/png"
                               className="hidden"
@@ -593,7 +593,7 @@ const RentalReceiptPdfTemplate = ({
                             </label>
                           </div>
                           <div className="flex items-center bg-[#F0F3FF] rounded-md px-3 py-2 border border-gray-300">
-                            <select
+                            <select data-testid="receipt-customize-select"
                               className={`border-none bg-transparent font-inherit text-inherit font-inherit pr-4 appearance-none outline-none cursor-pointer 
             bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%23666" stroke-width="2"/%3E%3C/svg%3E')] 
             bg-no-repeat bg-right bg-[length:10px]`}
@@ -605,7 +605,7 @@ const RentalReceiptPdfTemplate = ({
                               <option value="+971">+971</option>
                             </select>
 
-                            <input
+                            <input data-testid="receipt-customize-9876543210-input"
                               type="tel"
                               placeholder="9876543210"
                               className="border-none bg-transparent outline-none ml-2 font-inherit text-inherit font-inherit"
@@ -634,7 +634,7 @@ const RentalReceiptPdfTemplate = ({
                           </div>
 
                           <div className="flex items-center bg-[#F0F3FF] rounded-md px-3 py-2 border border-gray-300">
-                            <input
+                            <input data-testid="receipt-customize-abc-gmail-com-input"
                               type="email"
                               placeholder="abc@gmail.com"
                               className="border-none bg-transparent outline-none ml-2 font-inherit text-inherit font-inherit w-full"
@@ -697,7 +697,7 @@ const RentalReceiptPdfTemplate = ({
                               {signaturePreview && (
                                 <>
                                   <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-                                  <div
+                                  <div data-testid="receipt-customize-action-2"
                                     className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
                                     onClick={() => {
                                       const isLocal =
@@ -724,7 +724,7 @@ const RentalReceiptPdfTemplate = ({
                                   } font-gilroy text-[12px] font-normal flex items-center`}
                               >
                                 Choose file
-                                <input
+                                <input data-testid="receipt-customize-file-signature-change-file"
                                   type="file"
                                   accept="image/*"
                                   className="hidden"
@@ -750,7 +750,7 @@ const RentalReceiptPdfTemplate = ({
                     </div>
                   )}
 
-                  <Modal
+                  <Modal data-testid="receipt-customize-override-global-value-you-modal"
                     show={contactnumberform}
                     onHide={handleCloseContactNumberForm}
                     centered
@@ -770,13 +770,13 @@ const RentalReceiptPdfTemplate = ({
                     </Modal.Body>
 
                     <Modal.Footer className="!flex !justify-center !border-0 !pb-5">
-                      <button
+                      <button data-testid="receipt-customize-cancel-btn"
                         className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[#6F6C8F] !font-gilroy !font-semibold !text-[14px] !border !mr-2.5"
                         onClick={handleCloseContactNumberForm}
                       >
                         Cancel
                       </button>
-                      <button
+                      <button data-testid="receipt-customize-edit-anyway-btn"
                         className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold !text-[14px]"
                         onClick={handleEditAnyway}
                       >
@@ -805,7 +805,7 @@ const RentalReceiptPdfTemplate = ({
               Add Notes
             </label>
             <div className="relative">
-              <textarea
+              <textarea data-testid="receipt-customize-add-notes-textarea"
                 className="form-control pe-5 w-full h-24 resize-none font-gilroy !text-sm font-normal text-[#222222] placeholder:text-gray-400"
                 placeholder="Add any message..."
                 value={notes}
@@ -832,7 +832,7 @@ const RentalReceiptPdfTemplate = ({
               Add T&C
             </label>
             <div className="relative">
-              <textarea
+              <textarea data-testid="receipt-customize-add-t-c-textarea"
                 className="form-control pe-5 w-full h-24 resize-none font-gilroy !text-sm font-normal text-[#222222] placeholder:text-gray-400"
                 placeholder="Add any message..."
                 value={terms}
@@ -855,7 +855,7 @@ const RentalReceiptPdfTemplate = ({
             </h6>
 
             <div className=" w-full">
-              <RgbaColorPicker
+              <RgbaColorPicker data-testid="receipt-customize-color-change-input"
                 color={color}
                 onChange={handleColorChange}
                 style={{ width: "100%" }}
@@ -863,27 +863,27 @@ const RentalReceiptPdfTemplate = ({
             </div>
 
             <div className="flex flex-wrap gap-2 mt-3 justify-center md:justify-between">
-              <input
+              <input data-testid="receipt-customize-input"
                 value={hexValue}
                 readOnly
                 className="w-[70px] md:w-20 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="receipt-customize-input-2"
                 value={color.r}
                 readOnly
                 className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="receipt-customize-input-3"
                 value={color.g}
                 readOnly
                 className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="receipt-customize-input-4"
                 value={color.b}
                 readOnly
                 className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
               />
-              <input
+              <input data-testid="receipt-customize-input-5"
                 value={alphaValue}
                 readOnly
                 className="w-[45px] md:w-10 text-center border border-gray-300 rounded"
@@ -904,7 +904,7 @@ const RentalReceiptPdfTemplate = ({
                 const g = parseInt(preset.substr(3, 2), 16);
                 const b = parseInt(preset.substr(5, 2), 16);
                 return (
-                  <div
+                  <div data-testid={`receipt-customize-color-action-${index}`}
                     key={index}
                     onClick={() => setColor({ r, g, b, a: 1 })}
                     className={`w-6 h-6 rounded-[20%] cursor-pointer ${preset.toLowerCase() === "#ffffff"
@@ -931,7 +931,7 @@ const RentalReceiptPdfTemplate = ({
           )}
 
           <div className="flex justify-end mt-2 col-span-10">
-            <button
+            <button data-testid="receipt-customize-save-template-btn"
               disabled={!canWriteInvoice}
               onClick={handleSaveTemplate}
               className={`w-40 h-10 rounded-lg px-4 bg-[#1E45E1] text-white font-gilroy font-semibold text-sm ${!canWriteInvoice

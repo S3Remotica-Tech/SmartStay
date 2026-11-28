@@ -463,6 +463,25 @@ function* handleSettlementPayemnt(settle) {
   }
 }
 
+// Errors handleApiError already reports (logout / network / access restricted).
+const GLOBALLY_HANDLED_STATUS = [401, 403, 500];
+
+// Any draft-save failure not shown as an email/phone field error, so the
+// Add Tenant drawer can stop its loading state.
+function* putDraftSaveError(error) {
+  const status = error?.response?.status;
+  const data = error?.response?.data;
+  if (!error?.response || GLOBALLY_HANDLED_STATUS.includes(status)) return;
+  if (status === 400 && (data?.emailStatus || data?.mobileStatus)) return;
+  yield put({
+    type: "TENANT_DRAFT_ERROR",
+    payload:
+      (typeof data === "string" && data) ||
+      data?.message ||
+      "Could not save the details. Please try again.",
+  });
+}
+
 function* handleSaveDraft(draft) {
   try {
     const response = yield call(SaveDraftTenant, draft.payload);
@@ -521,6 +540,7 @@ function* handleSaveDraft(draft) {
           });
         }
       }
+      yield* putDraftSaveError(error);
     }
   }
 }
@@ -579,6 +599,7 @@ function* handleUpdateSaveDraft(draft) {
           });
         }
       }
+      yield* putDraftSaveError(error);
     }
   }
 }
@@ -1629,13 +1650,17 @@ function* handleDirectCheckIn(datum) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({
-          type: "BED_AVAILABLE_ERROR",
-          payload: error?.response?.data,
-        });
-      }
+    // Every client error (400, 404, 409, 422 …) reaches the screen so its
+    // loading stops; 401/403/500/network are reported by handleApiError.
+    if (
+      error?.response &&
+      !GLOBALLY_HANDLED_STATUS.includes(error.response.status)
+    ) {
+      yield put({
+        type: "BED_AVAILABLE_ERROR",
+        payload:
+          error.response.data || "Check-in failed. Please try again.",
+      });
     }
   }
 }
@@ -2210,32 +2235,32 @@ function* handleCheckInTenantAdditional(datum) {
         },
       });
 
-      var toastStyle = {
-        backgroundColor: "#E6F6E6",
-        color: "black",
-        width: "100%",
-        borderRadius: "60px",
-        height: "20px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        fontSize: 14,
-        textAlign: "start",
-        display: "flex",
-        alignItems: "center",
-        padding: "10px",
-      };
+      // var toastStyle = {
+      //   backgroundColor: "#E6F6E6",
+      //   color: "black",
+      //   width: "100%",
+      //   borderRadius: "60px",
+      //   height: "20px",
+      //   fontFamily: "Gilroy",
+      //   fontWeight: 600,
+      //   fontSize: 14,
+      //   textAlign: "start",
+      //   display: "flex",
+      //   alignItems: "center",
+      //   padding: "10px",
+      // };
 
-      toast.success("Updated Successfully", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+      // toast.success("Updated Successfully", {
+      //   position: "bottom-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeButton: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   style: toastStyle,
+      // });
     }
 
     if (response) {

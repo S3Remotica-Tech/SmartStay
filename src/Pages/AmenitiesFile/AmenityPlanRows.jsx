@@ -48,7 +48,7 @@ function AmenityPlanRows({ plans, errors, onChange }) {
         return (
           <div key={plan.key}>
             <div className="flex flex-wrap sm:flex-nowrap items-center gap-[8px]">
-              <input
+              <input data-testid={`amenity-plan-rows-plan-name-e-g-standard-input-${plan.key}`}
                 type="text"
                 aria-label={`Plan name ${index + 1}`}
                 placeholder="Plan name (e.g. Standard)"
@@ -66,7 +66,7 @@ function AmenityPlanRows({ plans, errors, onChange }) {
                 <span className="absolute left-[12px] top-1/2 -translate-y-1/2 font-gilroy text-[14px] text-[#6A7282] pointer-events-none">
                   ₹
                 </span>
-                <input
+                <input data-testid={`amenity-plan-rows-update-row-input-${plan.key}`}
                   type="text"
                   inputMode="numeric"
                   aria-label={`Price ${index + 1}`}
@@ -81,7 +81,7 @@ function AmenityPlanRows({ plans, errors, onChange }) {
               </div>
 
               <div className="w-[128px] shrink-0">
-                <Select
+                <div data-testid={`amenity-plan-rows-update-row-select-${plan.key}`} className="contents"><Select
                   aria-label={`Billing unit ${index + 1}`}
                   options={BILLING_UNITS}
                   value={BILLING_UNITS.find((u) => u.value === plan.billingUnit)}
@@ -93,10 +93,10 @@ function AmenityPlanRows({ plans, errors, onChange }) {
                   menuPortalTarget={document.body}
                   menuPosition="fixed"
                   menuPlacement="auto"
-                />
+                /></div>
               </div>
 
-              <button
+              <button data-testid={`amenity-plan-rows-remove-row-btn-${plan.key}`}
                 type="button"
                 aria-label={`Remove plan ${index + 1}`}
                 onClick={() => removeRow(plan.key)}
@@ -119,7 +119,7 @@ function AmenityPlanRows({ plans, errors, onChange }) {
         );
       })}
 
-      <button
+      <button data-testid="amenity-plan-rows-add-new-row-btn"
         type="button"
         onClick={() => onChange([...plans, createEmptyPlan()])}
         className="flex h-[32px] w-fit items-center justify-center gap-[9px] rounded-[4px] bg-[#F4F6FF] px-[14px] font-gilroy text-[13px] font-medium text-[#1E45E1] transition-colors hover:bg-[#E8ECFF]"

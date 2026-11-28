@@ -20,23 +20,41 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import CustomTooltip from "../../Utils/CustomTooltip";
-import InvoiceViewDropdown, { INVOICE_VIEW_MODES } from "./InvoiceViewDropdown";
-import ConsolidatedInvoiceTable from "./ConsolidatedInvoiceTable";
-import ConsolidatedFilterDrawer from "./ConsolidatedFilterDrawer";
-import ConsolidatedExportSettings from "./ConsolidatedExportSettings";
-import ConsolidatedExportPreview from "./ConsolidatedExportPreview";
-import { DEFAULT_VISIBLE_COLUMN_KEYS } from "./consolidatedColumns";
-import { consolidatedMockBeds } from "./consolidatedMockData";
-import {
+// Consolidated View = these two components. The shared Consolidated logic
+// (API mapping, filters, columns, totals) is exported from the table file.
+import ConsolidatedInvoiceTable, {
   DEFAULT_CONSOLIDATED_FILTERS,
   applyConsolidatedFilters,
   formatAmount,
   getCollectionSummary,
   getConsolidatedFilterChips,
-  getFloorOptions,
-} from "./consolidatedHelpers";
+  getConsolidatedHeader,
+  getConsolidatedFloorOptions,
+  getConsolidatedStatusOptions,
+  normaliseConsolidatedBeds,
+  buildConsolidatedColumns,
+} from "./ConsolidatedInvoiceTable";
+import ConsolidatedExportSettings from "./ConsolidatedExportSettings";
 
 const NOT_IN_COLLECTION_SHEET = "Not part of collection sheet.";
+
+// List / Consolidated view switch (dropdown rendered in viewSwitcher below).
+const INVOICE_VIEW_MODES = {
+  LIST: "list",
+  CONSOLIDATED: "consolidated",
+};
+
+const VIEW_OPTIONS = [
+  { value: INVOICE_VIEW_MODES.LIST, label: "List View" },
+  { value: INVOICE_VIEW_MODES.CONSOLIDATED, label: "Consolidated View" },
+];
+
+// List View table cells — same look as ConsolidatedInvoiceTable's header/body cells.
+const LIST_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const LIST_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function InvoiceRegister() {
   const navigate = useNavigate();
@@ -57,21 +75,51 @@ function InvoiceRegister() {
   const [page, setPage] = useState(1);
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
-  const isSearching = chips.length > 0;
+  const isSearching = chips?.length > 0;
   const [viewMode, setViewMode] = useState(INVOICE_VIEW_MODES.LIST);
   const isConsolidated = viewMode === INVOICE_VIEW_MODES.CONSOLIDATED;
-  const [consolidatedFilters, setConsolidatedFilters] = useState(
-    DEFAULT_CONSOLIDATED_FILTERS,
-  );
+  const [viewMenuOpen, setViewMenuOpen] = useState(false);
+  const viewMenuRef = useRef(null);
+  // Consolidated View selected filters live in the reducer
+  // (state.reports.consolidatedInvoiceFilters), like the List View's
+  // invoiceRegisterFilters, so they survive leaving the page.
+  const consolidatedFilters =
+    state?.reports?.consolidatedInvoiceFilters || DEFAULT_CONSOLIDATED_FILTERS;
+  const setConsolidatedFilters = (filters) =>
+    dispatch({ type: "SET_CONSOLIDATED_INVOICE_FILTERS", payload: filters });
   const [showConsolidatedFilter, setShowConsolidatedFilter] = useState(false);
   // Held here so the export settings can start from the current view.
   const [includeAllTenants, setIncludeAllTenants] = useState(false);
-  const [visibleColumnKeys, setVisibleColumnKeys] = useState(
-    DEFAULT_VISIBLE_COLUMN_KEYS,
-  );
   const [showExportSettings, setShowExportSettings] = useState(false);
-  const [exportPrefs, setExportPrefs] = useState(null);
-  const [exportPreviewData, setExportPreviewData] = useState(null);
+  // Consolidated View API data (state.reports.getConsolidatedInvoice).
+  const [consolidatedRegister, setConsolidatedRegister] = useState(null);
+  const [consolidatedLoading, setConsolidatedLoading] = useState(false);
+  // Consolidated View server pagination (1-based, response paginationData).
+  // Kept apart from the List View's page/size.
+  const [consolidatedPage, setConsolidatedPage] = useState(1);
+  const [consolidatedSize, setConsolidatedSize] = useState(10);
+  const consolidatedScopeKeyRef = useRef("");
+  // Single bed list used by the table, stat cards, floor filter and export.
+  const consolidatedBeds = useMemo(
+    () => normaliseConsolidatedBeds(consolidatedRegister),
+    [consolidatedRegister],
+  );
+  // Columns come from the API (tableColumns). The table saves Customize Tabs
+  // itself and hands back the saved list (shown until the next fetch); the
+  // export uses the same list.
+  const [savedColumns, setSavedColumns] = useState(null);
+  // Bumped after Customize Tabs save so the list is fetched again (like UserList).
+  const [consolidatedRefreshKey, setConsolidatedRefreshKey] = useState(0);
+  const handleConsolidatedColumnsSaved = (columns) => {
+    setSavedColumns(columns);
+    setConsolidatedRefreshKey((key) => key + 1);
+  };
+  const consolidatedColumns = useMemo(
+    () =>
+      savedColumns ||
+      buildConsolidatedColumns(consolidatedRegister?.tableColumns),
+    [savedColumns, consolidatedRegister],
+  );
 
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
@@ -80,12 +128,12 @@ function InvoiceRegister() {
   const { canReadModule: canReadReports } = useHasPermission("Reports");
 
   const isValidSubscription =
-    state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
+    state?.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
 
   const isExportAllow = isValidSubscription && canReadReports;
 
   useEffect(() => {
-    if (state.reports.getInvoiceRegisterSuccess === 200) {
+    if (state?.reports?.getInvoiceRegisterSuccess === 200) {
       setLoading(false);
       isInitialLoad.current = true;
       setInvoiceRegister(state?.reports?.getInvoiceRegister);
@@ -94,7 +142,25 @@ function InvoiceRegister() {
         dispatch({ type: "REMOVE_GET_REPORTS_INVOICE_REGISTER_REDUCER" });
       }, 100);
     }
-  }, [state.reports.getInvoiceRegisterSuccess]);
+  }, [state?.reports?.getInvoiceRegisterSuccess]);
+
+  useEffect(() => {
+    if (state?.reports?.getConsolidatedInvoiceSuccess === 200) {
+      setConsolidatedLoading(false);
+      setConsolidatedRegister(state?.reports?.getConsolidatedInvoice);
+      setSavedColumns(null);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_REDUCER" });
+      }, 100);
+    }
+  }, [state?.reports?.getConsolidatedInvoiceSuccess]);
+
+  useEffect(() => {
+    if (state?.reports?.getConsolidatedInvoiceError) {
+      setConsolidatedLoading(false);
+      dispatch({ type: "REMOVE_GET_REPORTS_CONSOLIDATED_INVOICE_ERROR" });
+    }
+  }, [state?.reports?.getConsolidatedInvoiceError]);
 
   useEffect(() => {
     let timeout;
@@ -118,20 +184,20 @@ function InvoiceRegister() {
   }, []);
 
   useEffect(() => {
-    const el = tableRef.current;
+    const el = tableRef?.current;
     if (!el) return;
 
     const handleScroll = () => {
-      setIsScrolled(el.scrollLeft > 0);
+      setIsScrolled(el?.scrollLeft > 0);
     };
 
-    el.addEventListener("scroll", handleScroll);
-    return () => el.removeEventListener("scroll", handleScroll);
+    el?.addEventListener("scroll", handleScroll);
+    return () => el?.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (dropdownRef?.current && !dropdownRef?.current?.contains(event?.target)) {
         setRegister(false);
       }
     }
@@ -187,39 +253,56 @@ function InvoiceRegister() {
     },
   ];
 
-  // Consolidated View stat cards come from the filtered mock collection sheet.
-  // Vacant beds are excluded inside getCollectionSummary.
+  // Consolidated View stat cards use the API's invoiceHeader totals; if the
+  // header is missing they are computed from the filtered rows instead.
+  const consolidatedHeader = useMemo(
+    () => getConsolidatedHeader(consolidatedRegister),
+    [consolidatedRegister],
+  );
   const consolidatedSummary = useMemo(
     () =>
+      consolidatedHeader ||
       getCollectionSummary(
         applyConsolidatedFilters(
-          consolidatedMockBeds,
+          consolidatedBeds,
           consolidatedFilters,
           selectedRange,
         ),
       ),
-    [consolidatedFilters, selectedRange],
+    [consolidatedHeader, consolidatedBeds, consolidatedFilters, selectedRange],
   );
 
   const consolidatedFloorOptions = useMemo(
-    () => getFloorOptions(consolidatedMockBeds),
-    [],
+    () => getConsolidatedFloorOptions(consolidatedRegister, consolidatedBeds),
+    [consolidatedRegister, consolidatedBeds],
   );
 
-  // Set by the Sidebar when a property is selected.
-  let selectedHostelName = "";
-  try {
-    selectedHostelName = localStorage.getItem("selectedHostelName") || "";
-  } catch {
-    selectedHostelName = "";
-  }
+  // Collection Status options from the API (filters.paymentStatus), like floors.
+  const consolidatedStatusOptions = useMemo(
+    () => getConsolidatedStatusOptions(consolidatedRegister),
+    [consolidatedRegister],
+  );
 
-  const consolidatedChips = getConsolidatedFilterChips(consolidatedFilters);
+  const consolidatedChips = getConsolidatedFilterChips(
+    consolidatedFilters,
+    consolidatedStatusOptions,
+  );
   const displayedChips = isConsolidated ? consolidatedChips : chips;
 
   const handleResetConsolidatedFilters = () => {
     setConsolidatedFilters(DEFAULT_CONSOLIDATED_FILTERS);
   };
+
+  // Hostel changed -> reset the Consolidated filters. Skips the first run
+  // (page open), so filters saved in the reducer survive coming back here.
+  const prevHostelIdRef = useRef(null);
+  useEffect(() => {
+    const hostelId = state?.login?.selectedHostel_Id;
+    if (prevHostelIdRef?.current !== null && prevHostelIdRef?.current !== hostelId) {
+      setConsolidatedFilters(DEFAULT_CONSOLIDATED_FILTERS);
+    }
+    prevHostelIdRef.current = hostelId;
+  }, [state?.login?.selectedHostel_Id]);
 
   // Period edits in the drawer go through the existing date range handler,
   // so the top RangePicker and List View data stay in sync.
@@ -228,15 +311,15 @@ function InvoiceRegister() {
     setShowConsolidatedFilter(false);
 
     const [from, to] = range || [];
-    const currentFrom = selectedRange?.from ? dayjs(selectedRange.from) : null;
-    const currentTo = selectedRange?.to ? dayjs(selectedRange.to) : null;
+    const currentFrom = selectedRange?.from ? dayjs(selectedRange?.from) : null;
+    const currentTo = selectedRange?.to ? dayjs(selectedRange?.to) : null;
     const periodChanged =
       from &&
       to &&
       (!currentFrom ||
         !currentTo ||
-        !from.isSame(currentFrom, "day") ||
-        !to.isSame(currentTo, "day"));
+        !from?.isSame(currentFrom, "day") ||
+        !to?.isSame(currentTo, "day"));
 
     if (periodChanged) {
       handleDateChange([from, to]);
@@ -246,38 +329,38 @@ function InvoiceRegister() {
   const consolidatedStats = [
     {
       title: "Total Invoices",
-      value: consolidatedSummary.totalInvoices,
+      value: consolidatedSummary?.totalInvoices,
     },
     {
       title: "Total Amount",
-      value: formatAmount(consolidatedSummary.totalAmount),
+      value: formatAmount(consolidatedSummary?.totalAmount),
       isCurrency: true,
     },
     {
       title: "Paid Amount",
-      value: formatAmount(consolidatedSummary.paidAmount),
+      value: formatAmount(consolidatedSummary?.paidAmount),
       isCurrency: true,
     },
     {
       title: "Outstanding",
-      value: formatAmount(consolidatedSummary.outstandingAmount),
+      value: formatAmount(consolidatedSummary?.outstandingAmount),
       isCurrency: true,
     },
     {
       title: "Booking Amount",
-      value: 0,
+      value: formatAmount(consolidatedSummary?.bookingAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
     {
       title: "Refunded Booking Amount",
-      value: 0,
+      value: formatAmount(consolidatedSummary?.refundedBookingAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
     {
       title: "Cancelled Amount",
-      value: 0,
+      value: formatAmount(consolidatedSummary?.cancelledAmount),
       isCurrency: true,
       tooltip: NOT_IN_COLLECTION_SHEET,
     },
@@ -285,12 +368,76 @@ function InvoiceRegister() {
 
   const displayedStats = isConsolidated ? consolidatedStats : stats;
 
+  // View switch dropdown: close on outside click.
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (viewMenuRef?.current && !viewMenuRef?.current?.contains(event?.target)) {
+        setViewMenuOpen(false);
+      }
+    };
+    if (viewMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [viewMenuOpen]);
+
+  const handleSelectView = (option) => {
+    setViewMenuOpen(false);
+    if (option?.value !== viewMode) setViewMode(option?.value);
+  };
+
+  const selectedViewOption =
+    VIEW_OPTIONS.find((option) => option?.value === viewMode) || VIEW_OPTIONS[0];
+
   const viewSwitcher = (
-    <InvoiceViewDropdown value={viewMode} onChange={setViewMode} />
+    <div ref={viewMenuRef} className="relative w-fit font-gilroy">
+      <button data-testid="invoice-register-view-menu-open-btn"
+        type="button"
+        onClick={() => setViewMenuOpen((prev) => !prev)}
+        aria-haspopup="listbox"
+        aria-expanded={viewMenuOpen}
+        className="w-fit h-[42px] flex items-center justify-between gap-[10px] px-[12px] bg-white border-[1px] border-[#F2F2F2] rounded-[5px] text-[14px] font-semibold text-[#1D293D]"
+      >
+        <span className="whitespace-nowrap">{selectedViewOption?.label}</span>
+        <ArrowDown2
+          size="16"
+          color="#1D293D"
+          className={`transition-transform duration-200 ${viewMenuOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {viewMenuOpen && (
+        <ul
+          role="listbox"
+          className="absolute left-0 z-40 mt-1 w-max min-w-full bg-white rounded-2xl shadow-lg overflow-hidden border-[1px] border-[#E5E7EB] p-0 m-0 list-none"
+        >
+          {VIEW_OPTIONS.map((option, index) => (
+            <li data-testid={`invoice-register-select-view-action-${option?.value}`}
+              key={option?.value}
+              role="option"
+              aria-selected={option?.value === viewMode}
+              onClick={() => handleSelectView(option)}
+              onKeyDown={(e) => {
+                if (e?.key === "Enter" || e?.key === " ") handleSelectView(option);
+              }}
+              tabIndex={0}
+              className={`px-[16px] py-2 text-sm whitespace-nowrap cursor-pointer hover:bg-[#F1F5FF] ${option?.value === viewMode
+                ? "text-[#1E45E1] font-semibold"
+                : "text-[#222]"
+                } ${index < VIEW_OPTIONS.length - 1 ? "border-b border-[#E5E7EB]" : ""}`}
+            >
+              {option?.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 
   const handleNavigateReports = () => {
-    navigate(`/reports/${state.login.selectedHostel_Id}`);
+    navigate(`/reports/${state?.login?.selectedHostel_Id}`);
     dispatch({
       type: "SET_INVOICE_REGISTER_FILTERS",
       payload: {
@@ -322,10 +469,10 @@ function InvoiceRegister() {
   const handleNavigateBillsPdf = (row) => {
     dispatch({
       type: "GETPARTICULARBILLSDETAILS",
-      payload: { hostelId: row.hostelId, invoiceId: row.invoiceId },
+      payload: { hostelId: row?.hostelId, invoiceId: row?.invoiceId },
     });
 
-    navigate(`/invoice/details/${row.invoiceId}`, {
+    navigate(`/invoice/details/${row?.invoiceId}`, {
       state: {
         rowData: row,
         isReportsInvoiceRegisterWay: true,
@@ -333,16 +480,17 @@ function InvoiceRegister() {
     });
   };
 
+  // Status badge colours (soft bg + dot), same style as the Consolidated table.
   const statusColor = {
-    Paid: "bg-[#D9FFD9] text-[#065F46]",
+    Paid: { bg: "bg-[rgba(179,229,187,0.3)]", dot: "bg-[#22C55E]" },
 
-    Pending: "bg-[#FFD9D9] text-[#7A1C1C]",
-    "Partial Payment": "bg-[#FFD9D9] text-[#7A1C1C]",
+    Pending: { bg: "bg-[rgba(255,189,189,0.4)]", dot: "bg-[#EF4444]" },
+    "Partial Payment": { bg: "bg-[rgba(255,237,202,0.6)]", dot: "bg-[#F59E0B]" },
 
-    Refunded: "bg-[#FFF3CD] text-[#8B8000]",
-    "Partial Refund": "bg-[#FFF3CD] text-[#8B8000]",
-    "Pending Refund": "bg-[#FFE6B3] text-[#b45309]",
-    Cancelled: "bg-[#E5E7EB] text-[#374151]",
+    Refunded: { bg: "bg-[#E7F1FF]", dot: "bg-[#3B82F6]" },
+    "Partial Refund": { bg: "bg-[#E7F1FF]", dot: "bg-[#3B82F6]" },
+    "Pending Refund": { bg: "bg-[rgba(255,237,202,0.6)]", dot: "bg-[#F59E0B]" },
+    Cancelled: { bg: "bg-[#E5E7EB]", dot: "bg-[#6B7280]" },
   };
 
   const options = [
@@ -373,33 +521,33 @@ function InvoiceRegister() {
     setRegister(false);
 
     if (item?.title === "Tenant Register") {
-      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/tenant-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Receipt Register") {
-      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/receipt-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Bank Transaction Register") {
       navigate(
-        `/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`,
+        `/reports/bank-transaction-register/${state?.login?.selectedHostel_Id}`,
       );
     } else if (item?.title === "Occupancy") {
-      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/occupancy-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Expense Register") {
-      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/expense-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Vendor Ledger") {
-      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/vendor-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Electricity Billing Register") {
       navigate(
-        `/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`,
+        `/reports/electricity-billing-register/${state?.login?.selectedHostel_Id}`,
       );
     } else if (item?.title === "Complaint Register") {
-      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/complaint-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Request Register") {
-      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/request-register/${state?.login?.selectedHostel_Id}`);
     } else if (item?.title === "Final Settlement") {
       navigate(
-        `/reports/final-settlement-register/${state.login?.selectedHostel_Id}`,
+        `/reports/final-settlement-register/${state?.login?.selectedHostel_Id}`,
       );
     } else if (item?.title === "Invoice Register") {
-      navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
+      navigate(`/reports/invoice-register/${state?.login?.selectedHostel_Id}`);
     }
 
     dispatch({
@@ -427,119 +575,119 @@ function InvoiceRegister() {
   };
 
   useEffect(() => {
-    const invoiceFilters = state.reports.invoiceRegisterFilters;
+    const invoiceFilters = state?.reports?.invoiceRegisterFilters;
     const filterData = [];
 
 
 
     if (invoiceFilters?.paymentStatus?.length > 0) {
-      filterData.push({
+      filterData?.push({
         key: "payment-status",
         label: "Status is",
         type: "paymentStatus",
-        value: invoiceFilters.paymentStatusLabels?.join(", ") || "",
+        value: invoiceFilters?.paymentStatusLabels?.join(", ") || "",
       });
     }
 
     if (invoiceFilters?.createdBy?.length) {
-      filterData.push({
+      filterData?.push({
         key: "collected",
         label: "Collected By is",
         type: "collected",
-        value: invoiceFilters.createdByLabels?.join(", ") || "",
+        value: invoiceFilters?.createdByLabels?.join(", ") || "",
       });
     }
 
     if (invoiceFilters?.invoiceTypes?.length) {
-      filterData.push({
+      filterData?.push({
         key: "type",
         label: "Type is",
         type: "type",
-        value: invoiceFilters.invoiceTypeLabels?.join(", ") || "",
+        value: invoiceFilters?.invoiceTypeLabels?.join(", ") || "",
       });
     }
 
     if (invoiceFilters?.invoiceModes?.length) {
-      filterData.push({
+      filterData?.push({
         key: "modes",
         label: "Mode is",
         type: "modes",
-        value: invoiceFilters.invoiceModeLabels?.join(", ") || "",
+        value: invoiceFilters?.invoiceModeLabels?.join(", ") || "",
       });
     }
 
     const periodValue = Array.isArray(invoiceFilters?.period)
-      ? invoiceFilters.period.join(", ")
+      ? invoiceFilters?.period?.join(", ")
       : invoiceFilters?.period;
 
     if (periodValue) {
-      filterData.push({
+      filterData?.push({
         key: "period",
         label: "Period is",
         type: "period",
-        value: invoiceFilters.periodLabel || periodValue,
+        value: invoiceFilters?.periodLabel || periodValue,
       });
     }
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
-      filterData.push({
+      filterData?.push({
         key: "date-range",
         label: "Date Range is",
         type: "date",
         value:
-          invoiceFilters.startDate && invoiceFilters.endDate
-            ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-            : invoiceFilters.startDate || invoiceFilters.endDate,
+          invoiceFilters?.startDate && invoiceFilters?.endDate
+            ? `${invoiceFilters?.startDate} - ${invoiceFilters?.endDate}`
+            : invoiceFilters?.startDate || invoiceFilters?.endDate,
       });
     }
 
     if (invoiceFilters?.search) {
-      filterData.push({
+      filterData?.push({
         key: "search",
         label: "Tenant",
         type: "search",
-        value: invoiceFilters.search,
+        value: invoiceFilters?.search,
       });
     }
 
     if (invoiceFilters?.minPaidAmount) {
-      filterData.push({
+      filterData?.push({
         key: "minPaidAmount",
         label: "min-paid Amount",
         type: "minPaidAmount",
-        value: `₹${invoiceFilters.minPaidAmount}`,
+        value: `₹${invoiceFilters?.minPaidAmount}`,
       });
     }
 
     if (invoiceFilters?.maxPaidAmount) {
-      filterData.push({
+      filterData?.push({
         key: "maxPaidAmount",
         label: "max-paid Amount",
         type: "maxPaidAmount",
-        value: `₹${invoiceFilters.maxPaidAmount}`,
+        value: `₹${invoiceFilters?.maxPaidAmount}`,
       });
     }
 
     if (invoiceFilters?.minOutstandingAmount) {
-      filterData.push({
+      filterData?.push({
         key: "minOutstandingAmount",
         label: "min-outstanding",
         type: "minOutstandingAmount",
-        value: `₹${invoiceFilters.minOutstandingAmount}`,
+        value: `₹${invoiceFilters?.minOutstandingAmount}`,
       });
     }
 
     if (invoiceFilters?.maxOutstandingAmount) {
-      filterData.push({
+      filterData?.push({
         key: "maxOutstandingAmount",
         label: "max-outstanding",
         type: "maxOutstandingAmount",
-        value: `₹${invoiceFilters.maxOutstandingAmount}`,
+        value: `₹${invoiceFilters?.maxOutstandingAmount}`,
       });
     }
 
     setChips(filterData);
-  }, [state.reports.invoiceRegisterFilters]);
+  }, [state?.reports?.invoiceRegisterFilters]);
 
   const handleReset = () => {
     const startOfMonth = dayjs().startOf("month").toDate();
@@ -574,7 +722,7 @@ function InvoiceRegister() {
     dispatch({
       type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
       payload: {
-        hostelId: state.login.selectedHostel_Id,
+        hostelId: state?.login?.selectedHostel_Id,
         filters: {
           size: size,
           page: page,
@@ -589,7 +737,7 @@ function InvoiceRegister() {
   const isInitialLoad = useRef(true);
 
   useEffect(() => {
-    if (!apiStart || !apiEnd || !isInitialLoad.current) return;
+    if (!apiStart || !apiEnd || !isInitialLoad?.current) return;
 
     isInitialLoad.current = false;
 
@@ -622,7 +770,7 @@ function InvoiceRegister() {
       dispatch({
         type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           filters: {
             size: size,
             page: page,
@@ -635,11 +783,11 @@ function InvoiceRegister() {
     const [from, to] = dates;
 
     setSelectedRange({
-      from: from ? from.toDate() : null,
-      to: to ? to.toDate() : null,
+      from: from ? from?.toDate() : null,
+      to: to ? to?.toDate() : null,
     });
 
-    const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    const invoiceFilters = state?.reports?.invoiceRegisterFilters;
 
 
     const filters = {
@@ -650,19 +798,19 @@ function InvoiceRegister() {
       search: invoiceFilters?.search || undefined,
 
       paymentStatus: invoiceFilters?.paymentStatus?.length
-        ? invoiceFilters.paymentStatus
+        ? invoiceFilters?.paymentStatus
         : undefined,
 
       invoiceModes: invoiceFilters?.invoiceModes?.length
-        ? invoiceFilters.invoiceModes
+        ? invoiceFilters?.invoiceModes
         : undefined,
 
       invoiceTypes: invoiceFilters?.invoiceTypes?.length
-        ? invoiceFilters.invoiceTypes
+        ? invoiceFilters?.invoiceTypes
         : undefined,
 
       createdBy: invoiceFilters?.createdBy?.length
-        ? invoiceFilters.createdBy
+        ? invoiceFilters?.createdBy
         : undefined,
 
       period: invoiceFilters?.period || "",
@@ -677,7 +825,7 @@ function InvoiceRegister() {
     dispatch({
       type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
       payload: {
-        hostelId: state.login.selectedHostel_Id,
+        hostelId: state?.login?.selectedHostel_Id,
         filters,
       },
     });
@@ -733,19 +881,19 @@ function InvoiceRegister() {
 
   const startDate = useMemo(() => {
     return selectedRange?.from
-      ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+      ? dayjs(selectedRange?.from).format("DD-MM-YYYY")
       : undefined;
   }, [selectedRange?.from]);
 
   const endDate = useMemo(() => {
     return selectedRange?.to
-      ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+      ? dayjs(selectedRange?.to).format("DD-MM-YYYY")
       : undefined;
   }, [selectedRange?.to]);
 
   useEffect(() => {
-    if (!state.login?.selectedHostel_Id) return;
-    const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    if (!state?.login?.selectedHostel_Id) return;
+    const invoiceFilters = state?.reports?.invoiceRegisterFilters;
 
     const filters = {
       startDate: startDate,
@@ -755,19 +903,19 @@ function InvoiceRegister() {
       search: invoiceFilters?.search || undefined,
 
       paymentStatus: invoiceFilters?.paymentStatus?.length
-        ? invoiceFilters.paymentStatus
+        ? invoiceFilters?.paymentStatus
         : undefined,
 
       invoiceModes: invoiceFilters?.invoiceModes?.length
-        ? invoiceFilters.invoiceModes
+        ? invoiceFilters?.invoiceModes
         : undefined,
 
       invoiceTypes: invoiceFilters?.invoiceTypes?.length
-        ? invoiceFilters.invoiceTypes
+        ? invoiceFilters?.invoiceTypes
         : undefined,
 
       createdBy: invoiceFilters?.createdBy?.length
-        ? invoiceFilters.createdBy
+        ? invoiceFilters?.createdBy
         : undefined,
 
       period: invoiceFilters?.period || "",
@@ -782,28 +930,108 @@ function InvoiceRegister() {
       dispatch({
         type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           filters,
         },
       });
 
       setLoading(true);
     }
-  }, [state.login?.selectedHostel_Id, size, page, startDate, endDate]);
+  }, [state?.login?.selectedHostel_Id, size, page, startDate, endDate]);
+
+  // Consolidated View: same trigger as the List call above, only while that view is open.
+  useEffect(() => {
+    if (!isConsolidated) return;
+    if (!state?.login?.selectedHostel_Id) return;
+
+    // A new scope (property, dates, filters, toggle, page size) starts again
+    // at page 1; the page change re-runs this effect, so only one call is made.
+    const scopeKey = JSON.stringify([
+      state?.login?.selectedHostel_Id,
+      startDate,
+      endDate,
+      consolidatedFilters,
+      includeAllTenants,
+      consolidatedSize,
+    ]);
+    const scopeChanged = consolidatedScopeKeyRef?.current !== scopeKey;
+    consolidatedScopeKeyRef.current = scopeKey;
+    if (scopeChanged && consolidatedPage !== 1) {
+      setConsolidatedPage(1);
+      return;
+    }
+
+    const filters = {
+      startDate: startDate,
+      endDate: endDate,
+      search: consolidatedFilters?.search || undefined,
+      // paymentStatus keys, same field as the download API payload.
+      paymentStatus: consolidatedFilters?.statuses?.length
+        ? consolidatedFilters?.statuses
+        : undefined,
+      floors: consolidatedFilters?.floors?.length
+        ? consolidatedFilters?.floors
+        : undefined,
+      overdueOnly: consolidatedFilters?.overdueOnly || undefined,
+      // Echoed back by the API; the toggle needs paid tenants and empty beds.
+      includePaidInvoice: includeAllTenants,
+      includeEmptyBeds: includeAllTenants,
+      page: consolidatedPage,
+      size: consolidatedSize,
+    };
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REPORTS_CONSOLIDATED_INVOICE_SAGA",
+        payload: {
+          hostelId: state?.login?.selectedHostel_Id,
+          filters,
+        },
+      });
+
+      setConsolidatedLoading(true);
+    }
+  }, [
+    isConsolidated,
+    state?.login?.selectedHostel_Id,
+    startDate,
+    endDate,
+    consolidatedFilters,
+    includeAllTenants,
+    consolidatedRefreshKey,
+    consolidatedPage,
+    consolidatedSize,
+  ]);
+
+  // Consolidated View pagination from the response's paginationData.
+  const consolidatedPagination = consolidatedRegister?.paginationData;
+  const consolidatedCurrentPage =
+    Number(consolidatedPagination?.currentPage) || consolidatedPage;
+  const consolidatedTotalPages = Number(consolidatedPagination?.totalPages) || 1;
+  const consolidatedTotalRecords =
+    Number(consolidatedPagination?.totalElements) || 0;
+
+  const handleConsolidatedPageChange = (newPage) => {
+    if (newPage === consolidatedPage) return;
+    setConsolidatedPage(newPage);
+  };
+
+  const handleConsolidatedSizeChange = (sizeValue) => {
+    setConsolidatedSize(sizeValue);
+  };
 
   useEffect(() => {
     setPage(1);
   }, [
-    state.reports?.invoiceRegisterFilters?.search,
-    state.reports?.invoiceRegisterFilters?.paymentStatus,
-    state.reports?.invoiceRegisterFilters?.invoiceModes,
-    state.reports?.invoiceRegisterFilters?.invoiceTypes,
-    state.reports?.invoiceRegisterFilters?.createdBy,
-    state.reports?.invoiceRegisterFilters?.period,
-    state.reports?.invoiceRegisterFilters?.minPaidAmount,
-    state.reports?.invoiceRegisterFilters?.maxPaidAmount,
-    state.reports?.invoiceRegisterFilters?.minOutstandingAmount,
-    state.reports?.invoiceRegisterFilters?.maxOutstandingAmount,
+    state?.reports?.invoiceRegisterFilters?.search,
+    state?.reports?.invoiceRegisterFilters?.paymentStatus,
+    state?.reports?.invoiceRegisterFilters?.invoiceModes,
+    state?.reports?.invoiceRegisterFilters?.invoiceTypes,
+    state?.reports?.invoiceRegisterFilters?.createdBy,
+    state?.reports?.invoiceRegisterFilters?.period,
+    state?.reports?.invoiceRegisterFilters?.minPaidAmount,
+    state?.reports?.invoiceRegisterFilters?.maxPaidAmount,
+    state?.reports?.invoiceRegisterFilters?.minOutstandingAmount,
+    state?.reports?.invoiceRegisterFilters?.maxOutstandingAmount,
   ]);
 
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
@@ -825,39 +1053,39 @@ function InvoiceRegister() {
   };
 
   useEffect(() => {
-    if (state.createAccount?.networkError) {
+    if (state?.createAccount?.networkError) {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
-  }, [state.createAccount?.networkError]);
+  }, [state?.createAccount?.networkError]);
 
   const handleDownload = () => {
-    if (state.login.selectedHostel_Id) {
-      const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    if (state?.login?.selectedHostel_Id) {
+      const invoiceFilters = state?.reports?.invoiceRegisterFilters;
       dispatch({
         type: "REPORTS_INVOICE_REGISTER_PDFSAGA",
         payload: {
-          hostelId: state.login.selectedHostel_Id,
+          hostelId: state?.login?.selectedHostel_Id,
           startDate: startDate,
           endDate: endDate,
           search: invoiceFilters?.search || undefined,
 
           paymentStatus: invoiceFilters?.paymentStatus?.length
-            ? invoiceFilters.paymentStatus
+            ? invoiceFilters?.paymentStatus
             : undefined,
 
           invoiceModes: invoiceFilters?.invoiceModes?.length
-            ? invoiceFilters.invoiceModes
+            ? invoiceFilters?.invoiceModes
             : undefined,
 
           invoiceTypes: invoiceFilters?.invoiceTypes?.length
-            ? invoiceFilters.invoiceTypes
+            ? invoiceFilters?.invoiceTypes
             : undefined,
 
           createdBy: invoiceFilters?.createdBy?.length
-            ? invoiceFilters.createdBy
+            ? invoiceFilters?.createdBy
             : undefined,
 
           period: invoiceFilters?.period || "",
@@ -895,22 +1123,28 @@ function InvoiceRegister() {
   }, [state?.reports?.reportsPdfExportError]);
 
   return (
-    <div className="h-screen flex flex-col font-gilroy p-2">
+    // From md up the page is exactly one screen tall and never scrolls itself:
+    // header, chips, stat cards and toolbar stay put and only the table body
+    // scrolls (with its column headers stuck on top). On phones the page
+    // scrolls normally and each table has its own 70vh scroll area.
+    <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col font-gilroy md:overflow-hidden">
       {loading && (
-        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+        <div className="fixed top-0 right-0 bottom-0 left-0 md:left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-40 bg-white no-wrap">
-        <div className="flex items-center gap-2">
-          <ArrowLeft
+      {/* Title and toolbar sit side by side only from xl (1280px); below that
+          the toolbar takes its own full-width row so it never wraps unevenly. */}
+      <div className="shrink-0 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-[12px] xl:gap-4 py-[8px] xl:py-0 sticky top-0 right-0 left-0 z-40 bg-white min-h-[60px]">
+        <div className="flex items-center gap-2 shrink-0">
+          <ArrowLeft data-testid="invoice-register-navigate-reports-icon"
             onClick={handleNavigateReports}
             size="20"
             color="#4A5565"
             className="cursor-pointer"
           />
           <div>
-            <div
+            <div data-testid="invoice-register-invoice-register-action"
               className="flex items-center gap-2 relative w-fit"
               onClick={() => setRegister(!register)}
             >
@@ -927,14 +1161,14 @@ function InvoiceRegister() {
                 {register && (
                   <div
                     ref={dropdownRef}
-                    className="absolute z-40 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]"
+                    className="absolute z-40 mt-2 w-64 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]"
                   >
-                    {reportCards.map((item, index) => {
+                    {reportCards?.map((item, index) => {
                       const isFirst = index === 0;
-                      const isLast = index === reportCards.length - 1;
+                      const isLast = index === reportCards?.length - 1;
 
                       return (
-                        <div
+                        <div data-testid={`invoice-register-navigate-register-action-${index}`}
                           key={index}
                           onClick={() => {
                             handleNavigateRegister(item);
@@ -947,7 +1181,7 @@ function InvoiceRegister() {
             ${!isLast ? "border-b border-[#E5E7EB]" : ""}
           `}
                         >
-                          {item.title}
+                          {item?.title}
                         </div>
                       );
                     })}
@@ -962,9 +1196,14 @@ function InvoiceRegister() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-stretch">
-          <div className="datepicker-wrapper" style={{ position: "relative" }}>
-            <RangePicker
+        {/* Every control is 36px tall and centred, so mixed heights
+            (react-select in ApiPagination) can't push the row out of line. */}
+        <div className="flex flex-wrap items-center gap-[10px] w-full xl:w-auto xl:justify-end">
+          <div
+            className="datepicker-wrapper h-[36px] w-full sm:w-[260px]"
+            style={{ position: "relative" }}
+          >
+            <RangePicker data-testid="invoice-register-date-change-input"
               allowClear={false}
               style={{
                 width: "100%",
@@ -976,7 +1215,7 @@ function InvoiceRegister() {
               placeholder={["From date", "To date"]}
               value={
                 selectedRange?.from && selectedRange?.to
-                  ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                  ? [dayjs(selectedRange?.from), dayjs(selectedRange?.to)]
                   : null
               }
               onChange={handleDateChange}
@@ -987,34 +1226,23 @@ function InvoiceRegister() {
                 return false;
               }}
               getPopupContainer={(triggerNode) =>
-                triggerNode.closest(".datepicker-wrapper")
+                triggerNode?.closest(".datepicker-wrapper")
               }
             />
           </div>
 
-          <button
+          <button data-testid="invoice-register-filter-btn"
             onClick={
               isConsolidated
                 ? () => setShowConsolidatedFilter(true)
                 : handleClickFilter
             }
-            className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
+            className="h-[36px] flex items-center justify-center gap-2 px-4 border rounded-lg text-sm font-gilroy flex-1 sm:flex-none"
           >
             <Filter size="16" />
             Filter
           </button>
-          {!isConsolidated && invoiceRegister?.invoiceList?.length > 0 && (
-            <ApiPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-              onPageChange={handlePageChange}
-              onSizeChange={handleSizeChange}
-              size={size}
-              isTenantPagination={true}
-            />
-          )}
-          <button
+          <button data-testid="invoice-register-export-btn"
             onClick={() => {
               if (!isExportAllow) return;
               // List View keeps its direct export; Consolidated opens settings.
@@ -1022,7 +1250,7 @@ function InvoiceRegister() {
               else handleDownload();
             }}
             disabled={!isExportAllow}
-            className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
+            className={`h-[36px] flex items-center justify-center gap-2 px-4 rounded-lg text-sm font-gilroy flex-1 sm:flex-none
     ${!isExportAllow
                 ? "bg-gray-400 cursor-not-allowed text-white"
                 : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
@@ -1034,23 +1262,25 @@ function InvoiceRegister() {
         </div>
       </div>
 
-      <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
+      {/* No py-0 here: Bootstrap's .py-0 is !important and would erase pb-[12px],
+          leaving the table / empty-state card flush against the screen bottom. */}
+      <div className="px-1 pb-[12px] bg-[#F9FAFB] rounded-lg flex flex-col md:flex-1 md:min-h-0">
         {displayedChips?.length > 0 && (
-          <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+          <div className="shrink-0 mx-1 sm:mx-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
             <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
               {displayedChips?.map((chip) => (
-                <div key={chip.key}>
+                <div key={chip?.key}>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
-                    {chip.label} :
+                    {chip?.label} :
                     <span className="text-[12px] font-medium text-[#16151C]">
-                      {chip.value}
+                      {chip?.value}
                     </span>
                   </span>
                 </div>
               ))}
             </div>
 
-            <span
+            <span data-testid="invoice-register-reset-action"
               onClick={
                 isConsolidated ? handleResetConsolidatedFilters : handleReset
               }
@@ -1061,50 +1291,50 @@ function InvoiceRegister() {
           </div>
         )}
 
-        <div className="mt-3 ms-1 me-1 overflow-x-auto ">
-          <div className="flex gap-4 flex-nowrap">
-            {displayedStats.map((item, i) => (
+        <div className="shrink-0 mt-3 ms-1 me-1 overflow-x-auto show-scrolls">
+          <div className="flex gap-[12px] sm:gap-4 flex-nowrap">
+            {displayedStats?.map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[120px] min-w-[250px] flex-shrink-0"
+                className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[104px] sm:h-[120px] min-w-[180px] sm:min-w-[250px] flex-shrink-0"
               >
                 <div className="flex justify-between ">
-                  {item.tooltip ? (
+                  {item?.tooltip ? (
                     <CustomTooltip
-                      text={item.tooltip}
+                      text={item?.tooltip}
                       direction="top-full"
                       usePortal={true}
                     >
                       <label className="text-sm font-semibold text-[#4A5565] cursor-help">
-                        {item.title}
+                        {item?.title}
                       </label>
                     </CustomTooltip>
                   ) : (
                     <label className="text-sm font-semibold text-[#4A5565]">
-                      {item.title}
+                      {item?.title}
                     </label>
                   )}
-                  {item.up && (
+                  {item?.up && (
                     <span className="text-xs text-[#008236] bg-[#F0FDF4] h-fit rounded-lg px-2 py-1">
-                      ↑ {item.up}
+                      ↑ {item?.up}
                     </span>
                   )}
-                  {item.down && (
+                  {item?.down && (
                     <span className="text-xs text-[#C10007] bg-[#FEF2F2] h-fit  rounded-lg px-2 py-1">
-                      ↓ {item.down}
+                      ↓ {item?.down}
                     </span>
                   )}
                 </div>
 
                 <div className="flex items-center gap-2 mt-2">
-                  <h2 className="text-2xl font-semibold text-[#101828]">
-                    {item.isCurrency
-                      ? `₹ ${item.value ?? 0}`
-                      : (item.value ?? 0)}
+                  <h2 className="text-xl sm:text-2xl font-semibold text-[#101828]">
+                    {item?.isCurrency
+                      ? `₹ ${item?.value ?? 0}`
+                      : (item?.value ?? 0)}
                   </h2>
                 </div>
-                {item.link && (
-                  <p
+                {item?.link && (
+                  <p data-testid={`invoice-register-click-to-filter-action-${i}`}
                     className="text-xs text-[#155DFC] w-fit cursor-pointer"
                     onClick={handleClickFilter}
                   >
@@ -1118,74 +1348,101 @@ function InvoiceRegister() {
         {isConsolidated && (
           <ConsolidatedInvoiceTable
             viewSwitcher={viewSwitcher}
+            // Shown in the table footer, next to "Grouped by …".
+            pagination={
+              consolidatedTotalRecords > 0 ? (
+                <ApiPagination
+                  currentPage={consolidatedCurrentPage}
+                  totalPages={consolidatedTotalPages}
+                  totalRecords={consolidatedTotalRecords}
+                  onPageChange={handleConsolidatedPageChange}
+                  onSizeChange={handleConsolidatedSizeChange}
+                  size={consolidatedSize}
+                  isTenantPagination={true}
+                />
+              ) : null
+            }
+            beds={consolidatedBeds}
+            tableColumns={consolidatedColumns}
+            onColumnsSaved={handleConsolidatedColumnsSaved}
+            isLoading={consolidatedLoading}
             filters={consolidatedFilters}
             period={selectedRange}
             includeAllTenants={includeAllTenants}
             onIncludeAllTenantsChange={setIncludeAllTenants}
-            visibleColumnKeys={visibleColumnKeys}
-            onVisibleColumnKeysChange={setVisibleColumnKeys}
+            showFilter={showConsolidatedFilter}
+            onCloseFilter={() => setShowConsolidatedFilter(false)}
+            onApplyFilters={handleApplyConsolidatedFilters}
+            floorOptions={consolidatedFloorOptions}
+            statusOptions={consolidatedStatusOptions}
           />
         )}
 
-        {!isConsolidated && <div className="mx-1 mt-3">{viewSwitcher}</div>}
+        {!isConsolidated && (
+          <div className="shrink-0 mx-1 mt-3">{viewSwitcher}</div>
+        )}
 
         {isConsolidated ? null : invoiceRegister?.invoiceList?.length > 0 ? (
-          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+          // UI matches ConsolidatedInvoiceTable (card, 50px header, 58px rows,
+          // dot status badge). Data, handlers and sticky columns are unchanged.
+          <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 mt-[12px] flex flex-col md:flex-1 md:min-h-0">
             <div
               ref={tableRef}
-              className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
+              className="overflow-auto relative max-h-[70vh] md:max-h-none md:flex-1 md:min-h-0 show-scrolls"
             >
-              <table className="w-full  text-[12px] font-gilroy ">
-                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                  <tr className="border-b border-[#E8E8E8]">
-                    <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[30px]  rounded-tl-xl">
+              <table className="w-full min-w-max border-separate border-spacing-0">
+                <thead className="sticky top-0 z-30">
+                  <tr>
+                    <th className={`${LIST_HEADER_CELL} sticky left-0 z-40 w-[48px] min-w-[48px] max-w-[48px] !px-[15px] text-left`}>
                       <Setting3
                         //   onClick={() => setOpen(!open)}
                         className="cursor-pointer"
                         size="18"
-                        color="#4B4B4B"
+                        color="#6B7280"
                       />
                     </th>
 
-                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] whitespace-nowrap ">
-                      INVOICE NO
+                    <th className={`${LIST_HEADER_CELL} sticky left-[48px] z-40 w-[140px] min-w-[140px] max-w-[140px] text-left`}>
+                      Invoice No
                     </th>
 
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px] ">
-                      NAME
+                    {/* Name is pinned only from md up; on phones the three
+                        pinned columns would be wider than the screen. */}
+                    <th className={`${LIST_HEADER_CELL} sticky md:left-[188px] z-30 md:z-40 w-[220px] min-w-[220px] max-w-[220px] text-left`}>
+                      Name
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold ">
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
                       <div className="flex justify-center items-center gap-1">
-                        TYPE
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                        Type
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] whitespace-nowrap">
-                      INVOICE DATE
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
+                      Invoice Date
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold whitespace-nowrap">
-                      DUE DATE
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
+                      Due Date
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold ">
-                      <div className="flex justify-center items-center gap-1">
-                        AMOUNT
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    <th className={`${LIST_HEADER_CELL} text-right`}>
+                      <div className="flex justify-end items-center gap-1">
+                        Amount
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold ">
-                      <div className="flex justify-center items-center gap-1">
-                        DUE
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                    <th className={`${LIST_HEADER_CELL} text-right`}>
+                      <div className="flex justify-end items-center gap-1">
+                        Due
+                        <ArrowSwapVertical size="14" color="#6B7280" />
                       </div>
                     </th>
 
-                    <th className="px-4 py-2.5 text-center font-semibold rounded-tr-xl">
-                      STATUS
+                    <th className={`${LIST_HEADER_CELL} text-center`}>
+                      Status
                     </th>
                   </tr>
                 </thead>
@@ -1193,102 +1450,100 @@ function InvoiceRegister() {
                 <tbody>
                   {invoiceRegister?.invoiceList?.length > 0 ? (
                     invoiceRegister?.invoiceList?.map((row, i) => (
-                      <tr
-                        key={i}
-                        className="border-b last:border-none  transition"
-                      >
-                        <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[30px]"></td>
-                        <td
+                      <tr key={i}>
+                        <td className={`${LIST_BODY_CELL} sticky left-0 z-20 bg-white w-[48px] min-w-[48px] max-w-[48px] !px-[15px]`}></td>
+                        <td data-testid={`invoice-register-navigate-bills-pdf-action-${i}`}
                           onClick={() => handleNavigateBillsPdf(row)}
-                          className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
-                                                     sticky left-[42px] z-20 bg-white w-[140px]"
-                          title={row.invoiceNumber}
+                          className={`${LIST_BODY_CELL} cursor-pointer text-[#1E45E1] font-semibold truncate sticky left-[48px] z-20 bg-white w-[140px] min-w-[140px] max-w-[140px]`}
+                          title={row?.invoiceNumber}
                         >
-                          {row.invoiceNumber}
+                          {row?.invoiceNumber}
                         </td>
 
-                        <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white max-w-[200px]">
-                          <div className="flex items-center gap-2 max-w-[200px] relative">
-                            {row.profilePic ? (
+                        <td className={`${LIST_BODY_CELL} md:sticky md:left-[188px] md:z-20 bg-white w-[220px] min-w-[220px] max-w-[220px]`}>
+                          <div className="flex items-center gap-[13px] max-w-[188px] relative">
+                            {row?.profilePic ? (
                               <img
-                                src={row.profilePic}
-                                alt={row.fullName}
-                                className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                                src={row?.profilePic}
+                                alt={row?.fullName}
+                                className="w-[30px] h-[30px] rounded-full object-cover flex-shrink-0"
                               />
                             ) : (
-                              <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
-                                {row.initials}
+                              <div className="w-[30px] h-[30px] rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                {row?.initials}
                               </div>
                             )}
 
                             <span
                               onMouseEnter={(e) => {
-                                const rect = e.target.getBoundingClientRect();
+                                const rect = e?.target?.getBoundingClientRect();
                                 setPosition({
-                                  top: rect.top + rect.height / 2,
-                                  left: rect.right - 20,
+                                  top: rect?.top + rect?.height / 2,
+                                  left: rect?.right - 20,
                                 });
                                 setHovered(i);
                               }}
                               onMouseLeave={() => setHovered(null)}
                               className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
                             >
-                              {row.fullName}
+                              {row?.fullName}
                             </span>
 
                             {hovered === i && (
                               <div
                                 style={{
-                                  top: position.top,
-                                  left: position.left,
+                                  top: position?.top,
+                                  left: position?.left,
                                 }}
                                 className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
                               >
-                                {row.fullName}
+                                {row?.fullName}
                               </div>
                             )}
                           </div>
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                          title={row.invoiceType}
+                          className={`${LIST_BODY_CELL} text-center font-medium text-[#111928] truncate ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          title={row?.invoiceType}
                         >
-                          {row.invoiceType}
+                          {row?.invoiceType}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center text-[#314158] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          {row.invoiceDate}
+                          {row?.invoiceDate}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center text-[#314158] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          {row.dueDate}
+                          {row?.dueDate}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}
+                          className={`${LIST_BODY_CELL} text-right font-medium text-[#111928] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          ₹ {row.invoiceAmount}
+                          ₹{row?.invoiceAmount}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-right font-bold text-[#111928] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
-                          ₹ {row.dueAmount}
+                          ₹{row?.dueAmount}
                         </td>
 
                         <td
-                          className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          className={`${LIST_BODY_CELL} text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
                         >
                           <span
-                            className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
-      ${statusColor[row.paymentStatus]}`}
+                            className={`inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] ${(statusColor[row?.paymentStatus] || statusColor?.Pending)?.bg}`}
                           >
-                            {row.paymentStatus.replace(/_/g, " ")}
+                            <span
+                              className={`w-[6px] h-[6px] rounded-full ${(statusColor[row?.paymentStatus] || statusColor?.Pending)?.dot}`}
+                            />
+                            {row?.paymentStatus?.replace(/_/g, " ")}
                           </span>
                         </td>
                       </tr>
@@ -1307,9 +1562,26 @@ function InvoiceRegister() {
               </table>
             </div>
 
+            {/* Pagination under the table, like the Consolidated View footer. */}
+            <div className="shrink-0 flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[8px] px-[12px] sm:px-[20px] py-[12px] border-t border-[#E2E8F0] bg-white text-[13px] sm:text-[14px] leading-[20px] text-[#62748E]">
+              <span>
+                Showing {invoiceRegister?.invoiceList?.length} of {totalRecords}{" "}
+                invoices
+              </span>
+              <ApiPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalRecords={totalRecords}
+                onPageChange={handlePageChange}
+                onSizeChange={handleSizeChange}
+                size={size}
+                isTenantPagination={true}
+              />
+            </div>
+
             {open && (
               <>
-                <div
+                <div data-testid="invoice-register-open-action"
                   className="fixed inset-0 bg-black/20 z-40 "
                   onClick={() => setOpen(false)}
                 />
@@ -1327,7 +1599,7 @@ function InvoiceRegister() {
                   <div className="p-3 border-b">
                     <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                       <SearchNormal1 size={16} color="#98A2B3" />
-                      <input
+                      <input data-testid="invoice-register-search-input"
                         placeholder="Search"
                         className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
                       />
@@ -1335,26 +1607,26 @@ function InvoiceRegister() {
                   </div>
 
                   <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                    {options.map((item) => (
+                    {options?.map((item) => (
                       <label
-                        key={item.key}
+                        key={item?.key}
                         className="flex items-center gap-3 text-sm cursor-pointer"
                       >
-                        <input
+                        <input data-testid={`invoice-register-checkbox-${item?.key}`}
                           type="checkbox"
-                          defaultChecked={item.checked}
+                          defaultChecked={item?.checked}
                           className="w-4 h-4 accent-[#1E45E1] rounded"
                         />
-                        <span className="text-[#101828]">{item.label}</span>
+                        <span className="text-[#101828]">{item?.label}</span>
                       </label>
                     ))}
                   </div>
 
                   <div className="p-3 border-t flex gap-2">
-                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                    <button data-testid="invoice-register-reset-btn" className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                       Reset
                     </button>
-                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                    <button data-testid="invoice-register-apply-filters-btn" className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                       Apply Filters
                     </button>
                   </div>
@@ -1363,11 +1635,14 @@ function InvoiceRegister() {
             )}
           </div>
         ) : (
-          <div className="my-2">
+          // Fills the space left on screen (md+) and scrolls if that's shorter
+          // than the message, so the empty state is never cut off.
+          <div className="mt-2 md:flex-1 md:min-h-0 md:overflow-y-auto show-scrolls [&>div]:h-full">
             <NoDataMessage
               label="Invoice"
               isSearching={isSearching}
               isClearSearch={false}
+              isHeightChanged={true}
             />
           </div>
         )}
@@ -1382,42 +1657,15 @@ function InvoiceRegister() {
           />
         )}
         {isConsolidated && (
-          <ConsolidatedFilterDrawer
-            show={showConsolidatedFilter}
-            onClose={() => setShowConsolidatedFilter(false)}
-            filters={consolidatedFilters}
-            period={selectedRange}
-            floorOptions={consolidatedFloorOptions}
-            onApply={handleApplyConsolidatedFilters}
-          />
-        )}
-        {isConsolidated && (
           <ConsolidatedExportSettings
             show={showExportSettings}
             onClose={() => setShowExportSettings(false)}
-            beds={consolidatedMockBeds}
+            // Preview closed -> fetch the table again (isPaginated: true).
+            onPreviewClosed={() => setConsolidatedRefreshKey((key) => key + 1)}
             scope={{
               filters: consolidatedFilters,
               period: selectedRange,
               includeAllTenants,
-            }}
-            visibleTableKeys={visibleColumnKeys}
-            savedPrefs={exportPrefs}
-            onSavePrefs={setExportPrefs}
-            floorOptions={consolidatedFloorOptions}
-            propertyName={selectedHostelName}
-            onPrepared={setExportPreviewData}
-            isBehindPreview={Boolean(exportPreviewData)}
-          />
-        )}
-        {isConsolidated && (
-          <ConsolidatedExportPreview
-            show={Boolean(exportPreviewData)}
-            exportData={exportPreviewData}
-            onBack={() => setExportPreviewData(null)}
-            onClose={() => {
-              setExportPreviewData(null);
-              setShowExportSettings(false);
             }}
           />
         )}

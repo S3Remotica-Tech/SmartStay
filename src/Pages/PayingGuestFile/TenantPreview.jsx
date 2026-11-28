@@ -27,7 +27,7 @@ function Section({ title, onEdit, children, aside }) {
           {aside}
         </h6>
         {onEdit && (
-          <button
+          <button data-testid="tenant-preview-edit-btn"
             type="button"
             onClick={onEdit}
             aria-label={`Edit ${title}`}
@@ -136,7 +136,7 @@ ChargeRow.propTypes = {
 const isImage = (file) =>
   file instanceof File
     ? file.type.startsWith("image/")
-    : typeof file === "string" && /\.(png|jpe?g|webp|gif)(\?|$)/i.test(file);
+    : typeof file === "string" && /\.(jpe?g|jfif|pjpeg|pjp|png|webp|gif|bmp|svg|avif)([?#]|$)/i.test(file);
 
 const fileName = (file, fallback) => {
   if (!file) return "";
@@ -450,7 +450,7 @@ function TenantPreview({
         htmlFor="tenant-confirm"
         className="m-0 flex cursor-pointer items-center gap-[10px] rounded-[10px] bg-[#F9FAFB] px-[14px] py-[12px] font-gilroy text-[14px] font-medium text-[#0A090B]"
       >
-        <input
+        <input data-testid="tenant-preview-tenant-confirm-checkbox"
           id="tenant-confirm"
           type="checkbox"
           checked={confirmed}
@@ -467,7 +467,7 @@ function TenantPreview({
 
       <div className={TENANT_FOOTER_CLASS}>
         <div className="flex items-center gap-[12px]">
-          <button
+          <button data-testid="tenant-preview-back-btn"
             type="button"
             onClick={onBack}
             disabled={submitting}
@@ -475,7 +475,7 @@ function TenantPreview({
           >
             <ArrowLeft size="16" color="#344054" /> Back
           </button>
-          <button
+          <button data-testid="tenant-preview-save-draft-btn"
             type="button"
             onClick={onSaveDraft}
             disabled={submitting || draftSaving}
@@ -491,7 +491,7 @@ function TenantPreview({
             )}
           </button>
         </div>
-        <button
+        <button data-testid="tenant-preview-confirm-btn"
           type="button"
           onClick={onConfirm}
           disabled={!confirmed || submitting || draftSaving || !canSubmit}

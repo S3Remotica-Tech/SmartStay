@@ -50,6 +50,10 @@ import { CustomStyles } from "../../Utils/SelectStyles";
 import ReviewGenerateBillsDrawer from "../Bills/ReviewAndGenerate/ReviewGenerateBillsDrawer";
 import DeleteBill from "./DeleteBill";
 
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -223,7 +227,7 @@ const InvoicePage = () => {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="invoice-customize-items-checkbox"
           type="checkbox"
           defaultChecked={item.checked}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -1295,7 +1299,7 @@ const InvoicePage = () => {
                         : "border-gray-200 opacity-60 cursor-not-allowed"
                       }`}
                   >
-                    <input
+                    <input data-testid="invoice-handlefilter-input"
                       type="text"
                       className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
                       placeholder="Search"
@@ -1320,7 +1324,7 @@ const InvoicePage = () => {
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
                 </button> */}
-                <button
+                <button data-testid="invoice-create-new-invoice-btn"
                   disabled={!canWriteInvoice}
                   onClick={handleCreateNewInvoice}
                   className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
@@ -1329,7 +1333,7 @@ const InvoicePage = () => {
                 </button>
                 {isEnableRecurring && (
                   <>
-                    <button
+                    <button data-testid="invoice-recurring-bills-btn"
                       disabled={!isEnableRecurring}
                       onClick={handleShowReviewGenerateBill}
                       className="flex gap-2 items-center disabled:opacity-70 flex-shrink-0
@@ -1373,7 +1377,7 @@ const InvoicePage = () => {
                         <span>{item.label}</span>
                         <CustomTooltip text="Click to Filter" direction="top-full" usePortal={false}>
                           <div className="relative group w-fit shrink-0">
-                            <Filter
+                            <Filter data-testid={`invoice-status-filter-icon-${index}`}
                               onClick={() => setStatusFilter(item.search)}
                               size="14"
                               color="#9CA3AF"
@@ -1396,7 +1400,7 @@ const InvoicePage = () => {
               <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="border border-gray-300 rounded-lg w-36 z-50">
-                    <Select
+                    <div data-testid="invoice-statusselect-select" className="contents"><Select
                       options={selectOptions}
                       styles={CustomStyles}
                       disabled={!canReadInvoice}
@@ -1409,11 +1413,11 @@ const InvoicePage = () => {
                       id="statusselect"
                       menuPlacement="auto"
                       classNamePrefix="custom"
-                    />
+                    /></div>
                   </div>
 
                   <div className="flex items-center gap-3 z-50">
-                    <Select
+                    <div data-testid="invoice-month-change-select" className="contents"><Select
                       isDisabled
                       options={monthOptions}
                       value={selectedMonth}
@@ -1422,10 +1426,10 @@ const InvoicePage = () => {
                       menuPlacement="auto"
                       noOptionsMessage={() => "No options"}
                       styles={CustomStyles}
-                    />
+                    /></div>
                   </div>
                   <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
-                    <div
+                    <div data-testid="invoice-action"
                       className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                       onClick={() => canReadInvoice && handleShowFilterBills()}
                     >
@@ -1442,11 +1446,11 @@ const InvoicePage = () => {
 
                 <div className={` flex items-center justify-end gap-2 mr-2 `}>
                   <div className="relative">
-                    <button
+                    <button data-testid="invoice-btn"
                       disabled
                       className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
                     >
-                      <div
+                      <div data-testid="invoice-action-2"
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsOpen(!isOpen);
@@ -1481,7 +1485,7 @@ const InvoicePage = () => {
                             const Icon = item.img;
 
                             return (
-                              <div
+                              <div data-testid={`invoice-action-3-${item.key}`}
                                 key={item.key}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1518,7 +1522,7 @@ const InvoicePage = () => {
                           const Icon = item.img;
 
                           return (
-                            <div
+                            <div data-testid={`invoice-action-4-${item.key}`}
                               key={item.key}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -1587,7 +1591,7 @@ const InvoicePage = () => {
                         </span>
                       ))}
                     </div>
-                    <span
+                    <span data-testid="invoice-reset-action"
                       className="text-blue-600 text-sm font-medium cursor-pointer"
                       onClick={handleReset}
                     >
@@ -1598,79 +1602,65 @@ const InvoicePage = () => {
 
                 <div className="relative">
                   {bills && bills.length > 0 ? (
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                       <div
                         id="tableContainer"
                         ref={tableContainerRef}
-                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                        className="overflow-auto relative  h-[calc(100vh-140px)] show-scrolls"
                       >
-                        <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                            <tr className="h-9">
-                              <th className="px-2 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
-                                {/* <div className="flex items-center gap-2">
-                                  <input
-                                    type="checkbox"
-                                    className="rounded cursor-pointer"
-                                    checked={
-                                      selectedRows.length ===
-                                        paginatedData.length &&
-                                      paginatedData.length > 0
-                                    }
-                                    onChange={handleSelectAll}
-                                  />
-                                </div> */}
-                              </th>
-                              <th className="w-[230px] px-2 whitespace-nowrap ">
+                        <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                          <thead className="sticky top-0 z-40">
+                            <tr>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 Invoice No
                               </th>
-                              <th className="w-[250px] px-2">Name</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Name</th>
 
-                              <th className="w-[230px] px-2">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 <div className="flex items-center gap-1">
                                   TYPE
                                   <ArrowSwapVertical
                                     size="14"
-                                    color="#000000"
+                                    color="#6B7280"
                                   />
                                 </div>
                               </th>
 
-                              <th className="w-[230px] px-2 whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 INVOICE DATE
                               </th>
 
-                              <th className="w-[230px] px-2 whitespace-nowrap">
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>
                                 <div className="flex items-center gap-1">
                                   DUE DATE
                                   <ArrowSwapVertical
                                     size="14"
-                                    color="#000000"
+                                    color="#6B7280"
                                   />
                                 </div>
                               </th>
 
-                              <th className="w-[230px] px-2">
-                                <div className="flex items-center gap-1">
+                              <th className={`${TABLE_HEADER_CELL} text-right`}>
+                                <div className="flex items-center justify-end gap-1">
                                   AMOUNT
                                   <ArrowSwapVertical
                                     size="14"
-                                    color="#000000"
+                                    color="#6B7280"
                                   />
                                 </div>
                               </th>
 
-                              <th className="w-[230px] px-2">
-                                <div className="flex items-center gap-1">
+                              <th className={`${TABLE_HEADER_CELL} text-right`}>
+                                <div className="flex items-center justify-end gap-1">
                                   DUE
                                   <ArrowSwapVertical
                                     size="14"
-                                    color="#000000"
+                                    color="#6B7280"
                                   />
                                 </div>
                               </th>
-                              <th className="w-[270px] px-2">Status</th>
-                              <th className="w-[230px] px-2 ">Action</th>
+                              <th className={`${TABLE_HEADER_CELL} text-left`}>Status</th>
+                              <th className={`${TABLE_HEADER_CELL} sticky right-0 z-[2] text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>Action</th>
                             </tr>
                           </thead>
                           <tbody className="relative">
@@ -1694,7 +1684,7 @@ const InvoicePage = () => {
                         </table>
                         {open && (
                           <>
-                            <div
+                            <div data-testid="invoice-open-action"
                               className="fixed inset-0 bg-black/20 z-50 "
                               onClick={() => setOpen(false)}
                             />
@@ -1714,7 +1704,7 @@ const InvoicePage = () => {
                                   <div className="text-[16px] text-[#333333] font-semibold ">
                                     Customize Tabs{" "}
                                   </div>
-                                  <div
+                                  <div data-testid="invoice-customize-items-action"
                                     onClick={() => {
                                       const allSelected = customizeItems.every(
                                         (i) => i.checked,
@@ -1741,7 +1731,7 @@ const InvoicePage = () => {
 
                                 <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                                   <SearchNormal1 size={16} color="#98A2B3" />
-                                  <input
+                                  <input data-testid="invoice-search-input"
                                     placeholder="Search"
                                     className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
                                   />
@@ -1787,10 +1777,10 @@ const InvoicePage = () => {
                               </DndContext>
 
                               <div className="p-3 border-t flex justify-end gap-2">
-                                <button className="px-4 py-2 text-sm border rounded-lg text-[#344054]">
+                                <button data-testid="invoice-cancel-btn" className="px-4 py-2 text-sm border rounded-lg text-[#344054]">
                                   Cancel
                                 </button>
-                                <button className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                                <button data-testid="invoice-save-btn" className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                                   Save
                                 </button>
                               </div>

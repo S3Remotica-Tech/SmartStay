@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from "../../Assets/Images/Delete_red.png";
@@ -7,6 +8,10 @@ import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import { useHasPermission } from "../../Utils/Permission";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 const RecurringBillList = (props) => {
  
@@ -62,24 +67,23 @@ const RecurringBillList = (props) => {
     <>
       <tr
         key={props.item.customerId}
-        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
       >
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           <div className="flex items-center">{props.item?.fullName}</div>
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           {props?.item?.lastInvoiceNumber || "-"}
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           {props.item?.lastInvoiceDate || "-"}
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           {props.item?.nextInvoiceDate || "-"}
         </td>
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px] text-[#111928]`}>
           ₹{(props?.item?.invoiceAmount || 0).toLocaleString("en-IN")}
         </td>
-        {/* <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        {/* <td className={`${TABLE_BODY_CELL} w-[230px]`}>
           <Form.Check
             type="switch"
             id="recurring-switch"
@@ -88,26 +92,27 @@ const RecurringBillList = (props) => {
             onChange={canUpdateRecurring ? props.onToggle : undefined}
           />
         </td> */}
-        <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+        <td className={`${TABLE_BODY_CELL} w-[230px] sticky right-0 z-[1] border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] bg-white text-[#111928]`}>
           <div className="w-full flex justify-start">
-            <div
+            <div data-testid={`recurring-bill-list-show-dots-action-${props.item.customerId}`}
               className="flex items-center relative rounded-full cursor-pointer"
               onClick={(e) => handleShowDots(e)}
             >
               <PiDotsThreeOutlineVerticalFill
-                className={`h-5 w-5 rotate-90 ${showDots ? "text-blue-600" : "text-gray-500"}`}
+                className={`h-5 w-5 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-[#314158]"}`}
               />
               {showDots && (
+                createPortal(
                 <div
                   ref={popupRef}
-                  className="fixed w-32 bg-gray-50 border border-gray-200 rounded-lg flex flex-col z-50"
+                  className="font-gilroy fixed w-32 bg-gray-50 border border-gray-200 rounded-lg flex flex-col z-[1000]"
                   style={{
                     top: popupPosition.top,
                     left: popupPosition.left,
                   }}
                 >
                   <div className="w-full rounded-lg">
-                    <div
+                    <div data-testid={`recurring-bill-list-delete-action-${props.item.customerId}`}
                       className={`flex items-center gap-2 p-2 rounded-lg ${
                         canDeleteRecurring
                           ? "cursor-pointer opacity-100"
@@ -125,14 +130,16 @@ const RecurringBillList = (props) => {
                       </label>
                     </div>
                   </div>
-                </div>
+                </div>,
+                document.body,
+              )
               )}
             </div>
           </div>
         </td>
       </tr>
 
-      <Modal
+      <Modal data-testid="recurring-bill-list-delete-recurring-bill-are-modal"
         show={deleteShow}
         onHide={handleCloseDelete}
         centered
@@ -150,14 +157,14 @@ const RecurringBillList = (props) => {
         </Modal.Body>
 
         <Modal.Footer className="flex justify-center !border-0 -mt-2">
-          <Button
+          <Button data-testid="recurring-bill-list-cancel-btn"
             onClick={handleCloseDelete}
             className="w-full max-w-40 h-13 rounded-lg px-5 py-3 bg-white !text-blue-700 !border !border-blue-700 !font-semibold !text-sm !font-gilroy mr-2"
           >
             Cancel
           </Button>
 
-          <Button
+          <Button data-testid="recurring-bill-list-coming-soon-btn"
             disabled
             onClick={handleDelete}
             className="w-full max-w-40 h-13 rounded-lg px-5 py-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !font-gilroy disabled:opacity-60 disabled:cursor-not-allowed"

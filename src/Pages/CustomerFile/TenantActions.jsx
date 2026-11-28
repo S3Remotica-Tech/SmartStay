@@ -60,10 +60,10 @@ function TenantActions({ show, handleClose }) {
 
   return (
     <>
-      <div className="fixed inset-0  z-50 bg-black/40" onClick={handleClose} />
+      <div data-testid="tenant-actions-close-action" className="fixed inset-0  z-50 bg-black/40" onClick={handleClose} />
 
       <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2">
-        <div
+        <div data-testid="tenant-actions-pending-actions-profile-action"
           className="w-full max-w-[420px] rounded-lg border border-[#E5E7EB] bg-white p-4 shadow-xl font-gilroy"
           onClick={(e) => e.stopPropagation()}
         >
@@ -72,7 +72,7 @@ function TenantActions({ show, handleClose }) {
               Pending Actions
             </h2>
 
-            <button onClick={handleClose}>
+            <button data-testid="tenant-actions-close-btn" onClick={handleClose}>
               <Add size={22} color="#FF0000" className="rotate-45" />
             </button>
           </div>
@@ -108,7 +108,7 @@ function TenantActions({ show, handleClose }) {
 
               <div className="mt-5 flex justify-end">
                 {CustomerOverView?.kycInfo?.status === "PENDING" && (
-                  <button
+                  <button data-testid="tenant-actions-send-reminder-btn"
                     type="button"
                     disabled={formLoading}
                     onClick={handleSendReminder}
@@ -144,7 +144,7 @@ function TenantActions({ show, handleClose }) {
                 )}
 
                 {CustomerOverView?.kycInfo?.status === "EXPIRED" && (
-                  <button
+                  <button data-testid="tenant-actions-send-reminder-btn-2"
                     type="button"
                     disabled={formLoading}
                     onClick={handleSendReminder}

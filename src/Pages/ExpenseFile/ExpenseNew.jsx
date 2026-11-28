@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createPortal } from "react-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -38,9 +39,16 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpenseSettlement from "./ExpenseSettlement";
 import PropTypes from "prop-types";
 import ExpenseFilter from "./ExpenseFilter";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import CustomTooltip from "../../Utils/CustomTooltip";
+
+// Table cells — same look as Reports/InvoiceRegister/ConsolidatedInvoiceTable.
+const TABLE_HEADER_CELL =
+  "h-[50px] px-[16px] bg-[#F8F9FF] border-b border-[#E5E7EB] font-gilroy font-semibold text-[11px] leading-[16.5px] tracking-[0.33px] uppercase text-[#6B7280] whitespace-nowrap";
+
+const TABLE_BODY_CELL =
+  "h-[58px] px-[16px] border-b border-[#E5E7EB] font-gilroy text-[14px] leading-[20px] whitespace-nowrap";
 
 function Expenses() {
   const state = useSelector((state) => state);
@@ -155,7 +163,7 @@ function Expenses() {
       setLoading(false);
     }
   }, [canReadExpense]);
-
+  console.log("chips", chips)
   // const isExpenseForm = location.state?.isExpenseForm || false;
 
   useEffect(() => {
@@ -586,7 +594,7 @@ function Expenses() {
 
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
-
+    console.log("expenseFilters", expenseFilters)
     const filterData = [];
 
     const hasValue = (value) => {
@@ -677,13 +685,11 @@ function Expenses() {
       hasValue(expenseFilters?.startDate) &&
       hasValue(expenseFilters?.endDate)
     ) {
-      filterData.push({
+      filterData?.push({
         key: "customDate",
         label: "Date",
         type: "date",
-        value: `${dayjs(expenseFilters.startDate).format(
-          "DD/MM/YYYY",
-        )} - ${dayjs(expenseFilters.endDate).format("DD/MM/YYYY")}`,
+        value: `${expenseFilters.startDate} - ${expenseFilters.endDate}`,
       });
     }
 
@@ -895,17 +901,6 @@ function Expenses() {
     setInitialCustomizeItems(formatted);
   }, [getData?.columnList]);
 
-  const columnStyles = {
-    "Vendor ID": "px-4 whitespace-nowrap",
-    "Vendor Name": "px-4 whitespace-nowrap",
-    Category: "px-4 whitespace-nowrap",
-    "Mobile No": "px-4 whitespace-nowrap",
-    Address: "px-4 whitespace-nowrap",
-    Status: "px-4 whitespace-nowrap",
-    Outstanding: "px-4 whitespace-nowrap",
-    "Last Transaction": "px-4 whitespace-nowrap",
-    "Payment Mode": "px-4 whitespace-nowrap",
-  };
 
 
 
@@ -926,7 +921,7 @@ function Expenses() {
         style={style}
         className="flex items-center gap-3 text-sm cursor-pointer bg-white"
       >
-        <span
+        <span data-testid="expense-new-action"
           {...attributes}
           {...listeners}
           onClick={(e) => e.stopPropagation()}
@@ -934,7 +929,7 @@ function Expenses() {
           <IoMdMenu className="text-[#28303F] text-xl cursor-grab" />
         </span>
 
-        <input
+        <input data-testid="expense-new-customize-items-checkbox"
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
@@ -1005,7 +1000,7 @@ function Expenses() {
                   : "border-gray-200 opacity-60 cursor-not-allowed"
                 }`}
             >
-              <input
+              <input data-testid="expense-new-search-by-title-input"
                 type="text"
                 className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
                 placeholder="Search by Title"
@@ -1022,7 +1017,7 @@ function Expenses() {
             </div>
 
             <div className="mr-1">
-              <button
+              <button data-testid="expense-new-add-expense-btn"
                 disabled={!canWriteExpense}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
@@ -1044,7 +1039,7 @@ function Expenses() {
             <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
               <div className="flex flex-wrap items-center gap-3">
                 <div className={`border border-gray-300 rounded-lg w-36 `}>
-                  <Select
+                  <div data-testid="expense-new-statusselect-select" className="contents"><Select
                     options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadExpense}
@@ -1057,11 +1052,11 @@ function Expenses() {
                       ) || null
                     }
                     id="statusselect"
-                  />
+                  /></div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Select
+                  <div data-testid="expense-new-payment-status-filter-select" className="contents"><Select
                     // isDisabled
                     closeMenuOnSelect={true}
                     hideSelectedOptions={false}
@@ -1076,14 +1071,14 @@ function Expenses() {
                       ) || null
                     }
                     onChange={handlePaymentStatusFilter}
-                  />
+                  /></div>
                 </div>
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                 >
                   <CustomTooltip text="Filter" direction="top-full" usePortal={true}>
-                    <Filter
+                    <Filter data-testid="expense-new-icon"
                       size={16}
                       onClick={() => {
                         if (canReadExpense) {
@@ -1101,7 +1096,7 @@ function Expenses() {
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
                 <CustomTooltip text="Customize" direction="top-full" usePortal={true}>
-                  <Setting3
+                  <Setting3 data-testid="expense-new-open-icon"
                     onClick={() => setOpen(!open)}
                     className="cursor-pointer"
                     size="22"
@@ -1147,7 +1142,7 @@ function Expenses() {
 
                       <div className="relative group w-fit">
                         <CustomTooltip text="Click to Filter" direction="top-full" usePortal={true}>
-                          <Filter
+                          <Filter data-testid={`expense-new-selected-bill-status-icon-${index}`}
                             onClick={() => setSelectedBillStatus(item.search)}
                             size="14"
                             color="#9CA3AF"
@@ -1180,7 +1175,7 @@ function Expenses() {
                     </span>
                   ))}
                 </div>
-                <span
+                <span data-testid="expense-new-reset-action"
                   className="text-blue-600 text-sm font-medium cursor-pointer"
                   onClick={handleReset}
                 >
@@ -1190,34 +1185,34 @@ function Expenses() {
             )}
 
             {formattedData?.length > 0 ? (
-              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div className="font-gilroy bg-white border-[1px] border-[#E2E8F0] rounded-[12px] shadow-[0px_0px_3px_0px_rgba(0,0,0,0.06)] overflow-hidden mx-1 my-[12px]">
                 <div
                   id="tableContainer"
                   ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                  className="overflow-auto relative h-[calc(100vh-140px)] show-scrolls"
                 >
-                  <table className=" w-full font-gilroy ">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                      <tr className="h-9">
+                  <table className="w-full min-w-max border-separate border-spacing-0 font-gilroy">
+                    <thead className="sticky top-0 z-30">
+                      <tr>
                         {selectedColumns?.map((col, index) => {
                           let stickyClass = "";
 
                           if (index === 0) {
                             stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                              "sticky left-[0px] z-40 w-[80px]";
                           }
 
                           return (
                             <th
                               key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                              className={`${TABLE_HEADER_CELL} text-start ${stickyClass}`}
                             >
                               {col.fieldName}
                             </th>
                           );
                         })}
 
-                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                        <th className={`${TABLE_HEADER_CELL} sticky right-0 z-20 text-center border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)]`}>
                           Action
                         </th>
                       </tr>
@@ -1227,21 +1222,17 @@ function Expenses() {
                         formattedData?.length > 0 &&
                         formattedData?.map((user, index) => {
                           return (
-                            <tr
+                            <tr data-testid={`expense-new-action-2-${index}`}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowOverview(true);
                                 setSelectedExpenseId(user.apiCall.expenseId);
                               }}
                               key={index}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
-                                    cursor-pointer group  hover:!bg-gray-50"
+                              className="cursor-pointer group hover:!bg-gray-50"
                             >
                               {selectedColumns?.map((col, index) => {
-                                const baseClass = `
-  ${columnStyles[col.fieldName] || "px-4"}
-  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
-`;
+                                const baseClass = `${TABLE_BODY_CELL} hover:!bg-gray-50 group-hover:!bg-gray-50`;
 
                                 let stickyClass = "";
 
@@ -1255,7 +1246,7 @@ function Expenses() {
                                 switch (col.fieldName) {
                                   case "Expense No":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <div className="relative group w-[100px] ">
                                           <span className="block w-full truncate text-sm text-[#111928] ">
                                             {user.referenceNumber}
@@ -1275,9 +1266,9 @@ function Expenses() {
 
                                   case "Status":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         <span
-                                          className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs"
+                                          className="inline-flex items-center gap-[6px] h-[22px] px-[9px] rounded-[20px] text-[12px] leading-[16px] font-medium text-[#222] whitespace-nowrap"
                                           style={{
                                             backgroundColor:
                                               statusStyles[user.paymentStatus]
@@ -1285,7 +1276,7 @@ function Expenses() {
                                           }}
                                         >
                                           <span
-                                            className="h-2 w-2 rounded-full"
+                                            className="w-[6px] h-[6px] rounded-full"
                                             style={{
                                               backgroundColor:
                                                 statusStyles[user.paymentStatus]
@@ -1301,7 +1292,7 @@ function Expenses() {
                                     return (
                                       <td
                                         key={col.key}
-                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                        className={`${finalClass} truncate text-[#314158] font-medium`}
                                       >
                                         {user.transactionDate}
                                       </td>
@@ -1309,20 +1300,20 @@ function Expenses() {
 
                                   case "Title":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.title}
                                       </td>
                                     );
 
                                   case "Category":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.categoryName}
                                       </td>
                                     );
                                   case "Sub Category":
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {user.subCategoryName}
                                       </td>
                                     );
@@ -1386,7 +1377,7 @@ function Expenses() {
 
                                   default:
                                     return (
-                                      <td key={col.key} className={finalClass}>
+                                      <td key={col.key} className={`${finalClass} text-[#111928]`}>
                                         {typeof user[
                                           headerKeyMap[col.fieldName]
                                         ] === "object"
@@ -1401,10 +1392,10 @@ function Expenses() {
 
                               <td
                                 className={`${isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  } ${TABLE_BODY_CELL} border-l border-l-[#E2E8F0] shadow-[-4px_0px_6px_-4px_rgba(0,0,0,0.08)] sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
-                                <div
+                                <div data-testid={`expense-new-action-3-${index}`}
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     handleShowDots(e, user.apiCall?.expenseId);
@@ -1412,101 +1403,104 @@ function Expenses() {
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90
-                                         ${String(showDots) === String(user.apiCall?.expenseId) ? "text-blue-600" : "text-gray-500"}`}
+                                         ${String(showDots) === String(user.apiCall?.expenseId) ? "text-[#1E45E1]" : "text-[#314158]"}`}
                                   />
 
                                   {String(showDots) ===
                                     String(user.apiCall?.expenseId) && (
                                       <>
-                                        <div
-                                          ref={popupRef}
-                                          className={`fixed flex flex-col items-start cursor-pointer
+                                        {createPortal(
+                                          <div
+                                            ref={popupRef}
+                                            className={`font-gilroy fixed flex flex-col items-start cursor-pointer
                                    bg-gray-50 w-40 border border-gray-200 rounded-lg translate-x-10
                                    
                                  `}
-                                          style={{
-                                            top: showAbove
-                                              ? popupPosition.top -
-                                              (popupRef.current?.offsetHeight ||
-                                                100) -
-                                              5
-                                              : popupPosition.top - 9,
-                                            left: popupPosition.left - 250,
-                                          }}
-                                        >
-                                          <button
-                                            type="button"
-                                            disabled
-                                            // disabled={!canWriteExpense}
-                                            onClick={() => {
-                                              if (canWriteExpense) {
-                                                // handleShowTagAsset();
-                                              }
+                                            style={{
+                                              top: showAbove
+                                                ? popupPosition.top -
+                                                (popupRef.current?.offsetHeight ||
+                                                  100) -
+                                                5
+                                                : popupPosition.top - 9,
+                                              left: popupPosition.left - 250,
                                             }}
-                                            className={`flex justify-start items-center disabled:text-gray-400 disabled:opacity-50 gap-2 w-full py-2 px-2 rounded-t-lg bg-[#F9F9F9] hover:bg-[#EDF2FF] transition-colors
+                                          >
+                                            <button data-testid={`expense-new-tag-asset-btn-${index}`}
+                                              type="button"
+                                              disabled
+                                              // disabled={!canWriteExpense}
+                                              onClick={() => {
+                                                if (canWriteExpense) {
+                                                  // handleShowTagAsset();
+                                                }
+                                              }}
+                                              className={`flex justify-start items-center disabled:text-gray-400 disabled:opacity-50 gap-2 w-full py-2 px-2 rounded-t-lg bg-[#F9F9F9] hover:bg-[#EDF2FF] transition-colors
     ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
   `}
-                                          >
-                                            <Document size="16" color={!canWriteExpense ? "#9CA3AF" : "#9CA3AF"} />
-                                            Tag Asset
-                                          </button>
+                                            >
+                                              <Document size="16" color={!canWriteExpense ? "#9CA3AF" : "#9CA3AF"} />
+                                              Tag Asset
+                                            </button>
 
-                                          <div className="h-px bg-gray-100 m-0" />
+                                            <div className="h-px bg-gray-100 m-0" />
 
-                                          <button
-                                            type="button"
-                                            disabled
-                                            // disabled={!canUpdateExpense}
-                                            onClick={() => {
-                                              if (canUpdateExpense) {
-                                                // handleEditExpense(user);
-                                              }
-                                            }}
-                                            className={`flex justify-start  items-center disabled:opacity-50 gap-2 w-full 
+                                            <button data-testid={`expense-new-edit-btn-${index}`}
+                                              type="button"
+                                              disabled
+                                              // disabled={!canUpdateExpense}
+                                              onClick={() => {
+                                                if (canUpdateExpense) {
+                                                  // handleEditExpense(user);
+                                                }
+                                              }}
+                                              className={`flex justify-start  items-center disabled:opacity-50 gap-2 w-full 
                                               py-2 px-2 bg-[#F9F9F9] hover:bg-[#EDF2FF]  disabled:text-gray-400
     ${!canUpdateExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
   `}
-                                          >
-                                            <Edit
-                                              size="16"
-                                              color={!canUpdateExpense ? "#9CA3AF" : "#9CA3AF"}
-                                            /> Edit
+                                            >
+                                              <Edit
+                                                size="16"
+                                                color={!canUpdateExpense ? "#9CA3AF" : "#9CA3AF"}
+                                              /> Edit
 
-                                          </button>
+                                            </button>
 
-                                          <div className="h-px bg-gray-100 m-0" />
+                                            <div className="h-px bg-gray-100 m-0" />
 
-                                          <div
-                                            className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
+                                            <div data-testid={`expense-new-delete-action-${index}`}
+                                              className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
                                  ${!canDeleteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
                                `}
-                                            onClick={() => {
-                                              if (canDeleteExpense) {
-                                                handleDeleteExpense(
-                                                  user.apiCall.expenseId,
-                                                );
-                                              }
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor =
-                                                "#FFF0F0";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor =
-                                                "#F9F9F9";
-                                            }}
-                                          >
-                                            <Trash size="16" color={"red"} />
-                                            <label
-                                              className={`text-sm font-semibold font-gilroy  ${!canUpdateExpense
-                                                ? "cursor-not-allowed text-gray-800"
-                                                : "cursor-pointer text-red-600"
-                                                }`}
+                                              onClick={() => {
+                                                if (canDeleteExpense) {
+                                                  handleDeleteExpense(
+                                                    user.apiCall.expenseId,
+                                                  );
+                                                }
+                                              }}
+                                              onMouseEnter={(e) => {
+                                                e.currentTarget.style.backgroundColor =
+                                                  "#FFF0F0";
+                                              }}
+                                              onMouseLeave={(e) => {
+                                                e.currentTarget.style.backgroundColor =
+                                                  "#F9F9F9";
+                                              }}
                                             >
-                                              Delete
-                                            </label>
-                                          </div>
-                                        </div>
+                                              <Trash size="16" color={"red"} />
+                                              <label
+                                                className={`text-sm font-semibold font-gilroy  ${!canUpdateExpense
+                                                  ? "cursor-not-allowed text-gray-800"
+                                                  : "cursor-pointer text-red-600"
+                                                  }`}
+                                              >
+                                                Delete
+                                              </label>
+                                            </div>
+                                          </div>,
+                                          document.body,
+                                        )}
                                       </>
                                     )}
                                 </div>
@@ -1519,7 +1513,7 @@ function Expenses() {
 
                   {open && (
                     <>
-                      <div
+                      <div data-testid="expense-new-open-action"
                         className="fixed inset-0 bg-black/20 z-50 "
                         onClick={() => setOpen(false)}
                       />
@@ -1540,7 +1534,7 @@ function Expenses() {
                               <div className="text-[16px] text-[#333333] font-semibold ">
                                 Customize Tabs{" "}
                               </div>
-                              <div
+                              <div data-testid="expense-new-customize-items-action"
                                 onClick={() => {
                                   setCustomizeItems((prev) =>
                                     prev.map((i) => ({
@@ -1563,7 +1557,7 @@ function Expenses() {
 
                             <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                               <SearchNormal1 size={16} color="#98A2B3" />
-                              <input
+                              <input data-testid="expense-new-search-text-input"
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                                 placeholder="Search"
@@ -1616,13 +1610,13 @@ function Expenses() {
                         )}
 
                         <div className="p-3 border-t flex gap-2">
-                          <button
+                          <button data-testid="expense-new-reset-btn"
                             onClick={handleResetCustomize}
                             className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
                           >
                             Reset
                           </button>
-                          <button
+                          <button data-testid="expense-new-save-btn"
                             onClick={handleSave}
                             disabled={customizeLoading}
                             className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"

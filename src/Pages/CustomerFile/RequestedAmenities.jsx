@@ -60,7 +60,7 @@ function RequestedAmenities() {
                     </div>
 
                     <div className="flex gap-2">
-                      <button
+                      <button data-testid={`requested-amenities-approve-btn-${item.amenityId || index}`}
                         disabled
                         // disabled={isAssigned}
                         onClick={() => handleShowAssignAmenities(item)}
@@ -75,7 +75,7 @@ function RequestedAmenities() {
                         Approve
                       </button>
 
-                      <button
+                      <button data-testid={`requested-amenities-deny-btn-${item.amenityId || index}`}
                         disabled
                         className="flex items-center disabled:bg-gray-400 gap-2 px-5 py-[6px] text-[15px] rounded-[10px] bg-[#D93025] border-[#D93025] text-white cursor-not-allowed"
                       >

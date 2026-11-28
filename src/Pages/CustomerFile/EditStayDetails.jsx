@@ -106,7 +106,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                 
             }}
         >
-            <Modal show={show}
+            <Modal data-testid="edit-stay-details-edit-stay-details-cancel-modal" show={show}
                 onHide={handleClose}
                 centered backdrop="static">
                 <Modal.Dialog
@@ -131,7 +131,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                             Edit Stay Details
                         </Modal.Title>
 
-                        <CloseCircle size="24" color="#000"
+                        <CloseCircle data-testid="edit-stay-details-close-icon" size="24" color="#000"
                             onClick={handleClose}
                             style={{ cursor: "pointer" }} />
                     </Modal.Header>
@@ -151,7 +151,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
                             
 
-  <FormControl className={fieldClass()}
+  <FormControl data-testid="edit-stay-details-floor-input" className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={Floor}
@@ -173,7 +173,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                 </Form.Label>
 
                                
-                                 <FormControl className={fieldClass()}
+                                 <FormControl data-testid="edit-stay-details-room-input" className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={Rooms}
@@ -197,7 +197,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                 </Form.Label>
 
                               
-                                 <FormControl className={fieldClass()}
+                                 <FormControl data-testid="edit-stay-details-bed-input" className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={Bed}
@@ -225,7 +225,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                         className="datepicker-wrapper"
                                         style={{ position: "relative", width: "100%" }}
                                     >
-                                        <DatePicker className={datePickerClass()}
+                                        <DatePicker data-testid="edit-stay-details-joining-date" className={datePickerClass()}
                                            
                                             format="DD/MM/YYYY"
                                             disabled
@@ -255,7 +255,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                         Advance Amount
                                         <span className={fieldRequiredClass}> *</span>
                                     </Form.Label>
-                                    <FormControl className={fieldClass()}
+                                    <FormControl data-testid="edit-stay-details-advance-amount-input" className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={AdvanceAmount}
@@ -273,7 +273,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                         Rental Amount
                                         <span className={fieldRequiredClass}> *</span>
                                     </Form.Label>
-                                    <FormControl className={fieldClass()}
+                                    <FormControl data-testid="edit-stay-details-rental-amount-input" className={fieldClass()}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={RoomRent}
@@ -352,7 +352,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                         <div className="d-flex justify-content-end gap-3">
 
 
-                            <Button
+                            <Button data-testid="edit-stay-details-cancel-btn"
                                 onClick={handleClose}
                                 className="w-100 mt-1"
                                 style={{
@@ -369,7 +369,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                 Cancel
                             </Button>
 
-                            <Button
+                            <Button data-testid="edit-stay-details-update-btn"
                                
                                 className="w-100 mt-1"
                                 style={{

@@ -737,6 +737,8 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   // Restore a saved draft into the form once, when the wizard was opened on an
   // existing draft. Later draft refreshes never overwrite what the user typed.
 
+  // console.log("DraftTenantDetails", DraftTenantDetails)
+
   useEffect(() => {
 
     if (DraftTenantDetails && !newTenant) {
@@ -760,6 +762,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
 
       // setTotalRent(DraftTenantDetails?.hostelInfo?.monthlyRent || "");
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount || "");
+      setIsAdvanceRefused(DraftTenantDetails?.refuseAdvanceAmount)
 
       setModeOfPayment(DraftTenantDetails?.bankId || "");
       setTransactionId(DraftTenantDetails?.referenceNumber || "");
@@ -834,6 +837,12 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   }, [DraftTenantDetails, newTenant]);
 
 
+  useEffect(() => {
+    if (isAdvanceRefused) {
+      setAdvanceAmount("");
+    }
+  }, [isAdvanceRefused]);
+
 
 
 
@@ -876,6 +885,8 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
   const submitCheckin = (customerId) => {
     const payload = prepareCheckin();
     if (!payload) return false;
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     dispatch({
       type: "DIRECT_CHECK_IN_SAGA",
       payload: { ...payload, customerId, ...amenityApiFields() },
@@ -907,11 +918,17 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
     }
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
 
+  // Check-in failures land in `bedAvailableError` (BED_AVAILABLE_ERROR), the
+  // booked-bed check in `bedError`. Either one stops the loading; then clear it
+  // so the same error can fire again on the next attempt.
   useEffect(() => {
-    if (state.UsersList?.bedError) {
+    if (state.UsersList?.bedError || state.UsersList?.bedAvailableError) {
+      // Parent's failSubmit stops the loading (setSubmitting(false) etc.).
       onSubmitError?.();
+      dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
+      dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     }
-  }, [state.UsersList?.bedError]);
+  }, [state.UsersList?.bedError, state.UsersList?.bedAvailableError]);
 
   // const resetBookingForm = () => {
   //   setBookingDate(null);
@@ -1606,7 +1623,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
 
   const footer = (
     <div className={TENANT_FOOTER_CLASS}>
-      <button
+      <button data-testid="add-tenant-booking-checkin-save-draft-btn"
         type="button"
         disabled={draftSaving}
         onClick={onSaveDraft}
@@ -1621,7 +1638,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
           "Save Draft"
         )}
       </button>
-      <button type="button" onClick={handleNext} className={TENANT_BTN_PRIMARY}>
+      <button data-testid="add-tenant-booking-checkin-next-btn" type="button" onClick={handleNext} className={TENANT_BTN_PRIMARY}>
         Next <ArrowRight color="#FFFFFF" size="16" />
       </button>
     </div>
@@ -1632,7 +1649,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
       <div className="flex justify-between">
         <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
           {!bookingOnly && (
-            <button
+            <button data-testid="add-tenant-booking-checkin-check-in-btn"
               onClick={() => {
                 setActiveTab("checkin");
                 dispatch({ type: "ERROR_BOOKING_REMOVE" });
@@ -1645,7 +1662,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
               Check-In
             </button>
           )}
-          <button
+          <button data-testid="add-tenant-booking-checkin-booking-btn"
             onClick={() => setActiveTab("booking")}
             className={`px-4 py-1.5 text-sm rounded-md ${activeTab === "booking"
               ? "bg-white shadow text-[#1E45E1]"
@@ -1656,7 +1673,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
           </button>
         </div>
 
-        <Add
+        <Add data-testid="add-tenant-booking-checkin-close-icon"
           size="24"
           color="#FF0000"
           onClick={handleClose}
@@ -1675,7 +1692,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 className="datepicker-wrapper relative w-full"
                 ref={bookingDateRef}
               >
-                <DatePicker
+                <DatePicker data-testid="add-tenant-booking-checkin-booking-date"
                   className={datePickerClass(!!bookingDateError)}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
@@ -1696,7 +1713,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
               <label className="text-sm font-medium text-[#222222] mb-2 block">
                 Booking Amount <span className="text-red-500 text-xl">*</span>
               </label>
-              <AmountInput
+              <AmountInput data-testid="add-tenant-booking-checkin-booking-amount-input"
                 inputRef={bookingAmountRef}
                 value={bookingAmount}
                 onChange={handleBookingAmountChange}
@@ -1716,7 +1733,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
 
             <div className="datepicker-wrapper relative w-full mt-1 ">
               <div className="datepicker-wrapper relative w-full">
-                <DatePicker
+                <DatePicker data-testid="add-tenant-booking-checkin-joining-date-tentative-date"
                   // ref={joiningDateRef}
                   className={datePickerClass(!!joiningDateError)}
                   format="DD/MM/YYYY"
@@ -1748,7 +1765,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 </label>
               </div>
               <div className="relative inline-block group">
-                <button
+                <button data-testid="add-tenant-booking-checkin-bed-layout-view-btn"
                   onClick={() => {
                     if (bookingJoiningDate) {
                       handleBedLayoutPreview("booking-way");
@@ -1777,7 +1794,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 <label className="text-sm font-medium text-[#222222] mb-2 block">
                   Floor <span className="text-red-500 text-xl">*</span>
                 </label>
-                <Select
+                <div data-testid="add-tenant-booking-checkin-floor-select" className="contents"><Select
                   options={floorOptions}
                   value={
                     floorOptions.find(
@@ -1786,7 +1803,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                   }
                   onChange={handleBookingFloorChange}
                   styles={fieldSelectStyles(!!floorError)}
-                />
+                /></div>
                 {floorError && (
                   <ErrorMessage message={floorError} type="error" />
                 )}
@@ -1795,7 +1812,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 <label className="text-sm font-medium text-[#222222] mb-2 block">
                   Room <span className="text-red-500 text-xl">*</span>
                 </label>
-                <Select
+                <div data-testid="add-tenant-booking-checkin-room-select" className="contents"><Select
                   isDisabled={!bookingJoiningDate || !bookingFloor}
                   options={bookingRoomOptions}
                   value={
@@ -1805,14 +1822,14 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                   }
                   onChange={handleBookingRoomChange}
                   styles={fieldSelectStyles(!!roomError)}
-                />
+                /></div>
                 {roomError && <ErrorMessage message={roomError} type="error" />}
               </div>
               <div ref={bedRef}>
                 <label className="text-sm font-medium text-[#222222] mb-2 block">
                   Bed <span className="text-red-500 text-xl">*</span>
                 </label>
-                <Select
+                <div data-testid="add-tenant-booking-checkin-bed-select" className="contents"><Select
                   isDisabled={!bookingRoom}
                   options={
                     availableBed
@@ -1848,7 +1865,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                   }
                   onChange={handleBookingBedChange}
                   styles={fieldSelectStyles(!!state.Booking?.bookingBedError)}
-                />
+                /></div>
 
                 <div className="">
                   {state.Booking?.bookingBedError ? (
@@ -1896,7 +1913,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 <span className="text-red-500 text-xl">*</span>
               </label>
 
-              <Select
+              <div data-testid="add-tenant-booking-checkin-mode-of-transaction-select" className="contents"><Select
                 options={paymentOptionsV1}
                 onChange={(selectedOption) =>
                   handleModeOfPaymentChange(selectedOption?.value)
@@ -1921,7 +1938,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                   GroupHeading,
                   IndicatorSeparator: () => null,
                 }}
-              />
+              /></div>
               {paymentError && (
                 <ErrorMessage message={paymentError} type="error" />
               )}
@@ -1934,7 +1951,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                 </span>
               </label>
 
-              <input
+              <input data-testid="add-tenant-booking-checkin-transaction-id-input"
                 value={transactionId}
                 onChange={(e) => handleTransactionId(e)}
                 placeholder="Enter Transaction ID"
@@ -1978,7 +1995,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
               { value: "LONG", label: "Long stay" },
               { value: "SHORT", label: "Short stay" },
             ].map((option) => (
-              <button
+              <button data-testid={`add-tenant-booking-checkin-stay-type-btn-${option.value}`}
                 key={option.value}
                 type="button"
                 onClick={() => setStayType(option.value)}
@@ -2000,7 +2017,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                     Joining Date <span className="text-red-500 text-xl">*</span>
                   </label>
                   <div className="datepicker-wrapper relative w-full">
-                    <DatePicker
+                    <DatePicker data-testid="add-tenant-booking-checkin-joining-date"
                       className={datePickerClass(!!checkInJoiningDateError)}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
@@ -2032,7 +2049,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                     </div>
 
                     <div className="relative inline-block group">
-                      <button
+                      <button data-testid="add-tenant-booking-checkin-bed-layout-view-btn-2"
                         onClick={() => {
                           if (joiningDate) {
                             handleBedLayoutPreview("checkin-way");
@@ -2061,7 +2078,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       <label className="text-sm font-medium text-[#222222] mb-2 block">
                         Floor <span className="text-red-500 text-xl">*</span>
                       </label>
-                      <Select
+                      <div data-testid="add-tenant-booking-checkin-floor-select-2" className="contents"><Select
                         disabled={!joiningDate}
                         options={floorOptions}
                         value={
@@ -2071,7 +2088,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                         }
                         onChange={handleCheckinFloorChange}
                         styles={fieldSelectStyles(!!checkInFloorError)}
-                      />
+                      /></div>
                       {checkInFloorError && (
                         <ErrorMessage message={checkInFloorError} type="error" />
                       )}
@@ -2080,7 +2097,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       <label className="text-sm font-medium text-[#222222] mb-2 block">
                         Room <span className="text-red-500 text-xl">*</span>
                       </label>
-                      <Select
+                      <div data-testid="add-tenant-booking-checkin-room-select-2" className="contents"><Select
                         isDisabled={!joiningDate || !checkinFloor}
                         options={checkinRoomOptions}
                         value={
@@ -2091,7 +2108,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                         }
                         onChange={handleCheckinRoomChange}
                         styles={fieldSelectStyles(!!checkInRoomError)}
-                      />
+                      /></div>
                       {checkInRoomError && (
                         <ErrorMessage message={checkInRoomError} type="error" />
                       )}
@@ -2100,7 +2117,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       <label className="text-sm font-medium text-[#222222] mb-2 block">
                         Bed <span className="text-red-500 text-xl">*</span>
                       </label>
-                      <Select
+                      <div data-testid="add-tenant-booking-checkin-bed-select-2" className="contents"><Select
                         disabled={!joiningDate}
                         options={
                           availableCheckinBed
@@ -2136,7 +2153,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                         }
                         onChange={handleCheckinBedChange}
                         styles={fieldSelectStyles(!!checkInBedError)}
-                      />
+                      /></div>
                       {checkInBedError && (
                         <ErrorMessage message={checkInBedError} type="error" />
                       )}
@@ -2165,7 +2182,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       Refuse this amount
                     </span>
 
-                    <button
+                    <button data-testid="add-tenant-booking-checkin-refuse-this-amount-btn"
                       type="button"
                       onClick={() => {
                         setIsAdvanceRefused(!isAdvanceRefused);
@@ -2199,7 +2216,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                             Refundable Amount
                           </label>
                         </div>
-                        <AmountInput
+                        <AmountInput data-testid="add-tenant-booking-checkin-advance-amount-input"
                           inputRef={advanceAmountRef}
                           value={advanceAmount}
                           onChange={handleAdvanceAmount}
@@ -2246,7 +2263,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                                     <div className="flex items-start gap-[14px]">
                                       <div className="min-w-0 flex-1">
                                         {!item.showInput ? (
-                                          <Select
+                                          <div data-testid={`add-tenant-booking-checkin-select-${index}`} className="contents"><Select
                                             menuPlacement="top"
                                             // menuPosition="fixed"
                                             options={filteredOptions}
@@ -2276,10 +2293,10 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                                             }}
                                             isDisabled={item.reason === "maintenance"}
                                             styles={fieldSelectStyles()}
-                                          />
+                                          /></div>
                                         ) : (
                                           <>
-                                            <input
+                                            <input data-testid={`add-tenant-booking-checkin-custom-reason-input-${index}`}
                                               type="text"
                                               className={fieldClass(!!errors[index]?.reason)}
                                               placeholder="Enter custom reason"
@@ -2304,7 +2321,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                                       </div>
 
                                       <div className="min-w-0 flex-1">
-                                        <AmountInput
+                                        <AmountInput data-testid={`add-tenant-booking-checkin-input-change-amount-input-${index}`}
                                           value={item.amount}
                                           placeholder="Enter amount"
                                           ariaLabel={`Non refundable amount ${index + 1}`}
@@ -2325,7 +2342,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                                         )}
                                       </div>
                                     </div>
-                                    <button
+                                    <button data-testid={`add-tenant-booking-checkin-remove-field-btn-${index}`}
                                       type="button"
                                       aria-label={`Remove charge ${index + 1}`}
                                       onClick={() => handleRemoveField(index)}
@@ -2338,7 +2355,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                               })}
                             </div>
                           )}
-                          <button
+                          <button data-testid="add-tenant-booking-checkin-add-btn"
                             type="button"
                             disabled={isAdvanceRefused}
                             onClick={handleAddField}
@@ -2376,7 +2393,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       Rental amount-Base ₹(INR){" "}
                       <span className="text-red-500 text-xl">*</span>
                     </label>
-                    <AmountInput
+                    <AmountInput data-testid="add-tenant-booking-checkin-rental-amount-base-inr-input"
                       inputRef={rentAmountRef}
                       value={rentAmount}
                       onChange={handleRentAmountChange}
@@ -2401,7 +2418,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                       <div>
                         <div className="flex items-center  justify-between px-1 py-3">
                           <div className="flex items-center gap-2 ">
-                            <input
+                            <input data-testid="add-tenant-booking-checkin-checkbox-change-checkbox"
                               type="checkbox"
                               checked={collectFullRent}
                               onChange={handleCheckboxChange}
@@ -2420,7 +2437,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                           </div>
                           {collectFullRent && (
                             <div>
-                              <button
+                              <button data-testid="add-tenant-booking-checkin-add-custom-rent-btn"
                                 onClick={() => {
                                   handleAddCustomRent();
                                 }}
@@ -2458,13 +2475,13 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                             <div className="relative min-w-[220px]">
                               {customRentEditMode ? (
                                 <>
-                                  <AmountInput
+                                  <AmountInput data-testid="add-tenant-booking-checkin-custom-rent-change-input"
                                     value={customRent}
                                     onChange={handleCustomRentChange}
                                     className="!pr-[64px]"
                                   />
 
-                                  <button
+                                  <button data-testid="add-tenant-booking-checkin-set-btn"
                                     onClick={() => setCustomRentEditMode(false)}
                                     className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                                   >
@@ -2477,7 +2494,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
                                     ₹ {customRent || 0}
                                   </span>
 
-                                  <button
+                                  <button data-testid="add-tenant-booking-checkin-custom-rent-edit-mode-btn"
                                     onClick={() => setCustomRentEditMode(true)}
                                     className="text-[#1E45E1]"
                                   >
@@ -2732,7 +2749,7 @@ const AddTenantBookingCheckin = forwardRef(function AddTenantBookingCheckin(
               {
                 isDev &&
 
-                <TenantAmenitiesSection
+                <TenantAmenitiesSection data-testid="add-tenant-booking-checkin-selected-amenities-input"
                   selected={selectedAmenities}
                   onChange={setSelectedAmenities}
                   proRate={amenityProRate}

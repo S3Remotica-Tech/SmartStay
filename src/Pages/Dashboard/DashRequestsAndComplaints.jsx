@@ -183,7 +183,7 @@ function DashRequestAndComplaints() {
         </h2>
 
         <div className="relative">
-          <button
+          <button data-testid="dash-requests-and-complaints-show-request-filter-btn"
             disabled
             onClick={() => setShowRequestFilter(!showRequestFilter)}
             className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
@@ -201,7 +201,7 @@ function DashRequestAndComplaints() {
               className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow"
             >
               {dateOptions.map((item) => (
-                <button
+                <button data-testid={`dash-requests-and-complaints-request-date-btn-${item.value}`}
                   key={item.value}
                   onClick={() => {
                     setRequestDate(item.value);
@@ -303,7 +303,7 @@ function DashRequestAndComplaints() {
           </div>
 
           {import.meta.env.MODE === "development" && (
-            <button
+            <button data-testid="dash-requests-and-complaints-view-all-requests-btn"
               disabled
               className=" 
     mt-3
@@ -421,7 +421,7 @@ function DashRequestAndComplaints() {
           </div>
 
           {import.meta.env.MODE === "development" && (
-            <button
+            <button data-testid="dash-requests-and-complaints-view-all-complaints-btn"
               disabled
               className=" 
     mt-3
